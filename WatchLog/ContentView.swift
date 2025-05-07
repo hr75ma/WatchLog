@@ -35,8 +35,24 @@ struct ContentView: View {
                 }
             }
         } detail: {
-            Text("Select an item")
+            
+            VStack(alignment: .leading) {
+                Text("Title")
+                    .font(.title)
+                Text("Content")
+                    .font(.body)
+            }
+            .containerRelativeFrame(
+                [.horizontal, .vertical],
+                alignment: .topLeading
+            )
+            .border(Color.red)
+            .padding()
         }
+        
+
+        
+        
     }
 
     private func addItem() {

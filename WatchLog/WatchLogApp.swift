@@ -25,7 +25,7 @@ struct WatchLogApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentViewTest()
         }
         .modelContainer(sharedModelContainer)
     }
