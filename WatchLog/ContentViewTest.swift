@@ -25,32 +25,38 @@ struct ContentViewTest: View {
     
     @State var currentTime: Date = Date()
     
-    @State var logEntry: WatchLogEntry = WatchLogEntry()
+    @ObservedObject var LogEntry: WatchLogEntry = WatchLogEntry()
+    
     
     
     
 
   var body: some View {
 
-      ScrollView {
+    
+     // Zoomable {
           
-          VStack(alignment: .leading, spacing: 0) {
+      
+          
+          ScrollView {
+              
+              VStack(alignment: .leading, spacing: 0) {
                   
-                  DateAndTimeView(currentTime: logEntry.EntryTime)
+                  DateAndTimeView(currentTime: $LogEntry.EntryTime)
                   
-                  CallerView(nameText: $nameText)
-                  
-                  
-
+                  CallerView(WatchLog: LogEntry)
                   
                   
-                  AccidentView(nameText: $nameText)
+                  
+                  
+                  AccidentView(nameText: $LogEntry.CallerName)
                   
                   
                   NoteView(canvas: $canvas, drawing: $drawing, type: $type)
                       .containerRelativeFrame([.vertical], alignment: .topLeading)
                   
               }
+              
               .frame(
                 maxWidth: .infinity,
                 maxHeight: .infinity,
@@ -59,16 +65,22 @@ struct ContentViewTest: View {
                 RoundedRectangle(cornerRadius: 20)
                     .stroke(Color.blue, lineWidth: 4)
               )
-              .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
-             // .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
-      }
-      
-      .keyboardAdaptive()
+              .padding(EdgeInsets(top: 10, leading: 10, bottom: 0, trailing: 10))
+              
+              // .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
+          }
+          
+          //.keyboardAdaptive()
+          
+          
+      //}
 
-      
-
-
+     // .initialZoomLevel(.noZoom)
+    //.secondaryZoomLevel(.noZoom)
+    //.ignoresSafeArea()
+      //.keyboardAdaptive()
   }
+        
 
 }
 
@@ -104,26 +116,29 @@ struct CanvasView: UIViewRepresentable {
 
 
 struct DateAndTimeView: View {
-    var currentTime: Date;
+    @Binding var currentTime: Date;
     
+    let DisplaySize: CGFloat = 25
+    
+    let locale = Locale.current
     
     var body: some View {
         HStack(alignment: .center) {
-            Text(currentTime.formatted(.dateTime.weekday(.wide)))
-                .font(Font.custom("digital-7", size: 50))
+            Text(currentTime.formatted(.dateTime.locale(Locale.current).weekday(.wide)))
+                .font(Font.custom("digital-7", size: DisplaySize))
                 .foregroundStyle(.blue)
             Spacer()
             Text(currentTime.formatted(.dateTime.day().month(.defaultDigits).year()))
-                .font(Font.custom("digital-7", size: 50))
+                .font(Font.custom("digital-7", size: DisplaySize))
                 .foregroundStyle(.blue)
             Spacer()
             Text(currentTime.formatted(.dateTime.hour().minute().second()))
-                .font(Font.custom("digital-7", size: 50))
+                .font(Font.custom("digital-7", size: DisplaySize))
                 .foregroundStyle(.blue)
             
         }
         //.border(.cyan)
-        .padding(EdgeInsets(top: 10, leading: 20, bottom: 10, trailing: 20))
+        .padding(EdgeInsets(top: 5, leading: 20, bottom: 5, trailing: 20))
         .overlay(
                     Rectangle()
                       .frame(height: 4) // Border thickness
@@ -134,47 +149,89 @@ struct DateAndTimeView: View {
 }
 
 struct CallerView: View {
-    @Binding var nameText: String
     
+    @ObservedObject var WatchLog: WatchLogEntry
+    
+    let DisplaySize: CGFloat = 25
+    let TextFont: String = "Roboto-MediumItalic"
+    let TextFieldHeight: CGFloat = 30
     
     var body: some View {
-        HStack(alignment: .center) {
+        HStack(alignment: .center, spacing: 0) {
             Image(systemName: "phone.arrow.down.left.fill")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
-                .frame(width: 100, height: 100)
+                .frame(width: 40, height: 40)
                 .symbolRenderingMode(.monochrome)
                 .symbolVariant(.fill)
                 .foregroundStyle(.blue)
+                .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
             
             
-            
-            VStack(alignment: .center) {
-                HStack {
+            VStack(alignment: .leading, spacing: 5) {
+                HStack(alignment: .center, spacing: 0) {
                     Text("Name")
-                        .frame(width: 150, height: 30, alignment: .leading)
+                        .font(Font.custom(TextFont, size: DisplaySize))
+                        .foregroundStyle(.blue)
+                        .frame(width: 120, height: TextFieldHeight, alignment: .leading)
                         .border(.red)
-                        .font(.title)
                         .multilineTextAlignment(.leading)
                         .lineLimit(1)
                         .fixedSize(horizontal: true, vertical: true)
                         
                     
-                    TextField(/*@START_MENU_TOKEN@*/"Placeholder"/*@END_MENU_TOKEN@*/, text: $nameText)
-                        .font(.title)
+                    
+                    TextField(/*@START_MENU_TOKEN@*/"Placeholder"/*@END_MENU_TOKEN@*/, text: $WatchLog.CallerName)
+                        .font(Font.custom(TextFont, size: DisplaySize))
+                        //.frame(width: .infinity, height: TextFieldHeight, alignment: .leading)
+                        //.textInputAutocapitalization(.characters)
+                        .border(.green)
+                        .lineLimit(1)
+                        .foregroundStyle(.blue)
+                        .fixedSize(horizontal: false, vertical: true)
+                        .onChange(of: WatchLog.CallerName, initial: false) { print(WatchLog.CallerName)
+                        }
+                }
+                
+                HStack(alignment: .center, spacing: 0) {
+                    Text("Telefon")
+                        .font(Font.custom(TextFont, size: DisplaySize))
+                        .foregroundStyle(.blue)
+                        .frame(width: 120, height: TextFieldHeight, alignment: .leading)
+                        .border(.red)
+                        .multilineTextAlignment(.leading)
+                        .lineLimit(1)
+                        .fixedSize(horizontal: true, vertical: true)
+                        
+                        
+                    
+                    TextField("123456", text: $WatchLog.CallerNumber)
+                        .font(Font.custom(TextFont, size: DisplaySize))
+                        //.frame(width: .infinity, height: TextFieldHeight, alignment: .leading)
+                        .textInputAutocapitalization(.characters)
+                        .border(.green)
+                        .lineLimit(1)
+                        .foregroundStyle(.blue)
+                        .fixedSize(horizontal: false, vertical: true)
+                        .textContentType(.telephoneNumber)
+                        .keyboardType(.numberPad) // Show number pad
+                        .onChange(of: WatchLog.CallerNumber, initial: false) { old, value in
+                            WatchLog.CallerNumber = value.filter { $0.isNumber }
+                            } // Allow only numeric characters
                         
 
 
-                    Spacer()
-                    Text("Phone")
-                        .font(.title)
                     
-                    Text("123456")
-                        .font(.title)
                 }
-                HStack {
+                HStack(alignment: .center, spacing: 0) {
                     Text("Adresse")
-                        .font(.title)
+                        .font(Font.custom(TextFont, size: DisplaySize))
+                        .foregroundStyle(.blue)
+                        .frame(width: 120, height: 30, alignment: .leading)
+                        .border(.red)
+                        .multilineTextAlignment(.leading)
+                        .lineLimit(1)
+                        .fixedSize(horizontal: true, vertical: true)
                     
                     Text("Mustermann")
                         .font(.title)
@@ -190,7 +247,7 @@ struct CallerView: View {
             
         }
         .border(.brown)
-        .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
+        .padding(EdgeInsets(top: 5, leading: 10, bottom: 0, trailing: 10))
 
     }
 

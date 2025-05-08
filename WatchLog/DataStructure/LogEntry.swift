@@ -6,10 +6,15 @@
 //
 
 import Foundation
+import SwiftUI
 
-open class WatchLogEntry {
+open class WatchLogEntry : ObservableObject{
     
     public var EntryTime: Date = Date.now
+    
+    @Published var CallerName: String = ""
+    @Published var CallerNumber: String = ""
+    @Published var CallerAdress: String = ""
     
     
     
