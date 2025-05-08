@@ -8,9 +8,12 @@ import SwiftData
 import SwiftUI
 import PencilKit
 
+
 #Preview{
   ContentViewTest()
 }
+
+
 
 struct ContentViewTest: View {
     @State var canvas = PKCanvasView()
@@ -19,36 +22,54 @@ struct ContentViewTest: View {
     @State var type: PKInkingTool.InkType = .pen
     
     @State var nameText: String = ""
+    
+    @State var currentTime: Date = Date()
+    
+    @State var logEntry: WatchLogEntry = WatchLogEntry()
+    
+    
+    
 
   var body: some View {
-    VStack {
-        VStack(alignment: .leading) {
-            
-            DateAndTimeView()
-            
-           CallerView(nameText: $nameText)
-            
-            AccidentView()
-            
-            
-            NoteView(canvas: $canvas, drawing: $drawing, type: $type)
-            
-            
-            
-        }
-        .frame(
-          maxWidth: .infinity,
-          maxHeight: .infinity,
-          alignment: .topLeading)
-        .overlay(
-          RoundedRectangle(cornerRadius: 20)
-            .stroke(Color.blue, lineWidth: 4)
-        )
+
+      ScrollView {
+          
+          VStack(alignment: .leading, spacing: 0) {
+                  
+                  DateAndTimeView(currentTime: logEntry.EntryTime)
+                  
+                  CallerView(nameText: $nameText)
+                  
+                  
+
+                  
+                  
+                  AccidentView(nameText: $nameText)
+                  
+                  
+                  NoteView(canvas: $canvas, drawing: $drawing, type: $type)
+                      .containerRelativeFrame([.vertical], alignment: .topLeading)
+                  
+              }
+              .frame(
+                maxWidth: .infinity,
+                maxHeight: .infinity,
+                alignment: .topLeading)
+              .overlay(
+                RoundedRectangle(cornerRadius: 20)
+                    .stroke(Color.blue, lineWidth: 4)
+              )
+              .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
+             // .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
       }
-      .padding(20)
-      .containerRelativeFrame([.horizontal, .vertical], alignment: .topLeading)
+      
+      .keyboardAdaptive()
+
+      
+
 
   }
+
 }
 
 struct CanvasView: UIViewRepresentable {
@@ -83,25 +104,38 @@ struct CanvasView: UIViewRepresentable {
 
 
 struct DateAndTimeView: View {
+    var currentTime: Date;
+    
+    
     var body: some View {
         HStack(alignment: .center) {
-            Text("Monday")
-                .font(.title)
+            Text(currentTime.formatted(.dateTime.weekday(.wide)))
+                .font(Font.custom("digital-7", size: 50))
+                .foregroundStyle(.blue)
             Spacer()
-            Text("Date")
-                .font(.title)
+            Text(currentTime.formatted(.dateTime.day().month(.defaultDigits).year()))
+                .font(Font.custom("digital-7", size: 50))
+                .foregroundStyle(.blue)
             Spacer()
-            Text("Time")
-                .font(.title)
+            Text(currentTime.formatted(.dateTime.hour().minute().second()))
+                .font(Font.custom("digital-7", size: 50))
+                .foregroundStyle(.blue)
             
         }
-        .border(.cyan)
-        .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
+        //.border(.cyan)
+        .padding(EdgeInsets(top: 10, leading: 20, bottom: 10, trailing: 20))
+        .overlay(
+                    Rectangle()
+                      .frame(height: 4) // Border thickness
+                      .foregroundColor(.blue), // Border color
+                      alignment: .bottom
+                )
     }
 }
 
 struct CallerView: View {
     @Binding var nameText: String
+    
     
     var body: some View {
         HStack(alignment: .center) {
@@ -128,6 +162,7 @@ struct CallerView: View {
                     
                     TextField(/*@START_MENU_TOKEN@*/"Placeholder"/*@END_MENU_TOKEN@*/, text: $nameText)
                         .font(.title)
+                        
 
 
                     Spacer()
@@ -154,12 +189,15 @@ struct CallerView: View {
             
             
         }
-        .border(.cyan)
+        .border(.brown)
         .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
+
     }
+
 }
 
 struct AccidentView: View {
+    @Binding var nameText: String
     var body: some View {
         HStack(alignment: .center) {
             Image(systemName: "car.fill")
@@ -207,7 +245,7 @@ struct AccidentView: View {
                     Text("Kennzeichen")
                         .font(.title)
                     
-                    Text("123456")
+                    TextField(/*@START_MENU_TOKEN@*/"Placeholder"/*@END_MENU_TOKEN@*/, text: $nameText)
                         .font(.title)
                 }
                 
@@ -238,9 +276,11 @@ struct NoteView: View {
             
             
             CanvasView(canvas: $canvas, drawing: $drawing, type: $type)
-                .border(.cyan)
+                .border(.green)
         }
-        .border(.cyan)
+        .border(.green)
         .padding(EdgeInsets(top: 0, leading: 10, bottom: 10, trailing: 10))
     }
 }
+
+

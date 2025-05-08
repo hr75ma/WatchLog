@@ -6,3 +6,14 @@
 //
 
 import Foundation
+
+open class WatchLogEntry {
+    
+    public var EntryTime: Date = Date.now
+    
+    
+    
+    
+    
+    
+}
