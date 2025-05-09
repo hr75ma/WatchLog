@@ -16,6 +16,8 @@ open class WatchLogEntry : ObservableObject{
     @Published var CallerNumber: String = ""
     @Published var CallerAdress: String = ""
     @Published var CallerDOB: String = ""
+    @Published var CallerInformation: String = ""
+    
     
     
     

@@ -13,7 +13,7 @@ import PencilKit
   ContentViewTest()
 }
 
-
+let TextfieldBackgroundColor: Color = Color(hex: 0x3b3b3b).opacity(1)
 
 struct ContentViewTest: View {
     @State var canvas = PKCanvasView()
@@ -26,6 +26,8 @@ struct ContentViewTest: View {
     @State var currentTime: Date = Date()
     
     @ObservedObject var LogEntry: WatchLogEntry = WatchLogEntry()
+    
+    
     
     
     
@@ -160,7 +162,7 @@ struct CallerView: View {
     let TextFieldHeight: CGFloat = 40
     
     var body: some View {
-        HStack(alignment: .center, spacing: 0) {
+        HStack(alignment: .top, spacing: 0) {
             Image(systemName: "phone.arrow.down.left.fill")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
@@ -168,31 +170,32 @@ struct CallerView: View {
                 .symbolRenderingMode(.monochrome)
                 .symbolVariant(.fill)
                 .foregroundStyle(.blue)
-                .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
+                .padding(EdgeInsets(top: 10, leading: 10, bottom: 0, trailing: 10))
             
             
             VStack(alignment: .leading, spacing: 5) {
                 
                 
-                HStack(alignment: .center, spacing: 0) {
+                HStack(alignment: .top, spacing: 0) {
                     Text("Telefon")
                         .font(Font.custom(LabelFont, size: LabelFontHeight))
                         .foregroundStyle(.blue)
                         .frame(width: 120, height: TextFieldHeight, alignment: .leading)
-                        .border(.red)
+                        //.border(.red)
                         .multilineTextAlignment(.leading)
                         .lineLimit(1)
                         .fixedSize(horizontal: true, vertical: true)
                         
-                        
+                        // prompt: Text("Placeholder").foregroundColor(.blue))
                     
-                    TextField("123456", text: $WatchLog.CallerNumber)
+                    TextField("", text: $WatchLog.CallerNumber)
                         .font(Font.custom(TextFieldFont, size: TextFieldFontHeight))
                         //.frame(width: .infinity, height: TextFieldHeight, alignment: .leading)
                         .textInputAutocapitalization(.characters)
-                        .border(.green)
+                        //.border(.green)
                         .lineLimit(1)
                         .foregroundStyle(.blue)
+                        .background(TextfieldBackgroundColor)
                         .fixedSize(horizontal: false, vertical: true)
                         .textContentType(.telephoneNumber)
                         .keyboardType(.numberPad) // Show number pad
@@ -205,48 +208,51 @@ struct CallerView: View {
                     
                 }
                 
-                HStack(alignment: .center, spacing: 0) {
+                HStack(alignment: .top, spacing: 0) {
                     Text("Name")
                         .font(Font.custom(LabelFont, size: LabelFontHeight))
                         .foregroundStyle(.blue)
                         .frame(width: 120, height: TextFieldHeight, alignment: .leading)
-                        .border(.red)
+                        //.border(.red)
                         .multilineTextAlignment(.leading)
                         .lineLimit(1)
                         .fixedSize(horizontal: true, vertical: true)
                         
                     
                     
-                    TextField(/*@START_MENU_TOKEN@*/"Placeholder"/*@END_MENU_TOKEN@*/, text: $WatchLog.CallerName)
+                    TextField("", text: $WatchLog.CallerName)
                         .font(Font.custom(TextFieldFont, size: TextFieldFontHeight))
                         //.frame(width: .infinity, height: TextFieldHeight, alignment: .leading)
                         //.textInputAutocapitalization(.characters)
-                        .border(.green)
+                        //.border(.green)
                         .lineLimit(1)
                         .foregroundStyle(.blue)
+                        .background(TextfieldBackgroundColor)
                         .fixedSize(horizontal: false, vertical: true)
+                        .autocorrectionDisabled(true)
                         .onChange(of: WatchLog.CallerName, initial: false) { print(WatchLog.CallerName)
                         }
                 }
                 
-                HStack(alignment: .center, spacing: 0) {
-                    Text("Geburtsdatum")
+                HStack(alignment: .top, spacing: 0) {
+                    Text("DOB")
                         .font(Font.custom(LabelFont, size: LabelFontHeight))
                         .foregroundStyle(.blue)
                         .frame(width: 120, height: TextFieldHeight, alignment: .leading)
-                        .border(.red)
+                        //.border(.red)
                         .multilineTextAlignment(.leading)
                         .lineLimit(1)
                         .fixedSize(horizontal: true, vertical: true)
                         
                         
                     
-                    TextField("01.01.2009", text: $WatchLog.CallerDOB)
+                    TextField("", text: $WatchLog.CallerDOB)
                         .font(Font.custom(TextFieldFont, size: TextFieldFontHeight))
                         //.frame(width: .infinity, height: TextFieldHeight, alignment: .leading)
-                        .border(.green)
+                        //.border(.green)
                         .lineLimit(1)
                         .foregroundStyle(.blue)
+                        .background(TextfieldBackgroundColor)
                         .fixedSize(horizontal: false, vertical: true)
                         .textContentType(.birthdate)
                         .keyboardType(.numberPad) // Show number pad
@@ -289,31 +295,42 @@ struct CallerView: View {
                 }
                 
                 
-                HStack(alignment: .center, spacing: 0) {
+                HStack(alignment: .top, spacing: 0) {
                     Text("Adresse")
                         .font(Font.custom(LabelFont, size: LabelFontHeight))
                         .foregroundStyle(.blue)
                         .frame(width: 120, height: 30, alignment: .leading)
-                        .border(.red)
+                        //.border(.red)
                         .multilineTextAlignment(.leading)
                         .lineLimit(1)
                         .fixedSize(horizontal: true, vertical: true)
                     
-                    Text("Mustermann")
-                        .font(.title)
-                    Spacer()
-                    Text("VU")
-                        .font(.title)
-                    Text("VU")
-                        .font(.title)
+                    TextField("", text: $WatchLog.CallerInformation, axis: .vertical)
+                        .font(Font.custom(TextFieldFont, size: TextFieldFontHeight))
+                        //.frame(width: .infinity, height: TextFieldHeight, alignment: .leading)
+                        //.textInputAutocapitalization(.characters)
+                        //.border(.green)
+                        .lineLimit(4, reservesSpace: true)
+                        .foregroundStyle(.blue)
+                        .background(TextfieldBackgroundColor)
+                        .fixedSize(horizontal: false, vertical: true)
+                        .autocorrectionDisabled(true)
+                   
+                    
                 }
                 
             }
             
             
         }
-        .border(.brown)
-        .padding(EdgeInsets(top: 5, leading: 10, bottom: 0, trailing: 10))
+        //.border(.brown)
+        .padding(EdgeInsets(top: 5, leading: 0, bottom: 10, trailing: 10))
+        .overlay(
+                    Rectangle()
+                      .frame(height: 4) // Border thickness
+                      .foregroundColor(.blue), // Border color
+                      alignment: .bottom
+                )
 
     }
 
@@ -420,6 +437,15 @@ extension String {
                 of: "^[0-9]{2}\\.[0-9]{2}\\.[0-9]{4}$", // 1
                 options: .regularExpression) != nil
         }
+}
+
+extension Color {
+    init(hex: Int, opacity: Double = 1.0) {
+        let red = Double((hex & 0xff0000) >> 16) / 255.0
+        let green = Double((hex & 0xff00) >> 8) / 255.0
+        let blue = Double((hex & 0xff) >> 0) / 255.0
+        self.init(.sRGB, red: red, green: green, blue: blue, opacity: opacity)
+    }
 }
 
 
