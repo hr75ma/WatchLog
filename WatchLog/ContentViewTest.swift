@@ -118,7 +118,7 @@ struct CanvasView: UIViewRepresentable {
 struct DateAndTimeView: View {
     @Binding var currentTime: Date;
     
-    let DisplaySize: CGFloat = 25
+    let DisplaySize: CGFloat = 30
     
     let locale = Locale.current
     
@@ -152,9 +152,12 @@ struct CallerView: View {
     
     @ObservedObject var WatchLog: WatchLogEntry
     
-    let DisplaySize: CGFloat = 25
-    let TextFont: String = "Roboto-MediumItalic"
-    let TextFieldHeight: CGFloat = 30
+    let LabelFontHeight: CGFloat = 35
+    let TextFieldFontHeight: CGFloat = 32
+    //let TextFont: String = "Roboto-MediumItalic"
+    let LabelFont: String = "digital-7"
+    let TextFieldFont: String = "Roboto-MediumItalic"
+    let TextFieldHeight: CGFloat = 40
     
     var body: some View {
         HStack(alignment: .center, spacing: 0) {
@@ -169,33 +172,11 @@ struct CallerView: View {
             
             
             VStack(alignment: .leading, spacing: 5) {
-                HStack(alignment: .center, spacing: 0) {
-                    Text("Name")
-                        .font(Font.custom(TextFont, size: DisplaySize))
-                        .foregroundStyle(.blue)
-                        .frame(width: 120, height: TextFieldHeight, alignment: .leading)
-                        .border(.red)
-                        .multilineTextAlignment(.leading)
-                        .lineLimit(1)
-                        .fixedSize(horizontal: true, vertical: true)
-                        
-                    
-                    
-                    TextField(/*@START_MENU_TOKEN@*/"Placeholder"/*@END_MENU_TOKEN@*/, text: $WatchLog.CallerName)
-                        .font(Font.custom(TextFont, size: DisplaySize))
-                        //.frame(width: .infinity, height: TextFieldHeight, alignment: .leading)
-                        //.textInputAutocapitalization(.characters)
-                        .border(.green)
-                        .lineLimit(1)
-                        .foregroundStyle(.blue)
-                        .fixedSize(horizontal: false, vertical: true)
-                        .onChange(of: WatchLog.CallerName, initial: false) { print(WatchLog.CallerName)
-                        }
-                }
+                
                 
                 HStack(alignment: .center, spacing: 0) {
                     Text("Telefon")
-                        .font(Font.custom(TextFont, size: DisplaySize))
+                        .font(Font.custom(LabelFont, size: LabelFontHeight))
                         .foregroundStyle(.blue)
                         .frame(width: 120, height: TextFieldHeight, alignment: .leading)
                         .border(.red)
@@ -206,7 +187,7 @@ struct CallerView: View {
                         
                     
                     TextField("123456", text: $WatchLog.CallerNumber)
-                        .font(Font.custom(TextFont, size: DisplaySize))
+                        .font(Font.custom(TextFieldFont, size: TextFieldFontHeight))
                         //.frame(width: .infinity, height: TextFieldHeight, alignment: .leading)
                         .textInputAutocapitalization(.characters)
                         .border(.green)
@@ -223,9 +204,94 @@ struct CallerView: View {
 
                     
                 }
+                
+                HStack(alignment: .center, spacing: 0) {
+                    Text("Name")
+                        .font(Font.custom(LabelFont, size: LabelFontHeight))
+                        .foregroundStyle(.blue)
+                        .frame(width: 120, height: TextFieldHeight, alignment: .leading)
+                        .border(.red)
+                        .multilineTextAlignment(.leading)
+                        .lineLimit(1)
+                        .fixedSize(horizontal: true, vertical: true)
+                        
+                    
+                    
+                    TextField(/*@START_MENU_TOKEN@*/"Placeholder"/*@END_MENU_TOKEN@*/, text: $WatchLog.CallerName)
+                        .font(Font.custom(TextFieldFont, size: TextFieldFontHeight))
+                        //.frame(width: .infinity, height: TextFieldHeight, alignment: .leading)
+                        //.textInputAutocapitalization(.characters)
+                        .border(.green)
+                        .lineLimit(1)
+                        .foregroundStyle(.blue)
+                        .fixedSize(horizontal: false, vertical: true)
+                        .onChange(of: WatchLog.CallerName, initial: false) { print(WatchLog.CallerName)
+                        }
+                }
+                
+                HStack(alignment: .center, spacing: 0) {
+                    Text("Geburtsdatum")
+                        .font(Font.custom(LabelFont, size: LabelFontHeight))
+                        .foregroundStyle(.blue)
+                        .frame(width: 120, height: TextFieldHeight, alignment: .leading)
+                        .border(.red)
+                        .multilineTextAlignment(.leading)
+                        .lineLimit(1)
+                        .fixedSize(horizontal: true, vertical: true)
+                        
+                        
+                    
+                    TextField("01.01.2009", text: $WatchLog.CallerDOB)
+                        .font(Font.custom(TextFieldFont, size: TextFieldFontHeight))
+                        //.frame(width: .infinity, height: TextFieldHeight, alignment: .leading)
+                        .border(.green)
+                        .lineLimit(1)
+                        .foregroundStyle(.blue)
+                        .fixedSize(horizontal: false, vertical: true)
+                        .textContentType(.birthdate)
+                        .keyboardType(.numberPad) // Show number pad
+                        .onChange(of: WatchLog.CallerDOB, initial: false) { old, value in
+                            if value.isNumber {
+                                if value.count == 8 {
+                                    let dateFormatter = DateFormatter()
+                                    dateFormatter.locale = Locale(identifier: "de_DE_POSIX")
+                                    dateFormatter.dateFormat = "ddMMyyyy"
+                                    if dateFormatter.date(from:value) != nil {
+                                        let date = dateFormatter.date(from:value)!
+                                        let formatDate = DateFormatter()
+                                        formatDate.dateFormat = "dd.MM.yyyy"
+                                        WatchLog.CallerDOB = formatDate.string(from: date)
+                                    } else {
+                                        WatchLog.CallerDOB = ""
+                                    }
+                                } else {
+                                    if value.count > 8 {
+                                        WatchLog.CallerDOB = ""
+                                    } else {
+                                        WatchLog.CallerDOB = value
+                                    }
+                                }
+                            } else {
+                                if value.isDate {
+                                    WatchLog.CallerDOB = value
+                                } else {
+                                    WatchLog.CallerDOB = ""
+                                }
+                            }
+                        }
+                            
+                            
+                            
+                        
+
+
+                    
+                }
+                
+                
                 HStack(alignment: .center, spacing: 0) {
                     Text("Adresse")
-                        .font(Font.custom(TextFont, size: DisplaySize))
+                        .font(Font.custom(LabelFont, size: LabelFontHeight))
                         .foregroundStyle(.blue)
                         .frame(width: 120, height: 30, alignment: .leading)
                         .border(.red)
@@ -338,6 +404,22 @@ struct NoteView: View {
         .border(.green)
         .padding(EdgeInsets(top: 0, leading: 10, bottom: 10, trailing: 10))
     }
+}
+
+extension String {
+    var isNumber: Bool {
+        return self.range(
+            of: "^[0-9]*$", // 1
+            options: .regularExpression) != nil
+    }
+}
+    
+    extension String {
+        var isDate: Bool {
+            return self.range(
+                of: "^[0-9]{2}\\.[0-9]{2}\\.[0-9]{4}$", // 1
+                options: .regularExpression) != nil
+        }
 }
 
 
