@@ -14,6 +14,12 @@ import PencilKit
 }
 
 let TextfieldBackgroundColor: Color = Color(hex: 0x3b3b3b).opacity(1)
+let LabelFontHeight: CGFloat = 35
+let TextFieldFontHeight: CGFloat = 32
+//let TextFont: String = "Roboto-MediumItalic"
+let LabelFont: String = "digital-7"
+let TextFieldFont: String = "Roboto-MediumItalic"
+let TextFieldHeight: CGFloat = 40
 
 struct ContentViewTest: View {
     @State var canvas = PKCanvasView()
@@ -48,11 +54,7 @@ struct ContentViewTest: View {
                   
                   CallerView(WatchLog: LogEntry)
                   
-                  
-                  
-                  
-                  AccidentView(nameText: $LogEntry.CallerName)
-                  
+                  AccidentView(WatchLog: LogEntry)
                   
                   NoteView(canvas: $canvas, drawing: $drawing, type: $type)
                       .containerRelativeFrame([.vertical], alignment: .topLeading)
@@ -120,7 +122,7 @@ struct CanvasView: UIViewRepresentable {
 struct DateAndTimeView: View {
     @Binding var currentTime: Date;
     
-    let DisplaySize: CGFloat = 30
+    let DisplaySize: CGFloat = 35
     
     let locale = Locale.current
     
@@ -154,12 +156,7 @@ struct CallerView: View {
     
     @ObservedObject var WatchLog: WatchLogEntry
     
-    let LabelFontHeight: CGFloat = 35
-    let TextFieldFontHeight: CGFloat = 32
-    //let TextFont: String = "Roboto-MediumItalic"
-    let LabelFont: String = "digital-7"
-    let TextFieldFont: String = "Roboto-MediumItalic"
-    let TextFieldHeight: CGFloat = 40
+  
     
     var body: some View {
         HStack(alignment: .top, spacing: 0) {
@@ -175,17 +172,15 @@ struct CallerView: View {
             
             VStack(alignment: .leading, spacing: 5) {
                 
-                
                 HStack(alignment: .top, spacing: 0) {
                     Text("Telefon")
                         .font(Font.custom(LabelFont, size: LabelFontHeight))
                         .foregroundStyle(.blue)
-                        .frame(width: 120, height: TextFieldHeight, alignment: .leading)
+                        .frame(width: 120, height: TextFieldHeight, alignment: .topLeading)
                         //.border(.red)
                         .multilineTextAlignment(.leading)
                         .lineLimit(1)
                         .fixedSize(horizontal: true, vertical: true)
-                        
                         // prompt: Text("Placeholder").foregroundColor(.blue))
                     
                     TextField("", text: $WatchLog.CallerNumber)
@@ -202,17 +197,13 @@ struct CallerView: View {
                         .onChange(of: WatchLog.CallerNumber, initial: false) { old, value in
                             WatchLog.CallerNumber = value.filter { $0.isNumber }
                             } // Allow only numeric characters
-                        
-
-
-                    
                 }
                 
                 HStack(alignment: .top, spacing: 0) {
                     Text("Name")
                         .font(Font.custom(LabelFont, size: LabelFontHeight))
                         .foregroundStyle(.blue)
-                        .frame(width: 120, height: TextFieldHeight, alignment: .leading)
+                        .frame(width: 120, height: TextFieldHeight, alignment: .topLeading)
                         //.border(.red)
                         .multilineTextAlignment(.leading)
                         .lineLimit(1)
@@ -238,7 +229,7 @@ struct CallerView: View {
                     Text("DOB")
                         .font(Font.custom(LabelFont, size: LabelFontHeight))
                         .foregroundStyle(.blue)
-                        .frame(width: 120, height: TextFieldHeight, alignment: .leading)
+                        .frame(width: 120, height: TextFieldHeight, alignment: .topLeading)
                         //.border(.red)
                         .multilineTextAlignment(.leading)
                         .lineLimit(1)
@@ -257,13 +248,14 @@ struct CallerView: View {
                         .textContentType(.birthdate)
                         .keyboardType(.numberPad) // Show number pad
                         .onChange(of: WatchLog.CallerDOB, initial: false) { old, value in
-                            if value.isNumber {
-                                if value.count == 8 {
+                            let trimmedValue = value.trimingLeadingSpaces()
+                            if trimmedValue.isNumber {
+                                if trimmedValue.count == 8 {
                                     let dateFormatter = DateFormatter()
                                     dateFormatter.locale = Locale(identifier: "de_DE_POSIX")
                                     dateFormatter.dateFormat = "ddMMyyyy"
-                                    if dateFormatter.date(from:value) != nil {
-                                        let date = dateFormatter.date(from:value)!
+                                    if dateFormatter.date(from:trimmedValue) != nil {
+                                        let date = dateFormatter.date(from:trimmedValue)!
                                         let formatDate = DateFormatter()
                                         formatDate.dateFormat = "dd.MM.yyyy"
                                         WatchLog.CallerDOB = formatDate.string(from: date)
@@ -271,27 +263,20 @@ struct CallerView: View {
                                         WatchLog.CallerDOB = ""
                                     }
                                 } else {
-                                    if value.count > 8 {
+                                    if trimmedValue.count > 8 {
                                         WatchLog.CallerDOB = ""
                                     } else {
-                                        WatchLog.CallerDOB = value
+                                        WatchLog.CallerDOB = trimmedValue
                                     }
                                 }
                             } else {
-                                if value.isDate {
-                                    WatchLog.CallerDOB = value
+                                if trimmedValue.isDate {
+                                    WatchLog.CallerDOB = trimmedValue
                                 } else {
                                     WatchLog.CallerDOB = ""
                                 }
                             }
                         }
-                            
-                            
-                            
-                        
-
-
-                    
                 }
                 
                 
@@ -299,7 +284,7 @@ struct CallerView: View {
                     Text("Adresse")
                         .font(Font.custom(LabelFont, size: LabelFontHeight))
                         .foregroundStyle(.blue)
-                        .frame(width: 120, height: 30, alignment: .leading)
+                        .frame(width: 120, height: TextFieldHeight, alignment: .topLeading)
                         //.border(.red)
                         .multilineTextAlignment(.leading)
                         .lineLimit(1)
@@ -337,63 +322,116 @@ struct CallerView: View {
 }
 
 struct AccidentView: View {
-    @Binding var nameText: String
+    //@Binding var nameText: String
+    @ObservedObject var WatchLog: WatchLogEntry
+    @State var isAccient:Bool = false
+    
     var body: some View {
-        HStack(alignment: .center) {
+        HStack(alignment: .top, spacing: 0) {
             Image(systemName: "car.fill")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
-                .frame(width: 100, height: 100)
+                .frame(width: 40, height: 40)
                 .symbolRenderingMode(.monochrome)
                 .symbolVariant(.fill)
                 .foregroundStyle(.blue)
+                .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
             
             
             //.frame(width: 50, height: 50)
             
-            VStack(alignment: .center) {
-                HStack {
-                    Text("ON01")
-                        .font(.title)
-                }
-                HStack {
-                    Text("Name")
-                        .font(.title)
+            VStack(alignment: .leading, spacing: 5) {
+                
+                HStack(alignment: .top, spacing: 0) {
                     
-                    Text("Mustermann")
-                        .font(.title)
+                    Text("Verkehrsunfall")
+                        .font(Font.custom(LabelFont, size: LabelFontHeight))
+                        .foregroundStyle(.blue)
+                        .frame(height: TextFieldHeight, alignment: .topLeading)
+                        .multilineTextAlignment(.leading)
+                        .lineLimit(1)
+                        .fixedSize(horizontal: true, vertical: true)
+                        //.border(.red)
+                        .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 5))
+                    
+                        Toggle("", isOn: $isAccient)
+                            .labelsHidden()
+                            //.border(.red)
+                            
+                    
                     Spacer()
-                    Text("Kennzeichen")
-                        .font(.title)
-                    
-                    Text("123456")
-                        .font(.title)
                 }
                 
-                HStack {
-                    Text("ON02")
-                        .font(.title)
-                }
                 
-                HStack {
-                    Text("Name")
-                        .font(.title)
+                
+                
+                HStack(alignment: .top, spacing: 0) {
+                    Text("Kennzeichen ON01")
+                        .font(Font.custom(LabelFont, size: LabelFontHeight))
+                        .foregroundStyle(.blue)
+                        .frame(width: 250, height: TextFieldHeight, alignment: .topLeading)
+                        //.border(.red)
+                        .multilineTextAlignment(.leading)
+                        .lineLimit(1)
+                        .fixedSize(horizontal: true, vertical: true)
+                        
                     
-                    Text("Mustermann")
-                        .font(.title)
-                    Spacer()
-                    Text("Kennzeichen")
-                        .font(.title)
                     
-                    TextField(/*@START_MENU_TOKEN@*/"Placeholder"/*@END_MENU_TOKEN@*/, text: $nameText)
-                        .font(.title)
+                    TextField("", text: $WatchLog.CallerName)
+                        .font(Font.custom(TextFieldFont, size: TextFieldFontHeight))
+                        //.frame(width: .infinity, height: TextFieldHeight, alignment: .leading)
+                        //.textInputAutocapitalization(.characters)
+                        //.border(.green)
+                        .lineLimit(1)
+                        .foregroundStyle(.blue)
+                        .background(TextfieldBackgroundColor)
+                        .fixedSize(horizontal: false, vertical: true)
+                        .autocorrectionDisabled(true)
+                        .onChange(of: WatchLog.CallerName, initial: false) { print(WatchLog.CallerName)
+                        }
                 }
+                .isHidden(!isAccient, remove: true)
+                .animation(.easeInOut, value: isAccient)
+                
+                HStack(alignment: .top, spacing: 0) {
+                    Text("Kennzeichen ON02")
+                        .font(Font.custom(LabelFont, size: LabelFontHeight))
+                        .foregroundStyle(.blue)
+                        .frame(width: 250, height: TextFieldHeight, alignment: .topLeading)
+                        //.border(.red)
+                        .multilineTextAlignment(.leading)
+                        .lineLimit(1)
+                        .fixedSize(horizontal: true, vertical: true)
+                        
+                    
+                    
+                    TextField("", text: $WatchLog.CallerName)
+                        .font(Font.custom(TextFieldFont, size: TextFieldFontHeight))
+                        //.border(.green)
+                        .lineLimit(1)
+                        .foregroundStyle(.blue)
+                        .background(TextfieldBackgroundColor)
+                        .fixedSize(horizontal: false, vertical: true)
+                        .autocorrectionDisabled(true)
+
+                }
+                 .isHidden(!isAccient, remove: true)
+                 .animation(.easeInOut, value: isAccient)
+                
+                    
+
                 
             }
             
         }
-        .border(.cyan)
-        .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
+        //.border(.brown)
+        .padding(EdgeInsets(top: 5, leading: 0, bottom: 10, trailing: 10))
+        .overlay(
+                    Rectangle()
+                      .frame(height: 4) // Border thickness
+                      .foregroundColor(.blue), // Border color
+                      alignment: .bottom
+                )
     }
 }
 
@@ -401,25 +439,87 @@ struct NoteView: View {
     @Binding var canvas: PKCanvasView
     @Binding var drawing: Bool
     @Binding var type: PKInkingTool.InkType
+    
     var body: some View {
-        HStack(alignment: .center) {
+        HStack(alignment: .top, spacing: 0) {
             Image(systemName: "phone.bubble.fill")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
-                .frame(width: 100, height: 100)
+                .frame(width: 40, height: 40)
                 .symbolRenderingMode(.monochrome)
                 .symbolVariant(.fill)
                 .foregroundStyle(.blue)
+                .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
+            
             
             
             //.frame(width: 50, height: 50)
             
             
             CanvasView(canvas: $canvas, drawing: $drawing, type: $type)
-                .border(.green)
+                //.border(.green)
         }
-        .border(.green)
-        .padding(EdgeInsets(top: 0, leading: 10, bottom: 10, trailing: 10))
+        //.border(.green)
+        .padding(EdgeInsets(top: 5, leading: 0, bottom: 10, trailing: 10))
+        .overlay(
+                    Rectangle()
+                      .frame(height: 4) // Border thickness
+                      .foregroundColor(.blue), // Border color
+                      alignment: .bottom
+                )
+    }
+}
+
+extension View {
+    @ViewBuilder func hidden(_ shouldHide: Bool) -> some View {
+        switch shouldHide {
+        case true: self.hidden()
+        case false: self
+        }
+    }
+}
+
+extension View {
+    /// Hide or show a view based on a boolean value.
+    ///
+    /// Example for hiding while reclaiming space:
+    ///
+    ///     Text("Label")
+    ///         .isHidden(true)
+    ///
+    /// Example for hiding, but leaving a gap where the hidden item was:
+    ///
+    ///     Text("Label")
+    ///         .isHidden(true, remove: false)
+    ///
+    /// - Parameters:
+    ///   - hidden: whether to hide the view.
+    ///   - remove: whether you want to reclaim the space taken by the hidden view.
+    @ViewBuilder func isHidden(_ hidden: Bool, remove: Bool = true) -> some View {
+        if remove {
+            if !hidden {
+                    self
+            }
+        } else {
+                self.opacity(hidden ? 0 : 1)
+        }
+    }
+}
+
+struct CustomToggleStyle: ToggleStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        HStack {
+            configuration.label
+            Spacer()
+            Rectangle()
+                .fill(configuration.isOn ? Color.green : Color.red)
+                .frame(width: 50, height: 30) // Custom height
+                .cornerRadius(15)
+                .onTapGesture {
+                    configuration.isOn.toggle()
+                }
+        }
+        .padding()
     }
 }
 
@@ -448,4 +548,13 @@ extension Color {
     }
 }
 
+extension String {
+    func trimingLeadingSpaces(using characterSet: CharacterSet = .whitespacesAndNewlines) -> String {
+        guard let index = firstIndex(where: { !CharacterSet(charactersIn: String($0)).isSubset(of: characterSet) }) else {
+            return self
+        }
+
+        return String(self[index...])
+    }
+}
 
