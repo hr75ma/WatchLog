@@ -324,7 +324,7 @@ struct CallerView: View {
 struct AccidentView: View {
     //@Binding var nameText: String
     @ObservedObject var WatchLog: WatchLogEntry
-    @State var isAccient:Bool = true
+    @State var isAccient:Bool = false
     
     var body: some View {
         HStack(alignment: .top, spacing: 0) {
@@ -356,6 +356,7 @@ struct AccidentView: View {
                     
                         Toggle("", isOn: $isAccient)
                             .labelsHidden()
+                            .toggleStyle(MyStyle())
                             //.border(.red)
                             
                     
@@ -377,7 +378,7 @@ struct AccidentView: View {
                         
                     
                     
-                    TextField("", text: $WatchLog.CallerName)
+                    TextField("", text: $WatchLog.AccientLicensePlate01)
                         .font(Font.custom(TextFieldFont, size: TextFieldFontHeight))
                         //.frame(width: .infinity, height: TextFieldHeight, alignment: .leading)
                         //.textInputAutocapitalization(.characters)
@@ -404,7 +405,7 @@ struct AccidentView: View {
                         
                     
                     
-                    TextField("", text: $WatchLog.CallerName)
+                    TextField("", text: $WatchLog.AccientLicensePlate02)
                         .font(Font.custom(TextFieldFont, size: TextFieldFontHeight))
                         //.border(.green)
                         .lineLimit(1)
@@ -506,10 +507,14 @@ struct NoteView: View {
 
 
 struct MyStyle: ToggleStyle {
+    let ImageIsOff:String = "rectangle.fill"
+    let ImageIsOn:String = "checkmark.rectangle.fill"
+    
    func makeBody(configuration: MyStyle.Configuration) -> some View {
       HStack(alignment: .center) {
          configuration.label
-         Image(systemName: "checkmark.rectangle.fill")
+        
+         Image(systemName: configuration.isOn ? ImageIsOn : ImageIsOff)
             .font(.largeTitle)
             .foregroundColor(configuration.isOn ? Color.green : Color.gray)
             .onTapGesture {
