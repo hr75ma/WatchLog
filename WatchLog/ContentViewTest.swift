@@ -324,7 +324,7 @@ struct CallerView: View {
 struct AccidentView: View {
     //@Binding var nameText: String
     @ObservedObject var WatchLog: WatchLogEntry
-    @State var isAccient:Bool = false
+    @State var isAccient:Bool = true
     
     var body: some View {
         HStack(alignment: .top, spacing: 0) {
@@ -387,17 +387,16 @@ struct AccidentView: View {
                         .background(TextfieldBackgroundColor)
                         .fixedSize(horizontal: false, vertical: true)
                         .autocorrectionDisabled(true)
-                        .onChange(of: WatchLog.CallerName, initial: false) { print(WatchLog.CallerName)
-                        }
+                        
                 }
                 .isHidden(!isAccient, remove: true)
-                .animation(.easeInOut, value: isAccient)
+                
                 
                 HStack(alignment: .top, spacing: 0) {
                     Text("Kennzeichen ON02")
                         .font(Font.custom(LabelFont, size: LabelFontHeight))
                         .foregroundStyle(.blue)
-                        .frame(width: 250, height: TextFieldHeight, alignment: .topLeading)
+                        .frame(width: 250, height: TextFieldHeight, alignment: .top)
                         //.border(.red)
                         .multilineTextAlignment(.leading)
                         .lineLimit(1)
@@ -416,7 +415,42 @@ struct AccidentView: View {
 
                 }
                  .isHidden(!isAccient, remove: true)
-                 .animation(.easeInOut, value: isAccient)
+                Spacer()
+                
+                HStack(alignment: .top, spacing: 0) {
+                    Text("Verletze")
+                        .font(Font.custom(LabelFont, size: LabelFontHeight))
+                        .foregroundStyle(.blue)
+                        .frame(width: 140, height: TextFieldHeight, alignment: .top)
+                        //.border(.red)
+                        .multilineTextAlignment(.leading)
+                        .lineLimit(1)
+                        .fixedSize(horizontal: true, vertical: true)
+                        
+                    Toggle("", isOn: $WatchLog.AccientInjured)
+                                   .labelsHidden()
+                                   .toggleStyle(MyStyle())
+                         
+                    Spacer()
+                    
+                    Text("Verkehrsunfallflucht")
+                        .font(Font.custom(LabelFont, size: LabelFontHeight))
+                        .foregroundStyle(.blue)
+                        .frame(width:325, height: TextFieldHeight, alignment: .topLeading)
+                        //.border(.red)
+                        .multilineTextAlignment(.leading)
+                        .lineLimit(1)
+                        .fixedSize(horizontal: true, vertical: true)
+                    
+                    Toggle("", isOn: $WatchLog.AccientHitAndRun)
+                        .labelsHidden()
+                        .toggleStyle(MyStyle())
+                }
+               
+                .isHidden(!isAccient, remove: true)
+                
+                
+                
                 
                     
 
@@ -469,6 +503,22 @@ struct NoteView: View {
                 )
     }
 }
+
+
+struct MyStyle: ToggleStyle {
+   func makeBody(configuration: MyStyle.Configuration) -> some View {
+      HStack(alignment: .center) {
+         configuration.label
+         Image(systemName: "checkmark.rectangle.fill")
+            .font(.largeTitle)
+            .foregroundColor(configuration.isOn ? Color.green : Color.gray)
+            .onTapGesture {
+               configuration.$isOn.wrappedValue.toggle()
+            }
+      }
+   }
+}
+
 
 extension View {
     @ViewBuilder func hidden(_ shouldHide: Bool) -> some View {
