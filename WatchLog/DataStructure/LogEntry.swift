@@ -21,6 +21,9 @@ open class WatchLogEntry : ObservableObject{
     @Published var AccientHitAndRun: Bool = false
     @Published var AccientLicensePlate01: String = ""
     @Published var AccientLicensePlate02: String = ""
+    @Published var isAccient: Bool = false
+    @Published var isLocked: Bool = false
+    
     
     
     

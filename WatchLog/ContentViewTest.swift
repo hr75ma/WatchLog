@@ -50,7 +50,11 @@ struct ContentViewTest: View {
               
               VStack(alignment: .leading, spacing: 0) {
                   
+                  
+                  
                   DateAndTimeView(currentTime: $LogEntry.EntryTime)
+                  
+                  LockEditingView(WatchLog: LogEntry)
                   
                   CallerView(WatchLog: LogEntry)
                   
@@ -116,7 +120,45 @@ struct CanvasView: UIViewRepresentable {
     }
 }
 
-
+struct LockEditingView: View {
+    @ObservedObject var WatchLog: WatchLogEntry
+    
+    let DisplaySize: CGFloat = 35
+    
+    let locale = Locale.current
+    
+    var body: some View {
+        HStack(alignment: .center) {
+            
+            Text("Gesperrt")
+                .font(Font.custom(LabelFont, size: LabelFontHeight))
+                .foregroundStyle(.blue)
+                .frame(height: TextFieldHeight, alignment: .topLeading)
+                .multilineTextAlignment(.leading)
+                .lineLimit(1)
+                .fixedSize(horizontal: true, vertical: true)
+                //.border(.red)
+                .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 5))
+            
+            Toggle("", isOn: $WatchLog.isLocked)
+                    .labelsHidden()
+                    .toggleStyle(MyStyleLock())
+                    //.border(.red)
+                    
+            
+            Spacer()
+            
+        }
+        //.border(.cyan)
+        .padding(EdgeInsets(top: 5, leading: 20, bottom: 5, trailing: 20))
+        .overlay(
+                    Rectangle()
+                      .frame(height: 4) // Border thickness
+                      .foregroundColor(.blue), // Border color
+                      alignment: .bottom
+                )
+    }
+}
 
 
 struct DateAndTimeView: View {
@@ -193,6 +235,7 @@ struct CallerView: View {
                         .background(TextfieldBackgroundColor)
                         .fixedSize(horizontal: false, vertical: true)
                         .textContentType(.telephoneNumber)
+                        .disabled(WatchLog.isLocked)
                         .keyboardType(.numberPad) // Show number pad
                         .onChange(of: WatchLog.CallerNumber, initial: false) { old, value in
                             WatchLog.CallerNumber = value.filter { $0.isNumber }
@@ -221,6 +264,7 @@ struct CallerView: View {
                         .background(TextfieldBackgroundColor)
                         .fixedSize(horizontal: false, vertical: true)
                         .autocorrectionDisabled(true)
+                        .disabled(WatchLog.isLocked)
                         .onChange(of: WatchLog.CallerName, initial: false) { print(WatchLog.CallerName)
                         }
                 }
@@ -246,6 +290,7 @@ struct CallerView: View {
                         .background(TextfieldBackgroundColor)
                         .fixedSize(horizontal: false, vertical: true)
                         .textContentType(.birthdate)
+                        .disabled(WatchLog.isLocked)
                         .keyboardType(.numberPad) // Show number pad
                         .onChange(of: WatchLog.CallerDOB, initial: false) { old, value in
                             let trimmedValue = value.trimingLeadingSpaces()
@@ -300,6 +345,7 @@ struct CallerView: View {
                         .background(TextfieldBackgroundColor)
                         .fixedSize(horizontal: false, vertical: true)
                         .autocorrectionDisabled(true)
+                        .disabled(WatchLog.isLocked)
                    
                     
                 }
@@ -324,7 +370,7 @@ struct CallerView: View {
 struct AccidentView: View {
     //@Binding var nameText: String
     @ObservedObject var WatchLog: WatchLogEntry
-    @State var isAccient:Bool = false
+    
     
     var body: some View {
         HStack(alignment: .top, spacing: 0) {
@@ -354,10 +400,11 @@ struct AccidentView: View {
                         //.border(.red)
                         .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 5))
                     
-                        Toggle("", isOn: $isAccient)
+                        Toggle("", isOn: $WatchLog.isAccient)
                             .labelsHidden()
                             .toggleStyle(MyStyle())
                             //.border(.red)
+                            .disabled(WatchLog.isLocked)
                             
                     
                     Spacer()
@@ -388,9 +435,10 @@ struct AccidentView: View {
                         .background(TextfieldBackgroundColor)
                         .fixedSize(horizontal: false, vertical: true)
                         .autocorrectionDisabled(true)
+                        .disabled(WatchLog.isLocked)
                         
                 }
-                .isHidden(!isAccient, remove: true)
+                .isHidden(!WatchLog.isAccient, remove: true)
                 
                 
                 HStack(alignment: .top, spacing: 0) {
@@ -413,9 +461,10 @@ struct AccidentView: View {
                         .background(TextfieldBackgroundColor)
                         .fixedSize(horizontal: false, vertical: true)
                         .autocorrectionDisabled(true)
+                        .disabled(WatchLog.isLocked)
 
                 }
-                 .isHidden(!isAccient, remove: true)
+                .isHidden(!WatchLog.isAccient, remove: true)
                 Spacer()
                 
                 HStack(alignment: .top, spacing: 0) {
@@ -431,6 +480,7 @@ struct AccidentView: View {
                     Toggle("", isOn: $WatchLog.AccientInjured)
                                    .labelsHidden()
                                    .toggleStyle(MyStyle())
+                                   .disabled(WatchLog.isLocked)
                          
                     Spacer()
                     
@@ -446,9 +496,10 @@ struct AccidentView: View {
                     Toggle("", isOn: $WatchLog.AccientHitAndRun)
                         .labelsHidden()
                         .toggleStyle(MyStyle())
+                        .disabled(WatchLog.isLocked)
                 }
                
-                .isHidden(!isAccient, remove: true)
+                .isHidden(!WatchLog.isAccient, remove: true)
                 
                 
                 
@@ -517,6 +568,24 @@ struct MyStyle: ToggleStyle {
          Image(systemName: configuration.isOn ? ImageIsOn : ImageIsOff)
             .font(.largeTitle)
             .foregroundColor(configuration.isOn ? Color.green : Color.gray)
+            .onTapGesture {
+               configuration.$isOn.wrappedValue.toggle()
+            }
+      }
+   }
+}
+
+struct MyStyleLock: ToggleStyle {
+    let ImageIsOff:String = "rectangle.fill"
+    let ImageIsOn:String = "checkmark.rectangle.fill"
+    
+   func makeBody(configuration: MyStyle.Configuration) -> some View {
+      HStack(alignment: .center) {
+         configuration.label
+        
+         Image(systemName: configuration.isOn ? ImageIsOn : ImageIsOff)
+            .font(.largeTitle)
+            .foregroundColor(configuration.isOn ? Color.red : Color.green)
             .onTapGesture {
                configuration.$isOn.wrappedValue.toggle()
             }
