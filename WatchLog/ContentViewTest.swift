@@ -62,6 +62,9 @@ struct ContentViewTest: View {
                   
                   NoteView(canvas: $canvas, drawing: $drawing, type: $type)
                       .containerRelativeFrame([.vertical], alignment: .topLeading)
+                      .disabled(LogEntry.isLocked)
+                  
+                 
                   
               }
               
@@ -93,32 +96,26 @@ struct ContentViewTest: View {
 }
 
 struct CanvasView: UIViewRepresentable {
-    @Binding var canvas: PKCanvasView
+    @Binding var canvasView: PKCanvasView
     @Binding var drawing: Bool
     @Binding var type: PKInkingTool.InkType
-    let toolPicker = PKToolPicker()
 
-    var ink : PKInkingTool {
-         PKInkingTool(type, color: UIColor(Color.black))
-    }
-    
-    var eraser = PKEraserTool(.bitmap)
-    
-    func makeUIView(context: Context) -> PKCanvasView {
-        canvas.drawingPolicy = .anyInput
-        toolPicker.addObserver(canvas)
-        toolPicker.setVisible(true, forFirstResponder: canvas)
+    let picker = PKToolPicker.init()
         
-        //canvas.tool = drawing ? ink : eraser
-        canvas.becomeFirstResponder()
-        canvas.backgroundColor = .clear
-        return canvas
-    }
-    
-    func updateUIView(_ uiView: PKCanvasView, context: Context) {
-        //uiView.tool = drawing ? ink : eraser
-    }
+        func makeUIView(context: Context) -> PKCanvasView {
+            self.canvasView.tool = PKInkingTool(.pen, color: .black, width: 15)
+            self.canvasView.becomeFirstResponder()
+            return canvasView
+        }
+        
+        func updateUIView(_ uiView: PKCanvasView, context: Context) {
+            picker.addObserver(canvasView)
+            picker.setVisible(true, forFirstResponder: uiView)
+            uiView.becomeFirstResponder()
+        }
 }
+
+
 
 struct LockEditingView: View {
     @ObservedObject var WatchLog: WatchLogEntry
@@ -542,7 +539,7 @@ struct NoteView: View {
             //.frame(width: 50, height: 50)
             
             
-            CanvasView(canvas: $canvas, drawing: $drawing, type: $type)
+            CanvasView(canvasView: $canvas, drawing: $drawing, type: $type)
                 //.border(.green)
         }
         //.border(.green)
