@@ -1,6 +1,7 @@
 {
   "images" : [
     {
+      "filename" : "Polizei wachbuch App logo 2.jpeg",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"
@@ -12,6 +13,7 @@
           "value" : "dark"
         }
       ],
+      "filename" : "Polizei wachbuch App logo 3.jpeg",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"
@@ -23,6 +25,7 @@
           "value" : "tinted"
         }
       ],
+      "filename" : "Polizei wachbuch App logo 4.jpeg",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"
