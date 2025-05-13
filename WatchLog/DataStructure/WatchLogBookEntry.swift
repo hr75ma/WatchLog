@@ -10,12 +10,13 @@ import SwiftData
 
 @Model
 class WatchLogBookEntry: Identifiable {
-    @Published var LogDate: Date
+    private var LogDate: Date
     @Attribute(.unique) var uuid: UUID
     
     
     init(LogDate: Date) {
         self.LogDate = LogDate
+        self.uuid = UUID()
     }
 
 }

@@ -5,4 +5,21 @@
 //  Created by Marcus Hörning on 13.05.25.
 //
 
-import Foundation
+import SwiftUI
+import SwiftData
+
+@Model
+class WatchLogBookMonth: Identifiable {
+    private var LogDate: Date
+    
+    
+    @Relationship(deleteRule: .cascade) var LogDateDay: [WatchLogBookDay]?
+    @Attribute(.unique) var uuid: UUID
+    
+    
+    init(LogDate: Date) {
+        self.LogDate = LogDate
+        self.uuid = UUID()
+    }
+
+}

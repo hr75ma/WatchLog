@@ -7,10 +7,11 @@
 
 import Foundation
 import SwiftUI
+import PencilKit
 
 open class WatchLogEntry : ObservableObject{
     
-    public var EntryTime: Date = Date.now
+    @Published var EntryTime: Date = Date.now
     
     @Published var CallerName: String = ""
     @Published var CallerNumber: String = ""
@@ -23,6 +24,57 @@ open class WatchLogEntry : ObservableObject{
     @Published var AccientLicensePlate02: String = ""
     @Published var isAccient: Bool = false
     @Published var isLocked: Bool = false
+    
+    @Published var CallerCanvas: PKDrawing = PKDrawing()
+    
+    fileprivate func initialValues() {
+        EntryTime = Date.now
+        
+        CallerName = ""
+        CallerNumber = ""
+        CallerAdress = ""
+        CallerDOB = ""
+        
+        isLocked = false
+        
+        isAccient = false
+        AccientInjured = false
+        AccientHitAndRun = false
+        AccientLicensePlate01 = ""
+        AccientLicensePlate02 = ""
+        
+        CallerCanvas = PKDrawing()
+        
+    }
+    
+   // init() {
+   //
+    //    initialValues()
+  //  }
+    
+    
+    public func clear() {
+        CallerName = ""
+        CallerNumber = ""
+        CallerAdress = ""
+        CallerDOB = ""
+        
+        isLocked = false
+        
+        isAccient = false
+        AccientInjured = false
+        AccientHitAndRun = false
+        AccientLicensePlate01 = ""
+        AccientLicensePlate02 = ""
+        CallerCanvas = PKDrawing()
+        self.objectWillChange.send()
+    }
+    
+    public func new() {
+        
+        initialValues()
+        self.objectWillChange.send()
+    }
     
     
     

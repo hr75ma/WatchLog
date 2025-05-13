@@ -10,6 +10,7 @@ import PencilKit
 
 
 #Preview{
+    let config = ModelConfiguration(isStoredInMemoryOnly: true)
   ContentViewTest()
 }
 
@@ -26,6 +27,9 @@ struct ContentViewTest: View {
     @State var drawing = true
     @State var color: Color = .black
     @State var type: PKInkingTool.InkType = .pen
+    
+    
+    
     
     @State var nameText: String = ""
     
@@ -60,11 +64,12 @@ struct ContentViewTest: View {
                   
                   AccidentView(WatchLog: LogEntry)
                   
+                  //NoteView(canvas: $canvas)
                   NoteView(canvas: $canvas, drawing: $drawing, type: $type)
-                      .containerRelativeFrame([.vertical], alignment: .topLeading)
-                      .disabled(LogEntry.isLocked)
+                                        .containerRelativeFrame([.vertical], alignment: .topLeading)
+                                        .disabled(LogEntry.isLocked)
                   
-                 
+                 ButtonLine(WatchLog: LogEntry)
                   
               }
               
@@ -99,6 +104,8 @@ struct CanvasView: UIViewRepresentable {
     @Binding var canvasView: PKCanvasView
     @Binding var drawing: Bool
     @Binding var type: PKInkingTool.InkType
+
+
 
     let picker = PKToolPicker.init()
         
@@ -141,7 +148,7 @@ struct LockEditingView: View {
                     .labelsHidden()
                     .toggleStyle(MyStyleLock())
                     //.border(.red)
-                    
+
             
             Spacer()
             
@@ -518,39 +525,144 @@ struct AccidentView: View {
     }
 }
 
+
 struct NoteView: View {
     @Binding var canvas: PKCanvasView
     @Binding var drawing: Bool
     @Binding var type: PKInkingTool.InkType
     
+    @State var savedDrawing: PKDrawing?
+    
     var body: some View {
-        HStack(alignment: .top, spacing: 0) {
-            Image(systemName: "phone.bubble.fill")
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 40, height: 40)
-                .symbolRenderingMode(.monochrome)
-                .symbolVariant(.fill)
-                .foregroundStyle(.blue)
-                .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
+        VStack(alignment: .leading, spacing: 0) {
+            HStack(alignment: .top, spacing: 0) {
+                Image(systemName: "phone.bubble.fill")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 40, height: 40)
+                    .symbolRenderingMode(.monochrome)
+                    .symbolVariant(.fill)
+                    .foregroundStyle(.blue)
+                    .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
+                
+                Button {
+                    withAnimation(.bouncy()) {
+                        canvas.drawing = PKDrawing()
+                        //WatchLog.CallerCanvas = PKDrawing()
+                    }
+                    
+                } label: {
+                    Image(systemName: "clear.fill")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 25, height: 25)
+                        .symbolRenderingMode(.monochrome)
+                        .symbolVariant(.fill)
+                        .foregroundStyle(.blue)
+                        .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
+                }
+                
+                Button("save") {
+                    savedDrawing = canvas.drawing
+                }
+                
+                Button("load") {
+                    canvas.drawing = savedDrawing ?? PKDrawing()
+                    //WatchLog.CallerCanvas = savedDrawing ?? PKDrawing()
+                }
+                
+                //.frame(width: 50, height: 50)
+                Spacer()
+                
+                
+            }
+            //.border(.green)
+            .padding(EdgeInsets(top: 5, leading: 0, bottom: 0, trailing: 10))
             
             
             
-            //.frame(width: 50, height: 50)
-            
-            
-            CanvasView(canvasView: $canvas, drawing: $drawing, type: $type)
+            HStack(alignment: .top, spacing: 0) {
+                CanvasView(canvasView: $canvas, drawing: $drawing, type: $type)
                 //.border(.green)
+            }
+            //.border(.red)
+            .padding(EdgeInsets(top: 5, leading: 10, bottom: 10, trailing: 10))
         }
-        //.border(.green)
-        .padding(EdgeInsets(top: 5, leading: 0, bottom: 10, trailing: 10))
+        
         .overlay(
                     Rectangle()
-                      .frame(height: 0) // Border thickness
-                      .foregroundColor(.red),// Border color
+                      .frame(height: 4) // Border thickness
+                      .foregroundColor(.blue), // Border color
                       alignment: .bottom
                 )
+        .padding(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0))
     }
+}
+
+struct ButtonLine:View {
+    @ObservedObject var WatchLog: WatchLogEntry
+    
+    
+    var body: some View {
+        
+        VStack(alignment: .center, spacing: 0) {
+            HStack(alignment: .top, spacing: 0) {
+                Spacer()
+                Button {
+                    withAnimation(.bouncy()) {
+                        
+                    }
+                    
+                } label: {
+                    Image(systemName: "square.and.arrow.down.fill")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 50, height: 50)
+                        .symbolRenderingMode(.monochrome)
+                        .symbolVariant(.fill)
+                        .foregroundStyle(.blue)
+                        .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
+                }
+            
+            Button {
+                withAnimation(.bouncy()) {
+                        WatchLog.clear()
+                    }
+                
+            } label: {
+                Image(systemName: "clear.fill")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 50, height: 50)
+                    .symbolRenderingMode(.monochrome)
+                    .symbolVariant(.fill)
+                    .foregroundStyle(.blue)
+                    .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
+            }
+                
+                Button {
+                    withAnimation(.bouncy()) {
+                        WatchLog.new()
+                        
+                    }
+                    
+                } label: {
+                    Image(systemName: "plus.square.fill")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 50, height: 50)
+                        .symbolRenderingMode(.monochrome)
+                        .symbolVariant(.fill)
+                        .foregroundStyle(.blue)
+                        .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
+                }
+        }
+            //.border(.green)
+            
+        }
+        .padding(EdgeInsets(top: 5, leading: 0, bottom: 10, trailing: 10))
+    }
+    
 }
 
 
