@@ -442,7 +442,7 @@ struct AccidentView: View {
                     Text("Kennzeichen ON02")
                         .font(Font.custom(LabelFont, size: LabelFontHeight))
                         .foregroundStyle(.blue)
-                        .frame(width: 250, height: TextFieldHeight, alignment: .top)
+                        .frame(width: 250, height: TextFieldHeight, alignment: .topLeading)
                         //.border(.red)
                         .multilineTextAlignment(.leading)
                         .lineLimit(1)
@@ -465,10 +465,10 @@ struct AccidentView: View {
                 Spacer()
                 
                 HStack(alignment: .top, spacing: 0) {
-                    Text("Verletze")
+                    Text("Verletzte")
                         .font(Font.custom(LabelFont, size: LabelFontHeight))
                         .foregroundStyle(.blue)
-                        .frame(width: 140, height: TextFieldHeight, alignment: .top)
+                        .frame(width: 150, height: TextFieldHeight, alignment: .top)
                         //.border(.red)
                         .multilineTextAlignment(.leading)
                         .lineLimit(1)
@@ -546,8 +546,8 @@ struct NoteView: View {
         .padding(EdgeInsets(top: 5, leading: 0, bottom: 10, trailing: 10))
         .overlay(
                     Rectangle()
-                      .frame(height: 4) // Border thickness
-                      .foregroundColor(.blue), // Border color
+                      .frame(height: 0) // Border thickness
+                      .foregroundColor(.red),// Border color
                       alignment: .bottom
                 )
     }
