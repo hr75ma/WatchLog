@@ -13,7 +13,7 @@ struct WatchLogApp: App {
     
     var body: some Scene {
         WindowGroup {
-            ContentViewTest()
+            ContentView()
         }
     
     }
