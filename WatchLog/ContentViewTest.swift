@@ -9,8 +9,7 @@ import SwiftData
 import SwiftUI
 
 #Preview{
-  let config = ModelConfiguration(isStoredInMemoryOnly: true)
-  ContentViewTest()
+  ContentView()
 }
 
 let TextfieldBackgroundColor: Color = Color(hex: 0x3b3b3b).opacity(1)
@@ -52,7 +51,6 @@ struct ContentViewTest: View {
                     
                     AccidentView(WatchLog: LogEntry)
                     
-                    //NoteView(canvas: $canvas)
                     NoteView(
                         DrawData: $LogEntry.drawingData, drawing: $drawing, toolPickerShows: $toolPickerShows
                     )
@@ -72,15 +70,63 @@ struct ContentViewTest: View {
                 )
                 .padding(EdgeInsets(top: 10, leading: 10, bottom: 0, trailing: 10))
             }
+            .padding(EdgeInsets(top: 20, leading: 0, bottom: 0, trailing: 0))
         }
-        .navigationTitle("jlkjlkjlkjlkj")
         .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button("Speichern") {
+            ToolbarItem(placement: .topBarLeading) {
+                Text("Eintrag")
+                    .font(Font.custom(LabelFont, size: LabelFontHeight))
+                    .foregroundStyle(.blue)
+                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+            }
+                
+                ToolbarItemGroup(placement: .automatic) {
+                    Button(action:  {
+                        clearEntry(LogEntry: LogEntry, drawing: &drawing)
+                    }) {
+                        label: do {
+                            Image(systemName: "eraser.fill")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 30, height: 30)
+                                .symbolRenderingMode(.monochrome)
+                                .symbolVariant(.fill)
+                                .foregroundStyle(.blue)
+                                .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                        }
+                    }
+                    Button(action:  {
+                    }) {
+                        label: do {
+                            Image(systemName: "square.and.arrow.down.fill")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 30, height: 30)
+                                .symbolRenderingMode(.monochrome)
+                                .symbolVariant(.fill)
+                                .foregroundStyle(.blue)
+                                .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                        }
+                    }
+                    Button(action:  {
+                        newEntry(LogEntry: LogEntry, drawing: &drawing)
+                    }) {
+                        label: do {
+                            Image(systemName: "trash.fill")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 30, height: 30)
+                                .symbolRenderingMode(.monochrome)
+                                .symbolVariant(.fill)
+                                .foregroundStyle(.blue)
+                                .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                        }
+                    }
                     
-                }
             }
         }
+
+        
     }
 
 }
@@ -523,6 +569,19 @@ struct NoteView: View {
     )
     .padding(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0))
   }
+}
+
+
+fileprivate func clearEntry(LogEntry:WatchLogEntry, drawing:inout PKDrawing) {
+    LogEntry.clear()
+    drawing = PKDrawing()
+    
+}
+
+fileprivate func newEntry(LogEntry:WatchLogEntry, drawing:inout PKDrawing) {
+    LogEntry.new()
+    drawing = PKDrawing()
+    
 }
 
 struct MyStyle: ToggleStyle {

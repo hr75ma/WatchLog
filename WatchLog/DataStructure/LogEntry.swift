@@ -39,18 +39,7 @@ open class WatchLogEntry : ObservableObject{
     fileprivate func initialValues() {
         EntryTime = Date.now
         
-        CallerName = ""
-        CallerNumber = ""
-        CallerAdress = ""
-        CallerDOB = ""
-        
-        isLocked = false
-        
-        isAccient = false
-        AccientInjured = false
-        AccientHitAndRun = false
-        AccientLicensePlate01 = ""
-        AccientLicensePlate02 = ""
+        clear()
         
         
         
@@ -71,13 +60,16 @@ open class WatchLogEntry : ObservableObject{
         AccientLicensePlate01 = ""
         AccientLicensePlate02 = ""
         
+        drawingData = Data()
+        
         //self.objectWillChange.send()
     }
     
     public func new() {
         
-        initialValues()
-        //self.objectWillChange.send()
+        EntryTime = Date.now
+        
+        clear()
     }
     
     
