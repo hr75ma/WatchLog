@@ -65,9 +65,10 @@ struct ContentViewTest: View {
                   AccidentView(WatchLog: LogEntry)
                   
                   //NoteView(canvas: $canvas)
-                  NoteView(drawing: $drawing, toolPickerShows: $toolPickerShows)
+                  NoteView(DrawData:$LogEntry.drawingData, drawing: $drawing, toolPickerShows: $toolPickerShows)
                                         .containerRelativeFrame([.vertical], alignment: .topLeading)
                                         .disabled(LogEntry.isLocked)
+                  
                   
                   
               }
@@ -492,7 +493,7 @@ struct AccidentView: View {
 
 
 struct NoteView: View {
-
+    @Binding var DrawData: Data
     @Binding var drawing: PKDrawing
     @Binding var toolPickerShows: Bool
     @State var savedDrawing: PKDrawing?
@@ -512,6 +513,7 @@ struct NoteView: View {
                 Button {
                     withAnimation(.bouncy()) {
                         drawing = PKDrawing()
+                        DrawData = drawing.dataRepresentation() ?? Data()
                         //WatchLog.CallerCanvas = PKDrawing()
                     }
                     
@@ -527,12 +529,13 @@ struct NoteView: View {
                 }
                 
                 Button("save") {
-                    savedDrawing = drawing
+                    DrawData = drawing.dataRepresentation() ?? Data()
+                    //WatchLog.drawing = drawing
                 }
                 
                 Button("load") {
-                    drawing = savedDrawing ?? PKDrawing()
-                    //WatchLog.CallerCanvas = savedDrawing ?? PKDrawing()
+                    drawing = (try? PKDrawing(data: DrawData)) ?? PKDrawing()
+                    //drawing = WatchLog.drawing
                 }
                 
                 //.frame(width: 50, height: 50)

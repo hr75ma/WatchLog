@@ -25,7 +25,16 @@ open class WatchLogEntry : ObservableObject{
     @Published var isAccient: Bool = false
     @Published var isLocked: Bool = false
     
-    @Published var CallerCanvas: PKDrawing = PKDrawing()
+    @Published  var drawingData: Data = Data()
+  //      var drawing: PKDrawing {
+   //         get {
+   //             (try? PKDrawing(data: drawingData)) ?? PKDrawing()
+  ///          }
+  //
+ //           set {
+ //               drawingData = newValue.dataRepresentation()
+ //           }
+//        }
     
     fileprivate func initialValues() {
         EntryTime = Date.now
@@ -43,14 +52,9 @@ open class WatchLogEntry : ObservableObject{
         AccientLicensePlate01 = ""
         AccientLicensePlate02 = ""
         
-        CallerCanvas = PKDrawing()
+        
         
     }
-    
-   // init() {
-   //
-    //    initialValues()
-  //  }
     
     
     public func clear() {
@@ -66,14 +70,14 @@ open class WatchLogEntry : ObservableObject{
         AccientHitAndRun = false
         AccientLicensePlate01 = ""
         AccientLicensePlate02 = ""
-        CallerCanvas = PKDrawing()
-        self.objectWillChange.send()
+        
+        //self.objectWillChange.send()
     }
     
     public func new() {
         
         initialValues()
-        self.objectWillChange.send()
+        //self.objectWillChange.send()
     }
     
     
