@@ -173,7 +173,7 @@ struct LockEditingView: View {
 struct DateAndTimeView: View {
   @Binding var currentTime: Date
 
-  let DisplaySize: CGFloat = 35
+  let DisplaySize: CGFloat = 45
 
   let locale = Locale.current
 
