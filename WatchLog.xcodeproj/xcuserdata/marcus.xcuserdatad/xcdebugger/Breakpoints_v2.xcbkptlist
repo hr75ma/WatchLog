@@ -98,13 +98,57 @@
             endingLineNumber = "590"
             landmarkName = "MyStyle"
             landmarkType = "14">
+            <Locations>
+               <Location
+                  uuid = "CA5860B4-346C-4C86-9CF3-8400A03366B0 - 863b0db031022abf"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "WatchLog.MyStyle.init() -&gt; WatchLog.MyStyle"
+                  moduleName = "WatchLog.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/marcus/Xcode1/Coding/myProjects/WatchLog/WatchLog/ContentViewTest.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "529"
+                  endingLineNumber = "529">
+               </Location>
+               <Location
+                  uuid = "CA5860B4-346C-4C86-9CF3-8400A03366B0 - 863b0db0310212da"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "WatchLog.MyStyle.init() -&gt; WatchLog.MyStyle"
+                  moduleName = "WatchLog.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/marcus/Xcode1/Coding/myProjects/WatchLog/WatchLog/ContentViewTest.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "590"
+                  endingLineNumber = "590">
+               </Location>
+               <Location
+                  uuid = "CA5860B4-346C-4C86-9CF3-8400A03366B0 - 9344303a0d8156f5"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "SwiftUI.View.isHidden(_: Swift.Bool, remove: Swift.Bool) -&gt; some"
+                  moduleName = "WatchLog.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/marcus/Xcode1/Coding/myProjects/WatchLog/WatchLog/ContentViewTest.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "590"
+                  endingLineNumber = "590">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "9EB32540-CA16-464F-ADD2-4EDD5213E2D7"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WatchLog/ContentViewTest.swift"
