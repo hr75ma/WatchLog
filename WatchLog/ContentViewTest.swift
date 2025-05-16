@@ -23,10 +23,10 @@ let TextFieldFont: String = "Roboto-MediumItalic"
 let TextFieldHeight: CGFloat = 40
 
 struct ContentViewTest: View {
-    @State var canvas = PKCanvasView()
-    @State var drawing = true
-    @State var color: Color = .black
-    @State var type: PKInkingTool.InkType = .pen
+    //@State var canvas = PKCanvasView()
+    @State var toolPickerShows = true
+    @State var drawing = PKDrawing()
+    
     
     
     
@@ -65,11 +65,10 @@ struct ContentViewTest: View {
                   AccidentView(WatchLog: LogEntry)
                   
                   //NoteView(canvas: $canvas)
-                  NoteView(canvas: $canvas, drawing: $drawing, type: $type)
+                  NoteView(drawing: $drawing, toolPickerShows: $toolPickerShows)
                                         .containerRelativeFrame([.vertical], alignment: .topLeading)
                                         .disabled(LogEntry.isLocked)
                   
-                 ButtonLine(WatchLog: LogEntry)
                   
               }
               
@@ -85,44 +84,10 @@ struct ContentViewTest: View {
               
               // .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
           }
-          
-          //.keyboardAdaptive()
-          
-          
-      //}
-
-     // .initialZoomLevel(.noZoom)
-    //.secondaryZoomLevel(.noZoom)
-    //.ignoresSafeArea()
-      //.keyboardAdaptive()
   }
         
 
 }
-
-struct CanvasView: UIViewRepresentable {
-    @Binding var canvasView: PKCanvasView
-    @Binding var drawing: Bool
-    @Binding var type: PKInkingTool.InkType
-
-
-
-    let picker = PKToolPicker.init()
-        
-        func makeUIView(context: Context) -> PKCanvasView {
-            self.canvasView.tool = PKInkingTool(.pen, color: .black, width: 15)
-            self.canvasView.becomeFirstResponder()
-            return canvasView
-        }
-        
-        func updateUIView(_ uiView: PKCanvasView, context: Context) {
-            picker.addObserver(canvasView)
-            picker.setVisible(true, forFirstResponder: uiView)
-            uiView.becomeFirstResponder()
-        }
-}
-
-
 
 struct LockEditingView: View {
     @ObservedObject var WatchLog: WatchLogEntry
@@ -527,10 +492,9 @@ struct AccidentView: View {
 
 
 struct NoteView: View {
-    @Binding var canvas: PKCanvasView
-    @Binding var drawing: Bool
-    @Binding var type: PKInkingTool.InkType
-    
+
+    @Binding var drawing: PKDrawing
+    @Binding var toolPickerShows: Bool
     @State var savedDrawing: PKDrawing?
     
     var body: some View {
@@ -547,7 +511,7 @@ struct NoteView: View {
                 
                 Button {
                     withAnimation(.bouncy()) {
-                        canvas.drawing = PKDrawing()
+                        drawing = PKDrawing()
                         //WatchLog.CallerCanvas = PKDrawing()
                     }
                     
@@ -563,11 +527,11 @@ struct NoteView: View {
                 }
                 
                 Button("save") {
-                    savedDrawing = canvas.drawing
+                    savedDrawing = drawing
                 }
                 
                 Button("load") {
-                    canvas.drawing = savedDrawing ?? PKDrawing()
+                    drawing = savedDrawing ?? PKDrawing()
                     //WatchLog.CallerCanvas = savedDrawing ?? PKDrawing()
                 }
                 
@@ -582,7 +546,7 @@ struct NoteView: View {
             
             
             HStack(alignment: .top, spacing: 0) {
-                CanvasView(canvasView: $canvas, drawing: $drawing, type: $type)
+                CanvasView(drawing: $drawing, toolPickerShows: $toolPickerShows)
                 //.border(.green)
             }
             //.border(.red)
@@ -598,73 +562,6 @@ struct NoteView: View {
         .padding(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0))
     }
 }
-
-struct ButtonLine:View {
-    @ObservedObject var WatchLog: WatchLogEntry
-    
-    
-    var body: some View {
-        
-        VStack(alignment: .center, spacing: 0) {
-            HStack(alignment: .top, spacing: 0) {
-                Spacer()
-                Button {
-                    withAnimation(.bouncy()) {
-                        
-                    }
-                    
-                } label: {
-                    Image(systemName: "square.and.arrow.down.fill")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 50, height: 50)
-                        .symbolRenderingMode(.monochrome)
-                        .symbolVariant(.fill)
-                        .foregroundStyle(.blue)
-                        .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
-                }
-            
-            Button {
-                withAnimation(.bouncy()) {
-                        WatchLog.clear()
-                    }
-                
-            } label: {
-                Image(systemName: "clear.fill")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 50, height: 50)
-                    .symbolRenderingMode(.monochrome)
-                    .symbolVariant(.fill)
-                    .foregroundStyle(.blue)
-                    .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
-            }
-                
-                Button {
-                    withAnimation(.bouncy()) {
-                        WatchLog.new()
-                        
-                    }
-                    
-                } label: {
-                    Image(systemName: "plus.square.fill")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 50, height: 50)
-                        .symbolRenderingMode(.monochrome)
-                        .symbolVariant(.fill)
-                        .foregroundStyle(.blue)
-                        .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
-                }
-        }
-            //.border(.green)
-            
-        }
-        .padding(EdgeInsets(top: 5, leading: 0, bottom: 10, trailing: 10))
-    }
-    
-}
-
 
 struct MyStyle: ToggleStyle {
     let ImageIsOff:String = "rectangle.fill"
