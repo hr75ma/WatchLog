@@ -85,16 +85,17 @@ struct ContentViewTest: View {
                         clearEntry(LogEntry: LogEntry, drawing: &drawing)
                     }) {
                         label: do {
-                            Image(systemName: "eraser.fill")
+                            Image(systemName: "eraser.fill" )
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 30, height: 30)
                                 .symbolRenderingMode(.monochrome)
                                 .symbolVariant(.fill)
-                                .foregroundStyle(.blue)
+                                .foregroundStyle(LogEntry.isLocked ? .gray : .blue)
                                 .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
                         }
                     }
+                    .disabled(LogEntry.isLocked)
                     Button(action:  {
                     }) {
                         label: do {
@@ -118,10 +119,11 @@ struct ContentViewTest: View {
                                 .frame(width: 30, height: 30)
                                 .symbolRenderingMode(.monochrome)
                                 .symbolVariant(.fill)
-                                .foregroundStyle(.blue)
+                                .foregroundStyle(LogEntry.isLocked ? .gray : .blue)
                                 .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
                         }
                     }
+                    .disabled(LogEntry.isLocked)
                     
             }
         }
