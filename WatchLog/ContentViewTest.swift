@@ -29,7 +29,7 @@ struct ContentViewTest: View {
 
   @State var currentTime: Date = Date()
 
-  @ObservedObject var LogEntry: WatchLogEntry = WatchLogEntry()
+  @State var LogEntry: WatchLogEntry = WatchLogEntry()
 
     var body: some View {
         
@@ -105,10 +105,12 @@ struct ContentViewTest: View {
                                 .frame(width: 30, height: 30)
                                 .symbolRenderingMode(.monochrome)
                                 .symbolVariant(.fill)
-                                .foregroundStyle(.blue)
+                                .foregroundStyle(LogEntry.isLocked ? .gray : .blue)
                                 .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
                         }
                     }
+                    .disabled(LogEntry.isLocked)
+                    
                     Button(action:  {
                         newEntry(LogEntry: LogEntry, drawing: &drawing)
                     }) {
@@ -134,7 +136,7 @@ struct ContentViewTest: View {
 }
 
 struct LockEditingView: View {
-  @ObservedObject var WatchLog: WatchLogEntry
+  @Bindable var WatchLog: WatchLogEntry
 
   let DisplaySize: CGFloat = 35
 
@@ -207,7 +209,7 @@ struct DateAndTimeView: View {
 
 struct CallerView: View {
 
-  @ObservedObject var WatchLog: WatchLogEntry
+  @Bindable var WatchLog: WatchLogEntry
 
   var body: some View {
     HStack(alignment: .top, spacing: 0) {
@@ -371,7 +373,7 @@ struct CallerView: View {
 
 struct AccidentView: View {
   //@Binding var nameText: String
-  @ObservedObject var WatchLog: WatchLogEntry
+  @Bindable var WatchLog: WatchLogEntry
 
   var body: some View {
     HStack(alignment: .top, spacing: 0) {

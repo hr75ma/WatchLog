@@ -9,23 +9,24 @@ import Foundation
 import SwiftUI
 import PencilKit
 
-open class WatchLogEntry : ObservableObject{
+@Observable
+class WatchLogEntry{
     
-    @Published var EntryTime: Date = Date.now
+    var EntryTime: Date = Date.now
     
-    @Published var CallerName: String = ""
-    @Published var CallerNumber: String = ""
-    @Published var CallerAdress: String = ""
-    @Published var CallerDOB: String = ""
-    @Published var CallerInformation: String = ""
-    @Published var AccientInjured: Bool = false
-    @Published var AccientHitAndRun: Bool = false
-    @Published var AccientLicensePlate01: String = ""
-    @Published var AccientLicensePlate02: String = ""
-    @Published var isAccient: Bool = false
-    @Published var isLocked: Bool = false
+     var CallerName: String = ""
+    var CallerNumber: String = ""
+    var CallerAdress: String = ""
+     var CallerDOB: String = ""
+     var CallerInformation: String = ""
+     var AccientInjured: Bool = false
+     var AccientHitAndRun: Bool = false
+     var AccientLicensePlate01: String = ""
+     var AccientLicensePlate02: String = ""
+     var isAccient: Bool = false
+     var isLocked: Bool = false
     
-    @Published  var drawingData: Data = Data()
+      var drawingData: Data = Data()
   //      var drawing: PKDrawing {
    //         get {
    //             (try? PKDrawing(data: drawingData)) ?? PKDrawing()
