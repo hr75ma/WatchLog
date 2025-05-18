@@ -15,6 +15,7 @@ struct WatchLogApp: App {
         WindowGroup {
             ContentView()
         }
+        .modelContainer(for: [WatchLogBookYear.self, WatchLogBookMonth.self, WatchLogBookDay.self, WatchLogBookEntry.self])
     
     }
 }

@@ -10,7 +10,8 @@ import SwiftData
 
 @Model
 class WatchLogBookMonth: Identifiable {
-    private var LogDate: Date
+    #Unique<WatchLogBookMonth>([\.uuid, \.LogDate])
+    var LogDate: Date
     
     
     @Relationship(deleteRule: .cascade) var LogDateDay: [WatchLogBookDay]?

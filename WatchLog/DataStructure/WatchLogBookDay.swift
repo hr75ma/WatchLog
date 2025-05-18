@@ -10,10 +10,13 @@ import SwiftData
 
 @Model
 class WatchLogBookDay: Identifiable {
-    private var LogDate: Date
+
+    #Unique<WatchLogBookDay>([\.uuid, \.LogDate])
+    var LogDate: Date
     
     
-    @Relationship(deleteRule: .cascade) var LogDateDay: [WatchLogBookEntry]?
+    
+    @Relationship(deleteRule: .cascade) var WatchLogBookEntry: [WatchLogBookEntry]?
     @Attribute(.unique) var uuid: UUID
     
     

@@ -87,66 +87,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "CA5860B4-346C-4C86-9CF3-8400A03366B0"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WatchLog/ContentViewTest.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "592"
-            endingLineNumber = "592"
-            landmarkName = "MyStyle"
-            landmarkType = "14">
-            <Locations>
-               <Location
-                  uuid = "CA5860B4-346C-4C86-9CF3-8400A03366B0 - 863b0db031022abf"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "WatchLog.MyStyle.init() -&gt; WatchLog.MyStyle"
-                  moduleName = "WatchLog.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/marcus/Xcode1/Coding/myProjects/WatchLog/WatchLog/ContentViewTest.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "529"
-                  endingLineNumber = "529">
-               </Location>
-               <Location
-                  uuid = "CA5860B4-346C-4C86-9CF3-8400A03366B0 - 863b0db0310212da"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "WatchLog.MyStyle.init() -&gt; WatchLog.MyStyle"
-                  moduleName = "WatchLog.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/marcus/Xcode1/Coding/myProjects/WatchLog/WatchLog/ContentViewTest.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "590"
-                  endingLineNumber = "590">
-               </Location>
-               <Location
-                  uuid = "CA5860B4-346C-4C86-9CF3-8400A03366B0 - 9344303a0d8156f5"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "SwiftUI.View.isHidden(_: Swift.Bool, remove: Swift.Bool) -&gt; some"
-                  moduleName = "WatchLog.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/marcus/Xcode1/Coding/myProjects/WatchLog/WatchLog/ContentViewTest.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "590"
-                  endingLineNumber = "590">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "9EB32540-CA16-464F-ADD2-4EDD5213E2D7"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -158,6 +98,38 @@
             endingLineNumber = "580"
             landmarkName = "clearEntry(LogEntry:drawing:)"
             landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "6E51EAC5-8118-4DF6-BAAB-BE51340D7E8F"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WatchLog/DataStructure/DataBaseController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "52"
+            endingLineNumber = "52"
+            landmarkName = "saveLogEntry(LogEntry:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "497CD063-8DB2-40B4-A25B-6EC04499AECD"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../../../../../var/folders/5g/k_8p90zd19d_298_tm3v98f00000gn/T/swift-generated-sources/@__swiftmacro_8WatchLog18DataBaseControllerC04saveB5Entry0bG0AC04SavebG6ResultOAA0abG0C_tF15ListEntries_$l1L_5QueryfMp_.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1"
+            endingLineNumber = "1"
+            landmarkName = "unknown"
+            landmarkType = "0">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

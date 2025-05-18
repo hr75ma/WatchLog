@@ -6,80 +6,81 @@
 //
 
 import Foundation
-import SwiftUI
 import PencilKit
+import SwiftUI
 
 @Observable
-class WatchLogEntry{
+class WatchLogEntry {
+  
     
-    var EntryTime: Date = Date.now
+  var uuid: UUID
     
-     var CallerName: String = ""
-    var CallerNumber: String = ""
-    var CallerAdress: String = ""
-     var CallerDOB: String = ""
-     var CallerInformation: String = ""
-     var AccientInjured: Bool = false
-     var AccientHitAndRun: Bool = false
-     var AccientLicensePlate01: String = ""
-     var AccientLicensePlate02: String = ""
-     var isAccient: Bool = false
-     var isLocked: Bool = false
+  var EntryTime: Date
+
+  var CallerName: String = ""
+  var CallerNumber: String = ""
+  var CallerAdress: String = ""
+  var CallerDOB: String = ""
+
+  var AccientInjured: Bool = false
+  var AccientHitAndRun: Bool = false
+  var AccientLicensePlate01: String = ""
+  var AccientLicensePlate02: String = ""
+  var isAccient: Bool = false
+  var isLocked: Bool = false
+
+  var drawingData: Data
+
+
     
-      var drawingData: Data = Data()
-  //      var drawing: PKDrawing {
-   //         get {
-   //             (try? PKDrawing(data: drawingData)) ?? PKDrawing()
-  ///          }
-  //
- //           set {
- //               drawingData = newValue.dataRepresentation()
- //           }
-//        }
+  init () {
+      EntryTime = Date.now
+      uuid = UUID()
+      drawingData = Data()
+    }
+
+  fileprivate func initialValues() {
+    EntryTime = Date.now
+    uuid = UUID()
+    drawingData = Data()
+
+    clear()
+
+  }
+  
+  
+
+  public func clear() {
+    CallerName = ""
+    CallerNumber = ""
+    CallerAdress = ""
+    CallerDOB = ""
+
+    isLocked = false
+
+    isAccient = false
+    AccientInjured = false
+    AccientHitAndRun = false
+    AccientLicensePlate01 = ""
+    AccientLicensePlate02 = ""
+
+    drawingData = Data()
+
+    //self.objectWillChange.send()
+  }
+
+  public func new() {
+
+    EntryTime = Date.now
+
+    clear()
+  }
     
-    fileprivate func initialValues() {
-        EntryTime = Date.now
-        
-        clear()
-        
-        
+  public func getDateFromDOB() -> Date {
+      let dateFormatter = DateFormatter()
+      dateFormatter.dateFormat = "dd.MM.YYYY"
+      return dateFormatter.date(from: self.CallerDOB)!
         
     }
-    
-    
-    public func clear() {
-        CallerName = ""
-        CallerNumber = ""
-        CallerAdress = ""
-        CallerDOB = ""
-        
-        isLocked = false
-        
-        isAccient = false
-        AccientInjured = false
-        AccientHitAndRun = false
-        AccientLicensePlate01 = ""
-        AccientLicensePlate02 = ""
-        
-        drawingData = Data()
-        
-        //self.objectWillChange.send()
-    }
-    
-    public func new() {
-        
-        EntryTime = Date.now
-        
-        clear()
-    }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
 }

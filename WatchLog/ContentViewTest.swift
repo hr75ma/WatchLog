@@ -341,7 +341,7 @@ struct CallerView: View {
             .lineLimit(1)
             .fixedSize(horizontal: true, vertical: true)
 
-          TextField("", text: $WatchLog.CallerInformation, axis: .vertical)
+          TextField("", text: $WatchLog.CallerAdress, axis: .vertical)
             .font(Font.custom(TextFieldFont, size: TextFieldFontHeight))
             //.frame(width: .infinity, height: TextFieldHeight, alignment: .leading)
             //.textInputAutocapitalization(.characters)
@@ -588,130 +588,11 @@ fileprivate func newEntry(LogEntry:WatchLogEntry, drawing:inout PKDrawing) {
     
 }
 
-struct MyStyle: ToggleStyle {
-  let ImageIsOff: String = "rectangle.fill"
-  let ImageIsOn: String = "checkmark.rectangle.fill"
 
-  func makeBody(configuration: MyStyle.Configuration) -> some View {
-    HStack(alignment: .center) {
-      configuration.label
-
-      Image(systemName: configuration.isOn ? ImageIsOn : ImageIsOff)
-        .font(.largeTitle)
-        .foregroundColor(configuration.isOn ? Color.green : Color.gray)
-        .onTapGesture {
-          configuration.$isOn.wrappedValue.toggle()
-        }
-    }
-  }
+extension ContentViewTest {
+    
 }
 
-struct MyStyleLock: ToggleStyle {
-  let ImageIsOff: String = "rectangle.fill"
-  let ImageIsOn: String = "checkmark.rectangle.fill"
 
-  func makeBody(configuration: MyStyle.Configuration) -> some View {
-    HStack(alignment: .center) {
-      configuration.label
 
-      Image(systemName: configuration.isOn ? ImageIsOn : ImageIsOff)
-        .font(.largeTitle)
-        .foregroundColor(configuration.isOn ? Color.red : Color.green)
-        .onTapGesture {
-          configuration.$isOn.wrappedValue.toggle()
-        }
-    }
-  }
-}
 
-extension View {
-  @ViewBuilder func hidden(_ shouldHide: Bool) -> some View {
-    switch shouldHide {
-    case true: self.hidden()
-    case false: self
-    }
-  }
-}
-
-extension View {
-  /// Hide or show a view based on a boolean value.
-  ///
-  /// Example for hiding while reclaiming space:
-  ///
-  ///     Text("Label")
-  ///         .isHidden(true)
-  ///
-  /// Example for hiding, but leaving a gap where the hidden item was:
-  ///
-  ///     Text("Label")
-  ///         .isHidden(true, remove: false)
-  ///
-  /// - Parameters:
-  ///   - hidden: whether to hide the view.
-  ///   - remove: whether you want to reclaim the space taken by the hidden view.
-  @ViewBuilder func isHidden(_ hidden: Bool, remove: Bool = true) -> some View {
-    if remove {
-      if !hidden {
-        self
-      }
-    } else {
-      self.opacity(hidden ? 0 : 1)
-    }
-  }
-}
-
-struct CustomToggleStyle: ToggleStyle {
-  func makeBody(configuration: Configuration) -> some View {
-    HStack {
-      configuration.label
-      Spacer()
-      Rectangle()
-        .fill(configuration.isOn ? Color.green : Color.red)
-        .frame(width: 50, height: 30)  // Custom height
-        .cornerRadius(15)
-        .onTapGesture {
-          configuration.isOn.toggle()
-        }
-    }
-    .padding()
-  }
-}
-
-extension String {
-  var isNumber: Bool {
-    return self.range(
-      of: "^[0-9]*$",  // 1
-      options: .regularExpression) != nil
-  }
-}
-
-extension String {
-  var isDate: Bool {
-    return self.range(
-      of: "^[0-9]{2}\\.[0-9]{2}\\.[0-9]{4}$",  // 1
-      options: .regularExpression) != nil
-  }
-}
-
-extension Color {
-  init(hex: Int, opacity: Double = 1.0) {
-    let red = Double((hex & 0xff0000) >> 16) / 255.0
-    let green = Double((hex & 0xff00) >> 8) / 255.0
-    let blue = Double((hex & 0xff) >> 0) / 255.0
-    self.init(.sRGB, red: red, green: green, blue: blue, opacity: opacity)
-  }
-}
-
-extension String {
-  func trimingLeadingSpaces(using characterSet: CharacterSet = .whitespacesAndNewlines) -> String {
-    guard
-      let index = firstIndex(where: {
-        !CharacterSet(charactersIn: String($0)).isSubset(of: characterSet)
-      })
-    else {
-      return self
-    }
-
-    return String(self[index...])
-  }
-}
