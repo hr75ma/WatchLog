@@ -39,6 +39,8 @@ struct ContentViewTest: View {
   @Environment(\.modelContext) var modelContext
   @State  var dataBaseController: DataBaseController?
     
+  
+    
     
     var body: some View {
         

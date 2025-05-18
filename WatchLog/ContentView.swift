@@ -13,6 +13,8 @@ import SwiftUI
     .modelContainer(for: Item.self, inMemory: true)
 }
 
+
+
 struct ContentView: View {
 
   @Environment(\.modelContext) private var modelContext
@@ -21,6 +23,10 @@ struct ContentView: View {
     NavigationSplitViewVisibility.detailOnly
     
     @State private var test: Int = 0
+    
+    @State var StandardDate:Date = Date()
+    
+    
 
   @Query(sort: \WatchLogBookYear.LogDate, order: .forward) var ListYears: [WatchLogBookYear]
 
@@ -30,23 +36,26 @@ struct ContentView: View {
       List {
 
         ForEach(ListYears) { years in
-          Section(header: Text("\(years.LogDate)")) {
-              ForEach(years.Children!) { child in
-                  Text("\(child.LogDate)")
-                   ForEach(child.Children!) { child2 in
-                      Text("\(child2.LogDate)")
-                        ForEach(child2.Children!) { child3 in
-                           Text("\(child3.LogDate)")
-                       }
-                  }
-                  
-                  
-              }
-          }
-
+            
+            DisclosureGroup("\(years.LogDate)") {
+                ForEach(years.Children!) { child in
+                    DisclosureGroup(getDate(Month: child.LogDate)) {
+                        ForEach(child.Children!) { child2 in
+                            DisclosureGroup("\(child2.LogDate)") {
+                                ForEach(child2.Children!) { child3 in
+                                    Text("\(child3.LogDate.formatted(date: .omitted, time: .standard))")
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            .foregroundStyle(.blue)
+            .font(Font.custom(LabelFont, size: LabelFontHeight))
         }
       }
-      .listStyle(.plain)
+      .listStyle(.sidebar)
+      .headerProminence(.increased)
 
     } detail: {
 
@@ -59,5 +68,22 @@ struct ContentView: View {
         .padding()
     }
   }
+    
+    fileprivate func getDate(Month: Int) -> String {
+        var DateComponent = DateComponents()
+        DateComponent.year = 1975
+        DateComponent.month = Month
+        DateComponent.year = 2
+        DateComponent.hour = 1
+        DateComponent.minute = 0
+        DateComponent.second = 0
+        
+        
+        let date = Calendar.current.date(from: DateComponent)!
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM"
+        //return dateFormatter.string(from: Date())
+        return date.formatted(.dateTime.weekday(.wide))
+    }
 
 }
