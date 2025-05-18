@@ -71,15 +71,18 @@ class WatchLogEntry {
 
   public func new() {
 
-    EntryTime = Date.now
-
-    clear()
+    initialValues()
   }
     
   public func getDateFromDOB() -> Date {
       let dateFormatter = DateFormatter()
       dateFormatter.dateFormat = "dd.MM.YYYY"
-      return dateFormatter.date(from: self.CallerDOB)!
+      if !self.CallerDOB.isEmpty {
+          return dateFormatter.date(from: self.CallerDOB)!
+      } else {
+          return Date.now
+      }
+      
         
     }
 

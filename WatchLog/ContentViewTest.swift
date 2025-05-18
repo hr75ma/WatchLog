@@ -7,6 +7,7 @@ import SwiftData
 //  Created by Marcus Hörning on 07.05.25.
 //
 import SwiftUI
+import SwiftData
 
 #Preview{
   ContentView()
@@ -20,6 +21,10 @@ let LabelFont: String = "digital-7"
 let TextFieldFont: String = "Roboto-MediumItalic"
 let TextFieldHeight: CGFloat = 40
 
+
+
+
+
 struct ContentViewTest: View {
   //@State var canvas = PKCanvasView()
   @State var toolPickerShows = true
@@ -30,7 +35,11 @@ struct ContentViewTest: View {
   @State var currentTime: Date = Date()
 
   @State var LogEntry: WatchLogEntry = WatchLogEntry()
-
+    
+  @Environment(\.modelContext) var modelContext
+  @State  var dataBaseController: DataBaseController?
+    
+    
     var body: some View {
         
         // Zoomable {
@@ -97,6 +106,10 @@ struct ContentViewTest: View {
                     }
                     .disabled(LogEntry.isLocked)
                     Button(action:  {
+                        dataBaseController = DataBaseController(modelContext: modelContext)
+                        dataBaseController!.saveLogEntry(LogEntry: LogEntry)
+                        
+                        
                     }) {
                         label: do {
                             Image(systemName: "square.and.arrow.down.fill")
@@ -132,6 +145,8 @@ struct ContentViewTest: View {
 
         
     }
+
+    
 
 }
 
@@ -589,9 +604,6 @@ fileprivate func newEntry(LogEntry:WatchLogEntry, drawing:inout PKDrawing) {
 }
 
 
-extension ContentViewTest {
-    
-}
 
 
 

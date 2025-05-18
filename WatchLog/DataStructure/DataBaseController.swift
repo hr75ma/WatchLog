@@ -1,26 +1,25 @@
+////
+////  DataBaseController.swift
+////  WatchLog
+////
+////  Created by Marcus Hörning on 17.05.25.
+////
 //
-//  DataBaseController.swift
-//  WatchLog
-//
-//  Created by Marcus Hörning on 17.05.25.
-//
-
 import SwiftUI
 import SwiftData
 
 public class DataBaseController {
         
+    let modelContext: ModelContext
+    
     enum SaveLogEntryResult {
         case succes
         case failure(Error)
     }
     
-    @Environment(\.modelContext) var modelContext
-    
-    private let dateString = "1975.08.02"
-    
-    
-    
+    init(modelContext: ModelContext) {
+        self.modelContext = modelContext
+      }
     
     func saveLogEntry(LogEntry: WatchLogEntry) -> SaveLogEntryResult {
         
@@ -30,7 +29,6 @@ public class DataBaseController {
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy.MM.dd"
-        var StandardDate = dateFormatter.date(from: dateString)
         
         var DateComponent = DateComponents()
         DateComponent.year = 1975
@@ -40,75 +38,98 @@ public class DataBaseController {
         DateComponent.minute = 0
         DateComponent.second = 0
         
-//        var ListEntries: [WatchLogBookEntry]
-//        let discriptor = FetchDescriptor<WatchLogBookEntry>(predicate: #Predicate{$0.uuid == LogEntry.uuid})
-//        
-//        do {
-//            ListEntries = try modelContext.fetch(discriptor)
-//        } catch {
-//            print("failed")
-//        }
+        var ListEntries: [WatchLogBookEntry] = []
+        var ListYearEntries: [WatchLogBookYear] = []
         
-       @Query(filter: #Predicate<WatchLogBookEntry> {$0.uuid == LogEntry.uuid}) var ListEntries: [WatchLogBookEntry]
+        let LogEntryUUID:UUID = LogEntry.uuid
+        
+        
+        let discriptor = FetchDescriptor<WatchLogBookEntry>(predicate: #Predicate{$0.uuid == LogEntryUUID})
+        
+        do {
+            ListEntries = try modelContext.fetch(discriptor)
+        } catch {
+            print("failed")
+        }
+        
+       //@Query(filter: #Predicate<WatchLogBookEntry> {$0.uuid == LogEntry.uuid}) var ListEntries: [WatchLogBookEntry]
         
         if ListEntries.isEmpty {
             
+            
             let Date = LogEntry.EntryTime
-            @Query(filter: #Predicate<WatchLogBookYear> {Calendar.current.component(.year, from: $0.LogDate) == Calendar.current.component(.year, from: Date)}) var ListYearEntries: [WatchLogBookYear]
+            let YearFromDate = Calendar.current.component(.year, from: Date)
+            
+            let discriptor = FetchDescriptor<WatchLogBookYear>(predicate: #Predicate{$0.LogDate == YearFromDate})
+            
+            do {
+                ListYearEntries = try modelContext.fetch(discriptor)
+            } catch {
+                print("failed")
+            }
+            
+            
+            //@Query(filter: #Predicate<WatchLogBookYear> {Calendar.current.component(.year, from: $0.LogDate) == Calendar.current.component(.year, from: Date)}) var ListYearEntries: [WatchLogBookYear]
             
             if ListYearEntries.isEmpty {
                 
                 DateComponent.year = Calendar.current.component(.year, from: Date)
-                LogYearEntry = WatchLogBookYear(LogDate: Calendar.current.date(from: DateComponent)!)
+                LogYearEntry = WatchLogBookYear(LogDate: YearFromDate)
                 modelContext.insert(LogYearEntry!)
                 try? modelContext.save()
             } else {
                 LogYearEntry = ListYearEntries[0]
             }
             
-            DateComponent.month = Calendar.current.component(.month, from: Date)
-            if LogYearEntry?.LogDateMonth == nil {
+            let MonthFromDate = Calendar.current.component(.month, from: Date)
+            if LogYearEntry?.LogDateMonth == nil || (LogYearEntry?.LogDateMonth!.isEmpty)! {
                 
-                LogMonthEntry = WatchLogBookMonth(LogDate: Calendar.current.date(from: DateComponent)!)
+                LogMonthEntry = WatchLogBookMonth(LogDate: MonthFromDate)
                 modelContext.insert(LogMonthEntry!)
                 try? modelContext.save()
                 LogYearEntry?.LogDateMonth = [LogMonthEntry!]
+                try? modelContext.save()
             } else {
-                var filteredMonthArray = LogYearEntry!.LogDateMonth!.filter { Calendar.current.component(.month, from: $0.LogDate) == Calendar.current.component(.month, from: Date) }
+                var filteredMonthArray = LogYearEntry!.LogDateMonth!.filter { $0.LogDate == MonthFromDate }
                 if filteredMonthArray.isEmpty {
-                    LogMonthEntry = WatchLogBookMonth(LogDate: Calendar.current.date(from: DateComponent)!)
+                    LogMonthEntry = WatchLogBookMonth(LogDate: MonthFromDate)
                     modelContext.insert(LogMonthEntry!)
                     try? modelContext.save()
-                    LogYearEntry?.LogDateMonth = [LogMonthEntry!]
+                    LogYearEntry?.LogDateMonth?.append(LogMonthEntry!)
+                    try? modelContext.save()
                 } else {
                     LogMonthEntry = filteredMonthArray[0]
                 }
             }
             
-            DateComponent.day = Calendar.current.component(.day, from: Date)
-            if LogMonthEntry?.LogDateDay == nil {
+            let DayFromDate = Calendar.current.component(.day, from: Date)
+            if LogMonthEntry?.LogDateDay == nil || (LogMonthEntry?.LogDateDay!.isEmpty)! {
                 
-                LogDayEntry = WatchLogBookDay(LogDate: Calendar.current.date(from: DateComponent)!)
+                LogDayEntry = WatchLogBookDay(LogDate: DayFromDate)
                 LogMonthEntry?.LogDateDay = [LogDayEntry!]
                 modelContext.insert(LogDayEntry!)
                 try? modelContext.save()
                 LogMonthEntry?.LogDateDay = [LogDayEntry!]
             } else {
-                var filteredDayArray = LogMonthEntry!.LogDateDay!.filter { Calendar.current.component(.day, from: $0.LogDate) == Calendar.current.component(.day, from: Date) }
+                var filteredDayArray = LogMonthEntry!.LogDateDay!.filter { $0.LogDate == DayFromDate }
                 if filteredDayArray.isEmpty {
-                    LogDayEntry = WatchLogBookDay(LogDate: Calendar.current.date(from: DateComponent)!)
+                    LogDayEntry = WatchLogBookDay(LogDate: DayFromDate)
                     modelContext.insert(LogDayEntry!)
                     try? modelContext.save()
-                    LogMonthEntry?.LogDateDay = [LogDayEntry!]
+                    LogMonthEntry?.LogDateDay?.append(LogDayEntry!)
                 } else {
                     LogDayEntry = filteredDayArray[0]
                 }
             }
             
-            if LogDayEntry?.WatchLogBookEntry == nil {
-                LogDayEntry?.WatchLogBookEntry = []
-            }
-            LogDayEntry?.WatchLogBookEntry?.append(WatchLogBookEntry(LogEntry: LogEntry))
+//            if LogDayEntry?.WatchLogBookEntry == nil {
+//                LogDayEntry?.WatchLogBookEntry = []
+//            }
+//
+            let Log = WatchLogBookEntry(LogEntry: LogEntry)
+            modelContext.insert(Log)
+            try? modelContext.save()
+            LogDayEntry?.WatchLogBookEntry?.append(Log)
             try? modelContext.save()
         } else {
             ListEntries[0].update(LogEntry: LogEntry)

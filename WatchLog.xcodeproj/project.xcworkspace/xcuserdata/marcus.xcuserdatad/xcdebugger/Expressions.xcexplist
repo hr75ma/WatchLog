@@ -10,5 +10,19 @@
             </PersistentString>
          </PersistentStrings>
       </ContextState>
+      <ContextState
+         contextName = "DataBaseController.saveLogEntry(LogEntry:):DataBaseController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "LogDayEntry?.WatchLogBookEntry?.count">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "WatchLogBookYear.init(LogDate:):WatchLogBookYear.swift">
+      </ContextState>
+      <ContextState
+         contextName = "WatchLogEntry.getDateFromDOB():WatchLogEntry.swift">
+      </ContextState>
    </ContextStates>
 </VariablesViewState>
