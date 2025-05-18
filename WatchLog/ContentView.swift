@@ -37,9 +37,9 @@ struct ContentView: View {
 
         ForEach(ListYears) { years in
             
-            DisclosureGroup("\(years.LogDate)") {
+            DisclosureGroup(getDateYear(Year: years.LogDate)) {
                 ForEach(years.Children!) { child in
-                    DisclosureGroup(getDate(Month: child.LogDate)) {
+                    DisclosureGroup(getDateMonth(Month: child.LogDate)) {
                         ForEach(child.Children!) { child2 in
                             DisclosureGroup("\(child2.LogDate)") {
                                 ForEach(child2.Children!) { child3 in
@@ -51,7 +51,7 @@ struct ContentView: View {
                 }
             }
             .foregroundStyle(.blue)
-            .font(Font.custom(LabelFont, size: LabelFontHeight))
+            .font(Font.custom(LabelFont, size: 40))
         }
       }
       .listStyle(.sidebar)
@@ -69,21 +69,34 @@ struct ContentView: View {
     }
   }
     
-    fileprivate func getDate(Month: Int) -> String {
+    fileprivate func getDateMonth(Month: Int) -> String {
         var DateComponent = DateComponents()
         DateComponent.year = 1975
         DateComponent.month = Month
-        DateComponent.year = 2
+        DateComponent.day = 2
         DateComponent.hour = 1
         DateComponent.minute = 0
         DateComponent.second = 0
         
         
         let date = Calendar.current.date(from: DateComponent)!
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MM"
-        //return dateFormatter.string(from: Date())
-        return date.formatted(.dateTime.weekday(.wide))
+        let formatter = DateFormatter()
+        formatter.locale = Locale.current
+        return date.formatted(.dateTime.month(.wide))
+    }
+    
+    fileprivate func getDateYear(Year: Int) -> String {
+        var DateComponent = DateComponents()
+        DateComponent.year = Year
+        DateComponent.month = 8
+        DateComponent.day = 2
+        DateComponent.hour = 1
+        DateComponent.minute = 0
+        DateComponent.second = 0
+        
+        
+        let date = Calendar.current.date(from: DateComponent)!
+        return String(Calendar.current.component(.year, from: date))
     }
 
 }

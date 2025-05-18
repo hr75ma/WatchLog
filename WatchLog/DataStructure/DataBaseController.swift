@@ -33,7 +33,7 @@ public class DataBaseController {
         var DateComponent = DateComponents()
         DateComponent.year = 1975
         DateComponent.month = 8
-        DateComponent.year = 2
+        DateComponent.day = 2
         DateComponent.hour = 1
         DateComponent.minute = 0
         DateComponent.second = 0
