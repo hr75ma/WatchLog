@@ -5,72 +5,59 @@
 //  Created by Marcus Hörning on 07.05.25.
 //
 
-import SwiftUI
 import SwiftData
+import SwiftUI
 
-struct ContentView: View {
-    @Environment(\.modelContext) private var modelContext
-    @Query private var items: [Item]
-    
-    @State private var columnVisibility =
-        NavigationSplitViewVisibility.detailOnly
-
-    var body: some View {
-        NavigationSplitView(columnVisibility: $columnVisibility) {
-            List {
-                ForEach(items) { item in
-                    NavigationLink {
-                        Text("Item at \(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))")
-                    } label: {
-                        Text(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))
-                    }
-                }
-                .onDelete(perform: deleteItems)
-            }
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    EditButton()
-                }
-                ToolbarItem {
-                    Button(action: addItem) {
-                        Label("Add Item", systemImage: "plus")
-                    }
-                }
-            }
-        }
-        detail: {
-            
-            ContentViewTest()
-            
-            .containerRelativeFrame(
-                [.horizontal, .vertical],
-                alignment: .topLeading
-            )
-            .padding()
-        }
-        
-
-        
-        
-    }
-
-    private func addItem() {
-        withAnimation {
-            let newItem = Item(timestamp: Date())
-            modelContext.insert(newItem)
-        }
-    }
-
-    private func deleteItems(offsets: IndexSet) {
-        withAnimation {
-            for index in offsets {
-                modelContext.delete(items[index])
-            }
-        }
-    }
+#Preview{
+  ContentView()
+    .modelContainer(for: Item.self, inMemory: true)
 }
 
-#Preview {
-    ContentView()
-        .modelContainer(for: Item.self, inMemory: true)
+struct ContentView: View {
+
+  @Environment(\.modelContext) private var modelContext
+
+  @State private var columnVisibility =
+    NavigationSplitViewVisibility.detailOnly
+    
+    @State private var test: Int = 0
+
+  @Query(sort: \WatchLogBookYear.LogDate, order: .forward) var ListYears: [WatchLogBookYear]
+
+  var body: some View {
+
+    NavigationSplitView(columnVisibility: $columnVisibility) {
+      List {
+
+        ForEach(ListYears) { years in
+          Section(header: Text("\(years.LogDate)")) {
+              ForEach(years.Children!) { child in
+                  Text("\(child.LogDate)")
+                   ForEach(child.Children!) { child2 in
+                      Text("\(child2.LogDate)")
+                        ForEach(child2.Children!) { child3 in
+                           Text("\(child3.LogDate)")
+                       }
+                  }
+                  
+                  
+              }
+          }
+
+        }
+      }
+      .listStyle(.plain)
+
+    } detail: {
+
+      ContentViewTest()
+
+        .containerRelativeFrame(
+          [.horizontal, .vertical],
+          alignment: .topLeading
+        )
+        .padding()
+    }
+  }
+
 }

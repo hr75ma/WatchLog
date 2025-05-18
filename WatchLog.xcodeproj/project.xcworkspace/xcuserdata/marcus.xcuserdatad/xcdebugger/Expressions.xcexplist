@@ -11,6 +11,17 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "closure #1 in closure #1 in ContentView.body.getter:ContentView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "ListYears">
+            </PersistentString>
+            <PersistentString
+               value = "years.Children">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "DataBaseController.saveLogEntry(LogEntry:):DataBaseController.swift">
          <PersistentStrings>
             <PersistentString
