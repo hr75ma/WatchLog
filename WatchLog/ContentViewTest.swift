@@ -10,7 +10,7 @@ import SwiftUI
 import SwiftData
 
 #Preview{
-  ContentView()
+    ContentViewTest()
 }
 
 let TextfieldBackgroundColor: Color = Color(hex: 0x3b3b3b).opacity(1)
