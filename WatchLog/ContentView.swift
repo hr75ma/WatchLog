@@ -36,11 +36,14 @@ struct ContentView: View {
                 ForEach(sortedDay(child.Children!)) { child2 in
                   DisclosureGroup("\(child2.LogDate)") {
                     ForEach(sortedEntries(child2.Children!)) { child3 in
-                      Text("\(child3.LogDate.formatted(date: .omitted, time: .standard))")
+                        HStack{
+                            Text("\(child3.LogDate.formatted(date: .omitted, time: .standard))")
+                            Spacer()
+                        }
 
                     }
                   }
-                  .disclosureGroupStyle(MyDisclosureStyle())
+                  .disclosureGroupStyle(DisclosureStyleDay())
                 }
               }
               .disclosureGroupStyle(MyDisclosureStyle())
@@ -122,6 +125,40 @@ struct ContentView: View {
       }
     }
   }
+    
+    struct DisclosureStyleDay: DisclosureGroupStyle {
+      func makeBody(configuration: Configuration) -> some View {
+        VStack {
+          Button {
+            withAnimation {
+              configuration.isExpanded.toggle()
+            }
+          } label: {
+            HStack(alignment: .firstTextBaseline) {
+              configuration.label
+                .font(Font.custom(LabelFont, size: 40))
+              Spacer()
+              Text(configuration.isExpanded ? "hide" : "show")
+                .foregroundColor(.accentColor)
+                .animation(nil, value: configuration.isExpanded)
+                .font(Font.custom(LabelFont, size: 20))
+            }
+            .contentShape(Rectangle())
+          }
+          .buttonStyle(.plain)
+          if configuration.isExpanded {
+            configuration.content
+              .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+              .frame(width: .infinity, alignment: .leading)
+              .background(Color.gray.edgesIgnoringSafeArea(.all))
+              .foregroundStyle(.blue)
+              .font(Font.custom(LabelFont, size: 40))
+              .border(Color.green, width: 1)
+
+          }
+        }
+      }
+    }
     
     private func sortedEntries(_ LogEntry: [WatchLogBookEntry]) -> [WatchLogBookEntry] {
         return LogEntry.sorted(using: [
