@@ -8,9 +8,7 @@
 import SwiftData
 import SwiftUI
 
-
-
-
+let GroupLabelFont: String = "Roboto-MediumItalic"
 
 struct ContentView: View {
 
@@ -36,20 +34,23 @@ struct ContentView: View {
                 ForEach(sortedDay(child.Children!)) { child2 in
                   DisclosureGroup("\(child2.LogDate)") {
                     ForEach(sortedEntries(child2.Children!)) { child3 in
-                        HStack{
-                            Text("\(child3.LogDate.formatted(date: .omitted, time: .standard))")
-                            Spacer()
-                        }
-
+                      HStack {
+                        Text("\(child3.LogDate.formatted(date: .omitted, time: .standard))")
+                              .font(Font.custom(GroupLabelFont, size: 25))
+                        Spacer()
+                      }
+                      .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 0))
+                        
                     }
+                    //.disclosureGroupStyle(DisclosureStyleMonth())
                   }
                   .disclosureGroupStyle(DisclosureStyleDay())
                 }
               }
-              .disclosureGroupStyle(MyDisclosureStyle())
+              .disclosureGroupStyle(DisclosureStyleMonth())
             }
           }
-          .disclosureGroupStyle(MyDisclosureStyle())
+          .disclosureGroupStyle(DisclosureStyleYear())
 
         }
 
@@ -70,116 +71,170 @@ struct ContentView: View {
     }
   }
 
-  //    ForEach(ListYears) { years in
-  //
-  //        DisclosureGroup(getDateYear(Year: years.LogDate)) {
-  //            ForEach(years.Children!) { child in
-  //                DisclosureGroup(getDateMonth(Month: child.LogDate)) {
-  //                    ForEach(child.Children!) { child2 in
-  //                        DisclosureGroup("\(child2.LogDate)") {
-  //                            ForEach(child2.Children!) { child3 in
-  //                                    Text("\(child3.LogDate.formatted(date: .omitted, time: .standard))")
-  //
-  //                            }
-  //                        }
-  //                        .disclosureGroupStyle(MyDisclosureStyle())
-  //                    }
-  //                }
-  //                .disclosureGroupStyle(MyDisclosureStyle())
-  //            }
-  //        }
-  //        .disclosureGroupStyle(MyDisclosureStyle())
-  //
-  //    }
 
-  struct MyDisclosureStyle: DisclosureGroupStyle {
-    func makeBody(configuration: Configuration) -> some View {
-      VStack {
-        Button {
-          withAnimation {
-            configuration.isExpanded.toggle()
-          }
-        } label: {
-          HStack(alignment: .firstTextBaseline) {
-            configuration.label
-              .font(Font.custom(LabelFont, size: 40))
-            Spacer()
-            Text(configuration.isExpanded ? "hide" : "show")
-              .foregroundColor(.accentColor)
-              .animation(nil, value: configuration.isExpanded)
-              .font(Font.custom(LabelFont, size: 20))
-          }
-          .contentShape(Rectangle())
-        }
-        .buttonStyle(.plain)
-        if configuration.isExpanded {
-          configuration.content
-            .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-            .frame(width: .infinity, alignment: .leading)
-            .background(Color.red.edgesIgnoringSafeArea(.all))
-            .foregroundStyle(.blue)
-            .font(Font.custom(LabelFont, size: 40))
-            .border(Color.green, width: 1)
-
-        }
-      }
-    }
-  }
-    
-    struct DisclosureStyleDay: DisclosureGroupStyle {
+    struct DisclosureStyleYear: DisclosureGroupStyle {
       func makeBody(configuration: Configuration) -> some View {
-        VStack {
+          VStack(alignment: .center, spacing: 0) {
           Button {
             withAnimation {
               configuration.isExpanded.toggle()
             }
           } label: {
-            HStack(alignment: .firstTextBaseline) {
+              HStack(alignment: .center, spacing: 0) {
               configuration.label
-                .font(Font.custom(LabelFont, size: 40))
               Spacer()
-              Text(configuration.isExpanded ? "hide" : "show")
-                .foregroundColor(.accentColor)
-                .animation(nil, value: configuration.isExpanded)
-                .font(Font.custom(LabelFont, size: 20))
+                Image(systemName: configuration.isExpanded ? "chevron.down" : "chevron.forward")
+                  .resizable()
+                  .aspectRatio(contentMode: .fit)
+                  .frame(width: 20, height: 20)
+                  .symbolRenderingMode(.monochrome)
+                  .symbolVariant(.rectangle)
+                  .foregroundStyle(.blue)
+                  .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
             }
-            .contentShape(Rectangle())
           }
           .buttonStyle(.plain)
           if configuration.isExpanded {
             configuration.content
+              //.font(Font.custom(GroupLabelFont, size: 40))
+              .lineLimit(1)
               .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+              .listRowSpacing(0)
               .frame(width: .infinity, alignment: .leading)
-              .background(Color.gray.edgesIgnoringSafeArea(.all))
-              .foregroundStyle(.blue)
-              .font(Font.custom(LabelFont, size: 40))
-              .border(Color.green, width: 1)
 
           }
         }
+        .listRowSpacing(0)
+        .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
+        .background(Color.clear.edgesIgnoringSafeArea(.all))
+        .foregroundStyle(.blue)
+        .font(Font.custom(GroupLabelFont, size: 40))
+        .border(Color.clear, width: 0)
+        .overlay(
+          RoundedRectangle(cornerRadius: 20)
+            .stroke(Color.blue, lineWidth: 2)
+        )
+        .frame(width: .infinity, alignment: .leading)
+        .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0))
+
+      }
+    }
+
+    
+    struct DisclosureStyleMonth: DisclosureGroupStyle {
+      func makeBody(configuration: Configuration) -> some View {
+          VStack(alignment: .center, spacing: 0) {
+          Button {
+            withAnimation {
+              configuration.isExpanded.toggle()
+            }
+          } label: {
+              HStack(alignment: .center, spacing: 0) {
+              configuration.label
+              Spacer()
+                Image(systemName: configuration.isExpanded ? "chevron.down" : "chevron.forward")
+                  .resizable()
+                  .aspectRatio(contentMode: .fit)
+                  .frame(width: 20, height: 20)
+                  .symbolRenderingMode(.monochrome)
+                  .symbolVariant(.rectangle)
+                  .foregroundStyle(.blue)
+                  .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+            }
+          }
+          .buttonStyle(.plain)
+          if configuration.isExpanded {
+            configuration.content
+              //.font(Font.custom(GroupLabelFont, size: 40))
+              .lineLimit(1)
+              .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+              .listRowSpacing(0)
+              .frame(width: .infinity, alignment: .leading)
+
+          }
+        }
+        .listRowSpacing(0)
+        .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
+        .background(Color.clear.edgesIgnoringSafeArea(.all))
+        .foregroundStyle(.blue)
+        .font(Font.custom(GroupLabelFont, size: 35))
+        .border(Color.clear, width: 0)
+        .overlay(Rectangle().frame(width: nil, height: 2, alignment: .top).foregroundColor(Color.blue), alignment: .top)
+        .frame(width: .infinity, alignment: .leading)
+        .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0))
+
       }
     }
     
-    private func sortedEntries(_ LogEntry: [WatchLogBookEntry]) -> [WatchLogBookEntry] {
-        return LogEntry.sorted(using: [
-            SortDescriptor(\.LogDate, order: .forward)
-            ])
-        
+    struct DisclosureStyleDay: DisclosureGroupStyle {
+      func makeBody(configuration: Configuration) -> some View {
+          VStack(alignment: .center, spacing: 0) {
+          Button {
+            withAnimation {
+              configuration.isExpanded.toggle()
+            }
+          } label: {
+              HStack(alignment: .center, spacing: 0) {
+              configuration.label
+              Spacer()
+                Image(systemName: configuration.isExpanded ? "chevron.down" : "chevron.forward")
+                  .resizable()
+                  .aspectRatio(contentMode: .fit)
+                  .frame(width: 20, height: 20)
+                  .symbolRenderingMode(.monochrome)
+                  .symbolVariant(.rectangle)
+                  .foregroundStyle(.blue)
+                  .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+            }
+          }
+          .buttonStyle(.plain)
+          if configuration.isExpanded {
+            configuration.content
+              //.font(Font.custom(GroupLabelFont, size: 40))
+              .lineLimit(1)
+              .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+              .listRowSpacing(0)
+              .frame(width: .infinity, alignment: .leading)
+
+          }
         }
-    
-    private func sortedDay(_ LogEntry: [WatchLogBookDay]) -> [WatchLogBookDay] {
-        return LogEntry.sorted(using: [
-            SortDescriptor(\.LogDate, order: .forward)
-            ])
-        
-        }
-    
-    private func sortedMonth(_ LogEntry: [WatchLogBookMonth]) -> [WatchLogBookMonth] {
-        return LogEntry.sorted(using: [
-            SortDescriptor(\.LogDate, order: .forward)
-            ])
-        
-        }
+        .listRowSpacing(0)
+        .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
+        .background(Color.clear.edgesIgnoringSafeArea(.all))
+        .foregroundStyle(.blue)
+        .font(Font.custom(GroupLabelFont, size: 30))
+        .border(Color.clear, width: 0)
+        .overlay(Rectangle()
+            .frame(width: 2, height: nil, alignment: .leading).foregroundColor(Color.blue), alignment: .leading)
+            .padding(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0))
+        .frame(width: .infinity, alignment: .leading)
+        .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0))
+
+      }
+    }
+
+  
+
+  private func sortedEntries(_ LogEntry: [WatchLogBookEntry]) -> [WatchLogBookEntry] {
+    return LogEntry.sorted(using: [
+      SortDescriptor(\.LogDate, order: .forward)
+    ])
+
+  }
+
+  private func sortedDay(_ LogEntry: [WatchLogBookDay]) -> [WatchLogBookDay] {
+    return LogEntry.sorted(using: [
+      SortDescriptor(\.LogDate, order: .forward)
+    ])
+
+  }
+
+  private func sortedMonth(_ LogEntry: [WatchLogBookMonth]) -> [WatchLogBookMonth] {
+    return LogEntry.sorted(using: [
+      SortDescriptor(\.LogDate, order: .forward)
+    ])
+
+  }
 
   fileprivate func getDateMonth(Month: Int) -> String {
     var DateComponent = DateComponents()
@@ -211,9 +266,9 @@ struct ContentView: View {
 
 }
 
-#Preview {
+#Preview{
   let previewData = PreviewData()
-    previewData.addExampleData()
+  previewData.addExampleData()
   return ContentView()
     .modelContainer(previewData.modelContainer)
 
