@@ -32,7 +32,7 @@ struct ContentView: View {
             ForEach(sortedMonth(years.Children!)) { child in
               DisclosureGroup(getDateMonth(Month: child.LogDate)) {
                 ForEach(sortedDay(child.Children!)) { child2 in
-                  DisclosureGroup("\(child2.LogDate)") {
+                    DisclosureGroup("\(child2.LogDate)") {
                     ForEach(sortedEntries(child2.Children!)) { child3 in
                       HStack {
                         Text("\(child3.LogDate.formatted(date: .omitted, time: .standard))")
@@ -263,6 +263,27 @@ struct ContentView: View {
     let date = Calendar.current.date(from: DateComponent)!
     return String(Calendar.current.component(.year, from: date))
   }
+    
+    fileprivate func getDateWeekDay(Year: Int, Month:Int, Day:Int) -> String {
+      var DateComponent = DateComponents()
+      DateComponent.year = Year
+      DateComponent.month = Month
+      DateComponent.day = Day
+      DateComponent.hour = 5
+      DateComponent.minute = 0
+      DateComponent.second = 0
+
+      let date = Calendar.current.date(from: DateComponent)!
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd., EEEE" // OR "dd-MM-yyyy"
+
+        return dateFormatter.string(from: date)
+        
+        
+        
+      //return String(Calendar.current.component(.weekday, from: date))
+    }
 
 }
 

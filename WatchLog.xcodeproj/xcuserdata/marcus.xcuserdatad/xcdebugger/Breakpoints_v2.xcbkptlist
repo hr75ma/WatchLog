@@ -270,8 +270,8 @@
             filePath = "WatchLog/ContentView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "266"
-            endingLineNumber = "266"
+            startingLineNumber = "287"
+            endingLineNumber = "287"
             landmarkName = "ContentView"
             landmarkType = "14">
          </BreakpointContent>
