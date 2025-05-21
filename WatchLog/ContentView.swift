@@ -237,13 +237,15 @@ struct ContentView: View {
 
   }
 
-  fileprivate func getDateMonth(date: Date) -> String {
-    return String(Calendar.current.component(.month, from: date))
-  }
+
 
   fileprivate func getDateYear(date: Date) -> String {
     return String(Calendar.current.component(.year, from: date))
   }
+    
+    fileprivate func getDateMonth(date: Date) -> String {
+      return  date.formatted(.dateTime.month(.wide))
+    }
 
   fileprivate func getDateWeekDay(date: Date) -> String {
     let dateFormatter = DateFormatter()
@@ -256,7 +258,7 @@ fileprivate func getDateTime(date: Date) -> String {
         //let dateFormatter = DateFormatter()
         //dateFormatter.dateFormat = "HH:mm:ss"
         //return dateFormatter.string(from: date)
-    var dateStyle = Date.FormatStyle.dateTime
+    let dateStyle = Date.FormatStyle.dateTime
     return date.formatted(dateStyle.hour(.twoDigits(amPM: .abbreviated)).minute(.twoDigits).second(.twoDigits))
     }
 
