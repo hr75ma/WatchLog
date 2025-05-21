@@ -125,20 +125,20 @@ public class DataBaseController {
             print("FillerDate Month: \(formatter.string(from: FillerDate!))")
             
             
-            if LogYearEntry?.Children == nil || (LogYearEntry?.Children!.isEmpty)! {
+            if LogYearEntry?.Months == nil || (LogYearEntry?.Months!.isEmpty)! {
                 
                 LogMonthEntry = WatchLogBookMonth(LogDate: FillerDate!)
                 modelContext.insert(LogMonthEntry!)
                 try? modelContext.save()
-                LogYearEntry?.Children = [LogMonthEntry!]
+                LogYearEntry?.Months = [LogMonthEntry!]
                 try? modelContext.save()
             } else {
-                let filteredMonthArray = LogYearEntry!.Children!.filter { Calendar.current.isDate($0.LogDate, equalTo: FillerDate!, toGranularity: .month) }
+                let filteredMonthArray = LogYearEntry!.Months!.filter { Calendar.current.isDate($0.LogDate, equalTo: FillerDate!, toGranularity: .month) }
                 if filteredMonthArray.isEmpty {
                     LogMonthEntry = WatchLogBookMonth(LogDate: FillerDate!)
                     modelContext.insert(LogMonthEntry!)
                     try? modelContext.save()
-                    LogYearEntry?.Children?.append(LogMonthEntry!)
+                    LogYearEntry?.Months?.append(LogMonthEntry!)
                     try? modelContext.save()
                 } else {
                     LogMonthEntry = filteredMonthArray[0]
@@ -150,21 +150,21 @@ public class DataBaseController {
             FillerDate = Calendar.current.date(from: DateComponent)
             print("FillerDate Day: \(formatter.string(from: FillerDate!))")
             
-            if LogMonthEntry?.Children == nil || (LogMonthEntry?.Children!.isEmpty)! {
+            if LogMonthEntry?.Days == nil || (LogMonthEntry?.Days!.isEmpty)! {
                 
                 LogDayEntry = WatchLogBookDay(LogDate: FillerDate!)
-                LogMonthEntry?.Children = [LogDayEntry!]
+                LogMonthEntry?.Days = [LogDayEntry!]
                 modelContext.insert(LogDayEntry!)
                 try? modelContext.save()
-                LogMonthEntry?.Children = [LogDayEntry!]
+                LogMonthEntry?.Days = [LogDayEntry!]
                 try? modelContext.save()
             } else {
-                let filteredDayArray = LogMonthEntry!.Children!.filter { Calendar.current.isDate($0.LogDate, equalTo: FillerDate!, toGranularity: .day) }
+                let filteredDayArray = LogMonthEntry!.Days!.filter { Calendar.current.isDate($0.LogDate, equalTo: FillerDate!, toGranularity: .day) }
                 if filteredDayArray.isEmpty {
                     LogDayEntry = WatchLogBookDay(LogDate: FillerDate!)
                     modelContext.insert(LogDayEntry!)
                     try? modelContext.save()
-                    LogMonthEntry?.Children?.append(LogDayEntry!)
+                    LogMonthEntry?.Days?.append(LogDayEntry!)
                     try? modelContext.save()
                 } else {
                     LogDayEntry = filteredDayArray[0]
@@ -174,7 +174,7 @@ public class DataBaseController {
             let Log = WatchLogBookEntry(LogEntry: LogEntry)
             modelContext.insert(Log)
             try? modelContext.save()
-            LogDayEntry?.Children?.append(Log)
+            LogDayEntry?.LogEntries?.append(Log)
             try? modelContext.save()
         } else {
             ListEntries[0].update(LogEntry: LogEntry)

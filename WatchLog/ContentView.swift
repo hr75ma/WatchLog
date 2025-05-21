@@ -30,11 +30,11 @@ struct ContentView: View {
 
         ForEach(ListYears) { years in
           DisclosureGroup(getDateYear(date: years.LogDate)) {
-            ForEach(sortedMonth(years.Children!)) { child in
+            ForEach(sortedMonth(years.Months!)) { child in
               DisclosureGroup(getDateMonth(date: child.LogDate)) {
-                ForEach(sortedDay(child.Children!)) { child2 in
+                ForEach(sortedDay(child.Days!)) { child2 in
                   DisclosureGroup(getDateWeekDay(date: child2.LogDate)) {
-                    ForEach(sortedEntries(child2.Children!)) { child3 in
+                    ForEach(sortedEntries(child2.LogEntries!)) { child3 in
                       HStack {
                         //Text("\(child3.LogDate.formatted(date : .omitted, time : .standard))")
                         Text(getDateTime(date: child3.LogDate))

@@ -43,18 +43,18 @@ struct PreviewData {
                   print(futureDate)
                   let monthEntry = WatchLogBookMonth(LogDate: futureDate)
                   modelContainer.mainContext.insert(monthEntry)
-                  yearEntry.Children?.append(monthEntry)
+                  yearEntry.Months?.append(monthEntry)
                   
                   for day in 0...1 {
                       futureDate = Calendar.current.date(byAdding: .day, value: day, to: currentDate)!
                       let dayEntry = WatchLogBookDay(LogDate: futureDate)
                       modelContainer.mainContext.insert(dayEntry)
-                      monthEntry.Children?.append(dayEntry)
+                      monthEntry.Days?.append(dayEntry)
                       
-                      for entry in 1...2 {
+                      for entry in 1...4 {
                           let entryObject = WatchLogBookEntry(LogEntry: WatchLogEntry())
                           modelContainer.mainContext.insert(entryObject)
-                          dayEntry.Children?.append(entryObject)
+                          dayEntry.LogEntries?.append(entryObject)
                           
                       }
                   }
