@@ -11,14 +11,14 @@ import SwiftData
 @Model
 class WatchLogBookYear: Identifiable {
     #Unique<WatchLogBookYear>([\.uuid, \.LogDate])
-    var LogDate: Int
+    var LogDate: Date
     
     
     @Relationship(deleteRule: .cascade) var Children: [WatchLogBookMonth]? = nil
-    //@Attribute(.unique) var uuid: UUID
-    var uuid: UUID
+    @Attribute(.unique) var uuid: UUID
     
-    init(LogDate: Int) {
+    
+    init(LogDate: Date) {
         self.LogDate = LogDate
         self.uuid = UUID()
     }

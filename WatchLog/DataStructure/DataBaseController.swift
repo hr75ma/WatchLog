@@ -23,6 +23,13 @@ public class DataBaseController {
     
     func saveLogEntry(LogEntry: WatchLogEntry) -> SaveLogEntryResult {
         
+        let formatter = DateFormatter()
+        //formatter.dateFormat = "dd-MM-YYYY HH:mm:ss"
+        formatter.dateStyle = .full
+        formatter.timeStyle = .full
+        formatter.timeZone = TimeZone(abbreviation: "UTC") // Example: New York timezone
+        
+        
         var LogYearEntry: WatchLogBookYear?
         var LogMonthEntry: WatchLogBookMonth?
         var LogDayEntry: WatchLogBookDay?
@@ -34,9 +41,14 @@ public class DataBaseController {
         DateComponent.year = 1975
         DateComponent.month = 8
         DateComponent.day = 2
-        DateComponent.hour = 1
+        DateComponent.hour = 10
         DateComponent.minute = 0
         DateComponent.second = 0
+        DateComponent.nanosecond = 0
+        
+        var FillerDate = Calendar.current.date(from: DateComponent)
+        print("FillerDate: \(formatter.string(from: FillerDate!))")
+        
         
         var ListEntries: [WatchLogBookEntry] = []
         var ListYearEntries: [WatchLogBookYear] = []
@@ -52,15 +64,37 @@ public class DataBaseController {
             print("failed")
         }
         
-       //@Query(filter: #Predicate<WatchLogBookEntry> {$0.uuid == LogEntry.uuid}) var ListEntries: [WatchLogBookEntry]
         
         if ListEntries.isEmpty {
             
+            let EntryDate = LogEntry.EntryTime
             
-            let Date = LogEntry.EntryTime
-            let YearFromDate = Calendar.current.component(.year, from: Date)
+            var DateComponent = DateComponents()
+            DateComponent.year = Calendar.current.component(.year, from: EntryDate)-1
+            DateComponent.month = 12
+            DateComponent.day = 31
+            DateComponent.hour = 23
+            DateComponent.minute = 59
+            DateComponent.second = 59
+            DateComponent.nanosecond = 59
+            let predecessorDate = Calendar.current.date(from: DateComponent)
+            print("predecessorDate: \(formatter.string(from: predecessorDate!))")
+                                  
+            DateComponent.year = Calendar.current.component(.year, from: EntryDate)+1
+            DateComponent.month = 01
+            DateComponent.day = 01
+            DateComponent.hour = 00
+            DateComponent.minute = 00
+            DateComponent.second = 00
+            DateComponent.nanosecond = 00
+            let successorDate = Calendar.current.date(from: DateComponent)
+            print("successorDate: \(formatter.string(from: successorDate!))")
+                                  
             
-            let discriptor = FetchDescriptor<WatchLogBookYear>(predicate: #Predicate{$0.LogDate == YearFromDate})
+            //@Query(filter: #Predicate<WatchLogBookYear> {$0.LogDate > predecessorDate! && $0.LogDate < successorDate!}) var ListYearEntries: [WatchLogBookYear]
+            
+            
+            let discriptor = FetchDescriptor<WatchLogBookYear>(predicate: #Predicate{$0.LogDate > predecessorDate! && $0.LogDate < successorDate!})
             
             do {
                 ListYearEntries = try modelContext.fetch(discriptor)
@@ -69,30 +103,39 @@ public class DataBaseController {
             }
             
             
-            //@Query(filter: #Predicate<WatchLogBookYear> {Calendar.current.component(.year, from: $0.LogDate) == Calendar.current.component(.year, from: Date)}) var ListYearEntries: [WatchLogBookYear]
-            
+            DateComponent = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second, .nanosecond], from: FillerDate!)
+            DateComponent.year = Calendar.current.component(.year, from: EntryDate)
+            FillerDate = Calendar.current.date(from: DateComponent)
+            print("FillerDate Year: \(formatter.string(from: FillerDate!))")
             if ListYearEntries.isEmpty {
-                
-                DateComponent.year = Calendar.current.component(.year, from: Date)
-                LogYearEntry = WatchLogBookYear(LogDate: YearFromDate)
+                LogYearEntry = WatchLogBookYear(LogDate: FillerDate!)
                 modelContext.insert(LogYearEntry!)
                 try? modelContext.save()
             } else {
                 LogYearEntry = ListYearEntries[0]
             }
             
-            let MonthFromDate = Calendar.current.component(.month, from: Date)
+            
+            
+            
+            
+            let MonthFromDate = Calendar.current.component(.month, from: EntryDate)
+            DateComponent.month = MonthFromDate
+            FillerDate = Calendar.current.date(from: DateComponent)
+            print("FillerDate Month: \(formatter.string(from: FillerDate!))")
+            
+            
             if LogYearEntry?.Children == nil || (LogYearEntry?.Children!.isEmpty)! {
                 
-                LogMonthEntry = WatchLogBookMonth(LogDate: MonthFromDate)
+                LogMonthEntry = WatchLogBookMonth(LogDate: FillerDate!)
                 modelContext.insert(LogMonthEntry!)
                 try? modelContext.save()
                 LogYearEntry?.Children = [LogMonthEntry!]
                 try? modelContext.save()
             } else {
-                var filteredMonthArray = LogYearEntry!.Children!.filter { $0.LogDate == MonthFromDate }
+                let filteredMonthArray = LogYearEntry!.Children!.filter { Calendar.current.isDate($0.LogDate, equalTo: FillerDate!, toGranularity: .month) }
                 if filteredMonthArray.isEmpty {
-                    LogMonthEntry = WatchLogBookMonth(LogDate: MonthFromDate)
+                    LogMonthEntry = WatchLogBookMonth(LogDate: FillerDate!)
                     modelContext.insert(LogMonthEntry!)
                     try? modelContext.save()
                     LogYearEntry?.Children?.append(LogMonthEntry!)
@@ -102,30 +145,32 @@ public class DataBaseController {
                 }
             }
             
-            let DayFromDate = Calendar.current.component(.day, from: Date)
+            let DayFromDate = Calendar.current.component(.day, from: EntryDate)
+            DateComponent.day = DayFromDate
+            FillerDate = Calendar.current.date(from: DateComponent)
+            print("FillerDate Day: \(formatter.string(from: FillerDate!))")
+            
             if LogMonthEntry?.Children == nil || (LogMonthEntry?.Children!.isEmpty)! {
                 
-                LogDayEntry = WatchLogBookDay(LogDate: DayFromDate)
+                LogDayEntry = WatchLogBookDay(LogDate: FillerDate!)
                 LogMonthEntry?.Children = [LogDayEntry!]
                 modelContext.insert(LogDayEntry!)
                 try? modelContext.save()
                 LogMonthEntry?.Children = [LogDayEntry!]
+                try? modelContext.save()
             } else {
-                var filteredDayArray = LogMonthEntry!.Children!.filter { $0.LogDate == DayFromDate }
+                let filteredDayArray = LogMonthEntry!.Children!.filter { Calendar.current.isDate($0.LogDate, equalTo: FillerDate!, toGranularity: .day) }
                 if filteredDayArray.isEmpty {
-                    LogDayEntry = WatchLogBookDay(LogDate: DayFromDate)
+                    LogDayEntry = WatchLogBookDay(LogDate: FillerDate!)
                     modelContext.insert(LogDayEntry!)
                     try? modelContext.save()
                     LogMonthEntry?.Children?.append(LogDayEntry!)
+                    try? modelContext.save()
                 } else {
                     LogDayEntry = filteredDayArray[0]
                 }
             }
             
-//            if LogDayEntry?.WatchLogBookEntry == nil {
-//                LogDayEntry?.WatchLogBookEntry = []
-//            }
-//
             let Log = WatchLogBookEntry(LogEntry: LogEntry)
             modelContext.insert(Log)
             try? modelContext.save()

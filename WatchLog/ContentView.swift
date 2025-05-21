@@ -27,32 +27,32 @@ struct ContentView: View {
 
     NavigationSplitView(columnVisibility: $columnVisibility) {
       List {
-        ForEach(ListYears) { years in
-          DisclosureGroup(getDateYear(Year: years.LogDate)) {
-            ForEach(sortedMonth(years.Children!)) { child in
-              DisclosureGroup(getDateMonth(Month: child.LogDate)) {
-                ForEach(sortedDay(child.Children!)) { child2 in
-                    DisclosureGroup("\(child2.LogDate)") {
-                    ForEach(sortedEntries(child2.Children!)) { child3 in
-                      HStack {
-                        Text("\(child3.LogDate.formatted(date: .omitted, time: .standard))")
-                              .font(Font.custom(GroupLabelFont, size: 25))
-                        Spacer()
-                      }
-                      .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 0))
-                        
-                    }
-                    //.disclosureGroupStyle(DisclosureStyleMonth())
-                  }
-                  .disclosureGroupStyle(DisclosureStyleDay())
-                }
-              }
-              .disclosureGroupStyle(DisclosureStyleMonth())
-            }
-          }
-          .disclosureGroupStyle(DisclosureStyleYear())
-
-        }
+//        ForEach(ListYears) { years in
+//          DisclosureGroup(getDateYear(Year: years.LogDate)) {
+//            ForEach(sortedMonth(years.Children!)) { child in
+//              DisclosureGroup(getDateMonth(Month: child.LogDate)) {
+//                ForEach(sortedDay(child.Children!)) { child2 in
+//                    DisclosureGroup("\(child2.LogDate)") {
+//                    ForEach(sortedEntries(child2.Children!)) { child3 in
+//                      HStack {
+//                        Text("\(child3.LogDate.formatted(date: .omitted, time: .standard))")
+//                              .font(Font.custom(GroupLabelFont, size: 25))
+//                        Spacer()
+//                      }
+//                      .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 0))
+//                        
+//                    }
+//                    //.disclosureGroupStyle(DisclosureStyleMonth())
+//                  }
+//                  .disclosureGroupStyle(DisclosureStyleDay())
+//                }
+//              }
+//              .disclosureGroupStyle(DisclosureStyleMonth())
+//            }
+//          }
+//          .disclosureGroupStyle(DisclosureStyleYear())
+//
+//        }
 
       }
       .listStyle(.sidebar)

@@ -44,6 +44,9 @@
             <PersistentString
                value = "LogDayEntry?.WatchLogBookEntry?.count">
             </PersistentString>
+            <PersistentString
+               value = "$0.LogDate">
+            </PersistentString>
          </PersistentStrings>
       </ContextState>
       <ContextState

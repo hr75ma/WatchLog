@@ -16,8 +16,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "195"
             endingLineNumber = "195"
-            landmarkName = "DateAndTimeView"
-            landmarkType = "14">
+            landmarkName = "body"
+            landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -32,8 +32,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "197"
             endingLineNumber = "197"
-            landmarkName = "DateAndTimeView"
-            landmarkType = "14">
+            landmarkName = "body"
+            landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -48,8 +48,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "196"
             endingLineNumber = "196"
-            landmarkName = "DateAndTimeView"
-            landmarkType = "14">
+            landmarkName = "body"
+            landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -95,9 +95,7 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "597"
-            endingLineNumber = "597"
-            landmarkName = "clearEntry(LogEntry:drawing:)"
-            landmarkType = "9">
+            endingLineNumber = "597">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -120,14 +118,14 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "4A487752-5F33-45B0-A63B-DDDC2754D240"
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WatchLog/DataStructure/DataBaseController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "33"
-            endingLineNumber = "33"
+            startingLineNumber = "40"
+            endingLineNumber = "40"
             landmarkName = "saveLogEntry(LogEntry:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -142,8 +140,8 @@
             filePath = "WatchLog/DataStructure/DataBaseController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "41"
-            endingLineNumber = "41"
+            startingLineNumber = "53"
+            endingLineNumber = "53"
             landmarkName = "saveLogEntry(LogEntry:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -206,8 +204,8 @@
             filePath = "WatchLog/DataStructure/DataBaseController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "47"
-            endingLineNumber = "47"
+            startingLineNumber = "59"
+            endingLineNumber = "59"
             landmarkName = "saveLogEntry(LogEntry:)"
             landmarkType = "7">
          </BreakpointContent>

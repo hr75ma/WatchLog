@@ -12,7 +12,7 @@ import SwiftData
 class WatchLogBookDay: Identifiable {
 
     #Unique<WatchLogBookDay>([\.uuid, \.LogDate])
-    var LogDate: Int
+    var LogDate: Date
     
     
     
@@ -20,7 +20,7 @@ class WatchLogBookDay: Identifiable {
     @Attribute(.unique) var uuid: UUID
     
     
-    init(LogDate: Int) {
+    init(LogDate: Date) {
         self.LogDate = LogDate
         self.uuid = UUID()
     }
