@@ -7,16 +7,12 @@ import SwiftData
 //  Created by Marcus Hörning on 07.05.25.
 //
 import SwiftUI
-import SwiftData
 
 #Preview{
-    
-    @Previewable @State var exisitingLogBookEntry: UUID = UUID()
-    ContentViewTest(exisitingLogBookEntryUUID: $exisitingLogBookEntry)
+
+  @Previewable @State var exisitingLogBookEntry: UUID = UUID()
+  ContentViewTest(exisitingLogBookEntryUUID: $exisitingLogBookEntry)
 }
-
-
-
 
 let TextfieldBackgroundColor: Color = Color(hex: 0x3b3b3b).opacity(1)
 let LabelFontHeight: CGFloat = 35
@@ -26,21 +22,20 @@ let TextFieldFont: String = "Roboto-MediumItalic"
 let TextFieldHeight: CGFloat = 40
 
 struct ContentViewTest: View {
-    @Binding var exisitingLogBookEntryUUID: UUID
-    
-    //@EnvironmentObject var Database: DatabaseService
+  @Binding var exisitingLogBookEntryUUID: UUID
     
     
+
   @State var toolPickerShows = true
   @State var drawing = PKDrawing()
   @State var nameText: String = ""
   @State var currentTime: Date = Date()
-  @State var LogEntry: WatchLogEntry = WatchLogEntry()
-  @Environment(\.modelContext) var modelContext
-  var dataBaseController: DataBaseController?
 
   var body: some View {
-
+      
+      let databaseService = DatabaseService()
+      let viewModel = LogEntryViewModel(dataBaseService: databaseService)
+    @State var LogEntry = viewModel.watchLogEntry
     // Zoomable {
 
     NavigationStack {
@@ -78,9 +73,8 @@ struct ContentViewTest: View {
       }
       .padding(EdgeInsets(top: 20, leading: 0, bottom: 0, trailing: 0))
     }
-    .onAppear() {
-        LogEntry = dataBaseController!.fetchExistingLogBookEntry(exisitingLogBookEntryUUID: exisitingLogBookEntryUUID)
-        
+    .task {
+      await viewModel.fetchLogEntry(LogEntryUUID: exisitingLogBookEntryUUID)
     }
     .toolbar {
       ToolbarItem(placement: .topBarLeading) {
@@ -107,9 +101,9 @@ struct ContentViewTest: View {
         }
         .disabled(LogEntry.isLocked)
         Button(action: {
-          
-          dataBaseController!.saveLogEntry(LogEntry: LogEntry)
-
+          Task {
+            await viewModel.saveLogEntry(LogEntry: LogEntry)
+          }
         }) {
           label: do {
             Image(systemName: "square.and.arrow.down.fill")

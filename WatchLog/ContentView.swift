@@ -19,21 +19,21 @@ import SwiftUI
 let GroupLabelFont: String = "Roboto-MediumItalic"
 
 struct ContentView: View {
-
-  @Environment(\.modelContext) private var modelContext
-  //@Environment(DataBaseController.self) private var databaseController
-
   @State private var columnVisibility =
     NavigationSplitViewVisibility.detailOnly
 
   @State private var test: Int = 0
 
   @State var StandardDate: Date = Date()
+    @State var uuid: UUID = UUID()
+    
 
   @Query(sort: \WatchLogBookYear.LogDate, order: .forward) var ListYears: [WatchLogBookYear]
 
   var body: some View {
-
+      let databaseService = DatabaseService()
+      let viewModel = LogEntryViewModel(dataBaseService: databaseService)
+      
     NavigationSplitView(columnVisibility: $columnVisibility) {
       List {
 
@@ -66,18 +66,24 @@ struct ContentView: View {
       .listStyle(.sidebar)
       .scrollContentBackground(.hidden)
       .background(Color.black.edgesIgnoringSafeArea(.all))
+//      .toolbar {
+//          ToolbarItem(placement: .navigationBarLeading) {
+//              NavigationLink(destination: ContentViewTest(uuid: UUID()), label: {Image(systemName:"gearshape")})
+//          }
+//      }
 
     }
       detail: {
-
-        @State var uuid: UUID = UUID()
-        ContentViewTest(exisitingLogBookEntryUUID: $uuid)
-        .containerRelativeFrame(
-          [.horizontal, .vertical],
-          alignment: .topLeading
-        )
-        .padding()
+         
+        //ContentViewTest(exisitingLogBookEntryUUID: uuid)
+          
+//        ContentViewTest(exisitingLogBookEntryUUID: uuid)
+//        .containerRelativeFrame(
+//            alignment: .topLeading
+//        )
+//        .padding()
     }
+    .environmentObject(viewModel)
   }
 
   

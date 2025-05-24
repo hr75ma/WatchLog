@@ -11,9 +11,9 @@ import SwiftData
 @main
 struct WatchLogApp: App {
     
-    @State var uuid: UUID = UUID()
+    //@State var uuid: UUID = UUID()
     
-    @Environment(\.modelContext) var modelContext
+    //@Environment(\.modelContext) var modelContext
     //@State private var databaseController: DataBaseController = DataBaseController()
     
     var body: some Scene {
@@ -24,7 +24,8 @@ struct WatchLogApp: App {
                 //.environment(databaseController)
                
         }
-        .modelContainer(for: [WatchLogBookYear.self, WatchLogBookMonth.self, WatchLogBookDay.self, WatchLogBookEntry.self])
+        //.environmentObject(viewModel)
+        //.modelContainer(for: [WatchLogBookYear.self, WatchLogBookMonth.self, WatchLogBookDay.self, WatchLogBookEntry.self])
     
     }
 }

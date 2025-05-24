@@ -11,7 +11,7 @@ import SwiftData
 protocol DataBaseManagerProtocol {
     
     func saveLogBookEntry(LogEntry: WatchLogEntry) -> Result<Void, Error>
-    func fetchLogBookEntry(with EntryUUID: UUID) -> Result<WatchLogBookEntry, Error>
+    func fetchLogBookEntry(with EntryUUID: UUID) -> Result<[WatchLogBookEntry], Error>
     //func removeLogBookEntry(with EntryUUID: UUID) async -> Result<Void, Error>
 }
 extension DataBaseManager: DataBaseManagerProtocol { }
@@ -40,12 +40,12 @@ final class DataBaseManager {
             }
         }
     
-    func fetchLogBookEntry(with EntryUUID: UUID) -> Result<WatchLogBookEntry, Error> {
+    func fetchLogBookEntry(with EntryUUID: UUID) -> Result<[WatchLogBookEntry], Error> {
 
         let fetchDiscriptor = FetchDescriptor<WatchLogBookEntry>(predicate: #Predicate{$0.uuid == EntryUUID})
         do {
             let fetchedEntry = try modelContext.fetch(fetchDiscriptor)
-            return .success(fetchedEntry.first!)
+            return .success(fetchedEntry)
         } catch {
             return .failure(error)
         }

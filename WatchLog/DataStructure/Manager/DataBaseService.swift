@@ -10,10 +10,10 @@ import Combine
 import SwiftUI
 import Foundation
 
-
-protocol DatabaseServiceProtocol:ObservableObject {
+@MainActor
+protocol DatabaseServiceProtocol {
     func saveWatchLogBookEntry (LogEntry: WatchLogEntry) async -> Result<Void, Error>
-    func fetchLogBookEntry(with EntryUUID: UUID) async -> Result<WatchLogBookEntry, Error>
+    func fetchLogBookEntry(with EntryUUID: UUID) async -> Result<WatchLogEntry, Error>
 }
 
 @Observable
@@ -37,11 +37,15 @@ class DatabaseService: DatabaseServiceProtocol {
         }
     }
     
-    func fetchLogBookEntry(with EntryUUID: UUID) async -> Result<WatchLogBookEntry, any Error> {
+    func fetchLogBookEntry(with EntryUUID: UUID) async -> Result<WatchLogEntry, Error> {
+        var WatchLogEntry: WatchLogEntry = WatchLogEntry()
         let fetchResult = dataSource.fetchLogBookEntry(with: EntryUUID)
         switch fetchResult {
-            case .success(let entry):
-            return .success(entry)
+        case .success(let entry):
+            if !entry.isEmpty {
+                WatchLogEntry = .init(WatchLookBookEntry: entry.first!)
+            }
+            return .success(WatchLogEntry)
         case .failure(let error):
             return .failure(error)
         }
