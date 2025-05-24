@@ -124,17 +124,17 @@ struct ContentViewTest: View {
           newEntry(LogEntry: viewModel.watchLogEntry, drawing: &drawing)
         }) {
           label: do {
-            Image(systemName: "trash.fill")
+            Image(systemName: "plus.circle.fill")
               .resizable()
               .aspectRatio(contentMode: .fit)
               .frame(width: 30, height: 30)
               .symbolRenderingMode(.monochrome)
               .symbolVariant(.fill)
-              .foregroundStyle(viewModel.watchLogEntry.isLocked ? .gray : .blue)
+              //.foregroundStyle(viewModel.watchLogEntry.isLocked ? .gray : .blue)
               .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
           }
         }
-        .disabled(viewModel.watchLogEntry.isLocked)
+        //.disabled(viewModel.watchLogEntry.isLocked)
 
       }
     }

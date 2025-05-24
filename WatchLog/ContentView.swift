@@ -20,28 +20,29 @@ let GroupLabelFont: String = "Roboto-MediumItalic"
 
 struct ContentView: View {
   @State private var columnVisibility = NavigationSplitViewVisibility.detailOnly
+    @EnvironmentObject var viewModel: LogEntryViewModel
 
   @State private var test: Int = 0
 
   @State var StandardDate: Date = Date()
     @State var uuid: UUID = UUID()
 
-    @Environment(\.modelContext) private var modelContext
+   // @Environment(\.modelContext) private var modelContext
     
 
-  @Query(sort: \WatchLogBookYear.LogDate, order: .forward) var ListYears: [WatchLogBookYear]
+  //@Query(sort: \WatchLogBookYear.LogDate, order: .forward) var ListYears: [WatchLogBookYear]
 
   var body: some View {
       
       
       
-      let databaseService = DatabaseService()
-      let viewModel = LogEntryViewModel(dataBaseService: databaseService)
+//      let databaseService = DatabaseService()
+//      let viewModel = LogEntryViewModel(dataBaseService: databaseService)
       
     NavigationSplitView(columnVisibility: $columnVisibility) {
       List {
 
-        ForEach(ListYears) { years in
+          ForEach(viewModel.LogBookEntryYears) { years in
           DisclosureGroup(getDateYear(date: years.LogDate)) {
             ForEach(sortedMonth(years.Months!)) { child in
               DisclosureGroup(getDateMonth(date: child.LogDate)) {
@@ -67,6 +68,9 @@ struct ContentView: View {
         }
 
       }
+      .task {
+          await viewModel.fetchLogBookYear()
+        }
       .listStyle(.sidebar)
       .scrollContentBackground(.hidden)
       .background(Color.black.edgesIgnoringSafeArea(.all))
@@ -87,7 +91,7 @@ struct ContentView: View {
 //        )
 //        .padding()
     }
-    .environmentObject(viewModel)
+    //.environmentObject(viewModel)
   }
 
   

@@ -14,6 +14,7 @@ import Foundation
 protocol DatabaseServiceProtocol {
     func saveWatchLogBookEntry (LogEntry: WatchLogEntry) async -> Result<Void, Error>
     func fetchLogBookEntry(with EntryUUID: UUID) async -> Result<WatchLogEntry, Error>
+    func fetchLogBookYears() async -> Result<[WatchLogBookYear], Error>
 }
 
 @Observable
@@ -46,6 +47,16 @@ class DatabaseService: DatabaseServiceProtocol {
                 WatchLogEntry = .init(WatchLookBookEntry: entry.first!)
             }
             return .success(WatchLogEntry)
+        case .failure(let error):
+            return .failure(error)
+        }
+    }
+    
+    func fetchLogBookYears() async -> Result<[WatchLogBookYear], any Error> {
+        let fetchResult = dataSource.fetchYears()
+        switch fetchResult {
+        case .success(let entries):
+            return .success(entries)
         case .failure(let error):
             return .failure(error)
         }

@@ -17,6 +17,9 @@ struct WatchLogApp: App {
     //@State private var databaseController: DataBaseController = DataBaseController()
     
     var body: some Scene {
+        
+        let databaseService = DatabaseService()
+        let viewModel = LogEntryViewModel(dataBaseService: databaseService)
         WindowGroup {
             
             //ContentViewTest(exisitingLogBookEntryUUID: $uuid)
@@ -24,7 +27,7 @@ struct WatchLogApp: App {
                 //.environment(databaseController)
                
         }
-        //.environmentObject(viewModel)
+        .environmentObject(viewModel)
         .modelContainer(for: [WatchLogBookYear.self, WatchLogBookMonth.self, WatchLogBookDay.self, WatchLogBookEntry.self])
     
     }

@@ -12,6 +12,8 @@ class LogEntryViewModel: ObservableObject {
     
     @Published var watchLogEntry: WatchLogEntry = WatchLogEntry()
     @Published var errorMessage: String? = nil
+    @Published var LogBookEntryYears: [WatchLogBookYear] = []
+    
     
     private let databaseService: DatabaseServiceProtocol
     
@@ -35,8 +37,19 @@ class LogEntryViewModel: ObservableObject {
         switch result {
         case .success():
             errorMessage = ""
+            self.watchLogEntry.isLocked = true
             case .failure(let error):
             errorMessage = String(format: NSLocalizedString("error_saving_logBookEntry", comment: "Displayed when saving logBookEntry fails"), error.localizedDescription)
+        }
+    }
+    
+    func fetchLogBookYear() async {
+        let result = await databaseService.fetchLogBookYears()
+        switch result {
+        case .success(let logBookYear):
+            self.LogBookEntryYears = logBookYear
+        case .failure(let error):
+            errorMessage = String(format: NSLocalizedString("error_fetch_LogBookYear", comment: "Displayed when fetch LogbookYear fails"), error.localizedDescription)
         }
     }
     
