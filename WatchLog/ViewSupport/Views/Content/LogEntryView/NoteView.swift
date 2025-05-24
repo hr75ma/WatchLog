@@ -9,7 +9,8 @@ import PencilKit
 
 
 struct NoteView: View {
-  @Binding var DrawData: Data
+  @Bindable var WatchLog: WatchLogEntry
+  //@Binding var DrawData: Data
   @Binding var drawing: PKDrawing
   @Binding var toolPickerShows: Bool
   @State var savedDrawing: PKDrawing?
@@ -29,7 +30,7 @@ struct NoteView: View {
         Button {
           withAnimation(.bouncy()) {
             drawing = PKDrawing()
-            DrawData = drawing.dataRepresentation()
+              WatchLog.drawingData = drawing.dataRepresentation()
           }
 
         } label: {
@@ -44,11 +45,11 @@ struct NoteView: View {
         }
 
         Button("save") {
-          DrawData = drawing.dataRepresentation()
+            WatchLog.drawingData = drawing.dataRepresentation()
         }
 
         Button("load") {
-          drawing = (try? PKDrawing(data: DrawData)) ?? PKDrawing()
+          drawing = (try? PKDrawing(data: WatchLog.drawingData)) ?? PKDrawing()
         }
 
         Spacer()

@@ -34,7 +34,7 @@ class LogEntryViewModel: ObservableObject {
         let result = await databaseService.saveWatchLogBookEntry(LogEntry: LogEntry)
         switch result {
         case .success():
-            self.watchLogEntry.isLocked = true
+            errorMessage = ""
             case .failure(let error):
             errorMessage = String(format: NSLocalizedString("error_saving_logBookEntry", comment: "Displayed when saving logBookEntry fails"), error.localizedDescription)
         }

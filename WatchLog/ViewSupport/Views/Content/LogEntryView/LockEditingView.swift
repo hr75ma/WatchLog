@@ -26,7 +26,6 @@ struct LockEditingView: View {
         .multilineTextAlignment(.leading)
         .lineLimit(1)
         .fixedSize(horizontal: true, vertical: true)
-        //.border(.red)
         .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 5))
 
       Toggle("", isOn: $WatchLog.isLocked)

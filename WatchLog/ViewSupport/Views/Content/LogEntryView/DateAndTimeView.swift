@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct DateAndTimeView: View {
-  @Binding var currentTime: Date
+    @Bindable var WatchLog: WatchLogEntry
 
   let DisplaySize: CGFloat = 45
 
@@ -16,17 +16,19 @@ struct DateAndTimeView: View {
 
   var body: some View {
     HStack(alignment: .center) {
-      Text(currentTime.formatted(.dateTime.locale(Locale.current).weekday(.wide)))
+        Text(WatchLog.EntryTime.formatted(.dateTime.locale(Locale.current).weekday(.wide)))
         .font(Font.custom("digital-7", size: DisplaySize))
         .foregroundStyle(.blue)
       Spacer()
-      Text(currentTime.formatted(.dateTime.day().month(.defaultDigits).year()))
+      Text(WatchLog.EntryTime.formatted(.dateTime.day().month(.defaultDigits).year()))
         .font(Font.custom("digital-7", size: DisplaySize))
         .foregroundStyle(.blue)
       Spacer()
-      Text(currentTime.formatted(.dateTime.hour().minute().second()))
+      Text(WatchLog.EntryTime.formatted(.dateTime.hour().minute().second()))
         .font(Font.custom("digital-7", size: DisplaySize))
         .foregroundStyle(.blue)
+        
+
 
     }
     //.border(.cyan)

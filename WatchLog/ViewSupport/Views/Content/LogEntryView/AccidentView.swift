@@ -44,6 +44,7 @@ struct AccidentView: View {
             .disabled(WatchLog.isLocked)
 
           Spacer()
+            
         }
 
         HStack(alignment: .top, spacing: 0) {

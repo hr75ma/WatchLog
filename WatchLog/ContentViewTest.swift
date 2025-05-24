@@ -11,7 +11,7 @@ import SwiftUI
 #Preview{
 
   @Previewable @State var exisitingLogBookEntry: UUID = UUID()
-  ContentViewTest(exisitingLogBookEntryUUID: $exisitingLogBookEntry)
+  //ContentViewTest(exisitingLogBookEntryUUID: $exisitingLogBookEntry)
 }
 
 let TextfieldBackgroundColor: Color = Color(hex: 0x3b3b3b).opacity(1)
@@ -22,20 +22,23 @@ let TextFieldFont: String = "Roboto-MediumItalic"
 let TextFieldHeight: CGFloat = 40
 
 struct ContentViewTest: View {
-  @Binding var exisitingLogBookEntryUUID: UUID
+   var exisitingLogBookEntryUUID: UUID
+    @EnvironmentObject var viewModel: LogEntryViewModel
     
-    
+  // @State var exisitingLogBookEntryUUID: UUID = UUID()
 
   @State var toolPickerShows = true
   @State var drawing = PKDrawing()
   @State var nameText: String = ""
   @State var currentTime: Date = Date()
+    
+    
 
   var body: some View {
       
-      let databaseService = DatabaseService()
-      let viewModel = LogEntryViewModel(dataBaseService: databaseService)
-    @State var LogEntry = viewModel.watchLogEntry
+//      let databaseService = DatabaseService()
+//      let viewModel = LogEntryViewModel(dataBaseService: databaseService)
+    //@State var LogEntry = viewModel.watchLogEntry
     // Zoomable {
 
     NavigationStack {
@@ -44,22 +47,21 @@ struct ContentViewTest: View {
 
         VStack(alignment: .leading, spacing: 0) {
 
-          DateAndTimeView(currentTime: $LogEntry.EntryTime)
+            DateAndTimeView(WatchLog: viewModel.watchLogEntry)
 
-          LockEditingView(WatchLog: LogEntry)
+            LockEditingView(WatchLog: viewModel.watchLogEntry)
 
-          CallerView(WatchLog: LogEntry)
+            CallerView(WatchLog: viewModel.watchLogEntry)
 
-          AccidentView(WatchLog: LogEntry)
+            AccidentView(WatchLog: viewModel.watchLogEntry)
 
           NoteView(
-            DrawData: $LogEntry.drawingData, drawing: $drawing, toolPickerShows: $toolPickerShows
+            WatchLog: viewModel.watchLogEntry, drawing: $drawing, toolPickerShows: $toolPickerShows
           )
           .containerRelativeFrame([.vertical], alignment: .topLeading)
-          .disabled(LogEntry.isLocked)
+          .disabled(viewModel.watchLogEntry.isLocked)
 
         }
-
         .frame(
           maxWidth: .infinity,
           maxHeight: .infinity,
@@ -86,7 +88,7 @@ struct ContentViewTest: View {
 
       ToolbarItemGroup(placement: .automatic) {
         Button(action: {
-          clearEntry(LogEntry: LogEntry, drawing: &drawing)
+          clearEntry(LogEntry: viewModel.watchLogEntry, drawing: &drawing)
         }) {
           label: do {
             Image(systemName: "eraser.fill")
@@ -95,14 +97,14 @@ struct ContentViewTest: View {
               .frame(width: 30, height: 30)
               .symbolRenderingMode(.monochrome)
               .symbolVariant(.fill)
-              .foregroundStyle(LogEntry.isLocked ? .gray : .blue)
+              .foregroundStyle(viewModel.watchLogEntry.isLocked ? .gray : .blue)
               .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
           }
         }
-        .disabled(LogEntry.isLocked)
+        .disabled(viewModel.watchLogEntry.isLocked)
         Button(action: {
           Task {
-            await viewModel.saveLogEntry(LogEntry: LogEntry)
+            await viewModel.saveLogEntry(LogEntry: viewModel.watchLogEntry)
           }
         }) {
           label: do {
@@ -112,14 +114,14 @@ struct ContentViewTest: View {
               .frame(width: 30, height: 30)
               .symbolRenderingMode(.monochrome)
               .symbolVariant(.fill)
-              .foregroundStyle(LogEntry.isLocked ? .gray : .blue)
+              .foregroundStyle(viewModel.watchLogEntry.isLocked ? .gray : .blue)
               .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
           }
         }
-        .disabled(LogEntry.isLocked)
+        .disabled(viewModel.watchLogEntry.isLocked)
 
         Button(action: {
-          newEntry(LogEntry: LogEntry, drawing: &drawing)
+          newEntry(LogEntry: viewModel.watchLogEntry, drawing: &drawing)
         }) {
           label: do {
             Image(systemName: "trash.fill")
@@ -128,11 +130,11 @@ struct ContentViewTest: View {
               .frame(width: 30, height: 30)
               .symbolRenderingMode(.monochrome)
               .symbolVariant(.fill)
-              .foregroundStyle(LogEntry.isLocked ? .gray : .blue)
+              .foregroundStyle(viewModel.watchLogEntry.isLocked ? .gray : .blue)
               .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
           }
         }
-        .disabled(LogEntry.isLocked)
+        .disabled(viewModel.watchLogEntry.isLocked)
 
       }
     }

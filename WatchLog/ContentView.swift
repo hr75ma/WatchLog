@@ -19,18 +19,22 @@ import SwiftUI
 let GroupLabelFont: String = "Roboto-MediumItalic"
 
 struct ContentView: View {
-  @State private var columnVisibility =
-    NavigationSplitViewVisibility.detailOnly
+  @State private var columnVisibility = NavigationSplitViewVisibility.detailOnly
 
   @State private var test: Int = 0
 
   @State var StandardDate: Date = Date()
     @State var uuid: UUID = UUID()
+
+    @Environment(\.modelContext) private var modelContext
     
 
   @Query(sort: \WatchLogBookYear.LogDate, order: .forward) var ListYears: [WatchLogBookYear]
 
   var body: some View {
+      
+      
+      
       let databaseService = DatabaseService()
       let viewModel = LogEntryViewModel(dataBaseService: databaseService)
       
@@ -71,13 +75,13 @@ struct ContentView: View {
 //              NavigationLink(destination: ContentViewTest(uuid: UUID()), label: {Image(systemName:"gearshape")})
 //          }
 //      }
-
-    }
+//
+   }
       detail: {
          
-        //ContentViewTest(exisitingLogBookEntryUUID: uuid)
+        //ContentViewTest(id: "1111")
           
-//        ContentViewTest(exisitingLogBookEntryUUID: uuid)
+        ContentViewTest(exisitingLogBookEntryUUID: UUID())
 //        .containerRelativeFrame(
 //            alignment: .topLeading
 //        )

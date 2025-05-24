@@ -139,12 +139,11 @@ struct CallerView: View {
             .multilineTextAlignment(.leading)
             .lineLimit(1)
             .fixedSize(horizontal: true, vertical: true)
+            
+            
 
-          TextField("", text: $WatchLog.CallerAdress, axis: .vertical)
+            TextField("", text: $WatchLog.CallerAdress, axis: .vertical)
             .font(Font.custom(TextFieldFont, size: TextFieldFontHeight))
-            //.frame(width: .infinity, height: TextFieldHeight, alignment: .leading)
-            //.textInputAutocapitalization(.characters)
-            //.border(.green)
             .lineLimit(4, reservesSpace: true)
             .foregroundStyle(.blue)
             .background(TextfieldBackgroundColor)
