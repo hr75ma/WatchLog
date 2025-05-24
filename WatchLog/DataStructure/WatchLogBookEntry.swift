@@ -52,6 +52,27 @@ class WatchLogBookEntry: Identifiable {
         drawingData = LogEntry.drawingData
     }
     
+    init() {
+        
+        uuid = UUID()
+        LogDate = .now
+        
+        CallerName = ""
+        CallerNumber = ""
+        CallerAdress = ""
+        CallerDOB = Date()
+        
+        isAccient = false
+        AccientInjured = false
+        AccientHitAndRun = false
+        AccientLicensePlate01 = ""
+        AccientLicensePlate02 = ""
+        
+        isLocked = false
+        
+        drawingData = Data()
+    }
+    
     func update(LogEntry: WatchLogEntry) {
         
         uuid = LogEntry.uuid
@@ -72,6 +93,12 @@ class WatchLogBookEntry: Identifiable {
         
         drawingData = LogEntry.drawingData
     }
+    
+    func getDOBFromDate() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd.MM.YYYY"
+        return dateFormatter.string(from: self.CallerDOB)
+      }
     
     
 

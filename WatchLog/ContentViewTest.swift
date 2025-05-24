@@ -7,32 +7,37 @@ import SwiftData
 //  Created by Marcus Hörning on 07.05.25.
 //
 import SwiftUI
+import SwiftData
 
 #Preview{
-  ContentViewTest()
+    
+    @Previewable @State var exisitingLogBookEntry: UUID = UUID()
+    ContentViewTest(exisitingLogBookEntryUUID: $exisitingLogBookEntry)
 }
+
+
+
 
 let TextfieldBackgroundColor: Color = Color(hex: 0x3b3b3b).opacity(1)
 let LabelFontHeight: CGFloat = 35
 let TextFieldFontHeight: CGFloat = 32
-//let TextFont: String = "Roboto-MediumItalic"
 let LabelFont: String = "digital-7"
 let TextFieldFont: String = "Roboto-MediumItalic"
 let TextFieldHeight: CGFloat = 40
 
 struct ContentViewTest: View {
-  //@State var canvas = PKCanvasView()
+    @Binding var exisitingLogBookEntryUUID: UUID
+    
+    //@EnvironmentObject var Database: DatabaseService
+    
+    
   @State var toolPickerShows = true
   @State var drawing = PKDrawing()
-
   @State var nameText: String = ""
-
   @State var currentTime: Date = Date()
-
   @State var LogEntry: WatchLogEntry = WatchLogEntry()
-
   @Environment(\.modelContext) var modelContext
-  @State var dataBaseController: DataBaseController?
+  var dataBaseController: DataBaseController?
 
   var body: some View {
 
@@ -73,6 +78,10 @@ struct ContentViewTest: View {
       }
       .padding(EdgeInsets(top: 20, leading: 0, bottom: 0, trailing: 0))
     }
+    .onAppear() {
+        LogEntry = dataBaseController!.fetchExistingLogBookEntry(exisitingLogBookEntryUUID: exisitingLogBookEntryUUID)
+        
+    }
     .toolbar {
       ToolbarItem(placement: .topBarLeading) {
         Text("Eintrag")
@@ -98,7 +107,7 @@ struct ContentViewTest: View {
         }
         .disabled(LogEntry.isLocked)
         Button(action: {
-          dataBaseController = DataBaseController(modelContext: modelContext)
+          
           dataBaseController!.saveLogEntry(LogEntry: LogEntry)
 
         }) {

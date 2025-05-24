@@ -38,6 +38,28 @@ class WatchLogEntry {
       uuid = UUID()
       drawingData = Data()
     }
+    
+    init(WatchLookBookEntry: WatchLogBookEntry) {
+        
+        uuid = WatchLookBookEntry.uuid
+          
+        EntryTime = WatchLookBookEntry.LogDate
+
+        CallerName = WatchLookBookEntry.CallerName
+        CallerNumber = WatchLookBookEntry.CallerNumber
+        CallerAdress = WatchLookBookEntry.CallerAdress
+        CallerDOB =    WatchLookBookEntry.getDOBFromDate()
+
+        AccientInjured = WatchLookBookEntry.AccientInjured
+        AccientHitAndRun = WatchLookBookEntry.AccientHitAndRun
+        AccientLicensePlate01 = WatchLookBookEntry.AccientLicensePlate01
+        AccientLicensePlate02 = WatchLookBookEntry.AccientLicensePlate02
+        isAccient = WatchLookBookEntry.isAccient
+        isLocked = WatchLookBookEntry.isLocked
+
+        drawingData = WatchLookBookEntry.drawingData
+        
+    }
 
   fileprivate func initialValues() {
     EntryTime = Date.now
