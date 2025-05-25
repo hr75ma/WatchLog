@@ -27,10 +27,9 @@ struct DateAndTimeView: View {
       Text(WatchLog.EntryTime.formatted(.dateTime.hour().minute().second()))
         .font(Font.custom("digital-7", size: DisplaySize))
         .foregroundStyle(.blue)
-        
-
-
     }
+    .contentTransition(.numericText())
+    .transition(AnyTransition.opacity.combined(with: .scale))
     //.border(.cyan)
     .padding(EdgeInsets(top: 5, leading: 20, bottom: 5, trailing: 20))
     .overlay(

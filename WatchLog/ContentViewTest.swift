@@ -9,9 +9,14 @@ import SwiftData
 import SwiftUI
 
 #Preview{
-
-  @Previewable @State var exisitingLogBookEntry: UUID = UUID()
-  //ContentViewTest(exisitingLogBookEntryUUID: $exisitingLogBookEntry)
+    @Previewable @State var exisitingLogBookEntry: UUID = UUID()
+   
+    let databaseService = DatabaseService()
+    let viewModel = LogEntryViewModel(dataBaseService: databaseService)
+   ContentViewTest(exisitingLogBookEntryUUID: exisitingLogBookEntry)
+        .environmentObject(viewModel)
+        
+    
 }
 
 let TextfieldBackgroundColor: Color = Color(hex: 0x3b3b3b).opacity(1)
@@ -121,7 +126,7 @@ struct ContentViewTest: View {
         .disabled(viewModel.watchLogEntry.isLocked)
 
         Button(action: {
-          newEntry(LogEntry: viewModel.watchLogEntry, drawing: &drawing)
+                newEntry(LogEntry: viewModel.watchLogEntry, drawing: &drawing)
         }) {
           label: do {
             Image(systemName: "plus.circle.fill")
@@ -146,11 +151,17 @@ struct ContentViewTest: View {
 private func clearEntry(LogEntry: WatchLogEntry, drawing: inout PKDrawing) {
   LogEntry.clear()
   drawing = PKDrawing()
+ withAnimation{
+     LogEntry.EntryTime = .now
+ }
 
 }
 
 private func newEntry(LogEntry: WatchLogEntry, drawing: inout PKDrawing) {
   LogEntry.new()
   drawing = PKDrawing()
+    withAnimation{
+        LogEntry.EntryTime = .now
+    }
 
 }

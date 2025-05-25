@@ -11,8 +11,10 @@ import SwiftUI
 #Preview{
   let previewData = PreviewData()
   previewData.addExampleData()
+    let databaseService = DatabaseService()
+    let viewModel = LogEntryViewModel(dataBaseService: databaseService)
   return ContentView()
-    .modelContainer(previewData.modelContainer)
+        .environmentObject(viewModel)
 
 }
 
