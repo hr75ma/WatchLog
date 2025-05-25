@@ -36,7 +36,7 @@ struct DisclosureStyleYear: DisclosureGroupStyle {
             .lineLimit(1)
             .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
             .listRowSpacing(0)
-            .frame(width: .infinity, alignment: .leading)
+            //.frame(width: .infinity, alignment: .leading)
 
         }
       }
@@ -50,7 +50,7 @@ struct DisclosureStyleYear: DisclosureGroupStyle {
         RoundedRectangle(cornerRadius: 20)
           .stroke(Color.blue, lineWidth: 2)
       )
-      .frame(width: .infinity, alignment: .leading)
+     // .frame(width: .infinity, alignment: .leading)
       .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0))
 
     }
@@ -84,7 +84,7 @@ struct DisclosureStyleYear: DisclosureGroupStyle {
             .lineLimit(1)
             .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
             .listRowSpacing(0)
-            .frame(width: .infinity, alignment: .leading)
+         //   .frame(width: .infinity, alignment: .leading)
 
         }
       }
@@ -98,7 +98,7 @@ struct DisclosureStyleYear: DisclosureGroupStyle {
         Rectangle().frame(width: nil, height: 2, alignment: .top).foregroundColor(Color.blue),
         alignment: .top
       )
-      .frame(width: .infinity, alignment: .leading)
+      //.frame(width: .infinity, alignment: .leading)
       .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0))
 
     }
@@ -132,7 +132,7 @@ struct DisclosureStyleYear: DisclosureGroupStyle {
             .lineLimit(1)
             .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
             .listRowSpacing(0)
-            .frame(width: .infinity, alignment: .leading)
+            //.frame(width: .infinity, alignment: .leading)
 
         }
       }
@@ -148,7 +148,7 @@ struct DisclosureStyleYear: DisclosureGroupStyle {
         alignment: .leading
       )
       .padding(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0))
-      .frame(width: .infinity, alignment: .leading)
+      //.frame(width: .infinity, alignment: .leading)
       .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0))
 
     }

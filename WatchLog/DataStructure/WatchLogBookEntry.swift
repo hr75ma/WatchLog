@@ -9,7 +9,7 @@ import SwiftUI
 import SwiftData
 
 @Model
-class WatchLogBookEntry: Identifiable {
+class WatchLogBookEntry: Identifiable, Hashable {
     #Unique<WatchLogBookEntry>([\.uuid, \.LogDate])
     
     @Attribute(.unique) var uuid: UUID

@@ -51,10 +51,12 @@ struct ContentView: View {
                 ForEach(sortedDay(child.Days!)) { child2 in
                   DisclosureGroup(getDateWeekDay(date: child2.LogDate)) {
                     ForEach(sortedEntries(child2.LogEntries!)) { child3 in
-                      HStack {
-                        //Text("\(child3.LogDate.formatted(date : .omitted, time : .standard))")
-                        Text(getDateTime(date: child3.LogDate))
-                          .font(Font.custom(GroupLabelFont, size: 25))
+                        HStack {
+                            NavigationLink(value: child3 , label: {
+                              Text(getDateTime(date: child3.LogDate))
+                                .font(Font.custom(GroupLabelFont, size: 25))
+                          })
+                            .isDetailLink(true)
                         Spacer()
                       }
                       .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 0))
@@ -70,24 +72,23 @@ struct ContentView: View {
         }
 
       }
+      .navigationDestination(for: WatchLogBookEntry.self) { log in
+          
+         ContentViewTest(exisitingLogBookEntry: log)
+          
+      }
       .task {
           await viewModel.fetchLogBookYear()
         }
       .listStyle(.sidebar)
       .scrollContentBackground(.hidden)
       .background(Color.black.edgesIgnoringSafeArea(.all))
-//      .toolbar {
-//          ToolbarItem(placement: .navigationBarLeading) {
-//              NavigationLink(destination: ContentViewTest(uuid: UUID()), label: {Image(systemName:"gearshape")})
-//          }
-//      }
-//
-   }
-      detail: {
+        
+    } detail: {
          
         //ContentViewTest(id: "1111")
           
-        ContentViewTest(exisitingLogBookEntryUUID: UUID())
+        ContentViewTest(exisitingLogBookEntry: WatchLogBookEntry())
 //        .containerRelativeFrame(
 //            alignment: .topLeading
 //        )
@@ -95,8 +96,6 @@ struct ContentView: View {
     }
     //.environmentObject(viewModel)
   }
-
-  
 
   private func sortedEntries(_ LogEntry: [WatchLogBookEntry]) -> [WatchLogBookEntry] {
     return LogEntry.sorted(using: [

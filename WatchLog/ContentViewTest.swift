@@ -8,16 +8,16 @@ import SwiftData
 //
 import SwiftUI
 
-#Preview{
-    @Previewable @State var exisitingLogBookEntry: UUID = UUID()
-   
-    let databaseService = DatabaseService()
-    let viewModel = LogEntryViewModel(dataBaseService: databaseService)
-   ContentViewTest(exisitingLogBookEntryUUID: exisitingLogBookEntry)
-        .environmentObject(viewModel)
-        
-    
-}
+//#Preview{
+//    @Previewable @State var exisitingLogBookEntry: UUID = UUID()
+//   
+//    let databaseService = DatabaseService()
+//    let viewModel = LogEntryViewModel(dataBaseService: databaseService)
+//   ContentViewTest(exisitingLogBookEntryUUID: exisitingLogBookEntry)
+//        .environmentObject(viewModel)
+//        
+//    
+//}
 
 let TextfieldBackgroundColor: Color = Color(hex: 0x3b3b3b).opacity(1)
 let LabelFontHeight: CGFloat = 35
@@ -27,10 +27,10 @@ let TextFieldFont: String = "Roboto-MediumItalic"
 let TextFieldHeight: CGFloat = 40
 
 struct ContentViewTest: View {
-   var exisitingLogBookEntryUUID: UUID
+   var exisitingLogBookEntry: WatchLogBookEntry
     @EnvironmentObject var viewModel: LogEntryViewModel
     
-  // @State var exisitingLogBookEntryUUID: UUID = UUID()
+  @State var exisitingLogBookEntryUUID: UUID = UUID()
 
   @State var toolPickerShows = true
   @State var drawing = PKDrawing()
@@ -81,7 +81,7 @@ struct ContentViewTest: View {
       .padding(EdgeInsets(top: 20, leading: 0, bottom: 0, trailing: 0))
     }
     .task {
-      await viewModel.fetchLogEntry(LogEntryUUID: exisitingLogBookEntryUUID)
+        await viewModel.fetchLogEntry(LogEntryUUID: exisitingLogBookEntry.uuid)
     }
     .toolbar {
       ToolbarItem(placement: .topBarLeading) {
