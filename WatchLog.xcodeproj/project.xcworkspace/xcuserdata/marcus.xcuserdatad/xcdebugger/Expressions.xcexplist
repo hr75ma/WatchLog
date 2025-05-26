@@ -3,6 +3,9 @@
    version = "1.0">
    <ContextStates>
       <ContextState
+         contextName = "closure #1 in closure #1 in closure #1 in closure #1 in closure #1 in closure #1 in closure #1 in closure #1 in closure #1 in closure #1 in closure #1 in ContentView.body.getter:ContentView.swift">
+      </ContextState>
+      <ContextState
          contextName = "closure #1 in closure #1 in closure #1 in closure #1 in closure #1 in closure #1 in closure #1 in closure #1 in ContentView.body.getter:ContentView.swift">
          <PersistentStrings>
             <PersistentString
@@ -24,6 +27,14 @@
             </PersistentString>
             <PersistentString
                value = "years.Children">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in closure #1 in closure #1 in ContentViewTest.body.getter:ContentViewTest.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "viewModel.watchLogEntry">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -56,6 +67,9 @@
                value = "child3.LogDate.formatted(date: .omitted, time: .standard)">
             </PersistentString>
          </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in closure #1 in ContentViewTest.body.getter:ContentViewTest.swift">
       </ContextState>
       <ContextState
          contextName = "WatchLogBookYear.init(LogDate:):WatchLogBookYear.swift">

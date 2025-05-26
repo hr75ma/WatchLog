@@ -9,7 +9,7 @@ import SwiftUI
 import SwiftData
 
 @Model
-class WatchLogBookDay: Identifiable {
+class WatchLogBookDay: Identifiable, Hashable {
 
     #Unique<WatchLogBookDay>([\.uuid, \.LogDate])
     var LogDate: Date

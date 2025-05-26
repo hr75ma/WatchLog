@@ -46,7 +46,6 @@ struct ContentViewTest: View {
     //@State var LogEntry = viewModel.watchLogEntry
     // Zoomable {
 
-    NavigationStack {
 
       ScrollView {
 
@@ -78,11 +77,10 @@ struct ContentViewTest: View {
         )
         .padding(EdgeInsets(top: 10, leading: 10, bottom: 0, trailing: 10))
       }
+      .task {
+          await viewModel.fetchLogEntry(LogEntryUUID: exisitingLogBookEntry.uuid)
+      }
       .padding(EdgeInsets(top: 20, leading: 0, bottom: 0, trailing: 0))
-    }
-    .task {
-        await viewModel.fetchLogEntry(LogEntryUUID: exisitingLogBookEntry.uuid)
-    }
     .toolbar {
       ToolbarItem(placement: .topBarLeading) {
         Text("Eintrag")

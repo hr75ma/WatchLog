@@ -13,6 +13,7 @@ protocol DataBaseManagerProtocol {
     func saveLogBookEntry(LogEntry: WatchLogEntry) -> Result<Void, Error>
     func fetchLogBookEntry(with EntryUUID: UUID) -> Result<[WatchLogBookEntry], Error>
     func fetchYears() -> Result<[WatchLogBookYear], Error>
+    func fetchEntries() -> Result<[WatchLogBookEntry], Error>
     //func removeLogBookEntry(with EntryUUID: UUID) async -> Result<Void, Error>
 }
 extension DataBaseManager: DataBaseManagerProtocol { }
@@ -62,6 +63,15 @@ final class DataBaseManager {
         }
     }
     
+    func fetchEntries() -> Result<[WatchLogBookEntry], any Error> {
+        let fetchDiscriptor = FetchDescriptor<WatchLogBookEntry>()
+        do {
+            let fetchedEntries = try modelContext.fetch(fetchDiscriptor)
+            return .success(fetchedEntries)
+        } catch {
+            return .failure(error)
+        }
+    }
     
     
     

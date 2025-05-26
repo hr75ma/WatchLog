@@ -13,6 +13,7 @@ class LogEntryViewModel: ObservableObject {
     @Published var watchLogEntry: WatchLogEntry = WatchLogEntry()
     @Published var errorMessage: String? = nil
     @Published var LogBookEntryYears: [WatchLogBookYear] = []
+    @Published var LogBookEntries: [WatchLogBookEntry] = []
     
     
     private let databaseService: DatabaseServiceProtocol
@@ -48,6 +49,16 @@ class LogEntryViewModel: ObservableObject {
         switch result {
         case .success(let logBookYear):
             self.LogBookEntryYears = logBookYear
+        case .failure(let error):
+            errorMessage = String(format: NSLocalizedString("error_fetch_LogBookYear", comment: "Displayed when fetch LogbookYear fails"), error.localizedDescription)
+        }
+    }
+    
+    func fetchLogBookEntries() async {
+        let result = await databaseService.fetchLogBookEntries()
+        switch result {
+        case .success(let logBookEntries):
+            self.LogBookEntries = logBookEntries
         case .failure(let error):
             errorMessage = String(format: NSLocalizedString("error_fetch_LogBookYear", comment: "Displayed when fetch LogbookYear fails"), error.localizedDescription)
         }

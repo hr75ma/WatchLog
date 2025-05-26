@@ -20,6 +20,8 @@ struct WatchLogApp: App {
         
         let databaseService = DatabaseService()
         let viewModel = LogEntryViewModel(dataBaseService: databaseService)
+        let textFieldStyleLogEntry = TextFieldStyleLogEntry()
+            
         WindowGroup {
             
             //ContentViewTest(exisitingLogBookEntryUUID: $uuid)
@@ -28,6 +30,7 @@ struct WatchLogApp: App {
                
         }
         .environmentObject(viewModel)
+        .environmentObject(textFieldStyleLogEntry)
         .modelContainer(for: [WatchLogBookYear.self, WatchLogBookMonth.self, WatchLogBookDay.self, WatchLogBookEntry.self])
     
     }
