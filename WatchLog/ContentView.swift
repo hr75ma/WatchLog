@@ -9,12 +9,14 @@ import SwiftData
 import SwiftUI
 
 #Preview{
+    let textFieldStyleLogEntry = TextFieldStyleLogEntry()
   let previewData = PreviewData()
   previewData.addExampleData()
   let databaseService = DatabaseService()
   let viewModel = LogEntryViewModel(dataBaseService: databaseService)
   return ContentView()
     .environmentObject(viewModel)
+    .environmentObject(textFieldStyleLogEntry)
 
 }
 
@@ -69,6 +71,7 @@ struct ContentView: View {
                         //listOfEntry.append(child3)
                         NavigationLink {
                             LogBookEntryView(exisitingLogBookEntry: child3)
+                            //ContentViewTest(exisitingLogBookEntry: child3)
                         } label: {
                           Text(getDateTime(date: child3.LogDate))
                             .font(Font.custom(GroupLabelFont, size: 25))
@@ -87,13 +90,13 @@ struct ContentView: View {
                       .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 0))
                     }
                   }
-                  //                  .disclosureGroupStyle(DisclosureStyleDay())
+//                                    .disclosureGroupStyle(DisclosureStyleDay())
                 }
               }
-              //              .disclosureGroupStyle(DisclosureStyleMonth())
+                            //.disclosureGroupStyle(DisclosureStyleMonth())
             }
           }
-          //          .disclosureGroupStyle(DisclosureStyleYear())
+                    //.disclosureGroupStyle(DisclosureStyleYear())
         }
 
       }

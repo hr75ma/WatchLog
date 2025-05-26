@@ -19,6 +19,10 @@ class TextFieldStyleLogEntry: ObservableObject {
     @Published var LabelFontSize2: CGFloat = 35
     
     @Published var TextFieldFont: String = "Roboto-MediumItalic"
-    @Published var TextFieldHeight: CGFloat = 40
+    @Published var TextFieldHeight: CGFloat = 35
+    @Published var TextFieldHeight2: CGFloat = 30
+    
+    @Published var CallerImage: String = "phone.arrow.down.left.fill"
+    @Published var AccidentImage: String = "car.fill"
     
 }

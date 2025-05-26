@@ -8,16 +8,17 @@ import SwiftData
 //
 import SwiftUI
 
-//#Preview{
-//    @Previewable @State var exisitingLogBookEntry: UUID = UUID()
-//   
-//    let databaseService = DatabaseService()
-//    let viewModel = LogEntryViewModel(dataBaseService: databaseService)
-//   ContentViewTest(exisitingLogBookEntryUUID: exisitingLogBookEntry)
-//        .environmentObject(viewModel)
-//        
-//    
-//}
+#Preview {
+    @Previewable @State var exisitingLogBookEntry = WatchLogBookEntry()
+    
+    let textFieldStyleLogEntry = TextFieldStyleLogEntry()
+    let databaseService = DatabaseService()
+    let viewModel = LogEntryViewModel(dataBaseService: databaseService)
+    LogBookEntryView(exisitingLogBookEntry: exisitingLogBookEntry)
+        .environmentObject(viewModel)
+        .environmentObject(textFieldStyleLogEntry)
+    
+}
 
 let TextfieldBackgroundColor: Color = Color(hex: 0x3b3b3b).opacity(1)
 let LabelFontHeight: CGFloat = 35
@@ -78,8 +79,16 @@ struct ContentViewTest: View {
         .padding(EdgeInsets(top: 10, leading: 10, bottom: 0, trailing: 10))
       }
       .task {
-          await viewModel.fetchLogEntry(LogEntryUUID: exisitingLogBookEntry.uuid)
+              await viewModel.fetchLogEntry(LogEntryUUID: exisitingLogBookEntry.uuid)
+              
       }
+
+      .onChange(of: exisitingLogBookEntry, { oldValue, newValue in
+          
+          Task {
+              await viewModel.fetchLogEntry(LogEntryUUID: newValue.uuid)
+          }
+      })
       .padding(EdgeInsets(top: 20, leading: 0, bottom: 0, trailing: 0))
     .toolbar {
       ToolbarItem(placement: .topBarLeading) {

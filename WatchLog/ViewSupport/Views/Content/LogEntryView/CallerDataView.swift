@@ -139,10 +139,8 @@ struct CallerView: View {
             .multilineTextAlignment(.leading)
             .lineLimit(1)
             .fixedSize(horizontal: true, vertical: true)
-            
-            
 
-            TextField("", text: $WatchLog.CallerAdress, axis: .vertical)
+          TextField("", text: $WatchLog.CallerAdress, axis: .vertical)
             .font(Font.custom(TextFieldFont, size: TextFieldFontHeight))
             .lineLimit(4, reservesSpace: true)
             .foregroundStyle(.blue)
@@ -150,6 +148,158 @@ struct CallerView: View {
             .fixedSize(horizontal: false, vertical: true)
             .autocorrectionDisabled(true)
             .disabled(WatchLog.isLocked)
+
+        }
+
+      }
+
+    }
+    //.border(.brown)
+    .padding(EdgeInsets(top: 5, leading: 0, bottom: 10, trailing: 10))
+    .overlay(
+      Rectangle()
+        .frame(height: 4)  // Border thickness
+        .foregroundColor(.blue),  // Border color
+      alignment: .bottom
+    )
+
+  }
+
+}
+
+struct CallerDataView: View {
+
+  @Bindable var LogEntry: WatchLogEntry
+  @EnvironmentObject var textStyles: TextFieldStyleLogEntry
+
+  var body: some View {
+    HStack(alignment: .top, spacing: 0) {
+      Image(systemName: textStyles.CallerImage)
+        .resizable()
+        .aspectRatio(contentMode: .fit)
+        .frame(width: 40, height: 40)
+        .symbolRenderingMode(.monochrome)
+        .symbolVariant(.fill)
+        .foregroundStyle(.blue)
+        .padding(EdgeInsets(top: 10, leading: 10, bottom: 0, trailing: 10))
+
+      VStack(alignment: .leading, spacing: 5) {
+
+        HStack(alignment: .center, spacing: 0) {
+          Text("Telefon")
+            .font(Font.custom(textStyles.LabelFont, size: textStyles.TextFieldHeight))
+            .foregroundStyle(.blue)
+            .frame(width: 120, height: textStyles.TextFieldHeight, alignment: .topLeading)
+            .multilineTextAlignment(.leading)
+            .lineLimit(1)
+            .fixedSize(horizontal: true, vertical: true)
+
+          TextField("", text: $LogEntry.CallerNumber)
+            .font(Font.custom(textStyles.TextFieldFont, size: textStyles.TextFieldHeight))
+            .textInputAutocapitalization(.characters)
+            .lineLimit(1)
+            .foregroundStyle(.blue)
+            .background(textStyles.TextfieldBackgroundColor)
+            .fixedSize(horizontal: false, vertical: true)
+            .textContentType(.telephoneNumber)
+            .disabled(LogEntry.isLocked)
+            .keyboardType(.numberPad)  // Show number pad
+            .onChange(of: LogEntry.CallerNumber, initial: false) { old, value in
+              LogEntry.CallerNumber = value.filter { $0.isNumber }
+            }  // Allow only numeric characters
+        }
+
+        HStack(alignment: .center, spacing: 0) {
+          Text("Name")
+            .font(Font.custom(textStyles.LabelFont, size: textStyles.TextFieldHeight))
+            .foregroundStyle(.blue)
+            .frame(width: 120, height: textStyles.TextFieldHeight, alignment: .topLeading)
+            .multilineTextAlignment(.leading)
+            .lineLimit(1)
+            .fixedSize(horizontal: true, vertical: true)
+
+          TextField("", text: $LogEntry.CallerName)
+            .font(Font.custom(textStyles.TextFieldFont, size: textStyles.TextFieldHeight))
+            .textInputAutocapitalization(.characters)
+            .lineLimit(1)
+            .foregroundStyle(.blue)
+            .background(textStyles.TextfieldBackgroundColor)
+            .fixedSize(horizontal: false, vertical: true)
+            .textContentType(.name)
+            .autocorrectionDisabled(true)
+            .disabled(LogEntry.isLocked)
+        }
+
+        HStack(alignment: .center, spacing: 0) {
+          Text("DOB")
+            .font(Font.custom(textStyles.LabelFont, size: textStyles.TextFieldHeight))
+            .foregroundStyle(.blue)
+            .frame(width: 120, height: textStyles.TextFieldHeight, alignment: .topLeading)
+            .multilineTextAlignment(.leading)
+            .lineLimit(1)
+            .fixedSize(horizontal: true, vertical: true)
+
+          TextField("", text: $LogEntry.CallerDOB)
+            .font(Font.custom(textStyles.TextFieldFont, size: textStyles.TextFieldHeight))
+            .textInputAutocapitalization(.characters)
+            .lineLimit(1)
+            .foregroundStyle(.blue)
+            .background(textStyles.TextfieldBackgroundColor)
+            .fixedSize(horizontal: false, vertical: true)
+            .textContentType(.birthdate)
+            .disabled(LogEntry.isLocked)
+            .keyboardType(.numberPad)  // Show number pad
+            .onChange(of: LogEntry.CallerDOB, initial: false) { old, value in
+              let trimmedValue = value.trimingLeadingSpaces()
+              if trimmedValue.isNumber {
+                if trimmedValue.count == 8 {
+                  let dateFormatter = DateFormatter()
+                  dateFormatter.locale = Locale(identifier: "de_DE_POSIX")
+                  dateFormatter.dateFormat = "ddMMyyyy"
+                  if dateFormatter.date(from: trimmedValue) != nil {
+                    let date = dateFormatter.date(from: trimmedValue)!
+                    let formatDate = DateFormatter()
+                    formatDate.dateFormat = "dd.MM.yyyy"
+                    LogEntry.CallerDOB = formatDate.string(from: date)
+                  } else {
+                    LogEntry.CallerDOB = ""
+                  }
+                } else {
+                  if trimmedValue.count > 8 {
+                    LogEntry.CallerDOB = ""
+                  } else {
+                    LogEntry.CallerDOB = trimmedValue
+                  }
+                }
+              } else {
+                if trimmedValue.isDate {
+                  LogEntry.CallerDOB = trimmedValue
+                } else {
+                  LogEntry.CallerDOB = ""
+                }
+              }
+            }
+        }
+
+        HStack(alignment: .top, spacing: 0) {
+          Text("Adresse")
+                .font(Font.custom(textStyles.LabelFont, size: textStyles.TextFieldHeight))
+                .foregroundStyle(.blue)
+                .frame(width: 120, height: textStyles.TextFieldHeight, alignment: .topLeading)
+                .multilineTextAlignment(.leading)
+                .lineLimit(1)
+                .fixedSize(horizontal: true, vertical: true)
+
+          TextField("", text: $LogEntry.CallerAdress, axis: .vertical)
+            .font(Font.custom(TextFieldFont, size: TextFieldFontHeight))
+
+            .foregroundStyle(.blue)
+            .background(TextfieldBackgroundColor)
+            .fixedSize(horizontal: false, vertical: true)
+
+            .lineLimit(4, reservesSpace: true)
+            .autocorrectionDisabled(true)
+            .disabled(LogEntry.isLocked)
 
         }
 

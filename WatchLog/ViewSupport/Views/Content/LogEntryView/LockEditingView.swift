@@ -30,7 +30,7 @@ struct LockEditingView: View {
 
       Toggle("", isOn: $WatchLog.isLocked)
         .labelsHidden()
-        .toggleStyle(MyStyleLock())
+        .toggleStyle(ToggleStyleLock())
       //.border(.red)
 
       Spacer()
@@ -60,23 +60,23 @@ struct LockedView: View {
     HStack(alignment: .center) {
 
       Text("Gesperrt")
-            .font(Font.custom(textStyles.LabelFont, size: textStyles.LabelFontSize2))
+        .font(Font.custom(textStyles.LabelFont, size: textStyles.LabelFontSize2))
         .foregroundStyle(.blue)
-        .frame(height: textStyles.TextFieldHeight, alignment: .topLeading)
+        .frame(height: textStyles.TextFieldHeight, alignment: .center)
         .multilineTextAlignment(.leading)
         .lineLimit(1)
         .fixedSize(horizontal: true, vertical: true)
         .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 5))
+        
+                Toggle("", isOn: $LogEntry.isLocked)
+                .labelsHidden()
+                .toggleStyle(ToggleStyleLock())
+                .frame(height: textStyles.TextFieldHeight, alignment: .center)
+                .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
 
-        Toggle("", isOn: $LogEntry.isLocked)
-        .labelsHidden()
-        .toggleStyle(MyStyleLock())
-      //.border(.red)
-
+        
       Spacer()
-
     }
-    //.border(.cyan)
     .padding(EdgeInsets(top: 5, leading: 20, bottom: 5, trailing: 20))
     .overlay(
       Rectangle()

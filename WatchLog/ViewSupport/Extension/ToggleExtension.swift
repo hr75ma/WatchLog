@@ -63,3 +63,38 @@ struct CustomToggleStyle: ToggleStyle {
     .padding()
   }
 }
+
+
+
+
+
+
+
+
+
+struct ToggleStyleLock: ToggleStyle {
+  let ImageIsOff: String = "rectangle.fill"
+  let ImageIsOn: String = "checkmark.rectangle.fill"
+
+  func makeBody(configuration: MyStyle.Configuration) -> some View {
+      HStack(alignment: .center, spacing:0) {
+          configuration.label
+          
+          Image(systemName: configuration.isOn ? ImageIsOn : ImageIsOff)
+              .resizable()
+              .scaledToFit()
+              .frame(width: 30)
+              .foregroundColor(configuration.isOn ? Color.red : Color.green)
+              .clipShape(RoundedRectangle(cornerRadius: 10))
+              .overlay(
+                RoundedRectangle(cornerRadius: 10)
+                    .stroke(configuration.isOn ? Color.red : Color.green, lineWidth: 2)
+              )
+              .onTapGesture {
+                  configuration.$isOn.wrappedValue.toggle()
+              }
+    }
+      .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+
+  }
+}
