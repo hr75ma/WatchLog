@@ -39,6 +39,12 @@ class WatchLogEntry {
       drawingData = Data()
     }
     
+    init (uudi: UUID) {
+        EntryTime = Date.now
+        uuid = uudi
+        drawingData = Data()
+      }
+    
     init(WatchLookBookEntry: WatchLogBookEntry) {
         
         uuid = WatchLookBookEntry.uuid

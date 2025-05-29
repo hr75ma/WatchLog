@@ -4,7 +4,7 @@
 //
 //  Created by Marcus Hörning on 13.05.25.
 //
-
+import Foundation
 import SwiftUI
 import SwiftData
 
@@ -55,6 +55,27 @@ class WatchLogBookEntry: Identifiable, Hashable {
     init() {
         
         uuid = UUID()
+        LogDate = .now
+        
+        CallerName = ""
+        CallerNumber = ""
+        CallerAdress = ""
+        CallerDOB = Date()
+        
+        isAccient = false
+        AccientInjured = false
+        AccientHitAndRun = false
+        AccientLicensePlate01 = ""
+        AccientLicensePlate02 = ""
+        
+        isLocked = false
+        
+        drawingData = Data()
+    }
+    
+    init(uuid: UUID) {
+        
+        self.uuid = uuid
         LogDate = .now
         
         CallerName = ""

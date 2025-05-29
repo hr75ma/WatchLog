@@ -3,7 +3,55 @@
    version = "1.0">
    <ContextStates>
       <ContextState
+         contextName = "LogBookEntryView.body.getter:LogBookEntryView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "id">
+            </PersistentString>
+            <PersistentString
+               value = "exisitingLogBookEntry">
+            </PersistentString>
+            <PersistentString
+               value = "newValue">
+            </PersistentString>
+            <PersistentString
+               value = "oldValue">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in closure #4 in LogBookEntryView.body.getter:LogBookEntryView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "viewModel">
+            </PersistentString>
+            <PersistentString
+               value = "viewModel.watchLogEntry">
+            </PersistentString>
+            <PersistentString
+               value = "newValue">
+            </PersistentString>
+            <PersistentString
+               value = "oldValue">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in closure #1 in ContentViewTest.body.getter:ContentViewTest.swift">
+      </ContextState>
+      <ContextState
          contextName = "closure #1 in closure #1 in closure #1 in closure #1 in closure #1 in closure #1 in closure #1 in closure #1 in closure #1 in closure #1 in closure #1 in ContentView.body.getter:ContentView.swift">
+      </ContextState>
+      <ContextState
+         contextName = "WatchLogEntry.getDateFromDOB():WatchLogEntry.swift">
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in closure #3 in LogBookEntryView.body.getter:LogBookEntryView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "newValue.uuid">
+            </PersistentString>
+         </PersistentStrings>
       </ContextState>
       <ContextState
          contextName = "closure #1 in closure #1 in closure #1 in closure #1 in closure #1 in closure #1 in closure #1 in closure #1 in ContentView.body.getter:ContentView.swift">
@@ -17,16 +65,10 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "WatchLogEntry.getDateFromDOB():WatchLogEntry.swift">
-      </ContextState>
-      <ContextState
-         contextName = "closure #1 in closure #1 in ContentView.body.getter:ContentView.swift">
+         contextName = "DatabaseService.fetchLogBookEntry(with:):DataBaseService.swift">
          <PersistentStrings>
             <PersistentString
-               value = "ListYears">
-            </PersistentString>
-            <PersistentString
-               value = "years.Children">
+               value = "entry.first!">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -39,15 +81,56 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "closure #1 in closure #3 in closure #1 in closure #1 in CallerView.body.getter:ContentViewTest.swift">
+         contextName = "testforView.body.getter:testView.swift">
          <PersistentStrings>
             <PersistentString
-               value = "WatchLog">
+               value = "exisitingLogBookEntry.getDOBFromDate()">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "LogEntryViewModel.saveLogEntry(LogEntry:):LogEntryViewModel.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.watchLogEntry">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "DatabaseService.saveWatchLogBookEntry(LogEntry:):DataBaseService.swift">
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in closure #1 in closure #1 in closure #1 in closure #1 in closure #1 in closure #1 in closure #1 in closure #1 in ContentView.body.getter:ContentView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "child3.LogDate.formatted(date: .omitted, time: .standard)">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in closure #3 in closure #2 in closure #5 in LogBookEntryView.body.getter:LogBookEntryView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "viewModel.watchLogEntry">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
       <ContextState
          contextName = "ContentView.sortedEntries(_:):ContentView.swift">
+      </ContextState>
+      <ContextState
+         contextName = "WatchLogBookYear.init(LogDate:):WatchLogBookYear.swift">
+      </ContextState>
+      <ContextState
+         contextName = "closure #2 in LogBookEntryView.body.getter:LogBookEntryView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "id">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "LogEntryViewModel.fetchLogEntry(LogEntryUUID:):LogEntryViewModel.swift">
       </ContextState>
       <ContextState
          contextName = "DataBaseController.saveLogEntry(LogEntry:):DataBaseController.swift">
@@ -61,18 +144,23 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "closure #1 in closure #1 in closure #1 in closure #1 in closure #1 in closure #1 in closure #1 in closure #1 in closure #1 in ContentView.body.getter:ContentView.swift">
+         contextName = "closure #1 in closure #1 in ContentView.body.getter:ContentView.swift">
          <PersistentStrings>
             <PersistentString
-               value = "child3.LogDate.formatted(date: .omitted, time: .standard)">
+               value = "ListYears">
+            </PersistentString>
+            <PersistentString
+               value = "years.Children">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "closure #1 in closure #1 in ContentViewTest.body.getter:ContentViewTest.swift">
-      </ContextState>
-      <ContextState
-         contextName = "WatchLogBookYear.init(LogDate:):WatchLogBookYear.swift">
+         contextName = "closure #1 in closure #3 in closure #1 in closure #1 in CallerView.body.getter:ContentViewTest.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "WatchLog">
+            </PersistentString>
+         </PersistentStrings>
       </ContextState>
    </ContextStates>
 </VariablesViewState>

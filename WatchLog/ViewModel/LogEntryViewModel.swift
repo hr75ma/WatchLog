@@ -22,8 +22,8 @@ class LogEntryViewModel: ObservableObject {
         self.databaseService = dataBaseService
     }
     
-    func fetchLogEntry(LogEntryUUID: UUID) async {
-        let result = await databaseService.fetchLogBookEntry(with: LogEntryUUID)
+    func fetchLogEntry(LogEntryUUID: UUID)  {
+        let result =  databaseService.fetchLogBookEntry(with: LogEntryUUID)
         switch result {
         case .success(let logBookEntry):
             self.watchLogEntry = logBookEntry

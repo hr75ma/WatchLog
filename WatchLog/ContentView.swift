@@ -4,7 +4,7 @@
 //
 //  Created by Marcus Hörning on 07.05.25.
 //
-
+import Foundation
 import SwiftData
 import SwiftUI
 
@@ -26,13 +26,17 @@ struct ContentView: View {
     @State private var columnVisibility = NavigationSplitViewVisibility.automatic
   @EnvironmentObject var viewModel: LogEntryViewModel
 
-  @State private var test: Int = 0
+  @State private var testInt: Int = 0
+    @State private var testEntry: WatchLogBookEntry = WatchLogBookEntry()
+    @State private var isNewEntry:Bool = false
 
   @State var StandardDate: Date = Date()
   @State var uuid: UUID = UUID()
   @State var selected = WatchLogBookEntry()
   @State var listOfEntry = [WatchLogBookEntry()]
-
+    
+    
+    @State var isLinkActive = false
   // @Environment(\.modelContext) private var modelContext
 
   //@Query(sort: \WatchLogBookYear.LogDate, order: .forward) var ListYears: [WatchLogBookYear]
@@ -68,23 +72,31 @@ struct ContentView: View {
                     ForEach(sortedEntries(child2.LogEntries!)) { child3 in
 
                       HStack {
-                        //listOfEntry.append(child3)
-                        NavigationLink {
-                            LogBookEntryView(exisitingLogBookEntry: child3)
-                            //ContentViewTest(exisitingLogBookEntry: child3)
-                        } label: {
-                          Text(getDateTime(date: child3.LogDate))
-                            .font(Font.custom(GroupLabelFont, size: 25))
-                        }
-                        .isDetailLink(true)
-                        //                          NavigationLink(
-                        //                          value: child3,
-                        //                          label: {
-                        //                            Text(getDateTime(date: child3.LogDate))
-                        //                              .font(Font.custom(GroupLabelFont, size: 25))
-                        //                          }
-                        //                        )
-                        //                        .isDetailLink(true)
+
+                          Button(action: {
+                              
+                              print("view item")
+                              testEntry = child3
+                              print(testEntry.uuid.uuidString)
+                          }) {
+                              Text(getDateTime(date: child3.LogDate))
+                                  .font(Font.custom(GroupLabelFont, size: 25))
+                              }
+                          
+//                          NavigationLink(destination: LogBookEntryView(exisitingLogBookEntry: child3), label: { Text(child3.uuid.uuidString)
+//                              .font(Font.custom(GroupLabelFont, size: 25))})
+                          
+//                        NavigationLink {
+//                            LogBookEntryView(exisitingLogBookEntry: child3)
+//                            //testforView(exisitingLogBookEntry: child3)
+//                            //ContentViewTest(exisitingLogBookEntry: child3)
+//                            
+//                        } label: {
+//                          //Text(getDateTime(date: child3.LogDate))
+//                            Text(child3.uuid.uuidString)
+//                            .font(Font.custom(GroupLabelFont, size: 25))
+//                        }
+                        //.isDetailLink(true)
                         Spacer()
                       }
                       .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 0))
@@ -100,30 +112,48 @@ struct ContentView: View {
         }
 
       }
-      .navigationDestination(for: WatchLogBookEntry.self) { log in
-
-        ContentViewTest(exisitingLogBookEntry: log)
-
+      .toolbar {
+          ToolbarItem(placement: .navigationBarTrailing) {
+              Button(action: addItem) {
+            
+                   Text("+")
+                          .font(Font.custom(GroupLabelFont, size: 25))
+                  }
+              
+          }
       }
       .task {
-        await viewModel.fetchLogBookYear()
+       await viewModel.fetchLogBookYear()
       }
       .listStyle(.sidebar)
       .scrollContentBackground(.hidden)
       .background(Color.black.edgesIgnoringSafeArea(.all))
 
     } detail: {
-
-      //ContentViewTest(id: "1111")
-
-      //ContentViewTest(exisitingLogBookEntry: WatchLogBookEntry())
-      //        .containerRelativeFrame(
-      //            alignment: .topLeading
-      //        )
-      //        .padding()
+        
+        //testforView(idif: $testInt)
+       //testforView(entry: testEntry)
+        LogBookEntryView(exisitingLogBookEntry: testEntry)
     }
-    //.environmentObject(viewModel)
   }
+    
+    private func viewItem(entry: WatchLogBookEntry) {
+        print("view item")
+
+
+        testEntry = entry
+        print(testEntry.uuid.uuidString)
+        
+    }
+    
+    private func addItem() {
+        print("add item")
+        //testInt = testInt + 1
+        isNewEntry = true
+        testEntry = WatchLogBookEntry(uuid: UUID())
+        print(testEntry.uuid.uuidString)
+        
+    }
 
   private func sortedEntries(_ LogEntry: [WatchLogBookEntry]) -> [WatchLogBookEntry] {
     return LogEntry.sorted(using: [

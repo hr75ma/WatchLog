@@ -4,7 +4,7 @@
 //
 //  Created by Marcus Hörning on 13.05.25.
 //
-
+import Foundation
 import SwiftUI
 import SwiftData
 

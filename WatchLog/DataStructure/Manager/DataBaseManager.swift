@@ -35,7 +35,7 @@ final class DataBaseManager {
         @MainActor
         private init() {
             do {
-                self.modelContainer = try ModelContainer(for: WatchLogBookYear.self, WatchLogBookMonth.self, WatchLogBookDay.self, WatchLogBookEntry.self)
+                self.modelContainer = try ModelContainer(for: WatchLogBookYear.self)
                 self.modelContext = modelContainer.mainContext
             } catch {
                 fatalError("Failed to initialize ModelContainer: \(error.localizedDescription)")

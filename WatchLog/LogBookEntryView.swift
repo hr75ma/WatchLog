@@ -24,8 +24,8 @@ struct LogBookEntryView: View {
     
     var body: some View {
         
-       // Text(Date.now, format: .dateTime.hour().minute().second())
-
+        Text(Date.now, format: .dateTime.hour().minute().second())
+         Text(exisitingLogBookEntry.uuid.uuidString)
         
         ScrollView {
             
@@ -59,7 +59,9 @@ struct LogBookEntryView: View {
             
         }
         .task {
-                await viewModel.fetchLogEntry(LogEntryUUID: exisitingLogBookEntry.uuid)
+                 viewModel.fetchLogEntry(LogEntryUUID: exisitingLogBookEntry.uuid)
+            print("--------->task")
+            print("--------->\(exisitingLogBookEntry.uuid.uuidString)")
                 
         }
         .onDisappear {
@@ -68,7 +70,7 @@ struct LogBookEntryView: View {
         .onChange(of: exisitingLogBookEntry, { oldValue, newValue in
             
             Task {
-                await viewModel.fetchLogEntry(LogEntryUUID: newValue.uuid)
+                 viewModel.fetchLogEntry(LogEntryUUID: newValue.uuid)
             }
         })
         .padding(EdgeInsets(top: 20, leading: 0, bottom: 0, trailing: 0))
