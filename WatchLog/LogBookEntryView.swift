@@ -69,6 +69,8 @@ struct LogBookEntryView: View {
         }
         .onChange(of: exisitingLogBookEntry, { oldValue, newValue in
             
+            print("--------->onchange")
+            print("--------->\(exisitingLogBookEntry.uuid.uuidString)")
             Task {
                  viewModel.fetchLogEntry(LogEntryUUID: newValue.uuid)
             }
@@ -100,6 +102,7 @@ struct LogBookEntryView: View {
             .disabled(viewModel.watchLogEntry.isLocked)
             Button(action: {
               Task {
+                  viewModel.watchLogEntry.isLocked = true
                 await viewModel.saveLogEntry(LogEntry: viewModel.watchLogEntry)
               }
             }) {

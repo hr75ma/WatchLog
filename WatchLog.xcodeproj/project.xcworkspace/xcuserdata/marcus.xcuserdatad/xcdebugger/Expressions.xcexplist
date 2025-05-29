@@ -20,10 +20,18 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "closure #1 in LockedView.body.getter:LockEditingView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "$LogEntry.isLocked">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "closure #1 in closure #4 in LogBookEntryView.body.getter:LogBookEntryView.swift">
          <PersistentStrings>
             <PersistentString
-               value = "viewModel">
+               value = "oldValue">
             </PersistentString>
             <PersistentString
                value = "viewModel.watchLogEntry">
@@ -32,7 +40,7 @@
                value = "newValue">
             </PersistentString>
             <PersistentString
-               value = "oldValue">
+               value = "viewModel">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -110,6 +118,9 @@
       <ContextState
          contextName = "closure #1 in closure #3 in closure #2 in closure #5 in LogBookEntryView.body.getter:LogBookEntryView.swift">
          <PersistentStrings>
+            <PersistentString
+               value = "viewModel.watchLogEntry.isLocked">
+            </PersistentString>
             <PersistentString
                value = "viewModel.watchLogEntry">
             </PersistentString>

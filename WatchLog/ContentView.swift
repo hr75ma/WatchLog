@@ -82,21 +82,6 @@ struct ContentView: View {
                               Text(getDateTime(date: child3.LogDate))
                                   .font(Font.custom(GroupLabelFont, size: 25))
                               }
-                          
-//                          NavigationLink(destination: LogBookEntryView(exisitingLogBookEntry: child3), label: { Text(child3.uuid.uuidString)
-//                              .font(Font.custom(GroupLabelFont, size: 25))})
-                          
-//                        NavigationLink {
-//                            LogBookEntryView(exisitingLogBookEntry: child3)
-//                            //testforView(exisitingLogBookEntry: child3)
-//                            //ContentViewTest(exisitingLogBookEntry: child3)
-//                            
-//                        } label: {
-//                          //Text(getDateTime(date: child3.LogDate))
-//                            Text(child3.uuid.uuidString)
-//                            .font(Font.custom(GroupLabelFont, size: 25))
-//                        }
-                        //.isDetailLink(true)
                         Spacer()
                       }
                       .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 0))
@@ -130,21 +115,10 @@ struct ContentView: View {
       .background(Color.black.edgesIgnoringSafeArea(.all))
 
     } detail: {
-        
-        //testforView(idif: $testInt)
-       //testforView(entry: testEntry)
+
         LogBookEntryView(exisitingLogBookEntry: testEntry)
     }
   }
-    
-    private func viewItem(entry: WatchLogBookEntry) {
-        print("view item")
-
-
-        testEntry = entry
-        print(testEntry.uuid.uuidString)
-        
-    }
     
     private func addItem() {
         print("add item")

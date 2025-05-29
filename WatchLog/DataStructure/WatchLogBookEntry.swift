@@ -47,7 +47,7 @@ class WatchLogBookEntry: Identifiable, Hashable {
         AccientLicensePlate01 = LogEntry.AccientLicensePlate01
         AccientLicensePlate02 = LogEntry.AccientLicensePlate02
         
-        isLocked = false
+        isLocked = LogEntry.isLocked
         
         drawingData = LogEntry.drawingData
     }
