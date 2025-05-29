@@ -123,7 +123,7 @@ struct LogBookEntryView: View {
                     newEntry(LogEntry: viewModel.watchLogEntry, drawing: &drawing)
             }) {
               label: do {
-                Image(systemName: "plus.circle.fill")
+                Image(systemName: "document.badge.plus.fill")
                   .resizable()
                   .aspectRatio(contentMode: .fit)
                   .frame(width: 30, height: 30)
@@ -134,6 +134,26 @@ struct LogBookEntryView: View {
               }
             }
             //.disabled(viewModel.watchLogEntry.isLocked)
+              
+              Button(action: {
+                  Task {
+                      await viewModel.deleteLogEntry(LogEntry: viewModel.watchLogEntry)
+                      newEntry(LogEntry: viewModel.watchLogEntry, drawing: &drawing)
+                      exisitingLogBookEntry.uuid = viewModel.watchLogEntry.uuid
+                  }
+              }) {
+                label: do {
+                  Image(systemName: "trash.fill")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 30, height: 30)
+                    .symbolRenderingMode(.monochrome)
+                    .symbolVariant(.fill)
+                    //.foregroundStyle(viewModel.watchLogEntry.isLocked ? .gray : .blue)
+                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                }
+              }
+              //.disabled(viewModel.watchLogEntry.isLocked)
 
           }
         }
@@ -146,10 +166,6 @@ struct LogBookEntryView: View {
 private func clearEntry(LogEntry: WatchLogEntry, drawing: inout PKDrawing) {
   LogEntry.clear()
   drawing = PKDrawing()
- withAnimation{
-     LogEntry.EntryTime = .now
- }
-
 }
 
 private func newEntry(LogEntry: WatchLogEntry, drawing: inout PKDrawing) {
@@ -160,6 +176,7 @@ private func newEntry(LogEntry: WatchLogEntry, drawing: inout PKDrawing) {
     }
 
 }
+
 
 
 

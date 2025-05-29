@@ -14,7 +14,7 @@ protocol DataBaseManagerProtocol {
     func fetchLogBookEntry(with EntryUUID: UUID) -> Result<[WatchLogBookEntry], Error>
     func fetchYears() -> Result<[WatchLogBookYear], Error>
     func fetchEntries() -> Result<[WatchLogBookEntry], Error>
-    //func removeLogBookEntry(with EntryUUID: UUID) async -> Result<Void, Error>
+    func removeLogBookEntry(with EntryUUID: UUID)  -> Result<Void, Error>
 }
 extension DataBaseManager: DataBaseManagerProtocol { }
 
@@ -41,6 +41,24 @@ final class DataBaseManager {
                 fatalError("Failed to initialize ModelContainer: \(error.localizedDescription)")
             }
         }
+    
+    
+    func removeLogBookEntry(with EntryUUID: UUID) -> Result<Void, Error> {
+        
+        let fetchResult = fetchLogBookEntry(with: EntryUUID)
+        switch fetchResult {
+        case .success(let entry):
+            if !entry.isEmpty {
+                
+                modelContext.delete(entry.first!)
+                try? modelContext.save()
+            }
+            return .success(())
+        case .failure(let error):
+            return .failure(error)
+        }
+    }
+    
     
     func fetchLogBookEntry(with EntryUUID: UUID) -> Result<[WatchLogBookEntry], Error> {
 

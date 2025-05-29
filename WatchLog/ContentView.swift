@@ -40,7 +40,7 @@ struct ContentView: View {
   // @Environment(\.modelContext) private var modelContext
 
   //@Query(sort: \WatchLogBookYear.LogDate, order: .forward) var ListYears: [WatchLogBookYear]
-    @Query(sort: \WatchLogBookEntry.LogDate, order: .forward) var ListEntries: [WatchLogBookEntry]
+    //@Query(sort: \WatchLogBookEntry.LogDate, order: .forward) var ListEntries: [WatchLogBookEntry]
 
   var body: some View {
 
@@ -63,7 +63,7 @@ struct ContentView: View {
         
         
       List {
-        ForEach(viewModel.LogBookEntryYears) { years in
+          ForEach(viewModel.LogBookEntryYears) { years in
           DisclosureGroup(getDateYear(date: years.LogDate)) {
             ForEach(sortedMonth(years.Months!)) { child in
               DisclosureGroup(getDateMonth(date: child.LogDate)) {

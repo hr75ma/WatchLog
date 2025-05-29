@@ -33,6 +33,16 @@ class LogEntryViewModel: ObservableObject {
         
     }
     
+    func deleteLogEntry(LogEntry: WatchLogEntry) async {
+        let result = await databaseService.removeWatchLogBookEntry(LogEntry: LogEntry)
+        switch result {
+        case .success():
+            errorMessage = ""
+            case .failure(let error):
+            errorMessage = String(format: NSLocalizedString("error_delete_logBookEntry", comment: "Displayed when saving logBookEntry fails"), error.localizedDescription)
+        }
+    }
+    
     func saveLogEntry(LogEntry: WatchLogEntry) async {
         let result = await databaseService.saveWatchLogBookEntry(LogEntry: LogEntry)
         switch result {

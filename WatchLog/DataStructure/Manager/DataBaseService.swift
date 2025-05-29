@@ -16,6 +16,7 @@ protocol DatabaseServiceProtocol {
     func fetchLogBookEntry(with EntryUUID: UUID)  -> Result<WatchLogEntry, Error>
     func fetchLogBookYears() async -> Result<[WatchLogBookYear], Error>
     func fetchLogBookEntries() async -> Result<[WatchLogBookEntry], Error>
+    func removeWatchLogBookEntry (LogEntry: WatchLogEntry) async -> Result<Void, Error>
 }
 
 @Observable
@@ -28,6 +29,18 @@ class DatabaseService: DatabaseServiceProtocol {
     init(dataSource: DataBaseManagerProtocol = DataBaseManager.shared) {
         self.dataSource = dataSource
     }
+    
+    func removeWatchLogBookEntry (LogEntry: WatchLogEntry) async -> Result<Void, Error> {
+        let deleteResult = dataSource.removeLogBookEntry(with: LogEntry.uuid)
+        switch deleteResult {
+            case .success:
+            return .success(())
+        case .failure(let error):
+            return .failure(error)
+        }
+    }
+    
+    
     
     func saveWatchLogBookEntry (LogEntry: WatchLogEntry) async -> Result<Void, Error> {
         let saveResult =  dataSource.saveLogBookEntry(LogEntry: LogEntry)

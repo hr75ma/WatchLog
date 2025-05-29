@@ -93,8 +93,6 @@ class WatchLogEntry {
     AccientLicensePlate02 = ""
 
     drawingData = Data()
-
-    //self.objectWillChange.send()
   }
 
   public func new() {
