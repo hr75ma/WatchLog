@@ -58,7 +58,7 @@ struct ContentViewTest: View {
 
             //CallerView(WatchLog: viewModel.watchLogEntry)
 
-            AccidentView(WatchLog: viewModel.watchLogEntry)
+            //AccidentView(WatchLog: viewModel.watchLogEntry)
 
           NoteView(
             WatchLog: viewModel.watchLogEntry, drawing: $drawing, toolPickerShows: $toolPickerShows

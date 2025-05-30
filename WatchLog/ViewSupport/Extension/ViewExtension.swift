@@ -69,6 +69,17 @@ extension Text {
             .lineLimit(1)
             .fixedSize(horizontal: true, vertical: true)
     }
+    
+    func SectionTextLabelForToggle(_ generalStyles: GeneralStylesLogEntry) -> some View {
+        self
+            .font(Font.custom(generalStyles.LabelFont, size: generalStyles.LabelFontSize2))
+            .foregroundStyle(generalStyles.GeneralTextColor)
+            .frame(height: generalStyles.TextFieldHeight, alignment: .center)
+            .multilineTextAlignment(.leading)
+            .lineLimit(1)
+            .fixedSize(horizontal: true, vertical: true)
+            .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 5))
+    }
 }
 
 extension TextField {
