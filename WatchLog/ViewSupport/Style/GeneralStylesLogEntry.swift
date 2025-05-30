@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-class TextFieldStyleLogEntry: ObservableObject {
+class GeneralStylesLogEntry: ObservableObject {
     
     @Published var TextfieldBackgroundColor: Color = Color(hex: 0x3b3b3b).opacity(1)
     
@@ -24,5 +24,13 @@ class TextFieldStyleLogEntry: ObservableObject {
     
     @Published var CallerImage: String = "phone.arrow.down.left.fill"
     @Published var AccidentImage: String = "car.fill"
+    
+    
+    //generale layouts
+    @Published var isLockedColor: Color = Color.red
+    @Published var isUnLockedColor: Color = Color.blue
+    
+    @Published var GeneralInnerFrameColor:Color = Color.blue
+    @Published var GeneralTextColor:Color = Color.blue
     
 }

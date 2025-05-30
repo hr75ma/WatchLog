@@ -11,7 +11,7 @@ import SwiftUI
 #Preview {
     @Previewable @State var exisitingLogBookEntry = WatchLogBookEntry()
     
-    let textFieldStyleLogEntry = TextFieldStyleLogEntry()
+    let textFieldStyleLogEntry = GeneralStylesLogEntry()
     let databaseService = DatabaseService()
     let viewModel = LogEntryViewModel(dataBaseService: databaseService)
     LogBookEntryView(exisitingLogBookEntry: exisitingLogBookEntry)
@@ -52,7 +52,7 @@ struct ContentViewTest: View {
 
         VStack(alignment: .leading, spacing: 0) {
 
-            DateAndTimeView(WatchLog: viewModel.watchLogEntry)
+           // DateAndTimeView(WatchLog: viewModel.watchLogEntry)
 
             LockEditingView(WatchLog: viewModel.watchLogEntry)
 

@@ -7,76 +7,25 @@
 
 import SwiftUI
 
-struct DateAndTimeView: View {
-    @Bindable var WatchLog: WatchLogEntry
-    
-    
-
-  let DisplaySize: CGFloat = 45
-
-  let locale = Locale.current
-
-  var body: some View {
-    HStack(alignment: .center) {
-        Text(WatchLog.EntryTime.formatted(.dateTime.locale(Locale.current).weekday(.wide)))
-        .font(Font.custom("digital-7", size: DisplaySize))
-        .foregroundStyle(.blue)
-        .contentTransition(.numericText())
-        
-      Spacer()
-      Text(WatchLog.EntryTime.formatted(.dateTime.day().month(.defaultDigits).year()))
-        .font(Font.custom("digital-7", size: DisplaySize))
-        .foregroundStyle(.blue)
-        .contentTransition(.numericText())
-        
-      Spacer()
-      Text(WatchLog.EntryTime.formatted(.dateTime.hour().minute().second()))
-        .font(Font.custom("digital-7", size: DisplaySize))
-        .foregroundStyle(.blue)
-        .contentTransition(.numericText())
-        
-    }
-    
-    //.border(.cyan)
-    .padding(EdgeInsets(top: 5, leading: 20, bottom: 5, trailing: 20))
-    .overlay(
-      Rectangle()
-        .frame(height: 4)  // Border thickness
-        .foregroundColor(.blue),  // Border color
-      alignment: .bottom
-    )
-  }
-}
-
-
-
-
-
 struct LogTimeView: View {
     var LogTime: Date
     
-    @EnvironmentObject var textStyles: TextFieldStyleLogEntry
+    @EnvironmentObject var textStyles: GeneralStylesLogEntry
 
   let locale = Locale.current
 
   var body: some View {
     HStack(alignment: .center) {
         Text(LogTime.formatted(.dateTime.locale(Locale.current).weekday(.wide)))
-            .font(Font.custom(textStyles.LabelFont, size: textStyles.LabelFontSize))
-        .foregroundStyle(.blue)
-        .contentTransition(.numericText())
+            .TextStyleAndAnimation(textStyles)
         
       Spacer()
       Text(LogTime.formatted(.dateTime.day().month(.defaultDigits).year()))
-        .font(Font.custom(textStyles.LabelFont, size: textStyles.LabelFontSize))
-        .foregroundStyle(.blue)
-        .contentTransition(.numericText())
+            .TextStyleAndAnimation(textStyles)
         
       Spacer()
       Text(LogTime.formatted(.dateTime.hour().minute().second()))
-        .font(Font.custom(textStyles.LabelFont, size: textStyles.LabelFontSize))
-        .foregroundStyle(.blue)
-        .contentTransition(.numericText())
+            .TextStyleAndAnimation(textStyles)
         
     }
     .animation(.default, value: LogTime)
@@ -86,8 +35,24 @@ struct LogTimeView: View {
     .overlay(
       Rectangle()
         .frame(height: 4)  // Border thickness
-        .foregroundColor(.blue),  // Border color
+        .foregroundColor(textStyles.GeneralInnerFrameColor),  // Border color
       alignment: .bottom
     )
   }
+}
+
+struct TextFormatterStyle: ViewModifier {
+    let textStyles: GeneralStylesLogEntry
+    func body(content: Content) -> some View {
+        content
+            .font(Font.custom(textStyles.LabelFont, size: textStyles.LabelFontSize))
+            .foregroundStyle(textStyles.GeneralTextColor)
+            .contentTransition(.numericText())
+    }
+}
+
+extension Text {
+    @MainActor func TextStyleAndAnimation(_ textStyles: GeneralStylesLogEntry) -> some View {
+        modifier(TextFormatterStyle(textStyles: textStyles))
+    }
 }

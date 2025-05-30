@@ -52,7 +52,7 @@ struct LockedView: View {
   @Bindable var LogEntry: WatchLogEntry
     
     
-  @EnvironmentObject var textStyles: TextFieldStyleLogEntry
+  @EnvironmentObject var textStyles: GeneralStylesLogEntry
     
   let locale = Locale.current
 

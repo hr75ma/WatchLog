@@ -53,7 +53,7 @@ struct LogBookEntryView: View {
             )
             .overlay(
               RoundedRectangle(cornerRadius: 20)
-                .stroke(Color.blue, lineWidth: 4)
+                .stroke(viewModel.watchLogEntry.isLocked ? Color.red : Color.blue, lineWidth: 4)
             )
             .padding(EdgeInsets(top: 10, leading: 10, bottom: 0, trailing: 10))
             
@@ -78,7 +78,7 @@ struct LogBookEntryView: View {
         .padding(EdgeInsets(top: 20, leading: 0, bottom: 0, trailing: 0))
         .toolbar {
           ToolbarItem(placement: .topBarLeading) {
-            Text("Eintrag")
+            Text("Log")
               .font(Font.custom(LabelFont, size: LabelFontHeight))
               .foregroundStyle(.blue)
               .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
@@ -100,6 +100,7 @@ struct LogBookEntryView: View {
               }
             }
             .disabled(viewModel.watchLogEntry.isLocked)
+              
             Button(action: {
               Task {
                   viewModel.watchLogEntry.isLocked = true
@@ -184,7 +185,7 @@ private func newEntry(LogEntry: WatchLogEntry, drawing: inout PKDrawing) {
 #Preview {
     @Previewable @State var exisitingLogBookEntry = WatchLogBookEntry()
     
-    let textFieldStyleLogEntry = TextFieldStyleLogEntry()
+    let textFieldStyleLogEntry = GeneralStylesLogEntry()
     let databaseService = DatabaseService()
     let viewModel = LogEntryViewModel(dataBaseService: databaseService)
     LogBookEntryView(exisitingLogBookEntry: exisitingLogBookEntry)

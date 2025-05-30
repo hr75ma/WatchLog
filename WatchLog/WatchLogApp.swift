@@ -20,7 +20,7 @@ struct WatchLogApp: App {
         
         let databaseService = DatabaseService()
         let viewModel = LogEntryViewModel(dataBaseService: databaseService)
-        let textFieldStyleLogEntry = TextFieldStyleLogEntry()
+        let textFieldStyleLogEntry = GeneralStylesLogEntry()
             
         WindowGroup {
             

@@ -9,7 +9,7 @@ import SwiftData
 import SwiftUI
 
 #Preview{
-    let textFieldStyleLogEntry = TextFieldStyleLogEntry()
+    let textFieldStyleLogEntry = GeneralStylesLogEntry()
   let previewData = PreviewData()
   previewData.addExampleData()
   let databaseService = DatabaseService()

@@ -170,7 +170,7 @@ struct CallerView: View {
 struct CallerDataView: View {
 
   @Bindable var LogEntry: WatchLogEntry
-  @EnvironmentObject var textStyles: TextFieldStyleLogEntry
+  @EnvironmentObject var textStyles: GeneralStylesLogEntry
 
   var body: some View {
     HStack(alignment: .top, spacing: 0) {
