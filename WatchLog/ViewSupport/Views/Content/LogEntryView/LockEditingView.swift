@@ -29,7 +29,7 @@ struct LockedView: View {
           
           Toggle("", isOn: $LogEntry.isLocked)
               .labelsHidden()
-              .toggleStyle(ToggleStyleLockStyleImage(isOffImage: GeneralStyles.isUnLockImage, isOnImage: GeneralStyles.isLockImage))
+              .toggleStyle(ToggleStyleImage(isOffImage: GeneralStyles.isUnLockImage, isOnImage: GeneralStyles.isLockImage, isOnColor: GeneralStyles.ToogleIsActiveColor, isOffColor: GeneralStyles.ToogleIsUnActiveColor))
               .frame(height: 25, alignment: .center)
               .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
 

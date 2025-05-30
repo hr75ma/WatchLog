@@ -28,7 +28,9 @@ class WatchLogBookEntry: Identifiable, Hashable {
     var isAccient: Bool = false
     var isLocked: Bool = false
 
-    var drawingData: Data
+    var drawingData: Data = Data()
+    
+   
     
     
     init(LogEntry: WatchLogEntry) {
@@ -49,7 +51,7 @@ class WatchLogBookEntry: Identifiable, Hashable {
         
         isLocked = LogEntry.isLocked
         
-        drawingData = LogEntry.drawingData
+        drawingData =  LogEntry.pkDrawingData.dataRepresentation()
     }
     
     init() {
@@ -112,7 +114,7 @@ class WatchLogBookEntry: Identifiable, Hashable {
         
         isLocked = true
         
-        drawingData = LogEntry.drawingData
+        drawingData = LogEntry.pkDrawingData.dataRepresentation()
     }
     
     func getDOBFromDate() -> String {

@@ -10,10 +10,11 @@ import SwiftUI
 
 #Preview{
     let textFieldStyleLogEntry = GeneralStylesLogEntry()
-  let previewData = PreviewData()
-  previewData.addExampleData()
+  
   let databaseService = DatabaseService()
   let viewModel = LogEntryViewModel(dataBaseService: databaseService)
+    let previewData = PreviewData()
+    previewData.addExampleData()
   return ContentView()
     .environmentObject(viewModel)
     .environmentObject(textFieldStyleLogEntry)
@@ -108,6 +109,7 @@ struct ContentView: View {
           }
       }
       .task {
+        print("--------->build Tree")
        await viewModel.fetchLogBookYear()
       }
       .listStyle(.sidebar)

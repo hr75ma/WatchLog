@@ -42,7 +42,7 @@ struct LogBookEntryView: View {
                 AccidentSelectionView(LogEntry: viewModel.watchLogEntry)
                 
                 NoteView(
-                  WatchLog: viewModel.watchLogEntry, drawing: $drawing, toolPickerShows: $toolPickerShows
+                    WatchLog: viewModel.watchLogEntry, drawing: $viewModel.watchLogEntry.pkDrawingData, toolPickerShows: $toolPickerShows
                 )
                 .containerRelativeFrame([.vertical], alignment: .topLeading)
                 .disabled(viewModel.watchLogEntry.isLocked)

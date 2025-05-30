@@ -73,14 +73,14 @@ struct CustomToggleStyle: ToggleStyle {
 
 
 struct ToggleStyleLock: ToggleStyle {
-  let ImageIsOff: String = "rectangle.fill"
-  let ImageIsOn: String = "checkmark.rectangle.fill"
+  var isOffImage: String = "rectangle.fill"
+  var isOnImage: String = "checkmark.rectangle.fill"
 
   func makeBody(configuration: MyStyle.Configuration) -> some View {
       HStack(alignment: .center, spacing:0) {
           configuration.label
           
-          Image(systemName: configuration.isOn ? ImageIsOn : ImageIsOff)
+          Image(systemName: configuration.isOn ? isOnImage : isOffImage)
               .resizable()
               .scaledToFit()
               .frame(width: 30)
@@ -99,13 +99,14 @@ struct ToggleStyleLock: ToggleStyle {
   }
 }
 
-struct ToggleStyleLockStyleImage: ToggleStyle {
+struct ToggleStyleImage: ToggleStyle {
     var isOffImage: String = ""
     var isOnImage: String = ""
+    var isOnColor: Color = .green
+    var isOffColor: Color = .red
+    
     
   @EnvironmentObject var GeneralStyles: GeneralStylesLogEntry
-    
-  
 
   func makeBody(configuration: MyStyle.Configuration) -> some View {
           
@@ -115,11 +116,11 @@ struct ToggleStyleLockStyleImage: ToggleStyle {
               .scaledToFit()
               //.frame(height: GeneralStyles.LabelFontSize2)
               .padding(EdgeInsets(top: 4, leading: 4, bottom: 4, trailing: 4))
-              .foregroundColor(configuration.isOn ? Color.red : Color.green)
+              .foregroundColor(configuration.isOn ? isOnColor : isOffColor)
               .clipShape(RoundedRectangle(cornerRadius: 7))
               .overlay(
                 RoundedRectangle(cornerRadius: 7)
-                    .stroke(configuration.isOn ? GeneralStyles.ToogleIsActiveColor : GeneralStyles.ToogleIsUnActiveColor, lineWidth: 2)
+                    .stroke(configuration.isOn ? isOnColor : isOffColor, lineWidth: 2)
              )
               .onTapGesture {
                   configuration.$isOn.wrappedValue.toggle()

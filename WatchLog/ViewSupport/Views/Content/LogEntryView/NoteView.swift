@@ -14,62 +14,29 @@ struct NoteView: View {
   @Binding var drawing: PKDrawing
   @Binding var toolPickerShows: Bool
   @State var savedDrawing: PKDrawing?
+    
+    @EnvironmentObject var GeneralStyles: GeneralStylesLogEntry
 
   var body: some View {
     VStack(alignment: .leading, spacing: 0) {
       HStack(alignment: .top, spacing: 0) {
-        Image(systemName: "phone.bubble.fill")
-          .resizable()
-          .aspectRatio(contentMode: .fit)
-          .frame(width: 40, height: 40)
-          .symbolRenderingMode(.monochrome)
-          .symbolVariant(.fill)
-          .foregroundStyle(.blue)
-          .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
-
-        Button {
-          withAnimation(.bouncy()) {
-            drawing = PKDrawing()
-              WatchLog.drawingData = drawing.dataRepresentation()
-          }
-
-        } label: {
-          Image(systemName: "clear.fill")
-            .resizable()
-            .aspectRatio(contentMode: .fit)
-            .frame(width: 25, height: 25)
-            .symbolRenderingMode(.monochrome)
-            .symbolVariant(.fill)
-            .foregroundStyle(.blue)
-            .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
-        }
-
-        Button("save") {
-            WatchLog.drawingData = drawing.dataRepresentation()
-        }
-
-        Button("load") {
-          drawing = (try? PKDrawing(data: WatchLog.drawingData)) ?? PKDrawing()
-        }
-
-        Spacer()
-
+          Image(systemName: GeneralStyles.SectionNoteImage)
+              .SectionImageStyle(GeneralStyles)
       }
       //.border(.green)
       .padding(EdgeInsets(top: 5, leading: 0, bottom: 0, trailing: 10))
 
       HStack(alignment: .top, spacing: 0) {
-        CanvasView(drawing: $drawing, toolPickerShows: $toolPickerShows)
-        //.border(.green)
+          CanvasView(drawing: $drawing, toolPickerShows: $toolPickerShows)
+          
       }
-      //.border(.red)
       .padding(EdgeInsets(top: 5, leading: 10, bottom: 10, trailing: 10))
     }
 
     .overlay(
       Rectangle()
         .frame(height: 0)  // Border thickness
-        .foregroundColor(.blue),  // Border color
+        .foregroundColor(GeneralStyles.GeneralInnerFrameColor),  // Border color
       alignment: .bottom
     )
     .padding(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0))

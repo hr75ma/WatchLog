@@ -29,7 +29,9 @@ class WatchLogEntry {
   var isAccient: Bool = false
   var isLocked: Bool = false
 
-  var drawingData: Data
+  var drawingData: Data = Data()
+    
+  var pkDrawingData: PKDrawing = PKDrawing()
 
 
     
@@ -37,12 +39,14 @@ class WatchLogEntry {
       EntryTime = Date.now
       uuid = UUID()
       drawingData = Data()
+      pkDrawingData = PKDrawing()
     }
     
     init (uudi: UUID) {
         EntryTime = Date.now
         uuid = uudi
         drawingData = Data()
+        pkDrawingData = PKDrawing()
       }
     
     init(WatchLookBookEntry: WatchLogBookEntry) {
@@ -64,20 +68,20 @@ class WatchLogEntry {
         isLocked = WatchLookBookEntry.isLocked
 
         drawingData = WatchLookBookEntry.drawingData
+        pkDrawingData = try! PKDrawing(data: WatchLookBookEntry.drawingData)
         
     }
 
+    
+    
+    
+    
   fileprivate func initialValues() {
     EntryTime = Date.now
     uuid = UUID()
-    drawingData = Data()
-
     clear()
-
   }
   
-  
-
   public func clear() {
     CallerName = ""
     CallerNumber = ""
@@ -93,12 +97,16 @@ class WatchLogEntry {
     AccientLicensePlate02 = ""
 
     drawingData = Data()
+    pkDrawingData = PKDrawing()
   }
 
   public func new() {
 
     initialValues()
   }
+    
+    
+  
     
   public func getDateFromDOB() -> Date {
       let dateFormatter = DateFormatter()

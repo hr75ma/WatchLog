@@ -17,7 +17,7 @@ struct CanvasView: UIViewRepresentable {
     
     func makeUIView(context: Context) -> PKCanvasView {
         // Allow finger drawing
-        canvasView.drawingPolicy = .anyInput
+        canvasView.drawingPolicy = .pencilOnly
         
         // Set the coordinator as the canvas's delegate
         canvasView.delegate = context.coordinator
@@ -31,6 +31,8 @@ struct CanvasView: UIViewRepresentable {
         if toolPickerShows {
             canvasView.becomeFirstResponder()
         }
+        
+        
         
         return canvasView
     }
@@ -53,6 +55,8 @@ struct CanvasView: UIViewRepresentable {
         } else {
             canvasView.resignFirstResponder()
         }
+        
+        
     }
 
     class Coordinator: NSObject, PKCanvasViewDelegate {

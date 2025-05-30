@@ -23,7 +23,7 @@ class GeneralStylesLogEntry: ObservableObject {
     @Published var TextFieldHeight2: CGFloat = 30
     
     @Published var SectionCallerImage: String = "phone.badge.waveform.fill"
-    @Published var AccidentImage: String = "car.fill"
+    @Published var SectionAccidentImage: String = "car.fill"
     
     
     //generale layouts
@@ -42,6 +42,10 @@ class GeneralStylesLogEntry: ObservableObject {
     @Published var isLockImage: String = "pencil.slash"
     @Published var isUnLockImage: String = "pencil"
     
+    @Published var isAccidentImage: String = "checkmark.rectangle.fill"
+    @Published var isUnAccidentImage: String = "rectangle.fill"
+    @Published var ToogleIsAccidentColor: Color = Color.green
+    @Published var ToogleIsUnAccidentColor: Color = Color.blue
     
     //ToolbarItem
     @Published var ToolBarIsActiveImageEraser: String = "eraser.fill"
@@ -58,6 +62,9 @@ class GeneralStylesLogEntry: ObservableObject {
     
     @Published var ToolBarIsActiveImageDelete: String = "trash.fill"
     @Published var ToolBarIsUnActiveImageDelete: String = "trash.slash.fill"
+    
+    //Note
+    @Published var SectionNoteImage = "phone.bubble.fill"
     
     
     
