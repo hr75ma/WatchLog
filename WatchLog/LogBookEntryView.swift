@@ -163,7 +163,7 @@ private func newEntry(LogEntry: WatchLogEntry, drawing: inout PKDrawing) {
 
 extension Image {
     
-    func ToolbarImageStyle(_ generalStyles: GeneralStylesLogEntry) -> some View {
+    fileprivate func ToolbarImageStyle(_ generalStyles: GeneralStylesLogEntry) -> some View {
         self
             .resizable()
             .aspectRatio(contentMode: .fit)
@@ -173,13 +173,6 @@ extension Image {
             .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
     }
 }
-
-
-
-
-
-
-
 
 #Preview {
     @Previewable @State var exisitingLogBookEntry = WatchLogBookEntry()

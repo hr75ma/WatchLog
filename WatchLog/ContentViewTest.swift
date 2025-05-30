@@ -56,7 +56,7 @@ struct ContentViewTest: View {
 
             //LockEditingView(WatchLog: viewModel.watchLogEntry)
 
-            CallerView(WatchLog: viewModel.watchLogEntry)
+            //CallerView(WatchLog: viewModel.watchLogEntry)
 
             AccidentView(WatchLog: viewModel.watchLogEntry)
 

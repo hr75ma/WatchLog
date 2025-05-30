@@ -54,8 +54,8 @@ fileprivate struct TextFormatterStyle: ViewModifier {
     }
 }
 
-private extension Text {
-   @MainActor func TextStyleAndAnimation(_ generalStyles: GeneralStylesLogEntry) -> some View {
+extension Text {
+   @MainActor fileprivate func TextStyleAndAnimation(_ generalStyles: GeneralStylesLogEntry) -> some View {
        modifier(TextFormatterStyle(GeneralStyles: generalStyles))
    }
 }
