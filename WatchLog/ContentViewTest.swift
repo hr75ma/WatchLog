@@ -54,7 +54,7 @@ struct ContentViewTest: View {
 
            // DateAndTimeView(WatchLog: viewModel.watchLogEntry)
 
-            LockEditingView(WatchLog: viewModel.watchLogEntry)
+            //LockEditingView(WatchLog: viewModel.watchLogEntry)
 
             CallerView(WatchLog: viewModel.watchLogEntry)
 

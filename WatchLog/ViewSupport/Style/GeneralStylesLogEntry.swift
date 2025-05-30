@@ -31,6 +31,13 @@ class GeneralStylesLogEntry: ObservableObject {
     @Published var isUnLockedColor: Color = Color.blue
     
     @Published var GeneralInnerFrameColor:Color = Color.blue
+    @Published var GeneralInnerFrameBorderWidth:CGFloat = 4
+    
+    
+    
+    
+    
+    
     @Published var GeneralTextColor:Color = Color.blue
     
 }
