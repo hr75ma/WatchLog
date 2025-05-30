@@ -98,3 +98,32 @@ struct ToggleStyleLock: ToggleStyle {
 
   }
 }
+
+struct ToggleStyleLockStyleImage: ToggleStyle {
+    var isOffImage: String = ""
+    var isOnImage: String = ""
+    
+  @EnvironmentObject var GeneralStyles: GeneralStylesLogEntry
+    
+  
+
+  func makeBody(configuration: MyStyle.Configuration) -> some View {
+          
+          
+          Image(systemName: configuration.isOn ? isOnImage : isOffImage)
+              .resizable()
+              .scaledToFit()
+              //.frame(height: GeneralStyles.LabelFontSize2)
+              .padding(EdgeInsets(top: 4, leading: 4, bottom: 4, trailing: 4))
+              .foregroundColor(configuration.isOn ? Color.red : Color.green)
+              .clipShape(RoundedRectangle(cornerRadius: 7))
+              .overlay(
+                RoundedRectangle(cornerRadius: 7)
+                    .stroke(configuration.isOn ? GeneralStyles.ToogleIsActiveColor : GeneralStyles.ToogleIsUnActiveColor, lineWidth: 2)
+             )
+              .onTapGesture {
+                  configuration.$isOn.wrappedValue.toggle()
+              }
+    
+  }
+}

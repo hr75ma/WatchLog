@@ -29,15 +29,45 @@ class GeneralStylesLogEntry: ObservableObject {
     //generale layouts
     @Published var isLockedColor: Color = Color.red
     @Published var isUnLockedColor: Color = Color.blue
+    @Published var GeneralTextColor:Color = Color.blue
+
+    
     
     @Published var GeneralInnerFrameColor:Color = Color.blue
     @Published var GeneralInnerFrameBorderWidth:CGFloat = 4
     
+    //toogle
+    @Published var ToogleIsActiveColor: Color = Color.red
+    @Published var ToogleIsUnActiveColor: Color = Color.green
+    
+    
+    @Published var isLockImage: String = "pencil.slash"
+    @Published var isUnLockImage: String = "pencil"
+    
+    
+    //ToolbarItem
+    @Published var ToolBarIsActiveImageEraser: String = "eraser.fill"
+    @Published var ToolBarIsUnActiveImageEraser: String = "eraser.fill"
+    
+    @Published var ToolBarIsActiveImageSave: String = "square.and.arrow.down.fill"
+    @Published var ToolBarIsUnActiveImageSave: String = "square.and.arrow.down.fill"
+    
+    
+    
+    @Published var ToolBarIsActiveImageNew: String = "document.badge.plus.fill"
+    @Published var ToolBarIsUnActiveImageNew: String = "document.badge.plus.fill"
+    
+    
+    @Published var ToolBarIsActiveImageDelete: String = "trash.fill"
+    @Published var ToolBarIsUnActiveImageDelete: String = "trash.slash.fill"
     
     
     
     
     
-    @Published var GeneralTextColor:Color = Color.blue
+    
+    
+    
+    
     
 }

@@ -13,6 +13,8 @@ struct LogBookEntryView: View {
     @Bindable public var exisitingLogBookEntry: WatchLogBookEntry
     
     @EnvironmentObject var viewModel: LogEntryViewModel
+    
+    @EnvironmentObject var GeneralStyles: GeneralStylesLogEntry
     @Environment(\.dismiss) var dismiss
     
     @State private var test: Date = Date()
@@ -89,14 +91,9 @@ struct LogBookEntryView: View {
               clearEntry(LogEntry: viewModel.watchLogEntry, drawing: &drawing)
             }) {
               label: do {
-                Image(systemName: "eraser.fill")
-                  .resizable()
-                  .aspectRatio(contentMode: .fit)
-                  .frame(width: 30, height: 30)
-                  .symbolRenderingMode(.monochrome)
-                  .symbolVariant(.fill)
-                  .foregroundStyle(viewModel.watchLogEntry.isLocked ? .gray : .blue)
-                  .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                  Image(systemName: viewModel.watchLogEntry.isLocked ? GeneralStyles.ToolBarIsUnActiveImageEraser : GeneralStyles.ToolBarIsActiveImageEraser)
+                  .ToolbarImageStyle(GeneralStyles)
+                  .foregroundStyle(viewModel.watchLogEntry.isLocked ? GeneralStyles.isLockedColor : GeneralStyles.isUnLockedColor)
               }
             }
             .disabled(viewModel.watchLogEntry.isLocked)
@@ -108,30 +105,21 @@ struct LogBookEntryView: View {
               }
             }) {
               label: do {
-                Image(systemName: "square.and.arrow.down.fill")
-                  .resizable()
-                  .aspectRatio(contentMode: .fit)
-                  .frame(width: 30, height: 30)
-                  .symbolRenderingMode(.monochrome)
-                  .symbolVariant(.fill)
-                  .foregroundStyle(viewModel.watchLogEntry.isLocked ? .gray : .blue)
-                  .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                  Image(systemName: viewModel.watchLogEntry.isLocked ? GeneralStyles.ToolBarIsUnActiveImageSave : GeneralStyles.ToolBarIsActiveImageSave)
+                  .ToolbarImageStyle(GeneralStyles)
+                  .foregroundStyle(viewModel.watchLogEntry.isLocked ? GeneralStyles.isLockedColor : GeneralStyles.isUnLockedColor)
               }
             }
             .disabled(viewModel.watchLogEntry.isLocked)
 
+              
+              
             Button(action: {
                     newEntry(LogEntry: viewModel.watchLogEntry, drawing: &drawing)
             }) {
               label: do {
-                Image(systemName: "document.badge.plus.fill")
-                  .resizable()
-                  .aspectRatio(contentMode: .fit)
-                  .frame(width: 30, height: 30)
-                  .symbolRenderingMode(.monochrome)
-                  .symbolVariant(.fill)
-                  //.foregroundStyle(viewModel.watchLogEntry.isLocked ? .gray : .blue)
-                  .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                  Image(systemName: viewModel.watchLogEntry.isLocked ? GeneralStyles.ToolBarIsUnActiveImageNew : GeneralStyles.ToolBarIsActiveImageNew)
+                      .ToolbarImageStyle(GeneralStyles)
               }
             }
             //.disabled(viewModel.watchLogEntry.isLocked)
@@ -144,24 +132,19 @@ struct LogBookEntryView: View {
                   }
               }) {
                 label: do {
-                  Image(systemName: "trash.fill")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 30, height: 30)
-                    .symbolRenderingMode(.monochrome)
-                    .symbolVariant(.fill)
-                    //.foregroundStyle(viewModel.watchLogEntry.isLocked ? .gray : .blue)
-                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                    Image(systemName: viewModel.watchLogEntry.isLocked ? GeneralStyles.ToolBarIsUnActiveImageDelete : GeneralStyles.ToolBarIsActiveImageDelete)
+                    .foregroundStyle(viewModel.watchLogEntry.isLocked ? GeneralStyles.isLockedColor : GeneralStyles.isUnLockedColor)
                 }
               }
-              //.disabled(viewModel.watchLogEntry.isLocked)
+              .disabled(viewModel.watchLogEntry.isLocked)
 
           }
         }
 
         }
-        
-    }
+}
+
+
 
 
 private func clearEntry(LogEntry: WatchLogEntry, drawing: inout PKDrawing) {
@@ -177,6 +160,22 @@ private func newEntry(LogEntry: WatchLogEntry, drawing: inout PKDrawing) {
     }
 
 }
+
+extension Image {
+    
+    func ToolbarImageStyle(_ generalStyles: GeneralStylesLogEntry) -> some View {
+        self
+            .resizable()
+            .aspectRatio(contentMode: .fit)
+            .frame(width: 30, height: 30)
+            .symbolRenderingMode(.monochrome)
+            .symbolVariant(.fill)
+            .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+    }
+}
+
+
+
 
 
 

@@ -39,9 +39,12 @@ struct LogTimeView: View {
       alignment: .bottom
     )
   }
+    
+    
+
 }
 
-struct TextFormatterStyle: ViewModifier {
+fileprivate struct TextFormatterStyle: ViewModifier {
     let GeneralStyles: GeneralStylesLogEntry
     func body(content: Content) -> some View {
         content
@@ -51,8 +54,8 @@ struct TextFormatterStyle: ViewModifier {
     }
 }
 
-extension Text {
-    @MainActor func TextStyleAndAnimation(_ generalStyles: GeneralStylesLogEntry) -> some View {
-        modifier(TextFormatterStyle(GeneralStyles: generalStyles))
-    }
+private extension Text {
+   @MainActor func TextStyleAndAnimation(_ generalStyles: GeneralStylesLogEntry) -> some View {
+       modifier(TextFormatterStyle(GeneralStyles: generalStyles))
+   }
 }
