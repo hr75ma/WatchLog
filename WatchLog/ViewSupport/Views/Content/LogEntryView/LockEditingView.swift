@@ -19,7 +19,7 @@ struct LockedView: View {
           
           Text(LogEntry.isLocked ? "Entsperren" : "Sperren")
               .font(Font.custom(GeneralStyles.LabelFont, size: GeneralStyles.LabelFontSize2))
-              .foregroundStyle(GeneralStyles.GeneralTextColor)
+              .foregroundStyle(LogEntry.isLocked ? GeneralStyles.isLockedColor : GeneralStyles.GeneralTextColor)
               .frame(width: 170, height: GeneralStyles.LabelFontSize2, alignment: .leading)
               .multilineTextAlignment(.leading)
               .lineLimit(1)
