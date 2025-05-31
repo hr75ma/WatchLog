@@ -25,5 +25,10 @@ class WatchLogBookDay: Identifiable, Hashable {
         self.LogDate = LogDate
         self.uuid = UUID()
     }
+    
+    init() {
+        self.LogDate = .now
+        self.uuid = UUID()
+    }
 
 }

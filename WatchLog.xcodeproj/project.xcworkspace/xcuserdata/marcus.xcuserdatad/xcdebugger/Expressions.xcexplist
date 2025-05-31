@@ -31,7 +31,7 @@
          contextName = "closure #1 in closure #4 in LogBookEntryView.body.getter:LogBookEntryView.swift">
          <PersistentStrings>
             <PersistentString
-               value = "oldValue">
+               value = "viewModel">
             </PersistentString>
             <PersistentString
                value = "viewModel.watchLogEntry">
@@ -40,7 +40,7 @@
                value = "newValue">
             </PersistentString>
             <PersistentString
-               value = "viewModel">
+               value = "oldValue">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -49,6 +49,20 @@
       </ContextState>
       <ContextState
          contextName = "closure #1 in closure #1 in closure #1 in closure #1 in closure #1 in closure #1 in closure #1 in closure #1 in closure #1 in closure #1 in closure #1 in ContentView.body.getter:ContentView.swift">
+      </ContextState>
+      <ContextState
+         contextName = "DataBaseManager.removeLogBookEntry(with:):DataBaseManager.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "logMonth.Days">
+            </PersistentString>
+            <PersistentString
+               value = "logYear.Months!">
+            </PersistentString>
+            <PersistentString
+               value = "logDay.LogEntries!">
+            </PersistentString>
+         </PersistentStrings>
       </ContextState>
       <ContextState
          contextName = "WatchLogEntry.getDateFromDOB():WatchLogEntry.swift">
@@ -116,6 +130,9 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "WatchLogBookYear.init(LogDate:):WatchLogBookYear.swift">
+      </ContextState>
+      <ContextState
          contextName = "closure #1 in closure #3 in closure #2 in closure #5 in LogBookEntryView.body.getter:LogBookEntryView.swift">
          <PersistentStrings>
             <PersistentString
@@ -128,9 +145,6 @@
       </ContextState>
       <ContextState
          contextName = "ContentView.sortedEntries(_:):ContentView.swift">
-      </ContextState>
-      <ContextState
-         contextName = "WatchLogBookYear.init(LogDate:):WatchLogBookYear.swift">
       </ContextState>
       <ContextState
          contextName = "closure #2 in LogBookEntryView.body.getter:LogBookEntryView.swift">
