@@ -13,10 +13,11 @@ class WatchLogBookDay: Identifiable, Hashable {
 
     #Unique<WatchLogBookDay>([\.uuid, \.LogDate])
     var LogDate: Date
+    var ParentUUID: UUID?
     
     
     
-    @Relationship(deleteRule: .cascade) var LogEntries: [WatchLogBookEntry]? = nil
+    @Relationship(deleteRule: .cascade) var LogEntries: [WatchLogBookEntry] = []
     @Attribute(.unique) var uuid: UUID
     
     

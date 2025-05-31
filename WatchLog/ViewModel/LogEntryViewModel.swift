@@ -38,6 +38,7 @@ class LogEntryViewModel: ObservableObject {
         switch result {
         case .success():
             errorMessage = ""
+            
             case .failure(let error):
             errorMessage = String(format: NSLocalizedString("error_delete_logBookEntry", comment: "Displayed when saving logBookEntry fails"), error.localizedDescription)
         }
@@ -48,7 +49,6 @@ class LogEntryViewModel: ObservableObject {
         switch result {
         case .success():
             errorMessage = ""
-            self.watchLogEntry.isLocked = true
             case .failure(let error):
             errorMessage = String(format: NSLocalizedString("error_saving_logBookEntry", comment: "Displayed when saving logBookEntry fails"), error.localizedDescription)
         }

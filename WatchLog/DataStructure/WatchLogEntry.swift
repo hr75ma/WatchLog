@@ -68,7 +68,7 @@ class WatchLogEntry {
         isLocked = WatchLookBookEntry.isLocked
 
         //drawingData = WatchLookBookEntry.drawingData
-        pkDrawingData = try! PKDrawing(data: WatchLookBookEntry.drawingData)
+        pkDrawingData = WatchLookBookEntry.drawing
         
     }
 

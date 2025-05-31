@@ -34,7 +34,7 @@ struct ContentView: View {
   @State var StandardDate: Date = Date()
   @State var uuid: UUID = UUID()
   @State var selected = WatchLogBookEntry()
-  @State var listOfEntry = [WatchLogBookEntry()]
+  @State var listOfEntry: [WatchLogBookYear] = []
     
     
     @State var isLinkActive = false
@@ -62,7 +62,8 @@ struct ContentView: View {
 //            
 //        }
         
-        
+        Text(Date.now, format: .dateTime.hour().minute().second())
+         Text(testEntry.uuid.uuidString)
       List {
           ForEach(viewModel.LogBookEntryYears) { years in
           DisclosureGroup(getDateYear(date: years.LogDate)) {
@@ -118,7 +119,10 @@ struct ContentView: View {
         print("--------->build Tree")
         print("--------->\(testEntry.uuid.uuidString)")
        await viewModel.fetchLogBookYear()
+          listOfEntry = viewModel.LogBookEntryYears
       }
+
+
       .listStyle(.sidebar)
       .scrollContentBackground(.hidden)
       .background(Color.black.edgesIgnoringSafeArea(.all))

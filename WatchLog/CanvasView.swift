@@ -17,7 +17,7 @@ struct CanvasView: UIViewRepresentable {
     
     func makeUIView(context: Context) -> PKCanvasView {
         // Allow finger drawing
-        canvasView.drawingPolicy = .pencilOnly
+        canvasView.drawingPolicy = .anyInput
         
         // Set the coordinator as the canvas's delegate
         canvasView.delegate = context.coordinator

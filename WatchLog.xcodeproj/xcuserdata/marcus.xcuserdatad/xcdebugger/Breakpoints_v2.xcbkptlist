@@ -78,8 +78,8 @@
             filePath = "WatchLog/DataStructure/Manager/DataBaseManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "98"
-            endingLineNumber = "98"
+            startingLineNumber = "127"
+            endingLineNumber = "127"
             landmarkName = "saveLogBookEntry(LogEntry:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -94,8 +94,8 @@
             filePath = "WatchLog/DataStructure/Manager/DataBaseManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "131"
-            endingLineNumber = "131"
+            startingLineNumber = "160"
+            endingLineNumber = "160"
             landmarkName = "saveLogBookEntry(LogEntry:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -110,8 +110,8 @@
             filePath = "WatchLog/ContentView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "120"
-            endingLineNumber = "120"
+            startingLineNumber = "121"
+            endingLineNumber = "121"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
@@ -126,8 +126,8 @@
             filePath = "WatchLog/ContentView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "66"
-            endingLineNumber = "66"
+            startingLineNumber = "67"
+            endingLineNumber = "67"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
@@ -142,40 +142,10 @@
             filePath = "WatchLog/ContentView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "67"
-            endingLineNumber = "67"
+            startingLineNumber = "68"
+            endingLineNumber = "68"
             landmarkName = "body"
             landmarkType = "24">
-            <Locations>
-               <Location
-                  uuid = "7604401E-7499-41BD-9146-73F45510FD99 - e7bcbedeace6b349"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 () -&gt; SwiftUI.ForEach&lt;Swift.Array&lt;WatchLog.WatchLogBookYear&gt;, SwiftData.PersistentIdentifier, SwiftUI.DisclosureGroup&lt;SwiftUI.Text, SwiftUI.ForEach&lt;Swift.Array&lt;WatchLog.WatchLogBookMonth&gt;, SwiftData.PersistentIdentifier, SwiftUI.DisclosureGroup&lt;SwiftUI.Text, SwiftUI.ForEach&lt;Swift.Array&lt;WatchLog.WatchLogBookDay&gt;, SwiftData.PersistentIdentifier, SwiftUI.DisclosureGroup&lt;SwiftUI.Text, SwiftUI.ForEach&lt;Swift.Array&lt;WatchLog.WatchLogBookEntry&gt;, SwiftData.PersistentIdentifier, &lt;&lt;opaque return type of SwiftUI.View.padding(SwiftUI.EdgeInsets) -&gt; some&gt;&gt;.0&gt;&gt;&gt;&gt;&gt;&gt;&gt; in closure #1 () -&gt; &lt;&lt;opaque return type of SwiftUI.View.background&lt;&#x3c4;_0_0 where &#x3c4;_1_0: SwiftUI.View&gt;(_: &#x3c4;_1_0, alignment: SwiftUI.Alignment) -&gt; some&gt;&gt;.0 in WatchLog.ContentView.body.getter : some"
-                  moduleName = "WatchLog.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/marcus/Xcode1/Coding/myProjects/WatchLog/WatchLog/ContentView.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "67"
-                  endingLineNumber = "67">
-               </Location>
-               <Location
-                  uuid = "7604401E-7499-41BD-9146-73F45510FD99 - ace3a265962e9e26"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (WatchLog.WatchLogBookYear) -&gt; SwiftUI.DisclosureGroup&lt;SwiftUI.Text, SwiftUI.ForEach&lt;Swift.Array&lt;WatchLog.WatchLogBookMonth&gt;, SwiftData.PersistentIdentifier, SwiftUI.DisclosureGroup&lt;SwiftUI.Text, SwiftUI.ForEach&lt;Swift.Array&lt;WatchLog.WatchLogBookDay&gt;, SwiftData.PersistentIdentifier, SwiftUI.DisclosureGroup&lt;SwiftUI.Text, SwiftUI.ForEach&lt;Swift.Array&lt;WatchLog.WatchLogBookEntry&gt;, SwiftData.PersistentIdentifier, &lt;&lt;opaque return type of SwiftUI.View.padding(SwiftUI.EdgeInsets) -&gt; some&gt;&gt;.0&gt;&gt;&gt;&gt;&gt;&gt; in closure #1 () -&gt; SwiftUI.ForEach&lt;Swift.Array&lt;WatchLog.WatchLogBookYear&gt;, SwiftData.PersistentIdentifier, SwiftUI.DisclosureGroup&lt;SwiftUI.Text, SwiftUI.ForEach&lt;Swift.Array&lt;WatchLog.WatchLogBookMonth&gt;, SwiftData.PersistentIdentifier, SwiftUI.DisclosureGroup&lt;SwiftUI.Text, SwiftUI.ForEach&lt;Swift.Array&lt;WatchLog.WatchLogBookDay&gt;, SwiftData.PersistentIdentifier, SwiftUI.DisclosureGroup&lt;SwiftUI.Text, SwiftUI.ForEach&lt;Swift.Array&lt;WatchLog.WatchLogBookEntry&gt;, SwiftData.PersistentIdentifier, &lt;&lt;opaque return type of SwiftUI.View.padding(SwiftUI.EdgeInsets) -&gt; some&gt;&gt;.0&gt;&gt;&gt;&gt;&gt;&gt;&gt; in closure #1 () -&gt; &lt;&lt;opaque return type of SwiftUI.View.background&lt;&#x3c4;_0_0 where &#x3c4;_1_0: SwiftUI.View&gt;(_: &#x3c4;_1_0, alignment: SwiftUI.Alignment) -&gt; some&gt;&gt;.0 in WatchLog.ContentView.body.getter : some"
-                  moduleName = "WatchLog.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/marcus/Xcode1/Coding/myProjects/WatchLog/WatchLog/ContentView.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "67"
-                  endingLineNumber = "67">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -188,8 +158,24 @@
             filePath = "WatchLog/ContentView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "104"
-            endingLineNumber = "104"
+            startingLineNumber = "105"
+            endingLineNumber = "105"
+            landmarkName = "body"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "C3240F72-043E-42CD-958C-35971B0B709B"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WatchLog/LogBookEntryView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "36"
+            endingLineNumber = "36"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>

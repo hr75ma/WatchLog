@@ -7,12 +7,15 @@
 import Foundation
 import SwiftUI
 import SwiftData
+import PencilKit
 
 @Model
 class WatchLogBookEntry: Identifiable, Hashable {
     #Unique<WatchLogBookEntry>([\.uuid, \.LogDate])
     
     @Attribute(.unique) var uuid: UUID
+    
+    var ParentUUID: UUID?
     
     var LogDate: Date
 
@@ -28,7 +31,16 @@ class WatchLogBookEntry: Identifiable, Hashable {
     var isAccient: Bool = false
     var isLocked: Bool = false
 
-    var drawingData: Data = Data()
+    private var drawingData: Data = Data()
+    var drawing: PKDrawing {
+            get {
+                (try? PKDrawing(data: drawingData)) ?? PKDrawing()
+            }
+            
+            set {
+                drawingData = newValue.dataRepresentation()
+            }
+        }
     
    
     

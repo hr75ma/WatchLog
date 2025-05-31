@@ -14,7 +14,7 @@ class WatchLogBookYear: Identifiable, Hashable {
     var LogDate: Date
     
     
-    @Relationship(deleteRule: .cascade) var Months: [WatchLogBookMonth]? = nil
+    @Relationship(deleteRule: .cascade) var Months: [WatchLogBookMonth] = []
     @Attribute(.unique) var uuid: UUID
     
     
