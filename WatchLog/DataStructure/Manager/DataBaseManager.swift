@@ -15,6 +15,7 @@ protocol DataBaseManagerProtocol {
     func fetchYears() -> Result<[WatchLogBookYear], Error>
     func fetchEntries() -> Result<[WatchLogBookEntry], Error>
     func removeLogBookEntry(with EntryUUID: UUID)  -> Result<Void, Error>
+    func fetchLogBook() -> Result<[WatchLogBook], Error>
 }
 extension DataBaseManager: DataBaseManagerProtocol { }
 
@@ -35,7 +36,7 @@ final class DataBaseManager {
         @MainActor
         private init() {
             do {
-                self.modelContainer = try ModelContainer(for: WatchLogBookYear.self)
+                self.modelContainer = try ModelContainer(for: WatchLogBook.self)
                 self.modelContext = modelContainer.mainContext
             } catch {
                 fatalError("Failed to initialize ModelContainer: \(error.localizedDescription)")
@@ -73,6 +74,16 @@ final class DataBaseManager {
       }
     }
     
+    private func fetchLogBook(with EntryUUID: UUID) -> [WatchLogBook] {
+  
+      let fetchDiscriptor = FetchDescriptor<WatchLogBook>(
+        predicate: #Predicate{ $0.uuid == EntryUUID })
+      do {
+        let fetchedEntries = try? modelContext.fetch(fetchDiscriptor)
+        return fetchedEntries!
+      }
+    }
+    
     
     func removeLogBookEntry(with EntryUUID: UUID) -> Result<Void, Error> {
 
@@ -80,6 +91,7 @@ final class DataBaseManager {
       var logDay = WatchLogBookDay()
       var logMonth = WatchLogBookMonth()
       var logYear = WatchLogBookYear()
+      var logBook = WatchLogBook()
 
       let fetchResult = fetchLogBookEntry(with: EntryUUID)
       switch fetchResult {
@@ -136,6 +148,16 @@ final class DataBaseManager {
   
               //check if year has zero entries --> can be deleted
               if logYear.Months!.isEmpty {
+              
+                  let fetchBookResult = fetchLogBook(with: logYear.ParentUUID!)
+                  logBook = fetchBookResult.first!
+                  logBook.Years!.removeAll {
+                        
+                        print("-------------------------->\($0.uuid)")
+                        print("-------------------------->\(logYear.uuid)")
+                        
+                       return $0.uuid == logYear.uuid }
+      
                 modelContext.delete(logYear)
               }
   
@@ -168,6 +190,16 @@ final class DataBaseManager {
         do {
             let fetchedYears = try modelContext.fetch(fetchDiscriptor)
             return .success(fetchedYears)
+        } catch {
+            return .failure(error)
+        }
+    }
+    
+    func fetchLogBook() -> Result<[WatchLogBook], Error> {
+        let fetchDiscriptor = FetchDescriptor<WatchLogBook>()
+        do {
+            let fetchedLogBook = try modelContext.fetch(fetchDiscriptor)
+            return .success(fetchedLogBook)
         } catch {
             return .failure(error)
         }
@@ -252,6 +284,22 @@ final class DataBaseManager {
             DateComponent.year = Calendar.current.component(.year, from: entryTime)
             FillerDate = Calendar.current.date(from: DateComponent)
             
+            
+            var logWatchBook: WatchLogBook?
+            let fetchLogBookDiscriptor = FetchDescriptor<WatchLogBook>()
+            
+            do {
+                logWatchBook = try modelContext.fetch(fetchLogBookDiscriptor).first
+            } catch {
+                print("fetch WatchLogBookYaer failed")
+            }
+            
+            if logWatchBook == nil {
+                logWatchBook = WatchLogBook()
+                modelContext.insert(logWatchBook!)
+                try? modelContext.save()
+            }
+            
 
             var logYearEntry: WatchLogBookYear?
             let fetchDiscriptor = FetchDescriptor<WatchLogBookYear>(predicate: #Predicate{$0.LogDate > predecessorDate! && $0.LogDate < successorDate!})
@@ -265,7 +313,9 @@ final class DataBaseManager {
             
             if logYearEntry == nil {
                 logYearEntry = WatchLogBookYear(LogDate: FillerDate!)
+                logYearEntry?.ParentUUID = logWatchBook!.uuid
                 modelContext.insert(logYearEntry!)
+                logWatchBook!.Years = [logYearEntry!]
                 try? modelContext.save()
             }
             

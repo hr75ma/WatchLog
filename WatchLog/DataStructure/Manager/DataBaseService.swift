@@ -17,6 +17,7 @@ protocol DatabaseServiceProtocol {
     func fetchLogBookYears() async -> Result<[WatchLogBookYear], Error>
     func fetchLogBookEntries() async -> Result<[WatchLogBookEntry], Error>
     func removeWatchLogBookEntry (LogEntry: WatchLogEntry) async -> Result<Void, Error>
+    func fetchLogBook() async -> Result<[WatchLogBook], any Error>
 }
 
 @Observable
@@ -75,6 +76,17 @@ class DatabaseService: DatabaseServiceProtocol {
             return .failure(error)
         }
     }
+    
+    func fetchLogBook() async -> Result<[WatchLogBook], any Error> {
+        let fetchResult = dataSource.fetchLogBook()
+        switch fetchResult {
+        case .success(let entries):
+            return .success(entries)
+        case .failure(let error):
+            return .failure(error)
+        }
+    }
+    
     
     func fetchLogBookEntries() async -> Result<[WatchLogBookEntry], any Error> {
         let fetchResult = dataSource.fetchEntries()
