@@ -100,6 +100,7 @@ final class DataBaseManager {
   
           //remove entry
           modelContext.delete(logEntry)
+            try? modelContext.save()
   
           //check if day has zero entries --> can be deleted
           if logDay.LogEntries!.isEmpty {
@@ -115,6 +116,7 @@ final class DataBaseManager {
   
             //delete empty day
             modelContext.delete(logDay)
+              try? modelContext.save()
   
             //check if month has zero entries --> can be deleted
             if logMonth.Days!.isEmpty {
@@ -130,6 +132,7 @@ final class DataBaseManager {
   
               //delete empty month
               modelContext.delete(logMonth)
+                try? modelContext.save()
   
               //check if year has zero entries --> can be deleted
               if logYear.Months!.isEmpty {

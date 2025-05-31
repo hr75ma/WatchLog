@@ -38,66 +38,52 @@ struct ContentView: View {
     
     
     @State var isLinkActive = false
-  // @Environment(\.modelContext) private var modelContext
 
-  //@Query(sort: \WatchLogBookYear.LogDate, order: .forward) var ListYears: [WatchLogBookYear]
-    //@Query(sort: \WatchLogBookEntry.LogDate, order: .forward) var ListEntries: [WatchLogBookEntry]
 
   var body: some View {
 
-    //      let databaseService = DatabaseService()
-    //      let viewModel = LogEntryViewModel(dataBaseService: databaseService)
+
 
     NavigationSplitView(columnVisibility: $columnVisibility) {
     
-//        List(ListEntries) { entries in
-//            NavigationLink {
-//                                      ContentTest(exisitingLogBookEntry: entries)
-//                                    } label: {
-//                                      Text(getDateTime(date: entries.LogDate))
-//                                        .font(Font.custom(GroupLabelFont, size: 25))
-//                                    }
-//            
-//            
-//            
-//        }
+
         
         Text(Date.now, format: .dateTime.hour().minute().second())
          Text(testEntry.uuid.uuidString)
-      List {
-          ForEach(viewModel.LogBookEntryYears) { years in
-          DisclosureGroup(getDateYear(date: years.LogDate)) {
-            ForEach(sortedMonth(years.Months!)) { child in
-              DisclosureGroup(getDateMonth(date: child.LogDate)) {
-                ForEach(sortedDay(child.Days!)) { child2 in
-                  DisclosureGroup(getDateWeekDay(date: child2.LogDate)) {
-                    ForEach(sortedEntries(child2.LogEntries!)) { child3 in
-
-                      HStack {
-
-                          Button(action: {
-                              
-                              print("view item")
-                              testEntry = child3
-                              print(testEntry.uuid.uuidString)
-                          }) {
-                              Text(getDateTime(date: child3.LogDate))
-                                  .font(Font.custom(GroupLabelFont, size: 25))
+        List {
+          
+              ForEach(viewModel.LogBookEntryYears) { years in
+                  DisclosureGroup(getDateYear(date: years.LogDate)) {
+                      ForEach(sortedMonth(years.Months!)) { child in
+                          DisclosureGroup(getDateMonth(date: child.LogDate)) {
+                              ForEach(sortedDay(child.Days!)) { child2 in
+                                  DisclosureGroup(getDateWeekDay(date: child2.LogDate)) {
+                                      ForEach(sortedEntries(child2.LogEntries!)) { child3 in
+                                          
+                                          HStack {
+                                              
+                                              Button(action: {
+                                                  
+                                                  print("view item")
+                                                  testEntry = child3
+                                                  print(testEntry.uuid.uuidString)
+                                              }) {
+                                                  Text(getDateTime(date: child3.LogDate))
+                                                      .font(Font.custom(GroupLabelFont, size: 25))
+                                              }
+                                              Spacer()
+                                          }
+                                          .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 0))
+                                      }
+                                  }
+                                  //                                    .disclosureGroupStyle(DisclosureStyleDay())
                               }
-                        Spacer()
+                          }
+                          //.disclosureGroupStyle(DisclosureStyleMonth())
                       }
-                      .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 0))
-                    }
                   }
-//                                    .disclosureGroupStyle(DisclosureStyleDay())
-                }
+                  //.disclosureGroupStyle(DisclosureStyleYear())
               }
-                            //.disclosureGroupStyle(DisclosureStyleMonth())
-            }
-          }
-                    //.disclosureGroupStyle(DisclosureStyleYear())
-        }
-
       }
       .refreshable(action: {
           Task {
@@ -119,8 +105,16 @@ struct ContentView: View {
         print("--------->build Tree")
         print("--------->\(testEntry.uuid.uuidString)")
        await viewModel.fetchLogBookYear()
-          listOfEntry = viewModel.LogBookEntryYears
+         listOfEntry = viewModel.LogBookEntryYears
       }
+      .onChange(of: listOfEntry.count, { oldValue, newValue in
+          
+          print("--------->onchange tree")
+         
+          Task {
+              await viewModel.fetchLogBookYear()
+          }
+      })
 
 
       .listStyle(.sidebar)
