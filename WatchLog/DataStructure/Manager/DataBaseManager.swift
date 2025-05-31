@@ -186,7 +186,7 @@ final class DataBaseManager {
             FillerDate = Calendar.current.date(from: DateComponent)
             
             
-            if logYearEntry!.Months.isEmpty {
+            if logYearEntry!.Months!.isEmpty {
                 
                 logMonthEntry = WatchLogBookMonth(LogDate: FillerDate!)
                 logMonthEntry!.ParentUUID = logYearEntry!.uuid
@@ -194,11 +194,11 @@ final class DataBaseManager {
                 logYearEntry!.Months = [logMonthEntry!]
                 try? modelContext.save()
             } else {
-                let filteredMonthArray = logYearEntry!.Months.filter { Calendar.current.isDate($0.LogDate, equalTo: FillerDate!, toGranularity: .month) }
+                let filteredMonthArray = logYearEntry!.Months!.filter { Calendar.current.isDate($0.LogDate, equalTo: FillerDate!, toGranularity: .month) }
                 if filteredMonthArray.isEmpty {
                     logMonthEntry = WatchLogBookMonth(LogDate: FillerDate!)
                     modelContext.insert(logMonthEntry!)
-                    logYearEntry!.Months.append(logMonthEntry!)
+                    logYearEntry!.Months!.append(logMonthEntry!)
                     try? modelContext.save()
                 } else {
                     logMonthEntry = filteredMonthArray[0]
@@ -215,7 +215,7 @@ final class DataBaseManager {
             
             
             
-            if logMonthEntry!.Days.isEmpty {
+            if logMonthEntry!.Days!.isEmpty {
                 
                 logDayEntry = WatchLogBookDay(LogDate: FillerDate!)
                 logDayEntry!.ParentUUID = logMonthEntry!.uuid
@@ -223,10 +223,10 @@ final class DataBaseManager {
                 logMonthEntry!.Days = [logDayEntry!]
                 try? modelContext.save()
             } else {
-                let filteredDayArray = logMonthEntry!.Days.filter { Calendar.current.isDate($0.LogDate, equalTo: FillerDate!, toGranularity: .day) }
+                let filteredDayArray = logMonthEntry!.Days!.filter { Calendar.current.isDate($0.LogDate, equalTo: FillerDate!, toGranularity: .day) }
                 if filteredDayArray.isEmpty {
                     logDayEntry = WatchLogBookDay(LogDate: FillerDate!)
-                    logMonthEntry!.Days.append(logDayEntry!)
+                    logMonthEntry!.Days!.append(logDayEntry!)
                     try? modelContext.save()
                 } else {
                     logDayEntry = filteredDayArray[0]
@@ -236,7 +236,7 @@ final class DataBaseManager {
             let log = WatchLogBookEntry(LogEntry: LogEntry)
             log.ParentUUID = logDayEntry!.uuid
             modelContext.insert(log)
-            logDayEntry!.LogEntries.append(log)
+            logDayEntry!.LogEntries!.append(log)
             try? modelContext.save()
         }
         

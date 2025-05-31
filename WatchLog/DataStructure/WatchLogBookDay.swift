@@ -17,7 +17,7 @@ class WatchLogBookDay: Identifiable, Hashable {
     
     
     
-    @Relationship(deleteRule: .cascade) var LogEntries: [WatchLogBookEntry] = []
+    @Relationship(deleteRule: .cascade) var LogEntries: [WatchLogBookEntry]?
     @Attribute(.unique) var uuid: UUID
     
     
