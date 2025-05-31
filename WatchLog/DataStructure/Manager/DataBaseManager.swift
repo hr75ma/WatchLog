@@ -189,6 +189,7 @@ final class DataBaseManager {
             if logYearEntry!.Months.isEmpty {
                 
                 logMonthEntry = WatchLogBookMonth(LogDate: FillerDate!)
+                logMonthEntry!.ParentUUID = logYearEntry!.uuid
                 modelContext.insert(logMonthEntry!)
                 logYearEntry!.Months = [logMonthEntry!]
                 try? modelContext.save()
@@ -217,6 +218,7 @@ final class DataBaseManager {
             if logMonthEntry!.Days.isEmpty {
                 
                 logDayEntry = WatchLogBookDay(LogDate: FillerDate!)
+                logDayEntry!.ParentUUID = logMonthEntry!.uuid
                 modelContext.insert(logDayEntry!)
                 logMonthEntry!.Days = [logDayEntry!]
                 try? modelContext.save()
@@ -232,6 +234,7 @@ final class DataBaseManager {
             }
             
             let log = WatchLogBookEntry(LogEntry: LogEntry)
+            log.ParentUUID = logDayEntry!.uuid
             modelContext.insert(log)
             logDayEntry!.LogEntries.append(log)
             try? modelContext.save()
