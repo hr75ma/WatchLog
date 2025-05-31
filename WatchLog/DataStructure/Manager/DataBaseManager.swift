@@ -36,7 +36,11 @@ final class DataBaseManager {
         @MainActor
         private init() {
             do {
-                self.modelContainer = try ModelContainer(for: WatchLogBook.self)
+                //preview
+                let config = ModelConfiguration(isStoredInMemoryOnly: true)
+                self.modelContainer = try ModelContainer(for: WatchLogBook.self, configurations: config)
+                
+                //self.modelContainer = try ModelContainer(for: WatchLogBook.self)
                 self.modelContext = modelContainer.mainContext
             } catch {
                 fatalError("Failed to initialize ModelContainer: \(error.localizedDescription)")
@@ -240,7 +244,9 @@ final class DataBaseManager {
         var logMonthEntry: WatchLogBookMonth?
         var logDayEntry: WatchLogBookDay?
         
-        
+        let testdateFormatter = DateFormatter()
+        testdateFormatter.dateFormat = "dd.MM.yyyy HH:mm"
+        dateFormatter.string(from: Date())
         
         
         let LogEntryUUID:UUID = LogEntry.uuid
@@ -258,6 +264,7 @@ final class DataBaseManager {
         } else
         {
             let entryTime = LogEntry.EntryTime
+            print(dateFormatter.string(from: entryTime))
             
             var DateComponent = DateComponents()
             DateComponent.year = Calendar.current.component(.year, from: entryTime)-1
@@ -315,7 +322,7 @@ final class DataBaseManager {
                 logYearEntry = WatchLogBookYear(LogDate: FillerDate!)
                 logYearEntry?.ParentUUID = logWatchBook!.uuid
                 modelContext.insert(logYearEntry!)
-                logWatchBook!.Years = [logYearEntry!]
+                logWatchBook!.Years?.append(logYearEntry!)
                 try? modelContext.save()
             }
             

@@ -69,6 +69,9 @@ struct LogBookEntryView: View {
         .onDisappear {
             dismiss()
         }
+        .onAppear() { //testdaten
+            viewModel.generateLogBookEntry()
+        }
         .onChange(of: exisitingLogBookEntry, { oldValue, newValue in
             
             print("--------->onchange")

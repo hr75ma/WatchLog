@@ -43,6 +43,10 @@ class DatabaseService: DatabaseServiceProtocol {
     
     
     
+    
+    
+    
+    
     func saveWatchLogBookEntry (LogEntry: WatchLogEntry) async -> Result<Void, Error> {
         let saveResult =  dataSource.saveLogBookEntry(LogEntry: LogEntry)
         switch saveResult {

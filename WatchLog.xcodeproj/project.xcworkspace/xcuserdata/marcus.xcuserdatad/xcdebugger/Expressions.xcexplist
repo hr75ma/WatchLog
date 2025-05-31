@@ -20,6 +20,17 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "DataBaseManager.saveLogBookEntry(LogEntry:):DataBaseManager.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "logWatchBook!.Years">
+            </PersistentString>
+            <PersistentString
+               value = "entryTime">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "closure #1 in LockedView.body.getter:LockEditingView.swift">
          <PersistentStrings>
             <PersistentString
@@ -31,7 +42,7 @@
          contextName = "closure #1 in closure #4 in LogBookEntryView.body.getter:LogBookEntryView.swift">
          <PersistentStrings>
             <PersistentString
-               value = "viewModel">
+               value = "oldValue">
             </PersistentString>
             <PersistentString
                value = "viewModel.watchLogEntry">
@@ -40,15 +51,12 @@
                value = "newValue">
             </PersistentString>
             <PersistentString
-               value = "oldValue">
+               value = "viewModel">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
       <ContextState
          contextName = "closure #1 in closure #1 in ContentViewTest.body.getter:ContentViewTest.swift">
-      </ContextState>
-      <ContextState
-         contextName = "closure #1 in closure #1 in closure #1 in closure #1 in closure #1 in closure #1 in closure #1 in closure #1 in closure #1 in closure #1 in closure #1 in ContentView.body.getter:ContentView.swift">
       </ContextState>
       <ContextState
          contextName = "DataBaseManager.removeLogBookEntry(with:):DataBaseManager.swift">
@@ -63,6 +71,9 @@
                value = "logDay.LogEntries!">
             </PersistentString>
          </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in closure #1 in closure #1 in closure #1 in closure #1 in closure #1 in closure #1 in closure #1 in closure #1 in closure #1 in closure #1 in ContentView.body.getter:ContentView.swift">
       </ContextState>
       <ContextState
          contextName = "WatchLogEntry.getDateFromDOB():WatchLogEntry.swift">

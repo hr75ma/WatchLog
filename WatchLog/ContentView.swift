@@ -9,13 +9,19 @@ import SwiftData
 import SwiftUI
 
 #Preview{
+  
+  //---------->DataBaseManager speicher db
+    
   let textFieldStyleLogEntry = GeneralStylesLogEntry()
 
   let databaseService = DatabaseService()
   let viewModel = LogEntryViewModel(dataBaseService: databaseService)
-  let previewData = PreviewData()
-  previewData.addExampleData()
-  return ContentView()
+    
+  var pre: PreviewData = PreviewData()
+    pre.setPreviewDate(viewModel: viewModel)
+    
+    
+    return ContentView()
     .environmentObject(viewModel)
     .environmentObject(textFieldStyleLogEntry)
 

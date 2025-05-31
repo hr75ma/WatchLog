@@ -27,11 +27,9 @@ struct WatchLogApp: App {
             //ContentViewTest(exisitingLogBookEntryUUID: $uuid)
             ContentView()
                 //.environment(databaseController)
-               
         }
         .environmentObject(viewModel)
         .environmentObject(textFieldStyleLogEntry)
-        .modelContainer(for: [WatchLogBookYear.self, WatchLogBookMonth.self, WatchLogBookDay.self, WatchLogBookEntry.self])
     
     }
 }
