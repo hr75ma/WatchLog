@@ -29,7 +29,7 @@ class WatchLogEntry {
   var isAccient: Bool = false
   var isLocked: Bool = false
 
-  var drawingData: Data = Data()
+  //var drawingData: Data = Data()
     
   var pkDrawingData: PKDrawing = PKDrawing()
 
@@ -38,14 +38,14 @@ class WatchLogEntry {
   init () {
       EntryTime = Date.now
       uuid = UUID()
-      drawingData = Data()
+      //drawingData = Data()
       pkDrawingData = PKDrawing()
     }
     
     init (uudi: UUID) {
         EntryTime = Date.now
         uuid = uudi
-        drawingData = Data()
+        //drawingData = Data()
         pkDrawingData = PKDrawing()
       }
     
@@ -67,7 +67,7 @@ class WatchLogEntry {
         isAccient = WatchLookBookEntry.isAccient
         isLocked = WatchLookBookEntry.isLocked
 
-        drawingData = WatchLookBookEntry.drawingData
+        //drawingData = WatchLookBookEntry.drawingData
         pkDrawingData = try! PKDrawing(data: WatchLookBookEntry.drawingData)
         
     }
@@ -96,7 +96,7 @@ class WatchLogEntry {
     AccientLicensePlate01 = ""
     AccientLicensePlate02 = ""
 
-    drawingData = Data()
+    //drawingData = Data()
     pkDrawingData = PKDrawing()
   }
 

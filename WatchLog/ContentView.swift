@@ -98,6 +98,12 @@ struct ContentView: View {
         }
 
       }
+      .refreshable(action: {
+          Task {
+              print("--------->refresh Tree")
+              await viewModel.fetchLogBookYear()
+          }
+      })
       .toolbar {
           ToolbarItem(placement: .navigationBarTrailing) {
               Button(action: addItem) {
@@ -110,6 +116,7 @@ struct ContentView: View {
       }
       .task {
         print("--------->build Tree")
+        print("--------->\(testEntry.uuid.uuidString)")
        await viewModel.fetchLogBookYear()
       }
       .listStyle(.sidebar)
