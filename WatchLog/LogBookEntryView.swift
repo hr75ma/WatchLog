@@ -55,8 +55,9 @@ struct LogBookEntryView: View {
             )
             .overlay(
               RoundedRectangle(cornerRadius: 20)
-                .stroke(viewModel.watchLogEntry.isLocked ? Color.red : Color.blue, lineWidth: 4)
+                .stroke(viewModel.watchLogEntry.isLocked ? GeneralStyles.isLockedColor : GeneralStyles.isUnLockedColor, lineWidth: 4)
             )
+            .animation(.easeInOut(duration: 1), value: viewModel.watchLogEntry.isLocked)
             .padding(EdgeInsets(top: 10, leading: 10, bottom: 0, trailing: 10))
             
         }
@@ -136,6 +137,7 @@ struct LogBookEntryView: View {
             }) {
               label: do {
                   Image(systemName: GeneralStyles.ToolBarNewImageActive)
+                      .symbolRenderingMode(.palette)
                       .foregroundStyle(GeneralStyles.ToolBarNewColorActivePrimary, GeneralStyles.ToolBarNewColorActiveSecondary)
                       
               }
@@ -157,10 +159,13 @@ struct LogBookEntryView: View {
                     
                         .animation(.easeInOut(duration: 1), value: viewModel.watchLogEntry.isLocked)
                     
-                        .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(6) ,isActive: viewModel.watchLogEntry.isLocked)
-                        .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(6), isActive: !viewModel.watchLogEntry.isLocked)
+                        
+                        
+                        //.contentTransition(.symbolEffect(.replace, options: .nonRepeating))
+                        .symbolEffect(.breathe.pulse, options: .nonRepeating.speed(6), isActive: viewModel.watchLogEntry.isLocked)
+                        .symbolEffect(.breathe.pulse, options: .nonRepeating.speed(6), isActive: !viewModel.watchLogEntry.isLocked)
                         .symbolEffect(.scale)
-                        .contentTransition(.symbolEffect(.replace, options: .nonRepeating))
+                        
 
                         
                 }

@@ -25,13 +25,15 @@ struct AccidentSelectionView: View {
           Toggle("", isOn: $LogEntry.isAccient)
             .labelsHidden()
             .toggleStyle(
-              ToggleStyleImage(
-                isOffImage: GeneralStyles.isUnAccidentImage,
-                isOnImage: GeneralStyles.isAccidentImage,
-                isOnColor: GeneralStyles.ToogleIsAccidentColor,
-                isOffColor: GeneralStyles.ToogleIsUnAccidentColor)
-            )
-            .frame(height: 25, alignment: .center)
+                ToggleStyleImage(
+            isOnImage: GeneralStyles.AccidentImageisLocked,
+            isOffImage: GeneralStyles.AccidentImageisUnLocked,
+            isOnColorPrimary: GeneralStyles.AccidentColorIsLockedPrimary,
+            isOnColorSecondary: GeneralStyles.AccidentColorIsLockedSecondary,
+            isOffColorPrimary: GeneralStyles.AccidentColorIsUnLockedPrimary,
+            isOffColorSecondary: GeneralStyles.AccidentColorIsUnLockedSecondary
+            ))
+            .frame(height: GeneralStyles.LabelFontSize2, alignment: .center)
             .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
             .disabled(LogEntry.isLocked)
           Spacer()
@@ -73,13 +75,15 @@ struct AccidentSelectionView: View {
           Toggle("", isOn: $LogEntry.AccientInjured)
             .labelsHidden()
             .toggleStyle(
-              ToggleStyleImage(
-                isOffImage: GeneralStyles.isUnAccidentImage,
-                isOnImage: GeneralStyles.isAccidentImage,
-                isOnColor: GeneralStyles.ToogleIsAccidentColor,
-                isOffColor: GeneralStyles.ToogleIsUnAccidentColor)
-            )
-            .frame(height: 25, alignment: .center)
+            ToggleStyleImage(
+        isOnImage: GeneralStyles.AccidentImageisLocked,
+        isOffImage: GeneralStyles.AccidentImageisUnLocked,
+        isOnColorPrimary: GeneralStyles.AccidentColorIsLockedPrimary,
+        isOnColorSecondary: GeneralStyles.AccidentColorIsLockedSecondary,
+        isOffColorPrimary: GeneralStyles.AccidentColorIsUnLockedPrimary,
+        isOffColorSecondary: GeneralStyles.AccidentColorIsUnLockedSecondary
+        ))
+            .frame(height: GeneralStyles.TextFieldHeight2, alignment: .center)
             .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
             .disabled(LogEntry.isLocked)
 
@@ -93,13 +97,15 @@ struct AccidentSelectionView: View {
           Toggle("", isOn: $LogEntry.AccientHitAndRun)
             .labelsHidden()
             .toggleStyle(
-              ToggleStyleImage(
-                isOffImage: GeneralStyles.isUnAccidentImage,
-                isOnImage: GeneralStyles.isAccidentImage,
-                isOnColor: GeneralStyles.ToogleIsAccidentColor,
-                isOffColor: GeneralStyles.ToogleIsUnAccidentColor)
-            )
-            .frame(height: 25, alignment: .center)
+            ToggleStyleImage(
+        isOnImage: GeneralStyles.AccidentImageisLocked,
+        isOffImage: GeneralStyles.AccidentImageisUnLocked,
+        isOnColorPrimary: GeneralStyles.AccidentColorIsLockedPrimary,
+        isOnColorSecondary: GeneralStyles.AccidentColorIsLockedSecondary,
+        isOffColorPrimary: GeneralStyles.AccidentColorIsUnLockedPrimary,
+        isOffColorSecondary: GeneralStyles.AccidentColorIsUnLockedSecondary
+        ))
+            .frame(height: GeneralStyles.TextFieldHeight2, alignment: .center)
             .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
             .disabled(LogEntry.isLocked)
         }

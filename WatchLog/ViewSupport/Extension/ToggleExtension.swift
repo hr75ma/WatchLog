@@ -100,31 +100,97 @@ struct ToggleStyleLock: ToggleStyle {
 }
 
 struct ToggleStyleImage: ToggleStyle {
-    var isOffImage: String = ""
+    
     var isOnImage: String = ""
-    var isOnColor: Color = .green
-    var isOffColor: Color = .red
-    
-    
-  @EnvironmentObject var GeneralStyles: GeneralStylesLogEntry
+    var isOffImage: String = ""
+    var isOnColorPrimary: Color = .green
+    var isOnColorSecondary: Color = .green
+    var isOffColorPrimary: Color = .green
+    var isOffColorSecondary: Color = .green
 
   func makeBody(configuration: MyStyle.Configuration) -> some View {
           
+      ZStack(alignment: .center) {
+          
           
           Image(systemName: configuration.isOn ? isOnImage : isOffImage)
+              .symbolRenderingMode(.palette)
               .resizable()
               .scaledToFit()
-              //.frame(height: GeneralStyles.LabelFontSize2)
+              
+              
+              .foregroundStyle(configuration.isOn ? isOnColorPrimary : isOffColorPrimary, configuration.isOn ? isOnColorSecondary : isOffColorSecondary)
+              .animation(.easeInOut(duration: 1), value: configuration.isOn)
+          
+              .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(6) ,isActive: configuration.isOn)
+              .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(6), isActive: !configuration.isOn)
+              .symbolEffect(.scale)
               .padding(EdgeInsets(top: 4, leading: 4, bottom: 4, trailing: 4))
-              .foregroundColor(configuration.isOn ? isOnColor : isOffColor)
-              .clipShape(RoundedRectangle(cornerRadius: 7))
-              .overlay(
-                RoundedRectangle(cornerRadius: 7)
-                    .stroke(configuration.isOn ? isOnColor : isOffColor, lineWidth: 2)
-             )
+          
+          
+              
+          //.foregroundColor(configuration.isOn ? isOnColor : isOffColor)
+              
+      }
+      //.frame(height: 35, alignment: .center)
+//      .overlay(
+//        RoundedRectangle(cornerRadius: 7)
+//            .stroke(configuration.isOn ? isOnColorPrimary : isOffColorPrimary, lineWidth: 2))
+//            .animation(.easeInOut(duration: 1), value: configuration.isOn)
+//      )
+      .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+             
               .onTapGesture {
                   configuration.$isOn.wrappedValue.toggle()
               }
     
   }
 }
+
+struct ToggleStyleFramedImage: ToggleStyle {
+    
+    var isOnImage: String = ""
+    var isOffImage: String = ""
+    var isOnColorPrimary: Color = .green
+    var isOnColorSecondary: Color = .green
+    var isOffColorPrimary: Color = .green
+    var isOffColorSecondary: Color = .green
+
+  func makeBody(configuration: MyStyle.Configuration) -> some View {
+          
+      ZStack(alignment: .center) {
+          
+          
+          Image(systemName: configuration.isOn ? isOnImage : isOffImage)
+              .symbolRenderingMode(.palette)
+              .resizable()
+              .scaledToFit()
+              
+              
+              .foregroundStyle(configuration.isOn ? isOnColorPrimary : isOffColorPrimary, configuration.isOn ? isOnColorSecondary : isOffColorSecondary)
+              .animation(.easeInOut(duration: 1), value: configuration.isOn)
+          
+              .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(6) ,isActive: configuration.isOn)
+              .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(6), isActive: !configuration.isOn)
+              .symbolEffect(.scale)
+              .padding(EdgeInsets(top: 4, leading: 4, bottom: 4, trailing: 4))
+          
+          
+              
+          //.foregroundColor(configuration.isOn ? isOnColor : isOffColor)
+              
+      }
+      .frame(height: 35, alignment: .center)
+      .overlay(
+        RoundedRectangle(cornerRadius: 7)
+            .stroke(configuration.isOn ? isOnColorPrimary : isOffColorPrimary, lineWidth: 2))
+            .animation(.easeInOut(duration: 1), value: configuration.isOn)
+      .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+             
+              .onTapGesture {
+                  configuration.$isOn.wrappedValue.toggle()
+              }
+    
+  }
+}
+

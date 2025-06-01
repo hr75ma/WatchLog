@@ -39,14 +39,22 @@ class GeneralStylesLogEntry: ObservableObject {
     @Published var ToogleIsActiveColor: Color = Color.red
     @Published var ToogleIsUnActiveColor: Color = Color.green
     
+    //locking Section
+    @Published var LockImageisLocked: String = "pencil.and.list.clipboard"
+    @Published var LockImageisUnLocked: String = "pencil.and.list.clipboard"
+    @Published var LockColorIsLockedPrimary: Color = Color.red
+    @Published var LockColorIsLockedSecondary: Color = Color.red
+    @Published var LockColorIsUnLockedPrimary: Color = Color.blue
+    @Published var LockColorIsUnLockedSecondary: Color = Color.blue
     
-    @Published var isLockImage: String = "pencil.slash"
-    @Published var isUnLockImage: String = "pencil"
     
-    @Published var isAccidentImage: String = "checkmark.rectangle.fill"
-    @Published var isUnAccidentImage: String = "rectangle.fill"
-    @Published var ToogleIsAccidentColor: Color = Color.green
-    @Published var ToogleIsUnAccidentColor: Color = Color.blue
+    //Accident Secttion
+    @Published var AccidentImageisLocked: String = "checkmark.rectangle"
+    @Published var AccidentImageisUnLocked: String = "rectangle"
+    @Published var AccidentColorIsLockedPrimary: Color = Color.green
+    @Published var AccidentColorIsLockedSecondary: Color = Color.blue
+    @Published var AccidentColorIsUnLockedPrimary: Color = Color.blue
+    @Published var AccidentColorIsUnLockedSecondary: Color = Color.blue
     
     //ToolbarItem
     @Published var ToolBarEraserImageActive: String = "eraser"

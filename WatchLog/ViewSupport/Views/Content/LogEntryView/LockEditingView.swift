@@ -26,11 +26,20 @@ struct LockedView: View {
               .fixedSize(horizontal: true, vertical: true)
               .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 5))
               .lineSpacing(0)
+              .animation(.easeInOut(duration: 2), value: LogEntry.isLocked)
+              
           
           Toggle("", isOn: $LogEntry.isLocked)
               .labelsHidden()
-              .toggleStyle(ToggleStyleImage(isOffImage: GeneralStyles.isUnLockImage, isOnImage: GeneralStyles.isLockImage, isOnColor: GeneralStyles.ToogleIsActiveColor, isOffColor: GeneralStyles.ToogleIsUnActiveColor))
-              .frame(height: 25, alignment: .center)
+              .toggleStyle(ToggleStyleImage(
+                isOnImage: GeneralStyles.LockImageisLocked,
+                isOffImage: GeneralStyles.LockImageisUnLocked,
+                isOnColorPrimary: GeneralStyles.LockColorIsLockedPrimary,
+                isOnColorSecondary: GeneralStyles.LockColorIsLockedSecondary,
+                isOffColorPrimary: GeneralStyles.LockColorIsUnLockedPrimary,
+                isOffColorSecondary: GeneralStyles.LockColorIsUnLockedSecondary
+                ))
+              .frame(height: GeneralStyles.LabelFontSize2, alignment: .center)
               .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
 
       Spacer()
