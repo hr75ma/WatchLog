@@ -31,6 +31,7 @@ class GeneralStylesLogEntry: ObservableObject {
     @Published var isUnLockedColor: Color = Color.blue
     
     @Published var GeneralTextColor:Color = Color.blue
+    @Published var GeneralBackgroundColor:Color = Color.white
     @Published var GeneralInnerFrameColor:Color = Color.blue
     @Published var GeneralInnerFrameBorderWidth:CGFloat = 4
     
@@ -48,23 +49,45 @@ class GeneralStylesLogEntry: ObservableObject {
     @Published var ToogleIsUnAccidentColor: Color = Color.blue
     
     //ToolbarItem
-    @Published var ToolBarIsActiveImageEraser: String = "eraser.fill"
-    @Published var ToolBarIsUnActiveImageEraser: String = "eraser.fill"
+    @Published var ToolBarEraserImageActive: String = "eraser"
+    @Published var ToolBarEraserImageUnActive: String = "eraser"
+    @Published var ToolBarEraserColorActive: Color = Color.blue
+    @Published var ToolBarEraserColorUnActive: Color = Color.red
     
-    @Published var ToolBarIsActiveImageSave: String = "square.and.arrow.down.fill"
-    @Published var ToolBarIsUnActiveImageSave: String = "square.and.arrow.down.fill"
+    @Published var ToolBarSaveImageActive: String = "square.and.arrow.down"
+    @Published var ToolBarSaveImageUnActive: String = "square.and.arrow.down"
+    @Published var ToolBarSaveColorActivePrimary: Color = Color.blue
+    @Published var ToolBarSaveColorActiveSecondary: Color = Color.blue
+    @Published var ToolBarSaveColorUnActivePrimary: Color = Color.red
+    @Published var ToolBarSaveColorUnActiveSecondary: Color = Color.red
+    
+    @Published var ToolBarNewImageActive: String = "list.bullet.clipboard"
+    @Published var ToolBarNewImageUnActive: String = "list.bullet.clipboard"
+    @Published var ToolBarNewColorActivePrimary: Color = Color.white
+    @Published var ToolBarNewColorActiveSecondary: Color = Color.blue
+    @Published var ToolBarNewColorUnActivePrimary: Color = Color.white
+    @Published var ToolBarNewColorUnActiveSecondary: Color = Color.red
+    
+    @Published var ToolBarDeleteImageActive: String = "trash"
+    @Published var ToolBarDeleteImageUnActive: String = "trash.slash"
+    @Published var ToolBarDeleteColorActivePrimary: Color = Color.blue
+    @Published var ToolBarDeleteColorActiveSecondary: Color = Color.blue
+    @Published var ToolBarDeleteColorUnActivePrimary: Color = Color.red
+    @Published var ToolBarDeleteColorUnActiveSecondary: Color = Color.red
     
     
     
-    @Published var ToolBarIsActiveImageNew: String = "document.badge.plus.fill"
-    @Published var ToolBarIsUnActiveImageNew: String = "document.badge.plus.fill"
-    
-    
-    @Published var ToolBarIsActiveImageDelete: String = "trash.fill"
-    @Published var ToolBarIsUnActiveImageDelete: String = "trash.slash.fill"
     
     //Note
     @Published var SectionNoteImage = "phone.bubble.fill"
+    
+    //tree navigation
+    @Published var NavigationTreeAddEntryImage = "list.clipboard"
+    
+    @Published var NavigationTreeImagePrimaryColor = Color.white
+    @Published var NavigationTreeImageSecondaryColor = Color.blue
+    
+    
     
     
     

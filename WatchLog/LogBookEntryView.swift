@@ -94,10 +94,17 @@ struct LogBookEntryView: View {
               clearEntry(LogEntry: viewModel.watchLogEntry, drawing: &drawing)
             }) {
               label: do {
-                  Image(systemName: viewModel.watchLogEntry.isLocked ? GeneralStyles.ToolBarIsUnActiveImageEraser : GeneralStyles.ToolBarIsActiveImageEraser)
-                  .ToolbarImageStyle(GeneralStyles)
-                  .foregroundStyle(viewModel.watchLogEntry.isLocked ? GeneralStyles.isLockedColor : GeneralStyles.isUnLockedColor)
-              }
+                  Image(systemName: viewModel.watchLogEntry.isLocked ? GeneralStyles.ToolBarEraserImageUnActive : GeneralStyles.ToolBarEraserImageActive)
+                      .symbolRenderingMode(.palette)
+                      .foregroundStyle(viewModel.watchLogEntry.isLocked ? GeneralStyles.ToolBarEraserColorUnActive : GeneralStyles.ToolBarEraserColorActive)
+                  
+                      .animation(.easeInOut(duration: 1), value: viewModel.watchLogEntry.isLocked)
+                  
+                      .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(6) ,isActive: viewModel.watchLogEntry.isLocked)
+                      .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(6), isActive: !viewModel.watchLogEntry.isLocked)
+                      //.contentTransition(.symbolEffect(.replace.offUp, options: .nonRepeating))
+                      .symbolEffect(.scale)
+                    }
             }
             .disabled(viewModel.watchLogEntry.isLocked)
               
@@ -108,9 +115,16 @@ struct LogBookEntryView: View {
               }
             }) {
               label: do {
-                  Image(systemName: viewModel.watchLogEntry.isLocked ? GeneralStyles.ToolBarIsUnActiveImageSave : GeneralStyles.ToolBarIsActiveImageSave)
-                  .ToolbarImageStyle(GeneralStyles)
-                  .foregroundStyle(viewModel.watchLogEntry.isLocked ? GeneralStyles.isLockedColor : GeneralStyles.isUnLockedColor)
+                  Image(systemName: viewModel.watchLogEntry.isLocked ? GeneralStyles.ToolBarSaveImageUnActive : GeneralStyles.ToolBarSaveImageActive)
+                      .symbolRenderingMode(.multicolor)
+                  .foregroundStyle(viewModel.watchLogEntry.isLocked ? GeneralStyles.ToolBarSaveColorUnActivePrimary : GeneralStyles.ToolBarSaveColorActivePrimary)
+              
+                  .animation(.easeInOut(duration: 1), value: viewModel.watchLogEntry.isLocked)
+              
+                  .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(6) ,isActive: viewModel.watchLogEntry.isLocked)
+                  .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(6), isActive: !viewModel.watchLogEntry.isLocked)
+                  //.contentTransition(.symbolEffect(.replace.offUp, options: .nonRepeating))
+                  .symbolEffect(.scale)
               }
             }
             .disabled(viewModel.watchLogEntry.isLocked)
@@ -121,8 +135,9 @@ struct LogBookEntryView: View {
                     newEntry(LogEntry: viewModel.watchLogEntry, drawing: &drawing)
             }) {
               label: do {
-                  Image(systemName: viewModel.watchLogEntry.isLocked ? GeneralStyles.ToolBarIsUnActiveImageNew : GeneralStyles.ToolBarIsActiveImageNew)
-                      .ToolbarImageStyle(GeneralStyles)
+                  Image(systemName: GeneralStyles.ToolBarNewImageActive)
+                      .foregroundStyle(GeneralStyles.ToolBarNewColorActivePrimary, GeneralStyles.ToolBarNewColorActiveSecondary)
+                      
               }
             }
             //.disabled(viewModel.watchLogEntry.isLocked)
@@ -135,8 +150,19 @@ struct LogBookEntryView: View {
                   }
               }) {
                 label: do {
-                    Image(systemName: viewModel.watchLogEntry.isLocked ? GeneralStyles.ToolBarIsUnActiveImageDelete : GeneralStyles.ToolBarIsActiveImageDelete)
-                    .foregroundStyle(viewModel.watchLogEntry.isLocked ? GeneralStyles.isLockedColor : GeneralStyles.isUnLockedColor)
+                    Image(systemName: viewModel.watchLogEntry.isLocked ? GeneralStyles.ToolBarDeleteImageUnActive : GeneralStyles.ToolBarDeleteImageActive)
+                        .symbolRenderingMode(.palette)
+                        .foregroundStyle(viewModel.watchLogEntry.isLocked ? GeneralStyles.ToolBarDeleteColorUnActivePrimary : GeneralStyles.ToolBarDeleteColorActivePrimary, viewModel.watchLogEntry.isLocked ? GeneralStyles.ToolBarDeleteColorUnActiveSecondary : GeneralStyles.ToolBarDeleteColorActiveSecondary
+                        )
+                    
+                        .animation(.easeInOut(duration: 1), value: viewModel.watchLogEntry.isLocked)
+                    
+                        .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(6) ,isActive: viewModel.watchLogEntry.isLocked)
+                        .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(6), isActive: !viewModel.watchLogEntry.isLocked)
+                        .symbolEffect(.scale)
+                        .contentTransition(.symbolEffect(.replace, options: .nonRepeating))
+
+                        
                 }
               }
               .disabled(viewModel.watchLogEntry.isLocked)
@@ -164,18 +190,7 @@ private func newEntry(LogEntry: WatchLogEntry, drawing: inout PKDrawing) {
 
 }
 
-extension Image {
-    
-    fileprivate func ToolbarImageStyle(_ generalStyles: GeneralStylesLogEntry) -> some View {
-        self
-            .resizable()
-            .aspectRatio(contentMode: .fit)
-            .frame(width: 30, height: 30)
-            .symbolRenderingMode(.monochrome)
-            .symbolVariant(.fill)
-            .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-    }
-}
+
 
 #Preview {
     @Previewable @State var exisitingLogBookEntry = WatchLogBookEntry()

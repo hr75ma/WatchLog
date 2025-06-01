@@ -9,19 +9,18 @@ import SwiftData
 import SwiftUI
 
 #Preview{
-  
+
   //---------->DataBaseManager speicher db
-    
+
   let textFieldStyleLogEntry = GeneralStylesLogEntry()
 
   let databaseService = DatabaseService()
   let viewModel = LogEntryViewModel(dataBaseService: databaseService)
-    
+
   var pre: PreviewData = PreviewData()
-    pre.setPreviewDate(viewModel: viewModel)
-    
-    
-    return ContentView()
+  pre.setPreviewDate(viewModel: viewModel)
+
+  return ContentView()
     .environmentObject(viewModel)
     .environmentObject(textFieldStyleLogEntry)
 
@@ -32,6 +31,7 @@ let GroupLabelFont: String = "Roboto-MediumItalic"
 struct ContentView: View {
   @State private var columnVisibility = NavigationSplitViewVisibility.automatic
   @EnvironmentObject var viewModel: LogEntryViewModel
+  @EnvironmentObject var GeneralStyles: GeneralStylesLogEntry
 
   @State private var testInt: Int = 0
   @State private var testEntry: WatchLogBookEntry = WatchLogBookEntry()
@@ -50,53 +50,55 @@ struct ContentView: View {
 
       Text(Date.now, format: .dateTime.hour().minute().second())
       Text(testEntry.uuid.uuidString)
-        List(viewModel.WatchLogBooks, id: \.uuid) { book in
-            
-            ForEach(book.Years!) { y in
-                DisclosureGroup(getDateYear(date: y.LogDate)) {
-                    ForEach(sortedMonth(y.Months!)) { m in
-                        DisclosureGroup(getDateMonth(date: m.LogDate)) {
-                            ForEach(sortedDay(m.Days!)) { d in
-                                DisclosureGroup(getDateWeekDay(date: d.LogDate)) {
-                                    ForEach(sortedEntries(d.LogEntries!)) { e in
-                                        HStack {
+      List(viewModel.WatchLogBooks, id: \.uuid) { book in
 
-                                            Button(action: {
-                                                
-                                                print("view item")
-                                                testEntry = e
-                                                print(testEntry.uuid.uuidString)
-                                            }) {
-                                                Text(getDateTime(date: e.LogDate))
-                                                    .font(Font.custom(GroupLabelFont, size: 25))
-                                                }
-                                          Spacer()
-                                        }
-                                    }
-                                }
-                                
-                                
-                            }
+        ForEach(book.Years!) { y in
+          DisclosureGroup(getDateYear(date: y.LogDate)) {
+            ForEach(sortedMonth(y.Months!)) { m in
+              DisclosureGroup(getDateMonth(date: m.LogDate)) {
+                ForEach(sortedDay(m.Days!)) { d in
+                  DisclosureGroup(getDateWeekDay(date: d.LogDate)) {
+                    ForEach(sortedEntries(d.LogEntries!)) { e in
+                      HStack {
+
+                        Button(action: {
+
+                          print("view item")
+                          testEntry = e
+                          print(testEntry.uuid.uuidString)
+                        }) {
+                          Text(getDateTime(date: e.LogDate))
+                            .font(Font.custom(GroupLabelFont, size: 25))
                         }
-                        
-                        
+                        Spacer()
+                      }
                     }
+                  }
+
                 }
-          }
-           
-        }
-        .refreshable(action: {
-            Task {
-                print("--------->refresh Tree")
-                await viewModel.fetchLogBookYear()
+              }
+
             }
-        })
+          }
+        }
+
+      }
+      .refreshable(action: {
+        Task {
+          print("--------->refresh Tree")
+          await viewModel.fetchLogBookYear()
+        }
+      })
       .toolbar {
         ToolbarItem(placement: .navigationBarTrailing) {
-          Button(action: addItem) {
+          Button(action: addNewLogEntry) {
 
-            Text("+")
-              .font(Font.custom(GroupLabelFont, size: 25))
+            Image(systemName: GeneralStyles.NavigationTreeAddEntryImage)
+              //.ToolbarImageStyle(GeneralStyles)
+             .symbolRenderingMode(.palette)
+             .foregroundStyle(GeneralStyles.NavigationTreeImagePrimaryColor, GeneralStyles.NavigationTreeImageSecondaryColor)
+             .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.nonRepeating.speed(6))
+             .symbolEffect(.scale)
           }
 
         }
@@ -129,9 +131,8 @@ struct ContentView: View {
     }
   }
 
-  private func addItem() {
+  private func addNewLogEntry() {
     print("add item")
-    //testInt = testInt + 1
     isNewEntry = true
     testEntry = WatchLogBookEntry(uuid: UUID())
     print(testEntry.uuid.uuidString)
@@ -152,14 +153,13 @@ struct ContentView: View {
 
   }
 
-    
-    private func sortedYear(_ LogEntry: [WatchLogBookYear]) -> [WatchLogBookYear] {
-      return LogEntry.sorted(using: [
-        SortDescriptor(\.LogDate, order: .forward)
-      ])
+  private func sortedYear(_ LogEntry: [WatchLogBookYear]) -> [WatchLogBookYear] {
+    return LogEntry.sorted(using: [
+      SortDescriptor(\.LogDate, order: .forward)
+    ])
 
-    }
-    
+  }
+
   private func sortedMonth(_ LogEntry: [WatchLogBookMonth]) -> [WatchLogBookMonth] {
     return LogEntry.sorted(using: [
       SortDescriptor(\.LogDate, order: .forward)
@@ -167,11 +167,10 @@ struct ContentView: View {
 
   }
 
-    fileprivate func getDateBook(String: String) -> String {
-      return "test"
-    }
-    
-    
+  fileprivate func getDateBook(String: String) -> String {
+    return "test"
+  }
+
   fileprivate func getDateYear(date: Date) -> String {
     return String(Calendar.current.component(.year, from: date))
   }
