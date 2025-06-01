@@ -55,9 +55,13 @@ struct LogBookEntryView: View {
             )
             .overlay(
               RoundedRectangle(cornerRadius: 20)
+                
                 .stroke(viewModel.watchLogEntry.isLocked ? GeneralStyles.isLockedColor : GeneralStyles.isUnLockedColor, lineWidth: 4)
+                
             )
-            .animation(.easeInOut(duration: 1), value: viewModel.watchLogEntry.isLocked)
+            .animation(.easeInOut(duration: 1),  value: viewModel.watchLogEntry.isLocked)
+
+            
             .padding(EdgeInsets(top: 10, leading: 10, bottom: 0, trailing: 10))
             
         }

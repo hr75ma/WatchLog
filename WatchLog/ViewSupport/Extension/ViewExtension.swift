@@ -84,13 +84,25 @@ extension Text {
 
 extension TextField {
     
+    func SectionTextFieldSingleLine(_ generalStyles: GeneralStylesLogEntry, isLocked: Bool) -> some View {
+        self
+            .font(Font.custom(generalStyles.TextFieldFont, size: generalStyles.TextFieldHeight))
+            .textInputAutocapitalization(.characters)
+            .lineLimit(1)
+            .foregroundStyle(generalStyles.GeneralTextColor)
+            .background(isLocked ? generalStyles.TextfieldBackgroundColorLocked : generalStyles.TextfieldBackgroundColorUnLocked)
+            .fixedSize(horizontal: false, vertical: true)
+            .textContentType(.telephoneNumber)
+            .animation(.easeInOut(duration: 1),  value: isLocked)
+    }
+    
     func SectionTextFieldSingleLine(_ generalStyles: GeneralStylesLogEntry) -> some View {
         self
             .font(Font.custom(generalStyles.TextFieldFont, size: generalStyles.TextFieldHeight))
             .textInputAutocapitalization(.characters)
             .lineLimit(1)
             .foregroundStyle(generalStyles.GeneralTextColor)
-            .background(generalStyles.TextfieldBackgroundColor)
+            .background(generalStyles.TextfieldBackgroundColorUnLocked)
             .fixedSize(horizontal: false, vertical: true)
             .textContentType(.telephoneNumber)
     }

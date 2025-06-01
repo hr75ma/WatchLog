@@ -23,7 +23,7 @@ struct CallerDataView: View {
                         .SectionTextLabel(GeneralStyles)
                     
                     TextField("", text: $LogEntry.CallerNumber)
-                        .SectionTextFieldSingleLine(GeneralStyles)
+                        .SectionTextFieldSingleLine(GeneralStyles, isLocked: LogEntry.isLocked)
                         .textContentType(.telephoneNumber)
                         .keyboardType(.numberPad)  // Show number pad
                         .onChange(of: LogEntry.CallerNumber, initial: false) { old, value in
@@ -37,7 +37,7 @@ struct CallerDataView: View {
                         .SectionTextLabel(GeneralStyles)
                     
                     TextField("", text: $LogEntry.CallerName)
-                        .SectionTextFieldSingleLine(GeneralStyles)
+                        .SectionTextFieldSingleLine(GeneralStyles, isLocked: LogEntry.isLocked)
                         .textContentType(.name)
                         .autocorrectionDisabled(true)
                         .disabled(LogEntry.isLocked)
@@ -48,7 +48,7 @@ struct CallerDataView: View {
                         .SectionTextLabel(GeneralStyles)
                     
                     TextField("", text: $LogEntry.CallerDOB)
-                        .SectionTextFieldSingleLine(GeneralStyles)
+                        .SectionTextFieldSingleLine(GeneralStyles, isLocked: LogEntry.isLocked)
                         .textInputAutocapitalization(.characters)
                         .textContentType(.birthdate)
                         .disabled(LogEntry.isLocked)
@@ -91,7 +91,7 @@ struct CallerDataView: View {
                         .frame(alignment: .topLeading)
                     
                     TextField("", text: $LogEntry.CallerAdress, axis: .vertical)
-                        .SectionTextFieldSingleLine(GeneralStyles)
+                        .SectionTextFieldSingleLine(GeneralStyles, isLocked: LogEntry.isLocked)
                         .fixedSize(horizontal: false, vertical: true)
                         .lineLimit(4, reservesSpace: true)
                         .autocorrectionDisabled(true)

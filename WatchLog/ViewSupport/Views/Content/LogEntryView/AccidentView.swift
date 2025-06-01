@@ -47,7 +47,7 @@ struct AccidentSelectionView: View {
             .frame(width: 215, height: GeneralStyles.TextFieldHeight2, alignment: .topLeading)
 
           TextField("", text: $LogEntry.AccientLicensePlate01)
-            .SectionTextFieldSingleLineSecond(GeneralStyles)
+                .SectionTextFieldSingleLineSecond(GeneralStyles, isLocked: LogEntry.isLocked)
             .disabled(LogEntry.isLocked)
 
         }
@@ -59,7 +59,7 @@ struct AccidentSelectionView: View {
             .frame(width: 215, height: GeneralStyles.TextFieldHeight2, alignment: .topLeading)
 
           TextField("", text: $LogEntry.AccientLicensePlate02)
-            .SectionTextFieldSingleLineSecond(GeneralStyles)
+                .SectionTextFieldSingleLineSecond(GeneralStyles, isLocked: LogEntry.isLocked)
             .disabled(LogEntry.isLocked)
 
         }
@@ -155,4 +155,18 @@ extension TextField {
       .fixedSize(horizontal: false, vertical: true)
       .textContentType(.telephoneNumber)
   }
+    
+    fileprivate func SectionTextFieldSingleLineSecond(_ generalStyles: GeneralStylesLogEntry, isLocked: Bool)
+      -> some View
+    {
+      self
+        .font(Font.custom(generalStyles.TextFieldFont, size: generalStyles.TextFieldHeight2))
+        .textInputAutocapitalization(.characters)
+        .lineLimit(1)
+        .foregroundStyle(generalStyles.GeneralTextColor)
+        .background(isLocked ? generalStyles.TextfieldBackgroundColorLocked : generalStyles.TextfieldBackgroundColorUnLocked)
+        .fixedSize(horizontal: false, vertical: true)
+        .textContentType(.telephoneNumber)
+        .animation(.easeInOut(duration: 1),  value: isLocked)
+    }
 }
