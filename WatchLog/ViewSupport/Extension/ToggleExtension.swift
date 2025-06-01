@@ -29,7 +29,7 @@ struct MyStyleLock: ToggleStyle {
   let ImageIsOff: String = "rectangle.fill"
   let ImageIsOn: String = "checkmark.rectangle.fill"
 
-  func makeBody(configuration: MyStyle.Configuration) -> some View {
+  func makeBody(configuration: MyStyleLock.Configuration) -> some View {
     HStack(alignment: .center) {
       configuration.label
 
@@ -76,7 +76,7 @@ struct ToggleStyleLock: ToggleStyle {
   var isOffImage: String = "rectangle.fill"
   var isOnImage: String = "checkmark.rectangle.fill"
 
-  func makeBody(configuration: MyStyle.Configuration) -> some View {
+  func makeBody(configuration: ToggleStyleLock.Configuration) -> some View {
       HStack(alignment: .center, spacing:0) {
           configuration.label
           
@@ -107,8 +107,11 @@ struct ToggleStyleImage: ToggleStyle {
     var isOnColorSecondary: Color = .green
     var isOffColorPrimary: Color = .green
     var isOffColorSecondary: Color = .green
+    
+    var isLocked: Bool = false
+    var isLockedColor: Color = .green
 
-  func makeBody(configuration: MyStyle.Configuration) -> some View {
+  func makeBody(configuration: ToggleStyleImage.Configuration) -> some View {
           
       ZStack(alignment: .center) {
           
@@ -119,25 +122,16 @@ struct ToggleStyleImage: ToggleStyle {
               .scaledToFit()
               
               
-              .foregroundStyle(configuration.isOn ? isOnColorPrimary : isOffColorPrimary, configuration.isOn ? isOnColorSecondary : isOffColorSecondary)
+              .foregroundStyle(configuration.isOn ?  isLocked ? isLockedColor : isOnColorPrimary : isOffColorPrimary, configuration.isOn ? isOnColorSecondary : isOffColorSecondary)
               .animation(.easeInOut(duration: 1), value: configuration.isOn)
+          
+              
           
               .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(6) ,isActive: configuration.isOn)
               .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(6), isActive: !configuration.isOn)
               .symbolEffect(.scale)
               .padding(EdgeInsets(top: 4, leading: 4, bottom: 4, trailing: 4))
-          
-          
-              
-          //.foregroundColor(configuration.isOn ? isOnColor : isOffColor)
-              
       }
-      //.frame(height: 35, alignment: .center)
-//      .overlay(
-//        RoundedRectangle(cornerRadius: 7)
-//            .stroke(configuration.isOn ? isOnColorPrimary : isOffColorPrimary, lineWidth: 2))
-//            .animation(.easeInOut(duration: 1), value: configuration.isOn)
-//      )
       .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
              
               .onTapGesture {
@@ -146,6 +140,8 @@ struct ToggleStyleImage: ToggleStyle {
     
   }
 }
+
+
 
 struct ToggleStyleFramedImage: ToggleStyle {
     
@@ -156,7 +152,7 @@ struct ToggleStyleFramedImage: ToggleStyle {
     var isOffColorPrimary: Color = .green
     var isOffColorSecondary: Color = .green
 
-  func makeBody(configuration: MyStyle.Configuration) -> some View {
+  func makeBody(configuration: ToggleStyleFramedImage.Configuration) -> some View {
           
       ZStack(alignment: .center) {
           

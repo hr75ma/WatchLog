@@ -23,14 +23,22 @@ struct NoteView: View {
           Image(systemName: GeneralStyles.SectionNoteImage)
               .SectionImageStyle(GeneralStyles)
       }
-      //.border(.green)
       .padding(EdgeInsets(top: 5, leading: 0, bottom: 0, trailing: 10))
 
       HStack(alignment: .top, spacing: 0) {
           CanvasView(drawing: $drawing, toolPickerShows: $toolPickerShows)
+              
           
       }
+      .overlay(
+        RoundedRectangle(cornerRadius: 20)
+          
+            .stroke(WatchLog.isLocked ? GeneralStyles.CanvasLockedColor : GeneralStyles.CanvasUnLockedColor, lineWidth: 1)
+          
+      )
+      .animation(.easeInOut(duration: 1),  value: WatchLog.isLocked)
       .padding(EdgeInsets(top: 5, leading: 10, bottom: 10, trailing: 10))
+      
     }
 
     .overlay(
@@ -39,6 +47,6 @@ struct NoteView: View {
         .foregroundColor(GeneralStyles.GeneralInnerFrameColor),  // Border color
       alignment: .bottom
     )
-    .padding(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0))
+    .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
   }
 }

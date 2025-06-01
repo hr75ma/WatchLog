@@ -22,6 +22,7 @@ struct CanvasView: UIViewRepresentable {
         // Set the coordinator as the canvas's delegate
         canvasView.delegate = context.coordinator
         
+        
         // Make the tool picker visible or invisible depending on toolPickerShows
         toolPicker.setVisible(toolPickerShows, forFirstResponder: canvasView)
         // Make the canvas respond to tool changes

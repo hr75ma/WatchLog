@@ -40,10 +40,10 @@ class GeneralStylesLogEntry: ObservableObject {
     @Published var GeneralInnerFrameBorderWidth:CGFloat = 4
     
     //toogle
-    @Published var ToogleIsActiveColor: Color = Color.red
-    @Published var ToogleIsUnActiveColor: Color = Color.green
+    @Published var ToogleIsLockedColor: Color = Color.blue
+
     
-    //locking Section
+    //Locking Section
     @Published var LockImageisLocked: String = "pencil.and.list.clipboard"
     @Published var LockImageisUnLocked: String = "pencil.and.list.clipboard"
     @Published var LockColorIsLockedPrimary: Color = Color.red
@@ -52,7 +52,7 @@ class GeneralStylesLogEntry: ObservableObject {
     @Published var LockColorIsUnLockedSecondary: Color = Color.blue
     
     
-    //Accident Secttion
+    //Accident Section
     @Published var AccidentImageisLocked: String = "checkmark.rectangle"
     @Published var AccidentImageisUnLocked: String = "rectangle"
     @Published var AccidentColorIsLockedPrimary: Color = Color.green
@@ -73,8 +73,8 @@ class GeneralStylesLogEntry: ObservableObject {
     @Published var ToolBarSaveColorUnActivePrimary: Color = Color.red
     @Published var ToolBarSaveColorUnActiveSecondary: Color = Color.red
     
-    @Published var ToolBarNewImageActive: String = "list.bullet.clipboard"
-    @Published var ToolBarNewImageUnActive: String = "list.bullet.clipboard"
+    @Published var ToolBarNewImageActive: String = "list.clipboard"
+    @Published var ToolBarNewImageUnActive: String = "list.clipboard"
     @Published var ToolBarNewColorActivePrimary: Color = Color.white
     @Published var ToolBarNewColorActiveSecondary: Color = Color.blue
     @Published var ToolBarNewColorUnActivePrimary: Color = Color.white
@@ -87,8 +87,9 @@ class GeneralStylesLogEntry: ObservableObject {
     @Published var ToolBarDeleteColorUnActivePrimary: Color = Color.red
     @Published var ToolBarDeleteColorUnActiveSecondary: Color = Color.red
     
-    
-    
+    // Section Canvas
+    @Published var CanvasLockedColor: Color = Color(hex: 0x585858).opacity(1)
+    @Published var CanvasUnLockedColor: Color = Color.blue
     
     //Note
     @Published var SectionNoteImage = "phone.bubble.fill"

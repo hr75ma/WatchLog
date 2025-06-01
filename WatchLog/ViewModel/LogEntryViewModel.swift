@@ -37,6 +37,7 @@ class LogEntryViewModel: ObservableObject {
                 
                 let entryObject = WatchLogEntry()
                 entryObject.EntryTime = dateFormatter.date(from: dat)!
+                entryObject.isLocked = true
                 await saveLogEntry(LogEntry: entryObject)
                 
             }

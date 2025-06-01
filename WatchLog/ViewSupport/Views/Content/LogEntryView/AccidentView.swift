@@ -31,7 +31,8 @@ struct AccidentSelectionView: View {
             isOnColorPrimary: GeneralStyles.AccidentColorIsLockedPrimary,
             isOnColorSecondary: GeneralStyles.AccidentColorIsLockedSecondary,
             isOffColorPrimary: GeneralStyles.AccidentColorIsUnLockedPrimary,
-            isOffColorSecondary: GeneralStyles.AccidentColorIsUnLockedSecondary
+            isOffColorSecondary: GeneralStyles.AccidentColorIsUnLockedSecondary,
+            isLocked: LogEntry.isLocked, isLockedColor: GeneralStyles.ToogleIsLockedColor
             ))
             .frame(height: GeneralStyles.LabelFontSize2, alignment: .center)
             .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
@@ -51,7 +52,9 @@ struct AccidentSelectionView: View {
             .disabled(LogEntry.isLocked)
 
         }
+        //.opacity(<#T##opacity: Double##Double#>)
         .isHidden(!LogEntry.isAccient, remove: true)
+        //.animation(.easeInOut(duration: 1), value: !LogEntry.isAccient)
 
         HStack(alignment: .center, spacing: 0) {
           Text("Kennzeichen ON02")
@@ -81,7 +84,8 @@ struct AccidentSelectionView: View {
         isOnColorPrimary: GeneralStyles.AccidentColorIsLockedPrimary,
         isOnColorSecondary: GeneralStyles.AccidentColorIsLockedSecondary,
         isOffColorPrimary: GeneralStyles.AccidentColorIsUnLockedPrimary,
-        isOffColorSecondary: GeneralStyles.AccidentColorIsUnLockedSecondary
+        isOffColorSecondary: GeneralStyles.AccidentColorIsUnLockedSecondary,
+        isLocked: LogEntry.isLocked, isLockedColor: GeneralStyles.ToogleIsLockedColor
         ))
             .frame(height: GeneralStyles.TextFieldHeight2, alignment: .center)
             .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
@@ -103,7 +107,8 @@ struct AccidentSelectionView: View {
         isOnColorPrimary: GeneralStyles.AccidentColorIsLockedPrimary,
         isOnColorSecondary: GeneralStyles.AccidentColorIsLockedSecondary,
         isOffColorPrimary: GeneralStyles.AccidentColorIsUnLockedPrimary,
-        isOffColorSecondary: GeneralStyles.AccidentColorIsUnLockedSecondary
+        isOffColorSecondary: GeneralStyles.AccidentColorIsUnLockedSecondary,
+        isLocked: LogEntry.isLocked, isLockedColor: GeneralStyles.ToogleIsLockedColor
         ))
             .frame(height: GeneralStyles.TextFieldHeight2, alignment: .center)
             .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
