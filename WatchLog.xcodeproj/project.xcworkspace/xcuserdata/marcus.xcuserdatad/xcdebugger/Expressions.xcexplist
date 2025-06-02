@@ -23,10 +23,19 @@
          contextName = "DataBaseManager.saveLogBookEntry(LogEntry:):DataBaseManager.swift">
          <PersistentStrings>
             <PersistentString
+               value = "entryTime">
+            </PersistentString>
+            <PersistentString
+               value = "logYearEntry!.Months">
+            </PersistentString>
+            <PersistentString
+               value = "logYearEntry?.ParentUUID">
+            </PersistentString>
+            <PersistentString
                value = "logWatchBook!.Years">
             </PersistentString>
             <PersistentString
-               value = "entryTime">
+               value = "logMonthEntry">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -42,7 +51,7 @@
          contextName = "closure #1 in closure #4 in LogBookEntryView.body.getter:LogBookEntryView.swift">
          <PersistentStrings>
             <PersistentString
-               value = "oldValue">
+               value = "viewModel">
             </PersistentString>
             <PersistentString
                value = "viewModel.watchLogEntry">
@@ -51,7 +60,7 @@
                value = "newValue">
             </PersistentString>
             <PersistentString
-               value = "viewModel">
+               value = "oldValue">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -68,7 +77,16 @@
                value = "logYear.Months!">
             </PersistentString>
             <PersistentString
+               value = "logMonth.ParentUUID">
+            </PersistentString>
+            <PersistentString
+               value = "logDay.ParentUUID">
+            </PersistentString>
+            <PersistentString
                value = "logDay.LogEntries!">
+            </PersistentString>
+            <PersistentString
+               value = "logDay.LogEntries!.isEmpty">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
