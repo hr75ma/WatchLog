@@ -26,8 +26,8 @@ struct LogBookEntryView: View {
     
     var body: some View {
         
-        Text(Date.now, format: .dateTime.hour().minute().second())
-         Text(exisitingLogBookEntry.uuid.uuidString)
+//        Text(Date.now, format: .dateTime.hour().minute().second())
+//         Text(exisitingLogBookEntry.uuid.uuidString)
         
         ScrollView {
             
@@ -73,9 +73,6 @@ struct LogBookEntryView: View {
         }
         .onDisappear {
             dismiss()
-        }
-        .onAppear() { //testdaten
-           // viewModel.generateLogBookEntry()
         }
         .onChange(of: exisitingLogBookEntry, { oldValue, newValue in
             

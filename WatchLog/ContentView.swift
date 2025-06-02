@@ -48,10 +48,11 @@ struct ContentView: View {
 
     NavigationSplitView(columnVisibility: $columnVisibility) {
 
-      Text(Date.now, format: .dateTime.hour().minute().second())
-      Text(testEntry.uuid.uuidString)
+        Text(Date.now, format: .dateTime.day().month().year().hour().minute().second())
+            .foregroundStyle(.blue)
+//      Text(testEntry.uuid.uuidString)
       List(viewModel.WatchLogBooks, id: \.uuid) { book in
-
+          
         ForEach(book.Years!) { y in
           DisclosureGroup(getDateYear(date: y.LogDate)) {
             ForEach(sortedMonth(y.Months!)) { m in
@@ -68,21 +69,28 @@ struct ContentView: View {
                           print(testEntry.uuid.uuidString)
                         }) {
                           Text(getDateTime(date: e.LogDate))
-                            .font(Font.custom(GroupLabelFont, size: 25))
+//                            .font(Font.custom(GroupLabelFont, size: 15))
                         }
-                        Spacer()
+                        //Spacer()
                       }
                     }
+                    .onDelete(perform: deleteItems)
                   }
 
                 }
+                .onDelete(perform: deleteItems)
               }
 
             }
+            .onDelete(perform: deleteItems)
           }
         }
-
+        .onDelete(perform: deleteItems)
+        
       }
+      .listStyle(.insetGrouped)
+      .foregroundStyle(.blue)
+      .fontWeight(.medium)
       .refreshable(action: {
         Task {
           print("--------->refresh Tree")
@@ -120,6 +128,9 @@ struct ContentView: View {
           }
         }
       )
+      .onAppear() { //testdaten
+         // viewModel.generateLogBookEntry()
+      }
 
       .listStyle(.sidebar)
       .scrollContentBackground(.hidden)
@@ -130,6 +141,15 @@ struct ContentView: View {
       LogBookEntryView(exisitingLogBookEntry: testEntry)
     }
   }
+    
+    private func deleteItems(offsets: IndexSet) {
+        withAnimation {
+            for index in offsets {
+//                modelContext.delete(items[index])
+
+            }
+        }
+    }
 
   private func addNewLogEntry() {
     print("add item")
@@ -185,6 +205,8 @@ struct ContentView: View {
 
     return dateFormatter.string(from: date)
   }
+    
+    
 
   fileprivate func getDateTime(date: Date) -> String {
     //let dateFormatter = DateFormatter()
@@ -196,3 +218,5 @@ struct ContentView: View {
   }
 
 }
+
+

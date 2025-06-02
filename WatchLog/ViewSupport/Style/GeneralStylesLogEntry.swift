@@ -44,8 +44,8 @@ class GeneralStylesLogEntry: ObservableObject {
 
     
     //Locking Section
-    @Published var LockImageisLocked: String = "pencil.and.list.clipboard"
-    @Published var LockImageisUnLocked: String = "pencil.and.list.clipboard"
+    @Published var LockImageisLocked: String = "checkmark.rectangle"
+    @Published var LockImageisUnLocked: String = "rectangle"
     @Published var LockColorIsLockedPrimary: Color = Color.red
     @Published var LockColorIsLockedSecondary: Color = Color.red
     @Published var LockColorIsUnLockedPrimary: Color = Color.blue
@@ -99,6 +99,10 @@ class GeneralStylesLogEntry: ObservableObject {
     
     @Published var NavigationTreeImagePrimaryColor = Color.white
     @Published var NavigationTreeImageSecondaryColor = Color.blue
+    
+    @Published var NavigationTreeDisclosureYearGradientStart = Color(hex: 0x222222).opacity(1)
+    @Published var NavigationTreeDisclosureYearGradientEnd = Color(hex: 0x2e2e2e).opacity(1)
+    
     
     
     

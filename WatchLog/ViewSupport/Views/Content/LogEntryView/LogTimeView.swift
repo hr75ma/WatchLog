@@ -20,7 +20,7 @@ struct LogTimeView: View {
             .TextStyleAndAnimation(GeneralStyles)
         
       Spacer()
-      Text(LogTime.formatted(.dateTime.day().month(.defaultDigits).year()))
+        Text(LogTime.formatted(.dateTime.day(.twoDigits).month(.twoDigits).year()))
             .TextStyleAndAnimation(GeneralStyles)
         
       Spacer()

@@ -9,6 +9,7 @@ import SwiftUI
 
 
 struct DisclosureStyleYear: DisclosureGroupStyle {
+    @EnvironmentObject var GeneralStyles: GeneralStylesLogEntry
     func makeBody(configuration: Configuration) -> some View {
       VStack(alignment: .center, spacing: 0) {
         Button {
@@ -18,6 +19,7 @@ struct DisclosureStyleYear: DisclosureGroupStyle {
         } label: {
           HStack(alignment: .center, spacing: 0) {
             configuration.label
+                  .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 0))
             Spacer()
             Image(systemName: configuration.isExpanded ? "chevron.down" : "chevron.forward")
               .resizable()
@@ -26,32 +28,42 @@ struct DisclosureStyleYear: DisclosureGroupStyle {
               .symbolRenderingMode(.monochrome)
               .symbolVariant(.rectangle)
               .foregroundStyle(.blue)
-              .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+              .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 10))
           }
+          .frame(height: 70)
+          
+          //.background(Color.clear.edgesIgnoringSafeArea(.all))
+          .background(
+            LinearGradient(gradient: Gradient(colors: [GeneralStyles.NavigationTreeDisclosureYearGradientStart, GeneralStyles.NavigationTreeDisclosureYearGradientEnd]), startPoint: .leading, endPoint: .trailing))
+          .foregroundStyle(.blue)
+          .font(Font.custom(GroupLabelFont, size: 20))
+          .border(Color.clear, width: 0)
+          .cornerRadius(15)
+          .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
         }
-        .buttonStyle(.plain)
+        //.buttonStyle(.plain)
         if configuration.isExpanded {
           configuration.content
             //.font(Font.custom(GroupLabelFont, size: 40))
             .lineLimit(1)
             .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
             .listRowSpacing(0)
+            .foregroundStyle(.blue)
             //.frame(width: .infinity, alignment: .leading)
-
         }
+              
       }
-      .listRowSpacing(0)
-      .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
-      .background(Color.clear.edgesIgnoringSafeArea(.all))
+      //.frame(height: 70)
+      
+      //.background(Color.clear.edgesIgnoringSafeArea(.all))
+      .background(
+        LinearGradient(gradient: Gradient(colors: [GeneralStyles.NavigationTreeDisclosureYearGradientStart, GeneralStyles.NavigationTreeDisclosureYearGradientEnd]), startPoint: .leading, endPoint: .trailing))
       .foregroundStyle(.blue)
-      .font(Font.custom(GroupLabelFont, size: 40))
+      .font(Font.custom(GroupLabelFont, size: 20))
       .border(Color.clear, width: 0)
-      .overlay(
-        RoundedRectangle(cornerRadius: 20)
-          .stroke(Color.blue, lineWidth: 2)
-      )
-     // .frame(width: .infinity, alignment: .leading)
-      .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0))
+      .cornerRadius(15)
+      .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+      .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
 
     }
   }
