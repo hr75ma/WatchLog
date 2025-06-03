@@ -31,26 +31,6 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "DataBaseManager.saveLogBookEntry(LogEntry:):DataBaseManager.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "logYearEntry!.Months">
-            </PersistentString>
-            <PersistentString
-               value = "entryTime">
-            </PersistentString>
-            <PersistentString
-               value = "logYearEntry?.ParentUUID">
-            </PersistentString>
-            <PersistentString
-               value = "logWatchBook!.Years">
-            </PersistentString>
-            <PersistentString
-               value = "logMonthEntry">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
          contextName = "closure #1 in LockedView.body.getter:LockEditingView.swift">
          <PersistentStrings>
             <PersistentString

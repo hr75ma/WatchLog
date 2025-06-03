@@ -13,22 +13,27 @@ class WatchLogBookDay: Identifiable, Hashable {
 
     #Unique<WatchLogBookDay>([\.uuid, \.LogDate])
     var LogDate: Date
-    var ParentUUID: UUID?
     
     
     
-    @Relationship(deleteRule: .cascade) var LogEntries: [WatchLogBookEntry]?
     @Attribute(.unique) var uuid: UUID
     
+    @Relationship(deleteRule: .cascade) var watchLogBookEntries: [WatchLogBookEntry]? = []
     
-    init(LogDate: Date) {
+    @Relationship(deleteRule: .nullify, inverse: \WatchLogBookMonth.watchLogBookDays) var watchLogBookMonth: WatchLogBookMonth
+    
+    
+    init(LogDate: Date, month: WatchLogBookMonth) {
         self.LogDate = LogDate
         self.uuid = UUID()
+        self.watchLogBookMonth = month
+        
     }
     
     init() {
         self.LogDate = .now
         self.uuid = UUID()
+        self.watchLogBookMonth = WatchLogBookMonth()
     }
 
 }

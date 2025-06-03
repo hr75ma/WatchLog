@@ -15,7 +15,7 @@ class WatchLogBookEntry: Identifiable, Hashable {
     
     @Attribute(.unique) var uuid: UUID
     
-    var ParentUUID: UUID?
+    @Relationship(deleteRule: .nullify, inverse: \WatchLogBookDay.watchLogBookEntries) var watchLogBookDay: WatchLogBookDay
     
     var LogDate: Date
 
@@ -43,7 +43,28 @@ class WatchLogBookEntry: Identifiable, Hashable {
         }
     
    
-    
+    init(LogEntry: WatchLogEntry, day: WatchLogBookDay) {
+        
+        uuid = LogEntry.uuid
+        LogDate = LogEntry.EntryTime
+        
+        CallerName = LogEntry.CallerName
+        CallerNumber = LogEntry.CallerNumber
+        CallerAdress = LogEntry.CallerAdress
+        CallerDOB = LogEntry.getDateFromDOB()
+        
+        isAccient = LogEntry.isAccient
+        AccientInjured = LogEntry.AccientInjured
+        AccientHitAndRun = LogEntry.AccientHitAndRun
+        AccientLicensePlate01 = LogEntry.AccientLicensePlate01
+        AccientLicensePlate02 = LogEntry.AccientLicensePlate02
+        
+        isLocked = LogEntry.isLocked
+        
+        drawingData =  LogEntry.pkDrawingData.dataRepresentation()
+        
+        watchLogBookDay = day
+    }
     
     init(LogEntry: WatchLogEntry) {
         
@@ -64,6 +85,8 @@ class WatchLogBookEntry: Identifiable, Hashable {
         isLocked = LogEntry.isLocked
         
         drawingData =  LogEntry.pkDrawingData.dataRepresentation()
+        
+        watchLogBookDay = WatchLogBookDay()
     }
     
     init() {
@@ -85,6 +108,8 @@ class WatchLogBookEntry: Identifiable, Hashable {
         isLocked = false
         
         drawingData = Data()
+        
+        watchLogBookDay = WatchLogBookDay()
     }
     
     init(uuid: UUID) {
@@ -106,6 +131,8 @@ class WatchLogBookEntry: Identifiable, Hashable {
         isLocked = false
         
         drawingData = Data()
+        
+        watchLogBookDay = WatchLogBookDay()
     }
     
     func update(LogEntry: WatchLogEntry) {

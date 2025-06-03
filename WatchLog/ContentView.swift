@@ -54,13 +54,13 @@ struct ContentView: View {
 //      Text(testEntry.uuid.uuidString)
       List(viewModel.WatchLogBooks, id: \.uuid) { book in
           
-        ForEach(book.Years!) { y in
+          ForEach(book.watchLogBookYears!) { y in
           DisclosureGroup(getDateYear(date: y.LogDate)) {
-            ForEach(sortedMonth(y.Months!)) { m in
+            ForEach(sortedMonth(y.watchLogBookMonths!)) { m in
               DisclosureGroup(getDateMonth(date: m.LogDate)) {
-                ForEach(sortedDay(m.Days!)) { d in
+                ForEach(sortedDay(m.watchLogBookDays!)) { d in
                   DisclosureGroup(getDateWeekDay(date: d.LogDate)) {
-                      ForEach(sortedEntries(d.LogEntries!)) { e in
+                      ForEach(sortedEntries(d.watchLogBookEntries!)) { e in
                       HStack {
 
                         Button(action: {
@@ -75,23 +75,23 @@ struct ContentView: View {
                         //Spacer()
                       }
                     }
-                    .onDelete(perform: { indexSet in
-                        indexSet.sorted(by: > ).forEach { (i) in
-                            var LogEntry = d.LogEntries![i]
-                            deleteLogEntry(watchLogBookEntry: LogEntry)
-                        
-                        }
-                    })
+//                    .onDelete(perform: { indexSet in
+//                        indexSet.sorted(by: > ).forEach { (i) in
+//                            var LogEntry = d.LogEntries![i]
+//                            deleteLogEntry(watchLogBookEntry: LogEntry)
+//                        
+//                        }
+//                    })
                   }
 
                 }
-                .onDelete(perform: { indexSet in
-                    indexSet.sorted(by: > ).forEach { (i) in
-                        var LogEntry = m.Days![i]
-                        deleteLogDay(watchLogBookDay: LogEntry)
-                    
-                    }
-                })
+//                .onDelete(perform: { indexSet in
+//                    indexSet.sorted(by: > ).forEach { (i) in
+//                        var LogEntry = m.Days![i]
+//                        deleteLogDay(watchLogBookDay: LogEntry)
+//                    
+//                    }
+//                })
               }
 
             }
@@ -131,7 +131,6 @@ struct ContentView: View {
         print("--------->build Tree")
         print("--------->\(testEntry.uuid.uuidString)")
         await viewModel.fetchLogBook()
-        //listOfEntry = viewModel.LogBookEntryYears
       }
       .onChange(
         of: listOfEntry.count,
@@ -144,10 +143,6 @@ struct ContentView: View {
           }
         }
       )
-      .onAppear() { //testdaten
-         // viewModel.generateLogBookEntry()
-      }
-
       .listStyle(.sidebar)
       .scrollContentBackground(.hidden)
       .background(Color.black.edgesIgnoringSafeArea(.all))
