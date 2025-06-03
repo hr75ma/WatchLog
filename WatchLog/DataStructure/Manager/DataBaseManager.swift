@@ -259,90 +259,54 @@ final class DataBaseManager {
     }
 //    
     func removeLogBookEntry(with EntryUUID: UUID) -> Result<Void, Error> {
-//
-//      var logEntry = WatchLogBookEntry()
-//      var logDay = WatchLogBookDay()
-//      var logMonth = WatchLogBookMonth()
-//      var logYear = WatchLogBookYear()
-//      var logBook = WatchLogBook()
-//
-//      let fetchResult = fetchLogBookEntry(with: EntryUUID)
-//      switch fetchResult {
-//      case .success(let entry):
-//        if !entry.isEmpty {
-//  
-//          logEntry = entry.first!
-//  
-//          //day of logentry
-//            let fetchDayResult = fetchLogBookDay(with: logEntry.ParentUUID!)
-//          logDay = fetchDayResult.first!
-//          logDay.LogEntries!.removeAll {
-//              
-//              print("-------------------------->\($0.uuid)")
-//              print("-------------------------->\(logEntry.uuid)")
-//              
-//              return $0.uuid == logEntry.uuid }
-//  
-//          //remove entry
-//          modelContext.delete(logEntry)
-//            try? modelContext.save()
-//  
-//          //check if day has zero entries --> can be deleted
-//          if logDay.LogEntries!.isEmpty {
-//  
-//            let fetchMonthResult = fetchLogBookMonth(with: logDay.ParentUUID!)
-//            logMonth = fetchMonthResult.first!
-//            logMonth.Days!.removeAll {
-//                
-//                print("-------------------------->\($0.uuid)")
-//                print("-------------------------->\(logDay.uuid)")
-//                
-//                return $0.uuid == logDay.uuid }
-//  
-//            //delete empty day
-//            modelContext.delete(logDay)
-//              try? modelContext.save()
-//  
-//            //check if month has zero entries --> can be deleted
-//              if logMonth.Days!.isEmpty {
-//    
-//                let fetchYearResult = fetchLogBookYear(with: logMonth.ParentUUID!)
-//                logYear = fetchYearResult.first!
-//                  logYear.Months!.removeAll {
-//                      
-//                      print("-------------------------->\($0.uuid)")
-//                      print("-------------------------->\(logMonth.uuid)")
-//                      
-//                     return $0.uuid == logMonth.uuid }
-//    
-//                //delete empty month
-//                modelContext.delete(logMonth)
-//                try? modelContext.save()
-//  
-//              //check if year has zero entries --> can be deleted
-//              if logYear.Months!.isEmpty {
-//              
-//                  let fetchBookResult = fetchLogBook(with: logYear.ParentUUID!)
-//                  logBook = fetchBookResult.first!
-//                  logBook.Years!.removeAll {
-//                        
-//                        print("-------------------------->\($0.uuid)")
-//                        print("-------------------------->\(logYear.uuid)")
-//                        
-//                       return $0.uuid == logYear.uuid }
-//      
-//                modelContext.delete(logYear)
-//              }
-//  
-//            }
-//  
-//          }
-//          try? modelContext.save()
-//        }
-//        return .success(())
-//      case .failure(let error):
-//        return .failure(error)
-//      }
+
+      var logEntry = WatchLogBookEntry()
+      var logDay = WatchLogBookDay()
+      var logMonth = WatchLogBookMonth()
+      var logYear = WatchLogBookYear()
+      var logBook = WatchLogBook()
+
+      let fetchResult = fetchLogBookEntry(with: EntryUUID)
+      switch fetchResult {
+      case .success(let entry):
+        if !entry.isEmpty {
+  
+          logEntry = entry.first!
+          //remove entry
+          modelContext.delete(logEntry)
+          try? modelContext.save()
+            
+          //check if day has zero entries --> can be deleted
+          let fetchDayResult = fetchLogBookDay(with: logEntry.watchLogBookDay.uuid)
+            logDay = fetchDayResult.first!
+            if logDay.watchLogBookEntries!.isEmpty {
+                modelContext.delete(logDay)
+                try? modelContext.save()
+            
+                //check if month has zero entries --> can be deleted
+                let fetchMonthResult = fetchLogBookMonth(with: logDay.watchLogBookMonth.uuid)
+                logMonth = fetchMonthResult.first!
+                if logMonth.watchLogBookDays!.isEmpty {
+                    modelContext.delete(logMonth)
+                    try? modelContext.save()
+                    
+                //check if year has zero entries --> can be deleted
+                    let fetchYearResult = fetchLogBookYear(with: logMonth.watchLogBookYear.uuid)
+                    logYear = fetchYearResult.first!
+                    if logYear.watchLogBookMonths!.isEmpty {
+                    modelContext.delete(logYear)
+                    try? modelContext.save()
+              }
+  
+            }
+  
+          }
+          try? modelContext.save()
+        }
+        return .success(())
+      case .failure(let error):
+        return .failure(error)
+      }
         return .success(())
     }
     
