@@ -60,7 +60,7 @@ struct ContentView: View {
               DisclosureGroup(getDateMonth(date: m.LogDate)) {
                 ForEach(sortedDay(m.Days!)) { d in
                   DisclosureGroup(getDateWeekDay(date: d.LogDate)) {
-                    ForEach(sortedEntries(d.LogEntries!)) { e in
+                      ForEach(sortedEntries(d.LogEntries!)) { e in
                       HStack {
 
                         Button(action: {
@@ -75,18 +75,30 @@ struct ContentView: View {
                         //Spacer()
                       }
                     }
-                    .onDelete(perform: deleteItems)
+                    .onDelete(perform: { indexSet in
+                        indexSet.sorted(by: > ).forEach { (i) in
+                            var LogEntry = d.LogEntries![i]
+                            deleteLogEntry(watchLogBookEntry: LogEntry)
+                        
+                        }
+                    })
                   }
 
                 }
-                .onDelete(perform: deleteItems)
+                .onDelete(perform: { indexSet in
+                    indexSet.sorted(by: > ).forEach { (i) in
+                        var LogEntry = m.Days![i]
+                        deleteLogDay(watchLogBookDay: LogEntry)
+                    
+                    }
+                })
               }
 
             }
-            .onDelete(perform: deleteItems)
+            //.onDelete(perform: deleteItems)
           }
         }
-        .onDelete(perform: deleteItems)
+        //.onDelete(perform: deleteItems)
         
       }
       .listStyle(.insetGrouped)
@@ -155,15 +167,25 @@ struct ContentView: View {
       }
   }
     
-    private func deleteItems(offsets: IndexSet) {
+    private func deleteLogEntry(watchLogBookEntry: WatchLogBookEntry) {
         withAnimation {
             
-            for index in offsets {
-//                modelContext.delete(items[index])
+            Task {
+                await viewModel.deleteLogEntry(LogEntry: WatchLogEntry(WatchLookBookEntry: watchLogBookEntry))
+            }
 
             }
         }
-    }
+    
+    private func deleteLogDay(watchLogBookDay: WatchLogBookDay) {
+        withAnimation {
+            
+            Task {
+                await viewModel.deleteLogDay(watchLogBookDay: watchLogBookDay)
+            }
+
+            }
+        }
 
   private func addNewLogEntry() {
     print("add item")

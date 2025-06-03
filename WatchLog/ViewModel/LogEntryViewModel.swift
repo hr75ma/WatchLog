@@ -76,6 +76,39 @@ class LogEntryViewModel: ObservableObject {
         }
     }
     
+    func deleteLogDay(watchLogBookDay: WatchLogBookDay) async {
+        let result = await databaseService.removeWatchLogBookDay(watchLogBookDay: watchLogBookDay)
+        switch result {
+        case .success():
+            errorMessage = ""
+            
+            case .failure(let error):
+            errorMessage = String(format: NSLocalizedString("error_delete_logBookDay", comment: "Displayed when saving logBookDay fails"), error.localizedDescription)
+        }
+    }
+    
+    func deleteLogMonth(LogMonth: WatchLogBookMonth) async {
+        let result = await databaseService.removeWatchLogBookMonth(watchLogBookMonth: LogMonth)
+        switch result {
+        case .success():
+            errorMessage = ""
+            
+            case .failure(let error):
+            errorMessage = String(format: NSLocalizedString("error_delete_logBookMonth", comment: "Displayed when saving logBookMonth fails"), error.localizedDescription)
+        }
+    }
+    
+    func deleteLogYear(LogYear: WatchLogBookYear) async {
+        let result = await databaseService.removeWatchLogBookYear(watchLogBookYear: LogYear)
+        switch result {
+        case .success():
+            errorMessage = ""
+            
+            case .failure(let error):
+            errorMessage = String(format: NSLocalizedString("error_delete_logBookYear", comment: "Displayed when saving logBookYear fails"), error.localizedDescription)
+        }
+    }
+    
     func saveLogEntry(LogEntry: WatchLogEntry) async {
         let result = await databaseService.saveWatchLogBookEntry(LogEntry: LogEntry)
         switch result {

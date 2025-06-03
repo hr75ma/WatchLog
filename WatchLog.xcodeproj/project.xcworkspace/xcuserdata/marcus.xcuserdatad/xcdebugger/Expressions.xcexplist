@@ -3,6 +3,17 @@
    version = "1.0">
    <ContextStates>
       <ContextState
+         contextName = "closure #1 in closure #2 in closure #1 in closure #1 in closure #1 in closure #1 in closure #1 in closure #1 in ContentView.body.getter:ContentView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "LogEntry.UUID">
+            </PersistentString>
+            <PersistentString
+               value = "m.Days![i]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "LogBookEntryView.body.getter:LogBookEntryView.swift">
          <PersistentStrings>
             <PersistentString
@@ -23,10 +34,10 @@
          contextName = "DataBaseManager.saveLogBookEntry(LogEntry:):DataBaseManager.swift">
          <PersistentStrings>
             <PersistentString
-               value = "entryTime">
+               value = "logYearEntry!.Months">
             </PersistentString>
             <PersistentString
-               value = "logYearEntry!.Months">
+               value = "entryTime">
             </PersistentString>
             <PersistentString
                value = "logYearEntry?.ParentUUID">
@@ -61,6 +72,17 @@
             </PersistentString>
             <PersistentString
                value = "oldValue">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in closure #2 in closure #1 in closure #1 in closure #1 in closure #1 in closure #1 in closure #1 in closure #1 in closure #1 in ContentView.body.getter:ContentView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "d.LogEntries![i]">
+            </PersistentString>
+            <PersistentString
+               value = "d.LogEntries!">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

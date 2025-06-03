@@ -16,6 +16,10 @@ protocol DataBaseManagerProtocol {
     func fetchEntries() -> Result<[WatchLogBookEntry], Error>
     func removeLogBookEntry(with EntryUUID: UUID)  -> Result<Void, Error>
     func fetchLogBook() -> Result<[WatchLogBook], Error>
+    
+    func removeLogBookDay(with EntryUUID: UUID) -> Result<Void, Error>
+    func removeLogBookMonth(with EntryUUID: UUID) -> Result<Void, Error>
+    func removeLogBookYear(with EntryUUID: UUID) -> Result<Void, Error>
 }
 extension DataBaseManager: DataBaseManagerProtocol { }
 
@@ -89,6 +93,111 @@ final class DataBaseManager {
     }
     
     
+    //fehler abfragen einbauen
+    func removeLogBookYear(with EntryUUID: UUID) -> Result<Void, Error> {
+        
+        var logYear = WatchLogBookYear()
+        var logBook = WatchLogBook()
+        
+        let fetchYearResult = fetchLogBookYear(with: EntryUUID)
+        logYear = fetchYearResult.first!
+        
+        //remove year
+        modelContext.delete(logYear)
+        
+                let fetchBookResult = fetchLogBook(with: logYear.ParentUUID!)
+                logBook = fetchBookResult.first!
+                logBook.Years!.removeAll {
+                    return $0.uuid == logYear.uuid }
+                
+                modelContext.delete(logYear)
+        
+        try? modelContext.save()
+        return .success(())
+    }
+    
+    
+    //fehler abfragen einbauen
+    func removeLogBookMonth(with EntryUUID: UUID) -> Result<Void, Error> {
+        
+        var logMonth = WatchLogBookMonth()
+        var logYear = WatchLogBookYear()
+        var logBook = WatchLogBook()
+        
+        let fetchMonthResult = fetchLogBookMonth(with: EntryUUID)
+        logMonth = fetchMonthResult.first!
+        
+        //remove month
+        modelContext.delete(logMonth)
+        
+        let fetchYearResult = fetchLogBookYear(with: logMonth.ParentUUID!)
+        logYear = fetchYearResult.first!
+        logYear.Months!.removeAll {
+            
+            return $0.uuid == logMonth.uuid }
+        
+            //check if year has zero entries --> can be deleted
+            if logYear.Months!.isEmpty {
+                
+                let fetchBookResult = fetchLogBook(with: logYear.ParentUUID!)
+                logBook = fetchBookResult.first!
+                logBook.Years!.removeAll {
+                    return $0.uuid == logYear.uuid }
+                
+                modelContext.delete(logYear)
+            }
+        try? modelContext.save()
+        return .success(())
+    }
+    
+    //fehler abfragen einbauen
+    func removeLogBookDay(with EntryUUID: UUID) -> Result<Void, Error> {
+        
+        var logDay = WatchLogBookDay()
+        var logMonth = WatchLogBookMonth()
+        var logYear = WatchLogBookYear()
+        var logBook = WatchLogBook()
+        
+        let fetchDayResult = fetchLogBookDay(with: EntryUUID)
+        logDay = fetchDayResult.first!
+        
+        //remove day
+        modelContext.delete(logDay)
+        try? modelContext.save()
+        
+        let fetchMonthResult = fetchLogBookMonth(with: logDay.ParentUUID!)
+        logMonth = fetchMonthResult.first!
+        logMonth.Days!.removeAll {
+            return $0.uuid == logDay.uuid
+        }
+        
+        //check if month has zero entries --> can be deleted
+        if logMonth.Days!.isEmpty {
+            
+            let fetchYearResult = fetchLogBookYear(with: logMonth.ParentUUID!)
+            logYear = fetchYearResult.first!
+            logYear.Months!.removeAll {
+                
+                return $0.uuid == logMonth.uuid }
+            
+            //delete empty month
+            modelContext.delete(logMonth)
+            
+            //check if year has zero entries --> can be deleted
+            if logYear.Months!.isEmpty {
+                
+                let fetchBookResult = fetchLogBook(with: logYear.ParentUUID!)
+                logBook = fetchBookResult.first!
+                logBook.Years!.removeAll {
+                    return $0.uuid == logYear.uuid }
+                
+                modelContext.delete(logYear)
+            }
+        }
+        try? modelContext.save()
+        return .success(())
+    }
+    
     func removeLogBookEntry(with EntryUUID: UUID) -> Result<Void, Error> {
 
       var logEntry = WatchLogBookEntry()
@@ -135,19 +244,19 @@ final class DataBaseManager {
               try? modelContext.save()
   
             //check if month has zero entries --> can be deleted
-            if logMonth.Days!.isEmpty {
-  
-              let fetchYearResult = fetchLogBookYear(with: logMonth.ParentUUID!)
-              logYear = fetchYearResult.first!
-                logYear.Months!.removeAll {
-                    
-                    print("-------------------------->\($0.uuid)")
-                    print("-------------------------->\(logMonth.uuid)")
-                    
-                   return $0.uuid == logMonth.uuid }
-  
-              //delete empty month
-              modelContext.delete(logMonth)
+              if logMonth.Days!.isEmpty {
+    
+                let fetchYearResult = fetchLogBookYear(with: logMonth.ParentUUID!)
+                logYear = fetchYearResult.first!
+                  logYear.Months!.removeAll {
+                      
+                      print("-------------------------->\($0.uuid)")
+                      print("-------------------------->\(logMonth.uuid)")
+                      
+                     return $0.uuid == logMonth.uuid }
+    
+                //delete empty month
+                modelContext.delete(logMonth)
                 try? modelContext.save()
   
               //check if year has zero entries --> can be deleted

@@ -16,8 +16,14 @@ protocol DatabaseServiceProtocol {
     func fetchLogBookEntry(with EntryUUID: UUID)  -> Result<WatchLogEntry, Error>
     func fetchLogBookYears() async -> Result<[WatchLogBookYear], Error>
     func fetchLogBookEntries() async -> Result<[WatchLogBookEntry], Error>
-    func removeWatchLogBookEntry (LogEntry: WatchLogEntry) async -> Result<Void, Error>
+    
     func fetchLogBook() async -> Result<[WatchLogBook], any Error>
+    
+    
+    func removeWatchLogBookEntry (LogEntry: WatchLogEntry) async -> Result<Void, Error>
+    func removeWatchLogBookDay (watchLogBookDay: WatchLogBookDay) async -> Result<Void, Error>
+    func removeWatchLogBookMonth (watchLogBookMonth: WatchLogBookMonth) async -> Result<Void, Error>
+    func removeWatchLogBookYear (watchLogBookYear: WatchLogBookYear) async -> Result<Void, Error>
 }
 
 @Observable
@@ -33,6 +39,36 @@ class DatabaseService: DatabaseServiceProtocol {
     
     func removeWatchLogBookEntry (LogEntry: WatchLogEntry) async -> Result<Void, Error> {
         let deleteResult = dataSource.removeLogBookEntry(with: LogEntry.uuid)
+        switch deleteResult {
+            case .success:
+            return .success(())
+        case .failure(let error):
+            return .failure(error)
+        }
+    }
+    
+    func removeWatchLogBookDay (watchLogBookDay: WatchLogBookDay) async -> Result<Void, Error> {
+        let deleteResult = dataSource.removeLogBookDay(with: watchLogBookDay.uuid)
+        switch deleteResult {
+            case .success:
+            return .success(())
+        case .failure(let error):
+            return .failure(error)
+        }
+    }
+    
+    func removeWatchLogBookMonth (watchLogBookMonth: WatchLogBookMonth) async -> Result<Void, Error> {
+        let deleteResult = dataSource.removeLogBookMonth(with: watchLogBookMonth.uuid)
+        switch deleteResult {
+            case .success:
+            return .success(())
+        case .failure(let error):
+            return .failure(error)
+        }
+    }
+    
+    func removeWatchLogBookYear (watchLogBookYear: WatchLogBookYear) async -> Result<Void, Error> {
+        let deleteResult = dataSource.removeLogBookYear(with: watchLogBookYear.uuid)
         switch deleteResult {
             case .success:
             return .success(())
