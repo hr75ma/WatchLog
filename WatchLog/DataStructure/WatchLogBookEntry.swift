@@ -15,6 +15,7 @@ class WatchLogBookEntry: Identifiable, Hashable {
     
     @Attribute(.unique) var uuid: UUID
     
+    @Relationship(deleteRule: .cascade)
     @Relationship(deleteRule: .nullify, inverse: \WatchLogBookDay.watchLogBookEntries) var watchLogBookDay: WatchLogBookDay
     
     var LogDate: Date

@@ -56,11 +56,11 @@ struct ContentView: View {
           
           ForEach(book.watchLogBookYears!) { y in
           DisclosureGroup(getDateYear(date: y.LogDate)) {
-            ForEach(sortedMonth(y.watchLogBookMonths!)) { m in
-              DisclosureGroup(getDateMonth(date: m.LogDate)) {
-                ForEach(sortedDay(m.watchLogBookDays!)) { d in
-                  DisclosureGroup(getDateWeekDay(date: d.LogDate)) {
-                      ForEach(sortedEntries(d.watchLogBookEntries!)) { e in
+            ForEach(sortedMonth(y.watchLogBookMonths!)) { month in
+              DisclosureGroup(getDateMonth(date: month.LogDate)) {
+                ForEach(sortedDay(month.watchLogBookDays!)) { days in
+                  DisclosureGroup(getDateWeekDay(date: days.LogDate)) {
+                      ForEach(sortedEntries(days.watchLogBookEntries!)) { e in
                       HStack {
 
                         Button(action: {
@@ -75,23 +75,23 @@ struct ContentView: View {
                         //Spacer()
                       }
                     }
-//                    .onDelete(perform: { indexSet in
-//                        indexSet.sorted(by: > ).forEach { (i) in
-//                            var LogEntry = d.LogEntries![i]
-//                            deleteLogEntry(watchLogBookEntry: LogEntry)
-//                        
-//                        }
-//                    })
+                    .onDelete(perform: { indexSet in
+                        indexSet.sorted(by: > ).forEach { (i) in
+                            let LogEntry = days.watchLogBookEntries![i]
+                            deleteLogEntry(watchLogBookEntry: LogEntry)
+                        
+                        }
+                    })
                   }
 
                 }
-//                .onDelete(perform: { indexSet in
-//                    indexSet.sorted(by: > ).forEach { (i) in
-//                        var LogEntry = m.Days![i]
-//                        deleteLogDay(watchLogBookDay: LogEntry)
-//                    
-//                    }
-//                })
+                .onDelete(perform: { indexSet in
+                    indexSet.sorted(by: > ).forEach { (i) in
+                        let LogEntry = month.watchLogBookDays![i]
+                        deleteLogDay(watchLogBookDay: LogEntry)
+                    
+                    }
+                })
               }
 
             }
