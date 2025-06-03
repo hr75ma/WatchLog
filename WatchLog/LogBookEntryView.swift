@@ -22,6 +22,11 @@ struct LogBookEntryView: View {
     @State var toolPickerShows = true
     @State var drawing = PKDrawing()
     
+    @State var alertDelete = false
+    @State var alertNew = false
+    @State var alertClear = false
+    
+    
     
     
     var body: some View {
@@ -93,7 +98,7 @@ struct LogBookEntryView: View {
 
           ToolbarItemGroup(placement: .automatic) {
             Button(action: {
-              clearEntry(LogEntry: viewModel.watchLogEntry, drawing: &drawing)
+                alertClear.toggle()
             }) {
               label: do {
                   Image(systemName: viewModel.watchLogEntry.isLocked ? GeneralStyles.ToolBarEraserImageUnActive : GeneralStyles.ToolBarEraserImageActive)
@@ -132,9 +137,9 @@ struct LogBookEntryView: View {
             .disabled(viewModel.watchLogEntry.isLocked)
 
               
-              
+            //new Entry button
             Button(action: {
-                    newEntry(LogEntry: viewModel.watchLogEntry, drawing: &drawing)
+                alertNew.toggle()
             }) {
               label: do {
                   Image(systemName: GeneralStyles.ToolBarNewImageActive)
@@ -145,12 +150,9 @@ struct LogBookEntryView: View {
             }
             //.disabled(viewModel.watchLogEntry.isLocked)
               
+              //delete button
               Button(action: {
-                  Task {
-                      await viewModel.deleteLogEntry(LogEntry: viewModel.watchLogEntry)
-                      newEntry(LogEntry: viewModel.watchLogEntry, drawing: &drawing)
-                      exisitingLogBookEntry.uuid = viewModel.watchLogEntry.uuid
-                  }
+                  alertDelete.toggle()
               }) {
                 label: do {
                     Image(systemName: viewModel.watchLogEntry.isLocked ? GeneralStyles.ToolBarDeleteImageUnActive : GeneralStyles.ToolBarDeleteImageActive)
@@ -172,6 +174,35 @@ struct LogBookEntryView: View {
                 }
               }
               .disabled(viewModel.watchLogEntry.isLocked)
+              .alert("Log Löschen?", isPresented: $alertDelete) {
+                  Button("Löschen", role: .destructive, action: {
+                      Task {
+                          await viewModel.deleteLogEntry(LogEntry: viewModel.watchLogEntry)
+                          newEntry(LogEntry: viewModel.watchLogEntry, drawing: &drawing)
+                          exisitingLogBookEntry.uuid = viewModel.watchLogEntry.uuid
+                      }
+                  })
+                  Button("Abbrechen", role: .cancel, action: {
+                      
+                  })
+              }
+              .alert("Neues Log erstellen?", isPresented: $alertNew) {
+                  Button("Erstellen", role: .destructive, action: {
+                      newEntry(LogEntry: viewModel.watchLogEntry, drawing: &drawing)
+                  })
+                  Button("Abbrechen", role: .cancel, action: {
+                      
+                  })
+              }
+              .alert("Eingaben verwerfen?", isPresented: $alertClear) {
+                  Button("Verwerfen", role: .destructive, action: {
+                      clearEntry(LogEntry: viewModel.watchLogEntry, drawing: &drawing)
+                  })
+                  Button("Nein", role: .cancel, action: {
+                      
+                  })
+              }
+              
 
           }
         }
@@ -209,3 +240,5 @@ private func newEntry(LogEntry: WatchLogEntry, drawing: inout PKDrawing) {
         .environmentObject(textFieldStyleLogEntry)
     
 }
+
+
