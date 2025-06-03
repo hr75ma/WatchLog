@@ -40,14 +40,6 @@ struct AccidentSelectionView: View {
             .frame(height: GeneralStyles.LabelFontSize2, alignment: .center)
             .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
             .disabled(LogEntry.isLocked)
-
-          Button {
-            withAnimation {
-              LogEntry.isAccient.toggle()
-            }
-          } label: {
-            Text("Toggle")
-          }
           Spacer()
 
         }

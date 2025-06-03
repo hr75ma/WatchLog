@@ -43,6 +43,7 @@ struct ContentView: View {
   @State var listOfEntry: [WatchLogBookYear] = []
 
   @State var isLinkActive = false
+  @State var alertNew = false
 
   var body: some View {
 
@@ -99,7 +100,9 @@ struct ContentView: View {
       })
       .toolbar {
         ToolbarItem(placement: .navigationBarTrailing) {
-          Button(action: addNewLogEntry) {
+            Button(action: {
+                alertNew.toggle()
+            }) {
 
             Image(systemName: GeneralStyles.NavigationTreeAddEntryImage)
               //.ToolbarImageStyle(GeneralStyles)
@@ -111,6 +114,7 @@ struct ContentView: View {
 
         }
       }
+      
       .task {
         print("--------->build Tree")
         print("--------->\(testEntry.uuid.uuidString)")
@@ -136,14 +140,24 @@ struct ContentView: View {
       .scrollContentBackground(.hidden)
       .background(Color.black.edgesIgnoringSafeArea(.all))
 
-    } detail: {
+    }
+      detail: {
 
       LogBookEntryView(exisitingLogBookEntry: testEntry)
     }
+    .alert("Neues Log erstellen?", isPresented: $alertNew) {
+          Button("Erstellen", role: .destructive, action: {
+              addNewLogEntry()
+          })
+          Button("Abbrechen", role: .cancel, action: {
+              
+          })
+      }
   }
     
     private func deleteItems(offsets: IndexSet) {
         withAnimation {
+            
             for index in offsets {
 //                modelContext.delete(items[index])
 
