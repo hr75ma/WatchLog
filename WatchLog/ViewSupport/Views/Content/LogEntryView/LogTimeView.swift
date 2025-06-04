@@ -21,7 +21,7 @@ struct LogTimeView: View {
 
   var body: some View {
     HStack(alignment: .center) {
-        Text(time.formatted(.dateTime.locale(Locale.current).weekday(.wide)))
+        Text(LogTime.formatted(.dateTime.locale(Locale.current).weekday(.wide)))
             .TextStyleAndAnimation(GeneralStyles)
       Spacer()
         Text(LogTime.formatted(.dateTime.day(.twoDigits).month(.twoDigits).year()))
