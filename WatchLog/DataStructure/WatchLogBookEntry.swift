@@ -22,7 +22,7 @@ class WatchLogBookEntry: Identifiable, Hashable {
     var CallerName: String = ""
     var CallerNumber: String = ""
     var CallerAdress: String = ""
-    var CallerDOB: Date
+    var CallerDOB: Date?
 
     var AccientInjured: Bool = false
     var AccientHitAndRun: Bool = false
@@ -120,7 +120,7 @@ class WatchLogBookEntry: Identifiable, Hashable {
         CallerName = ""
         CallerNumber = ""
         CallerAdress = ""
-        CallerDOB = Date()
+        CallerDOB = nil
         
         isAccient = false
         AccientInjured = false
@@ -157,9 +157,12 @@ class WatchLogBookEntry: Identifiable, Hashable {
     }
     
     func getDOBFromDate() -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd.MM.YYYY"
-        return dateFormatter.string(from: self.CallerDOB)
+        if(self.CallerDOB != nil) {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "dd.MM.YYYY"
+            return dateFormatter.string(from: self.CallerDOB!)
+        }
+        return ""
       }
     
     

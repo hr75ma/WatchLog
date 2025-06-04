@@ -26,7 +26,7 @@ struct LockedView: View {
               .fixedSize(horizontal: true, vertical: true)
               .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 5))
               .lineSpacing(0)
-              .animation(.easeInOut(duration: 2), value: LogEntry.isLocked)
+              .animation(.easeInOut(duration: 1), value: LogEntry.isLocked)
               
           
           Toggle("", isOn: $LogEntry.isLocked)

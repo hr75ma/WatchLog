@@ -44,6 +44,10 @@ struct ContentView: View {
 
   @State var isLinkActive = false
   @State var alertNew = false
+    
+    @State var selectedEntry: WatchLogBookEntry = WatchLogBookEntry()
+    
+
 
   var body: some View {
 
@@ -54,24 +58,23 @@ struct ContentView: View {
 //      Text(testEntry.uuid.uuidString)
       List(viewModel.WatchLogBooks, id: \.uuid) { book in
           
-          ForEach(book.watchLogBookYears!) { year in
+          ForEach(sortedYear(book.watchLogBookYears!)) { year in
           DisclosureGroup(getDateYear(date: year.LogDate)) {
             ForEach(sortedMonth(year.watchLogBookMonths!)) { month in
               DisclosureGroup(getDateMonth(date: month.LogDate)) {
                 ForEach(sortedDay(month.watchLogBookDays!)) { days in
                   DisclosureGroup(getDateWeekDay(date: days.LogDate)) {
-                      ForEach(sortedEntries(days.watchLogBookEntries!)) { e in
+                      ForEach(sortedEntries(days.watchLogBookEntries!)) { entry in
                       HStack {
 
                         Button(action: {
 
-                          print("view item")
-                          testEntry = e
+                          testEntry = entry
                           print(testEntry.uuid.uuidString)
                         }) {
-                          Text(getDateTime(date: e.LogDate))
-//                            .font(Font.custom(GroupLabelFont, size: 15))
+                          Text(getDateTime(date: entry.LogDate))
                         }
+                        
                         //Spacer()
                       }
                     }
@@ -119,8 +122,7 @@ struct ContentView: View {
       .font(Font.custom(GeneralStyles.NavigationTreeFont, size: GeneralStyles.NavigationTreeFontSize))
       .refreshable(action: {
         Task {
-          print("--------->refresh Tree")
-          await viewModel.fetchLogBookYear()
+          await await viewModel.fetchLogBook()
         }
       })
       .toolbar {
@@ -141,18 +143,13 @@ struct ContentView: View {
       }
       
       .task {
-        print("--------->build Tree")
-        print("--------->\(testEntry.uuid.uuidString)")
         await viewModel.fetchLogBook()
       }
       .onChange(
         of: listOfEntry.count,
         { oldValue, newValue in
-
-          print("--------->onchange tree")
-
-          Task {
-            await viewModel.fetchLogBookYear()
+            Task {
+            await await viewModel.fetchLogBook()
           }
         }
       )
@@ -243,7 +240,7 @@ struct ContentView: View {
     ])
 
   }
-
+    
   private func sortedMonth(_ LogEntry: [WatchLogBookMonth]) -> [WatchLogBookMonth] {
     return LogEntry.sorted(using: [
       SortDescriptor(\.LogDate, order: .forward)

@@ -261,7 +261,7 @@ final class DataBaseManager {
   }
 
   func fetchLogBook() -> Result<[WatchLogBook], Error> {
-    let fetchDiscriptor = FetchDescriptor<WatchLogBook>()
+      let fetchDiscriptor = FetchDescriptor<WatchLogBook>()
     do {
       let fetchedLogBook = try modelContext.fetch(fetchDiscriptor)
       return .success(fetchedLogBook)
