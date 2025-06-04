@@ -104,6 +104,11 @@ class GeneralStylesLogEntry: ObservableObject {
     @Published var NavigationTreeDisclosureYearGradientEnd = Color(hex: 0x2e2e2e).opacity(1)
     
     
+    @Published var NavigationTreeFont: String = "Roboto-MediumItalic"
+    @Published var NavigationTreeFontSize: CGFloat = 20
+    @Published var NavigationTreeFontColor: Color = Color.blue
+    
+    
     
     
     

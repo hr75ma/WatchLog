@@ -114,8 +114,9 @@ struct ContentView: View {
         
       }
       .listStyle(.insetGrouped)
-      .foregroundStyle(.blue)
+      .foregroundStyle(GeneralStyles.NavigationTreeFontColor)
       .fontWeight(.medium)
+      .font(Font.custom(GeneralStyles.NavigationTreeFont, size: GeneralStyles.NavigationTreeFontSize))
       .refreshable(action: {
         Task {
           print("--------->refresh Tree")
@@ -132,7 +133,7 @@ struct ContentView: View {
               //.ToolbarImageStyle(GeneralStyles)
              .symbolRenderingMode(.palette)
              .foregroundStyle(GeneralStyles.NavigationTreeImagePrimaryColor, GeneralStyles.NavigationTreeImageSecondaryColor)
-             .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.nonRepeating.speed(6))
+             .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(2))
              .symbolEffect(.scale)
           }
 

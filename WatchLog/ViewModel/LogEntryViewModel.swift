@@ -25,6 +25,8 @@ class LogEntryViewModel: ObservableObject {
         Task {
             await self.instanciateLogBook()
         }
+        
+        generateLogBookEntry()
     }
     
     
