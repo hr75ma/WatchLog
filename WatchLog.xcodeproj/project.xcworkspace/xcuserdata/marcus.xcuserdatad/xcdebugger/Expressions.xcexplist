@@ -42,7 +42,7 @@
          contextName = "closure #1 in closure #4 in LogBookEntryView.body.getter:LogBookEntryView.swift">
          <PersistentStrings>
             <PersistentString
-               value = "viewModel">
+               value = "oldValue">
             </PersistentString>
             <PersistentString
                value = "viewModel.watchLogEntry">
@@ -51,7 +51,7 @@
                value = "newValue">
             </PersistentString>
             <PersistentString
-               value = "oldValue">
+               value = "viewModel">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -196,6 +196,14 @@
             </PersistentString>
             <PersistentString
                value = "$0.LogDate">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "DataBaseManager.removeLogBookDay(with:):DataBaseManager.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "logDate.watchLogBookEntries!">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

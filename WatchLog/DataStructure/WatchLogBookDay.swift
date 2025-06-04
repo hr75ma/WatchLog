@@ -20,7 +20,7 @@ class WatchLogBookDay: Identifiable, Hashable {
     
     @Relationship(deleteRule: .cascade) var watchLogBookEntries: [WatchLogBookEntry]? = []
     
-    @Relationship(deleteRule: .nullify, inverse: \WatchLogBookMonth.watchLogBookDays) var watchLogBookMonth: WatchLogBookMonth
+    @Relationship(deleteRule: .nullify, inverse: \WatchLogBookMonth.watchLogBookDays) var watchLogBookMonth: WatchLogBookMonth?
     
     
     init(LogDate: Date, month: WatchLogBookMonth) {

@@ -199,16 +199,32 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "58D4DA94-90DD-43E7-B275-B1D561C91D1E"
-            shouldBeEnabled = "Yes"
+            uuid = "33F0FA51-80CB-47A1-B4BA-A435187C2C80"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WatchLog/DataStructure/Manager/DataBaseManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "216"
-            endingLineNumber = "216"
-            landmarkName = "removeLogBookDay(with:)"
+            startingLineNumber = "371"
+            endingLineNumber = "371"
+            landmarkName = "saveLogBookEntry(LogEntry:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "2A99482E-A149-47DA-931F-79955657AA4E"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WatchLog/DataStructure/Manager/DataBaseManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "248"
+            endingLineNumber = "248"
+            landmarkName = "removeLogBookEntry(with:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

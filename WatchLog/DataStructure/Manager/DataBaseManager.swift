@@ -220,14 +220,14 @@ final class DataBaseManager {
     try? modelContext.save()
 
     //check if month has zero entries --> can be deleted
-    let fetchMonthResult = fetchLogBookMonth(with: logDay.watchLogBookMonth.uuid)
+      let fetchMonthResult = fetchLogBookMonth(with: logDay.watchLogBookMonth!.uuid)
     logMonth = fetchMonthResult.first!
     if logMonth.watchLogBookDays!.isEmpty {
       modelContext.delete(logMonth)
       try? modelContext.save()
 
       //check if year has zero entries --> can be deleted
-      let fetchYearResult = fetchLogBookYear(with: logMonth.watchLogBookYear.uuid)
+        let fetchYearResult = fetchLogBookYear(with: logMonth.watchLogBookYear!.uuid)
       logYear = fetchYearResult.first!
       if logYear.watchLogBookMonths!.isEmpty {
         modelContext.delete(logYear)
@@ -256,21 +256,21 @@ final class DataBaseManager {
         try? modelContext.save()
 
         //check if day has zero entries --> can be deleted
-        let fetchDayResult = fetchLogBookDay(with: logEntry.watchLogBookDay.uuid)
+          let fetchDayResult = fetchLogBookDay(with: logEntry.watchLogBookDay!.uuid)
         logDay = fetchDayResult.first!
         if logDay.watchLogBookEntries!.isEmpty {
           modelContext.delete(logDay)
           try? modelContext.save()
 
           //check if month has zero entries --> can be deleted
-          let fetchMonthResult = fetchLogBookMonth(with: logDay.watchLogBookMonth.uuid)
+            let fetchMonthResult = fetchLogBookMonth(with: logDay.watchLogBookMonth!.uuid)
           logMonth = fetchMonthResult.first!
           if logMonth.watchLogBookDays!.isEmpty {
             modelContext.delete(logMonth)
             try? modelContext.save()
 
             //check if year has zero entries --> can be deleted
-            let fetchYearResult = fetchLogBookYear(with: logMonth.watchLogBookYear.uuid)
+              let fetchYearResult = fetchLogBookYear(with: logMonth.watchLogBookYear!.uuid)
             logYear = fetchYearResult.first!
             if logYear.watchLogBookMonths!.isEmpty {
               modelContext.delete(logYear)
@@ -427,7 +427,9 @@ final class DataBaseManager {
 
       if logYearEntry == nil {
         logYearEntry = WatchLogBookYear(LogDate: FillerDate!, logBook: logWatchBook!)
-        modelContext.insert(logYearEntry!)
+          modelContext.insert(logYearEntry!)
+          logWatchBook?.watchLogBookYears?.append(logYearEntry!)
+
         try? modelContext.save()
       }
 
@@ -435,10 +437,17 @@ final class DataBaseManager {
       DateComponent.month = MonthFromDate
       FillerDate = Calendar.current.date(from: DateComponent)
 
+        
+        
+        
+        
+        
       if logYearEntry!.watchLogBookMonths!.isEmpty {
 
         logMonthEntry = WatchLogBookMonth(LogDate: FillerDate!, year: logYearEntry!)
-        modelContext.insert(logMonthEntry!)
+          modelContext.insert(logMonthEntry!)
+          logYearEntry?.watchLogBookMonths?.append(logMonthEntry!)
+
         try? modelContext.save()
       } else {
         let filteredMonthArray = logYearEntry!.watchLogBookMonths!.filter {
@@ -446,7 +455,9 @@ final class DataBaseManager {
         }
         if filteredMonthArray.isEmpty {
           logMonthEntry = WatchLogBookMonth(LogDate: FillerDate!, year: logYearEntry!)
-          modelContext.insert(logMonthEntry!)
+            modelContext.insert(logMonthEntry!)
+            logYearEntry?.watchLogBookMonths?.append(logMonthEntry!)
+
           try? modelContext.save()
         } else {
           logMonthEntry = filteredMonthArray[0]
@@ -461,6 +472,7 @@ final class DataBaseManager {
       if logMonthEntry!.watchLogBookDays!.isEmpty {
 
         logDayEntry = WatchLogBookDay(LogDate: FillerDate!, month: logMonthEntry!)
+        logMonthEntry?.watchLogBookDays?.append(logDayEntry!)
         modelContext.insert(logDayEntry!)
         try? modelContext.save()
       } else {
@@ -469,6 +481,7 @@ final class DataBaseManager {
         }
         if filteredDayArray.isEmpty {
           logDayEntry = WatchLogBookDay(LogDate: FillerDate!, month: logMonthEntry!)
+            logMonthEntry?.watchLogBookDays?.append(logDayEntry!)
           try? modelContext.save()
         } else {
           logDayEntry = filteredDayArray[0]
@@ -477,6 +490,7 @@ final class DataBaseManager {
 
       let log = WatchLogBookEntry(LogEntry: LogEntry, day: logDayEntry!)
       modelContext.insert(log)
+      logDayEntry?.watchLogBookEntries?.append(log)
       try? modelContext.save()
     }
 

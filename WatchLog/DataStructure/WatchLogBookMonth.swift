@@ -18,7 +18,7 @@ class WatchLogBookMonth: Identifiable, Hashable {
     
     @Relationship(deleteRule: .cascade) var watchLogBookDays: [WatchLogBookDay]? = []
     
-    @Relationship(deleteRule: .nullify, inverse: \WatchLogBookYear.watchLogBookMonths) var watchLogBookYear: WatchLogBookYear
+    @Relationship(deleteRule: .nullify, inverse: \WatchLogBookYear.watchLogBookMonths) var watchLogBookYear: WatchLogBookYear?
     
     
     init(LogDate: Date, year: WatchLogBookYear) {
