@@ -21,6 +21,10 @@ class LogEntryViewModel: ObservableObject {
     
     init(dataBaseService: DatabaseServiceProtocol) {
         self.databaseService = dataBaseService
+        
+        Task {
+            await self.instanciateLogBook()
+        }
     }
     
     
@@ -48,7 +52,16 @@ class LogEntryViewModel: ObservableObject {
     }
     
     
-    
+    func instanciateLogBook() async {
+        let result = await databaseService.instanciateLogBook()
+        switch result {
+        case .success():
+            errorMessage = ""
+            
+            case .failure(let error):
+            errorMessage = String(format: NSLocalizedString("error_instanciate_logBook", comment: "Displayed when build a instance of WatchLogBook fails"), error.localizedDescription)
+        }
+    }
     
     
     
@@ -87,8 +100,8 @@ class LogEntryViewModel: ObservableObject {
         }
     }
     
-    func deleteLogMonth(LogMonth: WatchLogBookMonth) async {
-        let result = await databaseService.removeWatchLogBookMonth(watchLogBookMonth: LogMonth)
+    func deleteLogMonth(watchLogBookMonth: WatchLogBookMonth) async {
+        let result = await databaseService.removeWatchLogBookMonth(watchLogBookMonth: watchLogBookMonth)
         switch result {
         case .success():
             errorMessage = ""
@@ -98,8 +111,8 @@ class LogEntryViewModel: ObservableObject {
         }
     }
     
-    func deleteLogYear(LogYear: WatchLogBookYear) async {
-        let result = await databaseService.removeWatchLogBookYear(watchLogBookYear: LogYear)
+    func deleteLogYear(watchLogBookYear: WatchLogBookYear) async {
+        let result = await databaseService.removeWatchLogBookYear(watchLogBookYear: watchLogBookYear)
         switch result {
         case .success():
             errorMessage = ""

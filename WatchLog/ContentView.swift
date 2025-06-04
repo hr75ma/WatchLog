@@ -54,9 +54,9 @@ struct ContentView: View {
 //      Text(testEntry.uuid.uuidString)
       List(viewModel.WatchLogBooks, id: \.uuid) { book in
           
-          ForEach(book.watchLogBookYears!) { y in
-          DisclosureGroup(getDateYear(date: y.LogDate)) {
-            ForEach(sortedMonth(y.watchLogBookMonths!)) { month in
+          ForEach(book.watchLogBookYears!) { year in
+          DisclosureGroup(getDateYear(date: year.LogDate)) {
+            ForEach(sortedMonth(year.watchLogBookMonths!)) { month in
               DisclosureGroup(getDateMonth(date: month.LogDate)) {
                 ForEach(sortedDay(month.watchLogBookDays!)) { days in
                   DisclosureGroup(getDateWeekDay(date: days.LogDate)) {
@@ -95,10 +95,22 @@ struct ContentView: View {
               }
 
             }
-            //.onDelete(perform: deleteItems)
+            .onDelete(perform: { indexSet in
+                indexSet.sorted(by: > ).forEach { (i) in
+                    let LogEntry = year.watchLogBookMonths![i]
+                    deleteLogMonth(watchLogBookMonth: LogEntry)
+                
+                }
+            })
           }
         }
-        //.onDelete(perform: deleteItems)
+          .onDelete(perform: { indexSet in
+              indexSet.sorted(by: > ).forEach { (i) in
+                  let LogEntry = book.watchLogBookYears![i]
+                  deleteLogYear(watchLogBookYear: LogEntry)
+              
+              }
+          })
         
       }
       .listStyle(.insetGrouped)
@@ -177,6 +189,26 @@ struct ContentView: View {
             
             Task {
                 await viewModel.deleteLogDay(watchLogBookDay: watchLogBookDay)
+            }
+
+            }
+        }
+    
+    private func deleteLogMonth(watchLogBookMonth: WatchLogBookMonth) {
+        withAnimation {
+            
+            Task {
+                await viewModel.deleteLogMonth(watchLogBookMonth: watchLogBookMonth)
+            }
+
+            }
+        }
+    
+    private func deleteLogYear(watchLogBookYear: WatchLogBookYear) {
+        withAnimation {
+            
+            Task {
+                await viewModel.deleteLogYear(watchLogBookYear: watchLogBookYear)
             }
 
             }

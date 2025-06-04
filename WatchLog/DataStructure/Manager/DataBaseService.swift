@@ -24,6 +24,8 @@ protocol DatabaseServiceProtocol {
     func removeWatchLogBookDay (watchLogBookDay: WatchLogBookDay) async -> Result<Void, Error>
     func removeWatchLogBookMonth (watchLogBookMonth: WatchLogBookMonth) async -> Result<Void, Error>
     func removeWatchLogBookYear (watchLogBookYear: WatchLogBookYear) async -> Result<Void, Error>
+    
+    func instanciateLogBook() async -> Result<Void, Error>
 }
 
 @Observable
@@ -35,6 +37,16 @@ class DatabaseService: DatabaseServiceProtocol {
     @MainActor
     init(dataSource: DataBaseManagerProtocol = DataBaseManager.shared) {
         self.dataSource = dataSource
+    }
+    
+    func instanciateLogBook () async -> Result<Void, Error> {
+        let logBookResult = dataSource.instanciateLogBook()
+        switch logBookResult {
+            case .success:
+            return .success(())
+        case .failure(let error):
+            return .failure(error)
+        }
     }
     
     func removeWatchLogBookEntry (LogEntry: WatchLogEntry) async -> Result<Void, Error> {
