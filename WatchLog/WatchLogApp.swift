@@ -11,23 +11,23 @@ import SwiftData
 @main
 struct WatchLogApp: App {
     
-    @State var uuid: UUID = UUID()
-    
-    //@Environment(\.modelContext) var modelContext
-    //@State private var databaseController: DataBaseController = DataBaseController()
+    @State private var showSplashView:Bool = true
     
     var body: some Scene {
         
         let databaseService = DatabaseService()
         let viewModel = LogEntryViewModel(dataBaseService: databaseService)
         let textFieldStyleLogEntry = GeneralStylesLogEntry()
+        
+        
             
         WindowGroup {
+        
+                SplashView()
+                //ContentView()
+        
             
-            //ContentViewTest(exisitingLogBookEntryUUID: $uuid)
-            ContentView()
-                //.environment(databaseController)
-        }
+    }
         .environmentObject(viewModel)
         .environmentObject(textFieldStyleLogEntry)
     

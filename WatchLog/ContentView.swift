@@ -44,27 +44,26 @@ struct ContentView: View {
 
   @State var isLinkActive = false
   @State var alertNew = false
-    
-    @State var selectedEntry: WatchLogBookEntry = WatchLogBookEntry()
-    
+  @State var showSettingSheet = false
 
+  @State var selectedEntry: WatchLogBookEntry = WatchLogBookEntry()
 
   var body: some View {
 
     NavigationSplitView(columnVisibility: $columnVisibility) {
 
-        Text(Date.now, format: .dateTime.day().month().year().hour().minute().second())
-            .foregroundStyle(.blue)
-//      Text(testEntry.uuid.uuidString)
+      Text(Date.now, format: .dateTime.day().month().year().hour().minute().second())
+        .foregroundStyle(.blue)
+      //      Text(testEntry.uuid.uuidString)
       List(viewModel.WatchLogBooks, id: \.uuid) { book in
-          
-          ForEach(sortedYear(book.watchLogBookYears!)) { year in
+
+        ForEach(sortedYear(book.watchLogBookYears!)) { year in
           DisclosureGroup(getDateYear(date: year.LogDate)) {
             ForEach(sortedMonth(year.watchLogBookMonths!)) { month in
               DisclosureGroup(getDateMonth(date: month.LogDate)) {
                 ForEach(sortedDay(month.watchLogBookDays!)) { days in
                   DisclosureGroup(getDateWeekDay(date: days.LogDate)) {
-                      ForEach(sortedEntries(days.watchLogBookEntries!)) { entry in
+                    ForEach(sortedEntries(days.watchLogBookEntries!)) { entry in
                       HStack {
 
                         Button(action: {
@@ -74,81 +73,106 @@ struct ContentView: View {
                         }) {
                           Text(getDateTime(date: entry.LogDate))
                         }
-                        
+
                         //Spacer()
                       }
                     }
                     .onDelete(perform: { indexSet in
-                        indexSet.sorted(by: > ).forEach { (i) in
-                            let LogEntry = days.watchLogBookEntries![i]
-                            deleteLogEntry(watchLogBookEntry: LogEntry)
-                        
-                        }
+                      indexSet.sorted(by: >).forEach { (i) in
+                        let LogEntry = days.watchLogBookEntries![i]
+                        deleteLogEntry(watchLogBookEntry: LogEntry)
+
+                      }
                     })
                   }
 
                 }
                 .onDelete(perform: { indexSet in
-                    indexSet.sorted(by: > ).forEach { (i) in
-                        let LogEntry = month.watchLogBookDays![i]
-                        deleteLogDay(watchLogBookDay: LogEntry)
-                    
-                    }
+                  indexSet.sorted(by: >).forEach { (i) in
+                    let LogEntry = month.watchLogBookDays![i]
+                    deleteLogDay(watchLogBookDay: LogEntry)
+
+                  }
                 })
               }
 
             }
             .onDelete(perform: { indexSet in
-                indexSet.sorted(by: > ).forEach { (i) in
-                    let LogEntry = year.watchLogBookMonths![i]
-                    deleteLogMonth(watchLogBookMonth: LogEntry)
-                
-                }
+              indexSet.sorted(by: >).forEach { (i) in
+                let LogEntry = year.watchLogBookMonths![i]
+                deleteLogMonth(watchLogBookMonth: LogEntry)
+
+              }
             })
           }
         }
-          .onDelete(perform: { indexSet in
-              indexSet.sorted(by: > ).forEach { (i) in
-                  let LogEntry = book.watchLogBookYears![i]
-                  deleteLogYear(watchLogBookYear: LogEntry)
-              
-              }
-          })
-        
+        .onDelete(perform: { indexSet in
+          indexSet.sorted(by: >).forEach { (i) in
+            let LogEntry = book.watchLogBookYears![i]
+            deleteLogYear(watchLogBookYear: LogEntry)
+
+          }
+        })
+
       }
       .listStyle(.insetGrouped)
       .foregroundStyle(GeneralStyles.NavigationTreeFontColor)
       .fontWeight(.medium)
-      .font(Font.custom(GeneralStyles.NavigationTreeFont, size: GeneralStyles.NavigationTreeFontSize))
+      .font(
+        Font.custom(GeneralStyles.NavigationTreeFont, size: GeneralStyles.NavigationTreeFontSize)
+      )
       .refreshable(action: {
         Task {
           await await viewModel.fetchLogBook()
         }
       })
       .toolbar {
-        ToolbarItem(placement: .navigationBarTrailing) {
-            Button(action: {
-                alertNew.toggle()
-            }) {
+        ToolbarItem(placement: .primaryAction) {
+          Button(action: {
+            alertNew.toggle()
+          }) {
 
             Image(systemName: GeneralStyles.NavigationTreeAddEntryImage)
               //.ToolbarImageStyle(GeneralStyles)
-             .symbolRenderingMode(.palette)
-             .foregroundStyle(GeneralStyles.NavigationTreeImagePrimaryColor, GeneralStyles.NavigationTreeImageSecondaryColor)
-             .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(2))
-             .symbolEffect(.scale)
+              .symbolRenderingMode(.palette)
+              .foregroundStyle(
+                GeneralStyles.NavigationTreeAddEntryImagePrimaryColor,
+                GeneralStyles.NavigationTreeAddEntryImageSecondaryColor
+              )
+              .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(2))
+              .symbolEffect(.scale)
+          }
+
+        }
+        ToolbarItem(placement: .primaryAction) {
+          Button(action: {
+            showSettingSheet = true
+          }) {
+
+            Image(systemName: GeneralStyles.NavigationTreeSettingImage)
+              //.ToolbarImageStyle(GeneralStyles)
+              .symbolRenderingMode(.palette)
+              .foregroundStyle(
+                GeneralStyles.NavigationTreeSettingImagePrimaryColor,
+                GeneralStyles.NavigationTreeAddEntryImageSecondaryColor
+              )
+              .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(2))
+              .symbolEffect(.scale)
           }
 
         }
       }
-      
+      .sheet(isPresented: $showSettingSheet) {
+          SettingView()
+      }
+
       .task {
         await viewModel.fetchLogBook()
       }
       .onChange(
         of: listOfEntry.count,
         { oldValue, newValue in
-            Task {
+          Task {
             await await viewModel.fetchLogBook()
           }
         }
@@ -157,60 +181,64 @@ struct ContentView: View {
       .scrollContentBackground(.hidden)
       .background(Color.black.edgesIgnoringSafeArea(.all))
 
-    }
-      detail: {
+    } detail: {
 
       LogBookEntryView(exisitingLogBookEntry: testEntry)
     }
     .alert("Neues Log erstellen?", isPresented: $alertNew) {
-          Button("Erstellen", role: .destructive, action: {
-              addNewLogEntry()
-          })
-          Button("Abbrechen", role: .cancel, action: {
-              
-          })
-      }
+      Button(
+        "Erstellen", role: .destructive,
+        action: {
+          addNewLogEntry()
+        })
+      Button(
+        "Abbrechen", role: .cancel,
+        action: {
+
+        })
+    }
   }
-    
-    private func deleteLogEntry(watchLogBookEntry: WatchLogBookEntry) {
-        withAnimation {
-            
-            Task {
-                await viewModel.deleteLogEntry(LogEntry: WatchLogEntry(WatchLookBookEntry: watchLogBookEntry))
-            }
 
-            }
-        }
-    
-    private func deleteLogDay(watchLogBookDay: WatchLogBookDay) {
-        withAnimation {
-            
-            Task {
-                await viewModel.deleteLogDay(watchLogBookDay: watchLogBookDay)
-            }
+  private func deleteLogEntry(watchLogBookEntry: WatchLogBookEntry) {
+    withAnimation {
 
-            }
-        }
-    
-    private func deleteLogMonth(watchLogBookMonth: WatchLogBookMonth) {
-        withAnimation {
-            
-            Task {
-                await viewModel.deleteLogMonth(watchLogBookMonth: watchLogBookMonth)
-            }
+      Task {
+        await viewModel.deleteLogEntry(
+          LogEntry: WatchLogEntry(WatchLookBookEntry: watchLogBookEntry))
+      }
 
-            }
-        }
-    
-    private func deleteLogYear(watchLogBookYear: WatchLogBookYear) {
-        withAnimation {
-            
-            Task {
-                await viewModel.deleteLogYear(watchLogBookYear: watchLogBookYear)
-            }
+    }
+  }
 
-            }
-        }
+  private func deleteLogDay(watchLogBookDay: WatchLogBookDay) {
+    withAnimation {
+
+      Task {
+        await viewModel.deleteLogDay(watchLogBookDay: watchLogBookDay)
+      }
+
+    }
+  }
+
+  private func deleteLogMonth(watchLogBookMonth: WatchLogBookMonth) {
+    withAnimation {
+
+      Task {
+        await viewModel.deleteLogMonth(watchLogBookMonth: watchLogBookMonth)
+      }
+
+    }
+  }
+
+  private func deleteLogYear(watchLogBookYear: WatchLogBookYear) {
+    withAnimation {
+
+      Task {
+        await viewModel.deleteLogYear(watchLogBookYear: watchLogBookYear)
+      }
+
+    }
+  }
 
   private func addNewLogEntry() {
     print("add item")
@@ -240,7 +268,7 @@ struct ContentView: View {
     ])
 
   }
-    
+
   private func sortedMonth(_ LogEntry: [WatchLogBookMonth]) -> [WatchLogBookMonth] {
     return LogEntry.sorted(using: [
       SortDescriptor(\.LogDate, order: .forward)
@@ -266,8 +294,6 @@ struct ContentView: View {
 
     return dateFormatter.string(from: date)
   }
-    
-    
 
   fileprivate func getDateTime(date: Date) -> String {
     //let dateFormatter = DateFormatter()
@@ -279,5 +305,3 @@ struct ContentView: View {
   }
 
 }
-
-

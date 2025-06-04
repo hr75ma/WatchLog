@@ -95,10 +95,16 @@ class GeneralStylesLogEntry: ObservableObject {
     @Published var SectionNoteImage = "phone.bubble.fill"
     
     //tree navigation
-    @Published var NavigationTreeAddEntryImage = "list.clipboard"
+    @Published var NavigationTreeAddEntryImage: String = "list.clipboard"
+    @Published var NavigationTreeAddEntryImagePrimaryColor: Color = Color.white
+    @Published var NavigationTreeAddEntryImageSecondaryColor: Color = Color.blue
     
-    @Published var NavigationTreeImagePrimaryColor = Color.white
-    @Published var NavigationTreeImageSecondaryColor = Color.blue
+//    @Published var NavigationTreeImagePrimaryColor: Color = Color.white
+//    @Published var NavigationTreeImageSecondaryColor: Color = Color.blue
+    
+    @Published var NavigationTreeSettingImage: String = "gear"
+    @Published var NavigationTreeSettingImagePrimaryColor: Color = Color.blue
+    @Published var NavigationTreeSettingImageSecondaryColor: Color = Color.blue
     
     @Published var NavigationTreeDisclosureYearGradientStart = Color(hex: 0x222222).opacity(1)
     @Published var NavigationTreeDisclosureYearGradientEnd = Color(hex: 0x2e2e2e).opacity(1)
