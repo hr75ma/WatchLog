@@ -105,6 +105,11 @@
       </ContextState>
       <ContextState
          contextName = "WatchLogEntry.getDateFromDOB():WatchLogEntry.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.CallerDOB">
+            </PersistentString>
+         </PersistentStrings>
       </ContextState>
       <ContextState
          contextName = "closure #1 in closure #3 in LogBookEntryView.body.getter:LogBookEntryView.swift">
@@ -239,6 +244,14 @@
          <PersistentStrings>
             <PersistentString
                value = "WatchLog">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "WatchLogBookEntry.getDOBFromDate():WatchLogBookEntry.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.CallerDOB ">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

@@ -159,6 +159,7 @@ class WatchLogBookEntry: Identifiable, Hashable {
     func getDOBFromDate() -> String {
         if(self.CallerDOB != nil) {
             let dateFormatter = DateFormatter()
+            dateFormatter.locale = Locale(identifier: "de_DE_POSIX")
             dateFormatter.dateFormat = "dd.MM.YYYY"
             return dateFormatter.string(from: self.CallerDOB!)
         }

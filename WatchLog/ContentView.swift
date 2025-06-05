@@ -61,7 +61,7 @@ struct ContentView: View {
         Text("currentuuid: \(currentUUID.uuid.uuidString)")
       List(viewModel.WatchLogBooks, id: \.uuid) { book in
 
-        ForEach(book.watchLogBookYears!) { year in
+          ForEach(sortedYear(book.watchLogBookYears!)) { year in
           DisclosureGroup(getDateYear(date: year.LogDate)) {
             ForEach(sortedMonth(year.watchLogBookMonths!)) { month in
               DisclosureGroup(getDateMonth(date: month.LogDate)) {
@@ -112,7 +112,7 @@ struct ContentView: View {
         }
         .onDelete(perform: { indexSet in
           indexSet.sorted(by: >).forEach { (i) in
-            let LogEntry = book.watchLogBookYears![i]
+            let LogEntry = sortedYear(book.watchLogBookYears!)[i]
             deleteLogYear(watchLogBookYear: LogEntry)
 
           }
@@ -284,7 +284,7 @@ struct ContentView: View {
 
   private func sortedYear(_ LogEntry: [WatchLogBookYear]) -> [WatchLogBookYear] {
     return LogEntry.sorted(using: [
-      SortDescriptor(\.LogDate, order: .forward)
+        SortDescriptor(\.LogDate, order: .reverse)
     ])
 
   }
