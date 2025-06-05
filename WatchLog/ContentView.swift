@@ -16,6 +16,7 @@ import SwiftUI
 
   let databaseService = DatabaseService()
   let viewModel = LogEntryViewModel(dataBaseService: databaseService)
+    var currentLogEntryUUID:UUIDContainer = UUIDContainer()
 
   var pre: PreviewData = PreviewData()
   pre.setPreviewDate(viewModel: viewModel)
@@ -23,6 +24,7 @@ import SwiftUI
   return ContentView()
     .environmentObject(viewModel)
     .environmentObject(textFieldStyleLogEntry)
+    .environmentObject(currentLogEntryUUID)
 
 }
 
@@ -32,6 +34,7 @@ struct ContentView: View {
   @State private var columnVisibility = NavigationSplitViewVisibility.automatic
   @EnvironmentObject var viewModel: LogEntryViewModel
   @EnvironmentObject var GeneralStyles: GeneralStylesLogEntry
+    @EnvironmentObject var currentUUID: UUIDContainer
 
   @State private var testInt: Int = 0
   @State private var testEntry: WatchLogBookEntry = WatchLogBookEntry()
@@ -54,10 +57,11 @@ struct ContentView: View {
 
       Text(Date.now, format: .dateTime.day().month().year().hour().minute().second())
         .foregroundStyle(.blue)
-      //      Text(testEntry.uuid.uuidString)
+            Text(testEntry.uuid.uuidString)
+        Text("currentuuid: \(currentUUID.uuid.uuidString)")
       List(viewModel.WatchLogBooks, id: \.uuid) { book in
 
-        ForEach(sortedYear(book.watchLogBookYears!)) { year in
+        ForEach(book.watchLogBookYears!) { year in
           DisclosureGroup(getDateYear(date: year.LogDate)) {
             ForEach(sortedMonth(year.watchLogBookMonths!)) { month in
               DisclosureGroup(getDateMonth(date: month.LogDate)) {
@@ -123,8 +127,9 @@ struct ContentView: View {
       )
       .refreshable(action: {
         Task {
-          await await viewModel.fetchLogBook()
+          await  viewModel.fetchLogBook()
         }
+          print("current uuid: \(currentUUID.uuid.uuidString)")
       })
       .toolbar {
         ToolbarItem(placement: .primaryAction) {
@@ -173,7 +178,7 @@ struct ContentView: View {
         of: listOfEntry.count,
         { oldValue, newValue in
           Task {
-            await await viewModel.fetchLogBook()
+            await  viewModel.fetchLogBook()
           }
         }
       )
@@ -199,12 +204,24 @@ struct ContentView: View {
     }
   }
 
-  private func deleteLogEntry(watchLogBookEntry: WatchLogBookEntry) {
+    fileprivate func generateNewLogEntryAfterExistingDeleted(exisitingUuid: UUID) {
+        
+        Task {
+            let isCurrentUuuidExisting = await viewModel.exisitsLogEntry(uuid: exisitingUuid)
+            if !isCurrentUuuidExisting {
+                addNewLogEntry()
+            }
+        }
+    }
+    
+    private func deleteLogEntry(watchLogBookEntry: WatchLogBookEntry) {
     withAnimation {
 
       Task {
         await viewModel.deleteLogEntry(
           LogEntry: WatchLogEntry(WatchLookBookEntry: watchLogBookEntry))
+          generateNewLogEntryAfterExistingDeleted(exisitingUuid: watchLogBookEntry.uuid)
+                
       }
 
     }
@@ -215,6 +232,7 @@ struct ContentView: View {
 
       Task {
         await viewModel.deleteLogDay(watchLogBookDay: watchLogBookDay)
+          generateNewLogEntryAfterExistingDeleted(exisitingUuid: currentUUID.uuid)
       }
 
     }
@@ -225,6 +243,7 @@ struct ContentView: View {
 
       Task {
         await viewModel.deleteLogMonth(watchLogBookMonth: watchLogBookMonth)
+          generateNewLogEntryAfterExistingDeleted(exisitingUuid: currentUUID.uuid)
       }
 
     }
@@ -235,6 +254,7 @@ struct ContentView: View {
 
       Task {
         await viewModel.deleteLogYear(watchLogBookYear: watchLogBookYear)
+          generateNewLogEntryAfterExistingDeleted(exisitingUuid: currentUUID.uuid)
       }
 
     }

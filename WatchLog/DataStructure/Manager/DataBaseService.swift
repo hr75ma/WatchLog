@@ -13,7 +13,7 @@ import Foundation
 @MainActor
 protocol DatabaseServiceProtocol {
     func saveWatchLogBookEntry (LogEntry: WatchLogEntry) async -> Result<Void, Error>
-    func fetchLogBookEntry(with EntryUUID: UUID)  -> Result<WatchLogEntry, Error>
+    func fetchLogBookEntry(with EntryUUID: UUID) async -> Result<WatchLogEntry, Error>
     func fetchLogBookYears() async -> Result<[WatchLogBookYear], Error>
     func fetchLogBookEntries() async -> Result<[WatchLogBookEntry], Error>
     
@@ -24,6 +24,8 @@ protocol DatabaseServiceProtocol {
     func removeWatchLogBookDay (watchLogBookDay: WatchLogBookDay) async -> Result<Void, Error>
     func removeWatchLogBookMonth (watchLogBookMonth: WatchLogBookMonth) async -> Result<Void, Error>
     func removeWatchLogBookYear (watchLogBookYear: WatchLogBookYear) async -> Result<Void, Error>
+    
+    func existsWatchLogBookEntry (uuid: UUID) async -> Result<Bool, Error>
     
     func instanciateLogBook() async -> Result<Void, Error>
 }
@@ -37,6 +39,19 @@ class DatabaseService: DatabaseServiceProtocol {
     @MainActor
     init(dataSource: DataBaseManagerProtocol = DataBaseManager.shared) {
         self.dataSource = dataSource
+    }
+    
+    func existsWatchLogBookEntry( uuid: UUID) async -> Result<Bool, Error> {
+        let fetchResult = dataSource.fetchLogBookEntry(with: uuid)
+        switch fetchResult {
+        case .success(let entry):
+            if entry.isEmpty {
+                return .success(false)
+            }
+            return .success(true)
+        case .failure(let error):
+            return .failure(error)
+        }
     }
     
     func instanciateLogBook () async -> Result<Void, Error> {
@@ -105,7 +120,7 @@ class DatabaseService: DatabaseServiceProtocol {
         }
     }
     
-    func fetchLogBookEntry(with EntryUUID: UUID)  -> Result<WatchLogEntry, Error> {
+    func fetchLogBookEntry(with EntryUUID: UUID) async -> Result<WatchLogEntry, Error> {
         var WatchLogEntry: WatchLogEntry = WatchLogEntry(uudi: EntryUUID)
         let fetchResult = dataSource.fetchLogBookEntry(with: EntryUUID)
         switch fetchResult {

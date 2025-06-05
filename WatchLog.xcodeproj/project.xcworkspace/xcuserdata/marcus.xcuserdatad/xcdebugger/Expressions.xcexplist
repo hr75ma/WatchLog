@@ -42,7 +42,7 @@
          contextName = "closure #1 in closure #4 in LogBookEntryView.body.getter:LogBookEntryView.swift">
          <PersistentStrings>
             <PersistentString
-               value = "oldValue">
+               value = "viewModel">
             </PersistentString>
             <PersistentString
                value = "viewModel.watchLogEntry">
@@ -51,7 +51,7 @@
                value = "newValue">
             </PersistentString>
             <PersistentString
-               value = "viewModel">
+               value = "oldValue">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -68,6 +68,14 @@
       </ContextState>
       <ContextState
          contextName = "closure #1 in closure #1 in ContentViewTest.body.getter:ContentViewTest.swift">
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in closure #2 in closure #1 in closure #1 in ContentView.body.getter:ContentView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "book.watchLogBookYears![i].logDate">
+            </PersistentString>
+         </PersistentStrings>
       </ContextState>
       <ContextState
          contextName = "DataBaseManager.removeLogBookEntry(with:):DataBaseManager.swift">
@@ -151,6 +159,14 @@
       </ContextState>
       <ContextState
          contextName = "DatabaseService.saveWatchLogBookEntry(LogEntry:):DataBaseService.swift">
+      </ContextState>
+      <ContextState
+         contextName = "closure #2 in closure #1 in closure #1 in ContentView.body.getter:ContentView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "i">
+            </PersistentString>
+         </PersistentStrings>
       </ContextState>
       <ContextState
          contextName = "closure #1 in closure #1 in closure #1 in closure #1 in closure #1 in closure #1 in closure #1 in closure #1 in closure #1 in ContentView.body.getter:ContentView.swift">

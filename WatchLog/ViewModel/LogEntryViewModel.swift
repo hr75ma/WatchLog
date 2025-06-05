@@ -69,13 +69,24 @@ class LogEntryViewModel: ObservableObject {
     
     
     
-    func fetchLogEntry(LogEntryUUID: UUID)  {
-        let result =  databaseService.fetchLogBookEntry(with: LogEntryUUID)
+    func fetchLogEntry(LogEntryUUID: UUID)  async {
+        let result =  await databaseService.fetchLogBookEntry(with: LogEntryUUID)
         switch result {
         case .success(let logBookEntry):
             self.watchLogEntry = logBookEntry
         case .failure(let error):
             errorMessage = String(format: NSLocalizedString("error_fetching_logBookEntry", comment: "Displayed when fetching logBookEntry fails"), error.localizedDescription)
+        }
+        
+    }
+    
+    func exisitsLogEntry(uuid: UUID) async -> Bool {
+        let result = await databaseService.existsWatchLogBookEntry(uuid: uuid)
+        switch result {
+        case .success(let exisistLogLEntry):
+            return exisistLogLEntry
+        case .failure(let error):
+            return false
         }
         
     }

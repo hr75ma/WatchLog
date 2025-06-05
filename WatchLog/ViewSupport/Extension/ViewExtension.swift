@@ -87,7 +87,6 @@ extension TextField {
     func SectionTextFieldSingleLine(_ generalStyles: GeneralStylesLogEntry, isLocked: Bool) -> some View {
         self
             .font(Font.custom(generalStyles.TextFieldFont, size: generalStyles.TextFieldHeight))
-            .textInputAutocapitalization(.characters)
             .lineLimit(1)
             .foregroundStyle(generalStyles.GeneralTextColor)
             .background(isLocked ? generalStyles.TextfieldBackgroundColorLocked : generalStyles.TextfieldBackgroundColorUnLocked)
@@ -99,7 +98,6 @@ extension TextField {
     func SectionTextFieldSingleLine(_ generalStyles: GeneralStylesLogEntry) -> some View {
         self
             .font(Font.custom(generalStyles.TextFieldFont, size: generalStyles.TextFieldHeight))
-            .textInputAutocapitalization(.characters)
             .lineLimit(1)
             .foregroundStyle(generalStyles.GeneralTextColor)
             .background(generalStyles.TextfieldBackgroundColorUnLocked)
