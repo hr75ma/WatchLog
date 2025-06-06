@@ -33,8 +33,8 @@ struct LogBookEntryView: View {
     var body: some View {
         
 //        Text(Date.now, format: .dateTime.hour().minute().second())
-        Text(exisitingLogBookEntry.uuid.uuidString)
-    Text("currentuuid: \(currentUUID.uuid.uuidString)")
+ //       Text(exisitingLogBookEntry.uuid.uuidString)
+ //   Text("currentuuid: \(currentUUID.uuid.uuidString)")
         
         ScrollView {
             
