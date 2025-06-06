@@ -223,7 +223,7 @@ struct ContentView: View {
       Task {
         await viewModel.deleteLogEntry(
           LogEntry: WatchLogEntry(WatchLookBookEntry: watchLogBookEntry))
-          generateNewLogEntryAfterExistingDeleted(exisitingUuid: watchLogBookEntry.uuid)
+          generateNewLogEntryAfterExistingDeleted(exisitingUuid: currentUUID.uuid)
                 
       }
 
