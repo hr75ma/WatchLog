@@ -21,13 +21,18 @@ struct TabViewForLogView: View {
     var body: some View {
         TabView {
             
-            ForEach(logEntriesOfDay) { logBookEntry in
-                
+            if logEntriesOfDay.isEmpty {
                 LogBookEntryView(exisitingLogBookEntry: logBookEntry)
-                //dummyView(exisitingLogBookEntry: logBookEntry)
-                    .tag(logBookEntry.uuid)
-                
+            } else {
+                ForEach(logEntriesOfDay) { logBookEntry in
+                    
+                    LogBookEntryView(exisitingLogBookEntry: logBookEntry)
+                    //dummyView(exisitingLogBookEntry: logBookEntry)
+                        .tag(logBookEntry.uuid)
+                    
+                }
             }
+            
                 
                 
         }

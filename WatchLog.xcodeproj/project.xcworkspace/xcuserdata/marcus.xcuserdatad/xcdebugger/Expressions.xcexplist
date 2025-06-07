@@ -3,6 +3,14 @@
    version = "1.0">
    <ContextStates>
       <ContextState
+         contextName = "DataBaseManager.fetchDaysFromLogBookEntry(logEntry:):DataBaseManager.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "logEntry.LogDate">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "closure #1 in closure #2 in closure #1 in closure #1 in closure #1 in closure #1 in closure #1 in closure #1 in ContentView.body.getter:ContentView.swift">
          <PersistentStrings>
             <PersistentString
@@ -10,6 +18,14 @@
             </PersistentString>
             <PersistentString
                value = "m.Days![i]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in ContentView.generateNewLogEntryAfterExistingDeleted(exisitingUuid:):ContentView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "isCurrentUuuidExisting">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -120,21 +136,13 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "DatabaseService.saveWatchLogBookEntry(LogEntry:):DataBaseService.swift">
+      </ContextState>
+      <ContextState
          contextName = "closure #1 in closure #3 in LogBookEntryView.body.getter:LogBookEntryView.swift">
          <PersistentStrings>
             <PersistentString
                value = "newValue.uuid">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "closure #1 in closure #1 in closure #1 in closure #1 in closure #1 in closure #1 in closure #1 in closure #1 in ContentView.body.getter:ContentView.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "child3.LogDate.formatted(date: .omitted, time: .standard)">
-            </PersistentString>
-            <PersistentString
-               value = "child3">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -155,10 +163,13 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "testforView.body.getter:testView.swift">
+         contextName = "closure #1 in closure #1 in closure #1 in closure #1 in closure #1 in closure #1 in closure #1 in closure #1 in ContentView.body.getter:ContentView.swift">
          <PersistentStrings>
             <PersistentString
-               value = "exisitingLogBookEntry.getDOBFromDate()">
+               value = "child3.LogDate.formatted(date: .omitted, time: .standard)">
+            </PersistentString>
+            <PersistentString
+               value = "child3">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -171,7 +182,12 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "DatabaseService.saveWatchLogBookEntry(LogEntry:):DataBaseService.swift">
+         contextName = "testforView.body.getter:testView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "exisitingLogBookEntry.getDOBFromDate()">
+            </PersistentString>
+         </PersistentStrings>
       </ContextState>
       <ContextState
          contextName = "closure #2 in closure #1 in closure #1 in ContentView.body.getter:ContentView.swift">

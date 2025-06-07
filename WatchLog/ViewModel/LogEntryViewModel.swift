@@ -66,7 +66,17 @@ class LogEntryViewModel: ObservableObject {
     }
     
     
-    
+    func fetchDaysOfLogEntry(logEntry: WatchLogBookEntry)  async -> [WatchLogBookEntry] {
+        let result =  await databaseService.fetchDaysFromLogBookEntry(logEntry: logEntry)
+        switch result {
+        case .success(let logBookEntries):
+            return logBookEntries
+        case .failure(let error):
+            errorMessage = String(format: NSLocalizedString("error_fetching_logBookEntry", comment: "Displayed when fetching logBookEntry fails"), error.localizedDescription)
+        }
+        return []
+        
+    }
     
     
     func fetchLogEntry(LogEntryUUID: UUID)  async {

@@ -265,9 +265,16 @@ struct ContentView: View {
 
   private func addNewLogEntry() {
     print("add item")
-    isNewEntry = true
-    testEntry = WatchLogBookEntry(uuid: UUID())
-    print(testEntry.uuid.uuidString)
+      
+      isNewEntry = true
+      testEntry = WatchLogBookEntry(uuid: UUID())
+      Task {
+          logsOfDay = await viewModel.fetchDaysOfLogEntry(logEntry: testEntry)
+          logsOfDay.append(testEntry)
+      }
+      
+      
+
 
   }
 

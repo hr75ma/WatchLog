@@ -18,6 +18,7 @@ protocol DatabaseServiceProtocol {
     func fetchLogBookEntries() async -> Result<[WatchLogBookEntry], Error>
     
     func fetchLogBook() async -> Result<[WatchLogBook], any Error>
+    func fetchDaysFromLogBookEntry(logEntry: WatchLogBookEntry) async -> Result<[WatchLogBookEntry], Error>
     
     
     func removeWatchLogBookEntry (LogEntry: WatchLogEntry) async -> Result<Void, Error>
@@ -63,6 +64,17 @@ class DatabaseService: DatabaseServiceProtocol {
             return .failure(error)
         }
     }
+    
+    func fetchDaysFromLogBookEntry(logEntry: WatchLogBookEntry) async -> Result<[WatchLogBookEntry], Error> {
+        let fetchResult =  dataSource.fetchDaysFromLogBookEntry(logEntry: logEntry)
+        switch fetchResult {
+    case .success(let result):
+        return .success(result)
+    case .failure(let error):
+        return .failure(error)
+    }
+    }
+    
     
     func removeWatchLogBookEntry (LogEntry: WatchLogEntry) async -> Result<Void, Error> {
         let deleteResult = dataSource.removeLogBookEntry(with: LogEntry.uuid)
