@@ -422,7 +422,7 @@ func saveLogBookEntry(LogEntry: WatchLogEntry) -> Result<Void, Error> {
       try? modelContext.save()
     } else {
       let entryTime = LogEntry.EntryTime
-      print(dateFormatter.string(from: entryTime))
+      //print(dateFormatter.string(from: entryTime))
 
       var DateComponent = DateComponents()
       DateComponent.year = Calendar.current.component(.year, from: entryTime) - 1

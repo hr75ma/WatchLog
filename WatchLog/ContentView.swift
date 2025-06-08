@@ -75,7 +75,7 @@ struct ContentView: View {
 
                           testEntry = entry
                             logsOfDay = days.watchLogBookEntries!
-                          print(testEntry.uuid.uuidString)
+                         // print(testEntry.uuid.uuidString)
                         }) {
                           Text(getDateTime(date: entry.LogDate))
                         }
@@ -131,7 +131,7 @@ struct ContentView: View {
         Task {
           await  viewModel.fetchLogBook()
         }
-          print("current uuid: \(currentUUID.uuid.uuidString)")
+          //print("current uuid: \(currentUUID.uuid.uuidString)")
       })
       .toolbar {
         ToolbarItem(placement: .primaryAction) {

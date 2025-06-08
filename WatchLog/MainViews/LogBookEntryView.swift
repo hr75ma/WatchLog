@@ -27,6 +27,8 @@ struct LogBookEntryView: View {
     @State var alertNew = false
     @State var alertClear = false
     
+    @State var showNavigationBar = true
+    
     
     
     
@@ -80,8 +82,13 @@ struct LogBookEntryView: View {
                 
         }
         .onDisappear {
-            dismiss()
+            print("onDisappear")
+            //dismiss()
+            
+                
         }
+        
+        
         .onChange(of: exisitingLogBookEntry, { oldValue, newValue in
             
             print("--------->onchange")
@@ -101,118 +108,47 @@ struct LogBookEntryView: View {
               .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
           }
 
-          ToolbarItemGroup(placement: .automatic) {
-            Button(action: {
-                alertClear.toggle()
-            }) {
-              label: do {
-                  Image(systemName: viewModel.watchLogEntry.isLocked ? GeneralStyles.ToolBarEraserImageUnActive : GeneralStyles.ToolBarEraserImageActive)
-                      .symbolRenderingMode(.palette)
-                      .foregroundStyle(viewModel.watchLogEntry.isLocked ? GeneralStyles.ToolBarEraserColorUnActive : GeneralStyles.ToolBarEraserColorActive)
-                  
-                      .animation(.easeInOut(duration: 1), value: viewModel.watchLogEntry.isLocked)
-                  
-                      .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(6) ,isActive: viewModel.watchLogEntry.isLocked)
-                      .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(6), isActive: !viewModel.watchLogEntry.isLocked)
-                      //.contentTransition(.symbolEffect(.replace.offUp, options: .nonRepeating))
-                      .symbolEffect(.scale)
-                    }
-            }
-            .disabled(viewModel.watchLogEntry.isLocked)
+            ToolbarItemGroup(placement: .primaryAction) {
+            clearButton
               
-            Button(action: {
-              Task {
-                  viewModel.watchLogEntry.isLocked = true
-                await viewModel.saveLogEntry(LogEntry: viewModel.watchLogEntry)
-              }
-            }) {
-              label: do {
-                  Image(systemName: viewModel.watchLogEntry.isLocked ? GeneralStyles.ToolBarSaveImageUnActive : GeneralStyles.ToolBarSaveImageActive)
-                      .symbolRenderingMode(.multicolor)
-                  .foregroundStyle(viewModel.watchLogEntry.isLocked ? GeneralStyles.ToolBarSaveColorUnActivePrimary : GeneralStyles.ToolBarSaveColorActivePrimary)
-              
-                  .animation(.easeInOut(duration: 1), value: viewModel.watchLogEntry.isLocked)
-              
-                  .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(6) ,isActive: viewModel.watchLogEntry.isLocked)
-                  .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(6), isActive: !viewModel.watchLogEntry.isLocked)
-                  //.contentTransition(.symbolEffect(.replace.offUp, options: .nonRepeating))
-                  .symbolEffect(.scale)
-              }
-            }
-            .disabled(viewModel.watchLogEntry.isLocked)
+            saveButton
 
-              
-            //new Entry button
-            Button(action: {
-                alertNew.toggle()
-            }) {
-              label: do {
-                  Image(systemName: GeneralStyles.ToolBarNewImageActive)
-                      .symbolRenderingMode(.palette)
-                      .foregroundStyle(GeneralStyles.ToolBarNewColorActivePrimary, GeneralStyles.ToolBarNewColorActiveSecondary)
-                      
-              }
-            }
-            //.disabled(viewModel.watchLogEntry.isLocked)
-              
-              //delete button
-              Button(action: {
-                  alertDelete.toggle()
-              }) {
-                label: do {
-                    Image(systemName: viewModel.watchLogEntry.isLocked ? GeneralStyles.ToolBarDeleteImageUnActive : GeneralStyles.ToolBarDeleteImageActive)
-                        .symbolRenderingMode(.palette)
-                        .foregroundStyle(viewModel.watchLogEntry.isLocked ? GeneralStyles.ToolBarDeleteColorUnActivePrimary : GeneralStyles.ToolBarDeleteColorActivePrimary, viewModel.watchLogEntry.isLocked ? GeneralStyles.ToolBarDeleteColorUnActiveSecondary : GeneralStyles.ToolBarDeleteColorActiveSecondary
-                        )
-                    
-                        .animation(.easeInOut(duration: 1), value: viewModel.watchLogEntry.isLocked)
-                    
-                        
-                        
-                        //.contentTransition(.symbolEffect(.replace, options: .nonRepeating))
-                        .symbolEffect(.breathe.pulse, options: .nonRepeating.speed(6), isActive: viewModel.watchLogEntry.isLocked)
-                        .symbolEffect(.breathe.pulse, options: .nonRepeating.speed(6), isActive: !viewModel.watchLogEntry.isLocked)
-                        .symbolEffect(.scale)
-                        
-
-                        
-                }
-              }
-              .disabled(viewModel.watchLogEntry.isLocked)
-              .alert("Log Löschen?", isPresented: $alertDelete) {
-                  Button("Löschen", role: .destructive, action: {
-                      Task {
-                          await viewModel.deleteLogEntry(LogEntry: viewModel.watchLogEntry)
+            newButton
+            
+            deleteButton
+            
+                  .alert("Log Löschen?", isPresented: $alertDelete) {
+                      Button("Löschen", role: .destructive, action: {
+                          Task {
+                              await viewModel.deleteLogEntry(LogEntry: viewModel.watchLogEntry)
+                              newEntry(LogEntry: viewModel.watchLogEntry, drawing: &drawing)
+                              exisitingLogBookEntry.uuid = viewModel.watchLogEntry.uuid
+                          }
+                      })
+                      Button("Abbrechen", role: .cancel, action: {
+                          
+                      })
+                  }
+                  .alert("Neues Log erstellen?", isPresented: $alertNew) {
+                      Button("Erstellen", role: .destructive, action: {
                           newEntry(LogEntry: viewModel.watchLogEntry, drawing: &drawing)
-                          exisitingLogBookEntry.uuid = viewModel.watchLogEntry.uuid
-                      }
-                  })
-                  Button("Abbrechen", role: .cancel, action: {
-                      
-                  })
+                          currentUUID.uuid = viewModel.watchLogEntry.uuid
+                      })
+                      Button("Abbrechen", role: .cancel, action: {
+                          
+                      })
+                  }
+                  .alert("Eingaben verwerfen?", isPresented: $alertClear) {
+                      Button("Verwerfen", role: .destructive, action: {
+                          clearEntry(LogEntry: viewModel.watchLogEntry, drawing: &drawing)
+                      })
+                      Button("Nein", role: .cancel, action: {
+                          
+                      })
+                  }
               }
-              .alert("Neues Log erstellen?", isPresented: $alertNew) {
-                  Button("Erstellen", role: .destructive, action: {
-                      newEntry(LogEntry: viewModel.watchLogEntry, drawing: &drawing)
-                      currentUUID.uuid = viewModel.watchLogEntry.uuid
-                  })
-                  Button("Abbrechen", role: .cancel, action: {
-                      
-                  })
-              }
-              .alert("Eingaben verwerfen?", isPresented: $alertClear) {
-                  Button("Verwerfen", role: .destructive, action: {
-                      clearEntry(LogEntry: viewModel.watchLogEntry, drawing: &drawing)
-                  })
-                  Button("Nein", role: .cancel, action: {
-                      
-                  })
-              }
-              
-
-          }
+            
         }
-
         }
 }
 
@@ -231,6 +167,93 @@ private func newEntry(LogEntry: WatchLogEntry, drawing: inout PKDrawing) {
         LogEntry.EntryTime = .now
     }
 
+}
+
+extension LogBookEntryView {
+    private var clearButton: some View {
+        Button(action: {
+            alertClear.toggle()
+        }) {
+          label: do {
+              Image(systemName: viewModel.watchLogEntry.isLocked ? GeneralStyles.ToolBarEraserImageUnActive : GeneralStyles.ToolBarEraserImageActive)
+                  .symbolRenderingMode(.palette)
+                  .foregroundStyle(viewModel.watchLogEntry.isLocked ? GeneralStyles.ToolBarEraserColorUnActive : GeneralStyles.ToolBarEraserColorActive)
+              
+                  .animation(.easeInOut(duration: 1), value: viewModel.watchLogEntry.isLocked)
+              
+                  .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(6) ,isActive: viewModel.watchLogEntry.isLocked)
+                  .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(6), isActive: !viewModel.watchLogEntry.isLocked)
+                  //.contentTransition(.symbolEffect(.replace.offUp, options: .nonRepeating))
+                  .symbolEffect(.scale)
+                }
+        }
+        .disabled(viewModel.watchLogEntry.isLocked)
+    }
+    
+    private var saveButton: some View {
+        Button(action: {
+          Task {
+              viewModel.watchLogEntry.isLocked = true
+            await viewModel.saveLogEntry(LogEntry: viewModel.watchLogEntry)
+          }
+        }) {
+          label: do {
+              Image(systemName: viewModel.watchLogEntry.isLocked ? GeneralStyles.ToolBarSaveImageUnActive : GeneralStyles.ToolBarSaveImageActive)
+                  .symbolRenderingMode(.multicolor)
+              .foregroundStyle(viewModel.watchLogEntry.isLocked ? GeneralStyles.ToolBarSaveColorUnActivePrimary : GeneralStyles.ToolBarSaveColorActivePrimary)
+          
+              .animation(.easeInOut(duration: 1), value: viewModel.watchLogEntry.isLocked)
+          
+              .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(6) ,isActive: viewModel.watchLogEntry.isLocked)
+              .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(6), isActive: !viewModel.watchLogEntry.isLocked)
+              //.contentTransition(.symbolEffect(.replace.offUp, options: .nonRepeating))
+              .symbolEffect(.scale)
+          }
+        }
+        .disabled(viewModel.watchLogEntry.isLocked)
+    }
+    
+    private var newButton: some View {
+        //new Entry button
+        Button(action: {
+            alertNew.toggle()
+        }) {
+          label: do {
+              Image(systemName: GeneralStyles.ToolBarNewImageActive)
+                  .symbolRenderingMode(.palette)
+                  .foregroundStyle(GeneralStyles.ToolBarNewColorActivePrimary, GeneralStyles.ToolBarNewColorActiveSecondary)
+                  
+          }
+        }
+        //.disabled(viewModel.watchLogEntry.isLocked)
+    }
+    
+    private var deleteButton: some View {
+        //delete button
+        Button(action: {
+            alertDelete.toggle()
+        }) {
+          label: do {
+              Image(systemName: viewModel.watchLogEntry.isLocked ? GeneralStyles.ToolBarDeleteImageUnActive : GeneralStyles.ToolBarDeleteImageActive)
+                  .symbolRenderingMode(.palette)
+                  .foregroundStyle(viewModel.watchLogEntry.isLocked ? GeneralStyles.ToolBarDeleteColorUnActivePrimary : GeneralStyles.ToolBarDeleteColorActivePrimary, viewModel.watchLogEntry.isLocked ? GeneralStyles.ToolBarDeleteColorUnActiveSecondary : GeneralStyles.ToolBarDeleteColorActiveSecondary
+                  )
+              
+                  .animation(.easeInOut(duration: 1), value: viewModel.watchLogEntry.isLocked)
+              
+                  
+                  
+                  //.contentTransition(.symbolEffect(.replace, options: .nonRepeating))
+                  .symbolEffect(.breathe.pulse, options: .nonRepeating.speed(6), isActive: viewModel.watchLogEntry.isLocked)
+                  .symbolEffect(.breathe.pulse, options: .nonRepeating.speed(6), isActive: !viewModel.watchLogEntry.isLocked)
+                  .symbolEffect(.scale)
+                  
+
+                  
+          }
+        }
+        .disabled(viewModel.watchLogEntry.isLocked)
+    }
 }
 
 

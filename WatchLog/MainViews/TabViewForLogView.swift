@@ -16,10 +16,12 @@ struct TabViewForLogView: View {
     
     @EnvironmentObject var GeneralStyles: GeneralStylesLogEntry
     @EnvironmentObject var currentUUID: UUIDContainer
+    
+    @State private var selectedTab:UUID = UUID()
 
     
     var body: some View {
-        TabView {
+        TabView(selection: $selectedTab) {
             
             if logEntriesOfDay.isEmpty {
                 LogBookEntryView(exisitingLogBookEntry: logBookEntry)
@@ -38,6 +40,12 @@ struct TabViewForLogView: View {
         }
         .tabViewStyle(.page)
         .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
+        .onAppear() {
+            selectedTab = logBookEntry.uuid
+        }
+        .onChange(of: logBookEntry) {
+            selectedTab = logBookEntry.uuid
+        }
     }
     
     
