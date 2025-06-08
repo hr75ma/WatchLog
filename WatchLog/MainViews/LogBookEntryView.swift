@@ -82,8 +82,8 @@ struct LogBookEntryView: View {
                 
         }
         .onDisappear {
-            print("onDisappear")
-            //dismiss()
+            print("entry view onDisappear")
+            dismiss()
             
                 
         }

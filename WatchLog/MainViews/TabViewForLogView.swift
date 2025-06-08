@@ -31,6 +31,7 @@ struct TabViewForLogView: View {
                     LogBookEntryView(exisitingLogBookEntry: logBookEntry)
                     //dummyView(exisitingLogBookEntry: logBookEntry)
                         .tag(logBookEntry.uuid)
+                        
                     
                 }
             }
@@ -48,7 +49,9 @@ struct TabViewForLogView: View {
         }
     }
     
-    
+    private func handleSwipe(translation: CGFloat) {
+        print("handling swipe! horizontal translation was \(translation)")
+    }
     
 }
 

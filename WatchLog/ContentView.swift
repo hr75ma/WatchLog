@@ -56,8 +56,6 @@ struct ContentView: View {
 
     NavigationSplitView(columnVisibility: $columnVisibility) {
 
-      Text(Date.now, format: .dateTime.day().month().year().hour().minute().second())
-        .foregroundStyle(.blue)
             Text(testEntry.uuid.uuidString)
         Text("currentuuid: \(currentUUID.uuid.uuidString)")
       List(viewModel.WatchLogBooks, id: \.uuid) { book in
@@ -175,13 +173,13 @@ struct ContentView: View {
 
       .task {
         await viewModel.fetchLogBook()
-      }
+          }
       .onChange(
-        of: listOfEntry.count,
-        { oldValue, newValue in
+        of: listOfEntry.count, { oldValue, newValue in
           Task {
             await  viewModel.fetchLogBook()
           }
+            print("-------> contentview ListofEntry")
         }
       )
       .listStyle(.sidebar)
