@@ -455,7 +455,7 @@ func saveLogBookEntry(LogEntry: WatchLogEntry) -> Result<Void, Error> {
       do {
         logWatchBook = try modelContext.fetch(fetchLogBookDiscriptor).first
       } catch {
-        print("fetch WatchLogBookYaer failed")
+        print("fetch WatchLogBookYear failed")
       }
 
       if logWatchBook == nil {
@@ -534,7 +534,8 @@ func saveLogBookEntry(LogEntry: WatchLogEntry) -> Result<Void, Error> {
 
       let log = WatchLogBookEntry(LogEntry: LogEntry, day: logDayEntry!)
       modelContext.insert(log)
-      logDayEntry?.watchLogBookEntries?.append(log)
+      //logDayEntry?.watchLogBookEntries?.append(log)
+        logDayEntry?.addLogEntry(log)
       try? modelContext.save()
     }
 

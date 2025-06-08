@@ -60,19 +60,19 @@ struct ContentView: View {
         Text("currentuuid: \(currentUUID.uuid.uuidString)")
       List(viewModel.WatchLogBooks, id: \.uuid) { book in
 
-          ForEach(sortedYear(book.watchLogBookYears!)) { year in
+          ForEach(book.logYearsSorted) { year in
           DisclosureGroup(getDateYear(date: year.LogDate)) {
-            ForEach(sortedMonth(year.watchLogBookMonths!)) { month in
+              ForEach(year.logMonthSorted) { month in
               DisclosureGroup(getDateMonth(date: month.LogDate)) {
-                ForEach(sortedDay(month.watchLogBookDays!)) { days in
+                  ForEach(month.logDaysSorted) { days in
                   DisclosureGroup(getDateWeekDay(date: days.LogDate)) {
-                    ForEach(sortedEntries(days.watchLogBookEntries!)) { entry in
+                      ForEach(days.logEntriesSorted) { entry in
                       HStack {
 
                         Button(action: {
 
                           testEntry = entry
-                            logsOfDay = days.watchLogBookEntries!
+                            logsOfDay = days.logEntriesSorted
                          // print(testEntry.uuid.uuidString)
                         }) {
                           Text(getDateTime(date: entry.LogDate))
@@ -173,11 +173,13 @@ struct ContentView: View {
 
       .task {
         await viewModel.fetchLogBook()
+          
           }
       .onChange(
         of: listOfEntry.count, { oldValue, newValue in
           Task {
             await  viewModel.fetchLogBook()
+              //listOfEntry = viewModel.LogBookEntryYears
           }
             print("-------> contentview ListofEntry")
         }
@@ -276,12 +278,14 @@ struct ContentView: View {
 
   }
 
-  private func sortedEntries(_ LogEntry: [WatchLogBookEntry]) -> [WatchLogBookEntry] {
-    return LogEntry.sorted(using: [
-      SortDescriptor(\.LogDate, order: .forward)
-    ])
 
-  }
+    
+    private func sortedEntries(_ LogEntry: [WatchLogBookEntry]) -> [WatchLogBookEntry] {
+      return LogEntry.sorted(using: [
+        SortDescriptor(\.LogDate, order: .forward)
+      ])
+
+    }
 
   private func sortedDay(_ LogEntry: [WatchLogBookDay]) -> [WatchLogBookDay] {
     return LogEntry.sorted(using: [
@@ -296,6 +300,8 @@ struct ContentView: View {
     ])
 
   }
+    
+
 
   private func sortedMonth(_ LogEntry: [WatchLogBookMonth]) -> [WatchLogBookMonth] {
     return LogEntry.sorted(using: [
@@ -303,6 +309,8 @@ struct ContentView: View {
     ])
 
   }
+    
+ 
 
   fileprivate func getDateBook(String: String) -> String {
     return "test"

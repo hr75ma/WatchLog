@@ -35,5 +35,20 @@ class WatchLogBookDay: Identifiable, Hashable {
         self.uuid = UUID()
         self.watchLogBookMonth = WatchLogBookMonth()
     }
+    
+    var logEntriesSorted: [WatchLogBookEntry] {
+        get {
+            watchLogBookEntries?.sorted(by: { $0.LogDate < $1.LogDate }) ?? []
+        }
+        set {
+            watchLogBookEntries = newValue
+        }
+    }
+    
+    func addLogEntry(_ entry: WatchLogBookEntry) {
+        watchLogBookEntries?.append(entry)
+        watchLogBookEntries?.sort{ $0.LogDate < $1.LogDate}
+        
+    }
 
 }
