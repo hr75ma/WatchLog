@@ -23,18 +23,18 @@ struct TabViewForLogView: View {
     var body: some View {
         TabView(selection: $selectedTab) {
             
-            if logEntriesOfDay.isEmpty {
-                LogBookEntryView(exisitingLogBookEntry: logBookEntry, logEntriesOfDay: $logEntriesOfDay)
-            } else {
-                ForEach(logEntriesOfDay) { logBookEntry in
-                    
-                    LogBookEntryView(exisitingLogBookEntry: logBookEntry, logEntriesOfDay: $logEntriesOfDay)
-                    //dummyView(exisitingLogBookEntry: logBookEntry)
-                        .tag(logBookEntry.uuid)
-                        
-                    
-                }
-            }
+//            if logEntriesOfDay.isEmpty {
+//                LogBookEntryView(exisitingLogBookEntry: logBookEntry, logEntriesOfDay: $logEntriesOfDay)
+//            } else {
+//                ForEach(logEntriesOfDay) { logBookEntry in
+//                    
+//                    LogBookEntryView(exisitingLogBookEntry: logBookEntry, logEntriesOfDay: $logEntriesOfDay)
+//                    //dummyView(exisitingLogBookEntry: logBookEntry)
+//                        .tag(logBookEntry.uuid)
+//                        
+//                    
+//                }
+//            }
             
                 
                 

@@ -15,7 +15,7 @@ import SwiftUI
     let textFieldStyleLogEntry = GeneralStylesLogEntry()
     let databaseService = DatabaseService()
     let viewModel = LogEntryViewModel(dataBaseService: databaseService)
-    LogBookEntryView(exisitingLogBookEntry: exisitingLogBookEntry, logEntriesOfDay: $logEntriesOfDay)
+    LogBookEntryView(exisitingLogBookEntry: exisitingLogBookEntry)
         .environmentObject(viewModel)
         .environmentObject(textFieldStyleLogEntry)
     

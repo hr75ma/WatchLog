@@ -38,7 +38,7 @@ struct ContentView: View {
 
   @State private var testInt: Int = 0
   @State private var testEntry: WatchLogBookEntry = WatchLogBookEntry()
-    @State private var logsOfDay: [WatchLogBookEntry] = []
+  // @State private var logsOfDay: [WatchLogBookEntry] = []
   @State private var isNewEntry: Bool = false
 
   @State var StandardDate: Date = Date()
@@ -72,7 +72,7 @@ struct ContentView: View {
                         Button(action: {
 
                           testEntry = entry
-                            logsOfDay = days.logEntriesSorted
+                            //logsOfDay = days.logEntriesSorted
                          // print(testEntry.uuid.uuidString)
                         }) {
                           Text(getDateTime(date: entry.LogDate))
@@ -190,8 +190,8 @@ struct ContentView: View {
 
     } detail: {
 
-      //LogBookEntryView(exisitingLogBookEntry: testEntry)
-        TabViewForLogView(logBookEntry: testEntry, logEntriesOfDay: $logsOfDay)
+      LogBookEntryView(exisitingLogBookEntry: testEntry)
+       // TabViewForLogView(logBookEntry: testEntry, logEntriesOfDay: $logsOfDay)
     }
     .alert("Neues Log erstellen?", isPresented: $alertNew) {
       Button(
@@ -268,10 +268,10 @@ struct ContentView: View {
       
       isNewEntry = true
       testEntry = WatchLogBookEntry(uuid: UUID())
-      Task {
-          logsOfDay = await viewModel.fetchDaysOfLogEntry(logEntry: testEntry)
-          logsOfDay.append(testEntry)
-      }
+//      Task {
+//          logsOfDay = await viewModel.fetchDaysOfLogEntry(logEntry: testEntry)
+//          logsOfDay.append(testEntry)
+//      }
       
       
 
