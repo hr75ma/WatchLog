@@ -17,7 +17,7 @@ struct LockedView: View {
   var body: some View {
       HStack(alignment: .center) {
           
-          Text(LogEntry.isLocked ? "Entsperren" : "Sperren")
+          Text(LogEntry.isLocked ? "Gesperrt" : "Entsperrt")
               .font(Font.custom(GeneralStyles.LabelFont, size: GeneralStyles.LabelFontSize2))
               .foregroundStyle(LogEntry.isLocked ? GeneralStyles.isLockedColor : GeneralStyles.GeneralTextColor)
               .frame(width: 170, height: GeneralStyles.LabelFontSize2, alignment: .leading)
@@ -44,7 +44,9 @@ struct LockedView: View {
 
       Spacer()
     }
-    .padding(EdgeInsets(top: 5, leading: 20, bottom: 5, trailing: 20))
+      .frame(height: GeneralStyles.LabelFontSize2, alignment: .center)
+     
+    .padding(EdgeInsets(top: 5, leading: 20, bottom: 10, trailing: 20))
     .overlay(
       Rectangle()
         .frame(height: GeneralStyles.GeneralInnerFrameBorderWidth)  // Border thickness
