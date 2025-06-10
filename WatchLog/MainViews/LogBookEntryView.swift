@@ -18,6 +18,8 @@ struct LogBookEntryView: View {
     @EnvironmentObject var currentUUID: UUIDContainer
     @Environment(\.dismiss) var dismiss
     
+    //@Environment var logsOfDay: [WatchLogBookEntry]
+    
     @State private var test: Date = Date()
     
     @State var toolPickerShows = true
@@ -123,6 +125,7 @@ struct LogBookEntryView: View {
                               await viewModel.deleteLogEntry(LogEntry: viewModel.watchLogEntry)
                               newEntry(LogEntry: viewModel.watchLogEntry, drawing: &drawing)
                               exisitingLogBookEntry.uuid = viewModel.watchLogEntry.uuid
+                              
                           }
                       })
                       Button("Abbrechen", role: .cancel, action: {
@@ -258,18 +261,18 @@ extension LogBookEntryView {
 
 
 
-#Preview {
-    @Previewable @State var exisitingLogBookEntry = WatchLogBookEntry()
-    
-    let textFieldStyleLogEntry = GeneralStylesLogEntry()
-    let databaseService = DatabaseService()
-    let viewModel = LogEntryViewModel(dataBaseService: databaseService)
-    var currentLogEntryUUID:UUIDContainer = UUIDContainer()
-    LogBookEntryView(exisitingLogBookEntry: exisitingLogBookEntry)
-        .environmentObject(viewModel)
-        .environmentObject(textFieldStyleLogEntry)
-        .environmentObject(currentLogEntryUUID)
-    
-}
+//#Preview {
+//    @Previewable @State var exisitingLogBookEntry = WatchLogBookEntry()
+//    
+//    let textFieldStyleLogEntry = GeneralStylesLogEntry()
+//    let databaseService = DatabaseService()
+//    let viewModel = LogEntryViewModel(dataBaseService: databaseService)
+//    var currentLogEntryUUID:UUIDContainer = UUIDContainer()
+//    LogBookEntryView(exisitingLogBookEntry: exisitingLogBookEntry)
+//        .environmentObject(viewModel)
+//        .environmentObject(textFieldStyleLogEntry)
+//        .environmentObject(currentLogEntryUUID)
+//    
+//}
 
 

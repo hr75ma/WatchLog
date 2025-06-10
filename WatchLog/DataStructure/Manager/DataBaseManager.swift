@@ -363,12 +363,12 @@ final class DataBaseManager {
                 DateComponent.day = DayFromDate
                 FillerDate = Calendar.current.date(from: DateComponent)
                 
-                if !logMonthEntry!.watchLogBookDays!.isEmpty {
+                if logMonthEntry != nil && !logMonthEntry!.watchLogBookDays!.isEmpty {
                     
                     let filteredDayArray = logMonthEntry!.watchLogBookDays!.filter {
                         Calendar.current.isDate($0.LogDate, equalTo: FillerDate!, toGranularity: .day)}
                         
-                        if !filteredDayArray.isEmpty {
+                        if  !filteredDayArray.isEmpty {
                         
                             logDayEntry = filteredDayArray[0]
                             daysLogEntries = logDayEntry!.watchLogBookEntries!

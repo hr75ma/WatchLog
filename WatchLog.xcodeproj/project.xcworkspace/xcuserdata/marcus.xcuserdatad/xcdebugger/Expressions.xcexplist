@@ -86,6 +86,17 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "DataBaseManager.saveLogBookEntry(LogEntry:):DataBaseManager.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "logDayEntry">
+            </PersistentString>
+            <PersistentString
+               value = "watchLogBookEntries">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "DataBaseController.saveLogEntry(LogEntry:):DataBaseController.swift">
          <PersistentStrings>
             <PersistentString
@@ -174,18 +185,18 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "WatchLogBookEntry.getDOBFromDate():WatchLogBookEntry.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "self.CallerDOB ">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
          contextName = "closure #1 in TabViewForLogView.body.getter:TabViewForLogView.swift">
          <PersistentStrings>
             <PersistentString
                value = "logEntriesOfDay">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "WatchLogBookEntry.getDOBFromDate():WatchLogBookEntry.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.CallerDOB ">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -269,6 +280,17 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "DataBaseManager.fetchDaysFromLogBookEntry(logEntry:):DataBaseManager.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "logEntry.LogDate">
+            </PersistentString>
+            <PersistentString
+               value = "logYearEntry!.watchLogBookMonths!">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "DatabaseService.fetchLogBookEntry(with:):DataBaseService.swift">
          <PersistentStrings>
             <PersistentString
@@ -278,14 +300,6 @@
       </ContextState>
       <ContextState
          contextName = "DatabaseService.saveWatchLogBookEntry(LogEntry:):DataBaseService.swift">
-      </ContextState>
-      <ContextState
-         contextName = "DataBaseManager.fetchDaysFromLogBookEntry(logEntry:):DataBaseManager.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "logEntry.LogDate">
-            </PersistentString>
-         </PersistentStrings>
       </ContextState>
    </ContextStates>
 </VariablesViewState>
