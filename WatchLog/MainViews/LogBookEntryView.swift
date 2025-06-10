@@ -11,6 +11,7 @@ import SwiftData
 
 struct LogBookEntryView: View {
     @Bindable public var exisitingLogBookEntry: WatchLogBookEntry
+    @Binding public var logEntriesOfDay: [WatchLogBookEntry]
     
     @EnvironmentObject var viewModel: LogEntryViewModel
     
@@ -125,6 +126,7 @@ struct LogBookEntryView: View {
                               await viewModel.deleteLogEntry(LogEntry: viewModel.watchLogEntry)
                               newEntry(LogEntry: viewModel.watchLogEntry, drawing: &drawing)
                               exisitingLogBookEntry.uuid = viewModel.watchLogEntry.uuid
+                              logEntriesOfDay =  await viewModel.fetchDaysOfLogEntry(logEntry: WatchLogBookEntry( LogEntry: viewModel.watchLogEntry))
                               
                           }
                       })
@@ -136,6 +138,10 @@ struct LogBookEntryView: View {
                       Button("Erstellen", role: .destructive, action: {
                           newEntry(LogEntry: viewModel.watchLogEntry, drawing: &drawing)
                           currentUUID.uuid = viewModel.watchLogEntry.uuid
+                          Task {
+                              logEntriesOfDay = await viewModel.fetchDaysOfLogEntry(logEntry: WatchLogBookEntry(LogEntry: viewModel.watchLogEntry))
+                              logEntriesOfDay.append(WatchLogBookEntry(LogEntry: viewModel.watchLogEntry))
+                          }
                       })
                       Button("Abbrechen", role: .cancel, action: {
                           

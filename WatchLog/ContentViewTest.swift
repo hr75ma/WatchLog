@@ -10,11 +10,12 @@ import SwiftUI
 
 #Preview {
     @Previewable @State var exisitingLogBookEntry = WatchLogBookEntry()
+    @Previewable @State var logEntriesOfDay:[WatchLogBookEntry] = []
     
     let textFieldStyleLogEntry = GeneralStylesLogEntry()
     let databaseService = DatabaseService()
     let viewModel = LogEntryViewModel(dataBaseService: databaseService)
-    LogBookEntryView(exisitingLogBookEntry: exisitingLogBookEntry)
+    LogBookEntryView(exisitingLogBookEntry: exisitingLogBookEntry, logEntriesOfDay: $logEntriesOfDay)
         .environmentObject(viewModel)
         .environmentObject(textFieldStyleLogEntry)
     

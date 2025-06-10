@@ -371,7 +371,7 @@ final class DataBaseManager {
                         if  !filteredDayArray.isEmpty {
                         
                             logDayEntry = filteredDayArray[0]
-                            daysLogEntries = logDayEntry!.watchLogBookEntries!
+                            daysLogEntries = logDayEntry!.logEntriesSorted
                 }
             }
         }

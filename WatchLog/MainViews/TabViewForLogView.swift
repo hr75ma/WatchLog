@@ -24,11 +24,11 @@ struct TabViewForLogView: View {
         TabView(selection: $selectedTab) {
             
             if logEntriesOfDay.isEmpty {
-                LogBookEntryView(exisitingLogBookEntry: logBookEntry)
+                LogBookEntryView(exisitingLogBookEntry: logBookEntry, logEntriesOfDay: $logEntriesOfDay)
             } else {
                 ForEach(logEntriesOfDay) { logBookEntry in
                     
-                    LogBookEntryView(exisitingLogBookEntry: logBookEntry)
+                    LogBookEntryView(exisitingLogBookEntry: logBookEntry, logEntriesOfDay: $logEntriesOfDay)
                     //dummyView(exisitingLogBookEntry: logBookEntry)
                         .tag(logBookEntry.uuid)
                         
@@ -44,7 +44,7 @@ struct TabViewForLogView: View {
         .onAppear() {
             selectedTab = logBookEntry.uuid
         }
-        .onChange(of: logBookEntry) {
+        .onChange(of: logBookEntry.uuid) {
             selectedTab = logBookEntry.uuid
         }
     }
