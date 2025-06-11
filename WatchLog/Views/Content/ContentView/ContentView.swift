@@ -119,7 +119,7 @@ struct ContentView: View {
   private func deleteLogEntry(watchLogBookEntry: WatchLogBookEntry) {
       Task {
         await viewModel.deleteLogEntry(
-          LogEntry: WatchLogEntry(WatchLookBookEntry: watchLogBookEntry))
+            LogEntry: WatchLogEntry(watchLookBookEntry: watchLogBookEntry))
           generateNewLogEntryAfterExistingDeleted(exisistingUuid: displayedLogEntryUUID.id)
     }
   }
@@ -274,7 +274,10 @@ extension ContentView {
 
             logBookEntry = entry
           }) {
-            Text(getDateTime(date: entry.LogDate))
+              VStack(alignment: .leading){
+                  Text(getDateTime(date: entry.LogDate))
+                  Text(ProcessTypes.processTypes[entry.processTypeShort]!)
+              }
           }
 
         }

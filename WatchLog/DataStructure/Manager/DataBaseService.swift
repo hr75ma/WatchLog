@@ -138,7 +138,7 @@ class DatabaseService: DatabaseServiceProtocol {
         switch fetchResult {
         case .success(let entry):
             if !entry.isEmpty {
-                WatchLogEntry = .init(WatchLookBookEntry: entry.first!)
+                WatchLogEntry = .init(watchLookBookEntry: entry.first!)
             }
             return .success(WatchLogEntry)
         case .failure(let error):

@@ -30,6 +30,7 @@ class WatchLogBookEntry: Identifiable, Hashable {
     var AccientLicensePlate02: String = ""
     var isAccient: Bool = false
     var isLocked: Bool = false
+    var processTypeShort: ProcessTypeShort = ProcessTypeShort.UNKNOWN
 
     private var drawingData: Data = Data()
     var drawing: PKDrawing {
@@ -59,6 +60,8 @@ class WatchLogBookEntry: Identifiable, Hashable {
         AccientLicensePlate01 = LogEntry.AccientLicensePlate01
         AccientLicensePlate02 = LogEntry.AccientLicensePlate02
         
+        processTypeShort = LogEntry.processTypeShort
+        
         isLocked = LogEntry.isLocked
         
         drawingData =  LogEntry.pkDrawingData.dataRepresentation()
@@ -81,6 +84,8 @@ class WatchLogBookEntry: Identifiable, Hashable {
         AccientHitAndRun = LogEntry.AccientHitAndRun
         AccientLicensePlate01 = LogEntry.AccientLicensePlate01
         AccientLicensePlate02 = LogEntry.AccientLicensePlate02
+        
+        processTypeShort = LogEntry.processTypeShort
         
         isLocked = LogEntry.isLocked
         
@@ -105,6 +110,8 @@ class WatchLogBookEntry: Identifiable, Hashable {
         AccientLicensePlate01 = ""
         AccientLicensePlate02 = ""
         
+        processTypeShort = ProcessTypeShort.UNKNOWN
+        
         isLocked = false
         
         drawingData = Data()
@@ -128,6 +135,8 @@ class WatchLogBookEntry: Identifiable, Hashable {
         AccientLicensePlate01 = ""
         AccientLicensePlate02 = ""
         
+        processTypeShort = ProcessTypeShort.UNKNOWN
+        
         isLocked = false
         
         drawingData = Data()
@@ -150,6 +159,8 @@ class WatchLogBookEntry: Identifiable, Hashable {
         AccientHitAndRun = LogEntry.AccientHitAndRun
         AccientLicensePlate01 = LogEntry.AccientLicensePlate01
         AccientLicensePlate02 = LogEntry.AccientLicensePlate02
+        
+        processTypeShort = LogEntry.processTypeShort
         
         isLocked = true
         

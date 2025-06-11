@@ -11,10 +11,9 @@ import SwiftUI
 
 @Observable
 class WatchLogEntry {
-  
-    
+
   var uuid: UUID
-    
+
   var EntryTime: Date
 
   var CallerName: String = ""
@@ -22,66 +21,66 @@ class WatchLogEntry {
   var CallerAdress: String = ""
   var CallerDOB: String = ""
 
+  var isAccient: Bool = false
   var AccientInjured: Bool = false
   var AccientHitAndRun: Bool = false
   var AccientLicensePlate01: String = ""
   var AccientLicensePlate02: String = ""
-  var isAccient: Bool = false
+
+  var processTypeShort: ProcessTypeShort = ProcessTypeShort.UNKNOWN
+
   var isLocked: Bool = false
 
   //var drawingData: Data = Data()
-    
+
   var pkDrawingData: PKDrawing = PKDrawing()
 
+  init() {
+    EntryTime = Date.now
+    uuid = UUID()
+    //drawingData = Data()
+    pkDrawingData = PKDrawing()
+  }
 
-    
-  init () {
-      EntryTime = Date.now
-      uuid = UUID()
-      //drawingData = Data()
-      pkDrawingData = PKDrawing()
-    }
-    
-    init (uudi: UUID) {
-        EntryTime = Date.now
-        uuid = uudi
-        //drawingData = Data()
-        pkDrawingData = PKDrawing()
-      }
-    
-    init(WatchLookBookEntry: WatchLogBookEntry) {
-        
-        uuid = WatchLookBookEntry.uuid
-          
-        EntryTime = WatchLookBookEntry.LogDate
+  init(uudi: UUID) {
+    EntryTime = Date.now
+    uuid = uudi
+    //drawingData = Data()
+    pkDrawingData = PKDrawing()
+  }
 
-        CallerName = WatchLookBookEntry.CallerName
-        CallerNumber = WatchLookBookEntry.CallerNumber
-        CallerAdress = WatchLookBookEntry.CallerAdress
-        CallerDOB =    WatchLookBookEntry.getDOBFromDate()
+  init(watchLookBookEntry: WatchLogBookEntry) {
 
-        AccientInjured = WatchLookBookEntry.AccientInjured
-        AccientHitAndRun = WatchLookBookEntry.AccientHitAndRun
-        AccientLicensePlate01 = WatchLookBookEntry.AccientLicensePlate01
-        AccientLicensePlate02 = WatchLookBookEntry.AccientLicensePlate02
-        isAccient = WatchLookBookEntry.isAccient
-        isLocked = WatchLookBookEntry.isLocked
+    uuid = watchLookBookEntry.uuid
 
-        //drawingData = WatchLookBookEntry.drawingData
-        pkDrawingData = WatchLookBookEntry.drawing
-        
-    }
+    EntryTime = watchLookBookEntry.LogDate
 
-    
-    
-    
-    
+    CallerName = watchLookBookEntry.CallerName
+    CallerNumber = watchLookBookEntry.CallerNumber
+    CallerAdress = watchLookBookEntry.CallerAdress
+    CallerDOB = watchLookBookEntry.getDOBFromDate()
+
+    AccientInjured = watchLookBookEntry.AccientInjured
+    AccientHitAndRun = watchLookBookEntry.AccientHitAndRun
+    AccientLicensePlate01 = watchLookBookEntry.AccientLicensePlate01
+    AccientLicensePlate02 = watchLookBookEntry.AccientLicensePlate02
+
+    processTypeShort = watchLookBookEntry.processTypeShort
+
+    isAccient = watchLookBookEntry.isAccient
+    isLocked = watchLookBookEntry.isLocked
+
+    //drawingData = WatchLookBookEntry.drawingData
+    pkDrawingData = watchLookBookEntry.drawing
+
+  }
+
   fileprivate func initialValues() {
     EntryTime = Date.now
     uuid = UUID()
     clear()
   }
-  
+
   public func clear() {
     CallerName = ""
     CallerNumber = ""
@@ -96,6 +95,8 @@ class WatchLogEntry {
     AccientLicensePlate01 = ""
     AccientLicensePlate02 = ""
 
+    processTypeShort = ProcessTypeShort.UNKNOWN
+
     //drawingData = Data()
     pkDrawingData = PKDrawing()
   }
@@ -104,20 +105,16 @@ class WatchLogEntry {
 
     initialValues()
   }
-    
-    
-  
-    
+
   public func getDateFromDOB() -> Date? {
-      let dateFormatter = DateFormatter()
-      dateFormatter.dateFormat = "dd.MM.YYYY"
-      if !self.CallerDOB.isEmpty {
-          return dateFormatter.date(from: self.CallerDOB)!
-      } else {
-          return nil
-      }
-      
-        
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "dd.MM.YYYY"
+    if !self.CallerDOB.isEmpty {
+      return dateFormatter.date(from: self.CallerDOB)!
+    } else {
+      return nil
     }
+
+  }
 
 }

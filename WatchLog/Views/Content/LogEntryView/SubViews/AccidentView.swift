@@ -53,6 +53,11 @@ struct AccidentSelectionView: View {
           withAnimation {
             print("animation onchange")
             isAccidentHidden = newValue
+              if newValue {
+                  LogEntry.processTypeShort = ProcessTypeShort.VU
+              } else {
+                  LogEntry.processTypeShort = ProcessTypeShort.UNKNOWN
+              }
           }
         }
         .padding(EdgeInsets(top: 6, leading: 0, bottom: 0, trailing: 10))
