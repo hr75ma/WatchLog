@@ -26,8 +26,6 @@ struct WatchLogApp: App {
         
                 SplashView()
                 //ContentView()
-        
-            
     }
         .environmentObject(viewModel)
         .environmentObject(currentLogEntryUUID)

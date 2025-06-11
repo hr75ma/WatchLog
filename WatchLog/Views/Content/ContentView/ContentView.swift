@@ -12,11 +12,11 @@ import SwiftUI
 
   //---------->DataBaseManager speicher db
 
- // let textFieldStyleLogEntry = GeneralStylesLogEntry()
+  // let textFieldStyleLogEntry = GeneralStylesLogEntry()
 
   let databaseService = DatabaseService()
   let viewModel = LogEntryViewModel(dataBaseService: databaseService)
-  var currentLogEntryUUID:UUIDContainer = UUIDContainer()
+  var currentLogEntryUUID: UUIDContainer = UUIDContainer()
 
   var pre: PreviewData = PreviewData()
   pre.setPreviewDate(viewModel: viewModel)
@@ -24,7 +24,7 @@ import SwiftUI
   return ContentView()
     .environmentObject(viewModel)
     .environmentObject(currentLogEntryUUID)
-    .environment(\.appStyles  ,StylesLogEntry())
+    .environment(\.appStyles, StylesLogEntry())
 
 }
 
@@ -32,15 +32,12 @@ let GroupLabelFont: String = "Roboto-MediumItalic"
 
 struct ContentView: View {
   @State private var columnVisibility = NavigationSplitViewVisibility.automatic
-  @EnvironmentObject var viewModel: LogEntryViewModel
-  //@EnvironmentObject var GeneralStyles: GeneralStylesLogEntry
-    @EnvironmentObject var currentUUID: UUIDContainer
 
-    @Environment(\.appStyles) var appStyles
-    
-    
-    
-    
+  @EnvironmentObject var viewModel: LogEntryViewModel
+  @EnvironmentObject var currentUUID: UUIDContainer
+
+  @Environment(\.appStyles) var appStyles
+
   @State private var testInt: Int = 0
   @State private var testEntry: WatchLogBookEntry = WatchLogBookEntry()
   @State private var isNewEntry: Bool = false
@@ -60,67 +57,12 @@ struct ContentView: View {
 
     NavigationSplitView(columnVisibility: $columnVisibility) {
 
-            Text(testEntry.uuid.uuidString)
-        Text("currentuuid: \(currentUUID.uuid.uuidString)")
+//      Text(testEntry.uuid.uuidString)
+//      Text("currentuuid: \(currentUUID.uuid.uuidString)")
+        
       List(viewModel.WatchLogBooks, id: \.uuid) { book in
 
-          ForEach(book.logYearsSorted) { year in
-          DisclosureGroup(getDateYear(date: year.LogDate)) {
-              ForEach(year.logMonthSorted) { month in
-              DisclosureGroup(getDateMonth(date: month.LogDate)) {
-                  ForEach(month.logDaysSorted) { days in
-                  DisclosureGroup(getDateWeekDay(date: days.LogDate)) {
-                      ForEach(days.logEntriesSorted) { entry in
-                      HStack {
-
-                        Button(action: {
-
-                          testEntry = entry
-                            //logsOfDay = days.logEntriesSorted
-                         // print(testEntry.uuid.uuidString)
-                        }) {
-                          Text(getDateTime(date: entry.LogDate))
-                        }
-
-                        //Spacer()
-                      }
-                    }
-                    .onDelete(perform: { indexSet in
-                      indexSet.sorted(by: >).forEach { (i) in
-                        let LogEntry = days.watchLogBookEntries![i]
-                        deleteLogEntry(watchLogBookEntry: LogEntry)
-
-                      }
-                    })
-                  }
-
-                }
-                .onDelete(perform: { indexSet in
-                  indexSet.sorted(by: >).forEach { (i) in
-                    let LogEntry = month.watchLogBookDays![i]
-                    deleteLogDay(watchLogBookDay: LogEntry)
-
-                  }
-                })
-              }
-
-            }
-            .onDelete(perform: { indexSet in
-              indexSet.sorted(by: >).forEach { (i) in
-                let LogEntry = year.watchLogBookMonths![i]
-                deleteLogMonth(watchLogBookMonth: LogEntry)
-
-              }
-            })
-          }
-        }
-        .onDelete(perform: { indexSet in
-          indexSet.sorted(by: >).forEach { (i) in
-            let LogEntry = sortedYear(book.watchLogBookYears!)[i]
-            deleteLogYear(watchLogBookYear: LogEntry)
-
-          }
-        })
+        buildLogBookNavigationTree(book: book)
 
       }
       .listStyle(.insetGrouped)
@@ -131,9 +73,9 @@ struct ContentView: View {
       )
       .refreshable(action: {
         Task {
-          await  viewModel.fetchLogBook()
+          await viewModel.fetchLogBook()
         }
-          //print("current uuid: \(currentUUID.uuid.uuidString)")
+        //print("current uuid: \(currentUUID.uuid.uuidString)")
       })
       .toolbar {
         ToolbarItem(placement: .primaryAction) {
@@ -172,20 +114,21 @@ struct ContentView: View {
         }
       }
       .sheet(isPresented: $showSettingSheet) {
-          SettingView()
+        SettingView()
       }
 
       .task {
         await viewModel.fetchLogBook()
-          
-          }
+
+      }
       .onChange(
-        of: listOfEntry.count, { oldValue, newValue in
+        of: listOfEntry.count,
+        { oldValue, newValue in
           Task {
-            await  viewModel.fetchLogBook()
-              //listOfEntry = viewModel.LogBookEntryYears
+            await viewModel.fetchLogBook()
+            //listOfEntry = viewModel.LogBookEntryYears
           }
-            print("-------> contentview ListofEntry")
+          print("-------> contentview ListofEntry")
         }
       )
       .listStyle(.sidebar)
@@ -194,8 +137,8 @@ struct ContentView: View {
 
     } detail: {
 
-     LogBookEntryView(exisitingLogBookEntry: testEntry)
-       // TabViewForLogView(logBookEntry: testEntry, logEntriesOfDay: $logsOfDay)
+      LogBookEntryView(exisitingLogBookEntry: testEntry)
+      // TabViewForLogView(logBookEntry: testEntry, logEntriesOfDay: $logsOfDay)
     }
     .alert("Neues Log erstellen?", isPresented: $alertNew) {
       Button(
@@ -211,24 +154,24 @@ struct ContentView: View {
     }
   }
 
-    fileprivate func generateNewLogEntryAfterExistingDeleted(exisitingUuid: UUID) {
-        
-        Task {
-            let isCurrentUuuidExisting = await viewModel.exisitsLogEntry(uuid: exisitingUuid)
-            if !isCurrentUuuidExisting {
-                addNewLogEntry()
-            }
-        }
+  fileprivate func generateNewLogEntryAfterExistingDeleted(exisitingUuid: UUID) {
+
+    Task {
+      let isCurrentUuuidExisting = await viewModel.exisitsLogEntry(uuid: exisitingUuid)
+      if !isCurrentUuuidExisting {
+        addNewLogEntry()
+      }
     }
-    
-    private func deleteLogEntry(watchLogBookEntry: WatchLogBookEntry) {
+  }
+
+  private func deleteLogEntry(watchLogBookEntry: WatchLogBookEntry) {
     withAnimation {
 
       Task {
         await viewModel.deleteLogEntry(
           LogEntry: WatchLogEntry(WatchLookBookEntry: watchLogBookEntry))
-          generateNewLogEntryAfterExistingDeleted(exisitingUuid: currentUUID.uuid)
-                
+        generateNewLogEntryAfterExistingDeleted(exisitingUuid: currentUUID.uuid)
+
       }
 
     }
@@ -239,7 +182,7 @@ struct ContentView: View {
 
       Task {
         await viewModel.deleteLogDay(watchLogBookDay: watchLogBookDay)
-          generateNewLogEntryAfterExistingDeleted(exisitingUuid: currentUUID.uuid)
+        generateNewLogEntryAfterExistingDeleted(exisitingUuid: currentUUID.uuid)
       }
 
     }
@@ -250,7 +193,7 @@ struct ContentView: View {
 
       Task {
         await viewModel.deleteLogMonth(watchLogBookMonth: watchLogBookMonth)
-          generateNewLogEntryAfterExistingDeleted(exisitingUuid: currentUUID.uuid)
+        generateNewLogEntryAfterExistingDeleted(exisitingUuid: currentUUID.uuid)
       }
 
     }
@@ -261,7 +204,7 @@ struct ContentView: View {
 
       Task {
         await viewModel.deleteLogYear(watchLogBookYear: watchLogBookYear)
-          generateNewLogEntryAfterExistingDeleted(exisitingUuid: currentUUID.uuid)
+        generateNewLogEntryAfterExistingDeleted(exisitingUuid: currentUUID.uuid)
       }
 
     }
@@ -269,27 +212,22 @@ struct ContentView: View {
 
   private func addNewLogEntry() {
     print("add item")
-      
-      isNewEntry = true
-      testEntry = WatchLogBookEntry(uuid: UUID())
-//      Task {
-//          logsOfDay = await viewModel.fetchDaysOfLogEntry(logEntry: testEntry)
-//          logsOfDay.append(testEntry)
-//      }
-      
-      
 
+    isNewEntry = true
+    testEntry = WatchLogBookEntry(uuid: UUID())
+    //      Task {
+    //          logsOfDay = await viewModel.fetchDaysOfLogEntry(logEntry: testEntry)
+    //          logsOfDay.append(testEntry)
+    //      }
 
   }
 
+  private func sortedEntries(_ LogEntry: [WatchLogBookEntry]) -> [WatchLogBookEntry] {
+    return LogEntry.sorted(using: [
+      SortDescriptor(\.LogDate, order: .forward)
+    ])
 
-    
-    private func sortedEntries(_ LogEntry: [WatchLogBookEntry]) -> [WatchLogBookEntry] {
-      return LogEntry.sorted(using: [
-        SortDescriptor(\.LogDate, order: .forward)
-      ])
-
-    }
+  }
 
   private func sortedDay(_ LogEntry: [WatchLogBookDay]) -> [WatchLogBookDay] {
     return LogEntry.sorted(using: [
@@ -300,12 +238,10 @@ struct ContentView: View {
 
   private func sortedYear(_ LogEntry: [WatchLogBookYear]) -> [WatchLogBookYear] {
     return LogEntry.sorted(using: [
-        SortDescriptor(\.LogDate, order: .reverse)
+      SortDescriptor(\.LogDate, order: .reverse)
     ])
 
   }
-    
-
 
   private func sortedMonth(_ LogEntry: [WatchLogBookMonth]) -> [WatchLogBookMonth] {
     return LogEntry.sorted(using: [
@@ -313,8 +249,6 @@ struct ContentView: View {
     ])
 
   }
-    
- 
 
   fileprivate func getDateBook(String: String) -> String {
     return "test"
@@ -345,3 +279,80 @@ struct ContentView: View {
   }
 
 }
+
+extension ContentView {
+    
+    func buildLogBookNavigationTree(book: WatchLogBook) -> some View {
+        
+        ForEach(book.logYearsSorted) { year in
+            DisclorsureGroupYear(year: year)
+        }
+        .onDelete(perform: { indexSet in
+          indexSet.sorted(by: >).forEach { (i) in
+            let LogEntry = sortedYear(book.watchLogBookYears!)[i]
+            deleteLogYear(watchLogBookYear: LogEntry)
+
+          }
+        })
+        
+    }
+    
+    func DisclorsureGroupYear(year: WatchLogBookYear) -> some View {
+        DisclosureGroup(getDateYear(date: year.LogDate)) {
+          ForEach(year.logMonthSorted) { month in
+              DisclosureGroupLogMonth(month:  month)
+
+          }
+          .onDelete(perform: { indexSet in
+            indexSet.sorted(by: >).forEach { (i) in
+              let LogEntry = year.watchLogBookMonths![i]
+              deleteLogMonth(watchLogBookMonth: LogEntry)
+
+            }
+          })
+        }
+    }
+    
+    
+    func DisclosureGroupLogMonth(month: WatchLogBookMonth) -> some View {
+        DisclosureGroup(getDateMonth(date: month.LogDate)) {
+          ForEach(month.logDaysSorted) { day in
+              DisclosureGroupLogEntries(day: day)
+
+          }
+          .onDelete(perform: { indexSet in
+            indexSet.sorted(by: >).forEach { (i) in
+              let LogEntry = month.watchLogBookDays![i]
+              deleteLogDay(watchLogBookDay: LogEntry)
+
+            }
+          })
+        }
+    }
+    
+     func DisclosureGroupLogEntries(day: WatchLogBookDay) -> some View {
+        
+        DisclosureGroup(getDateWeekDay(date: day.LogDate)) {
+          ForEach(day.logEntriesSorted) { entry in
+            HStack {
+
+              Button(action: {
+
+                testEntry = entry
+              }) {
+                Text(getDateTime(date: entry.LogDate))
+              }
+
+            }
+          }
+          .onDelete(perform: { indexSet in
+            indexSet.sorted(by: >).forEach { (i) in
+              let LogEntry = day.watchLogBookEntries![i]
+              deleteLogEntry(watchLogBookEntry: LogEntry)
+            }
+          })
+        }
+    }
+    
+}
+
