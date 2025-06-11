@@ -24,8 +24,6 @@ class StylesLogEntry {
     var TextfieldBackgroundColorLocked: Color = Color(hex: 0x0a0a0a).opacity(1)
     var TextfieldBackgroundColorUnLocked: Color = Color(hex: 0x1d1d1d).opacity(1)
     
-    
-    
     var TextFieldFontHeight: CGFloat = 32
     
     

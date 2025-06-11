@@ -28,13 +28,10 @@ import SwiftUI
 
 }
 
-let GroupLabelFont: String = "Roboto-MediumItalic"
-
 struct ContentView: View {
   @State private var columnVisibility = NavigationSplitViewVisibility.automatic
 
   @EnvironmentObject var viewModel: LogEntryViewModel
-  //@EnvironmentObject var currentUUID: UUIDContainer
 
   @Environment(\.appStyles) var appStyles
   @Environment(\.displayedLogEntryUUID) var displayedLogEntryUUID
@@ -45,74 +42,74 @@ struct ContentView: View {
   @State var alertNew = false
   @State var showSettingSheet = false
 
-  var body: some View {
-
-    NavigationSplitView(columnVisibility: $columnVisibility) {
-
-      //      Text(testEntry.uuid.uuidString)
-      //      Text("currentuuid: \(currentUUID.uuid.uuidString)")
-
-      List(viewModel.WatchLogBooks, id: \.uuid) { book in
-
-        buildLogBookNavigationTree(book: book)
-
-      }
-      .listStyle(.insetGrouped)
-      .foregroundStyle(appStyles.NavigationTreeFontColor)
-      .fontWeight(.medium)
-      .font(
-        Font.custom(appStyles.NavigationTreeFont, size: appStyles.NavigationTreeFontSize)
-      )
-      .refreshable(action: {
-        Task {
-          await viewModel.fetchLogBook()
-        }
-      })
-      .toolbar {
-        ToolbarItem(placement: .primaryAction) {
-          toolBarItemNewButton
-            .alert("Neues Log erstellen?", isPresented: $alertNew) {
-              Button(
-                "Erstellen", role: .destructive,
-                action: {
-                  addNewLogEntry()
-                })
-              Button(
-                "Abbrechen", role: .cancel,
-                action: {
-
-                })
+    var body: some View {
+        
+        NavigationSplitView(columnVisibility: $columnVisibility) {
+            
+            //      Text(testEntry.uuid.uuidString)
+            //      Text("currentuuid: \(currentUUID.uuid.uuidString)")
+            
+            List(viewModel.WatchLogBooks, id: \.uuid) { book in
+                
+                buildLogBookNavigationTree(book: book)
+                
             }
-
+            .listStyle(.insetGrouped)
+            .foregroundStyle(appStyles.NavigationTreeFontColor)
+            .fontWeight(.medium)
+            .font(Font.custom(appStyles.NavigationTreeFont, size: appStyles.NavigationTreeFontSize))
+            .refreshable(action: {
+                Task {
+                    await viewModel.fetchLogBook()
+                }
+            })
+            .toolbar {
+                ToolbarItem(placement: .primaryAction) {
+                    
+                    toolBarItemNewButton
+                    
+                        .alert("Neues Log erstellen?", isPresented: $alertNew) {
+                            Button(
+                                "Erstellen", role: .destructive,
+                                action: {
+                                    addNewLogEntry()
+                                })
+                            Button(
+                                "Abbrechen", role: .cancel,
+                                action: {
+                                    
+                                })
+                        }
+                    
+                }
+                ToolbarItem(placement: .primaryAction) {
+                    toolBarItemSettings
+                    
+                }
+            }
+            .sheet(isPresented: $showSettingSheet) {
+                SettingView()
+            }
+            
+            .task {
+                await viewModel.fetchLogBook()
+                
+            }
+            .listStyle(.sidebar)
+            .scrollContentBackground(.hidden)
+            //.background(Color.black.edgesIgnoringSafeArea(.all))
+            
+        } detail: {
+            
+            LogBookEntryView(logBookEntry: logBookEntry)
         }
-        ToolbarItem(placement: .primaryAction) {
-          toolBarItemSettings
-
-        }
-      }
-      .sheet(isPresented: $showSettingSheet) {
-        SettingView()
-      }
-
-      .task {
-        await viewModel.fetchLogBook()
-
-      }
-      .listStyle(.sidebar)
-      .scrollContentBackground(.hidden)
-      //.background(Color.black.edgesIgnoringSafeArea(.all))
-
-    } detail: {
-
-      LogBookEntryView(exisitingLogBookEntry: logBookEntry)
+        
     }
 
-  }
-
-  fileprivate func generateNewLogEntryAfterExistingDeleted(exisitingUuid: UUID) {
+  fileprivate func generateNewLogEntryAfterExistingDeleted(exisistingUuid: UUID) {
 
     Task {
-      let isCurrentUuuidExisting = await viewModel.exisitsLogEntry(uuid: exisitingUuid)
+        let isCurrentUuuidExisting = await viewModel.isLogBookEntryExisting(from: exisistingUuid)
       if !isCurrentUuuidExisting {
         addNewLogEntry()
       }
@@ -120,48 +117,31 @@ struct ContentView: View {
   }
 
   private func deleteLogEntry(watchLogBookEntry: WatchLogBookEntry) {
-    withAnimation {
-
       Task {
         await viewModel.deleteLogEntry(
           LogEntry: WatchLogEntry(WatchLookBookEntry: watchLogBookEntry))
-          generateNewLogEntryAfterExistingDeleted(exisitingUuid: displayedLogEntryUUID.id)
-
-      }
-
+          generateNewLogEntryAfterExistingDeleted(exisistingUuid: displayedLogEntryUUID.id)
     }
   }
 
   private func deleteLogDay(watchLogBookDay: WatchLogBookDay) {
-    withAnimation {
-
       Task {
         await viewModel.deleteLogDay(watchLogBookDay: watchLogBookDay)
-        generateNewLogEntryAfterExistingDeleted(exisitingUuid: displayedLogEntryUUID.id)
-      }
-
+        generateNewLogEntryAfterExistingDeleted(exisistingUuid: displayedLogEntryUUID.id)
     }
   }
 
   private func deleteLogMonth(watchLogBookMonth: WatchLogBookMonth) {
-    withAnimation {
-
       Task {
         await viewModel.deleteLogMonth(watchLogBookMonth: watchLogBookMonth)
-        generateNewLogEntryAfterExistingDeleted(exisitingUuid: displayedLogEntryUUID.id)
-      }
-
+        generateNewLogEntryAfterExistingDeleted(exisistingUuid: displayedLogEntryUUID.id)
     }
   }
 
   private func deleteLogYear(watchLogBookYear: WatchLogBookYear) {
-    withAnimation {
-
       Task {
         await viewModel.deleteLogYear(watchLogBookYear: watchLogBookYear)
-        generateNewLogEntryAfterExistingDeleted(exisitingUuid: displayedLogEntryUUID.id)
-      }
-
+        generateNewLogEntryAfterExistingDeleted(exisistingUuid: displayedLogEntryUUID.id)
     }
   }
 

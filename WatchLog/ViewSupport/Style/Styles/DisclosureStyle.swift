@@ -38,7 +38,7 @@ struct DisclosureStyleYear: DisclosureGroupStyle {
           .background(
             LinearGradient(gradient: Gradient(colors: [appStyles.NavigationTreeDisclosureYearGradientStart, appStyles.NavigationTreeDisclosureYearGradientEnd]), startPoint: .leading, endPoint: .trailing))
           .foregroundStyle(.blue)
-          .font(Font.custom(GroupLabelFont, size: 20))
+          .font(Font.custom(appStyles.NavigationTreeFont, size: 20))
           .border(Color.clear, width: 0)
           .cornerRadius(15)
           .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
@@ -61,7 +61,7 @@ struct DisclosureStyleYear: DisclosureGroupStyle {
       .background(
         LinearGradient(gradient: Gradient(colors: [appStyles.NavigationTreeDisclosureYearGradientStart, appStyles.NavigationTreeDisclosureYearGradientEnd]), startPoint: .leading, endPoint: .trailing))
       .foregroundStyle(.blue)
-      .font(Font.custom(GroupLabelFont, size: 20))
+      .font(Font.custom(appStyles.NavigationTreeFont, size: 20))
       .border(Color.clear, width: 0)
       .cornerRadius(15)
       .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
@@ -71,6 +71,9 @@ struct DisclosureStyleYear: DisclosureGroupStyle {
   }
 
   struct DisclosureStyleMonth: DisclosureGroupStyle {
+      
+      @Environment(\.appStyles) var appStyles
+      
     func makeBody(configuration: Configuration) -> some View {
       VStack(alignment: .center, spacing: 0) {
         Button {
@@ -106,7 +109,7 @@ struct DisclosureStyleYear: DisclosureGroupStyle {
       .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
       .background(Color.clear.edgesIgnoringSafeArea(.all))
       .foregroundStyle(.blue)
-      .font(Font.custom(GroupLabelFont, size: 35))
+      .font(Font.custom(appStyles.NavigationTreeFont, size: 35))
       .border(Color.clear, width: 0)
       .overlay(
         Rectangle().frame(width: nil, height: 2, alignment: .top).foregroundColor(Color.blue),
@@ -119,6 +122,9 @@ struct DisclosureStyleYear: DisclosureGroupStyle {
   }
 
   struct DisclosureStyleDay: DisclosureGroupStyle {
+      
+      @Environment(\.appStyles) var appStyles
+      
     func makeBody(configuration: Configuration) -> some View {
       VStack(alignment: .center, spacing: 0) {
         Button {
@@ -154,7 +160,7 @@ struct DisclosureStyleYear: DisclosureGroupStyle {
       .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
       .background(Color.clear.edgesIgnoringSafeArea(.all))
       .foregroundStyle(.blue)
-      .font(Font.custom(GroupLabelFont, size: 30))
+      .font(Font.custom(appStyles.NavigationTreeFont, size: 30))
       .border(Color.clear, width: 0)
       .overlay(
         Rectangle()

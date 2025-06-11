@@ -90,7 +90,7 @@ class LogEntryViewModel: ObservableObject {
         
     }
     
-    func exisitsLogEntry(uuid: UUID) async -> Bool {
+    func isLogBookEntryExisting(from uuid: UUID) async -> Bool {
         let result = await databaseService.existsWatchLogBookEntry(uuid: uuid)
         switch result {
         case .success(let exisistLogLEntry):
