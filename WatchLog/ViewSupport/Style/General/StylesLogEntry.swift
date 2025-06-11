@@ -96,6 +96,12 @@ class StylesLogEntry {
     var ToolBarDeleteColorUnActivePrimary: Color = Color.red
     var ToolBarDeleteColorUnActiveSecondary: Color = Color.red
     
+    var ToolbarContextImage: String = "list.bullet.circle"
+    var ToolbarContextColorActivePrimary: Color = Color.white
+    var ToolbarContextColorActiveSecondary: Color = Color.blue
+    var ToolbarContextColorUnActivePrimary: Color = Color.white
+    var ToolbarContextColorUnActiveSecondary: Color = Color.red
+    
     // Section Canvas
     var CanvasLockedColor: Color = Color(hex: 0x585858).opacity(1)
     var CanvasUnLockedColor: Color = Color.blue

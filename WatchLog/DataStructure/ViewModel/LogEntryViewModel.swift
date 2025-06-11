@@ -8,7 +8,7 @@ import SwiftUI
 import Combine
 
 @MainActor
-class LogEntryViewModel: ObservableObject {
+final class LogEntryViewModel: ObservableObject {
     
     @Published var watchLogEntry: WatchLogEntry = WatchLogEntry()
     @Published var errorMessage: String? = nil

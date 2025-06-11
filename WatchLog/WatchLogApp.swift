@@ -35,4 +35,5 @@ extension EnvironmentValues {
     @Entry var appStyles = StylesLogEntry()
     @Entry var displayedLogEntryUUID = DisplayedLogEntryID()
     
+    
 }

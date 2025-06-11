@@ -19,9 +19,6 @@ struct LogBookEntryView: View {
 
   @Environment(\.dismiss) var dismiss
 
-  //@Environment var logsOfDay: [WatchLogBookEntry]
-
-  @State private var test: Date = Date()
 
   @State var toolPickerShows = true
   @State var drawing = PKDrawing()
@@ -30,7 +27,6 @@ struct LogBookEntryView: View {
   @State var alertNew = false
   @State var alertClear = false
 
-  @State var showNavigationBar = true
 
   var body: some View {
 
@@ -137,10 +133,6 @@ struct LogBookEntryView: View {
               action: {
                 newEntry(LogEntry: viewModel.watchLogEntry, drawing: &drawing)
                 displayedLogEntryUUID.id = viewModel.watchLogEntry.uuid
-                //                          Task {
-                //                              logEntriesOfDay = await viewModel.fetchDaysOfLogEntry(logEntry: WatchLogBookEntry(LogEntry: viewModel.watchLogEntry))
-                //                              logEntriesOfDay.append(WatchLogBookEntry(LogEntry: viewModel.watchLogEntry))
-                //                          }
               })
             Button(
               "Abbrechen", role: .cancel,
@@ -184,13 +176,13 @@ extension LogBookEntryView {
 
   private var ContextButton: some View {
 
-    Image(systemName: "list.bullet.circle")
+      Image(systemName: appStyles.ToolbarContextImage)
       .symbolRenderingMode(.palette)
       .resizable()
       .scaledToFit()
       .frame(width: 40, height: 40, alignment: .center)
       .foregroundStyle(
-        appStyles.ToolBarNewColorActivePrimary, appStyles.ToolBarNewColorActiveSecondary
+        appStyles.ToolbarContextColorActivePrimary, appStyles.ToolbarContextColorActiveSecondary
       )
       .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(6))
 
