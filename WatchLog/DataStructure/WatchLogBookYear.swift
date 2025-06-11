@@ -31,4 +31,13 @@ class WatchLogBookYear: Identifiable, Hashable {
         self.uuid = UUID()
         self.watchLogBook = WatchLogBook()
     }
+    
+    var logMonthSorted: [WatchLogBookMonth] {
+        get {
+            watchLogBookMonths?.sorted(by: { $0.LogDate < $1.LogDate }) ?? []
+        }
+        set {
+            watchLogBookMonths = newValue
+        }
+    }
 }

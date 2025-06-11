@@ -19,6 +19,7 @@ struct WatchLogApp: App {
         let viewModel = LogEntryViewModel(dataBaseService: databaseService)
         let textFieldStyleLogEntry = GeneralStylesLogEntry()
         var currentLogEntryUUID:UUIDContainer = UUIDContainer()
+        var logsOfCurrentDay: LogsOfCurrentDay = LogsOfCurrentDay()
         
             
         WindowGroup {
@@ -31,6 +32,7 @@ struct WatchLogApp: App {
         .environmentObject(viewModel)
         .environmentObject(textFieldStyleLogEntry)
         .environmentObject(currentLogEntryUUID)
+        .environment(logsOfCurrentDay)
     
     }
 }

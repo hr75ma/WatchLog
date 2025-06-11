@@ -44,12 +44,12 @@ class GeneralStylesLogEntry: ObservableObject {
 
     
     //Locking Section
-    @Published var LockImageisLocked: String = "checkmark.rectangle"
-    @Published var LockImageisUnLocked: String = "rectangle"
+    @Published var LockImageisLocked: String = "lock.ipad"
+    @Published var LockImageisUnLocked: String = "lock.open.ipad"
     @Published var LockColorIsLockedPrimary: Color = Color.red
     @Published var LockColorIsLockedSecondary: Color = Color.red
-    @Published var LockColorIsUnLockedPrimary: Color = Color.blue
-    @Published var LockColorIsUnLockedSecondary: Color = Color.blue
+    @Published var LockColorIsUnLockedPrimary: Color = Color.green
+    @Published var LockColorIsUnLockedSecondary: Color = Color.green
     
     
     //Accident Section

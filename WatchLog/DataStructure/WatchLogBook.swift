@@ -28,4 +28,13 @@ class WatchLogBook: Identifiable, Hashable {
     init() {
         self.uuid = UUID()
     }
+    
+    var logYearsSorted: [WatchLogBookYear] {
+        get {
+            watchLogBookYears?.sorted(by: { $0.LogDate > $1.LogDate }) ?? []
+        }
+        set {
+            watchLogBookYears = newValue
+        }
+    }
 }

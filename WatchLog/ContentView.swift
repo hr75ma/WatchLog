@@ -38,6 +38,7 @@ struct ContentView: View {
 
   @State private var testInt: Int = 0
   @State private var testEntry: WatchLogBookEntry = WatchLogBookEntry()
+  // @State private var logsOfDay: [WatchLogBookEntry] = []
   @State private var isNewEntry: Bool = false
 
   @State var StandardDate: Date = Date()
@@ -55,25 +56,24 @@ struct ContentView: View {
 
     NavigationSplitView(columnVisibility: $columnVisibility) {
 
-      Text(Date.now, format: .dateTime.day().month().year().hour().minute().second())
-        .foregroundStyle(.blue)
             Text(testEntry.uuid.uuidString)
         Text("currentuuid: \(currentUUID.uuid.uuidString)")
       List(viewModel.WatchLogBooks, id: \.uuid) { book in
 
-          ForEach(sortedYear(book.watchLogBookYears!)) { year in
+          ForEach(book.logYearsSorted) { year in
           DisclosureGroup(getDateYear(date: year.LogDate)) {
-            ForEach(sortedMonth(year.watchLogBookMonths!)) { month in
+              ForEach(year.logMonthSorted) { month in
               DisclosureGroup(getDateMonth(date: month.LogDate)) {
-                ForEach(sortedDay(month.watchLogBookDays!)) { days in
+                  ForEach(month.logDaysSorted) { days in
                   DisclosureGroup(getDateWeekDay(date: days.LogDate)) {
-                    ForEach(sortedEntries(days.watchLogBookEntries!)) { entry in
+                      ForEach(days.logEntriesSorted) { entry in
                       HStack {
 
                         Button(action: {
 
                           testEntry = entry
-                          print(testEntry.uuid.uuidString)
+                            //logsOfDay = days.logEntriesSorted
+                         // print(testEntry.uuid.uuidString)
                         }) {
                           Text(getDateTime(date: entry.LogDate))
                         }
@@ -129,7 +129,7 @@ struct ContentView: View {
         Task {
           await  viewModel.fetchLogBook()
         }
-          print("current uuid: \(currentUUID.uuid.uuidString)")
+          //print("current uuid: \(currentUUID.uuid.uuidString)")
       })
       .toolbar {
         ToolbarItem(placement: .primaryAction) {
@@ -173,13 +173,15 @@ struct ContentView: View {
 
       .task {
         await viewModel.fetchLogBook()
-      }
+          
+          }
       .onChange(
-        of: listOfEntry.count,
-        { oldValue, newValue in
+        of: listOfEntry.count, { oldValue, newValue in
           Task {
             await  viewModel.fetchLogBook()
+              //listOfEntry = viewModel.LogBookEntryYears
           }
+            print("-------> contentview ListofEntry")
         }
       )
       .listStyle(.sidebar)
@@ -189,6 +191,7 @@ struct ContentView: View {
     } detail: {
 
       LogBookEntryView(exisitingLogBookEntry: testEntry)
+       // TabViewForLogView(logBookEntry: testEntry, logEntriesOfDay: $logsOfDay)
     }
     .alert("Neues Log erstellen?", isPresented: $alertNew) {
       Button(
@@ -262,18 +265,27 @@ struct ContentView: View {
 
   private func addNewLogEntry() {
     print("add item")
-    isNewEntry = true
-    testEntry = WatchLogBookEntry(uuid: UUID())
-    print(testEntry.uuid.uuidString)
+      
+      isNewEntry = true
+      testEntry = WatchLogBookEntry(uuid: UUID())
+//      Task {
+//          logsOfDay = await viewModel.fetchDaysOfLogEntry(logEntry: testEntry)
+//          logsOfDay.append(testEntry)
+//      }
+      
+      
+
 
   }
 
-  private func sortedEntries(_ LogEntry: [WatchLogBookEntry]) -> [WatchLogBookEntry] {
-    return LogEntry.sorted(using: [
-      SortDescriptor(\.LogDate, order: .forward)
-    ])
 
-  }
+    
+    private func sortedEntries(_ LogEntry: [WatchLogBookEntry]) -> [WatchLogBookEntry] {
+      return LogEntry.sorted(using: [
+        SortDescriptor(\.LogDate, order: .forward)
+      ])
+
+    }
 
   private func sortedDay(_ LogEntry: [WatchLogBookDay]) -> [WatchLogBookDay] {
     return LogEntry.sorted(using: [
@@ -288,6 +300,8 @@ struct ContentView: View {
     ])
 
   }
+    
+
 
   private func sortedMonth(_ LogEntry: [WatchLogBookMonth]) -> [WatchLogBookMonth] {
     return LogEntry.sorted(using: [
@@ -295,6 +309,8 @@ struct ContentView: View {
     ])
 
   }
+    
+ 
 
   fileprivate func getDateBook(String: String) -> String {
     return "test"
