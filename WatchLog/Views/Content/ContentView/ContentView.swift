@@ -75,41 +75,26 @@ struct ContentView: View {
         Task {
           await viewModel.fetchLogBook()
         }
-        //print("current uuid: \(currentUUID.uuid.uuidString)")
       })
       .toolbar {
         ToolbarItem(placement: .primaryAction) {
-          Button(action: {
-            alertNew.toggle()
-          }) {
+            toolBarItemNewButton
+                .alert("Neues Log erstellen?", isPresented: $alertNew) {
+                  Button(
+                    "Erstellen", role: .destructive,
+                    action: {
+                      addNewLogEntry()
+                    })
+                  Button(
+                    "Abbrechen", role: .cancel,
+                    action: {
 
-            Image(systemName: appStyles.NavigationTreeAddEntryImage)
-              //.ToolbarImageStyle(appStyles)
-              .symbolRenderingMode(.palette)
-              .foregroundStyle(
-                appStyles.NavigationTreeAddEntryImagePrimaryColor,
-                appStyles.NavigationTreeAddEntryImageSecondaryColor
-              )
-              .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(2))
-              .symbolEffect(.scale)
-          }
+                    })
+                }
 
         }
         ToolbarItem(placement: .primaryAction) {
-          Button(action: {
-            showSettingSheet = true
-          }) {
-
-            Image(systemName: appStyles.NavigationTreeSettingImage)
-              //.ToolbarImageStyle(appStyles)
-              .symbolRenderingMode(.palette)
-              .foregroundStyle(
-                appStyles.NavigationTreeSettingImagePrimaryColor,
-                appStyles.NavigationTreeAddEntryImageSecondaryColor
-              )
-              .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(2))
-              .symbolEffect(.scale)
-          }
+            toolBarItemSettings
 
         }
       }
@@ -133,25 +118,13 @@ struct ContentView: View {
       )
       .listStyle(.sidebar)
       .scrollContentBackground(.hidden)
-      .background(Color.black.edgesIgnoringSafeArea(.all))
+      //.background(Color.black.edgesIgnoringSafeArea(.all))
 
     } detail: {
 
       LogBookEntryView(exisitingLogBookEntry: testEntry)
-      // TabViewForLogView(logBookEntry: testEntry, logEntriesOfDay: $logsOfDay)
     }
-    .alert("Neues Log erstellen?", isPresented: $alertNew) {
-      Button(
-        "Erstellen", role: .destructive,
-        action: {
-          addNewLogEntry()
-        })
-      Button(
-        "Abbrechen", role: .cancel,
-        action: {
 
-        })
-    }
   }
 
   fileprivate func generateNewLogEntryAfterExistingDeleted(exisitingUuid: UUID) {
@@ -211,47 +184,9 @@ struct ContentView: View {
   }
 
   private func addNewLogEntry() {
-    print("add item")
-
     isNewEntry = true
     testEntry = WatchLogBookEntry(uuid: UUID())
-    //      Task {
-    //          logsOfDay = await viewModel.fetchDaysOfLogEntry(logEntry: testEntry)
-    //          logsOfDay.append(testEntry)
-    //      }
 
-  }
-
-  private func sortedEntries(_ LogEntry: [WatchLogBookEntry]) -> [WatchLogBookEntry] {
-    return LogEntry.sorted(using: [
-      SortDescriptor(\.LogDate, order: .forward)
-    ])
-
-  }
-
-  private func sortedDay(_ LogEntry: [WatchLogBookDay]) -> [WatchLogBookDay] {
-    return LogEntry.sorted(using: [
-      SortDescriptor(\.LogDate, order: .forward)
-    ])
-
-  }
-
-  private func sortedYear(_ LogEntry: [WatchLogBookYear]) -> [WatchLogBookYear] {
-    return LogEntry.sorted(using: [
-      SortDescriptor(\.LogDate, order: .reverse)
-    ])
-
-  }
-
-  private func sortedMonth(_ LogEntry: [WatchLogBookMonth]) -> [WatchLogBookMonth] {
-    return LogEntry.sorted(using: [
-      SortDescriptor(\.LogDate, order: .forward)
-    ])
-
-  }
-
-  fileprivate func getDateBook(String: String) -> String {
-    return "test"
   }
 
   fileprivate func getDateYear(date: Date) -> String {
@@ -282,6 +217,45 @@ struct ContentView: View {
 
 extension ContentView {
     
+    private var toolBarItemNewButton: some View {
+        
+          Button(action: {
+            alertNew.toggle()
+          }) {
+
+            Image(systemName: appStyles.NavigationTreeAddEntryImage)
+              //.ToolbarImageStyle(appStyles)
+              .symbolRenderingMode(.palette)
+              .foregroundStyle(
+                appStyles.NavigationTreeAddEntryImagePrimaryColor,
+                appStyles.NavigationTreeAddEntryImageSecondaryColor
+              )
+              .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(2))
+              .symbolEffect(.scale)
+          }
+
+    }
+    
+    private var toolBarItemSettings: some View {
+        
+        Button(action: {
+          showSettingSheet = true
+        }) {
+
+          Image(systemName: appStyles.NavigationTreeSettingImage)
+            //.ToolbarImageStyle(appStyles)
+            .symbolRenderingMode(.palette)
+            .foregroundStyle(
+              appStyles.NavigationTreeSettingImagePrimaryColor,
+              appStyles.NavigationTreeAddEntryImageSecondaryColor
+            )
+            .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(2))
+            .symbolEffect(.scale)
+        }
+
+    }
+    
+    
     func buildLogBookNavigationTree(book: WatchLogBook) -> some View {
         
         ForEach(book.logYearsSorted) { year in
@@ -289,7 +263,7 @@ extension ContentView {
         }
         .onDelete(perform: { indexSet in
           indexSet.sorted(by: >).forEach { (i) in
-            let LogEntry = sortedYear(book.watchLogBookYears!)[i]
+              let LogEntry = book.logYearsSorted[i]
             deleteLogYear(watchLogBookYear: LogEntry)
 
           }
