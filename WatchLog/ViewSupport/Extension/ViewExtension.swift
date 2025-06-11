@@ -58,51 +58,5 @@ extension Image {
     }
 }
 
-extension Text {
-    
-    func SectionTextLabel(_ appStyles: StylesLogEntry) -> some View {
-        self
-            .font(Font.custom(appStyles.LabelFont, size: appStyles.TextFieldHeight))
-            .foregroundStyle(appStyles.GeneralTextColor)
-            .frame(width: 120, height: appStyles.TextFieldHeight, alignment: .topLeading)
-            .multilineTextAlignment(.leading)
-            .lineLimit(1)
-            .fixedSize(horizontal: true, vertical: true)
-    }
-    
-    func SectionTextLabelForToggle(_ appStyles: StylesLogEntry) -> some View {
-        self
-            .font(Font.custom(appStyles.LabelFont, size: appStyles.LabelFontSize2))
-            .foregroundStyle(appStyles.GeneralTextColor)
-            .frame(height: appStyles.TextFieldHeight, alignment: .center)
-            .multilineTextAlignment(.leading)
-            .lineLimit(1)
-            .fixedSize(horizontal: true, vertical: true)
-            .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 5))
-    }
-}
 
-extension TextField {
-    
-    func SectionTextFieldSingleLine(_ appStyles: StylesLogEntry, isLocked: Bool) -> some View {
-        self
-            .font(Font.custom(appStyles.TextFieldFont, size: appStyles.TextFieldHeight))
-            .lineLimit(1)
-            .foregroundStyle(appStyles.GeneralTextColor)
-            .background(isLocked ? appStyles.TextfieldBackgroundColorLocked : appStyles.TextfieldBackgroundColorUnLocked)
-            .fixedSize(horizontal: false, vertical: true)
-            .textContentType(.telephoneNumber)
-            .animation(.easeInOut(duration: 1),  value: isLocked)
-    }
-    
-    func SectionTextFieldSingleLine(_ appStyles: StylesLogEntry) -> some View {
-        self
-            .font(Font.custom(appStyles.TextFieldFont, size: appStyles.TextFieldHeight))
-            .lineLimit(1)
-            .foregroundStyle(appStyles.GeneralTextColor)
-            .background(appStyles.TextfieldBackgroundColorUnLocked)
-            .fixedSize(horizontal: false, vertical: true)
-            .textContentType(.telephoneNumber)
-    }
-}
 

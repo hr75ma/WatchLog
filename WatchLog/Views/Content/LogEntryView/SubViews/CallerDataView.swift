@@ -26,9 +26,8 @@ struct CallerDataView: View {
                         .SectionTextFieldSingleLine(appStyles, isLocked: LogEntry.isLocked)
                         .textContentType(.telephoneNumber)
                         .keyboardType(.numberPad)  // Show number pad
-                        .onChange(of: LogEntry.CallerNumber, initial: false) { old, value in
-                            LogEntry.CallerNumber = value.filter { $0.isNumber }
-                        }
+                        .checkOnNumbers(value: $LogEntry.CallerNumber)
+                        .limitInputLength(value: $LogEntry.CallerNumber, length: 15)
                         .showClearButton($LogEntry.CallerNumber)
                         .disabled(LogEntry.isLocked)// Allow only numeric characters
                 }
