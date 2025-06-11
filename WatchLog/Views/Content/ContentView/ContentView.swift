@@ -12,19 +12,19 @@ import SwiftUI
 
   //---------->DataBaseManager speicher db
 
-  let textFieldStyleLogEntry = GeneralStylesLogEntry()
+ // let textFieldStyleLogEntry = GeneralStylesLogEntry()
 
   let databaseService = DatabaseService()
   let viewModel = LogEntryViewModel(dataBaseService: databaseService)
-    var currentLogEntryUUID:UUIDContainer = UUIDContainer()
+  var currentLogEntryUUID:UUIDContainer = UUIDContainer()
 
   var pre: PreviewData = PreviewData()
   pre.setPreviewDate(viewModel: viewModel)
 
   return ContentView()
     .environmentObject(viewModel)
-    .environmentObject(textFieldStyleLogEntry)
     .environmentObject(currentLogEntryUUID)
+    .environment(\.appStyles  ,StylesLogEntry())
 
 }
 
@@ -33,12 +33,16 @@ let GroupLabelFont: String = "Roboto-MediumItalic"
 struct ContentView: View {
   @State private var columnVisibility = NavigationSplitViewVisibility.automatic
   @EnvironmentObject var viewModel: LogEntryViewModel
-  @EnvironmentObject var GeneralStyles: GeneralStylesLogEntry
+  //@EnvironmentObject var GeneralStyles: GeneralStylesLogEntry
     @EnvironmentObject var currentUUID: UUIDContainer
 
+    @Environment(\.appStyles) var appStyles
+    
+    
+    
+    
   @State private var testInt: Int = 0
   @State private var testEntry: WatchLogBookEntry = WatchLogBookEntry()
-  // @State private var logsOfDay: [WatchLogBookEntry] = []
   @State private var isNewEntry: Bool = false
 
   @State var StandardDate: Date = Date()
@@ -120,10 +124,10 @@ struct ContentView: View {
 
       }
       .listStyle(.insetGrouped)
-      .foregroundStyle(GeneralStyles.NavigationTreeFontColor)
+      .foregroundStyle(appStyles.NavigationTreeFontColor)
       .fontWeight(.medium)
       .font(
-        Font.custom(GeneralStyles.NavigationTreeFont, size: GeneralStyles.NavigationTreeFontSize)
+        Font.custom(appStyles.NavigationTreeFont, size: appStyles.NavigationTreeFontSize)
       )
       .refreshable(action: {
         Task {
@@ -137,12 +141,12 @@ struct ContentView: View {
             alertNew.toggle()
           }) {
 
-            Image(systemName: GeneralStyles.NavigationTreeAddEntryImage)
-              //.ToolbarImageStyle(GeneralStyles)
+            Image(systemName: appStyles.NavigationTreeAddEntryImage)
+              //.ToolbarImageStyle(appStyles)
               .symbolRenderingMode(.palette)
               .foregroundStyle(
-                GeneralStyles.NavigationTreeAddEntryImagePrimaryColor,
-                GeneralStyles.NavigationTreeAddEntryImageSecondaryColor
+                appStyles.NavigationTreeAddEntryImagePrimaryColor,
+                appStyles.NavigationTreeAddEntryImageSecondaryColor
               )
               .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(2))
               .symbolEffect(.scale)
@@ -154,12 +158,12 @@ struct ContentView: View {
             showSettingSheet = true
           }) {
 
-            Image(systemName: GeneralStyles.NavigationTreeSettingImage)
-              //.ToolbarImageStyle(GeneralStyles)
+            Image(systemName: appStyles.NavigationTreeSettingImage)
+              //.ToolbarImageStyle(appStyles)
               .symbolRenderingMode(.palette)
               .foregroundStyle(
-                GeneralStyles.NavigationTreeSettingImagePrimaryColor,
-                GeneralStyles.NavigationTreeAddEntryImageSecondaryColor
+                appStyles.NavigationTreeSettingImagePrimaryColor,
+                appStyles.NavigationTreeAddEntryImageSecondaryColor
               )
               .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(2))
               .symbolEffect(.scale)
@@ -190,7 +194,7 @@ struct ContentView: View {
 
     } detail: {
 
-      LogBookEntryView(exisitingLogBookEntry: testEntry)
+     LogBookEntryView(exisitingLogBookEntry: testEntry)
        // TabViewForLogView(logBookEntry: testEntry, logEntriesOfDay: $logsOfDay)
     }
     .alert("Neues Log erstellen?", isPresented: $alertNew) {

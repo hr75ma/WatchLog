@@ -10,7 +10,7 @@ import SwiftUI
 struct LockedView: View {
   @Bindable var LogEntry: WatchLogEntry
 
-  @EnvironmentObject var GeneralStyles: GeneralStylesLogEntry
+    @Environment(\.appStyles) var appStyles
 
   let locale = Locale.current
 
@@ -18,9 +18,9 @@ struct LockedView: View {
       HStack(alignment: .center) {
           
           Text(LogEntry.isLocked ? "Gesperrt" : "Entsperrt")
-              .font(Font.custom(GeneralStyles.LabelFont, size: GeneralStyles.LabelFontSize2))
-              .foregroundStyle(LogEntry.isLocked ? GeneralStyles.isLockedColor : GeneralStyles.GeneralTextColor)
-              .frame(width: 170, height: GeneralStyles.LabelFontSize2, alignment: .leading)
+              .font(Font.custom(appStyles.LabelFont, size: appStyles.LabelFontSize2))
+              .foregroundStyle(LogEntry.isLocked ? appStyles.isLockedColor : appStyles.GeneralTextColor)
+              .frame(width: 170, height: appStyles.LabelFontSize2, alignment: .leading)
               .multilineTextAlignment(.leading)
               .lineLimit(1)
               .fixedSize(horizontal: true, vertical: true)
@@ -32,25 +32,25 @@ struct LockedView: View {
           Toggle("", isOn: $LogEntry.isLocked)
               .labelsHidden()
               .toggleStyle(ToggleStyleImage(
-                isOnImage: GeneralStyles.LockImageisLocked,
-                isOffImage: GeneralStyles.LockImageisUnLocked,
-                isOnColorPrimary: GeneralStyles.LockColorIsLockedPrimary,
-                isOnColorSecondary: GeneralStyles.LockColorIsLockedSecondary,
-                isOffColorPrimary: GeneralStyles.LockColorIsUnLockedPrimary,
-                isOffColorSecondary: GeneralStyles.LockColorIsUnLockedSecondary
+                isOnImage: appStyles.LockImageisLocked,
+                isOffImage: appStyles.LockImageisUnLocked,
+                isOnColorPrimary: appStyles.LockColorIsLockedPrimary,
+                isOnColorSecondary: appStyles.LockColorIsLockedSecondary,
+                isOffColorPrimary: appStyles.LockColorIsUnLockedPrimary,
+                isOffColorSecondary: appStyles.LockColorIsUnLockedSecondary
                 ))
-              .frame(height: GeneralStyles.LabelFontSize2, alignment: .center)
+              .frame(height: appStyles.LabelFontSize2, alignment: .center)
               .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
 
       Spacer()
     }
-      .frame(height: GeneralStyles.LabelFontSize2, alignment: .center)
+      .frame(height: appStyles.LabelFontSize2, alignment: .center)
      
     .padding(EdgeInsets(top: 5, leading: 20, bottom: 10, trailing: 20))
     .overlay(
       Rectangle()
-        .frame(height: GeneralStyles.GeneralInnerFrameBorderWidth)  // Border thickness
-        .foregroundColor(GeneralStyles.GeneralInnerFrameColor),  // Border color
+        .frame(height: appStyles.GeneralInnerFrameBorderWidth)  // Border thickness
+        .foregroundColor(appStyles.GeneralInnerFrameColor),  // Border color
       alignment: .bottom
     )
   }

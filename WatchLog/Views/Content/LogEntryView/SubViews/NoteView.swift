@@ -15,13 +15,13 @@ struct NoteView: View {
   @Binding var toolPickerShows: Bool
   @State var savedDrawing: PKDrawing?
     
-    @EnvironmentObject var GeneralStyles: GeneralStylesLogEntry
+    @Environment(\.appStyles) var appStyles
 
   var body: some View {
     VStack(alignment: .leading, spacing: 0) {
       HStack(alignment: .top, spacing: 0) {
-          Image(systemName: GeneralStyles.SectionNoteImage)
-              .SectionImageStyle(GeneralStyles)
+          Image(systemName: appStyles.SectionNoteImage)
+              .SectionImageStyle(appStyles)
       }
       .padding(EdgeInsets(top: 5, leading: 0, bottom: 0, trailing: 10))
 
@@ -33,7 +33,7 @@ struct NoteView: View {
       .overlay(
         RoundedRectangle(cornerRadius: 20)
           
-            .stroke(WatchLog.isLocked ? GeneralStyles.CanvasLockedColor : GeneralStyles.CanvasUnLockedColor, lineWidth: 1)
+            .stroke(WatchLog.isLocked ? appStyles.CanvasLockedColor : appStyles.CanvasUnLockedColor, lineWidth: 1)
           
       )
       .animation(.easeInOut(duration: 1),  value: WatchLog.isLocked)
@@ -44,7 +44,7 @@ struct NoteView: View {
     .overlay(
       Rectangle()
         .frame(height: 0)  // Border thickness
-        .foregroundColor(GeneralStyles.GeneralInnerFrameColor),  // Border color
+        .foregroundColor(appStyles.GeneralInnerFrameColor),  // Border color
       alignment: .bottom
     )
     .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))

@@ -15,7 +15,7 @@ struct LogBookEntryView: View {
     
     @EnvironmentObject var viewModel: LogEntryViewModel
     
-    @EnvironmentObject var GeneralStyles: GeneralStylesLogEntry
+    @Environment(\.appStyles) var appStyles
     @EnvironmentObject var currentUUID: UUIDContainer
     @Environment(\.dismiss) var dismiss
     
@@ -68,7 +68,7 @@ struct LogBookEntryView: View {
             .overlay(
               RoundedRectangle(cornerRadius: 20)
                 
-                .stroke(viewModel.watchLogEntry.isLocked ? GeneralStyles.isLockedColor : GeneralStyles.isUnLockedColor, lineWidth: 4)
+                .stroke(viewModel.watchLogEntry.isLocked ? appStyles.isLockedColor : appStyles.isUnLockedColor, lineWidth: 4)
                 
             )
             .animation(.easeInOut(duration: 1),  value: viewModel.watchLogEntry.isLocked)
@@ -106,7 +106,7 @@ struct LogBookEntryView: View {
         .toolbar {
           ToolbarItem(placement: .topBarLeading) {
             Text("Log")
-                  .font(Font.custom(GeneralStyles.LabelFont, size: GeneralStyles.LabelFontSize))
+                  .font(Font.custom(appStyles.LabelFont, size: appStyles.LabelFontSize))
               .foregroundStyle(.blue)
               .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
           }
@@ -183,7 +183,7 @@ extension LogBookEntryView {
             .resizable()
             .scaledToFit()
             .frame(width: 40, height: 40, alignment: .center)
-            .foregroundStyle(GeneralStyles.ToolBarNewColorActivePrimary, GeneralStyles.ToolBarNewColorActiveSecondary)
+            .foregroundStyle(appStyles.ToolBarNewColorActivePrimary, appStyles.ToolBarNewColorActiveSecondary)
             .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(6))
             
         
@@ -194,9 +194,9 @@ extension LogBookEntryView {
                     alertNew.toggle()
                 } label: {
                     
-                    Label("Neues Log", systemImage: GeneralStyles.ToolBarNewImageActive)
+                    Label("Neues Log", systemImage: appStyles.ToolBarNewImageActive)
                         .symbolRenderingMode(.palette)
-                        .foregroundStyle(GeneralStyles.ToolBarNewColorActiveSecondary, GeneralStyles.ToolBarNewColorActiveSecondary)
+                        .foregroundStyle(appStyles.ToolBarNewColorActiveSecondary, appStyles.ToolBarNewColorActiveSecondary)
                         .labelStyle(.titleAndIcon)
                     
                 }
@@ -209,9 +209,9 @@ extension LogBookEntryView {
                         }
                     } label: {
                         
-                        Label("Log Speichern", systemImage: GeneralStyles.ToolBarSaveImageActive)
+                        Label("Log Speichern", systemImage: appStyles.ToolBarSaveImageActive)
                             .symbolRenderingMode(.palette)
-                            .foregroundStyle(GeneralStyles.ToolBarSaveColorActivePrimary, GeneralStyles.ToolBarSaveColorActivePrimary)
+                            .foregroundStyle(appStyles.ToolBarSaveColorActivePrimary, appStyles.ToolBarSaveColorActivePrimary)
                             .labelStyle(.titleAndIcon)
                         
                     }
@@ -225,7 +225,7 @@ extension LogBookEntryView {
                         alertClear.toggle()
                     } label: {
                         
-                        Label("Log leeren", systemImage: GeneralStyles.ToolBarEraserImageActive)
+                        Label("Log leeren", systemImage: appStyles.ToolBarEraserImageActive)
                             .labelStyle(.titleAndIcon)
                         
                     }
@@ -236,7 +236,7 @@ extension LogBookEntryView {
                         alertDelete.toggle()
                     } label: {
                         
-                        Label("Log Löschen", systemImage: GeneralStyles.ToolBarDeleteImageActive)
+                        Label("Log Löschen", systemImage: appStyles.ToolBarDeleteImageActive)
                             .labelStyle(.titleAndIcon)
                         
                     }
@@ -254,14 +254,14 @@ extension LogBookEntryView {
 #Preview {
     @Previewable @State var exisitingLogBookEntry = WatchLogBookEntry()
     
-    let textFieldStyleLogEntry = GeneralStylesLogEntry()
+
     let databaseService = DatabaseService()
     let viewModel = LogEntryViewModel(dataBaseService: databaseService)
     var currentLogEntryUUID:UUIDContainer = UUIDContainer()
     LogBookEntryView(exisitingLogBookEntry: exisitingLogBookEntry)
         .environmentObject(viewModel)
-        .environmentObject(textFieldStyleLogEntry)
         .environmentObject(currentLogEntryUUID)
+        .environment(\.appStyles  ,StylesLogEntry())
     
 }
 

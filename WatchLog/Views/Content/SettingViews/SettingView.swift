@@ -9,33 +9,32 @@ import SwiftUI
 
 struct SettingView: View {
     
-    @EnvironmentObject var GeneralStyles: GeneralStylesLogEntry
+    @Environment(\.appStyles) var appStyles
     
     
     var body: some View {
         
         VStack(alignment: .center, spacing: 0) {
             Text("WatchLog")
-                .font(Font.custom(GeneralStyles.LabelFont, size: GeneralStyles.LabelFontSize))
-                .foregroundStyle(GeneralStyles.GeneralTextColor)
+                .font(Font.custom(appStyles.LabelFont, size: appStyles.LabelFontSize))
+                .foregroundStyle(appStyles.GeneralTextColor)
                 .contentTransition(.numericText())
         }
         
         Text("Version 0.1")
-            .font(Font.custom(GeneralStyles.LabelFont, size: GeneralStyles.LabelFontSize))
-            .foregroundStyle(GeneralStyles.GeneralTextColor)
+            .font(Font.custom(appStyles.LabelFont, size: appStyles.LabelFontSize))
+            .foregroundStyle(appStyles.GeneralTextColor)
             .contentTransition(.numericText())
         
         Text("by HL")
-            .font(Font.custom(GeneralStyles.LabelFont, size: GeneralStyles.LabelFontSize))
-            .foregroundStyle(GeneralStyles.GeneralTextColor)
+            .font(Font.custom(appStyles.LabelFont, size: appStyles.LabelFontSize))
+            .foregroundStyle(appStyles.GeneralTextColor)
             .contentTransition(.numericText())
     }
 }
 
 #Preview {
     
-    let textFieldStyleLogEntry = GeneralStylesLogEntry()
     SettingView()
-        .environmentObject(textFieldStyleLogEntry)
+        .environment(\.appStyles  ,StylesLogEntry())
 }

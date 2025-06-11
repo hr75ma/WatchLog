@@ -8,36 +8,36 @@ import SwiftUI
 
 struct AccidentSelectionView: View {
   @Bindable var LogEntry: WatchLogEntry
-  @EnvironmentObject var GeneralStyles: GeneralStylesLogEntry
+  @Environment(\.appStyles) var appStyles
 
   @State private var isAccidentHidden: Bool = true
 
   var body: some View {
     HStack(alignment: .top, spacing: 0) {
-      Image(systemName: GeneralStyles.SectionAccidentImage)
-        .SectionImageStyle(GeneralStyles)
+      Image(systemName: appStyles.SectionAccidentImage)
+        .SectionImageStyle(appStyles)
 
       VStack(alignment: .leading, spacing: 5) {
 
         HStack(alignment: .center, spacing: 0) {
 
           Text("Verkehrsunfall")
-            .SectionTextLabelForToggle(GeneralStyles)
+            .SectionTextLabelForToggle(appStyles)
 
           Toggle("", isOn: $LogEntry.isAccient)
             .labelsHidden()
             .toggleStyle(
               ToggleStyleImage(
-                isOnImage: GeneralStyles.AccidentImageisLocked,
-                isOffImage: GeneralStyles.AccidentImageisUnLocked,
-                isOnColorPrimary: GeneralStyles.AccidentColorIsLockedPrimary,
-                isOnColorSecondary: GeneralStyles.AccidentColorIsLockedSecondary,
-                isOffColorPrimary: GeneralStyles.AccidentColorIsUnLockedPrimary,
-                isOffColorSecondary: GeneralStyles.AccidentColorIsUnLockedSecondary,
-                isLocked: LogEntry.isLocked, isLockedColor: GeneralStyles.ToogleIsLockedColor
+                isOnImage: appStyles.AccidentImageisLocked,
+                isOffImage: appStyles.AccidentImageisUnLocked,
+                isOnColorPrimary: appStyles.AccidentColorIsLockedPrimary,
+                isOnColorSecondary: appStyles.AccidentColorIsLockedSecondary,
+                isOffColorPrimary: appStyles.AccidentColorIsUnLockedPrimary,
+                isOffColorSecondary: appStyles.AccidentColorIsUnLockedSecondary,
+                isLocked: LogEntry.isLocked, isLockedColor: appStyles.ToogleIsLockedColor
               )
             )
-            .frame(height: GeneralStyles.LabelFontSize2, alignment: .center)
+            .frame(height: appStyles.LabelFontSize2, alignment: .center)
             .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
             .disabled(LogEntry.isLocked)
           Spacer()
@@ -61,11 +61,11 @@ struct AccidentSelectionView: View {
               VStack(alignment: .leading, spacing: 5) {
                   HStack(alignment: .center, spacing: 0) {
                       Text("Kennzeichen ON01")
-                          .SectionTextLabelSecond(GeneralStyles)
-                          .frame(width: 215, height: GeneralStyles.TextFieldHeight2, alignment: .topLeading)
+                          .SectionTextLabelSecond(appStyles)
+                          .frame(width: 215, height: appStyles.TextFieldHeight2, alignment: .topLeading)
                       
                       TextField("", text: $LogEntry.AccientLicensePlate01)
-                          .SectionTextFieldSingleLineSecond(GeneralStyles, isLocked: LogEntry.isLocked)
+                          .SectionTextFieldSingleLineSecond(appStyles, isLocked: LogEntry.isLocked)
                           .disabled(LogEntry.isLocked)
                       
                   }
@@ -76,11 +76,11 @@ struct AccidentSelectionView: View {
                   
                   HStack(alignment: .center, spacing: 0) {
                       Text("Kennzeichen ON02")
-                          .SectionTextLabelSecond(GeneralStyles)
-                          .frame(width: 215, height: GeneralStyles.TextFieldHeight2, alignment: .topLeading)
+                          .SectionTextLabelSecond(appStyles)
+                          .frame(width: 215, height: appStyles.TextFieldHeight2, alignment: .topLeading)
                       
                       TextField("", text: $LogEntry.AccientLicensePlate02)
-                          .SectionTextFieldSingleLineSecond(GeneralStyles, isLocked: LogEntry.isLocked)
+                          .SectionTextFieldSingleLineSecond(appStyles, isLocked: LogEntry.isLocked)
                           .disabled(LogEntry.isLocked)
                       
                   }
@@ -89,7 +89,7 @@ struct AccidentSelectionView: View {
                   
                   HStack(alignment: .center, spacing: 0) {
                       Text("Verletzte")
-                          .SectionTextLabelSecond(GeneralStyles)
+                          .SectionTextLabelSecond(appStyles)
                           .fixedSize(horizontal: true, vertical: true)
                           .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 5))
                       
@@ -97,23 +97,23 @@ struct AccidentSelectionView: View {
                           .labelsHidden()
                           .toggleStyle(
                             ToggleStyleImage(
-                                isOnImage: GeneralStyles.AccidentImageisLocked,
-                                isOffImage: GeneralStyles.AccidentImageisUnLocked,
-                                isOnColorPrimary: GeneralStyles.AccidentColorIsLockedPrimary,
-                                isOnColorSecondary: GeneralStyles.AccidentColorIsLockedSecondary,
-                                isOffColorPrimary: GeneralStyles.AccidentColorIsUnLockedPrimary,
-                                isOffColorSecondary: GeneralStyles.AccidentColorIsUnLockedSecondary,
-                                isLocked: LogEntry.isLocked, isLockedColor: GeneralStyles.ToogleIsLockedColor
+                                isOnImage: appStyles.AccidentImageisLocked,
+                                isOffImage: appStyles.AccidentImageisUnLocked,
+                                isOnColorPrimary: appStyles.AccidentColorIsLockedPrimary,
+                                isOnColorSecondary: appStyles.AccidentColorIsLockedSecondary,
+                                isOffColorPrimary: appStyles.AccidentColorIsUnLockedPrimary,
+                                isOffColorSecondary: appStyles.AccidentColorIsUnLockedSecondary,
+                                isLocked: LogEntry.isLocked, isLockedColor: appStyles.ToogleIsLockedColor
                             )
                           )
-                          .frame(height: GeneralStyles.TextFieldHeight2, alignment: .center)
+                          .frame(height: appStyles.TextFieldHeight2, alignment: .center)
                           .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
                           .disabled(LogEntry.isLocked)
                       
                       Spacer()
                       
                       Text("Verkehrsunfallflucht")
-                          .SectionTextLabelSecond(GeneralStyles)
+                          .SectionTextLabelSecond(appStyles)
                           .fixedSize(horizontal: true, vertical: true)
                           .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 5))
                       
@@ -121,16 +121,16 @@ struct AccidentSelectionView: View {
                           .labelsHidden()
                           .toggleStyle(
                             ToggleStyleImage(
-                                isOnImage: GeneralStyles.AccidentImageisLocked,
-                                isOffImage: GeneralStyles.AccidentImageisUnLocked,
-                                isOnColorPrimary: GeneralStyles.AccidentColorIsLockedPrimary,
-                                isOnColorSecondary: GeneralStyles.AccidentColorIsLockedSecondary,
-                                isOffColorPrimary: GeneralStyles.AccidentColorIsUnLockedPrimary,
-                                isOffColorSecondary: GeneralStyles.AccidentColorIsUnLockedSecondary,
-                                isLocked: LogEntry.isLocked, isLockedColor: GeneralStyles.ToogleIsLockedColor
+                                isOnImage: appStyles.AccidentImageisLocked,
+                                isOffImage: appStyles.AccidentImageisUnLocked,
+                                isOnColorPrimary: appStyles.AccidentColorIsLockedPrimary,
+                                isOnColorSecondary: appStyles.AccidentColorIsLockedSecondary,
+                                isOffColorPrimary: appStyles.AccidentColorIsUnLockedPrimary,
+                                isOffColorSecondary: appStyles.AccidentColorIsUnLockedSecondary,
+                                isLocked: LogEntry.isLocked, isLockedColor: appStyles.ToogleIsLockedColor
                             )
                           )
-                          .frame(height: GeneralStyles.TextFieldHeight2, alignment: .center)
+                          .frame(height: appStyles.TextFieldHeight2, alignment: .center)
                           .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
                           .disabled(LogEntry.isLocked)
                   }
@@ -151,8 +151,8 @@ struct AccidentSelectionView: View {
     .padding(EdgeInsets(top: 5, leading: 0, bottom: 10, trailing: 10))
     .overlay(
       Rectangle()
-        .frame(height: GeneralStyles.GeneralInnerFrameBorderWidth)  // Border thickness
-        .foregroundColor(GeneralStyles.GeneralInnerFrameColor),  // Border color
+        .frame(height: appStyles.GeneralInnerFrameBorderWidth)  // Border thickness
+        .foregroundColor(appStyles.GeneralInnerFrameColor),  // Border color
       alignment: .bottom
     )
   }
@@ -160,10 +160,10 @@ struct AccidentSelectionView: View {
 
 extension Text {
 
-  fileprivate func SectionTextLabelSecond(_ generalStyles: GeneralStylesLogEntry) -> some View {
+  fileprivate func SectionTextLabelSecond(_ appStyles: StylesLogEntry) -> some View {
     self
-      .font(Font.custom(generalStyles.LabelFont, size: generalStyles.TextFieldHeight2))
-      .foregroundStyle(generalStyles.GeneralTextColor)
+      .font(Font.custom(appStyles.LabelFont, size: appStyles.TextFieldHeight2))
+      .foregroundStyle(appStyles.GeneralTextColor)
       .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
       .multilineTextAlignment(.leading)
       .lineLimit(1)
@@ -175,33 +175,33 @@ extension Text {
 
 extension TextField {
 
-  fileprivate func SectionTextFieldSingleLineSecond(_ generalStyles: GeneralStylesLogEntry)
+  fileprivate func SectionTextFieldSingleLineSecond(_ appStyles: StylesLogEntry)
     -> some View
   {
     self
-      .font(Font.custom(generalStyles.TextFieldFont, size: generalStyles.TextFieldHeight2))
+      .font(Font.custom(appStyles.TextFieldFont, size: appStyles.TextFieldHeight2))
       .textInputAutocapitalization(.characters)
       .lineLimit(1)
-      .foregroundStyle(generalStyles.GeneralTextColor)
-      .background(generalStyles.TextfieldBackgroundColor)
+      .foregroundStyle(appStyles.GeneralTextColor)
+      .background(appStyles.TextfieldBackgroundColor)
       .fixedSize(horizontal: false, vertical: true)
       .textContentType(.telephoneNumber)
   }
 
   fileprivate func SectionTextFieldSingleLineSecond(
-    _ generalStyles: GeneralStylesLogEntry, isLocked: Bool
+    _ appStyles: StylesLogEntry, isLocked: Bool
   )
     -> some View
   {
     self
-      .font(Font.custom(generalStyles.TextFieldFont, size: generalStyles.TextFieldHeight2))
+      .font(Font.custom(appStyles.TextFieldFont, size: appStyles.TextFieldHeight2))
       .textInputAutocapitalization(.characters)
       .lineLimit(1)
-      .foregroundStyle(generalStyles.GeneralTextColor)
+      .foregroundStyle(appStyles.GeneralTextColor)
       .background(
         isLocked
-          ? generalStyles.TextfieldBackgroundColorLocked
-          : generalStyles.TextfieldBackgroundColorUnLocked
+          ? appStyles.TextfieldBackgroundColorLocked
+          : appStyles.TextfieldBackgroundColorUnLocked
       )
       .fixedSize(horizontal: false, vertical: true)
       .textContentType(.telephoneNumber)

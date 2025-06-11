@@ -15,20 +15,20 @@ struct LogTimeView: View {
     @State var time: Date = .now
     let duration: TimeInterval = 1
     
-    @EnvironmentObject var GeneralStyles: GeneralStylesLogEntry
+    @Environment(\.appStyles) var appStyles
 
   let locale = Locale.current
 
   var body: some View {
     HStack(alignment: .center) {
         Text(LogTime.formatted(.dateTime.locale(Locale.current).weekday(.wide)))
-            .TextStyleAndAnimation(GeneralStyles)
+            .TextStyleAndAnimation(appStyles)
       Spacer()
         Text(LogTime.formatted(.dateTime.day(.twoDigits).month(.twoDigits).year()))
-            .TextStyleAndAnimation(GeneralStyles)
+            .TextStyleAndAnimation(appStyles)
       Spacer()
       Text(LogTime.formatted(.dateTime.hour().minute().second()))
-            .TextStyleAndAnimation(GeneralStyles)
+            .TextStyleAndAnimation(appStyles)
         
 
         
@@ -39,25 +39,25 @@ struct LogTimeView: View {
     .padding(EdgeInsets(top: 5, leading: 20, bottom: 5, trailing: 20))
     .overlay(
       Rectangle()
-        .frame(height: GeneralStyles.GeneralInnerFrameBorderWidth)  // Border thickness
-        .foregroundColor(GeneralStyles.GeneralInnerFrameColor),  // Border color
+        .frame(height: appStyles.GeneralInnerFrameBorderWidth)  // Border thickness
+        .foregroundColor(appStyles.GeneralInnerFrameColor),  // Border color
       alignment: .bottom
     )
   }
 }
 
 fileprivate struct TextFormatterStyle: ViewModifier {
-    let GeneralStyles: GeneralStylesLogEntry
+    let stylesLogEntry: StylesLogEntry
     func body(content: Content) -> some View {
         content
-            .font(Font.custom(GeneralStyles.LabelFont, size: GeneralStyles.LabelFontSize))
-            .foregroundStyle(GeneralStyles.GeneralTextColor)
+            .font(Font.custom(stylesLogEntry.LabelFont, size: stylesLogEntry.LabelFontSize))
+            .foregroundStyle(stylesLogEntry.GeneralTextColor)
             .contentTransition(.numericText())
     }
 }
 
 extension Text {
-   @MainActor fileprivate func TextStyleAndAnimation(_ generalStyles: GeneralStylesLogEntry) -> some View {
-       modifier(TextFormatterStyle(GeneralStyles: generalStyles))
+   @MainActor fileprivate func TextStyleAndAnimation(_ stylesLogEntry: StylesLogEntry) -> some View {
+       modifier(TextFormatterStyle(stylesLogEntry: stylesLogEntry))
    }
 }

@@ -14,7 +14,7 @@ struct TabViewForLogView: View {
     
     @EnvironmentObject var viewModel: LogEntryViewModel
     
-    @EnvironmentObject var GeneralStyles: GeneralStylesLogEntry
+    @Environment(\.appStyles) var appStyles
     @EnvironmentObject var currentUUID: UUIDContainer
     
     @State private var selectedTab:UUID = UUID()

@@ -13,15 +13,15 @@ struct WatchLogApp: App {
     
     @State private var showSplashView:Bool = true
     
+    
+    
     var body: some Scene {
         
         let databaseService = DatabaseService()
         let viewModel = LogEntryViewModel(dataBaseService: databaseService)
-        let textFieldStyleLogEntry = GeneralStylesLogEntry()
         var currentLogEntryUUID:UUIDContainer = UUIDContainer()
-        var logsOfCurrentDay: LogsOfCurrentDay = LogsOfCurrentDay()
         
-            
+    
         WindowGroup {
         
                 SplashView()
@@ -30,9 +30,12 @@ struct WatchLogApp: App {
             
     }
         .environmentObject(viewModel)
-        .environmentObject(textFieldStyleLogEntry)
         .environmentObject(currentLogEntryUUID)
-        .environment(logsOfCurrentDay)
     
     }
+}
+
+extension EnvironmentValues {
+    @Entry var appStyles = StylesLogEntry()
+    
 }

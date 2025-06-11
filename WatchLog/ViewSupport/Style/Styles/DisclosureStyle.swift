@@ -9,7 +9,9 @@ import SwiftUI
 
 
 struct DisclosureStyleYear: DisclosureGroupStyle {
-    @EnvironmentObject var GeneralStyles: GeneralStylesLogEntry
+    
+    @Environment(\.appStyles) var appStyles
+    
     func makeBody(configuration: Configuration) -> some View {
       VStack(alignment: .center, spacing: 0) {
         Button {
@@ -34,7 +36,7 @@ struct DisclosureStyleYear: DisclosureGroupStyle {
           
           //.background(Color.clear.edgesIgnoringSafeArea(.all))
           .background(
-            LinearGradient(gradient: Gradient(colors: [GeneralStyles.NavigationTreeDisclosureYearGradientStart, GeneralStyles.NavigationTreeDisclosureYearGradientEnd]), startPoint: .leading, endPoint: .trailing))
+            LinearGradient(gradient: Gradient(colors: [appStyles.NavigationTreeDisclosureYearGradientStart, appStyles.NavigationTreeDisclosureYearGradientEnd]), startPoint: .leading, endPoint: .trailing))
           .foregroundStyle(.blue)
           .font(Font.custom(GroupLabelFont, size: 20))
           .border(Color.clear, width: 0)
@@ -57,7 +59,7 @@ struct DisclosureStyleYear: DisclosureGroupStyle {
       
       //.background(Color.clear.edgesIgnoringSafeArea(.all))
       .background(
-        LinearGradient(gradient: Gradient(colors: [GeneralStyles.NavigationTreeDisclosureYearGradientStart, GeneralStyles.NavigationTreeDisclosureYearGradientEnd]), startPoint: .leading, endPoint: .trailing))
+        LinearGradient(gradient: Gradient(colors: [appStyles.NavigationTreeDisclosureYearGradientStart, appStyles.NavigationTreeDisclosureYearGradientEnd]), startPoint: .leading, endPoint: .trailing))
       .foregroundStyle(.blue)
       .font(Font.custom(GroupLabelFont, size: 20))
       .border(Color.clear, width: 0)

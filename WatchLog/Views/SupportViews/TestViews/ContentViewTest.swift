@@ -11,12 +11,11 @@ import SwiftUI
 #Preview {
     @Previewable @State var exisitingLogBookEntry = WatchLogBookEntry()
     
-    let textFieldStyleLogEntry = GeneralStylesLogEntry()
     let databaseService = DatabaseService()
     let viewModel = LogEntryViewModel(dataBaseService: databaseService)
     LogBookEntryView(exisitingLogBookEntry: exisitingLogBookEntry)
         .environmentObject(viewModel)
-        .environmentObject(textFieldStyleLogEntry)
+        .environment(\.appStyles  ,StylesLogEntry())
     
 }
 

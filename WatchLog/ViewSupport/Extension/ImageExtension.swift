@@ -8,7 +8,7 @@ import SwiftUI
 
 extension Image {
     
-    func ToolbarImageStyle(_ generalStyles: GeneralStylesLogEntry) -> some View {
+    func ToolbarImageStyle(_ appStyles: StylesLogEntry) -> some View {
         self
             .resizable()
             .aspectRatio(contentMode: .fit)

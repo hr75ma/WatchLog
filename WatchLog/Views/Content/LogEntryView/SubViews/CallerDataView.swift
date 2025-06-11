@@ -9,21 +9,21 @@ import SwiftUI
 struct CallerDataView: View {
     
     @Bindable var LogEntry: WatchLogEntry
-    @EnvironmentObject var GeneralStyles: GeneralStylesLogEntry
+    @Environment(\.appStyles) var appStyles
     
     var body: some View {
         HStack(alignment: .top, spacing: 0) {
-            Image(systemName: GeneralStyles.SectionCallerImage)
-                .SectionImageStyle(GeneralStyles)
+            Image(systemName: appStyles.SectionCallerImage)
+                .SectionImageStyle(appStyles)
             
             VStack(alignment: .leading, spacing: 5) {
                 
                 HStack(alignment: .center, spacing: 0) {
                     Text("Telefon")
-                        .SectionTextLabel(GeneralStyles)
+                        .SectionTextLabel(appStyles)
                     
                     TextField("", text: $LogEntry.CallerNumber)
-                        .SectionTextFieldSingleLine(GeneralStyles, isLocked: LogEntry.isLocked)
+                        .SectionTextFieldSingleLine(appStyles, isLocked: LogEntry.isLocked)
                         .textContentType(.telephoneNumber)
                         .keyboardType(.numberPad)  // Show number pad
                         .onChange(of: LogEntry.CallerNumber, initial: false) { old, value in
@@ -34,10 +34,10 @@ struct CallerDataView: View {
                 
                 HStack(alignment: .center, spacing: 0) {
                     Text("Name")
-                        .SectionTextLabel(GeneralStyles)
+                        .SectionTextLabel(appStyles)
                     
                     TextField("", text: $LogEntry.CallerName)
-                        .SectionTextFieldSingleLine(GeneralStyles, isLocked: LogEntry.isLocked)
+                        .SectionTextFieldSingleLine(appStyles, isLocked: LogEntry.isLocked)
                         .textContentType(.name)
                         .autocorrectionDisabled(true)
                         .disabled(LogEntry.isLocked)
@@ -45,10 +45,10 @@ struct CallerDataView: View {
                 
                 HStack(alignment: .center, spacing: 0) {
                     Text("DOB")
-                        .SectionTextLabel(GeneralStyles)
+                        .SectionTextLabel(appStyles)
                     
                     TextField("", text: $LogEntry.CallerDOB)
-                        .SectionTextFieldSingleLine(GeneralStyles, isLocked: LogEntry.isLocked)
+                        .SectionTextFieldSingleLine(appStyles, isLocked: LogEntry.isLocked)
                         .textInputAutocapitalization(.characters)
                         .textContentType(.birthdate)
                         .disabled(LogEntry.isLocked)
@@ -87,11 +87,11 @@ struct CallerDataView: View {
                 
                 HStack(alignment: .top, spacing: 0) {
                     Text("Adresse")
-                        .SectionTextLabel(GeneralStyles)
+                        .SectionTextLabel(appStyles)
                         .frame(alignment: .topLeading)
                     
                     TextField("", text: $LogEntry.CallerAdress, axis: .vertical)
-                        .SectionTextFieldSingleLine(GeneralStyles, isLocked: LogEntry.isLocked)
+                        .SectionTextFieldSingleLine(appStyles, isLocked: LogEntry.isLocked)
                         .fixedSize(horizontal: false, vertical: true)
                         .lineLimit(4, reservesSpace: true)
                         .autocorrectionDisabled(true)
@@ -106,8 +106,8 @@ struct CallerDataView: View {
         .padding(EdgeInsets(top: 5, leading: 0, bottom: 10, trailing: 10))
         .overlay(
           Rectangle()
-            .frame(height: GeneralStyles.GeneralInnerFrameBorderWidth)  // Border thickness
-            .foregroundColor(GeneralStyles.GeneralInnerFrameColor),  // Border color
+            .frame(height: appStyles.GeneralInnerFrameBorderWidth)  // Border thickness
+            .foregroundColor(appStyles.GeneralInnerFrameColor),  // Border color
           alignment: .bottom
         )
         

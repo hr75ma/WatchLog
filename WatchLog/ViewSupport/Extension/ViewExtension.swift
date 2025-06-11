@@ -46,35 +46,35 @@ extension View {
 
 extension Image {
     
-    func SectionImageStyle(_ generalStyles: GeneralStylesLogEntry) -> some View {
+    func SectionImageStyle(_ appStyles: StylesLogEntry) -> some View {
         self
             .resizable()
             .aspectRatio(contentMode: .fit)
             .frame(width: 40, height: 40)
             .symbolRenderingMode(.monochrome)
             .symbolVariant(.fill)
-            .foregroundStyle(generalStyles.GeneralTextColor)
+            .foregroundStyle(appStyles.GeneralTextColor)
             .padding(EdgeInsets(top: 10, leading: 10, bottom: 0, trailing: 10))
     }
 }
 
 extension Text {
     
-    func SectionTextLabel(_ generalStyles: GeneralStylesLogEntry) -> some View {
+    func SectionTextLabel(_ appStyles: StylesLogEntry) -> some View {
         self
-            .font(Font.custom(generalStyles.LabelFont, size: generalStyles.TextFieldHeight))
-            .foregroundStyle(generalStyles.GeneralTextColor)
-            .frame(width: 120, height: generalStyles.TextFieldHeight, alignment: .topLeading)
+            .font(Font.custom(appStyles.LabelFont, size: appStyles.TextFieldHeight))
+            .foregroundStyle(appStyles.GeneralTextColor)
+            .frame(width: 120, height: appStyles.TextFieldHeight, alignment: .topLeading)
             .multilineTextAlignment(.leading)
             .lineLimit(1)
             .fixedSize(horizontal: true, vertical: true)
     }
     
-    func SectionTextLabelForToggle(_ generalStyles: GeneralStylesLogEntry) -> some View {
+    func SectionTextLabelForToggle(_ appStyles: StylesLogEntry) -> some View {
         self
-            .font(Font.custom(generalStyles.LabelFont, size: generalStyles.LabelFontSize2))
-            .foregroundStyle(generalStyles.GeneralTextColor)
-            .frame(height: generalStyles.TextFieldHeight, alignment: .center)
+            .font(Font.custom(appStyles.LabelFont, size: appStyles.LabelFontSize2))
+            .foregroundStyle(appStyles.GeneralTextColor)
+            .frame(height: appStyles.TextFieldHeight, alignment: .center)
             .multilineTextAlignment(.leading)
             .lineLimit(1)
             .fixedSize(horizontal: true, vertical: true)
@@ -84,23 +84,23 @@ extension Text {
 
 extension TextField {
     
-    func SectionTextFieldSingleLine(_ generalStyles: GeneralStylesLogEntry, isLocked: Bool) -> some View {
+    func SectionTextFieldSingleLine(_ appStyles: StylesLogEntry, isLocked: Bool) -> some View {
         self
-            .font(Font.custom(generalStyles.TextFieldFont, size: generalStyles.TextFieldHeight))
+            .font(Font.custom(appStyles.TextFieldFont, size: appStyles.TextFieldHeight))
             .lineLimit(1)
-            .foregroundStyle(generalStyles.GeneralTextColor)
-            .background(isLocked ? generalStyles.TextfieldBackgroundColorLocked : generalStyles.TextfieldBackgroundColorUnLocked)
+            .foregroundStyle(appStyles.GeneralTextColor)
+            .background(isLocked ? appStyles.TextfieldBackgroundColorLocked : appStyles.TextfieldBackgroundColorUnLocked)
             .fixedSize(horizontal: false, vertical: true)
             .textContentType(.telephoneNumber)
             .animation(.easeInOut(duration: 1),  value: isLocked)
     }
     
-    func SectionTextFieldSingleLine(_ generalStyles: GeneralStylesLogEntry) -> some View {
+    func SectionTextFieldSingleLine(_ appStyles: StylesLogEntry) -> some View {
         self
-            .font(Font.custom(generalStyles.TextFieldFont, size: generalStyles.TextFieldHeight))
+            .font(Font.custom(appStyles.TextFieldFont, size: appStyles.TextFieldHeight))
             .lineLimit(1)
-            .foregroundStyle(generalStyles.GeneralTextColor)
-            .background(generalStyles.TextfieldBackgroundColorUnLocked)
+            .foregroundStyle(appStyles.GeneralTextColor)
+            .background(appStyles.TextfieldBackgroundColorUnLocked)
             .fixedSize(horizontal: false, vertical: true)
             .textContentType(.telephoneNumber)
     }
