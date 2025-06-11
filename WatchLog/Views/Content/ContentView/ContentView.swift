@@ -16,15 +16,15 @@ import SwiftUI
 
   let databaseService = DatabaseService()
   let viewModel = LogEntryViewModel(dataBaseService: databaseService)
-  var currentLogEntryUUID: UUIDContainer = UUIDContainer()
+
 
   var pre: PreviewData = PreviewData()
   pre.setPreviewDate(viewModel: viewModel)
 
   return ContentView()
     .environmentObject(viewModel)
-    .environmentObject(currentLogEntryUUID)
     .environment(\.appStyles, StylesLogEntry())
+    .environment(\.displayedLogEntryUUID, DisplayedLogEntryID())
 
 }
 
@@ -34,9 +34,10 @@ struct ContentView: View {
   @State private var columnVisibility = NavigationSplitViewVisibility.automatic
 
   @EnvironmentObject var viewModel: LogEntryViewModel
-  @EnvironmentObject var currentUUID: UUIDContainer
+  //@EnvironmentObject var currentUUID: UUIDContainer
 
   @Environment(\.appStyles) var appStyles
+  @Environment(\.displayedLogEntryUUID) var displayedLogEntryUUID
 
   @State private var logBookEntry: WatchLogBookEntry = WatchLogBookEntry()
   @State private var isNewEntry: Bool = false
@@ -44,14 +45,13 @@ struct ContentView: View {
   @State var alertNew = false
   @State var showSettingSheet = false
 
-
   var body: some View {
 
     NavigationSplitView(columnVisibility: $columnVisibility) {
 
-//      Text(testEntry.uuid.uuidString)
-//      Text("currentuuid: \(currentUUID.uuid.uuidString)")
-        
+      //      Text(testEntry.uuid.uuidString)
+      //      Text("currentuuid: \(currentUUID.uuid.uuidString)")
+
       List(viewModel.WatchLogBooks, id: \.uuid) { book in
 
         buildLogBookNavigationTree(book: book)
@@ -70,23 +70,23 @@ struct ContentView: View {
       })
       .toolbar {
         ToolbarItem(placement: .primaryAction) {
-            toolBarItemNewButton
-                .alert("Neues Log erstellen?", isPresented: $alertNew) {
-                  Button(
-                    "Erstellen", role: .destructive,
-                    action: {
-                      addNewLogEntry()
-                    })
-                  Button(
-                    "Abbrechen", role: .cancel,
-                    action: {
+          toolBarItemNewButton
+            .alert("Neues Log erstellen?", isPresented: $alertNew) {
+              Button(
+                "Erstellen", role: .destructive,
+                action: {
+                  addNewLogEntry()
+                })
+              Button(
+                "Abbrechen", role: .cancel,
+                action: {
 
-                    })
-                }
+                })
+            }
 
         }
         ToolbarItem(placement: .primaryAction) {
-            toolBarItemSettings
+          toolBarItemSettings
 
         }
       }
@@ -125,7 +125,7 @@ struct ContentView: View {
       Task {
         await viewModel.deleteLogEntry(
           LogEntry: WatchLogEntry(WatchLookBookEntry: watchLogBookEntry))
-        generateNewLogEntryAfterExistingDeleted(exisitingUuid: currentUUID.uuid)
+          generateNewLogEntryAfterExistingDeleted(exisitingUuid: displayedLogEntryUUID.id)
 
       }
 
@@ -137,7 +137,7 @@ struct ContentView: View {
 
       Task {
         await viewModel.deleteLogDay(watchLogBookDay: watchLogBookDay)
-        generateNewLogEntryAfterExistingDeleted(exisitingUuid: currentUUID.uuid)
+        generateNewLogEntryAfterExistingDeleted(exisitingUuid: displayedLogEntryUUID.id)
       }
 
     }
@@ -148,7 +148,7 @@ struct ContentView: View {
 
       Task {
         await viewModel.deleteLogMonth(watchLogBookMonth: watchLogBookMonth)
-        generateNewLogEntryAfterExistingDeleted(exisitingUuid: currentUUID.uuid)
+        generateNewLogEntryAfterExistingDeleted(exisitingUuid: displayedLogEntryUUID.id)
       }
 
     }
@@ -159,7 +159,7 @@ struct ContentView: View {
 
       Task {
         await viewModel.deleteLogYear(watchLogBookYear: watchLogBookYear)
-        generateNewLogEntryAfterExistingDeleted(exisitingUuid: currentUUID.uuid)
+        generateNewLogEntryAfterExistingDeleted(exisitingUuid: displayedLogEntryUUID.id)
       }
 
     }
@@ -198,117 +198,114 @@ struct ContentView: View {
 }
 
 extension ContentView {
-    
-    private var toolBarItemNewButton: some View {
-        
+
+  private var toolBarItemNewButton: some View {
+
+    Button(action: {
+      alertNew.toggle()
+    }) {
+
+      Image(systemName: appStyles.NavigationTreeAddEntryImage)
+        //.ToolbarImageStyle(appStyles)
+        .symbolRenderingMode(.palette)
+        .foregroundStyle(
+          appStyles.NavigationTreeAddEntryImagePrimaryColor,
+          appStyles.NavigationTreeAddEntryImageSecondaryColor
+        )
+        .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(2))
+        .symbolEffect(.scale)
+    }
+
+  }
+
+  private var toolBarItemSettings: some View {
+
+    Button(action: {
+      showSettingSheet = true
+    }) {
+
+      Image(systemName: appStyles.NavigationTreeSettingImage)
+        //.ToolbarImageStyle(appStyles)
+        .symbolRenderingMode(.palette)
+        .foregroundStyle(
+          appStyles.NavigationTreeSettingImagePrimaryColor,
+          appStyles.NavigationTreeAddEntryImageSecondaryColor
+        )
+        .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(2))
+        .symbolEffect(.scale)
+    }
+
+  }
+
+  func buildLogBookNavigationTree(book: WatchLogBook) -> some View {
+
+    ForEach(book.logYearsSorted) { year in
+      DisclorsureGroupYear(year: year)
+    }
+    .onDelete(perform: { indexSet in
+      indexSet.sorted(by: >).forEach { (i) in
+        let LogEntry = book.logYearsSorted[i]
+        deleteLogYear(watchLogBookYear: LogEntry)
+
+      }
+    })
+
+  }
+
+  func DisclorsureGroupYear(year: WatchLogBookYear) -> some View {
+    DisclosureGroup(getDateYear(date: year.LogDate)) {
+      ForEach(year.logMonthSorted) { month in
+        DisclosureGroupLogMonth(month: month)
+
+      }
+      .onDelete(perform: { indexSet in
+        indexSet.sorted(by: >).forEach { (i) in
+          let LogEntry = year.watchLogBookMonths![i]
+          deleteLogMonth(watchLogBookMonth: LogEntry)
+
+        }
+      })
+    }
+  }
+
+  func DisclosureGroupLogMonth(month: WatchLogBookMonth) -> some View {
+    DisclosureGroup(getDateMonth(date: month.LogDate)) {
+      ForEach(month.logDaysSorted) { day in
+        DisclosureGroupLogEntries(day: day)
+
+      }
+      .onDelete(perform: { indexSet in
+        indexSet.sorted(by: >).forEach { (i) in
+          let LogEntry = month.watchLogBookDays![i]
+          deleteLogDay(watchLogBookDay: LogEntry)
+
+        }
+      })
+    }
+  }
+
+  func DisclosureGroupLogEntries(day: WatchLogBookDay) -> some View {
+
+    DisclosureGroup(getDateWeekDay(date: day.LogDate)) {
+      ForEach(day.logEntriesSorted) { entry in
+        HStack {
+
           Button(action: {
-            alertNew.toggle()
+
+            logBookEntry = entry
           }) {
-
-            Image(systemName: appStyles.NavigationTreeAddEntryImage)
-              //.ToolbarImageStyle(appStyles)
-              .symbolRenderingMode(.palette)
-              .foregroundStyle(
-                appStyles.NavigationTreeAddEntryImagePrimaryColor,
-                appStyles.NavigationTreeAddEntryImageSecondaryColor
-              )
-              .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(2))
-              .symbolEffect(.scale)
+            Text(getDateTime(date: entry.LogDate))
           }
 
-    }
-    
-    private var toolBarItemSettings: some View {
-        
-        Button(action: {
-          showSettingSheet = true
-        }) {
-
-          Image(systemName: appStyles.NavigationTreeSettingImage)
-            //.ToolbarImageStyle(appStyles)
-            .symbolRenderingMode(.palette)
-            .foregroundStyle(
-              appStyles.NavigationTreeSettingImagePrimaryColor,
-              appStyles.NavigationTreeAddEntryImageSecondaryColor
-            )
-            .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(2))
-            .symbolEffect(.scale)
         }
-
-    }
-    
-    
-    func buildLogBookNavigationTree(book: WatchLogBook) -> some View {
-        
-        ForEach(book.logYearsSorted) { year in
-            DisclorsureGroupYear(year: year)
+      }
+      .onDelete(perform: { indexSet in
+        indexSet.sorted(by: >).forEach { (i) in
+          let LogEntry = day.watchLogBookEntries![i]
+          deleteLogEntry(watchLogBookEntry: LogEntry)
         }
-        .onDelete(perform: { indexSet in
-          indexSet.sorted(by: >).forEach { (i) in
-              let LogEntry = book.logYearsSorted[i]
-            deleteLogYear(watchLogBookYear: LogEntry)
-
-          }
-        })
-        
+      })
     }
-    
-    func DisclorsureGroupYear(year: WatchLogBookYear) -> some View {
-        DisclosureGroup(getDateYear(date: year.LogDate)) {
-          ForEach(year.logMonthSorted) { month in
-              DisclosureGroupLogMonth(month:  month)
+  }
 
-          }
-          .onDelete(perform: { indexSet in
-            indexSet.sorted(by: >).forEach { (i) in
-              let LogEntry = year.watchLogBookMonths![i]
-              deleteLogMonth(watchLogBookMonth: LogEntry)
-
-            }
-          })
-        }
-    }
-    
-    
-    func DisclosureGroupLogMonth(month: WatchLogBookMonth) -> some View {
-        DisclosureGroup(getDateMonth(date: month.LogDate)) {
-          ForEach(month.logDaysSorted) { day in
-              DisclosureGroupLogEntries(day: day)
-
-          }
-          .onDelete(perform: { indexSet in
-            indexSet.sorted(by: >).forEach { (i) in
-              let LogEntry = month.watchLogBookDays![i]
-              deleteLogDay(watchLogBookDay: LogEntry)
-
-            }
-          })
-        }
-    }
-    
-     func DisclosureGroupLogEntries(day: WatchLogBookDay) -> some View {
-        
-        DisclosureGroup(getDateWeekDay(date: day.LogDate)) {
-          ForEach(day.logEntriesSorted) { entry in
-            HStack {
-
-              Button(action: {
-
-                logBookEntry = entry
-              }) {
-                Text(getDateTime(date: entry.LogDate))
-              }
-
-            }
-          }
-          .onDelete(perform: { indexSet in
-            indexSet.sorted(by: >).forEach { (i) in
-              let LogEntry = day.watchLogBookEntries![i]
-              deleteLogEntry(watchLogBookEntry: LogEntry)
-            }
-          })
-        }
-    }
-    
 }
-

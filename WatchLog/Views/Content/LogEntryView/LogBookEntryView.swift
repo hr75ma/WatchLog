@@ -11,12 +11,12 @@ import SwiftData
 
 struct LogBookEntryView: View {
     @Bindable public var exisitingLogBookEntry: WatchLogBookEntry
-    //@Binding public var logEntriesOfDay: [WatchLogBookEntry]
     
     @EnvironmentObject var viewModel: LogEntryViewModel
     
     @Environment(\.appStyles) var appStyles
-    @EnvironmentObject var currentUUID: UUIDContainer
+    @Environment(\.displayedLogEntryUUID) var displayedLogEntryUUID
+
     @Environment(\.dismiss) var dismiss
     
     //@Environment var logsOfDay: [WatchLogBookEntry]
@@ -80,7 +80,7 @@ struct LogBookEntryView: View {
         .task {
                  await viewModel.fetchLogEntry(LogEntryUUID: exisitingLogBookEntry.uuid)
             print("--------->task")
-            currentUUID.uuid = viewModel.watchLogEntry.uuid
+            displayedLogEntryUUID.id = viewModel.watchLogEntry.uuid
             
                 
         }
@@ -97,7 +97,7 @@ struct LogBookEntryView: View {
             print("--------->onchange")
             Task {
                  await viewModel.fetchLogEntry(LogEntryUUID: newValue.uuid)
-                currentUUID.uuid = viewModel.watchLogEntry.uuid
+                displayedLogEntryUUID.id = viewModel.watchLogEntry.uuid
             }
             
             
@@ -132,7 +132,7 @@ struct LogBookEntryView: View {
                   .alert("Neues Log erstellen?", isPresented: $alertNew) {
                       Button("Erstellen", role: .destructive, action: {
                           newEntry(LogEntry: viewModel.watchLogEntry, drawing: &drawing)
-                          currentUUID.uuid = viewModel.watchLogEntry.uuid
+                          displayedLogEntryUUID.id = viewModel.watchLogEntry.uuid
 //                          Task {
 //                              logEntriesOfDay = await viewModel.fetchDaysOfLogEntry(logEntry: WatchLogBookEntry(LogEntry: viewModel.watchLogEntry))
 //                              logEntriesOfDay.append(WatchLogBookEntry(LogEntry: viewModel.watchLogEntry))
@@ -257,11 +257,10 @@ extension LogBookEntryView {
 
     let databaseService = DatabaseService()
     let viewModel = LogEntryViewModel(dataBaseService: databaseService)
-    var currentLogEntryUUID:UUIDContainer = UUIDContainer()
     LogBookEntryView(exisitingLogBookEntry: exisitingLogBookEntry)
         .environmentObject(viewModel)
-        .environmentObject(currentLogEntryUUID)
         .environment(\.appStyles  ,StylesLogEntry())
+        .environment(\.displayedLogEntryUUID, DisplayedLogEntryID())
     
 }
 

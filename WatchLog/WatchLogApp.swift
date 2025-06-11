@@ -19,7 +19,6 @@ struct WatchLogApp: App {
         
         let databaseService = DatabaseService()
         let viewModel = LogEntryViewModel(dataBaseService: databaseService)
-        var currentLogEntryUUID:UUIDContainer = UUIDContainer()
         
     
         WindowGroup {
@@ -28,12 +27,12 @@ struct WatchLogApp: App {
                 //ContentView()
     }
         .environmentObject(viewModel)
-        .environmentObject(currentLogEntryUUID)
     
     }
 }
 
 extension EnvironmentValues {
     @Entry var appStyles = StylesLogEntry()
+    @Entry var displayedLogEntryUUID = DisplayedLogEntryID()
     
 }
