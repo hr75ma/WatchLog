@@ -66,6 +66,7 @@ struct AccidentSelectionView: View {
                       
                       TextField("", text: $LogEntry.AccientLicensePlate01)
                           .SectionTextFieldSingleLineSecond(appStyles, isLocked: LogEntry.isLocked)
+                          .showClearButton($LogEntry.AccientLicensePlate01)
                           .disabled(LogEntry.isLocked)
                       
                   }
@@ -81,6 +82,7 @@ struct AccidentSelectionView: View {
                       
                       TextField("", text: $LogEntry.AccientLicensePlate02)
                           .SectionTextFieldSingleLineSecond(appStyles, isLocked: LogEntry.isLocked)
+                          .showClearButton($LogEntry.AccientLicensePlate02)
                           .disabled(LogEntry.isLocked)
                       
                   }

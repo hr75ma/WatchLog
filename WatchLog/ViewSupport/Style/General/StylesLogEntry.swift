@@ -130,6 +130,13 @@ class StylesLogEntry {
     var NavigationTreeFontColor: Color = Color.blue
     
     
+    //clear button for textfield
+    var ClearButtonImage: String = "x.square.fill"//"multiply.circle.fill"
+    var ClearButtonColorActivePrimary: Color = Color.white
+    var ClearButtonColorActiveSecondary: Color = Color.blue
+    
+    
+    
     
     
     

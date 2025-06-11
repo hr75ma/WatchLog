@@ -29,6 +29,7 @@ struct CallerDataView: View {
                         .onChange(of: LogEntry.CallerNumber, initial: false) { old, value in
                             LogEntry.CallerNumber = value.filter { $0.isNumber }
                         }
+                        .showClearButton($LogEntry.CallerNumber)
                         .disabled(LogEntry.isLocked)// Allow only numeric characters
                 }
                 
@@ -40,6 +41,7 @@ struct CallerDataView: View {
                         .SectionTextFieldSingleLine(appStyles, isLocked: LogEntry.isLocked)
                         .textContentType(.name)
                         .autocorrectionDisabled(true)
+                        .showClearButton($LogEntry.CallerName)
                         .disabled(LogEntry.isLocked)
                 }
                 
@@ -51,6 +53,7 @@ struct CallerDataView: View {
                         .SectionTextFieldSingleLine(appStyles, isLocked: LogEntry.isLocked)
                         .textInputAutocapitalization(.characters)
                         .textContentType(.birthdate)
+                        .showClearButton($LogEntry.CallerDOB)
                         .disabled(LogEntry.isLocked)
                         .keyboardType(.numberPad)  // Show number pad
                         .onChange(of: LogEntry.CallerDOB, initial: false) { old, value in
@@ -95,6 +98,7 @@ struct CallerDataView: View {
                         .fixedSize(horizontal: false, vertical: true)
                         .lineLimit(4, reservesSpace: true)
                         .autocorrectionDisabled(true)
+                        .showClearButton($LogEntry.CallerAdress)
                         .disabled(LogEntry.isLocked)
                     
                 }

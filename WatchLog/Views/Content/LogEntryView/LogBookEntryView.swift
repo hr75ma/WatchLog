@@ -28,12 +28,16 @@ struct LogBookEntryView: View {
   @State var alertClear = false
 
 
+    
   var body: some View {
 
     //        Text(Date.now, format: .dateTime.hour().minute().second())
     //       Text(exisitingLogBookEntry.uuid.uuidString)
     //   Text("currentuuid: \(currentUUID.uuid.uuidString)")
 
+
+      
+      
     ScrollView {
 
       VStack(alignment: .leading, spacing: 0) {
@@ -250,11 +254,12 @@ extension LogBookEntryView {
 }
 
 #Preview{
-  @Previewable @State var exisitingLogBookEntry = WatchLogBookEntry()
+  @Previewable @State var existingLogBookEntry = WatchLogBookEntry()
 
   let databaseService = DatabaseService()
   let viewModel = LogEntryViewModel(dataBaseService: databaseService)
-    LogBookEntryView(logBookEntry: exisitingLogBookEntry)
+    
+    LogBookEntryView(logBookEntry: existingLogBookEntry)
     .environmentObject(viewModel)
     .environment(\.appStyles, StylesLogEntry())
     .environment(\.displayedLogEntryUUID, DisplayedLogEntryID())
