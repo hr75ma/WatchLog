@@ -38,20 +38,12 @@ struct ContentView: View {
 
   @Environment(\.appStyles) var appStyles
 
-  @State private var testInt: Int = 0
-  @State private var testEntry: WatchLogBookEntry = WatchLogBookEntry()
+  @State private var logBookEntry: WatchLogBookEntry = WatchLogBookEntry()
   @State private var isNewEntry: Bool = false
 
-  @State var StandardDate: Date = Date()
-  @State var uuid: UUID = UUID()
-  @State var selected = WatchLogBookEntry()
-  @State var listOfEntry: [WatchLogBookYear] = []
-
-  @State var isLinkActive = false
   @State var alertNew = false
   @State var showSettingSheet = false
 
-  @State var selectedEntry: WatchLogBookEntry = WatchLogBookEntry()
 
   var body: some View {
 
@@ -106,23 +98,13 @@ struct ContentView: View {
         await viewModel.fetchLogBook()
 
       }
-      .onChange(
-        of: listOfEntry.count,
-        { oldValue, newValue in
-          Task {
-            await viewModel.fetchLogBook()
-            //listOfEntry = viewModel.LogBookEntryYears
-          }
-          print("-------> contentview ListofEntry")
-        }
-      )
       .listStyle(.sidebar)
       .scrollContentBackground(.hidden)
       //.background(Color.black.edgesIgnoringSafeArea(.all))
 
     } detail: {
 
-      LogBookEntryView(exisitingLogBookEntry: testEntry)
+      LogBookEntryView(exisitingLogBookEntry: logBookEntry)
     }
 
   }
@@ -185,7 +167,7 @@ struct ContentView: View {
 
   private func addNewLogEntry() {
     isNewEntry = true
-    testEntry = WatchLogBookEntry(uuid: UUID())
+    logBookEntry = WatchLogBookEntry(uuid: UUID())
 
   }
 
@@ -312,7 +294,7 @@ extension ContentView {
 
               Button(action: {
 
-                testEntry = entry
+                logBookEntry = entry
               }) {
                 Text(getDateTime(date: entry.LogDate))
               }
