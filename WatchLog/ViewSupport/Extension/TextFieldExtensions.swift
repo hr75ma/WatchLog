@@ -57,8 +57,8 @@ struct TextFieldLimitModifer: ViewModifier {
 }
 
 extension View {
-    func limitInputLength(value: Binding<String>, length: Int) -> some View {
-        self.modifier(TextFieldLimitModifer(text: value, length: length))
+    func limitInputLength(text: Binding<String>, length: Int) -> some View {
+        self.modifier(TextFieldLimitModifer(text: text, length: length))
     }
 }
 
@@ -76,8 +76,8 @@ struct TextFieldCheckOnNumbers: ViewModifier {
 }
     
 extension View {
-    func checkOnNumbers(value: Binding<String>) -> some View {
-        self.modifier(TextFieldCheckOnNumbers(text: value))
+    func checkOnNumbers(text: Binding<String>) -> some View {
+        self.modifier(TextFieldCheckOnNumbers(text: text))
     }
 }
 
