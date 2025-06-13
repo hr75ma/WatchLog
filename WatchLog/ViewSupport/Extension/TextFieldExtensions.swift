@@ -90,6 +90,14 @@ extension View {
 
 extension Text {
     
+    func TextLabel(font: String, fontSize: CGFloat, fontColor: Color) -> some View {
+        self
+            .font(Font.custom(font, size: fontSize))
+            .foregroundStyle(fontColor)
+            .multilineTextAlignment(.leading)
+            .lineLimit(1)
+            }
+    
     func SectionTextLabel(_ appStyles: StylesLogEntry) -> some View {
         self
             .font(Font.custom(appStyles.LabelFont, size: appStyles.TextFieldHeight))

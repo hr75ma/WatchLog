@@ -129,6 +129,10 @@ class StylesLogEntry {
     var NavigationTreeFontSize: CGFloat = 20
     var NavigationTreeFontColor: Color = Color.blue
     
+    var NavigationTreeSubFont: String = "Roboto-MediumItalic"
+    var NavigationTreeSubFontSize: CGFloat = 15
+    var NavigationTreeSubFontColor: Color = Color.white
+    
     
     //clear button for textfield
     var ClearButtonImage: String = "x.square.fill"//"multiply.circle.fill"
