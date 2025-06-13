@@ -48,7 +48,7 @@ struct ProcessTypeSelectionView: View {
           .pickerStyle(.wheel)
           .background(Color.clear) // Background color
            .foregroundColor(.blue)
-           .sec
+           
               
          
     
