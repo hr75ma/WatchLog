@@ -267,7 +267,7 @@ extension ContentView {
   func DisclosureGroupLogEntries(day: WatchLogBookDay) -> some View {
 
     DisclosureGroup(getDateWeekDay(date: day.LogDate)) {
-      ForEach(day.logEntriesSorted) { entry in
+        ForEach(day.logEntriesSorted) { entry in
         HStack {
 
           Button(action: {

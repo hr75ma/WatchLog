@@ -49,7 +49,6 @@ struct ProcessTypeSelectionView: View {
               Text(value).tag(key)
             }
           }
-
           .font(Font.custom(appStyles.ProcessTypeFont, size: appStyles.ProcessTypeFontHight))
           .foregroundStyle(appStyles.ProcessTypeFontColor)
           .background(appStyles.ProcessTypeBackgroundColor)
@@ -62,7 +61,7 @@ struct ProcessTypeSelectionView: View {
         .onAppear {
           withAnimation {
             print("animation onappear")
-            selectedProcess = LogEntry.processTypeShort
+              selectedProcess = LogEntry.processTypeShort
             selectedProcessHelper = selectedProcess
           }
         }
@@ -71,9 +70,14 @@ struct ProcessTypeSelectionView: View {
             selectedProcessHelper = selectedProcess
             print("animation onchange")
 
+            if newValue != oldValue {
+                //LogEntry.processTypeDetails = WatchLogProcessTypeDetails()
+              }
+              
+              
             switch newValue {
             case ProcessType.ProcessTypeShort.VU:
-              LogEntry.processTypeShort = ProcessType.ProcessTypeShort.VU
+                LogEntry.processTypeShort = ProcessType.ProcessTypeShort.VU
             case ProcessType.ProcessTypeShort.VUW:
               LogEntry.processTypeShort = ProcessType.ProcessTypeShort.VUW
             case ProcessType.ProcessTypeShort.KV:
@@ -94,7 +98,7 @@ struct ProcessTypeSelectionView: View {
         .onChange(of: LogEntry.uuid) { oldValue, newValue in
           withAnimation {
             print("animation onchange")
-            selectedProcess = LogEntry.processTypeShort
+              selectedProcess = LogEntry.processTypeShort
             selectedProcessHelper = selectedProcess
           }
         }
