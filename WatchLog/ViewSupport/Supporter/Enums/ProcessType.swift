@@ -14,6 +14,7 @@ struct ProcessType {
     
     enum ProcessTypeShort: Codable {
         case VU
+        case VUW
         case RUHE
         case KV
         case STRE
@@ -28,6 +29,7 @@ struct ProcessType {
     static let processTypes: [ProcessTypeShort: String]  = [
     ProcessTypeShort.UNKNOWN: "Sonstiges",
     ProcessTypeShort.VU: "Verkehrsunfall",
+    ProcessTypeShort.VUW: "Wildunfall",
     ProcessTypeShort.RUHE: "Ruhestörung",
     ProcessTypeShort.STRE: "Streitgkeiten",
     ProcessTypeShort.TIER: "Tier",
@@ -35,6 +37,7 @@ struct ProcessType {
     ProcessTypeShort.VERD: "Verdacht",
     ProcessTypeShort.GESB: "GESB",
     ProcessTypeShort.TRUNK: "316",
+    ProcessTypeShort.KV: "Körperverletzung",
     ]
 
     

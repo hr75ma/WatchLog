@@ -45,7 +45,7 @@ struct ProcessTypeSubVUView: View {
                 
             }
             //.isHidden(!LogEntry.isAccient, remove: true)
-            Spacer()
+            
             
             HStack(alignment: .center, spacing: 0) {
                 Text("Verletzte")

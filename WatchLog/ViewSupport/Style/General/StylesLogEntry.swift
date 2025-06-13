@@ -140,11 +140,16 @@ class StylesLogEntry {
     var NavigationTreeSubFontSize: CGFloat = 15
     var NavigationTreeSubFontColor: Color = Color.white
     
-    
     //clear button for textfield
     var ClearButtonImage: String = "x.square.fill"//"multiply.circle.fill"
     var ClearButtonColorActivePrimary: Color = Color.white
     var ClearButtonColorActiveSecondary: Color = Color.blue
+    
+    //Picker for ProcessType
+    var ProcessTypeFont: String = "Roboto-MediumItalic"
+    var ProcessTypeFontHight: CGFloat = 25
+    var ProcessTypeFontColor: Color = Color.blue
+    var ProcessTypeBackgroundColor: Color = Color.clear
     
     
     
