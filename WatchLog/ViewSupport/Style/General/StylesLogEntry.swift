@@ -37,6 +37,7 @@ class StylesLogEntry {
     
     var SectionCallerImage: String = "phone.badge.waveform.fill"
     var SectionAccidentImage: String = "car.fill"
+    var SectionProcessTypeImage: String = "rectangle.and.pencil.and.ellipsis"
     
     
     //generale layouts
@@ -68,6 +69,12 @@ class StylesLogEntry {
     var AccidentColorIsLockedSecondary: Color = Color.blue
     var AccidentColorIsUnLockedPrimary: Color = Color.blue
     var AccidentColorIsUnLockedSecondary: Color = Color.blue
+    
+    //Porcesstype Section
+    var ProcessTypeColorIsLockedPrimary: Color = Color.blue
+    var ProcessTypeColorIsLockedSecondary: Color = Color.blue
+    var ProcessTypeColorIsUnLockedPrimary: Color = Color.blue
+    var ProcessTypeColorIsUnLockedSecondary: Color = Color.blue
     
     //ToolbarItem
     var ToolBarEraserImageActive: String = "eraser"

@@ -47,8 +47,10 @@ struct LogBookEntryView: View {
         LockedView(LogEntry: viewModel.watchLogEntry)
 
         CallerDataView(LogEntry: viewModel.watchLogEntry)
+          
+        ProcessTypeSelectionView(LogEntry: viewModel.watchLogEntry)
 
-        AccidentSelectionView(LogEntry: viewModel.watchLogEntry)
+        //AccidentSelectionView(LogEntry: viewModel.watchLogEntry)
 
         NoteView(
           WatchLog: viewModel.watchLogEntry, drawing: $viewModel.watchLogEntry.pkDrawingData,

@@ -90,6 +90,18 @@ extension View {
 
 extension Text {
     
+    func SectionTextLabelSecond(_ appStyles: StylesLogEntry) -> some View {
+      self
+        .font(Font.custom(appStyles.LabelFont, size: appStyles.TextFieldHeight2))
+        .foregroundStyle(appStyles.GeneralTextColor)
+        .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+        .multilineTextAlignment(.leading)
+        .lineLimit(1)
+        .fixedSize(horizontal: false, vertical: true)
+
+    }
+    
+    
     func TextLabel(font: String, fontSize: CGFloat, fontColor: Color) -> some View {
         self
             .font(Font.custom(font, size: fontSize))
@@ -122,6 +134,8 @@ extension Text {
 
 extension TextField {
     
+    
+    
     func SectionTextFieldSingleLine(_ appStyles: StylesLogEntry, isLocked: Bool) -> some View {
         self
             .font(Font.custom(appStyles.TextFieldFont, size: appStyles.TextFieldHeight))
@@ -141,5 +155,38 @@ extension TextField {
             .background(appStyles.TextfieldBackgroundColorUnLocked)
             .fixedSize(horizontal: false, vertical: true)
             .textContentType(.telephoneNumber)
+    }
+    
+    func SectionTextFieldSingleLineSecond(_ appStyles: StylesLogEntry)
+      -> some View
+    {
+      self
+        .font(Font.custom(appStyles.TextFieldFont, size: appStyles.TextFieldHeight2))
+        .textInputAutocapitalization(.characters)
+        .lineLimit(1)
+        .foregroundStyle(appStyles.GeneralTextColor)
+        .background(appStyles.TextfieldBackgroundColor)
+        .fixedSize(horizontal: false, vertical: true)
+        .textContentType(.telephoneNumber)
+    }
+
+    func SectionTextFieldSingleLineSecond(
+      _ appStyles: StylesLogEntry, isLocked: Bool
+    )
+      -> some View
+    {
+      self
+        .font(Font.custom(appStyles.TextFieldFont, size: appStyles.TextFieldHeight2))
+        .textInputAutocapitalization(.characters)
+        .lineLimit(1)
+        .foregroundStyle(appStyles.GeneralTextColor)
+        .background(
+          isLocked
+            ? appStyles.TextfieldBackgroundColorLocked
+            : appStyles.TextfieldBackgroundColorUnLocked
+        )
+        .fixedSize(horizontal: false, vertical: true)
+        .textContentType(.telephoneNumber)
+        .animation(.easeInOut(duration: 1), value: isLocked)
     }
 }

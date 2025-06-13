@@ -24,13 +24,17 @@ class WatchLogBookEntry: Identifiable, Hashable {
     var CallerAdress: String = ""
     var CallerDOB: Date?
 
-    var AccientInjured: Bool = false
+    //var AccientInjured: Bool = false
     var AccientHitAndRun: Bool = false
     var AccientLicensePlate01: String = ""
     var AccientLicensePlate02: String = ""
-    var isAccient: Bool = false
+    //var isAccient: Bool = false
+    
+    var isInjured: Bool = false
+    
+    
     var isLocked: Bool = false
-    var processTypeShort: ProcessTypeShort = ProcessTypeShort.UNKNOWN
+    var processTypeShort: ProcessType.ProcessTypeShort = ProcessType.ProcessTypeShort.UNKNOWN
 
     private var drawingData: Data = Data()
     var drawing: PKDrawing {
@@ -54,11 +58,13 @@ class WatchLogBookEntry: Identifiable, Hashable {
         CallerAdress = LogEntry.CallerAdress
         CallerDOB = LogEntry.getDateFromDOB()
         
-        isAccient = LogEntry.isAccient
-        AccientInjured = LogEntry.AccientInjured
+        //isAccient = LogEntry.isAccient
+        //AccientInjured = LogEntry.AccientInjured
         AccientHitAndRun = LogEntry.AccientHitAndRun
         AccientLicensePlate01 = LogEntry.AccientLicensePlate01
         AccientLicensePlate02 = LogEntry.AccientLicensePlate02
+        
+        isInjured = LogEntry.isInjured
         
         processTypeShort = LogEntry.processTypeShort
         
@@ -79,11 +85,13 @@ class WatchLogBookEntry: Identifiable, Hashable {
         CallerAdress = LogEntry.CallerAdress
         CallerDOB = LogEntry.getDateFromDOB()
         
-        isAccient = LogEntry.isAccient
-        AccientInjured = LogEntry.AccientInjured
+        //isAccient = LogEntry.isAccient
+        //AccientInjured = LogEntry.AccientInjured
         AccientHitAndRun = LogEntry.AccientHitAndRun
         AccientLicensePlate01 = LogEntry.AccientLicensePlate01
         AccientLicensePlate02 = LogEntry.AccientLicensePlate02
+        
+        isInjured = LogEntry.isInjured
         
         processTypeShort = LogEntry.processTypeShort
         
@@ -104,13 +112,15 @@ class WatchLogBookEntry: Identifiable, Hashable {
         CallerAdress = ""
         CallerDOB = Date()
         
-        isAccient = false
-        AccientInjured = false
+       // isAccient = false
+       // AccientInjured = false
         AccientHitAndRun = false
         AccientLicensePlate01 = ""
         AccientLicensePlate02 = ""
         
-        processTypeShort = ProcessTypeShort.UNKNOWN
+        isInjured = false
+        
+        processTypeShort = ProcessType.ProcessTypeShort.UNKNOWN
         
         isLocked = false
         
@@ -129,13 +139,15 @@ class WatchLogBookEntry: Identifiable, Hashable {
         CallerAdress = ""
         CallerDOB = nil
         
-        isAccient = false
-        AccientInjured = false
+        //isAccient = false
+        //AccientInjured = false
         AccientHitAndRun = false
         AccientLicensePlate01 = ""
         AccientLicensePlate02 = ""
         
-        processTypeShort = ProcessTypeShort.UNKNOWN
+        isInjured = false
+        
+        processTypeShort = ProcessType.ProcessTypeShort.UNKNOWN
         
         isLocked = false
         
@@ -154,11 +166,13 @@ class WatchLogBookEntry: Identifiable, Hashable {
         CallerAdress = LogEntry.CallerAdress
         CallerDOB = LogEntry.getDateFromDOB()
         
-        isAccient = LogEntry.isAccient
-        AccientInjured = LogEntry.AccientInjured
+        //isAccient = LogEntry.isAccient
+        //AccientInjured = LogEntry.AccientInjured
         AccientHitAndRun = LogEntry.AccientHitAndRun
         AccientLicensePlate01 = LogEntry.AccientLicensePlate01
         AccientLicensePlate02 = LogEntry.AccientLicensePlate02
+        
+        isInjured = LogEntry.isInjured
         
         processTypeShort = LogEntry.processTypeShort
         
