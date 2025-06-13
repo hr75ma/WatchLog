@@ -22,7 +22,7 @@ struct ProcessTypeSubVUWView: View {
                 
                 TextField("", text: $LogEntry.precessTypeDetails.AccientLicensePlate01)
                     .SectionTextFieldSingleLineSecond(appStyles, isLocked: LogEntry.isLocked)
-                    .limitInputLength(text: $LogEntry.AccientLicensePlate01, length: 10)
+                    .limitInputLength(text: $LogEntry.precessTypeDetails.AccientLicensePlate01, length: 10)
                     .showClearButton($LogEntry.precessTypeDetails.AccientLicensePlate01)
                     .disabled(LogEntry.isLocked)
                 

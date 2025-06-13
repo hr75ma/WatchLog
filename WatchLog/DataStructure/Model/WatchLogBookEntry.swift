@@ -65,15 +65,7 @@ class WatchLogBookEntry: Identifiable, Hashable {
         CallerAdress = LogEntry.CallerAdress
         CallerDOB = LogEntry.getDateFromDOB()
         
-        //isAccient = LogEntry.isAccient
-        //AccientInjured = LogEntry.AccientInjured
-        AccientHitAndRun = LogEntry.AccientHitAndRun
-        AccientLicensePlate01 = LogEntry.AccientLicensePlate01
-        AccientLicensePlate02 = LogEntry.AccientLicensePlate02
         
-        isInjured = LogEntry.isInjured
-        
-        processTypeShort = LogEntry.processTypeShort
         
         isLocked = LogEntry.isLocked
         
@@ -96,15 +88,7 @@ class WatchLogBookEntry: Identifiable, Hashable {
         CallerAdress = LogEntry.CallerAdress
         CallerDOB = LogEntry.getDateFromDOB()
         
-        //isAccient = LogEntry.isAccient
-        //AccientInjured = LogEntry.AccientInjured
-        AccientHitAndRun = LogEntry.AccientHitAndRun
-        AccientLicensePlate01 = LogEntry.AccientLicensePlate01
-        AccientLicensePlate02 = LogEntry.AccientLicensePlate02
         
-        isInjured = LogEntry.isInjured
-        
-        processTypeShort = LogEntry.processTypeShort
         
         isLocked = LogEntry.isLocked
         
@@ -184,15 +168,12 @@ class WatchLogBookEntry: Identifiable, Hashable {
         CallerAdress = LogEntry.CallerAdress
         CallerDOB = LogEntry.getDateFromDOB()
         
-        //isAccient = LogEntry.isAccient
-        //AccientInjured = LogEntry.AccientInjured
-        AccientHitAndRun = LogEntry.AccientHitAndRun
-        AccientLicensePlate01 = LogEntry.AccientLicensePlate01
-        AccientLicensePlate02 = LogEntry.AccientLicensePlate02
-        
-        isInjured = LogEntry.isInjured
-        
-        processTypeShort = LogEntry.processTypeShort
+        processDetails!.AccientHitAndRun = LogEntry.precessTypeDetails.AccientHitAndRun
+        processDetails!.AccientLicensePlate01 = LogEntry.precessTypeDetails.AccientLicensePlate01
+        processDetails!.AccientLicensePlate02 = LogEntry.precessTypeDetails.AccientLicensePlate02
+        processDetails!.isAnimaleLiving = LogEntry.precessTypeDetails.isAnimaleLiving
+        processDetails!.isInjured = LogEntry.precessTypeDetails.isInjured
+        processDetails!.processTypeShort = LogEntry.precessTypeDetails.processTypeShort
         
         isLocked = true
         

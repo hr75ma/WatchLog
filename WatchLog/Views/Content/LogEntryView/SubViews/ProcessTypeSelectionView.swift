@@ -71,7 +71,7 @@ struct ProcessTypeSelectionView: View {
             print("animation onchange")
 
             if newValue != oldValue {
-                LogEntry.precessTypeDetails.clear()
+               // LogEntry.precessTypeDetails.clear()
               }
               
               
@@ -93,7 +93,7 @@ struct ProcessTypeSelectionView: View {
         }
         .onChange(of: LogEntry.uuid) { oldValue, newValue in
           withAnimation {
-            print("animation onchange")
+            print("animation onchange uuid")
               selectedProcess = LogEntry.precessTypeDetails.processTypeShort
             selectedProcessHelper = selectedProcess
           }

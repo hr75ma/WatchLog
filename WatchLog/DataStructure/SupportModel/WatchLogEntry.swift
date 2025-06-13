@@ -21,15 +21,7 @@ class WatchLogEntry {
   var CallerAdress: String = ""
   var CallerDOB: String = ""
 
-  //var isAccient: Bool = false
-  //var AccientInjured: Bool = false
-  var AccientHitAndRun: Bool = false
-  var AccientLicensePlate01: String = ""
-  var AccientLicensePlate02: String = ""
-
-  var isInjured: Bool = false
-
-  var processTypeShort: ProcessType.ProcessTypeShort = ProcessType.ProcessTypeShort.UNKNOWN
+  
     var precessTypeDetails: WatchLogProcessTypeDetails = WatchLogProcessTypeDetails()
 
   var isLocked: Bool = false
@@ -63,17 +55,9 @@ class WatchLogEntry {
     CallerAdress = watchLookBookEntry.CallerAdress
     CallerDOB = watchLookBookEntry.getDOBFromDate()
 
-    //AccientInjured = watchLookBookEntry.AccientInjured
-    AccientHitAndRun = watchLookBookEntry.AccientHitAndRun
-    AccientLicensePlate01 = watchLookBookEntry.AccientLicensePlate01
-    AccientLicensePlate02 = watchLookBookEntry.AccientLicensePlate02
+    
 
-    processTypeShort = watchLookBookEntry.processTypeShort
       precessTypeDetails = WatchLogProcessTypeDetails(processTypeDetails: watchLookBookEntry.processDetails!)
-
-    //isAccient = watchLookBookEntry.isAccient
-
-    isInjured = watchLookBookEntry.isInjured
 
     isLocked = watchLookBookEntry.isLocked
 
@@ -96,15 +80,7 @@ class WatchLogEntry {
 
     isLocked = false
 
-    //isAccient = false
-    //AccientInjured = false
-    AccientHitAndRun = false
-    AccientLicensePlate01 = ""
-    AccientLicensePlate02 = ""
-
-    isInjured = false
-
-    processTypeShort = ProcessType.ProcessTypeShort.UNKNOWN
+    
       precessTypeDetails = WatchLogProcessTypeDetails()
 
     //drawingData = Data()
