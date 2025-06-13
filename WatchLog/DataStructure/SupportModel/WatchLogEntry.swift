@@ -26,10 +26,11 @@ class WatchLogEntry {
   var AccientHitAndRun: Bool = false
   var AccientLicensePlate01: String = ""
   var AccientLicensePlate02: String = ""
-    
-    var isInjured: Bool = false
 
-    var processTypeShort: ProcessType.ProcessTypeShort = ProcessType.ProcessTypeShort.UNKNOWN
+  var isInjured: Bool = false
+
+  var processTypeShort: ProcessType.ProcessTypeShort = ProcessType.ProcessTypeShort.UNKNOWN
+    var precessTypeDetails: WatchLogProcessTypeDetails = WatchLogProcessTypeDetails()
 
   var isLocked: Bool = false
 
@@ -68,11 +69,12 @@ class WatchLogEntry {
     AccientLicensePlate02 = watchLookBookEntry.AccientLicensePlate02
 
     processTypeShort = watchLookBookEntry.processTypeShort
+      precessTypeDetails = WatchLogProcessTypeDetails(processTypeDetails: watchLookBookEntry.processDetails!)
 
     //isAccient = watchLookBookEntry.isAccient
-      
+
     isInjured = watchLookBookEntry.isInjured
-      
+
     isLocked = watchLookBookEntry.isLocked
 
     //drawingData = WatchLookBookEntry.drawingData
@@ -99,10 +101,11 @@ class WatchLogEntry {
     AccientHitAndRun = false
     AccientLicensePlate01 = ""
     AccientLicensePlate02 = ""
-      
-      isInjured = false
 
-      processTypeShort = ProcessType.ProcessTypeShort.UNKNOWN
+    isInjured = false
+
+    processTypeShort = ProcessType.ProcessTypeShort.UNKNOWN
+      precessTypeDetails = WatchLogProcessTypeDetails()
 
     //drawingData = Data()
     pkDrawingData = PKDrawing()

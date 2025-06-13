@@ -39,7 +39,6 @@ struct ProcessTypeSelectionView: View {
             .frame(alignment: .topLeading)
 
           Picker("", selection: $selectedProcess) {
-
             ForEach(
               Array(
                 ProcessType.processTypes.sorted { (first, second) -> Bool in
@@ -49,19 +48,20 @@ struct ProcessTypeSelectionView: View {
               Text(value).tag(key)
             }
           }
+          .pickerStyle(.wheel)
           .font(Font.custom(appStyles.ProcessTypeFont, size: appStyles.ProcessTypeFontHight))
           .foregroundStyle(appStyles.ProcessTypeFontColor)
           .background(appStyles.ProcessTypeBackgroundColor)
-          .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-          .pickerStyle(.wheel)
-
+          
+          //.padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+          
           Spacer()
 
         }
         .onAppear {
           withAnimation {
             print("animation onappear")
-              selectedProcess = LogEntry.processTypeShort
+              selectedProcess = LogEntry.precessTypeDetails.processTypeShort
             selectedProcessHelper = selectedProcess
           }
         }
@@ -71,34 +71,30 @@ struct ProcessTypeSelectionView: View {
             print("animation onchange")
 
             if newValue != oldValue {
-                //LogEntry.processTypeDetails = WatchLogProcessTypeDetails()
+                LogEntry.precessTypeDetails.clear()
               }
               
               
             switch newValue {
             case ProcessType.ProcessTypeShort.VU:
-                LogEntry.processTypeShort = ProcessType.ProcessTypeShort.VU
+                LogEntry.precessTypeDetails.processTypeShort = ProcessType.ProcessTypeShort.VU
             case ProcessType.ProcessTypeShort.VUW:
-              LogEntry.processTypeShort = ProcessType.ProcessTypeShort.VUW
+              LogEntry.precessTypeDetails.processTypeShort = ProcessType.ProcessTypeShort.VUW
             case ProcessType.ProcessTypeShort.KV:
-              LogEntry.processTypeShort = ProcessType.ProcessTypeShort.KV
+              LogEntry.precessTypeDetails.processTypeShort = ProcessType.ProcessTypeShort.KV
             case ProcessType.ProcessTypeShort.UNKNOWN:
-              LogEntry.processTypeShort = ProcessType.ProcessTypeShort.UNKNOWN
+              LogEntry.precessTypeDetails.processTypeShort = ProcessType.ProcessTypeShort.UNKNOWN
             default:
-              LogEntry.processTypeShort = ProcessType.ProcessTypeShort.UNKNOWN
+              LogEntry.precessTypeDetails.processTypeShort = ProcessType.ProcessTypeShort.UNKNOWN
             }
 
-            //            if newValue == ProcessType.ProcessTypeShort.VU {
-            //              LogEntry.processTypeShort = ProcessType.ProcessTypeShort.VU
-            //            } else {
-            //              LogEntry.processTypeShort = ProcessType.ProcessTypeShort.UNKNOWN
-            //            }
+
           }
         }
         .onChange(of: LogEntry.uuid) { oldValue, newValue in
           withAnimation {
             print("animation onchange")
-              selectedProcess = LogEntry.processTypeShort
+              selectedProcess = LogEntry.precessTypeDetails.processTypeShort
             selectedProcessHelper = selectedProcess
           }
         }
@@ -118,7 +114,7 @@ struct ProcessTypeSelectionView: View {
         }
         //.transition(.scale.animation(.easeInOut(duration: 3)))
         //.transition(AnyTransition.scale.animation(.easeInOut(duration: 1)))
-        .animation(.easeInOut(duration: 1), value: selectedProcessHelper)
+        .animation(.easeInOut(duration: 0.5), value: selectedProcessHelper)
 
       }
 

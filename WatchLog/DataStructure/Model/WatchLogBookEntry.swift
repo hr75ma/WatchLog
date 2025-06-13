@@ -17,6 +17,13 @@ class WatchLogBookEntry: Identifiable, Hashable {
     
     @Relationship(deleteRule: .nullify, inverse: \WatchLogBookDay.watchLogBookEntries) var watchLogBookDay: WatchLogBookDay?
     
+    @Relationship(deleteRule: .cascade) var processDetails: WatchLogBookProcessTypeDetails?
+    
+    
+    
+    
+    //var processDetails: WatchLogBookProcessTypeDetails
+    
     var LogDate: Date
 
     var CallerName: String = ""
@@ -73,6 +80,10 @@ class WatchLogBookEntry: Identifiable, Hashable {
         drawingData =  LogEntry.pkDrawingData.dataRepresentation()
         
         watchLogBookDay = day
+        
+        processDetails = WatchLogBookProcessTypeDetails(watchLogProcessTypeDetails: LogEntry.precessTypeDetails)
+        
+        
     }
     
     init(LogEntry: WatchLogEntry) {
@@ -100,6 +111,8 @@ class WatchLogBookEntry: Identifiable, Hashable {
         drawingData =  LogEntry.pkDrawingData.dataRepresentation()
         
         watchLogBookDay = WatchLogBookDay()
+        
+        processDetails = WatchLogBookProcessTypeDetails(watchLogProcessTypeDetails: LogEntry.precessTypeDetails)
     }
     
     init() {
@@ -127,6 +140,8 @@ class WatchLogBookEntry: Identifiable, Hashable {
         drawingData = Data()
         
         watchLogBookDay = WatchLogBookDay()
+        
+        processDetails = WatchLogBookProcessTypeDetails()
     }
     
     init(uuid: UUID) {
@@ -154,6 +169,9 @@ class WatchLogBookEntry: Identifiable, Hashable {
         drawingData = Data()
         
         watchLogBookDay = WatchLogBookDay()
+        
+        processDetails = WatchLogBookProcessTypeDetails()
+        
     }
     
     func update(LogEntry: WatchLogEntry) {

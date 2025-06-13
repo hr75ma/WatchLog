@@ -26,7 +26,7 @@ final class LogEntryViewModel: ObservableObject {
             await self.instanciateLogBook()
         }
         
-        //generateLogBookEntry()
+       // generateLogBookEntry()
     }
     
     

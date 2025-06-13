@@ -10,5 +10,16 @@
             </PersistentString>
          </PersistentStrings>
       </ContextState>
+      <ContextState
+         contextName = "closure #1 in closure #1 in closure #1 in ProcessTypeSelectionView.body.getter:ProcessTypeSelectionView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "selectedProcess">
+            </PersistentString>
+            <PersistentString
+               value = "LogEntry.precessTypeDetails.processTypeShort">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
    </ContextStates>
 </VariablesViewState>
