@@ -84,6 +84,20 @@ struct ProcessTypeSelectionView: View {
               LogEntry.precessTypeDetails.processTypeShort = ProcessType.ProcessTypeShort.KV
             case ProcessType.ProcessTypeShort.UNKNOWN:
               LogEntry.precessTypeDetails.processTypeShort = ProcessType.ProcessTypeShort.UNKNOWN
+            case ProcessType.ProcessTypeShort.TRUNK:
+                LogEntry.precessTypeDetails.processTypeShort = ProcessType.ProcessTypeShort.TRUNK
+            case ProcessType.ProcessTypeShort.RUHE:
+                LogEntry.precessTypeDetails.processTypeShort = ProcessType.ProcessTypeShort.RUHE
+            case ProcessType.ProcessTypeShort.STRE:
+                LogEntry.precessTypeDetails.processTypeShort = ProcessType.ProcessTypeShort.STRE
+            case ProcessType.ProcessTypeShort.TIER:
+                LogEntry.precessTypeDetails.processTypeShort = ProcessType.ProcessTypeShort.TIER
+            case ProcessType.ProcessTypeShort.ALDI:
+                LogEntry.precessTypeDetails.processTypeShort = ProcessType.ProcessTypeShort.ALDI
+            case ProcessType.ProcessTypeShort.VERD:
+                LogEntry.precessTypeDetails.processTypeShort = ProcessType.ProcessTypeShort.VERD
+            case ProcessType.ProcessTypeShort.GESB:
+                LogEntry.precessTypeDetails.processTypeShort = ProcessType.ProcessTypeShort.GESB
             default:
               LogEntry.precessTypeDetails.processTypeShort = ProcessType.ProcessTypeShort.UNKNOWN
             }
