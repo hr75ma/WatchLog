@@ -50,11 +50,12 @@ struct ProcessTypeSelectionView: View {
                     .foregroundStyle(appStyles.ProcessTypeFontColor)
             }
           }
-          .frame(width: .infinity, height: 150)
+          .frame(width: .infinity ,height: 150)
           .clipped()
           .pickerStyle(.wheel)
-          .background(appStyles.ProcessTypeBackgroundColor)
+          .background(LogEntry.isLocked ? appStyles.TextfieldBackgroundColorLocked : appStyles.TextfieldBackgroundColorUnLocked)
           .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+          .animation(.easeInOut(duration: 1),  value: LogEntry.isLocked)
         }
         .onAppear {
           withAnimation {

@@ -68,52 +68,55 @@ struct CallerDataView: View {
                         .frame(height: appStyles.TextFieldHeight, alignment: .center)
                         .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
                         
-                    
-                    DatePicker("", selection: $tempDOB, displayedComponents: [.date])
-                        .labelsHidden() // Hides the default label
-                        .colorMultiply(.blue)
-                                    .font(.system(size: 35, weight: .bold))
-                                    .frame(width: 300, height: 80)
-                                    .clipped()
-                                    //.scaleEffect(x: 1.2, y: 1.2)
-                                    //.presentationDetents([.medium])
-                        .datePickerStyle(WheelDatePickerStyle())
-                        .environment(\.locale, Locale.current)
-                        .animation(.easeInOut(duration: 1),  value: LogEntry.isLocked)
-                        .disabled(!withBirthday)
-                        .onChange(of: withBirthday) { old, value in
-                            if !withBirthday {
-                                LogEntry.CallerDOB = nil
-                            } else {
-                                LogEntry.CallerDOB = tempDOB
-                            }
-                        }
-                        .onChange(of: LogEntry.uuid) {
-                            if(LogEntry.CallerDOB == nil) {
-                                tempDOB = Date()
-                                withBirthday = false
-                            } else
-                            {
-                                tempDOB = LogEntry.CallerDOB!
-                                withBirthday = true
-                            }
-                        }
-                        .onChange(of: tempDOB) {
-                            if withBirthday {
-                                LogEntry.CallerDOB = tempDOB
-                            }
-                        }
-                        .onAppear() {
-                            if(LogEntry.CallerDOB == nil) {
-                                tempDOB = Date()
-                                withBirthday = false
-                            } else
-                            {
-                                tempDOB = LogEntry.CallerDOB!
-                                withBirthday = true
-                            }
-                        }
+                    ZStack {
                         
+                        
+                        DatePicker("", selection: $tempDOB, displayedComponents: [.date])
+                            .labelsHidden() // Hides the default label
+                            .colorMultiply(.blue)
+                            .font(.system(size: 35, weight: .bold))
+                            .frame(width: 300, height: 80)
+                            .clipped()
+                        //.scaleEffect(x: 1.2, y: 1.2)
+                        //.presentationDetents([.medium])
+                            .datePickerStyle(WheelDatePickerStyle())
+                            .environment(\.locale, Locale.current)
+                            .animation(.easeInOut(duration: 1),  value: LogEntry.isLocked)
+                            .disabled(!withBirthday)
+                            .onChange(of: withBirthday) { old, value in
+                                if !withBirthday {
+                                    LogEntry.CallerDOB = nil
+                                } else {
+                                    LogEntry.CallerDOB = tempDOB
+                                }
+                            }
+                            .onChange(of: LogEntry.uuid) {
+                                if(LogEntry.CallerDOB == nil) {
+                                    tempDOB = Date()
+                                    withBirthday = false
+                                } else
+                                {
+                                    tempDOB = LogEntry.CallerDOB!
+                                    withBirthday = true
+                                }
+                            }
+                            .onChange(of: tempDOB) {
+                                if withBirthday {
+                                    LogEntry.CallerDOB = tempDOB
+                                }
+                            }
+                            .onAppear() {
+                                if(LogEntry.CallerDOB == nil) {
+                                    tempDOB = Date()
+                                    withBirthday = false
+                                } else
+                                {
+                                    tempDOB = LogEntry.CallerDOB!
+                                    withBirthday = true
+                                }
+                            }
+                    }
+                    //.background(Color.red)
                         //.border(.red)
                     
 //                    TextField("", text: $LogEntry.CallerDOB)
