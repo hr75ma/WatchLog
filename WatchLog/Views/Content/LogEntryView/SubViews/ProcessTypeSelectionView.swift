@@ -50,14 +50,11 @@ struct ProcessTypeSelectionView: View {
                     .foregroundStyle(appStyles.ProcessTypeFontColor)
             }
           }
+          .frame(width: .infinity, height: 150)
+          .clipped()
           .pickerStyle(.wheel)
-          
           .background(appStyles.ProcessTypeBackgroundColor)
-
-          //.padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-
-          Spacer()
-
+          .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
         }
         .onAppear {
           withAnimation {
@@ -118,7 +115,7 @@ struct ProcessTypeSelectionView: View {
     }
     .disabled(LogEntry.isLocked)
     //.border(.brown)
-    .padding(EdgeInsets(top: 5, leading: 0, bottom: 10, trailing: 10))
+    .padding(EdgeInsets(top: 5, leading: 0, bottom: 10, trailing: 0))
     .overlay(
       Rectangle()
         .frame(height: appStyles.GeneralInnerFrameBorderWidth)  // Border thickness

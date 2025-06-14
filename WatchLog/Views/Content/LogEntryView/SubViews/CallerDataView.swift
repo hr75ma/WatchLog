@@ -48,6 +48,14 @@ struct CallerDataView: View {
                     Text("DOB")
                         .SectionTextLabel(appStyles)
                     
+                    DatePicker("", selection: $LogEntry.EntryTime, displayedComponents: [.date])
+                        .labelsHidden() // Hides the default label
+                        .colorMultiply(.blue)
+                                    .font(.system(size: 23, weight: .bold))
+                                    .frame(width: 250, height: 80)
+                                    .clipped()
+                        .datePickerStyle(WheelDatePickerStyle())
+                    
                     TextField("", text: $LogEntry.CallerDOB)
                         .SectionTextFieldSingleLine(appStyles, isLocked: LogEntry.isLocked)
                         .textInputAutocapitalization(.characters)
