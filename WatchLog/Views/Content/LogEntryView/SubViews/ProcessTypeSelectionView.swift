@@ -52,16 +52,16 @@ struct ProcessTypeSelectionView: View {
           .font(Font.custom(appStyles.ProcessTypeFont, size: appStyles.ProcessTypeFontHight))
           .foregroundStyle(appStyles.ProcessTypeFontColor)
           .background(appStyles.ProcessTypeBackgroundColor)
-          
+
           //.padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-          
+
           Spacer()
 
         }
         .onAppear {
           withAnimation {
             print("animation onappear")
-              selectedProcess = LogEntry.precessTypeDetails.processTypeShort
+            selectedProcess = LogEntry.processTypeDetails.processTypeShort
             selectedProcessHelper = selectedProcess
           }
         }
@@ -70,45 +70,17 @@ struct ProcessTypeSelectionView: View {
             selectedProcessHelper = selectedProcess
             print("animation onchange")
 
-              if newValue != LogEntry.precessTypeDetails.processTypeShort {
-                 LogEntry.precessTypeDetails.clear()
-              }
-              
-              
-            switch newValue {
-            case ProcessType.ProcessTypeShort.VU:
-                LogEntry.precessTypeDetails.processTypeShort = ProcessType.ProcessTypeShort.VU
-            case ProcessType.ProcessTypeShort.VUW:
-              LogEntry.precessTypeDetails.processTypeShort = ProcessType.ProcessTypeShort.VUW
-            case ProcessType.ProcessTypeShort.KV:
-              LogEntry.precessTypeDetails.processTypeShort = ProcessType.ProcessTypeShort.KV
-            case ProcessType.ProcessTypeShort.UNKNOWN:
-              LogEntry.precessTypeDetails.processTypeShort = ProcessType.ProcessTypeShort.UNKNOWN
-            case ProcessType.ProcessTypeShort.TRUNK:
-                LogEntry.precessTypeDetails.processTypeShort = ProcessType.ProcessTypeShort.TRUNK
-            case ProcessType.ProcessTypeShort.RUHE:
-                LogEntry.precessTypeDetails.processTypeShort = ProcessType.ProcessTypeShort.RUHE
-            case ProcessType.ProcessTypeShort.STRE:
-                LogEntry.precessTypeDetails.processTypeShort = ProcessType.ProcessTypeShort.STRE
-            case ProcessType.ProcessTypeShort.TIER:
-                LogEntry.precessTypeDetails.processTypeShort = ProcessType.ProcessTypeShort.TIER
-            case ProcessType.ProcessTypeShort.ALDI:
-                LogEntry.precessTypeDetails.processTypeShort = ProcessType.ProcessTypeShort.ALDI
-            case ProcessType.ProcessTypeShort.VERD:
-                LogEntry.precessTypeDetails.processTypeShort = ProcessType.ProcessTypeShort.VERD
-            case ProcessType.ProcessTypeShort.GESB:
-                LogEntry.precessTypeDetails.processTypeShort = ProcessType.ProcessTypeShort.GESB
-            default:
-              LogEntry.precessTypeDetails.processTypeShort = ProcessType.ProcessTypeShort.UNKNOWN
+            if newValue != LogEntry.processTypeDetails.processTypeShort {
+              LogEntry.processTypeDetails.clear()
+                LogEntry.processTypeDetails.processTypeShort = newValue
+                print(LogEntry.processTypeDetails.processTypeShort)
             }
-
-
           }
         }
         .onChange(of: LogEntry.uuid) { oldValue, newValue in
           withAnimation {
             print("animation onchange uuid")
-              selectedProcess = LogEntry.precessTypeDetails.processTypeShort
+            selectedProcess = LogEntry.processTypeDetails.processTypeShort
             selectedProcessHelper = selectedProcess
           }
         }

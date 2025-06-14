@@ -23,6 +23,20 @@ struct ProcessType {
         case VERD
         case GESB
         case TRUNK
+        case ALAR
+        case BETR
+        case BRAN
+        case ED
+        case CCB
+        case DAUF
+        case GEFV
+        case LADI
+        case VKKO
+        case RAND
+        case SABA
+        case VERM
+        case SUIV
+        case TES
         case UNKNOWN
     }
     
@@ -37,7 +51,23 @@ struct ProcessType {
     ProcessTypeShort.VERD: "Verdacht",
     ProcessTypeShort.GESB: "GESB",
     ProcessTypeShort.TRUNK: "316",
+    ProcessTypeShort.ALAR: "Alarm",
+    ProcessTypeShort.BETR: "Betrug",
+    ProcessTypeShort.BRAN: "Brand",
+    ProcessTypeShort.ED: "Einbruch",
+    ProcessTypeShort.CCB: "Call-Center-Betrug",
+    ProcessTypeShort.GEFV: "Gefahrenstelle",
+    ProcessTypeShort.DAUF: "Diebstahl an KfZ",
     ProcessTypeShort.KV: "Körperverletzung",
+    ProcessTypeShort.LADI: "Ladendiebstahl",
+    ProcessTypeShort.VKKO: "Verkehrskontrolle",
+    ProcessTypeShort.RAND: "Randalierer",
+    ProcessTypeShort.SABA: "Sachbeschädigung",
+    ProcessTypeShort.VERM: "Vermisste",
+    ProcessTypeShort.SUIV: "Suizidversuch",
+    ProcessTypeShort.TES: "Todesermittlung",
+    
+    
     ]
 
     

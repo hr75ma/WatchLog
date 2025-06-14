@@ -22,7 +22,7 @@ struct ProcessTypeSubKVView: View {
                         .fixedSize(horizontal: true, vertical: true)
                         .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 5))
                     
-                    Toggle("", isOn: $LogEntry.precessTypeDetails.isInjured)
+                    Toggle("", isOn: $LogEntry.processTypeDetails.isInjured)
                         .labelsHidden()
                         .toggleStyle(
                             ToggleStyleImage(

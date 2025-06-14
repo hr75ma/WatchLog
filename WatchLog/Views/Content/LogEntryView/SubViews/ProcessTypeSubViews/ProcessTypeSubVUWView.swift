@@ -20,10 +20,10 @@ struct ProcessTypeSubVUWView: View {
                     .SectionTextLabelSecond(appStyles)
                     .frame(width: 215, height: appStyles.TextFieldHeight2, alignment: .topLeading)
                 
-                TextField("", text: $LogEntry.precessTypeDetails.AccientLicensePlate01)
+                TextField("", text: $LogEntry.processTypeDetails.AccientLicensePlate01)
                     .SectionTextFieldSingleLineSecond(appStyles, isLocked: LogEntry.isLocked)
-                    .limitInputLength(text: $LogEntry.precessTypeDetails.AccientLicensePlate01, length: 10)
-                    .showClearButton($LogEntry.precessTypeDetails.AccientLicensePlate01)
+                    .limitInputLength(text: $LogEntry.processTypeDetails.AccientLicensePlate01, length: 10)
+                    .showClearButton($LogEntry.processTypeDetails.AccientLicensePlate01)
                     .disabled(LogEntry.isLocked)
                 
             }
@@ -34,7 +34,7 @@ struct ProcessTypeSubVUWView: View {
                     .fixedSize(horizontal: true, vertical: true)
                     .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 5))
                 
-                Toggle("", isOn: $LogEntry.precessTypeDetails.isInjured)
+                Toggle("", isOn: $LogEntry.processTypeDetails.isInjured)
                     .labelsHidden()
                     .toggleStyle(
                       ToggleStyleImage(

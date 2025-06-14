@@ -73,7 +73,7 @@ class WatchLogBookEntry: Identifiable, Hashable {
         
         watchLogBookDay = day
         
-        processDetails = WatchLogBookProcessTypeDetails(watchLogProcessTypeDetails: LogEntry.precessTypeDetails)
+        processDetails = WatchLogBookProcessTypeDetails(watchLogProcessTypeDetails: LogEntry.processTypeDetails)
         
         
     }
@@ -96,7 +96,7 @@ class WatchLogBookEntry: Identifiable, Hashable {
         
         watchLogBookDay = WatchLogBookDay()
         
-        processDetails = WatchLogBookProcessTypeDetails(watchLogProcessTypeDetails: LogEntry.precessTypeDetails)
+        processDetails = WatchLogBookProcessTypeDetails(watchLogProcessTypeDetails: LogEntry.processTypeDetails)
     }
     
     init() {
@@ -168,12 +168,12 @@ class WatchLogBookEntry: Identifiable, Hashable {
         CallerAdress = LogEntry.CallerAdress
         CallerDOB = LogEntry.getDateFromDOB()
         
-        processDetails!.AccientHitAndRun = LogEntry.precessTypeDetails.AccientHitAndRun
-        processDetails!.AccientLicensePlate01 = LogEntry.precessTypeDetails.AccientLicensePlate01
-        processDetails!.AccientLicensePlate02 = LogEntry.precessTypeDetails.AccientLicensePlate02
-        processDetails!.isAnimaleLiving = LogEntry.precessTypeDetails.isAnimaleLiving
-        processDetails!.isInjured = LogEntry.precessTypeDetails.isInjured
-        processDetails!.processTypeShort = LogEntry.precessTypeDetails.processTypeShort
+        processDetails!.AccientHitAndRun = LogEntry.processTypeDetails.AccientHitAndRun
+        processDetails!.AccientLicensePlate01 = LogEntry.processTypeDetails.AccientLicensePlate01
+        processDetails!.AccientLicensePlate02 = LogEntry.processTypeDetails.AccientLicensePlate02
+        processDetails!.isAnimaleLiving = LogEntry.processTypeDetails.isAnimaleLiving
+        processDetails!.isInjured = LogEntry.processTypeDetails.isInjured
+        processDetails!.processTypeShort = LogEntry.processTypeDetails.processTypeShort
         
         isLocked = true
         

@@ -22,7 +22,7 @@ class WatchLogEntry {
   var CallerDOB: String = ""
 
   
-    var precessTypeDetails: WatchLogProcessTypeDetails = WatchLogProcessTypeDetails()
+    var processTypeDetails: WatchLogProcessTypeDetails = WatchLogProcessTypeDetails()
 
   var isLocked: Bool = false
 
@@ -57,7 +57,7 @@ class WatchLogEntry {
 
     
 
-      precessTypeDetails = WatchLogProcessTypeDetails(processTypeDetails: watchLookBookEntry.processDetails!)
+      processTypeDetails = WatchLogProcessTypeDetails(processTypeDetails: watchLookBookEntry.processDetails!)
 
     isLocked = watchLookBookEntry.isLocked
 
@@ -81,7 +81,7 @@ class WatchLogEntry {
     isLocked = false
 
     
-      precessTypeDetails = WatchLogProcessTypeDetails()
+      processTypeDetails = WatchLogProcessTypeDetails()
 
     //drawingData = Data()
     pkDrawingData = PKDrawing()
