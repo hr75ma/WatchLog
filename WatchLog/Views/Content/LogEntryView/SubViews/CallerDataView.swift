@@ -13,7 +13,7 @@ struct CallerDataView: View {
   @Environment(\.appStyles) var appStyles
 
   @State private var withBirthday: Bool = true
-    @State private var with: Bool = true
+  @State private var with: Bool = true
   @State private var tempDOB: Date = Date()
 
   var body: some View {
@@ -53,23 +53,21 @@ struct CallerDataView: View {
           Text("DOB")
             .SectionTextLabel(appStyles)
 
-            
-                Toggle("", isOn: $withBirthday)
-                    .labelsHidden()
-                    .toggleStyle(
-                        ToggleStyleImage(
-                            isOnImage: appStyles.GeneralToggleIsActiveImage,
-                            isOffImage: appStyles.GeneralToggleIsUnactiveImage,
-                            isOnColorPrimary: appStyles.GeneralToggleIsActivePrimary,
-                            isOnColorSecondary: appStyles.GeneralToggleIsActiveSecondary,
-                            isOffColorPrimary: appStyles.GeneralToggleIsUnactivePrimary,
-                            isOffColorSecondary: appStyles.GeneralToggleIsUnactiveSecondary,
-                            isLocked: LogEntry.isLocked, isLockedColor: appStyles.ToogleIsLockedColor
-                        )
-                    )
-                    .frame(height: appStyles.TextFieldHeight)
-                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-          
+          Toggle("", isOn: $withBirthday)
+            .labelsHidden()
+            .toggleStyle(
+              ToggleStyleImage(
+                isOnImage: appStyles.GeneralToggleIsActiveImage,
+                isOffImage: appStyles.GeneralToggleIsUnactiveImage,
+                isOnColorPrimary: appStyles.GeneralToggleIsActivePrimary,
+                isOnColorSecondary: appStyles.GeneralToggleIsActiveSecondary,
+                isOffColorPrimary: appStyles.GeneralToggleIsUnactivePrimary,
+                isOffColorSecondary: appStyles.GeneralToggleIsUnactiveSecondary,
+                isLocked: LogEntry.isLocked, isLockedColor: appStyles.ToogleIsLockedColor
+              )
+            )
+            .frame(height: appStyles.TextFieldHeight)
+            .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
 
           VStack {
 
@@ -84,38 +82,38 @@ struct CallerDataView: View {
               .datePickerStyle(WheelDatePickerStyle())
               .environment(\.locale, Locale.current)
 
-              //                            .onChange(of: LogEntry.uuid) {
-              //                                withAnimation {
-              //                                    if(LogEntry.CallerDOB == nil) {
-              //                                        tempDOB = Date()
-              //                                        withBirthday = false
-              //                                    } else
-              //                                    {
-              //                                        tempDOB = LogEntry.CallerDOB!
-              //                                        withBirthday = true
-              //                                    }
-              //                                }
-              //                            }
-              //                            .onChange(of: tempDOB) {
-              //                                withAnimation {
-              //                                    print("1. onChang")
-              //                                        LogEntry.CallerDOB = tempDOB
-              //                                }
-              //                            }
-              //                            .onAppear() {
-              //                                withAnimation {
-              //                                    print("onapear")
-              //                                    if(LogEntry.CallerDOB == nil) {
-              //                                        tempDOB = Date()
-              //                                        withBirthday = false
-              //                                    } else
-              //                                    {
-              //                                        tempDOB = LogEntry.CallerDOB!
-              //                                        withBirthday = true
-              //                                    }
-              //                                }
-              //                            }
-              
+            //                            .onChange(of: LogEntry.uuid) {
+            //                                withAnimation {
+            //                                    if(LogEntry.CallerDOB == nil) {
+            //                                        tempDOB = Date()
+            //                                        withBirthday = false
+            //                                    } else
+            //                                    {
+            //                                        tempDOB = LogEntry.CallerDOB!
+            //                                        withBirthday = true
+            //                                    }
+            //                                }
+            //                            }
+            //                            .onChange(of: tempDOB) {
+            //                                withAnimation {
+            //                                    print("1. onChang")
+            //                                        LogEntry.CallerDOB = tempDOB
+            //                                }
+            //                            }
+            //                            .onAppear() {
+            //                                withAnimation {
+            //                                    print("onapear")
+            //                                    if(LogEntry.CallerDOB == nil) {
+            //                                        tempDOB = Date()
+            //                                        withBirthday = false
+            //                                    } else
+            //                                    {
+            //                                        tempDOB = LogEntry.CallerDOB!
+            //                                        withBirthday = true
+            //                                    }
+            //                                }
+            //                            }
+
           }
           .isHidden(!with, remove: true)
           .background(
@@ -128,6 +126,17 @@ struct CallerDataView: View {
           //.border(.red)
 
         }
+        .onChange(of: LogEntry.uuid) {
+          withAnimation {
+            if LogEntry.CallerDOB == nil {
+              tempDOB = Date()
+              withBirthday = false
+            } else {
+              tempDOB = LogEntry.CallerDOB!
+              withBirthday = true
+            }
+          }
+        }
         .onChange(of: tempDOB) {
           withAnimation {
             print("1. onChang")
@@ -139,12 +148,12 @@ struct CallerDataView: View {
             print("2. onChang")
             if !withBirthday {
               LogEntry.CallerDOB = nil
-                with = withBirthday
-                
+              with = withBirthday
+
             } else {
               LogEntry.CallerDOB = tempDOB
-                with = withBirthday
-                
+              with = withBirthday
+
             }
           }
         }
@@ -154,13 +163,13 @@ struct CallerDataView: View {
             if LogEntry.CallerDOB == nil {
               tempDOB = Date()
               withBirthday = false
-                with = withBirthday
+              with = withBirthday
             } else {
               tempDOB = LogEntry.CallerDOB!
               withBirthday = true
-                with = withBirthday
+              with = withBirthday
             }
-         }
+          }
         }
 
         HStack(alignment: .top, spacing: 0) {
