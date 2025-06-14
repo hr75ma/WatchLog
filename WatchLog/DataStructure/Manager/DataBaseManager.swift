@@ -533,6 +533,7 @@ func saveLogBookEntry(LogEntry: WatchLogEntry) -> Result<Void, Error> {
       }
 
       let log = WatchLogBookEntry(LogEntry: LogEntry, day: logDayEntry!)
+      
       modelContext.insert(log)
       //logDayEntry?.watchLogBookEntries?.append(log)
         logDayEntry?.addLogEntry(log)

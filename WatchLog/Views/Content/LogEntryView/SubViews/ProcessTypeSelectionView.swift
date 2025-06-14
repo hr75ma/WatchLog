@@ -70,8 +70,8 @@ struct ProcessTypeSelectionView: View {
             selectedProcessHelper = selectedProcess
             print("animation onchange")
 
-            if newValue != oldValue {
-               // LogEntry.precessTypeDetails.clear()
+              if newValue != LogEntry.precessTypeDetails.processTypeShort {
+                 LogEntry.precessTypeDetails.clear()
               }
               
               
