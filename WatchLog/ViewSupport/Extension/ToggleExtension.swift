@@ -132,6 +132,7 @@ struct ToggleStyleImage: ToggleStyle {
               .symbolEffect(.scale)
               .padding(EdgeInsets(top: 4, leading: 4, bottom: 4, trailing: 4))
       }
+      .animation(.easeInOut(duration: 1),  value: isLocked)
       .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
              
               .onTapGesture {

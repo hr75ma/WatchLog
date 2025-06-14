@@ -67,6 +67,7 @@ struct CallerDataView: View {
                         )
                         .frame(height: appStyles.TextFieldHeight, alignment: .center)
                         .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                        
                     
                     DatePicker("", selection: $tempDOB, displayedComponents: [.date])
                         .labelsHidden() // Hides the default label
@@ -78,6 +79,7 @@ struct CallerDataView: View {
                                     //.presentationDetents([.medium])
                         .datePickerStyle(WheelDatePickerStyle())
                         .environment(\.locale, Locale.current)
+                        .animation(.easeInOut(duration: 1),  value: LogEntry.isLocked)
                         .disabled(!withBirthday)
                         .onChange(of: withBirthday) { old, value in
                             if !withBirthday {
