@@ -46,11 +46,12 @@ struct ProcessTypeSelectionView: View {
                 }), id: \.key
             ) { key, value in
               Text(value).tag(key)
+                    .font(Font.custom(appStyles.ProcessTypeFont, size: appStyles.ProcessTypeFontHight))
+                    .foregroundStyle(appStyles.ProcessTypeFontColor)
             }
           }
           .pickerStyle(.wheel)
-          .font(Font.custom(appStyles.ProcessTypeFont, size: appStyles.ProcessTypeFontHight))
-          .foregroundStyle(appStyles.ProcessTypeFontColor)
+          
           .background(appStyles.ProcessTypeBackgroundColor)
 
           //.padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
