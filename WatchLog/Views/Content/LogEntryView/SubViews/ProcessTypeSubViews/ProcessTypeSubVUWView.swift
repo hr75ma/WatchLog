@@ -24,12 +24,11 @@ struct ProcessTypeSubVUWView: View {
                     .SectionTextFieldSingleLineSecond(appStyles, isLocked: LogEntry.isLocked)
                     .limitInputLength(text: $LogEntry.processTypeDetails.AccientLicensePlate01, length: 10)
                     .showClearButton($LogEntry.processTypeDetails.AccientLicensePlate01)
-                    .disabled(LogEntry.isLocked)
                 
             }
             
             HStack(alignment: .center, spacing: 0) {
-                Text("Reh lebt")
+                Text("Tier lebt")
                     .SectionTextLabelSecond(appStyles)
                     .fixedSize(horizontal: true, vertical: true)
                     .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 5))
@@ -48,7 +47,7 @@ struct ProcessTypeSubVUWView: View {
                       )
                     )
                     .frame(height: appStyles.TextFieldHeight2, alignment: .center)
-                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                    .padding(EdgeInsets(top: 10, leading: 0, bottom: 0, trailing: 0))
                 Spacer()
             }
         }

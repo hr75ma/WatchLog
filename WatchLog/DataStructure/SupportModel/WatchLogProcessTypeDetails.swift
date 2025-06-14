@@ -20,6 +20,7 @@ class WatchLogProcessTypeDetails {
     var AccientHitAndRun: Bool = false
     var AccientLicensePlate01: String = ""
     var AccientLicensePlate02: String = ""
+    var AlcoholConsumed: Bool = false
     //var isAccient: Bool = false
     
     var isInjured: Bool = false
@@ -35,6 +36,7 @@ class WatchLogProcessTypeDetails {
         AccientHitAndRun = false
         AccientLicensePlate01 = ""
         AccientLicensePlate02 = ""
+        AlcoholConsumed = false
         
         isInjured = false
         
@@ -51,6 +53,7 @@ class WatchLogProcessTypeDetails {
         AccientHitAndRun = processTypeDetails.AccientHitAndRun
         AccientLicensePlate01 = processTypeDetails.AccientLicensePlate01
         AccientLicensePlate02 = processTypeDetails.AccientLicensePlate02
+        AlcoholConsumed = processTypeDetails.AlcoholConsumed
         
         isInjured = processTypeDetails.isInjured
         
@@ -64,6 +67,7 @@ class WatchLogProcessTypeDetails {
         AccientHitAndRun = false
         AccientLicensePlate01 = ""
         AccientLicensePlate02 = ""
+        AlcoholConsumed = false
         
         isInjured = false
         

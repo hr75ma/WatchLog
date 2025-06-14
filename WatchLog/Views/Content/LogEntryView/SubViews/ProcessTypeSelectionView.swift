@@ -72,8 +72,8 @@ struct ProcessTypeSelectionView: View {
 
             if newValue != LogEntry.processTypeDetails.processTypeShort {
               LogEntry.processTypeDetails.clear()
-                LogEntry.processTypeDetails.processTypeShort = newValue
-                print(LogEntry.processTypeDetails.processTypeShort)
+              LogEntry.processTypeDetails.processTypeShort = newValue
+              print(LogEntry.processTypeDetails.processTypeShort)
             }
           }
         }
@@ -96,6 +96,16 @@ struct ProcessTypeSelectionView: View {
           ProcessTypeSubVUWView(LogEntry: LogEntry)
             .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
             .isHidden(ProcessType.ProcessTypeShort.VUW != selectedProcessHelper, remove: true)
+          ProcessTypeSubTRUNKView(LogEntry: LogEntry)
+            .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+            .isHidden(ProcessType.ProcessTypeShort.TRUNK != selectedProcessHelper, remove: true)
+          ProcessTypeSubVKKOView(LogEntry: LogEntry)
+            .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+            .isHidden(ProcessType.ProcessTypeShort.VKKO != selectedProcessHelper, remove: true)
+          ProcessTypeSubDAUFView(LogEntry: LogEntry)
+            .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+            .isHidden(ProcessType.ProcessTypeShort.DAUF != selectedProcessHelper, remove: true)
+            
 
         }
         //.transition(.scale.animation(.easeInOut(duration: 3)))

@@ -24,13 +24,7 @@ struct ProcessTypeSubVUView: View {
                     .SectionTextFieldSingleLineSecond(appStyles, isLocked: LogEntry.isLocked)
                     .limitInputLength(text: $LogEntry.processTypeDetails.AccientLicensePlate01, length: 10)
                     .showClearButton($LogEntry.processTypeDetails.AccientLicensePlate01)
-                    .disabled(LogEntry.isLocked)
-                
             }
-            //.transition(.opacity)
-            //.animation(.easeInOut(duration: 1), value: isAccientHidden)
-            //.isHidden(!LogEntry.isAccient, remove: true)
-            
             
             HStack(alignment: .center, spacing: 0) {
                 Text("Kennzeichen ON02")
@@ -41,11 +35,7 @@ struct ProcessTypeSubVUView: View {
                     .SectionTextFieldSingleLineSecond(appStyles, isLocked: LogEntry.isLocked)
                     .limitInputLength(text: $LogEntry.processTypeDetails.AccientLicensePlate02, length: 10)
                     .showClearButton($LogEntry.processTypeDetails.AccientLicensePlate02)
-                    .disabled(LogEntry.isLocked)
-                
             }
-            //.isHidden(!LogEntry.isAccient, remove: true)
-            
             
             HStack(alignment: .center, spacing: 0) {
                 Text("Verletzte")
@@ -68,7 +58,6 @@ struct ProcessTypeSubVUView: View {
                     )
                     .frame(height: appStyles.TextFieldHeight2, alignment: .center)
                     .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-                    .disabled(LogEntry.isLocked)
                 
                 Spacer()
                 
@@ -92,10 +81,32 @@ struct ProcessTypeSubVUView: View {
                     )
                     .frame(height: appStyles.TextFieldHeight2, alignment: .center)
                     .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-                    .disabled(LogEntry.isLocked)
+                
+                Spacer()
+                
+                Text("Alkohol/BtM")
+                    .SectionTextLabelSecond(appStyles)
+                    .fixedSize(horizontal: true, vertical: true)
+                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 5))
+                
+                Toggle("", isOn: $LogEntry.processTypeDetails.AlcoholConsumed)
+                    .labelsHidden()
+                    .toggleStyle(
+                      ToggleStyleImage(
+                          isOnImage: appStyles.AccidentImageisLocked,
+                          isOffImage: appStyles.AccidentImageisUnLocked,
+                          isOnColorPrimary: appStyles.AccidentColorIsLockedPrimary,
+                          isOnColorSecondary: appStyles.AccidentColorIsLockedSecondary,
+                          isOffColorPrimary: appStyles.AccidentColorIsUnLockedPrimary,
+                          isOffColorSecondary: appStyles.AccidentColorIsUnLockedSecondary,
+                          isLocked: LogEntry.isLocked, isLockedColor: appStyles.ToogleIsLockedColor
+                      )
+                    )
+                    .frame(height: appStyles.TextFieldHeight2, alignment: .center)
+                    .padding(EdgeInsets(top: 10, leading: 0, bottom: 0, trailing: 0))
             }
-            
-            //        .isHidden(!LogEntry.isAccient, remove: true)
         }
+        .disabled(LogEntry.isLocked)
     }
+
 }

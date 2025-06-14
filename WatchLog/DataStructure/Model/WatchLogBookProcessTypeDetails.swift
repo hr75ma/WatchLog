@@ -28,7 +28,7 @@ class WatchLogBookProcessTypeDetails: Identifiable, Hashable {
     var AccientHitAndRun: Bool = false
     var AccientLicensePlate01: String = ""
     var AccientLicensePlate02: String = ""
-    //var isAccient: Bool = false
+    var AlcoholConsumed:Bool = false
     
     var isInjured: Bool = false
     
@@ -45,7 +45,7 @@ class WatchLogBookProcessTypeDetails: Identifiable, Hashable {
         AccientHitAndRun = false
         AccientLicensePlate01 = ""
         AccientLicensePlate02 = ""
-        //var isAccient: Bool = false
+        AlcoholConsumed = false
         
         isInjured = false
         
@@ -62,7 +62,7 @@ class WatchLogBookProcessTypeDetails: Identifiable, Hashable {
         AccientHitAndRun = watchLogProcessTypeDetails.AccientHitAndRun
         AccientLicensePlate01 = watchLogProcessTypeDetails.AccientLicensePlate01
         AccientLicensePlate02 = watchLogProcessTypeDetails.AccientLicensePlate02
-        //var isAccient: Bool = false
+        AlcoholConsumed = watchLogProcessTypeDetails.AlcoholConsumed
         
         isInjured = watchLogProcessTypeDetails.isInjured
         
