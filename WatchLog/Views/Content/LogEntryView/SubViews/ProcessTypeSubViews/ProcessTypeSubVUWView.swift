@@ -16,7 +16,7 @@ struct ProcessTypeSubVUWView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 5) {
             HStack(alignment: .center, spacing: 0) {
-                Text("Kennzeichen ON01")
+                Text("Kennzeichen")
                     .SectionTextLabelSecond(appStyles)
                     .frame(width: 215, height: appStyles.TextFieldHeight2, alignment: .topLeading)
                 
@@ -51,6 +51,8 @@ struct ProcessTypeSubVUWView: View {
                 Spacer()
             }
         }
+        .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+        .frame(width: .infinity)
         .disabled(LogEntry.isLocked)
     }
 }

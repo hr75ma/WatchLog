@@ -50,7 +50,7 @@ struct ProcessTypeSelectionView: View {
                     .foregroundStyle(appStyles.ProcessTypeFontColor)
             }
           }
-          .frame(width: .infinity ,height: 150)
+          .frame(height: 150)
           .clipped()
           .pickerStyle(.wheel)
           .background(LogEntry.isLocked ? appStyles.TextfieldBackgroundColorLocked : appStyles.TextfieldBackgroundColorUnLocked)
@@ -83,9 +83,9 @@ struct ProcessTypeSelectionView: View {
             selectedProcessHelper = selectedProcess
           }
         }
-        .padding(EdgeInsets(top: 6, leading: 0, bottom: 0, trailing: 10))
+        .padding(EdgeInsets(top: 6, leading: 0, bottom: 0, trailing: 0))
 
-        VStack {
+        HStack {
           ProcessTypeSubVUView(LogEntry: LogEntry)
             .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
             .isHidden(ProcessType.ProcessTypeShort.VU != selectedProcessHelper, remove: true)
@@ -107,8 +107,7 @@ struct ProcessTypeSelectionView: View {
             
 
         }
-        //.transition(.scale.animation(.easeInOut(duration: 3)))
-        //.transition(AnyTransition.scale.animation(.easeInOut(duration: 1)))
+        .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
         .animation(.easeInOut(duration: 0.5), value: selectedProcessHelper)
 
       }
@@ -116,7 +115,7 @@ struct ProcessTypeSelectionView: View {
     }
     .disabled(LogEntry.isLocked)
     //.border(.brown)
-    .padding(EdgeInsets(top: 5, leading: 0, bottom: 10, trailing: 0))
+    .padding(EdgeInsets(top: 5, leading: 0, bottom: 10, trailing: 10))
     .overlay(
       Rectangle()
         .frame(height: appStyles.GeneralInnerFrameBorderWidth)  // Border thickness

@@ -19,7 +19,6 @@ struct LogBookEntryView: View {
 
   @Environment(\.dismiss) var dismiss
 
-
   @State var toolPickerShows = true
   @State var drawing = PKDrawing()
 
@@ -27,17 +26,12 @@ struct LogBookEntryView: View {
   @State var alertNew = false
   @State var alertClear = false
 
-
-    
   var body: some View {
 
     //        Text(Date.now, format: .dateTime.hour().minute().second())
     //       Text(exisitingLogBookEntry.uuid.uuidString)
     //   Text("currentuuid: \(currentUUID.uuid.uuidString)")
 
-
-      
-      
     ScrollView {
 
       VStack(alignment: .leading, spacing: 0) {
@@ -47,10 +41,8 @@ struct LogBookEntryView: View {
         LockedView(LogEntry: viewModel.watchLogEntry)
 
         CallerDataView(LogEntry: viewModel.watchLogEntry)
-          
-        ProcessTypeSelectionView(LogEntry: viewModel.watchLogEntry)
 
-        //AccidentSelectionView(LogEntry: viewModel.watchLogEntry)
+        ProcessTypeSelectionView(LogEntry: viewModel.watchLogEntry)
 
         NoteView(
           WatchLog: viewModel.watchLogEntry, drawing: $viewModel.watchLogEntry.pkDrawingData,
@@ -182,7 +174,7 @@ extension LogBookEntryView {
 
   private var ContextButton: some View {
 
-      Image(systemName: appStyles.ToolbarContextImage)
+    Image(systemName: appStyles.ToolbarContextImage)
       .symbolRenderingMode(.palette)
       .resizable()
       .scaledToFit()
@@ -260,8 +252,8 @@ extension LogBookEntryView {
 
   let databaseService = DatabaseService()
   let viewModel = LogEntryViewModel(dataBaseService: databaseService)
-    
-    LogBookEntryView(logBookEntry: existingLogBookEntry)
+
+  LogBookEntryView(logBookEntry: existingLogBookEntry)
     .environmentObject(viewModel)
     .environment(\.appStyles, StylesLogEntry())
     .environment(\.displayedLogEntryUUID, DisplayedLogEntryID())

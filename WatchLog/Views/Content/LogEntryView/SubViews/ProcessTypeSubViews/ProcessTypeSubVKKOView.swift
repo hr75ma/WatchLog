@@ -18,7 +18,7 @@ import SwiftUI
                 HStack(alignment: .center, spacing: 0) {
                     Text("Kennzeichen")
                         .SectionTextLabelSecond(appStyles)
-                        .frame(width: 215, height: appStyles.TextFieldHeight2, alignment: .topLeading)
+                        .frame(width: 200, height: appStyles.TextFieldHeight2, alignment: .topLeading)
                     
                     TextField("", text: $LogEntry.processTypeDetails.AccientLicensePlate01)
                         .SectionTextFieldSingleLineSecond(appStyles, isLocked: LogEntry.isLocked)
