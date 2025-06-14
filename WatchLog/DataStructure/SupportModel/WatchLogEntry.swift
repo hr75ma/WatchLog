@@ -19,7 +19,7 @@ class WatchLogEntry {
   var CallerName: String = ""
   var CallerNumber: String = ""
   var CallerAdress: String = ""
-  var CallerDOB: String = ""
+  var CallerDOB: Date?
 
   
     var processTypeDetails: WatchLogProcessTypeDetails = WatchLogProcessTypeDetails()
@@ -53,7 +53,7 @@ class WatchLogEntry {
     CallerName = watchLookBookEntry.CallerName
     CallerNumber = watchLookBookEntry.CallerNumber
     CallerAdress = watchLookBookEntry.CallerAdress
-    CallerDOB = watchLookBookEntry.getDOBFromDate()
+      CallerDOB = watchLookBookEntry.CallerDOB
 
     
 
@@ -76,7 +76,7 @@ class WatchLogEntry {
     CallerName = ""
     CallerNumber = ""
     CallerAdress = ""
-    CallerDOB = ""
+    CallerDOB = nil
 
     isLocked = false
 
@@ -92,15 +92,15 @@ class WatchLogEntry {
     initialValues()
   }
 
-  public func getDateFromDOB() -> Date? {
-    let dateFormatter = DateFormatter()
-    dateFormatter.dateFormat = "dd.MM.YYYY"
-    if !self.CallerDOB.isEmpty {
-      return dateFormatter.date(from: self.CallerDOB)!
-    } else {
-      return nil
-    }
-
-  }
+//  public func getDateFromDOB() -> Date? {
+//    let dateFormatter = DateFormatter()
+//    dateFormatter.dateFormat = "dd.MM.YYYY"
+//    if !self.CallerDOB.isEmpty {
+//      return dateFormatter.date(from: self.CallerDOB)!
+//    } else {
+//      return nil
+//    }
+//
+//  }
 
 }

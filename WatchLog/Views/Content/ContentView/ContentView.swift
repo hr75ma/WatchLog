@@ -25,7 +25,7 @@ import SwiftUI
     .environmentObject(viewModel)
     .environment(\.appStyles, StylesLogEntry())
     .environment(\.displayedLogEntryUUID, DisplayedLogEntryID())
-
+    //.environment(\.locale, .init(identifier: "us"))
 }
 
 struct ContentView: View {

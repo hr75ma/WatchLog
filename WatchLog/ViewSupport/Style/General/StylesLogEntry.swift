@@ -26,6 +26,13 @@ class StylesLogEntry {
     
     var TextFieldFontHeight: CGFloat = 32
     
+    var GeneralToggleIsActiveImage: String = "checkmark.rectangle"
+    var GeneralToggleIsUnactiveImage: String = "rectangle"
+    var GeneralToggleIsActivePrimary: Color = Color.green
+    var GeneralToggleIsActiveSecondary: Color = Color.blue
+    var GeneralToggleIsUnactivePrimary: Color = Color.blue
+    var GeneralToggleIsUnactiveSecondary: Color = Color.blue
+    
     
     var LabelFont: String = "digital-7"
     var LabelFontSize: CGFloat = 45

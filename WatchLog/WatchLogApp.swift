@@ -27,6 +27,7 @@ struct WatchLogApp: App {
                 //ContentView()
     }
         .environmentObject(viewModel)
+
     
     }
 }

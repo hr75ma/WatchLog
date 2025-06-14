@@ -63,7 +63,7 @@ class WatchLogBookEntry: Identifiable, Hashable {
         CallerName = LogEntry.CallerName
         CallerNumber = LogEntry.CallerNumber
         CallerAdress = LogEntry.CallerAdress
-        CallerDOB = LogEntry.getDateFromDOB()
+        CallerDOB = LogEntry.CallerDOB
         
         
         
@@ -86,7 +86,7 @@ class WatchLogBookEntry: Identifiable, Hashable {
         CallerName = LogEntry.CallerName
         CallerNumber = LogEntry.CallerNumber
         CallerAdress = LogEntry.CallerAdress
-        CallerDOB = LogEntry.getDateFromDOB()
+        CallerDOB = LogEntry.CallerDOB
         
         
         
@@ -107,7 +107,7 @@ class WatchLogBookEntry: Identifiable, Hashable {
         CallerName = ""
         CallerNumber = ""
         CallerAdress = ""
-        CallerDOB = Date()
+        CallerDOB = nil
         
        // isAccient = false
        // AccientInjured = false
@@ -166,7 +166,7 @@ class WatchLogBookEntry: Identifiable, Hashable {
         CallerName = LogEntry.CallerName
         CallerNumber = LogEntry.CallerNumber
         CallerAdress = LogEntry.CallerAdress
-        CallerDOB = LogEntry.getDateFromDOB()
+        CallerDOB = LogEntry.CallerDOB
         
         processDetails!.AccientHitAndRun = LogEntry.processTypeDetails.AccientHitAndRun
         processDetails!.AccientLicensePlate01 = LogEntry.processTypeDetails.AccientLicensePlate01
@@ -180,15 +180,15 @@ class WatchLogBookEntry: Identifiable, Hashable {
         drawingData = LogEntry.pkDrawingData.dataRepresentation()
     }
     
-    func getDOBFromDate() -> String {
-        if(self.CallerDOB != nil) {
-            let dateFormatter = DateFormatter()
-            dateFormatter.locale = Locale(identifier: "de_DE_POSIX")
-            dateFormatter.dateFormat = "dd.MM.YYYY"
-            return dateFormatter.string(from: self.CallerDOB!)
-        }
-        return ""
-      }
+//    func getDOBFromDate() -> String {
+//        if(self.CallerDOB != nil) {
+//            let dateFormatter = DateFormatter()
+//            dateFormatter.locale = Locale(identifier: "de_DE_POSIX")
+//            dateFormatter.dateFormat = "dd.MM.YYYY"
+//            return dateFormatter.string(from: self.CallerDOB!)
+//        }
+//        return ""
+//      }
     
     
 

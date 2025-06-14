@@ -3,9 +3,6 @@
    version = "1.0">
    <ContextStates>
       <ContextState
-         contextName = "closure #1 in closure #2 in closure #1 in closure #1 in closure #1 in ContentView.DisclosureGroupLogEntries(day:):ContentView.swift">
-      </ContextState>
-      <ContextState
          contextName = "DataBaseManager.().init():DataBaseManager.swift">
       </ContextState>
       <ContextState
@@ -20,18 +17,37 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "closure #1 in closure #1 in ProcessTypeSubVUView.body.getter:ProcessTypeSubVUView.swift">
+         contextName = "closure #3 in closure #1 in closure #1 in CallerDataView.body.getter:CallerDataView.swift">
          <PersistentStrings>
             <PersistentString
-               value = "$LogEntry.precessTypeDetails.AccientLicensePlate01">
+               value = "Locale.current">
             </PersistentString>
          </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in closure #2 in closure #1 in closure #1 in closure #1 in ContentView.DisclosureGroupLogEntries(day:):ContentView.swift">
       </ContextState>
       <ContextState
          contextName = "closure #1 in closure #3 in closure #1 in LogBookEntryView.ContextButton.getter:LogBookEntryView.swift">
          <PersistentStrings>
             <PersistentString
                value = "viewModel.watchLogEntry.AccientLicensePlate01">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "DataBaseManager.saveLogBookEntry(LogEntry:):DataBaseManager.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "LogEntry.CallerDOB">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in closure #1 in ProcessTypeSubVUView.body.getter:ProcessTypeSubVUView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "$LogEntry.precessTypeDetails.AccientLicensePlate01">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
