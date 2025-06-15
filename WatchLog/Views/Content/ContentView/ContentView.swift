@@ -268,7 +268,7 @@ extension ContentView {
 
     DisclosureGroup(getDateWeekDay(date: day.LogDate)) {
         ForEach(day.logEntriesSorted) { entry in
-        HStack {
+       // HStack {
 
           Button(action: {
 
@@ -280,8 +280,10 @@ extension ContentView {
                       .TextLabel(font: appStyles.NavigationTreeSubFont, fontSize: appStyles.NavigationTreeSubFontSize, fontColor: appStyles.NavigationTreeSubFontColor)
               }
           }
+          .listRowBackground(entry.uuid == logBookEntry.uuid ? appStyles.NavigationTreeSelectedRowColor : .none)
 
-        }
+      //  }
+        
       }
       .onDelete(perform: { indexSet in
         indexSet.sorted(by: >).forEach { (i) in
