@@ -15,7 +15,7 @@ struct LogBookEntryView: View {
   @EnvironmentObject var viewModel: LogEntryViewModel
 
   @Environment(\.appStyles) var appStyles
-  @Environment(\.displayedLogEntryUUID) var displayedLogEntryUUID
+    @Environment(DisplayedLogEntryID.self) var displayedLogEntryUUID
 
   @Environment(\.dismiss) var dismiss
 
@@ -29,8 +29,8 @@ struct LogBookEntryView: View {
   var body: some View {
 
     //        Text(Date.now, format: .dateTime.hour().minute().second())
-    //       Text(exisitingLogBookEntry.uuid.uuidString)
-    //   Text("currentuuid: \(currentUUID.uuid.uuidString)")
+           Text(logBookEntry.uuid.uuidString)
+       Text("currentuuid: \(displayedLogEntryUUID.id.uuidString)")
 
     ScrollView {
 
@@ -83,12 +83,12 @@ struct LogBookEntryView: View {
     }
 
     .onChange(
-      of: logBookEntry,
+        of: logBookEntry,
       { oldValue, newValue in
 
         print("--------->onchange")
         Task {
-          await viewModel.fetchLogEntry(LogEntryUUID: newValue.uuid)
+            await viewModel.fetchLogEntry(LogEntryUUID: newValue.uuid)
           displayedLogEntryUUID.id = viewModel.watchLogEntry.uuid
         }
 
@@ -130,7 +130,7 @@ struct LogBookEntryView: View {
               "Erstellen", role: .destructive,
               action: {
                 newEntry(LogEntry: viewModel.watchLogEntry, drawing: &drawing)
-                displayedLogEntryUUID.id = viewModel.watchLogEntry.uuid
+                  displayedLogEntryUUID.id = viewModel.watchLogEntry.uuid
               })
             Button(
               "Abbrechen", role: .cancel,
@@ -167,6 +167,7 @@ private func newEntry(LogEntry: WatchLogEntry, drawing: inout PKDrawing) {
   withAnimation {
     LogEntry.EntryTime = .now
   }
+    
 
 }
 
@@ -204,6 +205,9 @@ extension LogBookEntryView {
             Task {
               viewModel.watchLogEntry.isLocked = true
               await viewModel.saveLogEntry(LogEntry: viewModel.watchLogEntry)
+                print(">>> Log saved \(viewModel.watchLogEntry.uuid)")
+                logBookEntry.uuid = viewModel.watchLogEntry.uuid
+                displayedLogEntryUUID.id = viewModel.watchLogEntry.uuid
             }
           } label: {
 
@@ -256,6 +260,6 @@ extension LogBookEntryView {
   LogBookEntryView(logBookEntry: existingLogBookEntry)
     .environmentObject(viewModel)
     .environment(\.appStyles, StylesLogEntry())
-    .environment(\.displayedLogEntryUUID, DisplayedLogEntryID())
-
+    //.environment(\.displayedLogEntryUUID, DisplayedLogEntryID())
+    .environment(DisplayedLogEntryID())
 }

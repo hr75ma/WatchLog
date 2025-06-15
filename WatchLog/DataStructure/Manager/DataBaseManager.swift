@@ -538,6 +538,7 @@ func saveLogBookEntry(LogEntry: WatchLogEntry) -> Result<Void, Error> {
       //logDayEntry?.watchLogBookEntries?.append(log)
         logDayEntry?.addLogEntry(log)
       try? modelContext.save()
+        print(">>> Log saveving \(log.uuid)")
     }
 
     return .success(())

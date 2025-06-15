@@ -27,6 +27,7 @@ struct WatchLogApp: App {
                 //ContentView()
     }
         .environmentObject(viewModel)
+        .environment(DisplayedLogEntryID())
 
     
     }
@@ -34,7 +35,7 @@ struct WatchLogApp: App {
 
 extension EnvironmentValues {
     @Entry var appStyles = StylesLogEntry()
-    @Entry var displayedLogEntryUUID = DisplayedLogEntryID()
+    //@Entry var displayedLogEntryUUID = DisplayedLogEntryID()
     
     
 }

@@ -13,7 +13,10 @@ import Foundation
 @MainActor
 protocol DatabaseServiceProtocol {
     func saveWatchLogBookEntry (LogEntry: WatchLogEntry) async -> Result<Void, Error>
+    
     func fetchLogBookEntry(with EntryUUID: UUID) async -> Result<WatchLogEntry, Error>
+    func fetchLogBookEntryMod(with EntryUUID: UUID) async -> Result<WatchLogBookEntry, Error>
+    
     func fetchLogBookYears() async -> Result<[WatchLogBookYear], Error>
     func fetchLogBookEntries() async -> Result<[WatchLogBookEntry], Error>
     
@@ -145,6 +148,22 @@ class DatabaseService: DatabaseServiceProtocol {
             return .failure(error)
         }
     }
+    
+    func fetchLogBookEntryMod(with EntryUUID: UUID) async -> Result<WatchLogBookEntry, Error> {
+        var watchLogBookEntry: WatchLogBookEntry = WatchLogBookEntry(uuid: EntryUUID)
+        let fetchResult = dataSource.fetchLogBookEntry(with: EntryUUID)
+        switch fetchResult {
+        case .success(let entry):
+            if !entry.isEmpty {
+                watchLogBookEntry =  entry.first!
+            }
+            return .success(watchLogBookEntry)
+        case .failure(let error):
+            return .failure(error)
+        }
+    }
+    
+    
     
     func fetchLogBookYears() async -> Result<[WatchLogBookYear], any Error> {
         let fetchResult = dataSource.fetchYears()
