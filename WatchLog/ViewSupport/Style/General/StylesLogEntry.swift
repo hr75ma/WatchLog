@@ -148,7 +148,7 @@ class StylesLogEntry {
     var NavigationTreeSubFontColor: Color = Color.white
     
     // background color for selected row
-    var NavigationTreeSelectedRowColor: Color = Color.indigo
+    var NavigationTreeSelectedRowColor: Color = Color(hex: 0x476f95).opacity(1)
     
     //clear button for textfield
     var ClearButtonImage: String = "x.square.fill"//"multiply.circle.fill"

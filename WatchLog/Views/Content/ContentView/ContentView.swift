@@ -38,7 +38,6 @@ struct ContentView: View {
     @Environment(DisplayedLogEntryID.self) var displayedLogEntryUUID
 
   @State private var logBookEntry: WatchLogBookEntry = WatchLogBookEntry()
-  @State private var isNewEntry: Bool = false
 
   @State var alertNew = false
   @State var showSettingSheet = false
@@ -48,7 +47,8 @@ struct ContentView: View {
         NavigationSplitView(columnVisibility: $columnVisibility) {
             
             //      Text(testEntry.uuid.uuidString)
-                  Text("currentuuid: \(displayedLogEntryUUID.id.uuidString)")
+//                  Text("currentuuid: \(displayedLogEntryUUID.id.uuidString)")
+
             
             List(viewModel.WatchLogBooks, id: \.uuid) { book in
                 
@@ -60,6 +60,7 @@ struct ContentView: View {
             .fontWeight(.medium)
             .font(Font.custom(appStyles.NavigationTreeFont, size: appStyles.NavigationTreeFontSize))
             .refreshable(action: {
+                print("refresh")
                 Task {
                     await viewModel.fetchLogBook()
                 }
@@ -93,6 +94,7 @@ struct ContentView: View {
             }
             
             .task {
+                print("fetch tree")
                 await viewModel.fetchLogBook()
                 
             }
@@ -147,7 +149,6 @@ struct ContentView: View {
   }
 
   private func addNewLogEntry() {
-    isNewEntry = true
     logBookEntry = WatchLogBookEntry(uuid: UUID())
       displayedLogEntryUUID.id = logBookEntry.uuid
       print("------------> new entry added \(displayedLogEntryUUID.id)")
@@ -232,14 +233,16 @@ extension ContentView {
 
       }
     })
-
   }
 
+
   func DisclorsureGroupYear(year: WatchLogBookYear) -> some View {
-    DisclosureGroup(getDateYear(date: year.LogDate)) {
+      
+      DisclosureGroup(getDateYear(date: year.LogDate)) {
+          
       ForEach(year.logMonthSorted) { month in
         DisclosureGroupLogMonth(month: month)
-
+          
       }
       .onDelete(perform: { indexSet in
         indexSet.sorted(by: >).forEach { (i) in
@@ -299,3 +302,5 @@ extension ContentView {
   }
 
 }
+
+

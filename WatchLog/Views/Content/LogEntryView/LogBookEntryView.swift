@@ -12,6 +12,7 @@ import SwiftUI
 struct LogBookEntryView: View {
   @Bindable public var logBookEntry: WatchLogBookEntry
 
+
   @EnvironmentObject var viewModel: LogEntryViewModel
 
   @Environment(\.appStyles) var appStyles
@@ -29,8 +30,8 @@ struct LogBookEntryView: View {
   var body: some View {
 
     //        Text(Date.now, format: .dateTime.hour().minute().second())
-           Text(logBookEntry.uuid.uuidString)
-       Text("currentuuid: \(displayedLogEntryUUID.id.uuidString)")
+    //       Text(logBookEntry.uuid.uuidString)
+    //   Text("currentuuid: \(displayedLogEntryUUID.id.uuidString)")
 
     ScrollView {
 
@@ -115,7 +116,6 @@ struct LogBookEntryView: View {
                   await viewModel.deleteLogEntry(LogEntry: viewModel.watchLogEntry)
                   newEntry(LogEntry: viewModel.watchLogEntry, drawing: &drawing)
                   logBookEntry.uuid = viewModel.watchLogEntry.uuid
-                  //logEntriesOfDay =  await viewModel.fetchDaysOfLogEntry(logEntry: WatchLogBookEntry( LogEntry: viewModel.watchLogEntry))
 
                 }
               })
@@ -130,7 +130,7 @@ struct LogBookEntryView: View {
               "Erstellen", role: .destructive,
               action: {
                 newEntry(LogEntry: viewModel.watchLogEntry, drawing: &drawing)
-                  displayedLogEntryUUID.id = viewModel.watchLogEntry.uuid
+                 // displayedLogEntryUUID.id = viewModel.watchLogEntry.uuid
               })
             Button(
               "Abbrechen", role: .cancel,
@@ -208,6 +208,7 @@ extension LogBookEntryView {
                 print(">>> Log saved \(viewModel.watchLogEntry.uuid)")
                 logBookEntry.uuid = viewModel.watchLogEntry.uuid
                 displayedLogEntryUUID.id = viewModel.watchLogEntry.uuid
+              
             }
           } label: {
 
@@ -253,11 +254,12 @@ extension LogBookEntryView {
 
 #Preview{
   @Previewable @State var existingLogBookEntry = WatchLogBookEntry()
+    @Previewable @State var isNewEntry = false
 
   let databaseService = DatabaseService()
   let viewModel = LogEntryViewModel(dataBaseService: databaseService)
 
-  LogBookEntryView(logBookEntry: existingLogBookEntry)
+    LogBookEntryView(logBookEntry: existingLogBookEntry)
     .environmentObject(viewModel)
     .environment(\.appStyles, StylesLogEntry())
     //.environment(\.displayedLogEntryUUID, DisplayedLogEntryID())
