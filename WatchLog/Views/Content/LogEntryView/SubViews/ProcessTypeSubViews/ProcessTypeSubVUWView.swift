@@ -51,7 +51,7 @@ struct ProcessTypeSubVUWView: View {
                 Spacer()
             }
         }
-        .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+        .padding(EdgeInsets(top: 10, leading: 0, bottom: 0, trailing: 0))
         .frame(width: .infinity)
         .disabled(LogEntry.isLocked)
     }

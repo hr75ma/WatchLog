@@ -72,27 +72,38 @@ struct ProcessTypeSelectionView: View {
                 .frame(maxWidth: .infinity)
                 .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
                 
-                        HStack {
-                          ProcessTypeSubVUView(LogEntry: LogEntry)
-                            .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-                            .isHidden(ProcessType.ProcessTypeShort.VU != selectedProcessHelper, remove: true)
-                          ProcessTypeSubKVView(LogEntry: LogEntry)
-                            .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-                            .isHidden(ProcessType.ProcessTypeShort.KV != selectedProcessHelper, remove: true)
-                          ProcessTypeSubVUWView(LogEntry: LogEntry)
-                            .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-                            .isHidden(ProcessType.ProcessTypeShort.VUW != selectedProcessHelper, remove: true)
-                          ProcessTypeSubTRUNKView(LogEntry: LogEntry)
-                            .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-                            .isHidden(ProcessType.ProcessTypeShort.TRUNK != selectedProcessHelper, remove: true)
-                          ProcessTypeSubVKKOView(LogEntry: LogEntry)
-                            .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-                            .isHidden(ProcessType.ProcessTypeShort.VKKO != selectedProcessHelper, remove: true)
-                          ProcessTypeSubDAUFView(LogEntry: LogEntry)
-                            .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-                            .isHidden(ProcessType.ProcessTypeShort.DAUF != selectedProcessHelper, remove: true)
-                        }
-                        .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                HStack {
+                    switch selectedProcessHelper {
+                    case ProcessType.ProcessTypeShort.VU:
+                        ProcessTypeSubVUView(LogEntry: LogEntry)
+                          .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                          //.isHidden(ProcessType.ProcessTypeShort.VU != selectedProcessHelper, remove: true)
+                    case .VUW:
+                        ProcessTypeSubVUWView(LogEntry: LogEntry)
+                          .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                          //.isHidden(ProcessType.ProcessTypeShort.VUW != selectedProcessHelper, remove: true)
+                    case .KV:
+                        ProcessTypeSubKVView(LogEntry: LogEntry)
+                          .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                          //.isHidden(ProcessType.ProcessTypeShort.KV != selectedProcessHelper, remove: true)
+                    case .DAUF:
+                        ProcessTypeSubDAUFView(LogEntry: LogEntry)
+                          .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                          //.isHidden(ProcessType.ProcessTypeShort.DAUF != selectedProcessHelper, remove: true)
+                    case .TRUNK:
+                        ProcessTypeSubTRUNKView(LogEntry: LogEntry)
+                          .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                          //.isHidden(ProcessType.ProcessTypeShort.TRUNK != selectedProcessHelper, remove: true)
+                    case .VKKO:
+                        ProcessTypeSubVKKOView(LogEntry: LogEntry)
+                          .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                          //.isHidden(ProcessType.ProcessTypeShort.VKKO != selectedProcessHelper, remove: true)
+                    default:
+                        EmptyView()
+                    }
+                
+                }
+                .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
             }
             .frame(maxWidth: .infinity)
         }
