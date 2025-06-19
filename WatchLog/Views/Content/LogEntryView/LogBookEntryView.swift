@@ -261,7 +261,7 @@ extension LogBookEntryView {
 
     LogBookEntryView(logBookEntry: existingLogBookEntry)
     .environmentObject(viewModel)
-    .environment(\.appStyles, StylesLogEntry())
+    .environment(\.appStyles, StylesLogEntry.shared)
     //.environment(\.displayedLogEntryUUID, DisplayedLogEntryID())
     .environment(DisplayedLogEntryID())
 }

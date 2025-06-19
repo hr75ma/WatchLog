@@ -23,7 +23,7 @@ import SwiftUI
 
   return ContentView()
     .environmentObject(viewModel)
-    .environment(\.appStyles, StylesLogEntry())
+    .environment(\.appStyles, StylesLogEntry.shared)
     //.environment(\.displayedLogEntryUUID, DisplayedLogEntryID())
     .environment(DisplayedLogEntryID())
     //.environment(\.locale, .init(identifier: "us"))

@@ -17,151 +17,152 @@ import SwiftUI
 
 import SwiftUI
 
-@Observable
-class StylesLogEntry {
+
+final class StylesLogEntry:Sendable {
     
-    var TextfieldBackgroundColor: Color = Color(hex: 0x272727).opacity(1)
-    var TextfieldBackgroundColorLocked: Color = Color(hex: 0x0a0a0a).opacity(1)
-    var TextfieldBackgroundColorUnLocked: Color = Color(hex: 0x1d1d1d).opacity(1)
+    static let shared = StylesLogEntry()
     
-    var TextFieldFontHeight: CGFloat = 32
+    private init() {}
     
-    var GeneralToggleIsActiveImage: String = "checkmark.rectangle"
-    var GeneralToggleIsUnactiveImage: String = "rectangle"
-    var GeneralToggleIsActivePrimary: Color = Color.green
-    var GeneralToggleIsActiveSecondary: Color = Color.blue
-    var GeneralToggleIsUnactivePrimary: Color = Color.blue
-    var GeneralToggleIsUnactiveSecondary: Color = Color.blue
+    let TextfieldBackgroundColor: Color = Color(hex: 0x272727).opacity(1)
+    let TextfieldBackgroundColorLocked: Color = Color(hex: 0x0a0a0a).opacity(1)
+    let TextfieldBackgroundColorUnLocked: Color = Color(hex: 0x1d1d1d).opacity(1)
+    
+    let TextFieldFontHeight: CGFloat = 32
+    
+    let GeneralToggleIsActiveImage: String = "checkmark.rectangle"
+    let GeneralToggleIsUnactiveImage: String = "rectangle"
+    let GeneralToggleIsActivePrimary: Color = Color.green
+    let GeneralToggleIsActiveSecondary: Color = Color.blue
+    let GeneralToggleIsUnactivePrimary: Color = Color.blue
+    let GeneralToggleIsUnactiveSecondary: Color = Color.blue
     
     
-    var LabelFont: String = "digital-7"
-    var LabelFontSize: CGFloat = 45
-    var LabelFontSize2: CGFloat = 35
+    let LabelFont: String = "digital-7"
+    let LabelFontSize: CGFloat = 45
+    let LabelFontSize2: CGFloat = 35
     
-    var TextFieldFont: String = "Roboto-MediumItalic"
-    var TextFieldHeight: CGFloat = 35
-    var TextFieldHeight2: CGFloat = 30
+    let TextFieldFont: String = "Roboto-MediumItalic"
+    let TextFieldHeight: CGFloat = 35
+    let TextFieldHeight2: CGFloat = 30
     
-    var SectionCallerImage: String = "phone.badge.waveform.fill"
-    var SectionAccidentImage: String = "car.fill"
-    var SectionProcessTypeImage: String = "rectangle.and.pencil.and.ellipsis"
+    let SectionCallerImage: String = "phone.badge.waveform.fill"
+    let SectionAccidentImage: String = "car.fill"
+    let SectionProcessTypeImage: String = "rectangle.and.pencil.and.ellipsis"
     
     
     //generale layouts
-    var isLockedColor: Color = Color.red
-    var isUnLockedColor: Color = Color.blue
+    let isLockedColor: Color = Color.red
+    let isUnLockedColor: Color = Color.blue
     
-    var GeneralTextColor:Color = Color.blue
-    var GeneralBackgroundColor:Color = Color.white
-    var GeneralInnerFrameColor:Color = Color.blue
-    var GeneralInnerFrameBorderWidth:CGFloat = 4
+    let GeneralTextColor:Color = Color.blue
+    let GeneralBackgroundColor:Color = Color.white
+    let GeneralInnerFrameColor:Color = Color.blue
+    let GeneralInnerFrameBorderWidth:CGFloat = 4
     
     //toogle
-    var ToogleIsLockedColor: Color = Color.blue
+    let ToogleIsLockedColor: Color = Color.blue
 
     
     //Locking Section
-    var LockImageisLocked: String = "lock.ipad"
-    var LockImageisUnLocked: String = "lock.open.ipad"
-    var LockColorIsLockedPrimary: Color = Color.red
-    var LockColorIsLockedSecondary: Color = Color.red
-    var LockColorIsUnLockedPrimary: Color = Color.green
-    var LockColorIsUnLockedSecondary: Color = Color.green
+    let LockImageisLocked: String = "lock.ipad"
+    let LockImageisUnLocked: String = "lock.open.ipad"
+    let LockColorIsLockedPrimary: Color = Color.red
+    let LockColorIsLockedSecondary: Color = Color.red
+    let LockColorIsUnLockedPrimary: Color = Color.green
+    let LockColorIsUnLockedSecondary: Color = Color.green
     
     
     //Accident Section
-    var AccidentImageisLocked: String = "checkmark.rectangle"
-    var AccidentImageisUnLocked: String = "rectangle"
-    var AccidentColorIsLockedPrimary: Color = Color.green
-    var AccidentColorIsLockedSecondary: Color = Color.blue
-    var AccidentColorIsUnLockedPrimary: Color = Color.blue
-    var AccidentColorIsUnLockedSecondary: Color = Color.blue
+    let AccidentImageisLocked: String = "checkmark.rectangle"
+    let AccidentImageisUnLocked: String = "rectangle"
+    let AccidentColorIsLockedPrimary: Color = Color.green
+    let AccidentColorIsLockedSecondary: Color = Color.blue
+    let AccidentColorIsUnLockedPrimary: Color = Color.blue
+    let AccidentColorIsUnLockedSecondary: Color = Color.blue
     
     //Porcesstype Section
-    var ProcessTypeColorIsLockedPrimary: Color = Color.blue
-    var ProcessTypeColorIsLockedSecondary: Color = Color.blue
-    var ProcessTypeColorIsUnLockedPrimary: Color = Color.blue
-    var ProcessTypeColorIsUnLockedSecondary: Color = Color.blue
+    let ProcessTypeColorIsLockedPrimary: Color = Color.blue
+    let ProcessTypeColorIsLockedSecondary: Color = Color.blue
+    let ProcessTypeColorIsUnLockedPrimary: Color = Color.blue
+    let ProcessTypeColorIsUnLockedSecondary: Color = Color.blue
     
     //ToolbarItem
-    var ToolBarEraserImageActive: String = "eraser"
-    var ToolBarEraserImageUnActive: String = "eraser"
-    var ToolBarEraserColorActive: Color = Color.blue
-    var ToolBarEraserColorUnActive: Color = Color.red
+    let ToolBarEraserImageActive: String = "eraser"
+    let ToolBarEraserImageUnActive: String = "eraser"
+    let ToolBarEraserColorActive: Color = Color.blue
+    let ToolBarEraserColorUnActive: Color = Color.red
     
-    var ToolBarSaveImageActive: String = "square.and.arrow.down"
-    var ToolBarSaveImageUnActive: String = "square.and.arrow.down"
-    var ToolBarSaveColorActivePrimary: Color = Color.blue
-    var ToolBarSaveColorActiveSecondary: Color = Color.blue
-    var ToolBarSaveColorUnActivePrimary: Color = Color.red
-    var ToolBarSaveColorUnActiveSecondary: Color = Color.red
+    let ToolBarSaveImageActive: String = "square.and.arrow.down"
+    let ToolBarSaveImageUnActive: String = "square.and.arrow.down"
+    let ToolBarSaveColorActivePrimary: Color = Color.blue
+    let ToolBarSaveColorActiveSecondary: Color = Color.blue
+    let ToolBarSaveColorUnActivePrimary: Color = Color.red
+    let ToolBarSaveColorUnActiveSecondary: Color = Color.red
     
-    var ToolBarNewImageActive: String = "list.clipboard"
-    var ToolBarNewImageUnActive: String = "list.clipboard"
-    var ToolBarNewColorActivePrimary: Color = Color.white
-    var ToolBarNewColorActiveSecondary: Color = Color.blue
-    var ToolBarNewColorUnActivePrimary: Color = Color.white
-    var ToolBarNewColorUnActiveSecondary: Color = Color.red
+    let ToolBarNewImageActive: String = "list.clipboard"
+    let ToolBarNewImageUnActive: String = "list.clipboard"
+    let ToolBarNewColorActivePrimary: Color = Color.white
+    let ToolBarNewColorActiveSecondary: Color = Color.blue
+    let ToolBarNewColorUnActivePrimary: Color = Color.white
+    let ToolBarNewColorUnActiveSecondary: Color = Color.red
     
-    var ToolBarDeleteImageActive: String = "trash"
-    var ToolBarDeleteImageUnActive: String = "trash.slash"
-    var ToolBarDeleteColorActivePrimary: Color = Color.blue
-    var ToolBarDeleteColorActiveSecondary: Color = Color.blue
-    var ToolBarDeleteColorUnActivePrimary: Color = Color.red
-    var ToolBarDeleteColorUnActiveSecondary: Color = Color.red
+    let ToolBarDeleteImageActive: String = "trash"
+    let ToolBarDeleteImageUnActive: String = "trash.slash"
+    let ToolBarDeleteColorActivePrimary: Color = Color.blue
+    let ToolBarDeleteColorActiveSecondary: Color = Color.blue
+    let ToolBarDeleteColorUnActivePrimary: Color = Color.red
+    let ToolBarDeleteColorUnActiveSecondary: Color = Color.red
     
-    var ToolbarContextImage: String = "list.bullet.circle"
-    var ToolbarContextColorActivePrimary: Color = Color.white
-    var ToolbarContextColorActiveSecondary: Color = Color.blue
-    var ToolbarContextColorUnActivePrimary: Color = Color.white
-    var ToolbarContextColorUnActiveSecondary: Color = Color.red
+    let ToolbarContextImage: String = "list.bullet.circle"
+    let ToolbarContextColorActivePrimary: Color = Color.white
+    let ToolbarContextColorActiveSecondary: Color = Color.blue
+    let ToolbarContextColorUnActivePrimary: Color = Color.white
+    let ToolbarContextColorUnActiveSecondary: Color = Color.red
     
     // Section Canvas
-    var CanvasLockedColor: Color = Color(hex: 0x585858).opacity(1)
-    var CanvasUnLockedColor: Color = Color.blue
+    let CanvasLockedColor: Color = Color(hex: 0x585858).opacity(1)
+    let CanvasUnLockedColor: Color = Color.blue
     
     //Note
-    var SectionNoteImage = "phone.bubble.fill"
+    let SectionNoteImage = "phone.bubble.fill"
     
     //tree navigation
-    var NavigationTreeAddEntryImage: String = "list.clipboard"
-    var NavigationTreeAddEntryImagePrimaryColor: Color = Color.white
-    var NavigationTreeAddEntryImageSecondaryColor: Color = Color.blue
+    let NavigationTreeAddEntryImage: String = "list.clipboard"
+    let NavigationTreeAddEntryImagePrimaryColor: Color = Color.white
+    let NavigationTreeAddEntryImageSecondaryColor: Color = Color.blue
     
-//    @Published var NavigationTreeImagePrimaryColor: Color = Color.white
-//    @Published var NavigationTreeImageSecondaryColor: Color = Color.blue
+    let NavigationTreeSettingImage: String = "gear"
+    let NavigationTreeSettingImagePrimaryColor: Color = Color.blue
+    let NavigationTreeSettingImageSecondaryColor: Color = Color.blue
     
-    var NavigationTreeSettingImage: String = "gear"
-    var NavigationTreeSettingImagePrimaryColor: Color = Color.blue
-    var NavigationTreeSettingImageSecondaryColor: Color = Color.blue
-    
-    var NavigationTreeDisclosureYearGradientStart = Color(hex: 0x222222).opacity(1)
-    var NavigationTreeDisclosureYearGradientEnd = Color(hex: 0x2e2e2e).opacity(1)
+    let NavigationTreeDisclosureYearGradientStart = Color(hex: 0x222222).opacity(1)
+    let NavigationTreeDisclosureYearGradientEnd = Color(hex: 0x2e2e2e).opacity(1)
     
     
-    var NavigationTreeFont: String = "Roboto-MediumItalic"
-    var NavigationTreeFontSize: CGFloat = 20
-    var NavigationTreeFontColor: Color = Color.blue
+    let NavigationTreeFont: String = "Roboto-MediumItalic"
+    let NavigationTreeFontSize: CGFloat = 20
+    let NavigationTreeFontColor: Color = Color.blue
     
-    var NavigationTreeSubFont: String = "Roboto-MediumItalic"
-    var NavigationTreeSubFontSize: CGFloat = 15
-    var NavigationTreeSubFontColor: Color = Color.white
+    let NavigationTreeSubFont: String = "Roboto-MediumItalic"
+    let NavigationTreeSubFontSize: CGFloat = 15
+    let NavigationTreeSubFontColor: Color = Color.white
     
     // background color for selected row
-    var NavigationTreeSelectedRowColor: Color = Color(hex: 0x476f95).opacity(1)
+    let NavigationTreeSelectedRowColor: Color = Color(hex: 0x476f95).opacity(1)
     
     //clear button for textfield
-    var ClearButtonImage: String = "x.square.fill"//"multiply.circle.fill"
-    var ClearButtonColorActivePrimary: Color = Color.white
-    var ClearButtonColorActiveSecondary: Color = Color.blue
+    let ClearButtonImage: String = "x.square.fill"//"multiply.circle.fill"
+    let ClearButtonColorActivePrimary: Color = Color.white
+    let ClearButtonColorActiveSecondary: Color = Color.blue
     
     
     
     //Picker for ProcessType
-    var ProcessTypeFont: String = "Roboto-MediumItalic"
-    var ProcessTypeFontHight: CGFloat = 25
-    var ProcessTypeFontColor: Color = Color.blue
-    var ProcessTypeBackgroundColor: Color = Color.clear
+    let ProcessTypeFont: String = "Roboto-MediumItalic"
+    let ProcessTypeFontHight: CGFloat = 25
+    let ProcessTypeFontColor: Color = Color.blue
+    let ProcessTypeBackgroundColor: Color = Color.clear
     
     
     

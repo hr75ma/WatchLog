@@ -34,7 +34,7 @@ struct WatchLogApp: App {
 }
 
 extension EnvironmentValues {
-    @Entry var appStyles = StylesLogEntry()
+    @Entry var appStyles = StylesLogEntry.shared
     //@Entry var displayedLogEntryUUID = DisplayedLogEntryID()
     
     

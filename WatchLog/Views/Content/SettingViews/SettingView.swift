@@ -36,5 +36,5 @@ struct SettingView: View {
 #Preview {
     
     SettingView()
-        .environment(\.appStyles  ,StylesLogEntry())
+        .environment(\.appStyles  ,StylesLogEntry.shared)
 }
