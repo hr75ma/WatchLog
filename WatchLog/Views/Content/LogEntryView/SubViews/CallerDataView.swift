@@ -15,6 +15,7 @@ struct CallerDataView: View {
   @State private var withBirthday: Bool = true
   @State private var with: Bool = true
   @State private var tempDOB: Date = Date()
+    @State private var tempLocked: Bool = false
 
   var body: some View {
     HStack(alignment: .top, spacing: 0) {
@@ -34,7 +35,7 @@ struct CallerDataView: View {
             .checkOnNumbers(text: $LogEntry.CallerNumber)
             .limitInputLength(text: $LogEntry.CallerNumber, length: 15)
             .showClearButton($LogEntry.CallerNumber)
-            .disabled(LogEntry.isLocked)  // Allow only numeric characters
+            .disabled(LogEntry.isLocked)
         }
 
         HStack(alignment: .center, spacing: 0) {
@@ -49,129 +50,97 @@ struct CallerDataView: View {
             .disabled(LogEntry.isLocked)
         }
 
-        HStack(alignment: .top, spacing: 0) {
-          Text("DOB")
-            .SectionTextLabel(appStyles)
-
-          Toggle("", isOn: $withBirthday)
-            .labelsHidden()
-            .toggleStyle(
-              ToggleStyleImage(
-                isOnImage: appStyles.GeneralToggleIsActiveImage,
-                isOffImage: appStyles.GeneralToggleIsUnactiveImage,
-                isOnColorPrimary: appStyles.GeneralToggleIsActivePrimary,
-                isOnColorSecondary: appStyles.GeneralToggleIsActiveSecondary,
-                isOffColorPrimary: appStyles.GeneralToggleIsUnactivePrimary,
-                isOffColorSecondary: appStyles.GeneralToggleIsUnactiveSecondary,
-                isLocked: LogEntry.isLocked, isLockedColor: appStyles.ToogleIsLockedColor
-              )
-            )
-            .frame(height: appStyles.TextFieldHeight)
-            .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-
-          VStack {
-
-            DatePicker("", selection: $tempDOB, displayedComponents: [.date])
-              .labelsHidden()  // Hides the default label
-              .colorMultiply(.blue)
-              .font(.system(size: 35, weight: .bold))
-              .frame(width: 300, height: 80)
-              .clipped()
-              //.scaleEffect(x: 1.2, y: 1.2)
-              //.presentationDetents([.medium])
-              .datePickerStyle(WheelDatePickerStyle())
-              .environment(\.locale, Locale.current)
-
-            //                            .onChange(of: LogEntry.uuid) {
-            //                                withAnimation {
-            //                                    if(LogEntry.CallerDOB == nil) {
-            //                                        tempDOB = Date()
-            //                                        withBirthday = false
-            //                                    } else
-            //                                    {
-            //                                        tempDOB = LogEntry.CallerDOB!
-            //                                        withBirthday = true
-            //                                    }
-            //                                }
-            //                            }
-            //                            .onChange(of: tempDOB) {
-            //                                withAnimation {
-            //                                    print("1. onChang")
-            //                                        LogEntry.CallerDOB = tempDOB
-            //                                }
-            //                            }
-            //                            .onAppear() {
-            //                                withAnimation {
-            //                                    print("onapear")
-            //                                    if(LogEntry.CallerDOB == nil) {
-            //                                        tempDOB = Date()
-            //                                        withBirthday = false
-            //                                    } else
-            //                                    {
-            //                                        tempDOB = LogEntry.CallerDOB!
-            //                                        withBirthday = true
-            //                                    }
-            //                                }
-            //                            }
-
+          HStack(alignment: .top, spacing: 0) {
+              Text("DOB")
+                  .SectionTextLabel(appStyles)
+              
+              HStack(alignment: .top, spacing: 0) {
+              Toggle("", isOn: $withBirthday)
+                  .labelsHidden()
+                  .toggleStyle(
+                    ToggleStyleImage(
+                        isOnImage: appStyles.GeneralToggleIsActiveImage,
+                        isOffImage: appStyles.GeneralToggleIsUnactiveImage,
+                        isOnColorPrimary: appStyles.GeneralToggleIsActivePrimary,
+                        isOnColorSecondary: appStyles.GeneralToggleIsActiveSecondary,
+                        isOffColorPrimary: appStyles.GeneralToggleIsUnactivePrimary,
+                        isOffColorSecondary: appStyles.GeneralToggleIsUnactiveSecondary,
+                        isLocked: LogEntry.isLocked, isLockedColor: appStyles.ToogleIsLockedColor
+                    )
+                  )
+                  .frame(height: appStyles.TextFieldHeight)
+                  .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                  .isHidden(tempLocked, remove: true)
+              
+                  VStack {
+                      
+                      Text(with ? getFormatedDateFromDOB(from: tempDOB) : "")
+                          .SectionTextFieldSimulatedSingleLine(appStyles, isLocked: LogEntry.isLocked)
+                          .isHidden(!tempLocked, remove: true)
+                      
+                      DatePicker("", selection: $tempDOB, displayedComponents: [.date])
+                          .labelsHidden()  // Hides the default label
+                          .colorMultiply(.blue)
+                          .font(.system(size: 35, weight: .bold))
+                          .frame(width: 300, height: 80)
+                          .clipped()
+                          .datePickerStyle(WheelDatePickerStyle())
+                          .environment(\.locale, Locale.current)
+                          .isHidden(!with || tempLocked, remove: true)
+                  }
+              }
+              .onChange(of: LogEntry.isLocked) {
+                  withAnimation {
+                      tempLocked = LogEntry.isLocked
+                  }
+              }
+              .onChange(of: LogEntry.uuid) {
+                  withAnimation {
+                      if LogEntry.CallerDOB == nil {
+                          tempDOB = Date()
+                          withBirthday = false
+                      } else {
+                          tempDOB = LogEntry.CallerDOB!
+                          withBirthday = true
+                      }
+                  }
+              }
+              .onChange(of: tempDOB) {
+                  withAnimation {
+                      print("1. onChang")
+                      LogEntry.CallerDOB = tempDOB
+                  }
+              }
+              .onChange(of: withBirthday) { old, value in
+                  withAnimation {
+                      print("2. onChang")
+                      if !withBirthday {
+                          LogEntry.CallerDOB = nil
+                          with = withBirthday
+                          
+                      } else {
+                          LogEntry.CallerDOB = tempDOB
+                          with = withBirthday
+                          
+                      }
+                  }
+              }
+              .onAppear {
+                  withAnimation {
+                      print("onapear")
+                      if LogEntry.CallerDOB == nil {
+                          tempDOB = Date()
+                          withBirthday = false
+                          with = withBirthday
+                      } else {
+                          tempDOB = LogEntry.CallerDOB!
+                          withBirthday = true
+                          with = withBirthday
+                      }
+                      tempLocked = LogEntry.isLocked
+                  }
+              }
           }
-          .isHidden(!with, remove: true)
-          .background(
-            LogEntry.isLocked
-              ? appStyles.TextfieldBackgroundColorLocked
-              : appStyles.TextfieldBackgroundColorUnLocked
-          )
-          .animation(.easeInOut(duration: 1), value: LogEntry.isLocked)
-          .animation(.easeInOut(duration: 1), value: withBirthday)
-          //.border(.red)
-
-        }
-        .onChange(of: LogEntry.uuid) {
-          withAnimation {
-            if LogEntry.CallerDOB == nil {
-              tempDOB = Date()
-              withBirthday = false
-            } else {
-              tempDOB = LogEntry.CallerDOB!
-              withBirthday = true
-            }
-          }
-        }
-        .onChange(of: tempDOB) {
-          withAnimation {
-            print("1. onChang")
-            LogEntry.CallerDOB = tempDOB
-          }
-        }
-        .onChange(of: withBirthday) { old, value in
-          withAnimation {
-            print("2. onChang")
-            if !withBirthday {
-              LogEntry.CallerDOB = nil
-              with = withBirthday
-
-            } else {
-              LogEntry.CallerDOB = tempDOB
-              with = withBirthday
-
-            }
-          }
-        }
-        .onAppear {
-          withAnimation {
-            print("onapear")
-            if LogEntry.CallerDOB == nil {
-              tempDOB = Date()
-              withBirthday = false
-              with = withBirthday
-            } else {
-              tempDOB = LogEntry.CallerDOB!
-              withBirthday = true
-              with = withBirthday
-            }
-          }
-        }
-
         HStack(alignment: .top, spacing: 0) {
           Text("Adresse")
             .SectionTextLabel(appStyles)
@@ -204,6 +173,13 @@ struct CallerDataView: View {
     //.animation(.easeInOut(duration: 1),  value: withBirthday)
   }
 
+}
+
+fileprivate func getFormatedDateFromDOB(from dob: Date?) -> String {
+    if dob != nil {
+        return dob!.formatted(date: .long, time: .omitted)
+    }
+    return ""
 }
 
 extension View {
