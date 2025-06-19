@@ -90,12 +90,12 @@ struct CallerDataView: View {
             }
           }
           .onChange(of: LogEntry.isLocked) {
-            withAnimation {
+            withAnimation(.easeInOut(duration: 1)) {
               tempLocked = LogEntry.isLocked
             }
           }
           .onChange(of: LogEntry.uuid) {
-            withAnimation {
+            withAnimation(.easeInOut(duration: 1)) {
               if LogEntry.CallerDOB == nil {
                 tempDOB = Date()
                 withBirthday = false
@@ -106,13 +106,13 @@ struct CallerDataView: View {
             }
           }
           .onChange(of: tempDOB) {
-            withAnimation {
+            withAnimation(.easeInOut(duration: 1)) {
               print("1. onChang")
               LogEntry.CallerDOB = tempDOB
             }
           }
           .onChange(of: withBirthday) { old, value in
-            withAnimation {
+            withAnimation(.easeInOut(duration: 1)) {
               print("2. onChang")
               if !withBirthday {
                 LogEntry.CallerDOB = nil
@@ -126,7 +126,7 @@ struct CallerDataView: View {
             }
           }
           .onAppear {
-            withAnimation {
+            withAnimation(.easeInOut(duration: 1)) {
               print("onapear")
               if LogEntry.CallerDOB == nil {
                 tempDOB = Date()
