@@ -22,7 +22,7 @@ struct CallerDataView: View {
       Image(systemName: appStyles.SectionCallerImage)
         .SectionImageStyle(appStyles)
         .symbolRenderingMode(.palette)
-        .symbolEffect(.variableColor.cumulative.hideInactiveLayers.nonReversing, options: .repeat(.continuous))
+        .symbolEffect(.variableColor.cumulative.hideInactiveLayers.nonReversing, options: .repeat(.continuous), isActive: !LogEntry.isLocked)
         .foregroundStyle(appStyles.SectionCallerImagePrimary, appStyles.SectionCallerImageSecondary)
         
 

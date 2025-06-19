@@ -61,7 +61,7 @@ struct ProcessTypeSubVUView: View {
                 
                 Spacer()
                 
-                Text("Verkehrsunfallflucht")
+                Text("Flucht")
                     .SectionTextLabelSecond(appStyles)
                     .fixedSize(horizontal: true, vertical: true)
                     .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 5))

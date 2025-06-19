@@ -23,7 +23,7 @@ struct NoteView: View {
           Image(systemName: appStyles.SectionNoteImage)
               .SectionImageStyle(appStyles)
               .symbolRenderingMode(.palette)
-              .symbolEffect(.variableColor.cumulative.hideInactiveLayers.nonReversing, options: .repeat(.continuous))
+              .symbolEffect(.variableColor.cumulative.hideInactiveLayers.nonReversing, options: .repeat(.continuous), isActive: !WatchLog.isLocked)
               .foregroundStyle(appStyles.SectionNoteImagePrimary, appStyles.SectionNoteImageSecondary)
       }
       .padding(EdgeInsets(top: 5, leading: 0, bottom: 0, trailing: 10))

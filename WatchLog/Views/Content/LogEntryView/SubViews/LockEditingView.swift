@@ -31,7 +31,7 @@ struct LockedView: View {
           
           Toggle("", isOn: $LogEntry.isLocked)
               .labelsHidden()
-              .toggleStyle(ToggleStyleImage(
+              .toggleStyle(ToggleStyleLockImage(
                 isOnImage: appStyles.LockImageisLocked,
                 isOffImage: appStyles.LockImageisUnLocked,
                 isOnColorPrimary: appStyles.LockColorIsLockedPrimary,
@@ -39,9 +39,10 @@ struct LockedView: View {
                 isOffColorPrimary: appStyles.LockColorIsUnLockedPrimary,
                 isOffColorSecondary: appStyles.LockColorIsUnLockedSecondary
                 ))
+              
               .frame(height: appStyles.LabelFontSize2, alignment: .center)
               .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-              .disabled(LogEntry.isNewEntryLog)
+              //.disabled(LogEntry.isNewEntryLog)
 
       Spacer()
     }

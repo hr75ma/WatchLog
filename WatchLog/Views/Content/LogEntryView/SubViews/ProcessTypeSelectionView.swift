@@ -24,13 +24,14 @@ struct ProcessTypeSelectionView: View {
     .UNKNOWN
 
   @State private var sortedByValue = ProcessType.processTypes
+    
+    @State private var tempLocked: Bool = false
 
   var body: some View {
     HStack(alignment: .top, spacing: 0) {
       Image(systemName: appStyles.SectionProcessTypeImage)
         .SectionImageStyle(appStyles)
         .symbolRenderingMode(.palette)
-        //.symbolEffect(.variableColor.cumulative.hideInactiveLayers.nonReversing, options: .repeat(.continuous))
         .foregroundStyle(appStyles.SectionProcessTypeImagePrimary, appStyles.SSectionProcessTypeImageSecondary)
         
 
@@ -48,7 +49,8 @@ struct ProcessTypeSelectionView: View {
                 HStack{
                     Text(ProcessType.processTypes[LogEntry.processTypeDetails.processTypeShort]!)
                         .SectionTextFieldSecondSimulatedSingleLine(appStyles, isLocked: LogEntry.isLocked)
-                        .isHidden(!LogEntry.isLocked, remove: true)
+                        .isHidden(!tempLocked, remove: true)
+                        //.animation(.easeInOut(duration: 1), value: LogEntry.isLocked)
                     
                     Picker("", selection: $selectedProcess) {
                         ForEach(
@@ -68,7 +70,8 @@ struct ProcessTypeSelectionView: View {
                     .pickerStyle(.wheel)
                     .background(LogEntry.isLocked ? appStyles.TextfieldBackgroundColorLocked : appStyles.TextfieldBackgroundColorUnLocked)
                     .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-                    .isHidden(LogEntry.isLocked, remove: true)
+                    .isHidden(tempLocked, remove: true)
+                    //.animation(.easeInOut(duration: 1), value: !LogEntry.isLocked)
                     
                     
                     Spacer()
@@ -81,27 +84,27 @@ struct ProcessTypeSelectionView: View {
                     case ProcessType.ProcessTypeShort.VU:
                         ProcessTypeSubVUView(LogEntry: LogEntry)
                           .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-                          //.isHidden(ProcessType.ProcessTypeShort.VU != selectedProcessHelper, remove: true)
+                          .isHidden(ProcessType.ProcessTypeShort.VU != selectedProcessHelper, remove: true)
                     case .VUW:
                         ProcessTypeSubVUWView(LogEntry: LogEntry)
                           .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-                          //.isHidden(ProcessType.ProcessTypeShort.VUW != selectedProcessHelper, remove: true)
+                          .isHidden(ProcessType.ProcessTypeShort.VUW != selectedProcessHelper, remove: true)
                     case .KV:
                         ProcessTypeSubKVView(LogEntry: LogEntry)
                           .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-                          //.isHidden(ProcessType.ProcessTypeShort.KV != selectedProcessHelper, remove: true)
+                          .isHidden(ProcessType.ProcessTypeShort.KV != selectedProcessHelper, remove: true)
                     case .DAUF:
                         ProcessTypeSubDAUFView(LogEntry: LogEntry)
                           .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-                          //.isHidden(ProcessType.ProcessTypeShort.DAUF != selectedProcessHelper, remove: true)
+                          .isHidden(ProcessType.ProcessTypeShort.DAUF != selectedProcessHelper, remove: true)
                     case .TRUNK:
                         ProcessTypeSubTRUNKView(LogEntry: LogEntry)
                           .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-                          //.isHidden(ProcessType.ProcessTypeShort.TRUNK != selectedProcessHelper, remove: true)
+                          .isHidden(ProcessType.ProcessTypeShort.TRUNK != selectedProcessHelper, remove: true)
                     case .VKKO:
                         ProcessTypeSubVKKOView(LogEntry: LogEntry)
                           .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-                          //.isHidden(ProcessType.ProcessTypeShort.VKKO != selectedProcessHelper, remove: true)
+                          .isHidden(ProcessType.ProcessTypeShort.VKKO != selectedProcessHelper, remove: true)
                     default:
                         EmptyView()
                     }
@@ -116,6 +119,7 @@ struct ProcessTypeSelectionView: View {
             print("animation onappear")
             selectedProcess = LogEntry.processTypeDetails.processTypeShort
             selectedProcessHelper = selectedProcess
+              tempLocked = LogEntry.isLocked
           }
         }
         .onChange(of: selectedProcess) { oldValue, newValue in
@@ -135,6 +139,11 @@ struct ProcessTypeSelectionView: View {
             print("animation onchange uuid")
             selectedProcess = LogEntry.processTypeDetails.processTypeShort
             selectedProcessHelper = selectedProcess
+          }
+        }
+        .onChange(of: LogEntry.isLocked) {
+          withAnimation(.easeInOut(duration: 1)) {
+            tempLocked = LogEntry.isLocked
           }
         }
         .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))

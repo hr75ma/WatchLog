@@ -76,8 +76,8 @@ final class StylesLogEntry:Sendable {
 
     
     //Locking Section
-    let LockImageisLocked: String = "lock.ipad"
-    let LockImageisUnLocked: String = "lock.open.ipad"
+    let LockImageisLocked: String = "lock.rotation"
+    let LockImageisUnLocked: String = "lock.open.rotation"
     let LockColorIsLockedPrimary: Color = Color.red
     let LockColorIsLockedSecondary: Color = Color.red
     let LockColorIsUnLockedPrimary: Color = Color.green
