@@ -98,6 +98,17 @@ extension Text {
             .background(isLocked ? appStyles.TextfieldBackgroundColorLocked : appStyles.TextfieldBackgroundColorUnLocked)
             .fixedSize(horizontal: true, vertical: true)
             //.textContentType(.telephoneNumber)
+            .border(.red)
+    }
+    
+    func SectionTextFieldSecondSimulatedSingleLine(_ appStyles: StylesLogEntry, isLocked: Bool) -> some View {
+        self
+            .font(Font.custom(appStyles.TextFieldFont, size: appStyles.TextFieldHeight2))
+            .lineLimit(1)
+            .foregroundStyle(appStyles.GeneralTextColor)
+            .background(isLocked ? appStyles.TextfieldBackgroundColorLocked : appStyles.TextfieldBackgroundColorUnLocked)
+            .fixedSize(horizontal: true, vertical: true)
+            //.textContentType(.telephoneNumber)
     }
     
     func SectionTextLabelSecond(_ appStyles: StylesLogEntry) -> some View {

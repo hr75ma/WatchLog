@@ -82,8 +82,9 @@ struct CallerDataView: View {
                 .labelsHidden()  // Hides the default label
                 .colorMultiply(.blue)
                 .font(.system(size: 35, weight: .bold))
-                .frame(width: 300, height: 80)
+                .frame(width: 300, height: 100)
                 .clipped()
+                .contentShape(Rectangle())
                 .datePickerStyle(WheelDatePickerStyle())
                 .environment(\.locale, Locale.current)
                 .isHidden(!with || tempLocked, remove: true)
