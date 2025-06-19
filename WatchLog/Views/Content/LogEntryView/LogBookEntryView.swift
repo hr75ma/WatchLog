@@ -41,12 +41,12 @@ struct LogBookEntryView: View {
 
         LockedView(LogEntry: viewModel.watchLogEntry)
 
-        CallerDataView(LogEntry: viewModel.watchLogEntry)
+          CallerDataView(logEntry: viewModel.watchLogEntry)
 
         ProcessTypeSelectionView(LogEntry: viewModel.watchLogEntry)
 
         NoteView(
-          WatchLog: viewModel.watchLogEntry, drawing: $viewModel.watchLogEntry.pkDrawingData,
+            logEntry: viewModel.watchLogEntry, drawing: $viewModel.watchLogEntry.pkDrawingData,
           toolPickerShows: $toolPickerShows
         )
         .containerRelativeFrame([.vertical], alignment: .topLeading)

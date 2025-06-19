@@ -42,7 +42,7 @@ struct LockedView: View {
               
               .frame(height: appStyles.LabelFontSize2, alignment: .center)
               .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-              //.disabled(LogEntry.isNewEntryLog)
+              .disabled(LogEntry.isNewEntryLog)
 
       Spacer()
     }

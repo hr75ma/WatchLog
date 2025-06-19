@@ -9,7 +9,7 @@ import UIKit
 
 struct CallerDataView: View {
 
-  @Bindable var LogEntry: WatchLogEntry
+  @Bindable var logEntry: WatchLogEntry
   @Environment(\.appStyles) var appStyles
 
   @State private var withBirthday: Bool = true
@@ -22,7 +22,7 @@ struct CallerDataView: View {
       Image(systemName: appStyles.SectionCallerImage)
         .SectionImageStyle(appStyles)
         .symbolRenderingMode(.palette)
-        .symbolEffect(.variableColor.cumulative.hideInactiveLayers.nonReversing, options: .repeat(.continuous), isActive: !LogEntry.isLocked)
+        .symbolEffect(.variableColor.cumulative.hideInactiveLayers.nonReversing, options: .repeat(.continuous), isActive: !logEntry.isLocked)
         .foregroundStyle(appStyles.SectionCallerImagePrimary, appStyles.SectionCallerImageSecondary)
         
 
@@ -33,26 +33,26 @@ struct CallerDataView: View {
           Text("Telefon")
             .SectionTextLabel(appStyles)
 
-          TextField("", text: $LogEntry.CallerNumber)
-            .SectionTextFieldSingleLine(appStyles, isLocked: LogEntry.isLocked)
+          TextField("", text: $logEntry.CallerNumber)
+            .SectionTextFieldSingleLine(appStyles, isLocked: logEntry.isLocked)
             .textContentType(.telephoneNumber)
             .keyboardType(.numberPad)  // Show number pad
-            .checkOnNumbers(text: $LogEntry.CallerNumber)
-            .limitInputLength(text: $LogEntry.CallerNumber, length: 15)
-            .showClearButton($LogEntry.CallerNumber)
-            .disabled(LogEntry.isLocked)
+            .checkOnNumbers(text: $logEntry.CallerNumber)
+            .limitInputLength(text: $logEntry.CallerNumber, length: 15)
+            .showClearButton($logEntry.CallerNumber)
+            .disabled(logEntry.isLocked)
         }
 
         HStack(alignment: .center, spacing: 0) {
           Text("Name")
             .SectionTextLabel(appStyles)
 
-          TextField("", text: $LogEntry.CallerName)
-            .SectionTextFieldSingleLine(appStyles, isLocked: LogEntry.isLocked)
+          TextField("", text: $logEntry.CallerName)
+            .SectionTextFieldSingleLine(appStyles, isLocked: logEntry.isLocked)
             .textContentType(.name)
             .autocorrectionDisabled(true)
-            .showClearButton($LogEntry.CallerName)
-            .disabled(LogEntry.isLocked)
+            .showClearButton($logEntry.CallerName)
+            .disabled(logEntry.isLocked)
         }
 
         HStack(alignment: .top, spacing: 0) {
@@ -70,7 +70,7 @@ struct CallerDataView: View {
                   isOnColorSecondary: appStyles.GeneralToggleIsActiveSecondary,
                   isOffColorPrimary: appStyles.GeneralToggleIsUnactivePrimary,
                   isOffColorSecondary: appStyles.GeneralToggleIsUnactiveSecondary,
-                  isLocked: LogEntry.isLocked, isLockedColor: appStyles.ToogleIsLockedColor
+                  isLocked: logEntry.isLocked, isLockedColor: appStyles.ToogleIsLockedColor
                 )
               )
               .frame(height: appStyles.TextFieldHeight)
@@ -80,7 +80,7 @@ struct CallerDataView: View {
             VStack {
 
               Text(with ? getFormatedDateFromDOB(from: tempDOB) : "")
-                .SectionTextFieldSimulatedSingleLine(appStyles, isLocked: LogEntry.isLocked)
+                .SectionTextFieldSimulatedSingleLine(appStyles, isLocked: logEntry.isLocked)
                 .isHidden(!tempLocked, remove: true)
 
               DatePicker("", selection: $tempDOB, displayedComponents: [.date])
@@ -95,18 +95,18 @@ struct CallerDataView: View {
                 .isHidden(!with || tempLocked, remove: true)
             }
           }
-          .onChange(of: LogEntry.isLocked) {
+          .onChange(of: logEntry.isLocked) {
             withAnimation(.easeInOut(duration: 1)) {
-              tempLocked = LogEntry.isLocked
+              tempLocked = logEntry.isLocked
             }
           }
-          .onChange(of: LogEntry.uuid) {
+          .onChange(of: logEntry.uuid) {
             withAnimation(.easeInOut(duration: 1)) {
-              if LogEntry.CallerDOB == nil {
+              if logEntry.CallerDOB == nil {
                 tempDOB = Date()
                 withBirthday = false
               } else {
-                tempDOB = LogEntry.CallerDOB!
+                tempDOB = logEntry.CallerDOB!
                 withBirthday = true
               }
             }
@@ -114,18 +114,18 @@ struct CallerDataView: View {
           .onChange(of: tempDOB) {
             withAnimation(.easeInOut(duration: 1)) {
               print("1. onChang")
-              LogEntry.CallerDOB = tempDOB
+              logEntry.CallerDOB = tempDOB
             }
           }
           .onChange(of: withBirthday) { old, value in
             withAnimation(.easeInOut(duration: 1)) {
               print("2. onChang")
               if !withBirthday {
-                LogEntry.CallerDOB = nil
+                logEntry.CallerDOB = nil
                 with = withBirthday
 
               } else {
-                LogEntry.CallerDOB = tempDOB
+                logEntry.CallerDOB = tempDOB
                 with = withBirthday
 
               }
@@ -134,16 +134,16 @@ struct CallerDataView: View {
           .onAppear {
             withAnimation(.easeInOut(duration: 1)) {
               print("onapear")
-              if LogEntry.CallerDOB == nil {
+              if logEntry.CallerDOB == nil {
                 tempDOB = Date()
                 withBirthday = false
                 with = withBirthday
               } else {
-                tempDOB = LogEntry.CallerDOB!
+                tempDOB = logEntry.CallerDOB!
                 withBirthday = true
                 with = withBirthday
               }
-              tempLocked = LogEntry.isLocked
+              tempLocked = logEntry.isLocked
             }
           }
         }
@@ -152,13 +152,13 @@ struct CallerDataView: View {
             .SectionTextLabel(appStyles)
             .frame(alignment: .topLeading)
 
-          TextField("", text: $LogEntry.CallerAdress, axis: .vertical)
-            .SectionTextFieldSingleLine(appStyles, isLocked: LogEntry.isLocked)
+          TextField("", text: $logEntry.CallerAdress, axis: .vertical)
+            .SectionTextFieldSingleLine(appStyles, isLocked: logEntry.isLocked)
             .fixedSize(horizontal: false, vertical: true)
             .lineLimit(4, reservesSpace: true)
             .autocorrectionDisabled(true)
-            .showClearButton($LogEntry.CallerAdress)
-            .disabled(LogEntry.isLocked)
+            .showClearButton($logEntry.CallerAdress)
+            .disabled(logEntry.isLocked)
 
         }
 
@@ -166,7 +166,7 @@ struct CallerDataView: View {
 
     }
 
-    .disabled(LogEntry.isLocked)
+    .disabled(logEntry.isLocked)
     //.border(.brown)
     .padding(EdgeInsets(top: 5, leading: 0, bottom: 10, trailing: 10))
 

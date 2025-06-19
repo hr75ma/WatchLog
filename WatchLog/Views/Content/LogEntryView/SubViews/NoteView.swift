@@ -9,7 +9,7 @@ import PencilKit
 
 
 struct NoteView: View {
-  @Bindable var WatchLog: WatchLogEntry
+  @Bindable var logEntry: WatchLogEntry
   //@Binding var DrawData: Data
   @Binding var drawing: PKDrawing
   @Binding var toolPickerShows: Bool
@@ -23,7 +23,7 @@ struct NoteView: View {
           Image(systemName: appStyles.SectionNoteImage)
               .SectionImageStyle(appStyles)
               .symbolRenderingMode(.palette)
-              .symbolEffect(.variableColor.cumulative.hideInactiveLayers.nonReversing, options: .repeat(.continuous), isActive: !WatchLog.isLocked)
+              .symbolEffect(.variableColor.cumulative.hideInactiveLayers.nonReversing, options: .repeat(.continuous), isActive: !logEntry.isLocked)
               .foregroundStyle(appStyles.SectionNoteImagePrimary, appStyles.SectionNoteImageSecondary)
       }
       .padding(EdgeInsets(top: 5, leading: 0, bottom: 0, trailing: 10))
@@ -36,10 +36,10 @@ struct NoteView: View {
       .overlay(
         RoundedRectangle(cornerRadius: 20)
           
-            .stroke(WatchLog.isLocked ? appStyles.CanvasLockedColor : appStyles.CanvasUnLockedColor, lineWidth: 1)
+            .stroke(logEntry.isLocked ? appStyles.CanvasLockedColor : appStyles.CanvasUnLockedColor, lineWidth: 1)
           
       )
-      .animation(.easeInOut(duration: 1),  value: WatchLog.isLocked)
+      .animation(.easeInOut(duration: 1),  value: logEntry.isLocked)
       .padding(EdgeInsets(top: 5, leading: 10, bottom: 10, trailing: 10))
       
     }
