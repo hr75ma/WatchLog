@@ -98,7 +98,7 @@ extension Text {
             .background(isLocked ? appStyles.TextfieldBackgroundColorLocked : appStyles.TextfieldBackgroundColorUnLocked)
             .fixedSize(horizontal: true, vertical: true)
             //.textContentType(.telephoneNumber)
-            .border(.red)
+            
     }
     
     func SectionTextFieldSecondSimulatedSingleLine(_ appStyles: StylesLogEntry, isLocked: Bool) -> some View {

@@ -47,8 +47,19 @@ final class StylesLogEntry:Sendable {
     let TextFieldHeight2: CGFloat = 30
     
     let SectionCallerImage: String = "phone.badge.waveform.fill"
-    let SectionAccidentImage: String = "car.fill"
-    let SectionProcessTypeImage: String = "rectangle.and.pencil.and.ellipsis"
+    let SectionCallerImagePrimary: Color = Color.white
+    let SectionCallerImageSecondary: Color = Color.blue
+    
+    
+    let SectionProcessTypeImage: String = "character.book.closed.fill"
+    let SectionProcessTypeImagePrimary: Color = Color.blue
+    let SSectionProcessTypeImageSecondary: Color = Color.blue
+    
+    
+    //let SectionNoteImage = "phone.bubble.fill"
+    let SectionNoteImage = "message.badge.waveform.fill"
+    let SectionNoteImagePrimary: Color = Color.white
+    let SectionNoteImageSecondary: Color = Color.blue
     
     
     //generale layouts
@@ -124,8 +135,7 @@ final class StylesLogEntry:Sendable {
     let CanvasLockedColor: Color = Color(hex: 0x585858).opacity(1)
     let CanvasUnLockedColor: Color = Color.blue
     
-    //Note
-    let SectionNoteImage = "phone.bubble.fill"
+    
     
     //tree navigation
     let NavigationTreeAddEntryImage: String = "list.clipboard"

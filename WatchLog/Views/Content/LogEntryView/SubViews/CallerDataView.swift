@@ -21,6 +21,11 @@ struct CallerDataView: View {
     HStack(alignment: .top, spacing: 0) {
       Image(systemName: appStyles.SectionCallerImage)
         .SectionImageStyle(appStyles)
+        .symbolRenderingMode(.palette)
+        .symbolEffect(.variableColor.cumulative.hideInactiveLayers.nonReversing, options: .repeat(.continuous))
+        .foregroundStyle(appStyles.SectionCallerImagePrimary, appStyles.SectionCallerImageSecondary)
+        
+
 
       VStack(alignment: .leading, spacing: 5) {
 

@@ -29,6 +29,10 @@ struct ProcessTypeSelectionView: View {
     HStack(alignment: .top, spacing: 0) {
       Image(systemName: appStyles.SectionProcessTypeImage)
         .SectionImageStyle(appStyles)
+        .symbolRenderingMode(.palette)
+        //.symbolEffect(.variableColor.cumulative.hideInactiveLayers.nonReversing, options: .repeat(.continuous))
+        .foregroundStyle(appStyles.SectionProcessTypeImagePrimary, appStyles.SSectionProcessTypeImageSecondary)
+        
 
 //      VStack(alignment: .leading, spacing: 5) {
 
@@ -58,7 +62,7 @@ struct ProcessTypeSelectionView: View {
                                 .foregroundStyle(appStyles.ProcessTypeFontColor)
                         }
                     }
-                    .frame(height: 150)
+                    .frame(width: 400 ,height: 150)
                     .clipped()
                     .contentShape(Rectangle())
                     .pickerStyle(.wheel)

@@ -51,9 +51,9 @@ extension Image {
             .resizable()
             .aspectRatio(contentMode: .fit)
             .frame(width: 40, height: 40)
-            .symbolRenderingMode(.monochrome)
+            //.symbolRenderingMode(.monochrome)
             .symbolVariant(.fill)
-            .foregroundStyle(appStyles.GeneralTextColor)
+            //.foregroundStyle(appStyles.GeneralTextColor)
             .padding(EdgeInsets(top: 10, leading: 10, bottom: 0, trailing: 10))
     }
 }
