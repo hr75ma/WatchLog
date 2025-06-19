@@ -13,6 +13,8 @@ import SwiftUI
 class WatchLogEntry {
 
   var uuid: UUID
+    
+  var isNewEntryLog = true
 
   var EntryTime: Date
 
@@ -63,6 +65,8 @@ class WatchLogEntry {
 
     //drawingData = WatchLookBookEntry.drawingData
     pkDrawingData = watchLookBookEntry.drawing
+      
+      isNewEntryLog = false
 
   }
 
@@ -79,6 +83,7 @@ class WatchLogEntry {
     CallerDOB = nil
 
     isLocked = false
+    isNewEntryLog = true
 
     
       processTypeDetails = WatchLogProcessTypeDetails()

@@ -136,14 +136,15 @@ class DatabaseService: DatabaseServiceProtocol {
     }
     
     func fetchLogBookEntry(with EntryUUID: UUID) async -> Result<WatchLogEntry, Error> {
-        var WatchLogEntry: WatchLogEntry = WatchLogEntry(uudi: EntryUUID)
+        var watchLogEntry: WatchLogEntry = WatchLogEntry(uudi: EntryUUID)
         let fetchResult = dataSource.fetchLogBookEntry(with: EntryUUID)
         switch fetchResult {
         case .success(let entry):
             if !entry.isEmpty {
-                WatchLogEntry = .init(watchLookBookEntry: entry.first!)
+                watchLogEntry = .init(watchLookBookEntry: entry.first!)
+                //watchLogEntry.isNewEntryLog = false
             }
-            return .success(WatchLogEntry)
+            return .success(watchLogEntry)
         case .failure(let error):
             return .failure(error)
         }

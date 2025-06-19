@@ -204,9 +204,11 @@ extension LogBookEntryView {
           Button {
             Task {
               viewModel.watchLogEntry.isLocked = true
+              viewModel.watchLogEntry.isNewEntryLog = false
               await viewModel.saveLogEntry(LogEntry: viewModel.watchLogEntry)
                 print(">>> Log saved \(viewModel.watchLogEntry.uuid)")
                 logBookEntry.uuid = viewModel.watchLogEntry.uuid
+                viewModel.watchLogEntry.isNewEntryLog = false
                 displayedLogEntryUUID.id = viewModel.watchLogEntry.uuid
               
             }
