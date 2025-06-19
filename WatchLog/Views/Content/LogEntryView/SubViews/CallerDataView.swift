@@ -60,7 +60,8 @@ struct CallerDataView: View {
             .SectionTextLabel(appStyles)
 
           HStack(alignment: .top, spacing: 0) {
-            Toggle("", isOn: $withBirthday)
+            
+              Toggle("", isOn: $withBirthday)
               .labelsHidden()
               .toggleStyle(
                 ToggleStyleImage(
@@ -76,6 +77,25 @@ struct CallerDataView: View {
               .frame(height: appStyles.TextFieldHeight)
               .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
               .isHidden(tempLocked, remove: true)
+              
+              Toggle("", isOn: $withBirthday)
+              .labelsHidden()
+              .toggleStyle(
+                ToggleStyleAnimationImage(
+                  isOnImage: "inset.filled.circle.dashed",
+                  isOffImage: "circle.dashed",
+                  isOnColorPrimary: appStyles.GeneralToggleIsActivePrimary,
+                  isOnColorSecondary: appStyles.GeneralToggleIsActiveSecondary,
+                  isOffColorPrimary: appStyles.GeneralToggleIsUnactivePrimary,
+                  isOffColorSecondary: appStyles.GeneralToggleIsUnactiveSecondary,
+                  isLocked: logEntry.isLocked, isLockedColor: appStyles.ToogleIsLockedColor
+                )
+              )
+              .frame(height: appStyles.TextFieldHeight)
+              .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+              .isHidden(tempLocked, remove: true)
+              
+              
 
             VStack {
 
