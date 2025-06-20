@@ -18,12 +18,13 @@ import SwiftUI
                 HStack(alignment: .center, spacing: 0) {
                     Text("Kennzeichen")
                         .SectionTextLabelSecond(appStyles)
-                        .frame(width: 200, height: appStyles.TextFieldHeight2, alignment: .topLeading)
+                        .frame(height: appStyles.TextFieldHeight2, alignment: .topLeading)
                     
                     TextField("", text: $LogEntry.processTypeDetails.AccientLicensePlate01)
                         .SectionTextFieldSingleLineSecond(appStyles, isLocked: LogEntry.isLocked)
                         .limitInputLength(text: $LogEntry.processTypeDetails.AccientLicensePlate01, length: 10)
-                        .showClearButton($LogEntry.processTypeDetails.AccientLicensePlate01)                    
+                        .showClearButton($LogEntry.processTypeDetails.AccientLicensePlate01)
+                        .padding(EdgeInsets(top: 0, leading: 5, bottom: 0, trailing: 0))
                 }
             }
             .padding(EdgeInsets(top: 10, leading: 0, bottom: 0, trailing: 0))

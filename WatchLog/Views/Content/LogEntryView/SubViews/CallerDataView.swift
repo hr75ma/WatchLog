@@ -83,10 +83,10 @@ struct CallerDataView: View {
               .toggleStyle(
                 ToggleStyleAnimationImage(
                   isOnImage: "inset.filled.circle.dashed",
-                  isOffImage: "circle.dashed",
+                  isOffImage: "inset.filled.circle.dashed",
                   isOnColorPrimary: appStyles.GeneralToggleIsActivePrimary,
                   isOnColorSecondary: appStyles.GeneralToggleIsActiveSecondary,
-                  isOffColorPrimary: appStyles.GeneralToggleIsUnactivePrimary,
+                  isOffColorPrimary: Color.red,
                   isOffColorSecondary: appStyles.GeneralToggleIsUnactiveSecondary,
                   isLocked: logEntry.isLocked, isLockedColor: appStyles.ToogleIsLockedColor
                 )
