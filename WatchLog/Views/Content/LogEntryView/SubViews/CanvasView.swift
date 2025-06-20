@@ -17,7 +17,7 @@ struct CanvasView: UIViewRepresentable {
     
     func makeUIView(context: Context) -> PKCanvasView {
         // Allow finger drawing
-        canvasView.drawingPolicy = .anyInput
+        canvasView.drawingPolicy = .pencilOnly
         
         // Set the coordinator as the canvas's delegate
         canvasView.delegate = context.coordinator
@@ -25,6 +25,7 @@ struct CanvasView: UIViewRepresentable {
         
         // Make the tool picker visible or invisible depending on toolPickerShows
         toolPicker.setVisible(toolPickerShows, forFirstResponder: canvasView)
+        
         // Make the canvas respond to tool changes
         toolPicker.addObserver(canvasView)
         
