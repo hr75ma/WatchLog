@@ -50,11 +50,11 @@ struct LogBookEntryView: View {
         RoundedRectangle(cornerRadius: 20, style: .continuous)
           .fill(
             AngularGradient(
-                colors: [.red, .orange, .red],
+                colors: [.teal, .red, .teal],
                 center: .center,
                 angle: .degrees(isAnimating ? 360 : 0))
           )
-          .blur(radius: 19)
+          .blur(radius: 20)
           .onAppear {
               withAnimation(Animation.linear(duration: 2).repeatForever(autoreverses: false)) {
               isAnimating = true
@@ -67,6 +67,34 @@ struct LogBookEntryView: View {
 
           }
           .isHidden(!showGlowAnimation, remove: true)
+          
+          
+          RoundedRectangle(cornerRadius: 20, style: .continuous)
+            .fill(
+                AngularGradient(
+                    colors: [.red, .orange, .red],
+                    center: .center,
+                    angle: .degrees(isAnimating ? 360 : 0))
+              )
+            .stroke(
+                AngularGradient(
+                    colors: [.teal, .red, .teal],
+                    center: .center,
+                    angle: .degrees(isAnimating ? 360 : 0))
+              , style: StrokeStyle(lineWidth: 5, lineCap: .round))
+            .onAppear {
+                withAnimation(Animation.linear(duration: 2).repeatForever(autoreverses: false)) {
+                isAnimating = true
+                print("on")
+              }
+            }
+            .onDisappear {
+              isAnimating = false
+              print("off")
+
+            }
+            .isHidden(!showGlowAnimation, remove: true)
+          
 
         VStack(alignment: .leading, spacing: 0) {
 
@@ -108,9 +136,9 @@ struct LogBookEntryView: View {
             .stroke(
               viewModel.watchLogEntry.isLocked
                 ? appStyles.isLockedColor : appStyles.isUnLockedColor,
-              lineWidth: 4)
-
+              lineWidth: showGlowAnimation ? 0 : 5)
         )
+        
 
         .animation(.easeInOut(duration: 1), value: viewModel.watchLogEntry.isLocked)
         .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
