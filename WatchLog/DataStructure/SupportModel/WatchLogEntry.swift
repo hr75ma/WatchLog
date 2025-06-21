@@ -74,6 +74,7 @@ class WatchLogEntry {
     EntryTime = Date.now
     uuid = UUID()
     clear()
+      processTypeDetails = WatchLogProcessTypeDetails()
   }
 
   public func clear() {
@@ -83,10 +84,10 @@ class WatchLogEntry {
     CallerDOB = nil
 
     isLocked = false
-    isNewEntryLog = true
+    isNewEntryLog = false
 
     
-      processTypeDetails = WatchLogProcessTypeDetails()
+     // processTypeDetails = WatchLogProcessTypeDetails()
 
     //drawingData = Data()
     pkDrawingData = PKDrawing()

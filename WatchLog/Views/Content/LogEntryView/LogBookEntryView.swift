@@ -45,9 +45,9 @@ struct LogBookEntryView: View {
   var body: some View {
 
     //        Text(Date.now, format: .dateTime.hour().minute().second())
-           Text(logBookEntry.uuid.uuidString)
-       Text("currentuuid: \(displayedLogEntryUUID.id.uuidString)")
-      Text("currentuuid: \(viewModel.watchLogEntry.uuid.uuidString)")
+//           Text(logBookEntry.uuid.uuidString)
+//       Text("currentuuid: \(displayedLogEntryUUID.id.uuidString)")
+//      Text("currentuuid: \(viewModel.watchLogEntry.uuid.uuidString)")
 
     ScrollView {
 
@@ -169,9 +169,10 @@ struct LogBookEntryView: View {
       await viewModel.fetchLogEntry(LogEntryUUID: logBookEntry.uuid)
       print("--------->task")
       displayedLogEntryUUID.id = viewModel.watchLogEntry.uuid
+        glowingColorSet = viewModel.watchLogEntry.isNewEntryLog ? glowingColorSetNew : glowingColorSetLocked
         withAnimation(.easeInOut(duration: 1)) {
             if viewModel.watchLogEntry.isNewEntryLog || viewModel.watchLogEntry.isLocked {
-                glowingColorSet = viewModel.watchLogEntry.isNewEntryLog ? glowingColorSetNew : glowingColorSetLocked
+                
                 showGlowAnimation = true
                 
             } else {
@@ -194,15 +195,11 @@ struct LogBookEntryView: View {
         Task {
           await viewModel.fetchLogEntry(LogEntryUUID: newValue.uuid)
           displayedLogEntryUUID.id = viewModel.watchLogEntry.uuid
-            
+            glowingColorSet = viewModel.watchLogEntry.isNewEntryLog ? glowingColorSetNew : glowingColorSetLocked
             withAnimation(.easeInOut(duration: 1)) {
-                
                 if viewModel.watchLogEntry.isNewEntryLog || viewModel.watchLogEntry.isLocked {
-                    glowingColorSet = viewModel.watchLogEntry.isNewEntryLog ? glowingColorSetNew : glowingColorSetLocked
                     showGlowAnimation = true
-                    
                 } else {
-                    
                     showGlowAnimation = false
                 }
                 
@@ -215,11 +212,11 @@ struct LogBookEntryView: View {
       }
     )
     .onChange(of: viewModel.watchLogEntry.isLocked) { oldValue, newValue in
-        
+        glowingColorSet = viewModel.watchLogEntry.isLocked ? glowingColorSetLocked : glowingColorSetLocked
         withAnimation(.easeInOut(duration: 1)) {
             showGlowAnimation = false
             if newValue {
-                glowingColorSet = glowingColorSetLocked
+                
                 showGlowAnimation = true
                 
             } else {
@@ -229,9 +226,10 @@ struct LogBookEntryView: View {
         }
     }
     .onChange(of: viewModel.watchLogEntry.isNewEntryLog) { oldValue, newValue in
+        glowingColorSet = viewModel.watchLogEntry.isNewEntryLog ? glowingColorSetNew : glowingColorSetLocked
         withAnimation(.easeInOut(duration: 1)) {
             if newValue {
-                glowingColorSet = glowingColorSetNew
+                
                 showGlowAnimation = true
                 
             }
@@ -289,7 +287,7 @@ struct LogBookEntryView: View {
             Button(
               "Verwerfen", role: .destructive,
               action: {
-                clearEntry(LogEntry: viewModel.watchLogEntry, drawing: &drawing)
+                clearEntry(LogEntry: &viewModel.watchLogEntry, drawing: &drawing)
               })
             Button(
               "Nein", role: .cancel,
@@ -306,7 +304,7 @@ struct LogBookEntryView: View {
   //}
 }
 
-private func clearEntry(LogEntry: WatchLogEntry, drawing: inout PKDrawing) {
+private func clearEntry(LogEntry: inout WatchLogEntry, drawing: inout PKDrawing) {
   LogEntry.clear()
   drawing = PKDrawing()
 }
