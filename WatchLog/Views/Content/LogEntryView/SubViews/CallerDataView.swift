@@ -123,7 +123,7 @@ struct CallerDataView: View {
           .onChange(of: logEntry.uuid) {
             withAnimation(.easeInOut(duration: 1)) {
               if logEntry.CallerDOB == nil {
-                tempDOB = Date()
+                //tempDOB = Date()
                 withBirthday = false
               } else {
                 tempDOB = logEntry.CallerDOB!
@@ -155,7 +155,7 @@ struct CallerDataView: View {
             withAnimation(.easeInOut(duration: 1)) {
               print("onapear")
               if logEntry.CallerDOB == nil {
-                tempDOB = Date()
+                //tempDOB = Date()
                 withBirthday = false
                 with = withBirthday
               } else {

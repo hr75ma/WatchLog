@@ -65,6 +65,9 @@
             <PersistentString
                value = "viewModel.watchLogEntry.AccientLicensePlate01">
             </PersistentString>
+            <PersistentString
+               value = "viewModel.watchLogEntry">
+            </PersistentString>
          </PersistentStrings>
       </ContextState>
       <ContextState
@@ -123,6 +126,14 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "closure #3 in closure #3 in closure #1 in closure #1 in CallerDataView.body.getter:CallerDataView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "logEntry.CallerDOB">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "closure #1 in ContentView.DisclorsureGroupYear(year:):ContentView.swift">
          <PersistentStrings>
             <PersistentString
@@ -150,6 +161,17 @@
             </PersistentString>
             <PersistentString
                value = "geometry.size.height">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in closure #1 in closure #3 in closure #1 in closure #1 in CallerDataView.body.getter:CallerDataView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "tempDOB">
+            </PersistentString>
+            <PersistentString
+               value = "with">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

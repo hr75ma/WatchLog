@@ -36,6 +36,7 @@ struct LogBookEntryView: View {
 
   private let glowingColorSetLocked: [Color] = [.blue, .red, .blue]
   private let glowingColorSetNew: [Color] = [.blue, .green, .blue]
+  private let glowingColorSetEditing: [Color] = [.blue, .teal, .blue]
 
   let logger = Logger(
     subsystem: Bundle.main.bundleIdentifier!,
@@ -154,7 +155,7 @@ struct LogBookEntryView: View {
             .stroke(
               viewModel.watchLogEntry.isLocked
                 ? appStyles.isLockedColor : appStyles.isUnLockedColor,
-              lineWidth: showGlowAnimation ? 0 : 5)
+              lineWidth: showGlowAnimation ? 0 : 0)
         )
         
 
@@ -169,16 +170,17 @@ struct LogBookEntryView: View {
       await viewModel.fetchLogEntry(LogEntryUUID: logBookEntry.uuid)
       print("--------->task")
       displayedLogEntryUUID.id = viewModel.watchLogEntry.uuid
-        glowingColorSet = viewModel.watchLogEntry.isNewEntryLog ? glowingColorSetNew : glowingColorSetLocked
+        glowingColorSet = getGlowColorSet(logEntry: viewModel.watchLogEntry)//viewModel.watchLogEntry.isNewEntryLog ? glowingColorSetNew : glowingColorSetLocked
         withAnimation(.easeInOut(duration: 1)) {
-            if viewModel.watchLogEntry.isNewEntryLog || viewModel.watchLogEntry.isLocked {
-                
-                showGlowAnimation = true
-                
-            } else {
-                
-                showGlowAnimation = false
-            }
+            showGlowAnimation = true
+//            if viewModel.watchLogEntry.isNewEntryLog || viewModel.watchLogEntry.isLocked {
+//                
+//                showGlowAnimation = true
+//                
+//            } else {
+//                
+//                showGlowAnimation = false
+//            }
             print("change both 1")
         }
     }
@@ -195,13 +197,14 @@ struct LogBookEntryView: View {
         Task {
           await viewModel.fetchLogEntry(LogEntryUUID: newValue.uuid)
           displayedLogEntryUUID.id = viewModel.watchLogEntry.uuid
-            glowingColorSet = viewModel.watchLogEntry.isNewEntryLog ? glowingColorSetNew : glowingColorSetLocked
+            glowingColorSet = getGlowColorSet(logEntry: viewModel.watchLogEntry)//viewModel.watchLogEntry.isNewEntryLog ? glowingColorSetNew : glowingColorSetLocked
             withAnimation(.easeInOut(duration: 1)) {
-                if viewModel.watchLogEntry.isNewEntryLog || viewModel.watchLogEntry.isLocked {
-                    showGlowAnimation = true
-                } else {
-                    showGlowAnimation = false
-                }
+                showGlowAnimation = true
+//                if viewModel.watchLogEntry.isNewEntryLog || viewModel.watchLogEntry.isLocked {
+//                    showGlowAnimation = true
+//                } else {
+//                    showGlowAnimation = false
+//                }
                 
                 
                 print("change both 2")
@@ -212,21 +215,22 @@ struct LogBookEntryView: View {
       }
     )
     .onChange(of: viewModel.watchLogEntry.isLocked) { oldValue, newValue in
-        glowingColorSet = viewModel.watchLogEntry.isLocked ? glowingColorSetLocked : glowingColorSetLocked
+        glowingColorSet = getGlowColorSet(logEntry: viewModel.watchLogEntry)//viewModel.watchLogEntry.isLocked ? glowingColorSetLocked : glowingColorSetEditing
         withAnimation(.easeInOut(duration: 1)) {
-            showGlowAnimation = false
-            if newValue {
-                
-                showGlowAnimation = true
-                
-            } else {
-                showGlowAnimation = false
-            }
+//            showGlowAnimation = false
+//            if newValue {
+//                
+//                showGlowAnimation = true
+//                
+//            } else {
+//                showGlowAnimation = false
+//            }
+            showGlowAnimation = true
             print("change lock")
         }
     }
     .onChange(of: viewModel.watchLogEntry.isNewEntryLog) { oldValue, newValue in
-        glowingColorSet = viewModel.watchLogEntry.isNewEntryLog ? glowingColorSetNew : glowingColorSetLocked
+        glowingColorSet = getGlowColorSet(logEntry: viewModel.watchLogEntry)//viewModel.watchLogEntry.isNewEntryLog ? glowingColorSetNew : glowingColorSetEditing
         withAnimation(.easeInOut(duration: 1)) {
             if newValue {
                 
@@ -300,9 +304,25 @@ struct LogBookEntryView: View {
     }
 
   }
+    
+    private func getGlowColorSet(logEntry: WatchLogEntry) -> [Color] {
+        if logEntry.isLocked {
+           return glowingColorSetLocked
+        } else {
+            if logEntry.isNewEntryLog {
+                return glowingColorSetNew
+            } else {
+                return glowingColorSetEditing
+            }
+            
+        }
+        
+    }
 
   //}
 }
+
+
 
 private func clearEntry(LogEntry: inout WatchLogEntry, drawing: inout PKDrawing) {
   LogEntry.clear()
