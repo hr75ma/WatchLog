@@ -32,6 +32,11 @@ struct LogBookEntryView: View {
 
   @State private var frameSize = CGSize.zero
 
+    @State private var glowingColorSet: [Color] = [.blue, .red, .blue]
+
+  private let glowingColorSetLocked: [Color] = [.blue, .red, .blue]
+  private let glowingColorSetNew: [Color] = [.blue, .green, .blue]
+
   let logger = Logger(
     subsystem: Bundle.main.bundleIdentifier!,
     category: String(describing: LogBookEntryView.self)
@@ -40,17 +45,19 @@ struct LogBookEntryView: View {
   var body: some View {
 
     //        Text(Date.now, format: .dateTime.hour().minute().second())
-    //       Text(logBookEntry.uuid.uuidString)
-    //   Text("currentuuid: \(displayedLogEntryUUID.id.uuidString)")
+           Text(logBookEntry.uuid.uuidString)
+       Text("currentuuid: \(displayedLogEntryUUID.id.uuidString)")
+      Text("currentuuid: \(viewModel.watchLogEntry.uuid.uuidString)")
 
     ScrollView {
 
       //VStack(spacing: 20) {
-      ZStack {
+        ZStack
+        {
         RoundedRectangle(cornerRadius: 20, style: .continuous)
           .fill(
             AngularGradient(
-                colors: [.teal, .red, .teal],
+                colors: glowingColorSet,
                 center: .center,
                 angle: .degrees(isAnimating ? 360 : 0))
           )
@@ -64,7 +71,12 @@ struct LogBookEntryView: View {
           .onDisappear {
             isAnimating = false
             print("off")
-
+          }
+          .onChange(of: showGlowAnimation) {
+              withAnimation(Animation.linear(duration: 2).repeatForever(autoreverses: false)) {
+                  isAnimating = true
+                  print("on change")
+              }
           }
           .isHidden(!showGlowAnimation, remove: true)
           
@@ -72,13 +84,13 @@ struct LogBookEntryView: View {
           RoundedRectangle(cornerRadius: 20, style: .continuous)
             .fill(
                 AngularGradient(
-                    colors: [.red, .orange, .red],
+                    colors: glowingColorSet,
                     center: .center,
                     angle: .degrees(isAnimating ? 360 : 0))
               )
             .stroke(
                 AngularGradient(
-                    colors: [.teal, .red, .teal],
+                    colors: glowingColorSet,
                     center: .center,
                     angle: .degrees(isAnimating ? 360 : 0))
               , style: StrokeStyle(lineWidth: 5, lineCap: .round))
@@ -92,6 +104,12 @@ struct LogBookEntryView: View {
               isAnimating = false
               print("off")
 
+            }
+            .onChange(of: showGlowAnimation) {
+                withAnimation(Animation.linear(duration: 2).repeatForever(autoreverses: false)) {
+                    isAnimating = true
+                    print("on change")
+                }
             }
             .isHidden(!showGlowAnimation, remove: true)
           
@@ -151,6 +169,17 @@ struct LogBookEntryView: View {
       await viewModel.fetchLogEntry(LogEntryUUID: logBookEntry.uuid)
       print("--------->task")
       displayedLogEntryUUID.id = viewModel.watchLogEntry.uuid
+        withAnimation(.easeInOut(duration: 1)) {
+            if viewModel.watchLogEntry.isNewEntryLog || viewModel.watchLogEntry.isLocked {
+                glowingColorSet = viewModel.watchLogEntry.isNewEntryLog ? glowingColorSetNew : glowingColorSetLocked
+                showGlowAnimation = true
+                
+            } else {
+                
+                showGlowAnimation = false
+            }
+            print("change both 1")
+        }
     }
     .onDisappear {
       print("entry view onDisappear")
@@ -165,7 +194,23 @@ struct LogBookEntryView: View {
         Task {
           await viewModel.fetchLogEntry(LogEntryUUID: newValue.uuid)
           displayedLogEntryUUID.id = viewModel.watchLogEntry.uuid
+            
+            withAnimation(.easeInOut(duration: 1)) {
+                
+                if viewModel.watchLogEntry.isNewEntryLog || viewModel.watchLogEntry.isLocked {
+                    glowingColorSet = viewModel.watchLogEntry.isNewEntryLog ? glowingColorSetNew : glowingColorSetLocked
+                    showGlowAnimation = true
+                    
+                } else {
+                    
+                    showGlowAnimation = false
+                }
+                
+                
+                print("change both 2")
+            }
         }
+          
 
       }
     )
@@ -174,9 +219,23 @@ struct LogBookEntryView: View {
         withAnimation(.easeInOut(duration: 1)) {
             showGlowAnimation = false
             if newValue {
+                glowingColorSet = glowingColorSetLocked
                 showGlowAnimation = true
+                
+            } else {
+                showGlowAnimation = false
             }
             print("change lock")
+        }
+    }
+    .onChange(of: viewModel.watchLogEntry.isNewEntryLog) { oldValue, newValue in
+        withAnimation(.easeInOut(duration: 1)) {
+            if newValue {
+                glowingColorSet = glowingColorSetNew
+                showGlowAnimation = true
+                
+            }
+            print("change new entry")
         }
     }
     .padding(EdgeInsets(top: 20, leading: 0, bottom: 0, trailing: 0))
@@ -198,7 +257,7 @@ struct LogBookEntryView: View {
               action: {
                 Task {
                   await viewModel.deleteLogEntry(LogEntry: viewModel.watchLogEntry)
-                  newEntry(LogEntry: viewModel.watchLogEntry, drawing: &drawing)
+                  newEntry(LogEntry: &viewModel.watchLogEntry, drawing: &drawing)
                   logBookEntry.uuid = viewModel.watchLogEntry.uuid
 
                 }
@@ -213,8 +272,12 @@ struct LogBookEntryView: View {
             Button(
               "Erstellen", role: .destructive,
               action: {
-                newEntry(LogEntry: viewModel.watchLogEntry, drawing: &drawing)
-                // displayedLogEntryUUID.id = viewModel.watchLogEntry.uuid
+                  newEntry(LogEntry: &viewModel.watchLogEntry, drawing: &drawing)
+                  
+                  displayedLogEntryUUID.id = viewModel.watchLogEntry.uuid
+                  logBookEntry.clear()
+                  logBookEntry.uuid = viewModel.watchLogEntry.uuid
+                  
               })
             Button(
               "Abbrechen", role: .cancel,
@@ -248,8 +311,8 @@ private func clearEntry(LogEntry: WatchLogEntry, drawing: inout PKDrawing) {
   drawing = PKDrawing()
 }
 
-private func newEntry(LogEntry: WatchLogEntry, drawing: inout PKDrawing) {
-  LogEntry.new()
+private func newEntry(LogEntry: inout WatchLogEntry, drawing: inout PKDrawing) {
+  LogEntry = WatchLogEntry()
   drawing = PKDrawing()
   withAnimation {
     LogEntry.EntryTime = .now

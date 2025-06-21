@@ -158,6 +158,36 @@ class WatchLogBookEntry: Identifiable, Hashable {
         
     }
     
+    func clear() {
+        
+        self.uuid = uuid
+        LogDate = .now
+        
+        CallerName = ""
+        CallerNumber = ""
+        CallerAdress = ""
+        CallerDOB = nil
+        
+        //isAccient = false
+        //AccientInjured = false
+        AccientHitAndRun = false
+        AccientLicensePlate01 = ""
+        AccientLicensePlate02 = ""
+        
+        isInjured = false
+        
+        processTypeShort = ProcessType.ProcessTypeShort.UNKNOWN
+        
+        isLocked = false
+        
+        drawingData = Data()
+        
+        watchLogBookDay = WatchLogBookDay()
+        
+        processDetails = WatchLogBookProcessTypeDetails()
+        
+    }
+    
     func update(LogEntry: WatchLogEntry) {
         
         uuid = LogEntry.uuid
