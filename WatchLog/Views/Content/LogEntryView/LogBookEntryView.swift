@@ -277,8 +277,8 @@ struct LogBookEntryView: View {
                   newEntry(LogEntry: &viewModel.watchLogEntry, drawing: &drawing)
                   
                   displayedLogEntryUUID.id = viewModel.watchLogEntry.uuid
-                  logBookEntry.clear()
-                  logBookEntry.uuid = viewModel.watchLogEntry.uuid
+                  //logBookEntry.clear()
+                  //logBookEntry.uuid = viewModel.watchLogEntry.uuid
                   
               })
             Button(
@@ -393,7 +393,7 @@ extension LogBookEntryView {
               viewModel.watchLogEntry.isNewEntryLog = false
               await viewModel.saveLogEntry(LogEntry: viewModel.watchLogEntry)
               print(">>> Log saved \(viewModel.watchLogEntry.uuid)")
-              logBookEntry.uuid = viewModel.watchLogEntry.uuid
+              //logBookEntry.uuid = viewModel.watchLogEntry.uuid
               viewModel.watchLogEntry.isNewEntryLog = false
               displayedLogEntryUUID.id = viewModel.watchLogEntry.uuid
 

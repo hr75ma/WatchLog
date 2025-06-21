@@ -92,7 +92,11 @@ struct ContentView: View {
             .sheet(isPresented: $showSettingSheet) {
                 SettingView()
             }
-            
+            .onAppear {
+                Task {
+                    await viewModel.fetchLogBook()
+                }
+            }
             .task {
                 print("fetch tree")
                 await viewModel.fetchLogBook()
@@ -287,7 +291,7 @@ extension ContentView {
                       .TextLabel(font: appStyles.NavigationTreeSubFont, fontSize: appStyles.NavigationTreeSubFontSize, fontColor: appStyles.NavigationTreeSubFontColor)
               }
           }
-          .listRowBackground(entry.uuid == logBookEntry.uuid ? appStyles.NavigationTreeSelectedRowColor : .none)
+          .listRowBackground(entry.uuid == displayedLogEntryUUID.id ? appStyles.NavigationTreeSelectedRowColor : .none)
 
       //  }
         
