@@ -43,7 +43,7 @@ struct NoteView: View {
       .padding(EdgeInsets(top: 5, leading: 10, bottom: 10, trailing: 10))
       
     }
-
+    .cornerRadius(20)
     .overlay(
       Rectangle()
         .frame(height: 0)  // Border thickness

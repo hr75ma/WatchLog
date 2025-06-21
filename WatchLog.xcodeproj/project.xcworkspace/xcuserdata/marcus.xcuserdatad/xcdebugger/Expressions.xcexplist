@@ -3,22 +3,13 @@
    version = "1.0">
    <ContextStates>
       <ContextState
-         contextName = "closure #1 in ContentView.DisclorsureGroupYear(year:):ContentView.swift">
+         contextName = "closure #1 in closure #1 in closure #1 in ProcessTypeSelectionView.body.getter:ProcessTypeSelectionView.swift">
          <PersistentStrings>
             <PersistentString
-               value = "expandYear">
+               value = "selectedProcess">
             </PersistentString>
             <PersistentString
-               value = "displayedLogEntryUUID.id">
-            </PersistentString>
-            <PersistentString
-               value = "logBookEntry.LogDate">
-            </PersistentString>
-            <PersistentString
-               value = "isNewEntry">
-            </PersistentString>
-            <PersistentString
-               value = "oldValue">
+               value = "LogEntry.precessTypeDetails.processTypeShort">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -31,16 +22,35 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "closure #2 in closure #1 in closure #1 in closure #1 in LogBookEntryView.body.getter:LogBookEntryView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "geometry.size.width">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in closure #1 in closure #1 in LogBookEntryView.body.getter:LogBookEntryView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "geometry.size.width">
+            </PersistentString>
+            <PersistentString
+               value = "geometry.size.height">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "LogEntryViewModel.fetchLogEntry(LogEntryUUID:):LogEntryViewModel.swift">
          <PersistentStrings>
             <PersistentString
-               value = "LogEntryUUID">
+               value = "logBookEntry.uuid">
             </PersistentString>
             <PersistentString
                value = "self.watchLogEntry.uuid">
             </PersistentString>
             <PersistentString
-               value = "logBookEntry.uuid">
+               value = "LogEntryUUID">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -100,14 +110,6 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "closure #1 in ContentView.body.getter:ContentView.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "displayedLogEntryUUID">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
          contextName = "closure #3 in closure #1 in ContentView.DisclorsureGroupYear(year:):ContentView.swift">
          <PersistentStrings>
             <PersistentString
@@ -115,6 +117,14 @@
             </PersistentString>
             <PersistentString
                value = "displayedLogEntryUUID.yearId">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in ContentView.body.getter:ContentView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "displayedLogEntryUUID">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -146,21 +156,30 @@
          contextName = "closure #1 in closure #2 in closure #1 in closure #1 in closure #1 in ContentView.DisclosureGroupLogEntries(day:):ContentView.swift">
       </ContextState>
       <ContextState
-         contextName = "closure #1 in closure #1 in ProcessTypeSubVUView.body.getter:ProcessTypeSubVUView.swift">
+         contextName = "closure #1 in ContentView.DisclorsureGroupYear(year:):ContentView.swift">
          <PersistentStrings>
             <PersistentString
-               value = "$LogEntry.precessTypeDetails.AccientLicensePlate01">
+               value = "expandYear">
+            </PersistentString>
+            <PersistentString
+               value = "displayedLogEntryUUID.id">
+            </PersistentString>
+            <PersistentString
+               value = "logBookEntry.LogDate">
+            </PersistentString>
+            <PersistentString
+               value = "isNewEntry">
+            </PersistentString>
+            <PersistentString
+               value = "oldValue">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "closure #1 in closure #1 in closure #1 in ProcessTypeSelectionView.body.getter:ProcessTypeSelectionView.swift">
+         contextName = "closure #1 in closure #1 in ProcessTypeSubVUView.body.getter:ProcessTypeSubVUView.swift">
          <PersistentStrings>
             <PersistentString
-               value = "selectedProcess">
-            </PersistentString>
-            <PersistentString
-               value = "LogEntry.precessTypeDetails.processTypeShort">
+               value = "$LogEntry.precessTypeDetails.AccientLicensePlate01">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
