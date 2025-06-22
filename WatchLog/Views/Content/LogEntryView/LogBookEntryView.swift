@@ -28,8 +28,6 @@ struct LogBookEntryView: View {
   @State var alertClear = false
 
   @State private var isAnimating = false
-  @State private var showGlowAnimation = false
-
   @State private var glowingColorSet: [Color] = [.blue, .yellow, .red]
 
   var body: some View {
@@ -42,15 +40,14 @@ struct LogBookEntryView: View {
     ScrollView {
 
       ZStack {
-        
-        glowingBorderEffect
-        .isHidden(!showGlowAnimation, remove: true)
 
+        glowingBorderEffect
+        
         VStack(alignment: .leading, spacing: 0) {
 
-          LogTimeView(LogTime: viewModel.watchLogEntry.EntryTime)
+          LogTimeView(logTime: viewModel.watchLogEntry.EntryTime)
 
-          LockedView(LogEntry: viewModel.watchLogEntry)
+          LockEditingView(logEntry: viewModel.watchLogEntry)
 
           CallerDataView(logEntry: viewModel.watchLogEntry)
 
@@ -77,17 +74,16 @@ struct LogBookEntryView: View {
       print("--------->task")
       displayedLogEntryUUID.id = viewModel.watchLogEntry.uuid
       glowingColorSet = getGlowColorSet(logEntry: viewModel.watchLogEntry)
-      withAnimation(.easeInOut(duration: 1)) {
-        showGlowAnimation = true
-        print("change both 1")
-      }
+      
     }
     .onDisappear {
       print("entry view onDisappear")
       //dismiss()
 
     }
-    .onChange(of: logBookEntryUUID, { oldValue, newValue in
+    .onChange(
+      of: logBookEntryUUID,
+      { oldValue, newValue in
         print("--------->onchange")
         Task {
           await viewModel.fetchLogEntry(LogEntryUUID: newValue)
@@ -158,19 +154,21 @@ struct LogBookEntryView: View {
 
   }
 
-  private func getGlowColorSet(logEntry: WatchLogEntry) -> [Color] {
-    if logEntry.isLocked {
-      return appStyles.glowingColorSetLocked
-    } else {
-      if logEntry.isNewEntryLog {
-        return appStyles.glowingColorSetNew
-      } else {
-        return appStyles.glowingColorSetEditing
-      }
-
-    }
-
-  }
+    private func getGlowColorSet(logEntry: WatchLogEntry) -> [Color] {
+        
+            if logEntry.isLocked {
+                return appStyles.glowingColorSetLocked
+            } else {
+                if logEntry.isNewEntryLog {
+                    return appStyles.glowingColorSetNew
+                } else {
+                    return appStyles.glowingColorSetEditing
+                }
+                
+            }
+            
+        }
+    
 }
 
 private func clearEntry(LogEntry: inout WatchLogEntry, drawing: inout PKDrawing) {
@@ -187,33 +185,39 @@ private func newEntry(LogEntry: inout WatchLogEntry, drawing: inout PKDrawing) {
 
 }
 
-
-
 extension LogBookEntryView {
-    
+
   private var glowingBorderEffect: some View {
-     
-      ZStack {
-          RoundedRectangle(cornerRadius: 20, style: .continuous)
-              .fill(
-                AngularGradient(
-                    colors: glowingColorSet,
-                    center: .center,
-                    angle: .degrees(isAnimating ? 360 : 0))
-              )
-              .blur(radius: 15)
-          
-          RoundedRectangle(cornerRadius: 20, style: .continuous)
-              .stroke(
-                AngularGradient(
-                    colors: glowingColorSet,
-                    center: .center,
-                    angle: .degrees(isAnimating ? 360 : 0)),
-                style: StrokeStyle(lineWidth: 5, lineCap: .round))
+
+    ZStack {
+      RoundedRectangle(cornerRadius: 20, style: .continuous)
+        .fill(
+          AngularGradient(
+            colors: glowingColorSet,
+            center: .center,
+            angle: .degrees(isAnimating ? 360 : 0))
+        )
+        .blur(radius: 15)
+
+      RoundedRectangle(cornerRadius: 20, style: .continuous)
+        .stroke(
+          AngularGradient(
+            colors: glowingColorSet,
+            center: .center,
+            angle: .degrees(isAnimating ? 360 : 0)),
+          style: StrokeStyle(lineWidth: 5, lineCap: .round))
+    }
+    .onAppear {
+      withAnimation(Animation.linear(duration: 2).repeatForever(autoreverses: false)) {
+        isAnimating = true
+        print("on")
       }
     }
-    
-    
+    .onDisappear {
+      isAnimating = false
+      print("off")
+    }
+  }
 
   private var ContextButton: some View {
 
