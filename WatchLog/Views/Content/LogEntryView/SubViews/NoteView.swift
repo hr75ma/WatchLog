@@ -34,7 +34,7 @@ struct NoteView: View {
           
       }
       .overlay(
-        RoundedRectangle(cornerRadius: 20)
+        RoundedRectangle(cornerRadius: 20, style: .continuous)
           
             .stroke(logEntry.isLocked ? appStyles.CanvasLockedColor : appStyles.CanvasUnLockedColor, lineWidth: 1)
           
