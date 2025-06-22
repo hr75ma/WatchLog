@@ -24,6 +24,11 @@ final class StylesLogEntry:Sendable {
     
     private init() {}
     
+    let glowingColorSetLocked: [Color] = [.blue, .red, .blue]
+    let glowingColorSetNew: [Color] = [.blue, .green, .blue]
+    let glowingColorSetEditing: [Color] = [.blue, .teal, .blue]
+    
+    
     let TextfieldBackgroundColor: Color = Color(hex: 0x272727).opacity(1)
     let TextfieldBackgroundColorLocked: Color = Color(hex: 0x0a0a0a).opacity(1)
     let TextfieldBackgroundColorUnLocked: Color = Color(hex: 0x1d1d1d).opacity(1)
