@@ -11,6 +11,7 @@ import PencilKit
 struct CanvasView: UIViewRepresentable {
     @Binding var drawing: PKDrawing
     @Binding var toolPickerShows: Bool
+
     
     private let canvasView = PKCanvasView()
     private let toolPicker = PKToolPicker()
@@ -22,6 +23,12 @@ struct CanvasView: UIViewRepresentable {
         // Set the coordinator as the canvas's delegate
         canvasView.delegate = context.coordinator
         
+        canvasView.contentSize = CGSize(width: 2000, height: 2000)
+        
+        // for zooming
+                canvasView.minimumZoomScale = 1
+                canvasView.maximumZoomScale = 10
+
         
         // Make the tool picker visible or invisible depending on toolPickerShows
         toolPicker.setVisible(toolPickerShows, forFirstResponder: canvasView)
@@ -49,6 +56,7 @@ struct CanvasView: UIViewRepresentable {
         if drawing != canvasView.drawing {
             canvasView.drawing = drawing
         }
+
         
         toolPicker.setVisible(toolPickerShows, forFirstResponder: canvasView)
         toolPicker.addObserver(canvasView)
@@ -77,3 +85,24 @@ struct CanvasView: UIViewRepresentable {
             Coordinator(drawing: $drawing)
         }
     }
+
+extension CanvasView {
+    
+
+}
+
+extension PKDrawing {
+    mutating func scale(in frame: CGRect) {
+        var scaleFactor:CGFloat = 0
+        
+        if self.bounds.width != frame.width {
+            scaleFactor = frame.width / self.bounds.width
+        } else if self.bounds.height != frame.height {
+            scaleFactor = frame.height / self.bounds.height
+        }
+        
+        let trasform = CGAffineTransform(scaleX: scaleFactor, y: scaleFactor)
+        
+        self.transform(using: trasform)
+    }
+}
