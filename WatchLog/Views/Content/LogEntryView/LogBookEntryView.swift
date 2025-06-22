@@ -11,7 +11,7 @@ import SwiftUI
 import os
 
 struct LogBookEntryView: View {
-  @Bindable public var logBookEntry: WatchLogBookEntry
+  @Binding public var logBookEntryUUID: UUID
 
   @EnvironmentObject var viewModel: LogEntryViewModel
 
@@ -28,70 +28,26 @@ struct LogBookEntryView: View {
   @State var alertClear = false
 
   @State private var isAnimating = false
-  @State private var showGlowAnimation = false
-
-  @State private var frameSize = CGSize.zero
-
-    @State private var glowingColorSet: [Color] = [.blue, .red, .blue]
-
-  private let glowingColorSetLocked: [Color] = [.blue, .red, .blue]
-  private let glowingColorSetNew: [Color] = [.blue, .green, .blue]
-  private let glowingColorSetEditing: [Color] = [.blue, .teal, .blue]
-
-  let logger = Logger(
-    subsystem: Bundle.main.bundleIdentifier!,
-    category: String(describing: LogBookEntryView.self)
-  )
+  @State private var glowingColorSet: [Color] = [.blue, .yellow, .red]
 
   var body: some View {
 
     //        Text(Date.now, format: .dateTime.hour().minute().second())
-//           Text(logBookEntry.uuid.uuidString)
-//       Text("currentuuid: \(displayedLogEntryUUID.id.uuidString)")
-//      Text("currentuuid: \(viewModel.watchLogEntry.uuid.uuidString)")
+    //           Text(logBookEntry.uuid.uuidString)
+    //       Text("currentuuid: \(displayedLogEntryUUID.id.uuidString)")
+    //      Text("currentuuid: \(viewModel.watchLogEntry.uuid.uuidString)")
 
     ScrollView {
 
-      //VStack(spacing: 20) {
-        ZStack
-        {
+      ZStack {
+
+        glowingBorderEffect
         
-            ZStack {
-                RoundedRectangle(cornerRadius: 20, style: .continuous)
-                    .fill(
-                        AngularGradient(
-                            colors: glowingColorSet,
-                            center: .center,
-                            angle: .degrees(isAnimating ? 360 : 0))
-                    )
-                    .blur(radius: 15)
-
-                RoundedRectangle(cornerRadius: 20, style: .continuous)
-                    .stroke(
-                        AngularGradient(
-                            colors: glowingColorSet,
-                            center: .center,
-                            angle: .degrees(isAnimating ? 360 : 0))
-                        , style: StrokeStyle(lineWidth: 5, lineCap: .round))
-            }
-            .isHidden(!showGlowAnimation, remove: true)
-            .onAppear {
-                withAnimation(Animation.linear(duration: 2).repeatForever(autoreverses: false)) {
-                    isAnimating = true
-                    print("on")
-                }
-            }
-            .onDisappear {
-                isAnimating = false
-                print("off")
-            }
-
         VStack(alignment: .leading, spacing: 0) {
 
+          LogTimeView(logTime: viewModel.watchLogEntry.EntryTime)
 
-          LogTimeView(LogTime: viewModel.watchLogEntry.EntryTime)
-
-          LockedView(LogEntry: viewModel.watchLogEntry)
+          LockEditingView(logEntry: viewModel.watchLogEntry)
 
           CallerDataView(logEntry: viewModel.watchLogEntry)
 
@@ -101,52 +57,24 @@ struct LogBookEntryView: View {
             logEntry: viewModel.watchLogEntry, drawing: $viewModel.watchLogEntry.pkDrawingData,
             toolPickerShows: $toolPickerShows
           )
-          .containerRelativeFrame([.vertical], alignment: .topLeading)
-          .disabled(viewModel.watchLogEntry.isLocked)
-
         }
         .background(Color.black)
-        //.sizeReader(size: $frameSize)
-
         .frame(
           maxWidth: .infinity,
           maxHeight: .infinity,
           alignment: .topLeading
         )
         .cornerRadius(20)
-//        .overlay(
-//          RoundedRectangle(cornerRadius: 20, style: .continuous)
-//            .stroke(
-//              viewModel.watchLogEntry.isLocked
-//                ? appStyles.isLockedColor : appStyles.isUnLockedColor,
-//              lineWidth: showGlowAnimation ? 0 : 0)
-//        )
-        
-
-        .animation(.easeInOut(duration: 1), value: viewModel.watchLogEntry.isLocked)
         .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
       }
       .padding(EdgeInsets(top: 30, leading: 30, bottom: 30, trailing: 30))
-      //   }
-
     }
     .task {
-      await viewModel.fetchLogEntry(LogEntryUUID: logBookEntry.uuid)
+      await viewModel.fetchLogEntry(LogEntryUUID: logBookEntryUUID)
       print("--------->task")
       displayedLogEntryUUID.id = viewModel.watchLogEntry.uuid
-        glowingColorSet = getGlowColorSet(logEntry: viewModel.watchLogEntry)//viewModel.watchLogEntry.isNewEntryLog ? glowingColorSetNew : glowingColorSetLocked
-        withAnimation(.easeInOut(duration: 1)) {
-            showGlowAnimation = true
-//            if viewModel.watchLogEntry.isNewEntryLog || viewModel.watchLogEntry.isLocked {
-//                
-//                showGlowAnimation = true
-//                
-//            } else {
-//                
-//                showGlowAnimation = false
-//            }
-            print("change both 1")
-        }
+      glowingColorSet = getGlowColorSet(logEntry: viewModel.watchLogEntry)
+      
     }
     .onDisappear {
       print("entry view onDisappear")
@@ -154,61 +82,27 @@ struct LogBookEntryView: View {
 
     }
     .onChange(
-      of: logBookEntry,
+      of: logBookEntryUUID,
       { oldValue, newValue in
-
         print("--------->onchange")
         Task {
-          await viewModel.fetchLogEntry(LogEntryUUID: newValue.uuid)
+          await viewModel.fetchLogEntry(LogEntryUUID: newValue)
           displayedLogEntryUUID.id = viewModel.watchLogEntry.uuid
-            glowingColorSet = getGlowColorSet(logEntry: viewModel.watchLogEntry)//viewModel.watchLogEntry.isNewEntryLog ? glowingColorSetNew : glowingColorSetLocked
-            withAnimation(.easeInOut(duration: 1)) {
-                showGlowAnimation = true
-//                if viewModel.watchLogEntry.isNewEntryLog || viewModel.watchLogEntry.isLocked {
-//                    showGlowAnimation = true
-//                } else {
-//                    showGlowAnimation = false
-//                }
-                
-                
-                print("change both 2")
-            }
+          glowingColorSet = getGlowColorSet(logEntry: viewModel.watchLogEntry)
         }
-          
-
       }
     )
     .onChange(of: viewModel.watchLogEntry.isLocked) { oldValue, newValue in
-        glowingColorSet = getGlowColorSet(logEntry: viewModel.watchLogEntry)//viewModel.watchLogEntry.isLocked ? glowingColorSetLocked : glowingColorSetEditing
-        withAnimation(.easeInOut(duration: 1)) {
-//            showGlowAnimation = false
-//            if newValue {
-//                
-//                showGlowAnimation = true
-//                
-//            } else {
-//                showGlowAnimation = false
-//            }
-            showGlowAnimation = true
-            print("change lock")
-        }
+      glowingColorSet = getGlowColorSet(logEntry: viewModel.watchLogEntry)
     }
     .onChange(of: viewModel.watchLogEntry.isNewEntryLog) { oldValue, newValue in
-        glowingColorSet = getGlowColorSet(logEntry: viewModel.watchLogEntry)//viewModel.watchLogEntry.isNewEntryLog ? glowingColorSetNew : glowingColorSetEditing
-        withAnimation(.easeInOut(duration: 1)) {
-            if newValue {
-                
-                showGlowAnimation = true
-                
-            }
-            print("change new entry")
-        }
+      glowingColorSet = getGlowColorSet(logEntry: viewModel.watchLogEntry)
     }
     .padding(EdgeInsets(top: 20, leading: 0, bottom: 0, trailing: 0))
     .toolbar {
       ToolbarItem(placement: .topBarLeading) {
         Text("Log")
-          .font(Font.custom(appStyles.LabelFont, size: appStyles.LabelFontSize))
+          .font(Font.custom(appStyles.LabelFont, size: appStyles.LabelFontSize2))
           .foregroundStyle(.blue)
           .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
       }
@@ -216,7 +110,6 @@ struct LogBookEntryView: View {
       ToolbarItemGroup(placement: .primaryAction) {
 
         ContextButton
-
           .alert("Log Löschen?", isPresented: $alertDelete) {
             Button(
               "Löschen", role: .destructive,
@@ -224,31 +117,24 @@ struct LogBookEntryView: View {
                 Task {
                   await viewModel.deleteLogEntry(LogEntry: viewModel.watchLogEntry)
                   newEntry(LogEntry: &viewModel.watchLogEntry, drawing: &drawing)
-                  logBookEntry.uuid = viewModel.watchLogEntry.uuid
-
+                  logBookEntryUUID = viewModel.watchLogEntry.uuid
                 }
               })
             Button(
               "Abbrechen", role: .cancel,
               action: {
-
               })
           }
           .alert("Neues Log erstellen?", isPresented: $alertNew) {
             Button(
               "Erstellen", role: .destructive,
               action: {
-                  newEntry(LogEntry: &viewModel.watchLogEntry, drawing: &drawing)
-                  
-                  displayedLogEntryUUID.id = viewModel.watchLogEntry.uuid
-                  //logBookEntry.clear()
-                  //logBookEntry.uuid = viewModel.watchLogEntry.uuid
-                  
+                newEntry(LogEntry: &viewModel.watchLogEntry, drawing: &drawing)
+                displayedLogEntryUUID.id = viewModel.watchLogEntry.uuid
               })
             Button(
               "Abbrechen", role: .cancel,
               action: {
-
               })
           }
           .alert("Eingaben verwerfen?", isPresented: $alertClear) {
@@ -260,7 +146,6 @@ struct LogBookEntryView: View {
             Button(
               "Nein", role: .cancel,
               action: {
-
               })
           }
       }
@@ -268,25 +153,23 @@ struct LogBookEntryView: View {
     }
 
   }
-    
+
     private func getGlowColorSet(logEntry: WatchLogEntry) -> [Color] {
-        if logEntry.isLocked {
-           return glowingColorSetLocked
-        } else {
-            if logEntry.isNewEntryLog {
-                return glowingColorSetNew
+        
+            if logEntry.isLocked {
+                return appStyles.glowingColorSetLocked
             } else {
-                return glowingColorSetEditing
+                if logEntry.isNewEntryLog {
+                    return appStyles.glowingColorSetNew
+                } else {
+                    return appStyles.glowingColorSetEditing
+                }
+                
             }
             
         }
-        
-    }
-
-  //}
+    
 }
-
-
 
 private func clearEntry(LogEntry: inout WatchLogEntry, drawing: inout PKDrawing) {
   LogEntry.clear()
@@ -302,26 +185,39 @@ private func newEntry(LogEntry: inout WatchLogEntry, drawing: inout PKDrawing) {
 
 }
 
-struct SizeReader: ViewModifier {
-  @Binding var size: CGSize
-
-  func body(content: Content) -> some View {
-    content
-      .onGeometryChange(for: CGSize.self, of: \.size) { newVal in
-        size = newVal
-        print("Size: \(size.width) x \(size.height)")
-      }
-
-  }
-}
-
-extension View {
-  func sizeReader(size: Binding<CGSize>) -> some View {
-    modifier(SizeReader(size: size))
-  }
-}
-
 extension LogBookEntryView {
+
+  private var glowingBorderEffect: some View {
+
+    ZStack {
+      RoundedRectangle(cornerRadius: 20, style: .continuous)
+        .fill(
+          AngularGradient(
+            colors: glowingColorSet,
+            center: .center,
+            angle: .degrees(isAnimating ? 360 : 0))
+        )
+        .blur(radius: 15)
+
+      RoundedRectangle(cornerRadius: 20, style: .continuous)
+        .stroke(
+          AngularGradient(
+            colors: glowingColorSet,
+            center: .center,
+            angle: .degrees(isAnimating ? 360 : 0)),
+          style: StrokeStyle(lineWidth: 5, lineCap: .round))
+    }
+    .onAppear {
+      withAnimation(Animation.linear(duration: 2).repeatForever(autoreverses: false)) {
+        isAnimating = true
+        print("on")
+      }
+    }
+    .onDisappear {
+      isAnimating = false
+      print("off")
+    }
+  }
 
   private var ContextButton: some View {
 
@@ -329,7 +225,7 @@ extension LogBookEntryView {
       .symbolRenderingMode(.palette)
       .resizable()
       .scaledToFit()
-      .frame(width: 40, height: 40, alignment: .center)
+      .frame(width: 30, height: 30, alignment: .center)
       .foregroundStyle(
         appStyles.ToolbarContextColorActivePrimary, appStyles.ToolbarContextColorActiveSecondary
       )
@@ -360,6 +256,7 @@ extension LogBookEntryView {
               //await  logBookEntry = viewModel.fetchLogEntryMod(LogEntryUUID: viewModel.watchLogEntry.uuid)!
               viewModel.watchLogEntry.isNewEntryLog = false
               displayedLogEntryUUID.id = viewModel.watchLogEntry.uuid
+              logBookEntryUUID = displayedLogEntryUUID.id
 
             }
           } label: {
@@ -405,13 +302,14 @@ extension LogBookEntryView {
 }
 
 #Preview{
-  @Previewable @State var existingLogBookEntry = WatchLogBookEntry()
+  //@Previewable @State var existingLogBookEntry = WatchLogBookEntry()
+  @Previewable @State var existingLogBookEntry = UUID()
   @Previewable @State var isNewEntry = false
 
   let databaseService = DatabaseService()
   let viewModel = LogEntryViewModel(dataBaseService: databaseService)
 
-    LogBookEntryView(logBookEntry: existingLogBookEntry)
+  LogBookEntryView(logBookEntryUUID: $existingLogBookEntry)
     .environmentObject(viewModel)
     .environment(\.appStyles, StylesLogEntry.shared)
     //.environment(\.displayedLogEntryUUID, DisplayedLogEntryID())

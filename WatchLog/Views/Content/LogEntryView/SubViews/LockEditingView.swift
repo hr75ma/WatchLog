@@ -7,53 +7,62 @@
 
 import SwiftUI
 
-struct LockedView: View {
-  @Bindable var LogEntry: WatchLogEntry
+struct LockEditingView: View {
+  @Bindable var logEntry: WatchLogEntry
 
-    @Environment(\.appStyles) var appStyles
+  @Environment(\.appStyles) var appStyles
 
   let locale = Locale.current
 
   var body: some View {
-      HStack(alignment: .center) {
-          
-          Text(LogEntry.isLocked ? "Gesperrt" : "Entsperrt")
-              .font(Font.custom(appStyles.LabelFont, size: appStyles.LabelFontSize2))
-              .foregroundStyle(LogEntry.isLocked ? appStyles.isLockedColor : appStyles.GeneralTextColor)
-              .frame(width: 170, height: appStyles.LabelFontSize2, alignment: .leading)
-              .multilineTextAlignment(.leading)
-              .lineLimit(1)
-              .fixedSize(horizontal: true, vertical: true)
-              .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 5))
-              .lineSpacing(0)
-              .animation(.easeInOut(duration: 1), value: LogEntry.isLocked)
-              
-          
-          Toggle("", isOn: $LogEntry.isLocked)
-              .labelsHidden()
-              .toggleStyle(ToggleStyleLockImage(
-                isOnImage: appStyles.LockImageisLocked,
-                isOffImage: appStyles.LockImageisUnLocked,
-                isOnColorPrimary: appStyles.LockColorIsLockedPrimary,
-                isOnColorSecondary: appStyles.LockColorIsLockedSecondary,
-                isOffColorPrimary: appStyles.LockColorIsUnLockedPrimary,
-                isOffColorSecondary: appStyles.LockColorIsUnLockedSecondary
-                ))
-              
-              .frame(height: appStyles.LabelFontSize2, alignment: .center)
-              .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-              .disabled(LogEntry.isNewEntryLog)
+
+    lockSection
+      .frame(height: appStyles.LabelFontSize2, alignment: .center)
+      .padding(EdgeInsets(top: 5, leading: 20, bottom: 10, trailing: 20))
+      .overlay(
+        Rectangle()
+          .frame(height: appStyles.GeneralInnerFrameBorderWidth)  // Border thickness
+          .foregroundColor(appStyles.GeneralInnerFrameColor),  // Border color
+        alignment: .bottom
+      )
+  }
+}
+
+extension LockEditingView {
+
+  private var lockSection: some View {
+
+    HStack(alignment: .center) {
+
+      Text(logEntry.isLocked ? "Gesperrt" : "Entsperrt")
+        .font(Font.custom(appStyles.LabelFont, size: appStyles.LabelFontSize2))
+        .foregroundStyle(logEntry.isLocked ? appStyles.isLockedColor : appStyles.GeneralTextColor)
+        .frame(width: 170, height: appStyles.LabelFontSize2, alignment: .leading)
+        .multilineTextAlignment(.leading)
+        .lineLimit(1)
+        .fixedSize(horizontal: true, vertical: true)
+        .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 5))
+        .lineSpacing(0)
+        .animation(.easeInOut(duration: 1), value: logEntry.isLocked)
+
+      Toggle("", isOn: $logEntry.isLocked)
+        .labelsHidden()
+        .toggleStyle(
+          ToggleStyleLockImage(
+            isOnImage: appStyles.LockImageisLocked,
+            isOffImage: appStyles.LockImageisUnLocked,
+            isOnColorPrimary: appStyles.LockColorIsLockedPrimary,
+            isOnColorSecondary: appStyles.LockColorIsLockedSecondary,
+            isOffColorPrimary: appStyles.LockColorIsUnLockedPrimary,
+            isOffColorSecondary: appStyles.LockColorIsUnLockedSecondary
+          )
+        )
+
+        .frame(height: appStyles.LabelFontSize2, alignment: .center)
+        .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+        .disabled(logEntry.isNewEntryLog)
 
       Spacer()
     }
-      .frame(height: appStyles.LabelFontSize2, alignment: .center)
-     
-    .padding(EdgeInsets(top: 5, leading: 20, bottom: 10, trailing: 20))
-    .overlay(
-      Rectangle()
-        .frame(height: appStyles.GeneralInnerFrameBorderWidth)  // Border thickness
-        .foregroundColor(appStyles.GeneralInnerFrameColor),  // Border color
-      alignment: .bottom
-    )
   }
 }
