@@ -50,7 +50,7 @@ struct NoteView: View {
         .foregroundColor(appStyles.GeneralInnerFrameColor),  // Border color
       alignment: .bottom
     )
-    .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+    .padding(EdgeInsets(top: 0, leading: 10, bottom: 10, trailing: 10))
     .containerRelativeFrame([.vertical], alignment: .topLeading)
     .disabled(logEntry.isLocked)
   }

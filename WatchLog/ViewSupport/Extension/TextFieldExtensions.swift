@@ -26,6 +26,7 @@ struct TextFieldClearButton: ViewModifier {
                             Image(systemName: appStyles.ClearButtonImage)
                                 .frame(width: 18, height: 18, alignment: .center)
                         }
+                        .offset(x: -25)
                         .foregroundStyle(appStyles.ClearButtonColorActivePrimary, appStyles.ClearButtonColorActiveSecondary)
                         .padding(.trailing, 4)
                     }
@@ -37,10 +38,42 @@ struct TextFieldClearButton: ViewModifier {
 extension View {
     func showClearButton(_ text: Binding<String>) -> some View {
         self.modifier(TextFieldClearButton(fieldText: text))
+
     }
 }
 
+struct clearTextField: ViewModifier {
+    @Binding var text: String
+    @Environment(\.appStyles) var appStyles
+    
+    func body(content: Content) -> some View {
+        
+        ZStack(alignment: .trailing) {
+            content
+            
+            if !text.isEmpty {
+                Button {
+                    text = ""
+                } label: {
+                    Image(systemName: appStyles.ClearButtonImage)
+                        .frame(width: 18, height: 18, alignment: .center)
+                }
+                .offset(x: 0)
+            }
+        }
+        
+    }
+}
 
+extension View {
+    func clearTextFieldButton(_ text: Binding<String>) -> some View {
+        modifier(clearTextField(text: text))
+            //.padding(.leading, 12)
+           .padding(.trailing, 38)
+            //.padding(.vertical, 12)
+            
+    }
+}
 
 
 
@@ -164,7 +197,7 @@ extension TextField {
             .foregroundStyle(appStyles.GeneralTextColor)
             .background(isLocked ? appStyles.TextfieldBackgroundColorLocked : appStyles.TextfieldBackgroundColorUnLocked)
             .fixedSize(horizontal: false, vertical: true)
-            .textContentType(.telephoneNumber)
+           
             .animation(.easeInOut(duration: 1),  value: isLocked)
     }
     

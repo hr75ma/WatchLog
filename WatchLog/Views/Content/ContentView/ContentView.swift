@@ -46,8 +46,8 @@ struct ContentView: View {
     NavigationSplitView(columnVisibility: $columnVisibility) {
 
       //Text(logBookEntry.uuid.uuidString)
-      Text(logBookEntryUUID.uuidString)
-      Text("currentuuid: \(displayedLogEntryUUID.id.uuidString)")
+//      Text(logBookEntryUUID.uuidString)
+//      Text("currentuuid: \(displayedLogEntryUUID.id.uuidString)")
 
       List(viewModel.WatchLogBooks, id: \.uuid) { book in
 

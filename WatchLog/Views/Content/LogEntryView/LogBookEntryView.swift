@@ -197,9 +197,9 @@ extension LogBookEntryView {
             center: .center,
             angle: .degrees(isAnimating ? 360 : 0))
         )
-        .blur(radius: 15)
+        .blur(radius: 18)
 
-//      RoundedRectangle(cornerRadius: 15, style: .continuous)
+//      RoundedRectangle(cornerRadius: 20, style: .continuous)
 //        .stroke(
 //          AngularGradient(
 //            colors: glowingColorSet,
