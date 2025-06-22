@@ -55,75 +55,39 @@ struct LogBookEntryView: View {
       //VStack(spacing: 20) {
         ZStack
         {
-        RoundedRectangle(cornerRadius: 20, style: .continuous)
-          .fill(
-            AngularGradient(
-                colors: glowingColorSet,
-                center: .center,
-                angle: .degrees(isAnimating ? 360 : 0))
-          )
-          .blur(radius: 20)
-          .onAppear {
-              withAnimation(Animation.linear(duration: 2).repeatForever(autoreverses: false)) {
-              isAnimating = true
-              print("on")
-            }
-          }
-          .onDisappear {
-            isAnimating = false
-            print("off")
-          }
-          .onChange(of: showGlowAnimation) {
-              withAnimation(Animation.linear(duration: 2).repeatForever(autoreverses: false)) {
-                  isAnimating = true
-                  print("on change")
-              }
-          }
-          .isHidden(!showGlowAnimation, remove: true)
-          
-          
-          RoundedRectangle(cornerRadius: 20, style: .continuous)
-            .fill(
-                AngularGradient(
-                    colors: glowingColorSet,
-                    center: .center,
-                    angle: .degrees(isAnimating ? 360 : 0))
-              )
-            .stroke(
-                AngularGradient(
-                    colors: glowingColorSet,
-                    center: .center,
-                    angle: .degrees(isAnimating ? 360 : 0))
-              , style: StrokeStyle(lineWidth: 5, lineCap: .round))
-            .onAppear {
-                withAnimation(Animation.linear(duration: 2).repeatForever(autoreverses: false)) {
-                isAnimating = true
-                print("on")
-              }
-            }
-            .onDisappear {
-              isAnimating = false
-              print("off")
+        
+            ZStack {
+                RoundedRectangle(cornerRadius: 20, style: .continuous)
+                    .fill(
+                        AngularGradient(
+                            colors: glowingColorSet,
+                            center: .center,
+                            angle: .degrees(isAnimating ? 360 : 0))
+                    )
+                    .blur(radius: 15)
 
-            }
-            .onChange(of: showGlowAnimation) {
-                withAnimation(Animation.linear(duration: 2).repeatForever(autoreverses: false)) {
-                    isAnimating = true
-                    print("on change")
-                }
+                RoundedRectangle(cornerRadius: 20, style: .continuous)
+                    .stroke(
+                        AngularGradient(
+                            colors: glowingColorSet,
+                            center: .center,
+                            angle: .degrees(isAnimating ? 360 : 0))
+                        , style: StrokeStyle(lineWidth: 5, lineCap: .round))
             }
             .isHidden(!showGlowAnimation, remove: true)
-          
+            .onAppear {
+                withAnimation(Animation.linear(duration: 2).repeatForever(autoreverses: false)) {
+                    isAnimating = true
+                    print("on")
+                }
+            }
+            .onDisappear {
+                isAnimating = false
+                print("off")
+            }
 
         VStack(alignment: .leading, spacing: 0) {
 
-          Button("Test") {
-
-            withAnimation(.easeInOut(duration: 1)) {
-                showGlowAnimation.toggle()
-              print(showGlowAnimation)
-            }
-          }
 
           LogTimeView(LogTime: viewModel.watchLogEntry.EntryTime)
 
@@ -150,13 +114,13 @@ struct LogBookEntryView: View {
           alignment: .topLeading
         )
         .cornerRadius(20)
-        .overlay(
-          RoundedRectangle(cornerRadius: 20, style: .continuous)
-            .stroke(
-              viewModel.watchLogEntry.isLocked
-                ? appStyles.isLockedColor : appStyles.isUnLockedColor,
-              lineWidth: showGlowAnimation ? 0 : 0)
-        )
+//        .overlay(
+//          RoundedRectangle(cornerRadius: 20, style: .continuous)
+//            .stroke(
+//              viewModel.watchLogEntry.isLocked
+//                ? appStyles.isLockedColor : appStyles.isUnLockedColor,
+//              lineWidth: showGlowAnimation ? 0 : 0)
+//        )
         
 
         .animation(.easeInOut(duration: 1), value: viewModel.watchLogEntry.isLocked)
@@ -393,7 +357,7 @@ extension LogBookEntryView {
               viewModel.watchLogEntry.isNewEntryLog = false
               await viewModel.saveLogEntry(LogEntry: viewModel.watchLogEntry)
               print(">>> Log saved \(viewModel.watchLogEntry.uuid)")
-              //logBookEntry.uuid = viewModel.watchLogEntry.uuid
+              //await  logBookEntry = viewModel.fetchLogEntryMod(LogEntryUUID: viewModel.watchLogEntry.uuid)!
               viewModel.watchLogEntry.isNewEntryLog = false
               displayedLogEntryUUID.id = viewModel.watchLogEntry.uuid
 
@@ -447,7 +411,7 @@ extension LogBookEntryView {
   let databaseService = DatabaseService()
   let viewModel = LogEntryViewModel(dataBaseService: databaseService)
 
-  LogBookEntryView(logBookEntry: existingLogBookEntry)
+    LogBookEntryView(logBookEntry: existingLogBookEntry)
     .environmentObject(viewModel)
     .environment(\.appStyles, StylesLogEntry.shared)
     //.environment(\.displayedLogEntryUUID, DisplayedLogEntryID())

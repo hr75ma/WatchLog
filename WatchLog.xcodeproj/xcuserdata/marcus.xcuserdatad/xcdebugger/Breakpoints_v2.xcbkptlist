@@ -23,22 +23,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "26694576-FF55-4BF7-823B-6E977B50093A"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WatchLog/Views/Content/LogEntryView/LogBookEntryView.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "68"
-            endingLineNumber = "68"
-            landmarkName = "body"
-            landmarkType = "24">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "BEB786F4-701C-47A4-869C-F911FE97D9D0"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -46,8 +30,8 @@
             filePath = "WatchLog/Views/Content/LogEntryView/LogBookEntryView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "134"
-            endingLineNumber = "134"
+            startingLineNumber = "98"
+            endingLineNumber = "98"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
@@ -62,8 +46,8 @@
             filePath = "WatchLog/Views/Content/LogEntryView/LogBookEntryView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "151"
-            endingLineNumber = "151"
+            startingLineNumber = "115"
+            endingLineNumber = "115"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
@@ -78,8 +62,8 @@
             filePath = "WatchLog/Views/Content/LogEntryView/LogBookEntryView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "135"
-            endingLineNumber = "135"
+            startingLineNumber = "99"
+            endingLineNumber = "99"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
@@ -94,8 +78,8 @@
             filePath = "WatchLog/Views/Content/LogEntryView/LogBookEntryView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "219"
-            endingLineNumber = "219"
+            startingLineNumber = "183"
+            endingLineNumber = "183"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
@@ -110,8 +94,8 @@
             filePath = "WatchLog/Views/Content/LogEntryView/LogBookEntryView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "234"
-            endingLineNumber = "234"
+            startingLineNumber = "198"
+            endingLineNumber = "198"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
@@ -126,8 +110,8 @@
             filePath = "WatchLog/Views/Content/LogEntryView/LogBookEntryView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "201"
-            endingLineNumber = "201"
+            startingLineNumber = "165"
+            endingLineNumber = "165"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
@@ -142,8 +126,8 @@
             filePath = "WatchLog/Views/Content/LogEntryView/LogBookEntryView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "222"
-            endingLineNumber = "222"
+            startingLineNumber = "186"
+            endingLineNumber = "186"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
@@ -158,8 +142,8 @@
             filePath = "WatchLog/Views/Content/LogEntryView/LogBookEntryView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "221"
-            endingLineNumber = "221"
+            startingLineNumber = "185"
+            endingLineNumber = "185"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
@@ -174,8 +158,8 @@
             filePath = "WatchLog/Views/Content/LogEntryView/LogBookEntryView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "235"
-            endingLineNumber = "235"
+            startingLineNumber = "199"
+            endingLineNumber = "199"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
@@ -190,8 +174,8 @@
             filePath = "WatchLog/Views/Content/LogEntryView/LogBookEntryView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "220"
-            endingLineNumber = "220"
+            startingLineNumber = "184"
+            endingLineNumber = "184"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
@@ -206,8 +190,8 @@
             filePath = "WatchLog/Views/Content/LogEntryView/LogBookEntryView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "277"
-            endingLineNumber = "277"
+            startingLineNumber = "241"
+            endingLineNumber = "241"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
@@ -286,8 +270,8 @@
             filePath = "WatchLog/Views/Content/LogEntryView/LogBookEntryView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "394"
-            endingLineNumber = "394"
+            startingLineNumber = "358"
+            endingLineNumber = "358"
             landmarkName = "ContextButton"
             landmarkType = "24">
          </BreakpointContent>
@@ -302,8 +286,8 @@
             filePath = "WatchLog/Views/Content/LogEntryView/LogBookEntryView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "170"
-            endingLineNumber = "170"
+            startingLineNumber = "134"
+            endingLineNumber = "134"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
