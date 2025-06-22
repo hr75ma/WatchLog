@@ -43,16 +43,43 @@ struct CallerDataView: View {
   }
 }
 
+
+struct InfoField: View {
+    let title: String
+    @Binding var text: String
+    @FocusState var isTyping: Bool
+    @Environment(\.appStyles) var appStyles
+    var body: some View {
+        ZStack(alignment: .leading) {
+            
+            TextField("", text: $text).padding(.leading)
+                .frame(height: 55).focused($isTyping)
+                .background(isTyping ? .blue : .white, in: RoundedRectangle(cornerRadius: 14).stroke(lineWidth: 2))
+            Text(title).padding(.horizontal, 5)
+                .font(Font.custom(appStyles.LabelFont, size: 20))
+                .background(.black.opacity(isTyping || !text.isEmpty ? 1: 0))
+                .foregroundStyle(isTyping ? .blue : .white)
+                .padding(.leading).offset(y: isTyping || !text.isEmpty ? -27 : 0)
+                .onTapGesture {
+                    isTyping.toggle()
+                }
+            
+        }
+        .animation(.linear(duration: 0.2), value: isTyping)
+        
+        
+    }
+    
+    
+}
+
 extension CallerDataView {
 
   private var SectionImage: some View {
     Image(systemName: appStyles.SectionCallerImage)
       .SectionImageStyle(appStyles)
       .symbolRenderingMode(.palette)
-      .symbolEffect(
-        .variableColor.cumulative.hideInactiveLayers.nonReversing, options: .repeat(.continuous),
-        isActive: !logEntry.isLocked
-      )
+      //.symbolEffect(.variableColor.cumulative.hideInactiveLayers.nonReversing, options: .repeat(.continuous),isActive: !logEntry.isLocked)
       .foregroundStyle(appStyles.SectionCallerImagePrimary, appStyles.SectionCallerImageSecondary)
   }
 
@@ -84,6 +111,8 @@ extension CallerDataView {
         .autocorrectionDisabled(true)
         .showClearButton($logEntry.CallerName)
         .disabled(logEntry.isLocked)
+        
+     // InfoField(title: "Name", text: $logEntry.CallerName)
     }
   }
 

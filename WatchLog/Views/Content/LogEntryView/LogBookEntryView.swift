@@ -199,13 +199,13 @@ extension LogBookEntryView {
         )
         .blur(radius: 15)
 
-      RoundedRectangle(cornerRadius: 20, style: .continuous)
-        .stroke(
-          AngularGradient(
-            colors: glowingColorSet,
-            center: .center,
-            angle: .degrees(isAnimating ? 360 : 0)),
-          style: StrokeStyle(lineWidth: 5, lineCap: .round))
+//      RoundedRectangle(cornerRadius: 15, style: .continuous)
+//        .stroke(
+//          AngularGradient(
+//            colors: glowingColorSet,
+//            center: .center,
+//            angle: .degrees(isAnimating ? 360 : 0)),
+//          style: StrokeStyle(lineWidth: 4, lineCap: .round))
     }
     .onAppear {
       withAnimation(Animation.linear(duration: 2).repeatForever(autoreverses: false)) {
