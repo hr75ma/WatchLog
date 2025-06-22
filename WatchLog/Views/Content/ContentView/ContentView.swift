@@ -37,7 +37,9 @@ struct ContentView: View {
   @Environment(\.appStyles) var appStyles
     @Environment(DisplayedLogEntryID.self) var displayedLogEntryUUID
 
-  @State private var logBookEntry: WatchLogBookEntry = WatchLogBookEntry()
+  //@State private var logBookEntry: WatchLogBookEntry = WatchLogBookEntry()
+    
+    @State private var logBookEntryUUID: UUID = UUID()
 
   @State var alertNew = false
   @State var showSettingSheet = false
@@ -46,7 +48,8 @@ struct ContentView: View {
         
         NavigationSplitView(columnVisibility: $columnVisibility) {
             
-                  Text(logBookEntry.uuid.uuidString)
+                  //Text(logBookEntry.uuid.uuidString)
+                   Text(logBookEntryUUID.uuidString)
                   Text("currentuuid: \(displayedLogEntryUUID.id.uuidString)")
 
             
@@ -108,7 +111,8 @@ struct ContentView: View {
             
         } detail: {
             
-            LogBookEntryView(logBookEntry: logBookEntry)
+            //LogBookEntryView(logBookEntryUUID: logBookEntryUUID)
+            LogBookEntryView(logBookEntryUUID: $logBookEntryUUID)
         }
         
     }
@@ -153,8 +157,9 @@ struct ContentView: View {
   }
 
   private func addNewLogEntry() {
-    logBookEntry = WatchLogBookEntry(uuid: UUID())
-      displayedLogEntryUUID.id = logBookEntry.uuid
+    //logBookEntry = WatchLogBookEntry(uuid: UUID())
+      logBookEntryUUID = UUID()
+      displayedLogEntryUUID.id = logBookEntryUUID
       print("------------> new entry added \(displayedLogEntryUUID.id)")
 
   }
@@ -282,8 +287,9 @@ extension ContentView {
 
           Button(action: {
 
-            logBookEntry = entry
-              displayedLogEntryUUID.id = logBookEntry.uuid
+            //logBookEntry = entry
+              logBookEntryUUID = entry.uuid
+              displayedLogEntryUUID.id = logBookEntryUUID
           }) {
               VStack(alignment: .leading){
                   Text(getDateTime(date: entry.LogDate))

@@ -11,7 +11,8 @@ import SwiftUI
 import os
 
 struct LogBookEntryView: View {
-  @Bindable public var logBookEntry: WatchLogBookEntry
+  //@Bindable public var logBookEntry: WatchLogBookEntry
+    @Binding public var logBookEntryUUID: UUID
 
   @EnvironmentObject var viewModel: LogEntryViewModel
 
@@ -131,7 +132,7 @@ struct LogBookEntryView: View {
 
     }
     .task {
-      await viewModel.fetchLogEntry(LogEntryUUID: logBookEntry.uuid)
+      await viewModel.fetchLogEntry(LogEntryUUID: logBookEntryUUID)
       print("--------->task")
       displayedLogEntryUUID.id = viewModel.watchLogEntry.uuid
         glowingColorSet = getGlowColorSet(logEntry: viewModel.watchLogEntry)//viewModel.watchLogEntry.isNewEntryLog ? glowingColorSetNew : glowingColorSetLocked
@@ -154,12 +155,12 @@ struct LogBookEntryView: View {
 
     }
     .onChange(
-      of: logBookEntry,
+      of: logBookEntryUUID,
       { oldValue, newValue in
 
         print("--------->onchange")
         Task {
-          await viewModel.fetchLogEntry(LogEntryUUID: newValue.uuid)
+          await viewModel.fetchLogEntry(LogEntryUUID: newValue)
           displayedLogEntryUUID.id = viewModel.watchLogEntry.uuid
             glowingColorSet = getGlowColorSet(logEntry: viewModel.watchLogEntry)//viewModel.watchLogEntry.isNewEntryLog ? glowingColorSetNew : glowingColorSetLocked
             withAnimation(.easeInOut(duration: 1)) {
@@ -224,7 +225,7 @@ struct LogBookEntryView: View {
                 Task {
                   await viewModel.deleteLogEntry(LogEntry: viewModel.watchLogEntry)
                   newEntry(LogEntry: &viewModel.watchLogEntry, drawing: &drawing)
-                  logBookEntry.uuid = viewModel.watchLogEntry.uuid
+                    logBookEntryUUID = viewModel.watchLogEntry.uuid
 
                 }
               })
@@ -360,6 +361,7 @@ extension LogBookEntryView {
               //await  logBookEntry = viewModel.fetchLogEntryMod(LogEntryUUID: viewModel.watchLogEntry.uuid)!
               viewModel.watchLogEntry.isNewEntryLog = false
               displayedLogEntryUUID.id = viewModel.watchLogEntry.uuid
+              logBookEntryUUID = displayedLogEntryUUID.id
 
             }
           } label: {
@@ -405,13 +407,14 @@ extension LogBookEntryView {
 }
 
 #Preview{
-  @Previewable @State var existingLogBookEntry = WatchLogBookEntry()
+  //@Previewable @State var existingLogBookEntry = WatchLogBookEntry()
+    @Previewable @State var existingLogBookEntry = UUID()
   @Previewable @State var isNewEntry = false
 
   let databaseService = DatabaseService()
   let viewModel = LogEntryViewModel(dataBaseService: databaseService)
 
-    LogBookEntryView(logBookEntry: existingLogBookEntry)
+    LogBookEntryView(logBookEntryUUID: $existingLogBookEntry)
     .environmentObject(viewModel)
     .environment(\.appStyles, StylesLogEntry.shared)
     //.environment(\.displayedLogEntryUUID, DisplayedLogEntryID())
