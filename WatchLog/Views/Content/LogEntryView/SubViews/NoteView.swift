@@ -31,7 +31,7 @@ struct NoteView: View {
 
       HStack(alignment: .top, spacing: 0) {
           //CanvasView(drawing: $drawing, toolPickerShows: $toolPickerShows)
-          CanvasTestView(canvas: $canvasview, drawing: $drawing)
+          CanvasView(canvas: $canvasview, drawing: $drawing)
 
               
           
