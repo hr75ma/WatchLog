@@ -14,7 +14,9 @@ struct NoteView: View {
   @Binding var drawing: PKDrawing
   @Binding var toolPickerShows: Bool
   @State var savedDrawing: PKDrawing?
-    @FocusState var isTyping: Bool
+  
+    @State var canvasview: PKCanvasView = PKCanvasView()
+    
     
     @Environment(\.appStyles) var appStyles
 
@@ -28,10 +30,9 @@ struct NoteView: View {
       .padding(EdgeInsets(top: 5, leading: 0, bottom: 0, trailing: 10))
 
       HStack(alignment: .top, spacing: 0) {
-          CanvasView(drawing: $drawing, toolPickerShows: $toolPickerShows)
-//              .onTapGesture {
-//                  toolPickerShows = true()
-//              }
+          //CanvasView(drawing: $drawing, toolPickerShows: $toolPickerShows)
+          CanvasTestView(canvas: $canvasview, drawing: $drawing)
+
               
           
       }

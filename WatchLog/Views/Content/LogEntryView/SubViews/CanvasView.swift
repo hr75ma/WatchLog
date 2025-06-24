@@ -16,10 +16,7 @@ struct CanvasView: UIViewRepresentable {
     private let canvasView = PKCanvasView()
     private let toolPicker = PKToolPicker()
     
-//    init(canvas: Binding<PKCanvasView>) {
-//        self._
-//    }
-//    
+ 
     
     func makeUIView(context: Context) -> PKCanvasView {
         // Allow finger drawing
