@@ -30,6 +30,17 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "closure #2 in closure #1 in NoteView.body.getter:NoteView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "isTyping">
+            </PersistentString>
+            <PersistentString
+               value = "toolPickerShows">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "DataBaseManager.saveLogBookEntry(LogEntry:):DataBaseManager.swift">
          <PersistentStrings>
             <PersistentString
@@ -56,6 +67,17 @@
             </PersistentString>
             <PersistentString
                value = "viewModel.watchLogEntry.uuid">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "CanvasView.updateUIView(_:context:):CanvasView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "isTyping">
+            </PersistentString>
+            <PersistentString
+               value = "toolPickerShows">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -104,7 +126,12 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "DataBaseManager.().init():DataBaseManager.swift">
+         contextName = "closure #3 in closure #3 in closure #1 in closure #1 in CallerDataView.body.getter:CallerDataView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "logEntry.CallerDOB">
+            </PersistentString>
+         </PersistentStrings>
       </ContextState>
       <ContextState
          contextName = "closure #1 in closure #1 in ProcessTypeSubVUView.body.getter:ProcessTypeSubVUView.swift">
@@ -115,6 +142,9 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "DataBaseManager.().init():DataBaseManager.swift">
+      </ContextState>
+      <ContextState
          contextName = "closure #1 in closure #2 in closure #2 in closure #7 in LogBookEntryView.body.getter:LogBookEntryView.swift">
          <PersistentStrings>
             <PersistentString
@@ -122,14 +152,6 @@
             </PersistentString>
             <PersistentString
                value = "displayedLogEntryUUID.id">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "closure #3 in closure #3 in closure #1 in closure #1 in CallerDataView.body.getter:CallerDataView.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "logEntry.CallerDOB">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -156,6 +178,9 @@
       <ContextState
          contextName = "closure #1 in closure #1 in closure #1 in LogBookEntryView.body.getter:LogBookEntryView.swift">
          <PersistentStrings>
+            <PersistentString
+               value = "toolPickerShows">
+            </PersistentString>
             <PersistentString
                value = "geometry.size.width">
             </PersistentString>
@@ -209,10 +234,10 @@
          contextName = "LogEntryViewModel.fetchLogEntry(LogEntryUUID:):LogEntryViewModel.swift">
          <PersistentStrings>
             <PersistentString
-               value = "logBookEntry.uuid">
+               value = "self.watchLogEntry.uuid">
             </PersistentString>
             <PersistentString
-               value = "self.watchLogEntry.uuid">
+               value = "logBookEntry.uuid">
             </PersistentString>
             <PersistentString
                value = "LogEntryUUID">

@@ -77,6 +77,10 @@ extension View {
 
 
 
+
+
+
+
 struct TextFieldLimitModifer: ViewModifier {
     @Binding var text: String
     var length: Int
@@ -115,6 +119,32 @@ extension View {
 }
 
 
+
+struct SectionTextFieldModifier: ViewModifier {
+    var appStyles: StylesLogEntry
+    @Binding var text: String
+    var isLocked: Bool
+    var numberOfCharacters: Int
+    
+    func body(content: Content) -> some View {
+            content
+            .font(Font.custom(appStyles.TextFieldFont, size: appStyles.TextFieldHeight))
+            .lineLimit(1)
+            .foregroundStyle(appStyles.GeneralTextColor)
+            .background(isLocked ? appStyles.TextfieldBackgroundColorLocked : appStyles.TextfieldBackgroundColorUnLocked)
+            .fixedSize(horizontal: false, vertical: true)
+            //.showClearButton($text)
+            //.limitInputLength(text: $text, length: numberOfCharacters)
+            .animation(.easeInOut(duration: 1),  value: isLocked)
+            //.disabled(isLocked)
+                }
+    }
+
+extension View {
+    func SectionTextField(appStyles: StylesLogEntry, text: Binding<String>, isLocked: Bool, numberOfCharacters:Int) -> some View {
+        self.modifier(SectionTextFieldModifier(appStyles: appStyles, text: text, isLocked: isLocked, numberOfCharacters: numberOfCharacters))
+    }
+}
 
 
 
@@ -186,9 +216,23 @@ extension Text {
     }
 }
 
+
+
+
+
+
 extension TextField {
     
-    
+    func SectionTextField(_ appStyles: StylesLogEntry, isLocked: Bool) -> some View {
+        self
+            .font(Font.custom(appStyles.TextFieldFont, size: appStyles.TextFieldHeight))
+            .lineLimit(1)
+            .foregroundStyle(appStyles.GeneralTextColor)
+            .background(isLocked ? appStyles.TextfieldBackgroundColorLocked : appStyles.TextfieldBackgroundColorUnLocked)
+            .fixedSize(horizontal: false, vertical: true)
+            .animation(.easeInOut(duration: 1),  value: isLocked)
+            .disabled(isLocked)
+    }
     
     func SectionTextFieldSingleLine(_ appStyles: StylesLogEntry, isLocked: Bool) -> some View {
         self
@@ -197,8 +241,12 @@ extension TextField {
             .foregroundStyle(appStyles.GeneralTextColor)
             .background(isLocked ? appStyles.TextfieldBackgroundColorLocked : appStyles.TextfieldBackgroundColorUnLocked)
             .fixedSize(horizontal: false, vertical: true)
-           
             .animation(.easeInOut(duration: 1),  value: isLocked)
+        
+        
+        
+        
+        
     }
     
     func SectionTextFieldSingleLine(_ appStyles: StylesLogEntry) -> some View {

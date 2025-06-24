@@ -14,25 +14,28 @@ struct NoteView: View {
   @Binding var drawing: PKDrawing
   @Binding var toolPickerShows: Bool
   @State var savedDrawing: PKDrawing?
+    @FocusState var isTyping: Bool
     
     @Environment(\.appStyles) var appStyles
 
   var body: some View {
     VStack(alignment: .leading, spacing: 0) {
       HStack(alignment: .top, spacing: 0) {
-          Image(systemName: appStyles.SectionNoteImage)
-              .SectionImageStyle(appStyles)
-              .symbolRenderingMode(.palette)
-              //.symbolEffect(.variableColor.cumulative.hideInactiveLayers.nonReversing, options: .repeat(.continuous), isActive: !logEntry.isLocked)
-              .foregroundStyle(appStyles.SectionNoteImagePrimary, appStyles.SectionNoteImageSecondary)
+         
+          SectionImage
+          
       }
       .padding(EdgeInsets(top: 5, leading: 0, bottom: 0, trailing: 10))
 
       HStack(alignment: .top, spacing: 0) {
           CanvasView(drawing: $drawing, toolPickerShows: $toolPickerShows)
+//              .onTapGesture {
+//                  toolPickerShows = true()
+//              }
               
           
       }
+      .cornerRadius(20)
       .overlay(
         RoundedRectangle(cornerRadius: 20, style: .continuous)
           
@@ -54,4 +57,13 @@ struct NoteView: View {
     .containerRelativeFrame([.vertical], alignment: .topLeading)
     .disabled(logEntry.isLocked)
   }
+}
+
+extension NoteView {
+    
+    private var SectionImage: some View {
+      Image(systemName: appStyles.SectionNoteImage)
+            .SectionImageStyle(primaryColor: appStyles.SectionNoteImagePrimary, secondaryColor: appStyles.SectionNoteImageSecondary)
+          //.symbolEffect(.variableColor.cumulative.hideInactiveLayers.nonReversing, options: .repeat(.continuous),isActive: !logEntry.isLocked)
+    }
 }

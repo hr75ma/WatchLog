@@ -16,6 +16,11 @@ struct CanvasView: UIViewRepresentable {
     private let canvasView = PKCanvasView()
     private let toolPicker = PKToolPicker()
     
+//    init(canvas: Binding<PKCanvasView>) {
+//        self._
+//    }
+//    
+    
     func makeUIView(context: Context) -> PKCanvasView {
         // Allow finger drawing
         canvasView.drawingPolicy = .pencilOnly
@@ -32,6 +37,7 @@ struct CanvasView: UIViewRepresentable {
         
         // Make the tool picker visible or invisible depending on toolPickerShows
         toolPicker.setVisible(toolPickerShows, forFirstResponder: canvasView)
+        
         
         // Make the canvas respond to tool changes
         toolPicker.addObserver(canvasView)
@@ -60,7 +66,10 @@ struct CanvasView: UIViewRepresentable {
         
         toolPicker.setVisible(toolPickerShows, forFirstResponder: canvasView)
         toolPicker.addObserver(canvasView)
+       
+        
         if toolPickerShows {
+            //DispatchQueue.main.async {
             canvasView.becomeFirstResponder()
         } else {
             canvasView.resignFirstResponder()

@@ -16,10 +16,12 @@ struct CallerDataView: View {
   @State private var with: Bool = true
   @State private var tempDOB: Date = Date()
   @State private var tempLocked: Bool = false
-
+    
   var body: some View {
     HStack(alignment: .top, spacing: 0) {
+        
       SectionImage
+      
 
       VStack(alignment: .leading, spacing: 5) {
 
@@ -49,10 +51,8 @@ extension CallerDataView {
 
   private var SectionImage: some View {
     Image(systemName: appStyles.SectionCallerImage)
-      .SectionImageStyle(appStyles)
-      .symbolRenderingMode(.palette)
-      //.symbolEffect(.variableColor.cumulative.hideInactiveLayers.nonReversing, options: .repeat(.continuous),isActive: !logEntry.isLocked)
-      .foregroundStyle(appStyles.SectionCallerImagePrimary, appStyles.SectionCallerImageSecondary)
+          .SectionImageStyle(primaryColor: appStyles.SectionCallerImagePrimary, secondaryColor: appStyles.SectionCallerImageSecondary)
+        //.symbolEffect(.variableColor.cumulative.hideInactiveLayers.nonReversing, options: .repeat(.continuous),isActive: !logEntry.isLocked)
   }
 
   private var phoneSubSection: some View {
@@ -62,13 +62,12 @@ extension CallerDataView {
         .SectionTextLabel(appStyles)
 
       TextField("", text: $logEntry.CallerNumber)
+        //.SectionTextField(appStyles: appStyles, text: $logEntry.CallerNumber, isLocked: logEntry.isLocked, numberOfCharacters: 15)
         .SectionTextFieldSingleLine(appStyles, isLocked: logEntry.isLocked)
-        .textContentType(.telephoneNumber)
-        .keyboardType(.numberPad)  // Show number pad
-        .textContentType(.telephoneNumber)
         .checkOnNumbers(text: $logEntry.CallerNumber)
-        .limitInputLength(text: $logEntry.CallerNumber, length: 15)
-        .showClearButton($logEntry.CallerNumber)
+        //.showClearButton($logEntry.CallerNumber)
+        .textContentType(.telephoneNumber)
+        .keyboardType(.numberPad)
         .disabled(logEntry.isLocked)
     }
   }
@@ -82,7 +81,7 @@ extension CallerDataView {
         .SectionTextFieldSingleLine(appStyles, isLocked: logEntry.isLocked)
         .textContentType(.name)
         .autocorrectionDisabled(true)
-        .showClearButton($logEntry.CallerName)
+        //.showClearButton($logEntry.CallerName)
         .disabled(logEntry.isLocked)
     }
   }
