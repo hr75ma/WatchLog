@@ -62,13 +62,11 @@ extension CallerDataView {
         .SectionTextLabel(appStyles)
 
       TextField("", text: $logEntry.CallerNumber)
-        //.SectionTextField(appStyles: appStyles, text: $logEntry.CallerNumber, isLocked: logEntry.isLocked, numberOfCharacters: 15)
-        .SectionTextFieldSingleLine(appStyles, isLocked: logEntry.isLocked)
-        .checkOnNumbers(text: $logEntry.CallerNumber)
-        //.showClearButton($logEntry.CallerNumber)
+        .sectionTextField(appStyles: appStyles, text: $logEntry.CallerNumber, isLocked: logEntry.isLocked, numberOfCharacters: 15)
+        .textFieldCheckOnNumbers(text: $logEntry.CallerNumber)
         .textContentType(.telephoneNumber)
         .keyboardType(.numberPad)
-        .disabled(logEntry.isLocked)
+        
     }
   }
 
@@ -78,10 +76,12 @@ extension CallerDataView {
         .SectionTextLabel(appStyles)
 
       TextField("", text: $logEntry.CallerName)
-        .SectionTextFieldSingleLine(appStyles, isLocked: logEntry.isLocked)
-        .textContentType(.name)
-        .autocorrectionDisabled(true)
+        .sectionTextField(appStyles: appStyles, text: $logEntry.CallerName, isLocked: logEntry.isLocked, numberOfCharacters: 50)
+        //.SectionTextFieldSingleLine(appStyles, isLocked: logEntry.isLocked)
+        //.textContentType(.name)
+        //.autocorrectionDisabled(true)
         //.showClearButton($logEntry.CallerName)
+        
         .disabled(logEntry.isLocked)
     }
   }
@@ -206,13 +206,8 @@ extension CallerDataView {
         .frame(alignment: .topLeading)
 
       TextField("", text: $logEntry.CallerAdress, axis: .vertical)
-        .SectionTextFieldSingleLine(appStyles, isLocked: logEntry.isLocked)
-        .fixedSize(horizontal: false, vertical: true)
+        .sectionTextField(appStyles: appStyles, text: $logEntry.CallerAdress, isLocked: logEntry.isLocked, numberOfCharacters: 500)
         .lineLimit(4, reservesSpace: true)
-        .autocorrectionDisabled(true)
-        .showClearButton($logEntry.CallerAdress)
-        .disabled(logEntry.isLocked)
-
     }
   }
 

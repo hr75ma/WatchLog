@@ -21,15 +21,12 @@ struct ProcessTypeSubTRUNKView: View {
                     .frame(width: 215, height: appStyles.TextFieldHeight2, alignment: .topLeading)
                 
                 TextField("", text: $LogEntry.processTypeDetails.AccientLicensePlate01)
-                    .SectionTextFieldSingleLineSecond(appStyles, isLocked: LogEntry.isLocked)
-                    .limitInputLength(text: $LogEntry.processTypeDetails.AccientLicensePlate01, length: 10)
-                    .showClearButton($LogEntry.processTypeDetails.AccientLicensePlate01)
-                
+                    .sectionTextField(appStyles: appStyles, text: $LogEntry.processTypeDetails.AccientLicensePlate01, isLocked: LogEntry.isLocked, numberOfCharacters: 10)
+                   
                 Spacer()
             }
         }
         .padding(EdgeInsets(top: 10, leading: 0, bottom: 0, trailing: 0))
-        .disabled(LogEntry.isLocked)
     }
 }
 

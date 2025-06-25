@@ -167,7 +167,7 @@ final class StylesLogEntry:Sendable {
     let NavigationTreeSelectedRowColor: Color = Color(hex: 0x476f95).opacity(1)
     
     //clear button for textfield
-    let ClearButtonImage: String = "x.square.fill"//"multiply.circle.fill"
+    let ClearButtonImage: String = "xmark.circle.fill"//"multiply.circle.fill"
     let ClearButtonColorActivePrimary: Color = Color.white
     let ClearButtonColorActiveSecondary: Color = Color.blue
     

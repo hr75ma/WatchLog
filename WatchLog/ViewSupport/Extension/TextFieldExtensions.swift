@@ -8,41 +8,7 @@
 import Foundation
 import SwiftUI
 
-struct TextFieldClearButton: ViewModifier {
-    @Binding var fieldText: String
-    @FocusState var isFocused: Bool
-    @Environment(\.appStyles) var appStyles
-
-    func body(content: Content) -> some View {
-        content
-            .focused($isFocused)
-            .overlay {
-                if isFocused && !fieldText.isEmpty {
-                    HStack {
-                        Spacer()
-                        Button {
-                            fieldText = ""
-                        } label: {
-                            Image(systemName: appStyles.ClearButtonImage)
-                                .frame(width: 18, height: 18, alignment: .center)
-                        }
-                        .offset(x: -25)
-                        .foregroundStyle(appStyles.ClearButtonColorActivePrimary, appStyles.ClearButtonColorActiveSecondary)
-                        .padding(.trailing, 4)
-                    }
-                }
-            }
-    }
-}
-
-extension View {
-    func showClearButton(_ text: Binding<String>) -> some View {
-        self.modifier(TextFieldClearButton(fieldText: text))
-
-    }
-}
-
-struct clearTextField: ViewModifier {
+struct TextFieldButtonClearButtonModifier: ViewModifier {
     @Binding var text: String
     @Environment(\.appStyles) var appStyles
     
@@ -56,9 +22,9 @@ struct clearTextField: ViewModifier {
                     text = ""
                 } label: {
                     Image(systemName: appStyles.ClearButtonImage)
-                        .frame(width: 18, height: 18, alignment: .center)
+                        .frame(width: 10, height: 10, alignment: .center)
                 }
-                .offset(x: 0)
+                .offset(x: 30)
             }
         }
         
@@ -66,12 +32,11 @@ struct clearTextField: ViewModifier {
 }
 
 extension View {
-    func clearTextFieldButton(_ text: Binding<String>) -> some View {
-        modifier(clearTextField(text: text))
-            //.padding(.leading, 12)
-           .padding(.trailing, 38)
-            //.padding(.vertical, 12)
-            
+    func textFieldButtonClearButton(_ text: Binding<String>) -> some View {
+        modifier(TextFieldButtonClearButtonModifier(text: text))
+            .padding(.leading, 12)
+           .padding(.trailing, 45)
+           .padding(.vertical, 0)
     }
 }
 
@@ -94,12 +59,12 @@ struct TextFieldLimitModifer: ViewModifier {
 }
 
 extension View {
-    func limitInputLength(text: Binding<String>, length: Int) -> some View {
+    func textFieldLimitInputLength(text: Binding<String>, length: Int) -> some View {
         self.modifier(TextFieldLimitModifer(text: text, length: length))
     }
 }
 
-struct TextFieldCheckOnNumbers: ViewModifier {
+struct TextFieldCheckOnNumbersModifier: ViewModifier {
     @Binding var text: String
     
     func body(content: Content) -> some View {
@@ -113,36 +78,56 @@ struct TextFieldCheckOnNumbers: ViewModifier {
 }
     
 extension View {
-    func checkOnNumbers(text: Binding<String>) -> some View {
-        self.modifier(TextFieldCheckOnNumbers(text: text))
+    func textFieldCheckOnNumbers(text: Binding<String>) -> some View {
+        self.modifier(TextFieldCheckOnNumbersModifier(text: text))
     }
 }
 
 
 
 struct SectionTextFieldModifier: ViewModifier {
-    var appStyles: StylesLogEntry
+    let appStyles: StylesLogEntry
     @Binding var text: String
-    var isLocked: Bool
-    var numberOfCharacters: Int
+    let isLocked: Bool
+    let numberOfCharacters: Int
+    let textFieldFont: String
+    let textFieldHeight: CGFloat
     
     func body(content: Content) -> some View {
             content
-            .font(Font.custom(appStyles.TextFieldFont, size: appStyles.TextFieldHeight))
+            .textFieldButtonClearButton($text)
+            .font(Font.custom(textFieldFont, size: textFieldHeight))
             .lineLimit(1)
             .foregroundStyle(appStyles.GeneralTextColor)
             .background(isLocked ? appStyles.TextfieldBackgroundColorLocked : appStyles.TextfieldBackgroundColorUnLocked)
             .fixedSize(horizontal: false, vertical: true)
-            //.showClearButton($text)
-            //.limitInputLength(text: $text, length: numberOfCharacters)
+            .textFieldLimitInputLength(text: $text, length: numberOfCharacters)
+//            .overlay(
+//                                Button(action: {
+//                                    text = ""
+//                                }) {
+//                                    Image(systemName: "xmark.circle.fill")
+//                                        .opacity(text.isEmpty ? 0 : 1).padding()
+//                                }
+//                                .padding(),
+//                                alignment: .trailing
+//                            )
+            
             .animation(.easeInOut(duration: 1),  value: isLocked)
-            //.disabled(isLocked)
+            .autocorrectionDisabled(true)
+            .disabled(isLocked)
                 }
     }
 
 extension View {
-    func SectionTextField(appStyles: StylesLogEntry, text: Binding<String>, isLocked: Bool, numberOfCharacters:Int) -> some View {
-        self.modifier(SectionTextFieldModifier(appStyles: appStyles, text: text, isLocked: isLocked, numberOfCharacters: numberOfCharacters))
+    func sectionTextField(appStyles: StylesLogEntry, text: Binding<String>, isLocked: Bool, numberOfCharacters:Int) -> some View {
+        self.modifier(SectionTextFieldModifier(appStyles: appStyles, text: text, isLocked: isLocked, numberOfCharacters: numberOfCharacters, textFieldFont: appStyles.TextFieldFont, textFieldHeight: appStyles.TextFieldHeight))
+    }
+}
+
+extension View {
+    func sectionTextFieldSubSection(appStyles: StylesLogEntry, text: Binding<String>, isLocked: Bool, numberOfCharacters:Int) -> some View {
+        self.modifier(SectionTextFieldModifier(appStyles: appStyles, text: text, isLocked: isLocked, numberOfCharacters: numberOfCharacters, textFieldFont: appStyles.TextFieldFont, textFieldHeight: appStyles.TextFieldHeight2))
     }
 }
 
@@ -216,81 +201,5 @@ extension Text {
     }
 }
 
-
-
-
-
-
-extension TextField {
-    
-    func SectionTextField(_ appStyles: StylesLogEntry, isLocked: Bool) -> some View {
-        self
-            .font(Font.custom(appStyles.TextFieldFont, size: appStyles.TextFieldHeight))
-            .lineLimit(1)
-            .foregroundStyle(appStyles.GeneralTextColor)
-            .background(isLocked ? appStyles.TextfieldBackgroundColorLocked : appStyles.TextfieldBackgroundColorUnLocked)
-            .fixedSize(horizontal: false, vertical: true)
-            .animation(.easeInOut(duration: 1),  value: isLocked)
-            .disabled(isLocked)
-    }
-    
-    func SectionTextFieldSingleLine(_ appStyles: StylesLogEntry, isLocked: Bool) -> some View {
-        self
-            .font(Font.custom(appStyles.TextFieldFont, size: appStyles.TextFieldHeight))
-            .lineLimit(1)
-            .foregroundStyle(appStyles.GeneralTextColor)
-            .background(isLocked ? appStyles.TextfieldBackgroundColorLocked : appStyles.TextfieldBackgroundColorUnLocked)
-            .fixedSize(horizontal: false, vertical: true)
-            .animation(.easeInOut(duration: 1),  value: isLocked)
-        
-        
-        
-        
-        
-    }
-    
-    func SectionTextFieldSingleLine(_ appStyles: StylesLogEntry) -> some View {
-        self
-            .font(Font.custom(appStyles.TextFieldFont, size: appStyles.TextFieldHeight))
-            .lineLimit(1)
-            .foregroundStyle(appStyles.GeneralTextColor)
-            .background(appStyles.TextfieldBackgroundColorUnLocked)
-            .fixedSize(horizontal: false, vertical: true)
-            .textContentType(.telephoneNumber)
-    }
-    
-    func SectionTextFieldSingleLineSecond(_ appStyles: StylesLogEntry)
-      -> some View
-    {
-      self
-        .font(Font.custom(appStyles.TextFieldFont, size: appStyles.TextFieldHeight2))
-        .textInputAutocapitalization(.characters)
-        .lineLimit(1)
-        .foregroundStyle(appStyles.GeneralTextColor)
-        .background(appStyles.TextfieldBackgroundColor)
-        .fixedSize(horizontal: false, vertical: true)
-        .textContentType(.telephoneNumber)
-    }
-
-    func SectionTextFieldSingleLineSecond(
-      _ appStyles: StylesLogEntry, isLocked: Bool
-    )
-      -> some View
-    {
-      self
-        .font(Font.custom(appStyles.TextFieldFont, size: appStyles.TextFieldHeight2))
-        .textInputAutocapitalization(.characters)
-        .lineLimit(1)
-        .foregroundStyle(appStyles.GeneralTextColor)
-        .background(
-          isLocked
-            ? appStyles.TextfieldBackgroundColorLocked
-            : appStyles.TextfieldBackgroundColorUnLocked
-        )
-        .fixedSize(horizontal: false, vertical: true)
-        .textContentType(.telephoneNumber)
-        .animation(.easeInOut(duration: 1), value: isLocked)
-    }
-}
 
 
