@@ -17,8 +17,7 @@ struct ProcessTypeSubVUView: View {
         VStack(alignment: .leading, spacing: 5) {
             HStack(alignment: .center, spacing: 0) {
                 Text("Kennzeichen ON01")
-                    .SectionTextLabelSecond(appStyles)
-                    .frame(width: 215, height: appStyles.TextFieldHeight2, alignment: .topLeading)
+                    .sectionTextLabelSubWidth(appStyles: appStyles)
                 
                 TextField("", text: $LogEntry.processTypeDetails.AccientLicensePlate01)
                     .sectionTextField(appStyles: appStyles, text: $LogEntry.processTypeDetails.AccientLicensePlate01, isLocked: LogEntry.isLocked, numberOfCharacters: 10)
@@ -27,8 +26,7 @@ struct ProcessTypeSubVUView: View {
             
             HStack(alignment: .center, spacing: 0) {
                 Text("Kennzeichen ON02")
-                    .SectionTextLabelSecond(appStyles)
-                    .frame(width: 215, height: appStyles.TextFieldHeight2, alignment: .topLeading)
+                    .sectionTextLabelSubWidth(appStyles: appStyles)
                 
                 TextField("", text: $LogEntry.processTypeDetails.AccientLicensePlate02)
                     .sectionTextField(appStyles: appStyles, text: $LogEntry.processTypeDetails.AccientLicensePlate02, isLocked: LogEntry.isLocked, numberOfCharacters: 10)
@@ -37,7 +35,7 @@ struct ProcessTypeSubVUView: View {
             
             HStack(alignment: .center, spacing: 0) {
                 Text("Verletzte")
-                    .SectionTextLabelSecond(appStyles)
+                    .sectionTextLabelSub(appStyles: appStyles)
                     .fixedSize(horizontal: true, vertical: true)
                     .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 5))
                 
@@ -60,7 +58,7 @@ struct ProcessTypeSubVUView: View {
                 Spacer()
                 
                 Text("Flucht")
-                    .SectionTextLabelSecond(appStyles)
+                    .sectionTextLabelSub(appStyles: appStyles)
                     .fixedSize(horizontal: true, vertical: true)
                     .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 5))
                 
@@ -83,7 +81,7 @@ struct ProcessTypeSubVUView: View {
                 Spacer()
                 
                 Text("Alkohol/BtM")
-                    .SectionTextLabelSecond(appStyles)
+                    .sectionTextLabelSub(appStyles: appStyles)
                     .fixedSize(horizontal: true, vertical: true)
                     .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 5))
                 

@@ -18,7 +18,7 @@ struct ProcessTypeSubKVView: View {
                 
                 HStack(alignment: .center, spacing: 0) {
                     Text("Verletzte")
-                        .SectionTextLabelSecond(appStyles)
+                        .sectionTextLabelSub(appStyles: appStyles)
                         .fixedSize(horizontal: true, vertical: true)
                         .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 5))
                     

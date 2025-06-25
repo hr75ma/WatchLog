@@ -17,9 +17,8 @@ struct ProcessTypeSubDAUFView: View {
         VStack(alignment: .leading, spacing: 5) {
             HStack(alignment: .center, spacing: 0) {
                 Text("Kennzeichen")
-                    .SectionTextLabelSecond(appStyles)
-                    .frame(height: appStyles.TextFieldHeight2, alignment: .topLeading)
-                
+                    .sectionTextLabelSub(appStyles: appStyles)
+                   
                 TextField("", text: $LogEntry.processTypeDetails.AccientLicensePlate01)
                     .sectionTextField(appStyles: appStyles, text: $LogEntry.processTypeDetails.AccientLicensePlate01, isLocked: LogEntry.isLocked, numberOfCharacters: 10)
                     .padding(EdgeInsets(top: 0, leading: 5, bottom: 0, trailing: 0))

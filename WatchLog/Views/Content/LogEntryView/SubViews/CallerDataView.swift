@@ -59,7 +59,7 @@ extension CallerDataView {
 
     HStack(alignment: .center, spacing: 0) {
       Text("Telefon")
-        .SectionTextLabel(appStyles)
+            .sectionTextLabel(appStyles: appStyles)
 
       TextField("", text: $logEntry.CallerNumber)
         .sectionTextField(appStyles: appStyles, text: $logEntry.CallerNumber, isLocked: logEntry.isLocked, numberOfCharacters: 15)
@@ -73,7 +73,7 @@ extension CallerDataView {
   private var nameSubSection: some View {
     HStack(alignment: .center, spacing: 0) {
       Text("Name")
-        .SectionTextLabel(appStyles)
+            .sectionTextLabel(appStyles: appStyles)
 
       TextField("", text: $logEntry.CallerName)
         .sectionTextField(appStyles: appStyles, text: $logEntry.CallerName, isLocked: logEntry.isLocked, numberOfCharacters: 50)
@@ -89,7 +89,7 @@ extension CallerDataView {
   private var dobSubSection: some View {
     HStack(alignment: .top, spacing: 0) {
       Text("DOB")
-        .SectionTextLabel(appStyles)
+            .sectionTextLabel(appStyles: appStyles)
 
       HStack(alignment: .top, spacing: 0) {
 
@@ -202,7 +202,7 @@ extension CallerDataView {
   private var adressSubSection: some View {
     HStack(alignment: .top, spacing: 0) {
       Text("Adresse")
-        .SectionTextLabel(appStyles)
+            .sectionTextLabel(appStyles: appStyles)
         .frame(alignment: .topLeading)
 
       TextField("", text: $logEntry.CallerAdress, axis: .vertical)
@@ -218,14 +218,4 @@ private func getFormatedDateFromDOB(from dob: Date?) -> String {
     return dob!.formatted(date: .long, time: .omitted)
   }
   return ""
-}
-
-extension View {
-  @ViewBuilder func applyTextColor(_ color: Color) -> some View {
-    if UITraitCollection.current.userInterfaceStyle == .light {
-      self.colorInvert().colorMultiply(color)
-    } else {
-      self.colorMultiply(color)
-    }
-  }
 }

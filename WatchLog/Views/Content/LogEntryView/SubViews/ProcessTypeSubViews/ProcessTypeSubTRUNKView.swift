@@ -17,8 +17,7 @@ struct ProcessTypeSubTRUNKView: View {
         VStack(alignment: .leading, spacing: 5) {
             HStack(alignment: .center, spacing: 0) {
                 Text("Kennzeichen ON01")
-                    .SectionTextLabelSecond(appStyles)
-                    .frame(width: 215, height: appStyles.TextFieldHeight2, alignment: .topLeading)
+                    .sectionTextLabelSubWidth(appStyles: appStyles)
                 
                 TextField("", text: $LogEntry.processTypeDetails.AccientLicensePlate01)
                     .sectionTextField(appStyles: appStyles, text: $LogEntry.processTypeDetails.AccientLicensePlate01, isLocked: LogEntry.isLocked, numberOfCharacters: 10)

@@ -17,8 +17,7 @@ struct ProcessTypeSubVUWView: View {
         VStack(alignment: .leading, spacing: 5) {
             HStack(alignment: .center, spacing: 0) {
                 Text("Kennzeichen")
-                    .SectionTextLabelSecond(appStyles)
-                    .frame(height: appStyles.TextFieldHeight2, alignment: .topLeading)
+                    .sectionTextLabelSub(appStyles: appStyles)
                 
                 TextField("", text: $LogEntry.processTypeDetails.AccientLicensePlate01)
                     .sectionTextField(appStyles: appStyles, text: $LogEntry.processTypeDetails.AccientLicensePlate01, isLocked: LogEntry.isLocked, numberOfCharacters: 10)
@@ -29,7 +28,7 @@ struct ProcessTypeSubVUWView: View {
             
             HStack(alignment: .center, spacing: 0) {
                 Text("Tier lebt")
-                    .SectionTextLabelSecond(appStyles)
+                    .sectionTextLabelSub(appStyles: appStyles)
                     .fixedSize(horizontal: true, vertical: true)
                     .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 5))
                 
