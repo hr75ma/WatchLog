@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ProcessTypeSubVUView: View {
     
-    @Bindable var LogEntry: WatchLogEntry
+    @Bindable var logEntry: WatchLogEntry
     @Environment(\.appStyles) var appStyles
     
     
@@ -19,8 +19,8 @@ struct ProcessTypeSubVUView: View {
                 Text("Kennzeichen ON01")
                     .sectionTextLabelSubWidth(appStyles: appStyles)
                 
-                TextField("", text: $LogEntry.processTypeDetails.AccientLicensePlate01)
-                    .sectionTextField(appStyles: appStyles, text: $LogEntry.processTypeDetails.AccientLicensePlate01, isLocked: LogEntry.isLocked, numberOfCharacters: 10)
+                TextField("", text: $logEntry.processTypeDetails.AccientLicensePlate01)
+                    .sectionTextField(appStyles: appStyles, text: $logEntry.processTypeDetails.AccientLicensePlate01, isLocked: logEntry.isLocked, numberOfCharacters: 10)
                     
             }
             
@@ -28,8 +28,8 @@ struct ProcessTypeSubVUView: View {
                 Text("Kennzeichen ON02")
                     .sectionTextLabelSubWidth(appStyles: appStyles)
                 
-                TextField("", text: $LogEntry.processTypeDetails.AccientLicensePlate02)
-                    .sectionTextField(appStyles: appStyles, text: $LogEntry.processTypeDetails.AccientLicensePlate02, isLocked: LogEntry.isLocked, numberOfCharacters: 10)
+                TextField("", text: $logEntry.processTypeDetails.AccientLicensePlate02)
+                    .sectionTextField(appStyles: appStyles, text: $logEntry.processTypeDetails.AccientLicensePlate02, isLocked: logEntry.isLocked, numberOfCharacters: 10)
                     
             }
             
@@ -39,10 +39,10 @@ struct ProcessTypeSubVUView: View {
                     .fixedSize(horizontal: true, vertical: true)
                     .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 5))
                 
-                Toggle("", isOn: $LogEntry.processTypeDetails.isInjured, )
+                Toggle("", isOn: $logEntry.processTypeDetails.isInjured, )
                   .labelsHidden()
                   .toggleStyle(
-                    generalToggleStyleImage(appStyles: appStyles, isLocked: LogEntry.isLocked)
+                    generalToggleStyleImage(appStyles: appStyles, isLocked: logEntry.isLocked)
                   )
                   .frame(height: appStyles.TextFieldHeight2, alignment: .center)
                   .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
@@ -55,10 +55,10 @@ struct ProcessTypeSubVUView: View {
                     .fixedSize(horizontal: true, vertical: true)
                     .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 5))
                 
-                Toggle("", isOn: $LogEntry.processTypeDetails.AccientHitAndRun)
+                Toggle("", isOn: $logEntry.processTypeDetails.AccientHitAndRun)
                     .labelsHidden()
                     .toggleStyle(
-                        generalToggleStyleImage(appStyles: appStyles, isLocked: LogEntry.isLocked)
+                        generalToggleStyleImage(appStyles: appStyles, isLocked: logEntry.isLocked)
                     )
                     .frame(height: appStyles.TextFieldHeight2, alignment: .center)
                     .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
@@ -70,17 +70,17 @@ struct ProcessTypeSubVUView: View {
                     .fixedSize(horizontal: true, vertical: true)
                     .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 5))
                 
-                Toggle("", isOn: $LogEntry.processTypeDetails.AlcoholConsumed)
+                Toggle("", isOn: $logEntry.processTypeDetails.AlcoholConsumed)
                     .labelsHidden()
                     .toggleStyle(
-                        generalToggleStyleImage(appStyles: appStyles, isLocked: LogEntry.isLocked)
+                        generalToggleStyleImage(appStyles: appStyles, isLocked: logEntry.isLocked)
                     )
                     .frame(height: appStyles.TextFieldHeight2, alignment: .center)
                     .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
             }
         }
         .padding(EdgeInsets(top: 10, leading: 0, bottom: 0, trailing: 0))
-        .disabled(LogEntry.isLocked)
+        .disabled(logEntry.isLocked)
     }
 
 }

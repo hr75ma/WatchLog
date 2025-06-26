@@ -9,7 +9,7 @@ import SwiftUI
 
     struct ProcessTypeSubVKKOView: View {
         
-        @Bindable var LogEntry: WatchLogEntry
+        @Bindable var logEntry: WatchLogEntry
         @Environment(\.appStyles) var appStyles
         
         
@@ -19,8 +19,8 @@ import SwiftUI
                     Text("Kennzeichen")
                         .sectionTextLabelSub(appStyles: appStyles)
                     
-                    TextField("", text: $LogEntry.processTypeDetails.AccientLicensePlate01)
-                        .sectionTextField(appStyles: appStyles, text: $LogEntry.processTypeDetails.AccientLicensePlate01, isLocked: LogEntry.isLocked, numberOfCharacters: 10)
+                    TextField("", text: $logEntry.processTypeDetails.AccientLicensePlate01)
+                        .sectionTextField(appStyles: appStyles, text: $logEntry.processTypeDetails.AccientLicensePlate01, isLocked: logEntry.isLocked, numberOfCharacters: 10)
                         
                         .padding(EdgeInsets(top: 0, leading: 5, bottom: 0, trailing: 0))
                 }

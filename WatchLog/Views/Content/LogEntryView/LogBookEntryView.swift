@@ -51,7 +51,7 @@ struct LogBookEntryView: View {
 
           CallerDataView(logEntry: viewModel.watchLogEntry)
 
-          ProcessTypeSelectionView(LogEntry: viewModel.watchLogEntry)
+            ProcessTypeSelectionView(logEntry: viewModel.watchLogEntry)
 
           NoteView(
             logEntry: viewModel.watchLogEntry, drawing: $viewModel.watchLogEntry.pkDrawingData,

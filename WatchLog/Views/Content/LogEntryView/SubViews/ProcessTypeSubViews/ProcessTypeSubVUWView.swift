@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ProcessTypeSubVUWView: View {
     
-    @Bindable var LogEntry: WatchLogEntry
+    @Bindable var logEntry: WatchLogEntry
     @Environment(\.appStyles) var appStyles
     
     
@@ -19,8 +19,8 @@ struct ProcessTypeSubVUWView: View {
                 Text("Kennzeichen")
                     .sectionTextLabelSub(appStyles: appStyles)
                 
-                TextField("", text: $LogEntry.processTypeDetails.AccientLicensePlate01)
-                    .sectionTextField(appStyles: appStyles, text: $LogEntry.processTypeDetails.AccientLicensePlate01, isLocked: LogEntry.isLocked, numberOfCharacters: 10)
+                TextField("", text: $logEntry.processTypeDetails.AccientLicensePlate01)
+                    .sectionTextField(appStyles: appStyles, text: $logEntry.processTypeDetails.AccientLicensePlate01, isLocked: logEntry.isLocked, numberOfCharacters: 10)
                     
                     .padding(EdgeInsets(top: 0, leading: 5, bottom: 0, trailing: 0))
                 
@@ -32,14 +32,14 @@ struct ProcessTypeSubVUWView: View {
                     .fixedSize(horizontal: true, vertical: true)
                     .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 5))
                 
-                Toggle("", isOn: $LogEntry.processTypeDetails.isInjured)
+                Toggle("", isOn: $logEntry.processTypeDetails.isInjured)
                     .labelsHidden()
                     .toggleStyle(
-                        generalToggleStyleImage(appStyles: appStyles, isLocked: LogEntry.isLocked)
+                        generalToggleStyleImage(appStyles: appStyles, isLocked: logEntry.isLocked)
                     )
                     .frame(height: appStyles.TextFieldHeight2, alignment: .center)
                     .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-                    .disabled(LogEntry.isLocked)
+                    .disabled(logEntry.isLocked)
                 Spacer()
             }
         }
