@@ -46,18 +46,11 @@ extension LockEditingView {
         .lineSpacing(0)
         .animation(.easeInOut(duration: 1), value: logEntry.isLocked)
 
-      Toggle("", isOn: $logEntry.isLocked)
-        .labelsHidden()
-        .toggleStyle(
-          ToggleStyleLockImage(
-            isOnImage: appStyles.LockImageisLocked,
-            isOffImage: appStyles.LockImageisUnLocked,
-            isOnColorPrimary: appStyles.LockColorIsLockedPrimary,
-            isOnColorSecondary: appStyles.LockColorIsLockedSecondary,
-            isOffColorPrimary: appStyles.LockColorIsUnLockedPrimary,
-            isOffColorSecondary: appStyles.LockColorIsUnLockedSecondary
+        Toggle("", isOn: $logEntry.isLocked)
+          .labelsHidden()
+          .toggleStyle(
+            toggleStyleLockImage(appStyles: appStyles, isLocked: logEntry.isLocked)
           )
-        )
 
         .frame(height: appStyles.LabelFontSize2, alignment: .center)
         .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))

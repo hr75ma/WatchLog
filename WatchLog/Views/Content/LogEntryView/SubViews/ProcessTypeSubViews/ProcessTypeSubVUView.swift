@@ -39,21 +39,14 @@ struct ProcessTypeSubVUView: View {
                     .fixedSize(horizontal: true, vertical: true)
                     .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 5))
                 
-                Toggle("", isOn: $LogEntry.processTypeDetails.isInjured)
-                    .labelsHidden()
-                    .toggleStyle(
-                      ToggleStyleImage(
-                          isOnImage: appStyles.AccidentImageisLocked,
-                          isOffImage: appStyles.AccidentImageisUnLocked,
-                          isOnColorPrimary: appStyles.AccidentColorIsLockedPrimary,
-                          isOnColorSecondary: appStyles.AccidentColorIsLockedSecondary,
-                          isOffColorPrimary: appStyles.AccidentColorIsUnLockedPrimary,
-                          isOffColorSecondary: appStyles.AccidentColorIsUnLockedSecondary,
-                          isLocked: LogEntry.isLocked, isLockedColor: appStyles.ToogleIsLockedColor
-                      )
-                    )
-                    .frame(height: appStyles.TextFieldHeight2, alignment: .center)
-                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                Toggle("", isOn: $LogEntry.processTypeDetails.isInjured, )
+                  .labelsHidden()
+                  .toggleStyle(
+                    generalToggleStyleImage(appStyles: appStyles, isLocked: LogEntry.isLocked)
+                  )
+                  .frame(height: appStyles.TextFieldHeight2, alignment: .center)
+                  .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                  
                 
                 Spacer()
                 
@@ -65,15 +58,7 @@ struct ProcessTypeSubVUView: View {
                 Toggle("", isOn: $LogEntry.processTypeDetails.AccientHitAndRun)
                     .labelsHidden()
                     .toggleStyle(
-                      ToggleStyleImage(
-                          isOnImage: appStyles.AccidentImageisLocked,
-                          isOffImage: appStyles.AccidentImageisUnLocked,
-                          isOnColorPrimary: appStyles.AccidentColorIsLockedPrimary,
-                          isOnColorSecondary: appStyles.AccidentColorIsLockedSecondary,
-                          isOffColorPrimary: appStyles.AccidentColorIsUnLockedPrimary,
-                          isOffColorSecondary: appStyles.AccidentColorIsUnLockedSecondary,
-                          isLocked: LogEntry.isLocked, isLockedColor: appStyles.ToogleIsLockedColor
-                      )
+                        generalToggleStyleImage(appStyles: appStyles, isLocked: LogEntry.isLocked)
                     )
                     .frame(height: appStyles.TextFieldHeight2, alignment: .center)
                     .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
@@ -88,15 +73,7 @@ struct ProcessTypeSubVUView: View {
                 Toggle("", isOn: $LogEntry.processTypeDetails.AlcoholConsumed)
                     .labelsHidden()
                     .toggleStyle(
-                      ToggleStyleImage(
-                          isOnImage: appStyles.AccidentImageisLocked,
-                          isOffImage: appStyles.AccidentImageisUnLocked,
-                          isOnColorPrimary: appStyles.AccidentColorIsLockedPrimary,
-                          isOnColorSecondary: appStyles.AccidentColorIsLockedSecondary,
-                          isOffColorPrimary: appStyles.AccidentColorIsUnLockedPrimary,
-                          isOffColorSecondary: appStyles.AccidentColorIsUnLockedSecondary,
-                          isLocked: LogEntry.isLocked, isLockedColor: appStyles.ToogleIsLockedColor
-                      )
+                        generalToggleStyleImage(appStyles: appStyles, isLocked: LogEntry.isLocked)
                     )
                     .frame(height: appStyles.TextFieldHeight2, alignment: .center)
                     .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))

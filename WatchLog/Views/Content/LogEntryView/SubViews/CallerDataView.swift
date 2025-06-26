@@ -93,27 +93,19 @@ extension CallerDataView {
 
       HStack(alignment: .top, spacing: 0) {
 
-        Toggle("", isOn: $withBirthday)
-          .labelsHidden()
-          .toggleStyle(
-            ToggleStyleImage(
-              isOnImage: appStyles.GeneralToggleIsActiveImage,
-              isOffImage: appStyles.GeneralToggleIsUnactiveImage,
-              isOnColorPrimary: appStyles.GeneralToggleIsActivePrimary,
-              isOnColorSecondary: appStyles.GeneralToggleIsActiveSecondary,
-              isOffColorPrimary: appStyles.GeneralToggleIsUnactivePrimary,
-              isOffColorSecondary: appStyles.GeneralToggleIsUnactiveSecondary,
-              isLocked: logEntry.isLocked, isLockedColor: appStyles.ToogleIsLockedColor
+          Toggle("", isOn: $withBirthday)
+            .labelsHidden()
+            .toggleStyle(
+              generalToggleStyleImage(appStyles: appStyles, isLocked: logEntry.isLocked)
             )
-          )
-          .frame(height: appStyles.TextFieldHeight)
-          .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-          .isHidden(tempLocked, remove: true)
+            .frame(height: appStyles.TextFieldHeight)
+            .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+            .isHidden(tempLocked, remove: true)
 
         Toggle("", isOn: $withBirthday)
           .labelsHidden()
           .toggleStyle(
-            ToggleStyleAnimationImage(
+            toggleStyleAnimationImage(
               isOnImage: "inset.filled.circle.dashed",
               isOffImage: "inset.filled.circle.dashed",
               isOnColorPrimary: appStyles.GeneralToggleIsActivePrimary,

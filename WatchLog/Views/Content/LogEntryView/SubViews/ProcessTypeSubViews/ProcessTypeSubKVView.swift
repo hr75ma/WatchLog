@@ -25,15 +25,7 @@ struct ProcessTypeSubKVView: View {
                     Toggle("", isOn: $LogEntry.processTypeDetails.isInjured)
                         .labelsHidden()
                         .toggleStyle(
-                            ToggleStyleImage(
-                                isOnImage: appStyles.AccidentImageisLocked,
-                                isOffImage: appStyles.AccidentImageisUnLocked,
-                                isOnColorPrimary: appStyles.AccidentColorIsLockedPrimary,
-                                isOnColorSecondary: appStyles.AccidentColorIsLockedSecondary,
-                                isOffColorPrimary: appStyles.AccidentColorIsUnLockedPrimary,
-                                isOffColorSecondary: appStyles.AccidentColorIsUnLockedSecondary,
-                                isLocked: LogEntry.isLocked, isLockedColor: appStyles.ToogleIsLockedColor
-                            )
+                            generalToggleStyleImage(appStyles: appStyles, isLocked: LogEntry.isLocked)
                         )
                         .frame(height: appStyles.TextFieldHeight2, alignment: .center)
                         .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
