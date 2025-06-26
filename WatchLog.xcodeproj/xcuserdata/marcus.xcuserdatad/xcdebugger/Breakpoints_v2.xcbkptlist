@@ -76,8 +76,8 @@
             filePath = "WatchLog/ViewSupport/Extension/TextFieldExtensions.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "118"
-            endingLineNumber = "118"
+            startingLineNumber = "107"
+            endingLineNumber = "107"
             landmarkName = "body(content:)"
             landmarkType = "7">
          </BreakpointContent>

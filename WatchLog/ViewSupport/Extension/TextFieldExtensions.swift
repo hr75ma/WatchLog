@@ -102,17 +102,6 @@ struct SectionTextFieldModifier: ViewModifier {
             .background(isLocked ? appStyles.TextfieldBackgroundColorLocked : appStyles.TextfieldBackgroundColorUnLocked)
             .fixedSize(horizontal: false, vertical: true)
             .textFieldLimitInputLength(text: $text, length: numberOfCharacters)
-//            .overlay(
-//                                Button(action: {
-//                                    text = ""
-//                                }) {
-//                                    Image(systemName: "xmark.circle.fill")
-//                                        .opacity(text.isEmpty ? 0 : 1).padding()
-//                                }
-//                                .padding(),
-//                                alignment: .trailing
-//                            )
-            
             .animation(.easeInOut(duration: 1),  value: isLocked)
             .autocorrectionDisabled(true)
             .disabled(isLocked)

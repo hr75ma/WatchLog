@@ -77,12 +77,6 @@ extension CallerDataView {
 
       TextField("", text: $logEntry.CallerName)
         .sectionTextField(appStyles: appStyles, text: $logEntry.CallerName, isLocked: logEntry.isLocked, numberOfCharacters: 50)
-        //.SectionTextFieldSingleLine(appStyles, isLocked: logEntry.isLocked)
-        //.textContentType(.name)
-        //.autocorrectionDisabled(true)
-        //.showClearButton($logEntry.CallerName)
-        
-        .disabled(logEntry.isLocked)
     }
   }
 
