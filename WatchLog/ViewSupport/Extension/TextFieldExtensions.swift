@@ -33,6 +33,10 @@ extension View {
     func sectionTextFieldSubSection(appStyles: StylesLogEntry, text: Binding<String>, isLocked: Bool, numberOfCharacters:Int) -> some View {
         self.modifier(SectionTextFieldModifier(appStyles: appStyles, text: text, isLocked: isLocked, numberOfCharacters: numberOfCharacters, textFieldFont: appStyles.TextFieldFont, textFieldHeight: appStyles.TextFieldHeight2))
     }
+    
+    func sectionTextFieldSimulated(appStyles: StylesLogEntry, text: Binding<String>, isLocked: Bool, numberOfCharacters:Int) -> some View {
+        self.modifier(SectionTextFieldSimulatedModifier(appStyles: appStyles, text: text, isLocked: isLocked, numberOfCharacters: numberOfCharacters, textFieldFont: appStyles.TextFieldFont, textFieldHeight: appStyles.TextFieldHeight))
+    }
 }
 
 
@@ -96,6 +100,28 @@ struct SectionTextFieldModifier: ViewModifier {
     func body(content: Content) -> some View {
             content
             .textFieldButtonClearButton($text)
+            .font(Font.custom(textFieldFont, size: textFieldHeight))
+            .lineLimit(1)
+            .foregroundStyle(appStyles.GeneralTextColor)
+            .background(isLocked ? appStyles.TextfieldBackgroundColorLocked : appStyles.TextfieldBackgroundColorUnLocked)
+            .fixedSize(horizontal: false, vertical: true)
+            .textFieldLimitInputLength(text: $text, length: numberOfCharacters)
+            .animation(.easeInOut(duration: 1),  value: isLocked)
+            .autocorrectionDisabled(true)
+            .disabled(isLocked)
+                }
+    }
+
+struct SectionTextFieldSimulatedModifier: ViewModifier {
+    let appStyles: StylesLogEntry
+    @Binding var text: String
+    let isLocked: Bool
+    let numberOfCharacters: Int
+    let textFieldFont: String
+    let textFieldHeight: CGFloat
+    
+    func body(content: Content) -> some View {
+            content
             .font(Font.custom(textFieldFont, size: textFieldHeight))
             .lineLimit(1)
             .foregroundStyle(appStyles.GeneralTextColor)

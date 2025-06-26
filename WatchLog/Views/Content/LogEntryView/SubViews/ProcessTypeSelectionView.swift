@@ -22,6 +22,10 @@ struct ProcessTypeSelectionView: View {
   @State private var selectedProcessHelper: ProcessType.ProcessTypeShort = ProcessType
     .ProcessTypeShort
     .UNKNOWN
+    
+    @State private var selectedProcessAsString: String = ProcessType.processTypes[ProcessType
+        .ProcessTypeShort
+        .UNKNOWN]!
 
   @State private var sortedByValue = ProcessType.processTypes
     
@@ -32,13 +36,9 @@ struct ProcessTypeSelectionView: View {
       
         SectionImage
         
-        
-        
         VStack {
             
             HStack(alignment: .top, spacing: 0) {
-                
-                
                 
                 Text("Vorgangsart")
                     .SectionTextLabelForToggle(appStyles)
@@ -48,10 +48,9 @@ struct ProcessTypeSelectionView: View {
                 VStack(alignment: .leading, spacing: 0) {
                     
                     HStack{
-                        Text(ProcessType.processTypes[logEntry.processTypeDetails.processTypeShort]!)
-                            .SectionTextFieldSecondSimulatedSingleLine(appStyles, isLocked: logEntry.isLocked)
-                            .isHidden(!tempLocked, remove: true)
-                        //.animation(.easeInOut(duration: 1), value: LogEntry.isLocked)
+                        TextField("", text: $selectedProcessAsString)
+                          .sectionTextFieldSimulated(appStyles: appStyles, text: $selectedProcessAsString, isLocked: true, numberOfCharacters: 15)
+                          .isHidden(!tempLocked, remove: true)
                         
                         Picker("", selection: $selectedProcess) {
                             ForEach(
@@ -97,6 +96,7 @@ struct ProcessTypeSelectionView: View {
                     if newValue != logEntry.processTypeDetails.processTypeShort {
                         logEntry.processTypeDetails.clear()
                         logEntry.processTypeDetails.processTypeShort = newValue
+                        selectedProcessAsString = ProcessType.processTypes[logEntry.processTypeDetails.processTypeShort]!
                         print(logEntry.processTypeDetails.processTypeShort)
                     }
                 }
