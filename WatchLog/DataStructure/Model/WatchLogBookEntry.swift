@@ -214,6 +214,7 @@ class WatchLogBookEntry: Identifiable, Hashable {
         processDetails!.isAnimaleLiving = LogEntry.processTypeDetails.isAnimaleLiving
         processDetails!.isInjured = LogEntry.processTypeDetails.isInjured
         processDetails!.processTypeShort = LogEntry.processTypeDetails.processTypeShort
+        processDetails!.AlcoholConsumed = LogEntry.processTypeDetails.AlcoholConsumed
         
         isLocked = true
         

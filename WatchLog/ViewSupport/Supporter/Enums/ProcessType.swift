@@ -45,7 +45,7 @@ struct ProcessType {
     ProcessTypeShort.VU: "Verkehrsunfall",
     ProcessTypeShort.VUW: "Wildunfall",
     ProcessTypeShort.RUHE: "Ruhestörung",
-    ProcessTypeShort.STRE: "Streitgkeiten",
+    ProcessTypeShort.STRE: "Streitigkeiten",
     ProcessTypeShort.TIER: "Tier",
     ProcessTypeShort.ALDI: "Diebstahl",
     ProcessTypeShort.VERD: "Verdacht",

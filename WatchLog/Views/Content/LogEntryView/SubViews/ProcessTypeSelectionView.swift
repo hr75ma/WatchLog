@@ -103,14 +103,17 @@ struct ProcessTypeSelectionView: View {
             }
             .onChange(of: logEntry.uuid) { oldValue, newValue in
                 withAnimation(.easeInOut(duration: 1)) {
-                    print("animation onchange uuid")
+                    print("animation process onchange uuid")
                     selectedProcess = logEntry.processTypeDetails.processTypeShort
                     selectedProcessHelper = selectedProcess
+                    selectedProcessAsString = ProcessType.processTypes[logEntry.processTypeDetails.processTypeShort]!
                 }
             }
             .onChange(of: logEntry.isLocked) {
                 withAnimation(.easeInOut(duration: 1)) {
                     tempLocked = logEntry.isLocked
+                    selectedProcessHelper = selectedProcess
+                    selectedProcessAsString = ProcessType.processTypes[logEntry.processTypeDetails.processTypeShort]!
                 }
             }
             .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
