@@ -31,6 +31,8 @@ class WatchLogBookEntry: Identifiable, Hashable {
     var CallerAdress: String = ""
     var CallerDOB: Date?
 
+    var CallIn: CallInType.CallInTypeShort = CallInType.CallInTypeShort.EMERGENCY
+    
     //var AccientInjured: Bool = false
     var AccientHitAndRun: Bool = false
     var AccientLicensePlate01: String = ""
@@ -65,7 +67,7 @@ class WatchLogBookEntry: Identifiable, Hashable {
         CallerAdress = LogEntry.CallerAdress
         CallerDOB = LogEntry.CallerDOB
         
-        
+        CallIn = LogEntry.CallIn
         
         isLocked = LogEntry.isLocked
         
@@ -88,7 +90,7 @@ class WatchLogBookEntry: Identifiable, Hashable {
         CallerAdress = LogEntry.CallerAdress
         CallerDOB = LogEntry.CallerDOB
         
-        
+        CallIn = LogEntry.CallIn
         
         isLocked = LogEntry.isLocked
         
@@ -108,6 +110,8 @@ class WatchLogBookEntry: Identifiable, Hashable {
         CallerNumber = ""
         CallerAdress = ""
         CallerDOB = nil
+        
+        CallIn = .EMERGENCY
         
        // isAccient = false
        // AccientInjured = false
@@ -137,6 +141,8 @@ class WatchLogBookEntry: Identifiable, Hashable {
         CallerNumber = ""
         CallerAdress = ""
         CallerDOB = nil
+        
+        CallIn = .EMERGENCY
         
         //isAccient = false
         //AccientInjured = false
@@ -168,6 +174,8 @@ class WatchLogBookEntry: Identifiable, Hashable {
         CallerAdress = ""
         CallerDOB = nil
         
+        CallIn = .EMERGENCY
+        
         //isAccient = false
         //AccientInjured = false
         AccientHitAndRun = false
@@ -197,6 +205,8 @@ class WatchLogBookEntry: Identifiable, Hashable {
         CallerNumber = LogEntry.CallerNumber
         CallerAdress = LogEntry.CallerAdress
         CallerDOB = LogEntry.CallerDOB
+        
+        CallIn = LogEntry.CallIn
         
         processDetails!.AccientHitAndRun = LogEntry.processTypeDetails.AccientHitAndRun
         processDetails!.AccientLicensePlate01 = LogEntry.processTypeDetails.AccientLicensePlate01

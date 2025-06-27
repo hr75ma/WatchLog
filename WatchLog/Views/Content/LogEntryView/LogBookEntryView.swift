@@ -48,6 +48,8 @@ struct LogBookEntryView: View {
           LogTimeView(logTime: viewModel.watchLogEntry.EntryTime)
 
           LockEditingView(logEntry: viewModel.watchLogEntry)
+            
+          CallInView(logEntry: viewModel.watchLogEntry)
 
           CallerDataView(logEntry: viewModel.watchLogEntry)
 

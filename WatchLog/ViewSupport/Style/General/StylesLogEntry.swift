@@ -51,7 +51,11 @@ final class StylesLogEntry:Sendable {
     let TextFieldHeight: CGFloat = 35
     let TextFieldHeight2: CGFloat = 30
     
-    let SectionCallerImage: String = "phone.badge.waveform.fill"
+    let SectionCallInImage: String = "phone.arrow.down.left.fill"
+    let SectionCallInImagePrimary: Color = Color.white
+    let SectionCallInImageSecondary: Color = Color.blue
+    
+    let SectionCallerImage: String = "waveform.and.person.filled"
     let SectionCallerImagePrimary: Color = Color.white
     let SectionCallerImageSecondary: Color = Color.blue
     
@@ -72,6 +76,7 @@ final class StylesLogEntry:Sendable {
     let isUnLockedColor: Color = Color.blue
     
     let GeneralTextColor:Color = Color.blue
+    let GeneralPickerTextColor:Color = Color.white
     let GeneralBackgroundColor:Color = Color.white
     let GeneralInnerFrameColor:Color = Color.blue
     let GeneralInnerFrameBorderWidth:CGFloat = 4
