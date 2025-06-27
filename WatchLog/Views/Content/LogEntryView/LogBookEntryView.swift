@@ -221,86 +221,168 @@ extension LogBookEntryView {
     }
   }
 
-  private var ContextButton: some View {
+    private var ContextButton: some View {
 
-    Image(systemName: appStyles.ToolbarContextImage)
-      .symbolRenderingMode(.palette)
-      .resizable()
-      .scaledToFit()
-      .frame(width: 30, height: 30, alignment: .center)
-      .foregroundStyle(
-        appStyles.ToolbarContextColorActivePrimary, appStyles.ToolbarContextColorActiveSecondary
-      )
-      .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(6))
+        
+      Menu {
 
-      .contextMenu {
-
-        Button {
-          alertNew.toggle()
-        } label: {
-
-          Label("Neues Log", systemImage: appStyles.ToolBarNewImageActive)
-            .symbolRenderingMode(.palette)
-            .foregroundStyle(
-              appStyles.ToolBarNewColorActiveSecondary, appStyles.ToolBarNewColorActiveSecondary
-            )
-            .labelStyle(.titleAndIcon)
-
-        }
-
-        if !viewModel.watchLogEntry.isLocked {
           Button {
-            Task {
-              viewModel.watchLogEntry.isLocked = true
-              viewModel.watchLogEntry.isNewEntryLog = false
-              await viewModel.saveLogEntry(LogEntry: viewModel.watchLogEntry)
-              print(">>> Log saved \(viewModel.watchLogEntry.uuid)")
-              //await  logBookEntry = viewModel.fetchLogEntryMod(LogEntryUUID: viewModel.watchLogEntry.uuid)!
-              viewModel.watchLogEntry.isNewEntryLog = false
-              displayedLogEntryUUID.id = viewModel.watchLogEntry.uuid
-              logBookEntryUUID = displayedLogEntryUUID.id
-
-            }
+            alertNew.toggle()
           } label: {
 
-            Label("Log Speichern", systemImage: appStyles.ToolBarSaveImageActive)
+            Label("Neues Log", systemImage: appStyles.ToolBarNewImageActive)
               .symbolRenderingMode(.palette)
               .foregroundStyle(
-                appStyles.ToolBarSaveColorActivePrimary, appStyles.ToolBarSaveColorActivePrimary
+                appStyles.ToolBarNewColorActiveSecondary, appStyles.ToolBarNewColorActiveSecondary
               )
               .labelStyle(.titleAndIcon)
 
           }
 
-        }
+          if !viewModel.watchLogEntry.isLocked {
+            Button {
+              Task {
+                viewModel.watchLogEntry.isLocked = true
+                viewModel.watchLogEntry.isNewEntryLog = false
+                await viewModel.saveLogEntry(LogEntry: viewModel.watchLogEntry)
+                print(">>> Log saved \(viewModel.watchLogEntry.uuid)")
+                //await  logBookEntry = viewModel.fetchLogEntryMod(LogEntryUUID: viewModel.watchLogEntry.uuid)!
+                viewModel.watchLogEntry.isNewEntryLog = false
+                displayedLogEntryUUID.id = viewModel.watchLogEntry.uuid
+                logBookEntryUUID = displayedLogEntryUUID.id
 
-        Divider()
+              }
+            } label: {
 
-        if !viewModel.watchLogEntry.isLocked {
-          Button(role: .destructive) {
-            alertClear.toggle()
-          } label: {
+              Label("Log Speichern", systemImage: appStyles.ToolBarSaveImageActive)
+                .symbolRenderingMode(.palette)
+                .foregroundStyle(
+                  appStyles.ToolBarSaveColorActivePrimary, appStyles.ToolBarSaveColorActivePrimary
+                )
+                .labelStyle(.titleAndIcon)
 
-            Label("Log leeren", systemImage: appStyles.ToolBarEraserImageActive)
-              .labelStyle(.titleAndIcon)
+            }
 
           }
-        }
 
-        if !viewModel.watchLogEntry.isLocked {
-          Button(role: .destructive) {
-            alertDelete.toggle()
-          } label: {
+          Divider()
 
-            Label("Log Löschen", systemImage: appStyles.ToolBarDeleteImageActive)
-              .labelStyle(.titleAndIcon)
+          if !viewModel.watchLogEntry.isLocked {
+            Button(role: .destructive) {
+              alertClear.toggle()
+            } label: {
+
+              Label("Log leeren", systemImage: appStyles.ToolBarEraserImageActive)
+                .labelStyle(.titleAndIcon)
+
+            }
+          }
+
+          if !viewModel.watchLogEntry.isLocked {
+            Button(role: .destructive) {
+              alertDelete.toggle()
+            } label: {
+
+              Label("Log Löschen", systemImage: appStyles.ToolBarDeleteImageActive)
+                .labelStyle(.titleAndIcon)
+
+            }
 
           }
 
-        }
-
+      } label: {
+          Image(systemName: appStyles.ToolbarContextImage)
+            .symbolRenderingMode(.palette)
+            .resizable()
+            .scaledToFit()
+            .frame(width: 30, height: 30, alignment: .center)
+            .foregroundStyle(
+              appStyles.ToolbarContextColorActivePrimary, appStyles.ToolbarContextColorActiveSecondary
+            )
+            .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(6))
       }
-  }
+    }
+    
+//   private var ContextButton: some View {
+//
+//    Image(systemName: appStyles.ToolbarContextImage)
+//      .symbolRenderingMode(.palette)
+//      .resizable()
+//      .scaledToFit()
+//      .frame(width: 30, height: 30, alignment: .center)
+//      .foregroundStyle(
+//        appStyles.ToolbarContextColorActivePrimary, appStyles.ToolbarContextColorActiveSecondary
+//      )
+//      .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(6))
+//
+//      .contextMenu {
+//
+//        Button {
+//          alertNew.toggle()
+//        } label: {
+//
+//          Label("Neues Log", systemImage: appStyles.ToolBarNewImageActive)
+//            .symbolRenderingMode(.palette)
+//            .foregroundStyle(
+//              appStyles.ToolBarNewColorActiveSecondary, appStyles.ToolBarNewColorActiveSecondary
+//            )
+//            .labelStyle(.titleAndIcon)
+//
+//        }
+//
+//        if !viewModel.watchLogEntry.isLocked {
+//          Button {
+//            Task {
+//              viewModel.watchLogEntry.isLocked = true
+//              viewModel.watchLogEntry.isNewEntryLog = false
+//              await viewModel.saveLogEntry(LogEntry: viewModel.watchLogEntry)
+//              print(">>> Log saved \(viewModel.watchLogEntry.uuid)")
+//              //await  logBookEntry = viewModel.fetchLogEntryMod(LogEntryUUID: viewModel.watchLogEntry.uuid)!
+//              viewModel.watchLogEntry.isNewEntryLog = false
+//              displayedLogEntryUUID.id = viewModel.watchLogEntry.uuid
+//              logBookEntryUUID = displayedLogEntryUUID.id
+//
+//            }
+//          } label: {
+//
+//            Label("Log Speichern", systemImage: appStyles.ToolBarSaveImageActive)
+//              .symbolRenderingMode(.palette)
+//              .foregroundStyle(
+//                appStyles.ToolBarSaveColorActivePrimary, appStyles.ToolBarSaveColorActivePrimary
+//              )
+//              .labelStyle(.titleAndIcon)
+//
+//          }
+//
+//        }
+//
+//        Divider()
+//
+//        if !viewModel.watchLogEntry.isLocked {
+//          Button(role: .destructive) {
+//            alertClear.toggle()
+//          } label: {
+//
+//            Label("Log leeren", systemImage: appStyles.ToolBarEraserImageActive)
+//              .labelStyle(.titleAndIcon)
+//
+//          }
+//        }
+//
+//        if !viewModel.watchLogEntry.isLocked {
+//          Button(role: .destructive) {
+//            alertDelete.toggle()
+//          } label: {
+//
+//            Label("Log Löschen", systemImage: appStyles.ToolBarDeleteImageActive)
+//              .labelStyle(.titleAndIcon)
+//
+//          }
+//
+//        }
+//
+//      }
+//  }
 }
 
 #Preview{
