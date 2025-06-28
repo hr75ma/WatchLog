@@ -53,7 +53,7 @@ final class StylesLogEntry:Sendable {
     let TextFieldHeight: CGFloat = 35
     let TextFieldHeightSub: CGFloat = 30
     
-    
+    let LogTimeFontSize: CGFloat = 40
     
     let SectionCallInImage: String = "phone.arrow.down.left.fill"
     let SectionCallInImagePrimary: Color = Color.white
@@ -125,8 +125,8 @@ final class StylesLogEntry:Sendable {
     let ToolBarSaveColorUnActivePrimary: Color = Color.red
     let ToolBarSaveColorUnActiveSecondary: Color = Color.red
     
-    let ToolBarNewImageActive: String = "list.clipboard"
-    let ToolBarNewImageUnActive: String = "list.clipboard"
+    let ToolBarNewImageActive: String = "plus"
+    let ToolBarNewImageUnActive: String = "plus"
     let ToolBarNewColorActivePrimary: Color = Color.white
     let ToolBarNewColorActiveSecondary: Color = Color.blue
     let ToolBarNewColorUnActivePrimary: Color = Color.white
@@ -152,8 +152,8 @@ final class StylesLogEntry:Sendable {
     
     
     //tree navigation
-    let NavigationTreeAddEntryImage: String = "list.clipboard"
-    let NavigationTreeAddEntryImagePrimaryColor: Color = Color.white
+    let NavigationTreeAddEntryImage: String = "plus"
+    let NavigationTreeAddEntryImagePrimaryColor: Color = Color.blue
     let NavigationTreeAddEntryImageSecondaryColor: Color = Color.blue
     
     let NavigationTreeSettingImage: String = "gear"

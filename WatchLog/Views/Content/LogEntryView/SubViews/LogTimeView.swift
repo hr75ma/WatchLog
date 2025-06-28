@@ -50,7 +50,7 @@ private struct TextFormatterStyle: ViewModifier {
   let stylesLogEntry: StylesLogEntry
   func body(content: Content) -> some View {
     content
-      .font(Font.custom(stylesLogEntry.LabelFont, size: stylesLogEntry.LabelFontSize))
+      .font(Font.custom(stylesLogEntry.LabelFont, size: stylesLogEntry.LogTimeFontSize))
       .foregroundStyle(stylesLogEntry.GeneralTextColor)
       .contentTransition(.numericText())
   }

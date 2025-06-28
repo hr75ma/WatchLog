@@ -170,7 +170,7 @@ struct SectionTextLabelModifier: ViewModifier {
     let appStyles: StylesLogEntry
     func body(content: Content) -> some View {
         content
-            .font(Font.custom(appStyles.LabelFont, size: appStyles.TextFieldFontSize))
+            .font(Font.custom(appStyles.LabelFont, size: appStyles.LabelFontSize))
             .foregroundStyle(appStyles.GeneralTextColor)
             .frame(width: 120, height: appStyles.TextFieldHeight, alignment: .topLeading)
             .multilineTextAlignment(.leading)
@@ -183,7 +183,7 @@ struct SectionTextLabelForToggleModifier: ViewModifier {
     let appStyles: StylesLogEntry
     func body(content: Content) -> some View {
         content
-            .font(Font.custom(appStyles.LabelFont, size: appStyles.TextFieldFontSize))
+            .font(Font.custom(appStyles.LabelFont, size: appStyles.LabelFontSize))
             .foregroundStyle(appStyles.GeneralTextColor)
             .frame(height: appStyles.TextFieldHeight, alignment: .center)
             .multilineTextAlignment(.leading)

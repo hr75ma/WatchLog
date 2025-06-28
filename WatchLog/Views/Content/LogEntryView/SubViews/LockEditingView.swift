@@ -36,7 +36,7 @@ extension LockEditingView {
     HStack(alignment: .center) {
 
       Text(logEntry.isLocked ? "Gesperrt" : "Entsperrt")
-        .font(Font.custom(appStyles.LabelFont, size: appStyles.LabelFontSizeSub))
+        .font(Font.custom(appStyles.LabelFont, size: appStyles.LabelFontSize))
         .foregroundStyle(logEntry.isLocked ? appStyles.isLockedColor : appStyles.GeneralTextColor)
         .frame(width: 170, height: appStyles.LabelFontSizeSub, alignment: .leading)
         .multilineTextAlignment(.leading)
