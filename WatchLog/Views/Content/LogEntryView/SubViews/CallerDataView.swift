@@ -74,6 +74,7 @@ extension CallerDataView {
     HStack(alignment: .center, spacing: 0) {
       Text("Name")
             .sectionTextLabel(appStyles: appStyles)
+            
 
       TextField("", text: $logEntry.CallerName)
         .sectionTextField(appStyles: appStyles, text: $logEntry.CallerName, isLocked: logEntry.isLocked, numberOfCharacters: 50)
@@ -115,9 +116,14 @@ extension CallerDataView {
 
         VStack {
 
-          Text(with ? getFormatedDateFromDOB(from: tempDOB) : "")
-            .SectionTextFieldSimulatedSingleLine(appStyles, isLocked: logEntry.isLocked)
-            .isHidden(!tempLocked, remove: true)
+          if with {
+              Text(getFormatedDateFromDOB(from: tempDOB))
+                    .SectionTextFieldSimulatedSingleLine(appStyles: appStyles, isLocked: logEntry.isLocked)
+                .isHidden(!tempLocked, remove: true)
+            }
+//          Text(with ? getFormatedDateFromDOB(from: tempDOB) : "")
+//                .SectionTextFieldSimulatedSingleLine(appStyles: appStyles, isLocked: logEntry.isLocked)
+//            .isHidden(!tempLocked, remove: true)
 
             
           DatePicker("", selection: $tempDOB, displayedComponents: [.date])
@@ -132,7 +138,9 @@ extension CallerDataView {
             .environment(\.locale, Locale.current)
             .isHidden(!with || tempLocked, remove: true)
         }
+        .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
       }
+      .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
       .onChange(of: logEntry.isLocked) {
         withAnimation(.easeInOut(duration: 1)) {
           tempLocked = logEntry.isLocked
@@ -185,6 +193,7 @@ extension CallerDataView {
         }
       }
     }
+    .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
   }
 
   private var adressSubSection: some View {

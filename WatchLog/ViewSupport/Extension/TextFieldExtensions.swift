@@ -13,7 +13,7 @@ import SwiftUI
 extension View {
     func textFieldButtonClearButton(_ text: Binding<String>, isLocked: Bool) -> some View {
         modifier(TextFieldButtonClearButtonModifier(text: text, isLocked: isLocked))
-           .padding(.leading, 12)
+           .padding(.leading, 5)
            .padding(.trailing, 45)
            .padding(.vertical, 0)
     }
@@ -106,6 +106,7 @@ struct SectionTextFieldModifier: ViewModifier {
             .lineLimit(1)
             .foregroundStyle(appStyles.GeneralTextColor)
             .background(isLocked ? appStyles.TextfieldBackgroundColorLocked : appStyles.TextfieldBackgroundColorUnLocked)
+            .background(Color.white)
             .fixedSize(horizontal: false, vertical: true)
             .textFieldLimitInputLength(text: $text, length: numberOfCharacters)
             .animation(.easeInOut(duration: 1),  value: isLocked)
@@ -163,6 +164,19 @@ extension View {
     func sectionTextLabelToggle(appStyles: StylesLogEntry) -> some View {
             self.modifier(SectionTextLabelForToggleModifier(appStyles: appStyles))
     }
+    
+    func SectionTextFieldSimulatedSingleLine(appStyles: StylesLogEntry, isLocked: Bool) -> some View {
+            self.modifier(SectionTextFieldSimulatedSingleLineModifier(appStyles: appStyles, isLocked: isLocked))
+    }
+    
+    func TextInnerPadding() -> some View {
+            self.modifier(TextInnerPaddingModifier())
+            .padding(.leading, 5)
+            .padding(.trailing, 5)
+            .padding(.vertical, 0)
+    }
+    
+    
 }
 
 
@@ -196,15 +210,33 @@ struct SectionTextLabelForToggleModifier: ViewModifier {
 }
 
 
+struct TextInnerPaddingModifier: ViewModifier {
+    
+    func body(content: Content) -> some View {
+        
+        ZStack(alignment: .trailing) {
+            content
+                .background(.clear)
+                
+        }
+        .background(.clear)
+    }
+}
 
 
-
-
-
-
-
-extension View {
-
+struct SectionTextFieldSimulatedSingleLineModifier: ViewModifier {
+    let appStyles: StylesLogEntry
+    let isLocked: Bool
+    
+    func body(content: Content) -> some View {
+        content
+            .font(Font.custom(appStyles.TextFieldFont, size: appStyles.TextFieldFontSize))
+            .TextInnerPadding()
+            .lineLimit(1)
+            .foregroundStyle(appStyles.GeneralTextColor)
+            .background(isLocked ? appStyles.TextfieldBackgroundColorLocked : appStyles.TextfieldBackgroundColorUnLocked)
+            .fixedSize(horizontal: true, vertical: true)
+    }
 }
 
 struct SectionTextLabelSubModifier: ViewModifier {
@@ -270,24 +302,17 @@ struct SectionTextLabelModifierWidth: ViewModifier {
 
 extension Text {
     
-    func SectionTextFieldSimulatedSingleLine(_ appStyles: StylesLogEntry, isLocked: Bool) -> some View {
-        self
-            .font(Font.custom(appStyles.TextFieldFont, size: appStyles.TextFieldFontSize))
-            .lineLimit(1)
-            .foregroundStyle(appStyles.GeneralTextColor)
-            .background(isLocked ? appStyles.TextfieldBackgroundColorLocked : appStyles.TextfieldBackgroundColorUnLocked)
-            .fixedSize(horizontal: true, vertical: true)
-    }
+
     
-    func SectionTextFieldSecondSimulatedSingleLine(_ appStyles: StylesLogEntry, isLocked: Bool) -> some View {
-        self
-            .font(Font.custom(appStyles.TextFieldFont, size: appStyles.TextFieldHeightSub))
-            .lineLimit(1)
-            .foregroundStyle(appStyles.GeneralTextColor)
-            .background(isLocked ? appStyles.TextfieldBackgroundColorLocked : appStyles.TextfieldBackgroundColorUnLocked)
-            .fixedSize(horizontal: true, vertical: true)
-            //.textContentType(.telephoneNumber)
-    }
+//    func SectionTextFieldSecondSimulatedSingleLine(_ appStyles: StylesLogEntry, isLocked: Bool) -> some View {
+//        self
+//            .font(Font.custom(appStyles.TextFieldFont, size: appStyles.TextFieldHeightSub))
+//            .lineLimit(1)
+//            .foregroundStyle(appStyles.GeneralTextColor)
+//            .background(isLocked ? appStyles.TextfieldBackgroundColorLocked : appStyles.TextfieldBackgroundColorUnLocked)
+//            .fixedSize(horizontal: true, vertical: true)
+//            //.textContentType(.telephoneNumber)
+//    }
     
     func TextLabel(font: String, fontSize: CGFloat, fontColor: Color) -> some View {
         self
