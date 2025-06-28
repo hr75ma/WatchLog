@@ -60,7 +60,7 @@ struct ProcessTypeSelectionView: View {
                                     }), id: \.key
                             ) { key, value in
                                 Text(value).tag(key)
-                                    .font(Font.custom(appStyles.ProcessTypeFont, size: appStyles.ProcessTypeFontHight))
+                                    .font(Font.custom(appStyles.ProcessTypeFont, size: appStyles.ProcessTypeFontSize))
                                     .foregroundStyle(appStyles.ProcessTypeFontColor)
                             }
                         }
@@ -68,7 +68,7 @@ struct ProcessTypeSelectionView: View {
                         .clipped()
                         .contentShape(Rectangle())
                         .pickerStyle(.wheel)
-                        .background(logEntry.isLocked ? appStyles.TextfieldBackgroundColorLocked : appStyles.TextfieldBackgroundColorUnLocked)
+                        .background(appStyles.GeneralBackgroundColor)
                         .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
                         .isHidden(tempLocked, remove: true)
                         

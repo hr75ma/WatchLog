@@ -81,7 +81,7 @@ final class StylesLogEntry:Sendable {
     
     let GeneralTextColor:Color = Color.blue
     let GeneralPickerTextColor:Color = Color.white
-    let GeneralBackgroundColor:Color = Color.white
+    let GeneralBackgroundColor:Color = Color.black
     let GeneralInnerFrameColor:Color = Color.blue
     let GeneralInnerFrameBorderWidth:CGFloat = 4
     
@@ -179,11 +179,13 @@ final class StylesLogEntry:Sendable {
     let ClearButtonImage: String = "xmark.circle.fill"//"multiply.circle.fill"
     let ClearButtonColorActivePrimary: Color = Color.white
     let ClearButtonColorActiveSecondary: Color = Color.blue
+    let ClearButtonSize: CGFloat = 20
     
     
     
     //Picker for ProcessType
     let ProcessTypeFont: String = "Roboto-MediumItalic"
+    let ProcessTypeFontSize: CGFloat = 25
     let ProcessTypeFontHight: CGFloat = 25
     let ProcessTypeFontColor: Color = Color.blue
     let ProcessTypeBackgroundColor: Color = Color.clear

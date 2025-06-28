@@ -62,7 +62,7 @@ extension CallerDataView {
             .sectionTextLabel(appStyles: appStyles)
 
       TextField("", text: $logEntry.CallerNumber)
-        .sectionTextField(appStyles: appStyles, text: $logEntry.CallerNumber, isLocked: logEntry.isLocked, numberOfCharacters: 15)
+        .sectionTextField(appStyles: appStyles, text: $logEntry.CallerNumber, isLocked: logEntry.isLocked, numberOfCharacters: 20)
         .textFieldCheckOnNumbers(text: $logEntry.CallerNumber)
         .textContentType(.telephoneNumber)
         .keyboardType(.numberPad)
@@ -119,14 +119,16 @@ extension CallerDataView {
             .SectionTextFieldSimulatedSingleLine(appStyles, isLocked: logEntry.isLocked)
             .isHidden(!tempLocked, remove: true)
 
+            
           DatePicker("", selection: $tempDOB, displayedComponents: [.date])
             .labelsHidden()  // Hides the default label
             .colorMultiply(.blue)
-            .font(.system(size: 35, weight: .bold))
+            .font(Font.custom(appStyles.TextFieldFont, size: appStyles.TextFieldFontSize))
             .frame(width: 300, height: 100)
             .clipped()
             .contentShape(Rectangle())
             .datePickerStyle(WheelDatePickerStyle())
+            .background(appStyles.GeneralBackgroundColor)
             .environment(\.locale, Locale.current)
             .isHidden(!with || tempLocked, remove: true)
         }

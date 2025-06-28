@@ -13,7 +13,7 @@ import SwiftUI
 extension View {
     func textFieldButtonClearButton(_ text: Binding<String>) -> some View {
         modifier(TextFieldButtonClearButtonModifier(text: text))
-            .padding(.leading, 12)
+           .padding(.leading, 12)
            .padding(.trailing, 45)
            .padding(.vertical, 0)
     }
@@ -54,7 +54,8 @@ struct TextFieldButtonClearButtonModifier: ViewModifier {
                     text = ""
                 } label: {
                     Image(systemName: appStyles.ClearButtonImage)
-                        .frame(width: 10, height: 10, alignment: .center)
+                        .resizable()
+                        .frame(width: appStyles.ClearButtonSize, height: appStyles.ClearButtonSize, alignment: .center)
                 }
                 .offset(x: 30)
             }
@@ -174,7 +175,6 @@ struct SectionTextLabelModifier: ViewModifier {
             .multilineTextAlignment(.leading)
             .lineLimit(1)
             .fixedSize(horizontal: true, vertical: true)
-            .border(.red)
     }
 }
 
@@ -271,13 +271,11 @@ extension Text {
     
     func SectionTextFieldSimulatedSingleLine(_ appStyles: StylesLogEntry, isLocked: Bool) -> some View {
         self
-            .font(Font.custom(appStyles.TextFieldFont, size: appStyles.TextFieldHeight))
+            .font(Font.custom(appStyles.TextFieldFont, size: appStyles.TextFieldFontSize))
             .lineLimit(1)
             .foregroundStyle(appStyles.GeneralTextColor)
             .background(isLocked ? appStyles.TextfieldBackgroundColorLocked : appStyles.TextfieldBackgroundColorUnLocked)
-            .fixedSize(horizontal: true, vertical: true)
-            //.textContentType(.telephoneNumber)
-            
+            .fixedSize(horizontal: true, vertical: true)            
     }
     
     func SectionTextFieldSecondSimulatedSingleLine(_ appStyles: StylesLogEntry, isLocked: Bool) -> some View {
