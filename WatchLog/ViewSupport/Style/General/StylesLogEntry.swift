@@ -55,7 +55,7 @@ final class StylesLogEntry:Sendable {
     
     let LogTimeFontSize: CGFloat = 40
     
-    let SectionCallInImage: String = "phone.arrow.down.left.fill"
+    let SectionCallInImage: String = "wave.3.left.circle"
     let SectionCallInImagePrimary: Color = Color.white
     let SectionCallInImageSecondary: Color = Color.blue
     
@@ -64,13 +64,13 @@ final class StylesLogEntry:Sendable {
     let SectionCallerImageSecondary: Color = Color.blue
     
     
-    let SectionProcessTypeImage: String = "character.book.closed.fill"
-    let SectionProcessTypeImagePrimary: Color = Color.blue
+    let SectionProcessTypeImage: String = "exclamationmark.triangle"
+    let SectionProcessTypeImagePrimary: Color = Color.white
     let SSectionProcessTypeImageSecondary: Color = Color.blue
     
     
     //let SectionNoteImage = "phone.bubble.fill"
-    let SectionNoteImage = "message.badge.waveform.fill"
+    let SectionNoteImage = "message.badge.waveform"
     let SectionNoteImagePrimary: Color = Color.white
     let SectionNoteImageSecondary: Color = Color.blue
     
@@ -180,8 +180,6 @@ final class StylesLogEntry:Sendable {
     let ClearButtonColorActivePrimary: Color = Color.white
     let ClearButtonColorActiveSecondary: Color = Color.blue
     let ClearButtonSize: CGFloat = 20
-    
-    
     
     //Picker for ProcessType
     let ProcessTypeFont: String = "Roboto-MediumItalic"

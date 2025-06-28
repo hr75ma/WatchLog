@@ -22,8 +22,8 @@ extension Image {
     self.resizable()
       .aspectRatio(contentMode: .fit)
       .frame(width: 40, height: 40)
-      .symbolVariant(.fill)
-      .padding(EdgeInsets(top: 10, leading: 10, bottom: 0, trailing: 10))
+      .symbolVariant(.circle)
+      .padding(EdgeInsets(top: 5, leading: 10, bottom: 0, trailing: 10))
       .foregroundStyle(primaryColor, secondaryColor)
   }
 

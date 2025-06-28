@@ -175,8 +175,6 @@ extension View {
             .padding(.trailing, 5)
             .padding(.vertical, 0)
     }
-    
-    
 }
 
 
