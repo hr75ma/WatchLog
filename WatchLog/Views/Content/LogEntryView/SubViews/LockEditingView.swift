@@ -17,7 +17,7 @@ struct LockEditingView: View {
   var body: some View {
 
     lockSection
-      .frame(height: appStyles.LabelFontSize2, alignment: .center)
+      .frame(height: appStyles.LabelFontSizeSub, alignment: .center)
       .padding(EdgeInsets(top: 5, leading: 20, bottom: 10, trailing: 20))
       .overlay(
         Rectangle()
@@ -36,9 +36,9 @@ extension LockEditingView {
     HStack(alignment: .center) {
 
       Text(logEntry.isLocked ? "Gesperrt" : "Entsperrt")
-        .font(Font.custom(appStyles.LabelFont, size: appStyles.LabelFontSize2))
+        .font(Font.custom(appStyles.LabelFont, size: appStyles.LabelFontSizeSub))
         .foregroundStyle(logEntry.isLocked ? appStyles.isLockedColor : appStyles.GeneralTextColor)
-        .frame(width: 170, height: appStyles.LabelFontSize2, alignment: .leading)
+        .frame(width: 170, height: appStyles.LabelFontSizeSub, alignment: .leading)
         .multilineTextAlignment(.leading)
         .lineLimit(1)
         .fixedSize(horizontal: true, vertical: true)
@@ -52,7 +52,7 @@ extension LockEditingView {
             toggleStyleLockImage(appStyles: appStyles, isLocked: logEntry.isLocked)
           )
 
-        .frame(height: appStyles.LabelFontSize2, alignment: .center)
+        .frame(height: appStyles.LabelFontSizeSub, alignment: .center)
         .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
         .disabled(logEntry.isNewEntryLog)
 

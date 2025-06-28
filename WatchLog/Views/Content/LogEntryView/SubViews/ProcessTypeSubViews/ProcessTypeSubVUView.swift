@@ -17,7 +17,7 @@ struct ProcessTypeSubVUView: View {
         VStack(alignment: .leading, spacing: 5) {
             HStack(alignment: .center, spacing: 0) {
                 Text("Kennzeichen ON01")
-                    .sectionTextLabelSubWidth(appStyles: appStyles)
+                    .sectionTextLabelSubWidth(appStyles: appStyles, width: 215)
                 
                 TextField("", text: $logEntry.processTypeDetails.AccientLicensePlate01)
                     .sectionTextField(appStyles: appStyles, text: $logEntry.processTypeDetails.AccientLicensePlate01, isLocked: logEntry.isLocked, numberOfCharacters: 10)
@@ -26,7 +26,7 @@ struct ProcessTypeSubVUView: View {
             
             HStack(alignment: .center, spacing: 0) {
                 Text("Kennzeichen ON02")
-                    .sectionTextLabelSubWidth(appStyles: appStyles)
+                    .sectionTextLabelWidth(appStyles: appStyles, width: 215)
                 
                 TextField("", text: $logEntry.processTypeDetails.AccientLicensePlate02)
                     .sectionTextField(appStyles: appStyles, text: $logEntry.processTypeDetails.AccientLicensePlate02, isLocked: logEntry.isLocked, numberOfCharacters: 10)
@@ -44,7 +44,7 @@ struct ProcessTypeSubVUView: View {
                   .toggleStyle(
                     generalToggleStyleImage(appStyles: appStyles, isLocked: logEntry.isLocked)
                   )
-                  .frame(height: appStyles.TextFieldHeight2, alignment: .center)
+                  .frame(height: appStyles.TextFieldHeightSub, alignment: .center)
                   .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
                   
                 
@@ -60,7 +60,7 @@ struct ProcessTypeSubVUView: View {
                     .toggleStyle(
                         generalToggleStyleImage(appStyles: appStyles, isLocked: logEntry.isLocked)
                     )
-                    .frame(height: appStyles.TextFieldHeight2, alignment: .center)
+                    .frame(height: appStyles.TextFieldHeightSub, alignment: .center)
                     .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
                 
                 Spacer()
@@ -75,7 +75,7 @@ struct ProcessTypeSubVUView: View {
                     .toggleStyle(
                         generalToggleStyleImage(appStyles: appStyles, isLocked: logEntry.isLocked)
                     )
-                    .frame(height: appStyles.TextFieldHeight2, alignment: .center)
+                    .frame(height: appStyles.TextFieldHeightSub, alignment: .center)
                     .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
             }
         }

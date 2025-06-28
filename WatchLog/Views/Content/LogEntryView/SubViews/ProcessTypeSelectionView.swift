@@ -41,7 +41,7 @@ struct ProcessTypeSelectionView: View {
             HStack(alignment: .top, spacing: 0) {
                 
                 Text("Vorgangsart")
-                    .SectionTextLabelForToggle(appStyles)
+                    .sectionTextLabelToggle(appStyles: appStyles)
                     .frame(alignment: .topLeading)
                 
                 

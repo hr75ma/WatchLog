@@ -26,6 +26,9 @@ struct NoteView: View {
          
           SectionImage
           
+          Text("Notiz")
+              .sectionTextLabelWidth(appStyles: appStyles, width: 200)
+          
       }
       .padding(EdgeInsets(top: 5, leading: 0, bottom: 0, trailing: 10))
 

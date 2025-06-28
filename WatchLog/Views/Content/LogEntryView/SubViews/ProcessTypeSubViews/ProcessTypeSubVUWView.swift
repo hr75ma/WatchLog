@@ -37,7 +37,7 @@ struct ProcessTypeSubVUWView: View {
                     .toggleStyle(
                         generalToggleStyleImage(appStyles: appStyles, isLocked: logEntry.isLocked)
                     )
-                    .frame(height: appStyles.TextFieldHeight2, alignment: .center)
+                    .frame(height: appStyles.TextFieldHeightSub, alignment: .center)
                     .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
                     .disabled(logEntry.isLocked)
                 Spacer()

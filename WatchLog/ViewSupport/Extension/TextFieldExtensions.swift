@@ -27,15 +27,15 @@ extension View {
     }
     
     func sectionTextField(appStyles: StylesLogEntry, text: Binding<String>, isLocked: Bool, numberOfCharacters:Int) -> some View {
-        self.modifier(SectionTextFieldModifier(appStyles: appStyles, text: text, isLocked: isLocked, numberOfCharacters: numberOfCharacters, textFieldFont: appStyles.TextFieldFont, textFieldHeight: appStyles.TextFieldHeight))
+        self.modifier(SectionTextFieldModifier(appStyles: appStyles, text: text, isLocked: isLocked, numberOfCharacters: numberOfCharacters, textFieldFont: appStyles.TextFieldFont, textFieldFontSize: appStyles.TextFieldFontSize))
     }
     
     func sectionTextFieldSubSection(appStyles: StylesLogEntry, text: Binding<String>, isLocked: Bool, numberOfCharacters:Int) -> some View {
-        self.modifier(SectionTextFieldModifier(appStyles: appStyles, text: text, isLocked: isLocked, numberOfCharacters: numberOfCharacters, textFieldFont: appStyles.TextFieldFont, textFieldHeight: appStyles.TextFieldHeight2))
+        self.modifier(SectionTextFieldModifier(appStyles: appStyles, text: text, isLocked: isLocked, numberOfCharacters: numberOfCharacters, textFieldFont: appStyles.TextFieldFont, textFieldFontSize: appStyles.TextFieldFontSubSize))
     }
     
     func sectionTextFieldSimulated(appStyles: StylesLogEntry, text: Binding<String>, isLocked: Bool, numberOfCharacters:Int) -> some View {
-        self.modifier(SectionTextFieldSimulatedModifier(appStyles: appStyles, text: text, isLocked: isLocked, numberOfCharacters: numberOfCharacters, textFieldFont: appStyles.TextFieldFont, textFieldHeight: appStyles.TextFieldHeight))
+        self.modifier(SectionTextFieldSimulatedModifier(appStyles: appStyles, text: text, isLocked: isLocked, numberOfCharacters: numberOfCharacters, textFieldFont: appStyles.TextFieldFont, textFieldFontSize: appStyles.TextFieldFontSize))
     }
 }
 
@@ -95,12 +95,12 @@ struct SectionTextFieldModifier: ViewModifier {
     let isLocked: Bool
     let numberOfCharacters: Int
     let textFieldFont: String
-    let textFieldHeight: CGFloat
+    let textFieldFontSize: CGFloat
     
     func body(content: Content) -> some View {
             content
             .textFieldButtonClearButton($text)
-            .font(Font.custom(textFieldFont, size: textFieldHeight))
+            .font(Font.custom(textFieldFont, size: textFieldFontSize))
             .lineLimit(1)
             .foregroundStyle(appStyles.GeneralTextColor)
             .background(isLocked ? appStyles.TextfieldBackgroundColorLocked : appStyles.TextfieldBackgroundColorUnLocked)
@@ -118,11 +118,11 @@ struct SectionTextFieldSimulatedModifier: ViewModifier {
     let isLocked: Bool
     let numberOfCharacters: Int
     let textFieldFont: String
-    let textFieldHeight: CGFloat
+    let textFieldFontSize: CGFloat
     
     func body(content: Content) -> some View {
             content
-            .font(Font.custom(textFieldFont, size: textFieldHeight))
+            .font(Font.custom(textFieldFont, size: textFieldFontSize))
             .lineLimit(1)
             .foregroundStyle(appStyles.GeneralTextColor)
             .background(isLocked ? appStyles.TextfieldBackgroundColorLocked : appStyles.TextfieldBackgroundColorUnLocked)
@@ -150,8 +150,16 @@ extension View {
             self.modifier(SectionTextLabelSubModifier(appStyles: appStyles))
     }
     
-    func sectionTextLabelSubWidth(appStyles: StylesLogEntry) -> some View {
-            self.modifier(SectionTextLabelSubModifierWidth(appStyles: appStyles, width: 215))
+    func sectionTextLabelSubWidth(appStyles: StylesLogEntry, width: CGFloat) -> some View {
+            self.modifier(SectionTextLabelSubModifierWidth(appStyles: appStyles, width: width))
+    }
+    
+    func sectionTextLabelWidth(appStyles: StylesLogEntry, width: CGFloat) -> some View {
+            self.modifier(SectionTextLabelModifierWidth(appStyles: appStyles, width: width))
+    }
+    
+    func sectionTextLabelToggle(appStyles: StylesLogEntry) -> some View {
+            self.modifier(SectionTextLabelForToggleModifier(appStyles: appStyles))
     }
 }
 
@@ -160,14 +168,39 @@ struct SectionTextLabelModifier: ViewModifier {
     let appStyles: StylesLogEntry
     func body(content: Content) -> some View {
         content
-            .font(Font.custom(appStyles.LabelFont, size: appStyles.TextFieldHeight))
+            .font(Font.custom(appStyles.LabelFont, size: appStyles.TextFieldFontSize))
             .foregroundStyle(appStyles.GeneralTextColor)
             .frame(width: 120, height: appStyles.TextFieldHeight, alignment: .topLeading)
             .multilineTextAlignment(.leading)
             .lineLimit(1)
             .fixedSize(horizontal: true, vertical: true)
+            .border(.red)
     }
 }
+
+struct SectionTextLabelForToggleModifier: ViewModifier {
+    let appStyles: StylesLogEntry
+    func body(content: Content) -> some View {
+        content
+            .font(Font.custom(appStyles.LabelFont, size: appStyles.TextFieldFontSize))
+            .foregroundStyle(appStyles.GeneralTextColor)
+            .frame(height: appStyles.TextFieldHeight, alignment: .center)
+            .multilineTextAlignment(.leading)
+            .lineLimit(1)
+            .fixedSize(horizontal: true, vertical: true)
+            .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 5))
+        
+
+    }
+}
+
+
+
+
+
+
+
+
 
 extension View {
 
@@ -178,8 +211,8 @@ struct SectionTextLabelSubModifier: ViewModifier {
     
     func body(content: Content) -> some View {
         content
-            .font(Font.custom(appStyles.LabelFont, size: appStyles.TextFieldHeight2))
-            .frame(height: appStyles.TextFieldHeight2, alignment: .topLeading)
+            .font(Font.custom(appStyles.LabelFont, size: appStyles.TextFieldFontSubSize))
+            .frame(height: appStyles.TextFieldHeightSub, alignment: .topLeading)
             .foregroundStyle(appStyles.GeneralTextColor)
             .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
             .multilineTextAlignment(.leading)
@@ -195,9 +228,25 @@ struct SectionTextLabelSubModifierWidth: ViewModifier {
     
     func body(content: Content) -> some View {
         content
-            .font(Font.custom(appStyles.LabelFont, size: appStyles.TextFieldHeight2))
-            .frame(height: appStyles.TextFieldHeight2, alignment: .topLeading)
-            .frame(width: width, height: appStyles.TextFieldHeight2, alignment: .topLeading)
+            .font(Font.custom(appStyles.LabelFont, size: appStyles.TextFieldFontSubSize))
+            .frame(width: width, height: appStyles.TextFieldHeightSub, alignment: .topLeading)
+            .foregroundStyle(appStyles.GeneralTextColor)
+            .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+            .multilineTextAlignment(.leading)
+            .lineLimit(1)
+            .fixedSize(horizontal: false, vertical: true)
+            
+        }
+    }
+
+struct SectionTextLabelModifierWidth: ViewModifier {
+    let appStyles: StylesLogEntry
+    let width: CGFloat
+    
+    func body(content: Content) -> some View {
+        content
+            .font(Font.custom(appStyles.LabelFont, size: appStyles.TextFieldFontSize))
+            .frame(width: width, height: appStyles.TextFieldHeight, alignment: .topLeading)
             .foregroundStyle(appStyles.GeneralTextColor)
             .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
             .multilineTextAlignment(.leading)
@@ -233,7 +282,7 @@ extension Text {
     
     func SectionTextFieldSecondSimulatedSingleLine(_ appStyles: StylesLogEntry, isLocked: Bool) -> some View {
         self
-            .font(Font.custom(appStyles.TextFieldFont, size: appStyles.TextFieldHeight2))
+            .font(Font.custom(appStyles.TextFieldFont, size: appStyles.TextFieldHeightSub))
             .lineLimit(1)
             .foregroundStyle(appStyles.GeneralTextColor)
             .background(isLocked ? appStyles.TextfieldBackgroundColorLocked : appStyles.TextfieldBackgroundColorUnLocked)
@@ -249,16 +298,7 @@ extension Text {
             .lineLimit(1)
             }
     
-    func SectionTextLabelForToggle(_ appStyles: StylesLogEntry) -> some View {
-        self
-            .font(Font.custom(appStyles.LabelFont, size: appStyles.LabelFontSize2))
-            .foregroundStyle(appStyles.GeneralTextColor)
-            .frame(height: appStyles.TextFieldHeight, alignment: .center)
-            .multilineTextAlignment(.leading)
-            .lineLimit(1)
-            .fixedSize(horizontal: true, vertical: true)
-            .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 5))
-    }
+
 }
 
 

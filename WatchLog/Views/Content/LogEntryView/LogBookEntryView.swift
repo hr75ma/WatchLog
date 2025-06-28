@@ -104,7 +104,7 @@ struct LogBookEntryView: View {
     .toolbar {
       ToolbarItem(placement: .topBarLeading) {
         Text("Log")
-          .font(Font.custom(appStyles.LabelFont, size: appStyles.LabelFontSize2))
+          .font(Font.custom(appStyles.LabelFont, size: appStyles.LabelFontSizeSub))
           .foregroundStyle(.blue)
           .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
       }

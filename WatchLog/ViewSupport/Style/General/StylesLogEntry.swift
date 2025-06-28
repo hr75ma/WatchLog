@@ -29,9 +29,9 @@ final class StylesLogEntry:Sendable {
     let glowingColorSetEditing: [Color] = [.blue, .teal, .blue]
     
     
-    let TextfieldBackgroundColor: Color = Color(hex: 0x272727).opacity(1)
-    let TextfieldBackgroundColorLocked: Color = Color(hex: 0x0a0a0a).opacity(1)
-    let TextfieldBackgroundColorUnLocked: Color = Color(hex: 0x1d1d1d).opacity(1)
+    let TextfieldBackgroundColor: Color = Color(hex: 0x272727)
+    let TextfieldBackgroundColorLocked: Color = Color(hex: 0x0a0a0a)
+    let TextfieldBackgroundColorUnLocked: Color = Color(hex: 0x1d1d1d)
     
     let TextFieldFontHeight: CGFloat = 32
     
@@ -44,12 +44,16 @@ final class StylesLogEntry:Sendable {
     
     
     let LabelFont: String = "digital-7"
-    let LabelFontSize: CGFloat = 45
-    let LabelFontSize2: CGFloat = 35
+    let LabelFontSize: CGFloat = 35
+    let LabelFontSizeSub: CGFloat = 35
     
     let TextFieldFont: String = "Roboto-MediumItalic"
+    let TextFieldFontSize: CGFloat = 28
+    let TextFieldFontSubSize: CGFloat = 30
     let TextFieldHeight: CGFloat = 35
-    let TextFieldHeight2: CGFloat = 30
+    let TextFieldHeightSub: CGFloat = 30
+    
+    
     
     let SectionCallInImage: String = "phone.arrow.down.left.fill"
     let SectionCallInImagePrimary: Color = Color.white
