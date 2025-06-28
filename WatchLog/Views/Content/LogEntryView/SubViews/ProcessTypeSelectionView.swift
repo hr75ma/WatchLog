@@ -41,16 +41,26 @@ struct ProcessTypeSelectionView: View {
             HStack(alignment: .top, spacing: 0) {
                 
                 Text("Ereignis")
-                    .sectionTextLabelToggle(appStyles: appStyles)
+                    //.sectionTextLabelToggle(appStyles: appStyles)
+                    .sectionTextLabel(appStyles: appStyles)
                     .frame(alignment: .topLeading)
                 
                 
                 VStack(alignment: .leading, spacing: 0) {
                     
-                    HStack{
-                        TextField("", text: $selectedProcessAsString)
-                          .sectionTextFieldSimulated(appStyles: appStyles, text: $selectedProcessAsString, isLocked: true, numberOfCharacters: 15)
-                          .isHidden(!tempLocked, remove: true)
+                    HStack(alignment: .top, spacing: 0) {
+                        
+                        if logEntry.isLocked {
+                            Text(selectedProcessAsString)
+                                  .SectionTextFieldSimulatedSingleLine(appStyles: appStyles, isLocked: logEntry.isLocked)
+                              .isHidden(!tempLocked, remove: true)
+                        }
+                        
+                        
+                        
+//                        TextField("", text: $selectedProcessAsString)
+//                          .sectionTextFieldSimulated(appStyles: appStyles, text: $selectedProcessAsString, isLocked: true, numberOfCharacters: 15)
+//                          .isHidden(!tempLocked, remove: true)
                         
                         Picker("", selection: $selectedProcess) {
                             ForEach(
@@ -71,6 +81,8 @@ struct ProcessTypeSelectionView: View {
                         .background(appStyles.GeneralBackgroundColor)
                         .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
                         .isHidden(tempLocked, remove: true)
+                        
+                        Spacer()
                         
                     }
                     .frame(maxWidth: .infinity)
