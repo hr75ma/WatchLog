@@ -67,7 +67,7 @@ extension CallInView {
                   .sectionTextFieldSimulated(appStyles: appStyles, text: $selectedCallInAsString, isLocked: true, numberOfCharacters: 50)
                   .isHidden(!tempLocked, remove: true)
                 
-                customPickerView(preselectedIndex: $selectedCallIn)
+                customPickerView(preselectedIndex: $selectedCallIn, appStyles: appStyles)
                     .isHidden(tempLocked, remove: true)
                 
                 
@@ -110,9 +110,8 @@ extension CallInView {
     
     struct customPickerView: View {
         @Binding var preselectedIndex: CallInType.CallInTypeShort
-        @Environment(\.appStyles) var appStyles
         
-        init(preselectedIndex: Binding<CallInType.CallInTypeShort>) {
+        init(preselectedIndex: Binding<CallInType.CallInTypeShort>, appStyles: StylesLogEntry) {
             self._preselectedIndex = preselectedIndex
             
             UISegmentedControl.appearance().selectedSegmentTintColor = UIColor(appStyles.GeneralInnerFrameColor)
@@ -123,6 +122,7 @@ extension CallInView {
             UISegmentedControl.appearance().setTitleTextAttributes([.font: UIFont(name: appStyles.TextFieldFont, size: appStyles.TextFieldHeight2)!, .foregroundColor: UIColor(appStyles.GeneralPickerTextColor)], for: .selected)
         }
         
+        
         var body: some View {
             Picker("", selection: $preselectedIndex) {
                 ForEach(
@@ -132,7 +132,10 @@ extension CallInView {
                         }), id: \.key
                 ) { key, value in
                     
-                    callInItem(value: value, key: key, isLocked: false, isSelected: true).tag(key)
+                    //callInItem(value: value, key: key, isLocked: false, isSelected: true).tag(key)
+                    Text(value)
+                        .fixedSize(horizontal: true, vertical: true)
+                        .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
                 }
                 
                 
@@ -147,7 +150,6 @@ extension CallInView {
         @State var key: CallInType.CallInTypeShort
         @State var isLocked: Bool
         
-        @Environment(\.appStyles) var appStyles
         
         var isSelected: Bool
         
