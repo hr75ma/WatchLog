@@ -11,8 +11,8 @@ import SwiftUI
 
 
 extension View {
-    func textFieldButtonClearButton(_ text: Binding<String>) -> some View {
-        modifier(TextFieldButtonClearButtonModifier(text: text))
+    func textFieldButtonClearButton(_ text: Binding<String>, isLocked: Bool) -> some View {
+        modifier(TextFieldButtonClearButtonModifier(text: text, isLocked: isLocked))
            .padding(.leading, 12)
            .padding(.trailing, 45)
            .padding(.vertical, 0)
@@ -42,6 +42,7 @@ extension View {
 
 struct TextFieldButtonClearButtonModifier: ViewModifier {
     @Binding var text: String
+    let isLocked: Bool
     @Environment(\.appStyles) var appStyles
     
     func body(content: Content) -> some View {
@@ -49,7 +50,7 @@ struct TextFieldButtonClearButtonModifier: ViewModifier {
         ZStack(alignment: .trailing) {
             content
             
-            if !text.isEmpty {
+            if !text.isEmpty && !isLocked {
                 Button {
                     text = ""
                 } label: {
@@ -100,7 +101,7 @@ struct SectionTextFieldModifier: ViewModifier {
     
     func body(content: Content) -> some View {
             content
-            .textFieldButtonClearButton($text)
+            .textFieldButtonClearButton($text, isLocked: isLocked)
             .font(Font.custom(textFieldFont, size: textFieldFontSize))
             .lineLimit(1)
             .foregroundStyle(appStyles.GeneralTextColor)
@@ -275,7 +276,7 @@ extension Text {
             .lineLimit(1)
             .foregroundStyle(appStyles.GeneralTextColor)
             .background(isLocked ? appStyles.TextfieldBackgroundColorLocked : appStyles.TextfieldBackgroundColorUnLocked)
-            .fixedSize(horizontal: true, vertical: true)            
+            .fixedSize(horizontal: true, vertical: true)
     }
     
     func SectionTextFieldSecondSimulatedSingleLine(_ appStyles: StylesLogEntry, isLocked: Bool) -> some View {
