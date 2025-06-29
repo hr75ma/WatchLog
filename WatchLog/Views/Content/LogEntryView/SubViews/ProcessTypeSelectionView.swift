@@ -56,12 +56,6 @@ struct ProcessTypeSelectionView: View {
                               .isHidden(!tempLocked, remove: true)
                         }
                         
-                        
-                        
-//                        TextField("", text: $selectedProcessAsString)
-//                          .sectionTextFieldSimulated(appStyles: appStyles, text: $selectedProcessAsString, isLocked: true, numberOfCharacters: 15)
-//                          .isHidden(!tempLocked, remove: true)
-                        
                         Picker("", selection: $selectedProcess) {
                             ForEach(
                                 Array(

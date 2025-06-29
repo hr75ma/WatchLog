@@ -20,16 +20,16 @@ struct ProcessTypeSubVUView: View {
                     .sectionTextLabelSubWidth(appStyles: appStyles, width: 215)
                 
                 TextField("", text: $logEntry.processTypeDetails.AccientLicensePlate01)
-                    .sectionTextField(appStyles: appStyles, text: $logEntry.processTypeDetails.AccientLicensePlate01, isLocked: logEntry.isLocked, numberOfCharacters: 10)
+                    .sectionTextFieldSubSection(appStyles: appStyles, text: $logEntry.processTypeDetails.AccientLicensePlate01, isLocked: logEntry.isLocked, numberOfCharacters: 10)
                     
             }
             
             HStack(alignment: .center, spacing: 0) {
                 Text("Kennzeichen ON02")
-                    .sectionTextLabelWidth(appStyles: appStyles, width: 215)
+                    .sectionTextLabelSubWidth(appStyles: appStyles, width: 215)
                 
                 TextField("", text: $logEntry.processTypeDetails.AccientLicensePlate02)
-                    .sectionTextField(appStyles: appStyles, text: $logEntry.processTypeDetails.AccientLicensePlate02, isLocked: logEntry.isLocked, numberOfCharacters: 10)
+                    .sectionTextFieldSubSection(appStyles: appStyles, text: $logEntry.processTypeDetails.AccientLicensePlate02, isLocked: logEntry.isLocked, numberOfCharacters: 10)
                     
             }
             

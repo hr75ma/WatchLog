@@ -55,7 +55,7 @@ final class StylesLogEntry:Sendable {
     
     let LogTimeFontSize: CGFloat = 40
     
-    let SectionCallInImage: String = "wave.3.left.circle"
+    let SectionCallInImage: String = "arrow.down.message"
     let SectionCallInImagePrimary: Color = Color.white
     let SectionCallInImageSecondary: Color = Color.blue
     

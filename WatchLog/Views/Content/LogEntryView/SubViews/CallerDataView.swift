@@ -66,7 +66,7 @@ extension CallerDataView {
         .textFieldCheckOnNumbers(text: $logEntry.CallerNumber)
         .textContentType(.telephoneNumber)
         .keyboardType(.numberPad)
-        
+
     }
   }
 
@@ -85,6 +85,7 @@ extension CallerDataView {
     HStack(alignment: .top, spacing: 0) {
       Text("DOB")
             .sectionTextLabel(appStyles: appStyles)
+
 
       HStack(alignment: .top, spacing: 0) {
 

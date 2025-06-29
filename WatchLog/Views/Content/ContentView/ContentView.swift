@@ -170,7 +170,7 @@ struct ContentView: View {
 
   fileprivate func getDateWeekDay(date: Date) -> String {
     let dateFormatter = DateFormatter()
-    dateFormatter.dateFormat = "dd. - EEEE"  // OR "dd-MM-yyyy"
+    dateFormatter.dateFormat = "dd. EEEE"  // OR "dd-MM-yyyy"
 
     return dateFormatter.string(from: date)
   }

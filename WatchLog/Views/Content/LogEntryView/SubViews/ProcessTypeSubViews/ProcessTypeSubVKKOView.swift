@@ -20,7 +20,7 @@ import SwiftUI
                         .sectionTextLabelSub(appStyles: appStyles)
                     
                     TextField("", text: $logEntry.processTypeDetails.AccientLicensePlate01)
-                        .sectionTextField(appStyles: appStyles, text: $logEntry.processTypeDetails.AccientLicensePlate01, isLocked: logEntry.isLocked, numberOfCharacters: 10)
+                        .sectionTextFieldSubSection(appStyles: appStyles, text: $logEntry.processTypeDetails.AccientLicensePlate01, isLocked: logEntry.isLocked, numberOfCharacters: 10)
                         
                         .padding(EdgeInsets(top: 0, leading: 5, bottom: 0, trailing: 0))
                 }

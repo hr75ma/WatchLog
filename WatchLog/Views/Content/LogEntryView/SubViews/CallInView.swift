@@ -63,14 +63,23 @@ extension CallInView {
             
             VStack(alignment: .leading, spacing: 0) {
                 
-                TextField("", text: $selectedCallInAsString)
-                  .sectionTextFieldSimulated(appStyles: appStyles, text: $selectedCallInAsString, isLocked: true, numberOfCharacters: 50)
+                HStack(alignment: .top, spacing: 0) {
+                    
+                Text(selectedCallInAsString)
+                      .SectionTextFieldSimulatedSingleLine(appStyles: appStyles, isLocked: logEntry.isLocked)
                   .isHidden(!tempLocked, remove: true)
+                
+//                    TextField("", text: $selectedCallInAsString)
+//                        .sectionTextFieldSimulated(appStyles: appStyles, text: $selectedCallInAsString, isLocked: logEntry.isLocked, numberOfCharacters: 50)
+//                        .isHidden(!tempLocked, remove: true)
                 
                 customSegmentedPickerView(preselectedIndex: $selectedCallIn, appStyles: appStyles)
                     .isHidden(tempLocked, remove: true)
                 
-                
+                Spacer()
+                }
+                .frame(maxWidth: .infinity)
+                .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
             }
         }
         .onAppear() {
