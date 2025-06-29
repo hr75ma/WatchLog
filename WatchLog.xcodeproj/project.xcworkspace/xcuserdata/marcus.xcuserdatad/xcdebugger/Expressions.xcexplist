@@ -3,6 +3,162 @@
    version = "1.0">
    <ContextStates>
       <ContextState
+         contextName = "closure #1 in closure #1 in closure #4 in LogBookEntryView.body.getter:LogBookEntryView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "viewModel.watchLogEntry.isLocked">
+            </PersistentString>
+            <PersistentString
+               value = "viewModel.watchLogEntry.isNewEntryLog">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #3 in closure #1 in closure #1 in CallerDataView.body.getter:CallerDataView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "Locale.current">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in closure #1 in LogBookEntryView.body.getter:LogBookEntryView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "displayedLogEntryUUID">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #2 in closure #1 in NoteView.body.getter:NoteView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "isTyping">
+            </PersistentString>
+            <PersistentString
+               value = "toolPickerShows">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "DataBaseManager.saveLogBookEntry(LogEntry:):DataBaseManager.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "LogEntry">
+            </PersistentString>
+            <PersistentString
+               value = "LogEntry.CallerDOB">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #3 in closure #1 in ContentView.DisclorsureGroupYear(year:):ContentView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "year.uuid">
+            </PersistentString>
+            <PersistentString
+               value = "displayedLogEntryUUID.yearId">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in closure #4 in LogBookEntryView.body.getter:LogBookEntryView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "newValue.uuid">
+            </PersistentString>
+            <PersistentString
+               value = "viewModel.watchLogEntry.uuid">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "CanvasView.updateUIView(_:context:):CanvasView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "isTyping">
+            </PersistentString>
+            <PersistentString
+               value = "toolPickerShows">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in closure #3 in closure #1 in LogBookEntryView.ContextButton.getter:LogBookEntryView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "viewModel.watchLogEntry.AccientLicensePlate01">
+            </PersistentString>
+            <PersistentString
+               value = "viewModel.watchLogEntry">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in closure #2 in closure #1 in closure #1 in closure #1 in ContentView.DisclosureGroupLogEntries(day:):ContentView.swift">
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in closure #1 in closure #1 in ProcessTypeSelectionView.body.getter:ProcessTypeSelectionView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "selectedProcess">
+            </PersistentString>
+            <PersistentString
+               value = "LogEntry.precessTypeDetails.processTypeShort">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in closure #2 in closure #2 in closure #7 in LogBookEntryView.body.getter:LogBookEntryView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "viewModel.watchLogEntry.uuid">
+            </PersistentString>
+            <PersistentString
+               value = "displayedLogEntryUUID.id">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "WatchLogBookEntry.update(LogEntry:):WatchLogBookEntry.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "processDetails!.AccientLicensePlate01">
+            </PersistentString>
+            <PersistentString
+               value = "processDetails">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #3 in closure #3 in closure #1 in closure #1 in CallerDataView.body.getter:CallerDataView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "logEntry.CallerDOB">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in closure #1 in ProcessTypeSubVUView.body.getter:ProcessTypeSubVUView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "$LogEntry.precessTypeDetails.AccientLicensePlate01">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "DataBaseManager.().init():DataBaseManager.swift">
+      </ContextState>
+      <ContextState
+         contextName = "closure #2 in closure #1 in closure #1 in closure #1 in LogBookEntryView.body.getter:LogBookEntryView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "geometry.size.width">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "closure #1 in ContentView.DisclorsureGroupYear(year:):ContentView.swift">
          <PersistentStrings>
             <PersistentString
@@ -23,54 +179,32 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "DataBaseManager.saveLogBookEntry(LogEntry:):DataBaseManager.swift">
+         contextName = "closure #1 in closure #1 in closure #1 in LogBookEntryView.body.getter:LogBookEntryView.swift">
          <PersistentStrings>
             <PersistentString
-               value = "LogEntry.CallerDOB">
+               value = "geometry.size.height">
+            </PersistentString>
+            <PersistentString
+               value = "geometry.size.width">
+            </PersistentString>
+            <PersistentString
+               value = "toolPickerShows">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "LogEntryViewModel.fetchLogEntry(LogEntryUUID:):LogEntryViewModel.swift">
+         contextName = "closure #1 in closure #1 in closure #3 in closure #1 in closure #1 in CallerDataView.body.getter:CallerDataView.swift">
          <PersistentStrings>
             <PersistentString
-               value = "LogEntryUUID">
+               value = "tempDOB">
             </PersistentString>
             <PersistentString
-               value = "self.watchLogEntry.uuid">
-            </PersistentString>
-            <PersistentString
-               value = "logBookEntry.uuid">
+               value = "with">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "closure #1 in closure #4 in LogBookEntryView.body.getter:LogBookEntryView.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "newValue.uuid">
-            </PersistentString>
-            <PersistentString
-               value = "viewModel.watchLogEntry.uuid">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "DataBaseManager.().init():DataBaseManager.swift">
-      </ContextState>
-      <ContextState
-         contextName = "WatchLogBookEntry.update(LogEntry:):WatchLogBookEntry.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "processDetails!.AccientLicensePlate01">
-            </PersistentString>
-            <PersistentString
-               value = "processDetails">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "closure #1 in closure #1 in LogBookEntryView.body.getter:LogBookEntryView.swift">
+         contextName = "closure #1 in ContentView.body.getter:ContentView.swift">
          <PersistentStrings>
             <PersistentString
                value = "displayedLogEntryUUID">
@@ -92,33 +226,6 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "closure #3 in closure #1 in closure #1 in ContentView.DisclosureGroupLogEntries(day:):ContentView.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "displayedLogEntryUUID.id">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "closure #1 in ContentView.body.getter:ContentView.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "displayedLogEntryUUID">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "closure #3 in closure #1 in ContentView.DisclorsureGroupYear(year:):ContentView.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "year.uuid">
-            </PersistentString>
-            <PersistentString
-               value = "displayedLogEntryUUID.yearId">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
          contextName = "closure #2 in ContentView.body.getter:ContentView.swift">
          <PersistentStrings>
             <PersistentString
@@ -127,40 +234,32 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "closure #3 in closure #1 in closure #1 in CallerDataView.body.getter:CallerDataView.swift">
+         contextName = "LogEntryViewModel.fetchLogEntry(LogEntryUUID:):LogEntryViewModel.swift">
          <PersistentStrings>
             <PersistentString
-               value = "Locale.current">
+               value = "LogEntryUUID">
+            </PersistentString>
+            <PersistentString
+               value = "self.watchLogEntry.uuid">
+            </PersistentString>
+            <PersistentString
+               value = "logBookEntry.uuid">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "closure #1 in closure #3 in closure #1 in LogBookEntryView.ContextButton.getter:LogBookEntryView.swift">
+         contextName = "closure #3 in closure #1 in closure #1 in ContentView.DisclosureGroupLogEntries(day:):ContentView.swift">
          <PersistentStrings>
             <PersistentString
-               value = "viewModel.watchLogEntry.AccientLicensePlate01">
+               value = "displayedLogEntryUUID.id">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "closure #1 in closure #2 in closure #1 in closure #1 in closure #1 in ContentView.DisclosureGroupLogEntries(day:):ContentView.swift">
-      </ContextState>
-      <ContextState
-         contextName = "closure #1 in closure #1 in ProcessTypeSubVUView.body.getter:ProcessTypeSubVUView.swift">
+         contextName = "closure #1 in closure #5 in LogBookEntryView.body.getter:LogBookEntryView.swift">
          <PersistentStrings>
             <PersistentString
-               value = "$LogEntry.precessTypeDetails.AccientLicensePlate01">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "closure #1 in closure #1 in closure #1 in ProcessTypeSelectionView.body.getter:ProcessTypeSelectionView.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "selectedProcess">
-            </PersistentString>
-            <PersistentString
-               value = "LogEntry.precessTypeDetails.processTypeShort">
+               value = "showGlowAnimation">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

@@ -163,6 +163,7 @@ final class LogEntryViewModel: ObservableObject {
         switch result {
         case .success():
             errorMessage = ""
+            //LogEntry.isNewEntryLog = false
             case .failure(let error):
             errorMessage = String(format: NSLocalizedString("error_saving_logBookEntry", comment: "Displayed when saving logBookEntry fails"), error.localizedDescription)
         }

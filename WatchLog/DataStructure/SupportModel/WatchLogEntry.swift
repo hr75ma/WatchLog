@@ -13,7 +13,7 @@ import SwiftUI
 class WatchLogEntry {
 
   var uuid: UUID
-    
+
   var isNewEntryLog = true
 
   var EntryTime: Date
@@ -23,8 +23,9 @@ class WatchLogEntry {
   var CallerAdress: String = ""
   var CallerDOB: Date?
 
-  
-    var processTypeDetails: WatchLogProcessTypeDetails = WatchLogProcessTypeDetails()
+  var CallIn = CallInType.CallInTypeShort.EMERGENCY
+
+  var processTypeDetails: WatchLogProcessTypeDetails = WatchLogProcessTypeDetails()
 
   var isLocked: Bool = false
 
@@ -55,18 +56,19 @@ class WatchLogEntry {
     CallerName = watchLookBookEntry.CallerName
     CallerNumber = watchLookBookEntry.CallerNumber
     CallerAdress = watchLookBookEntry.CallerAdress
-      CallerDOB = watchLookBookEntry.CallerDOB
+    CallerDOB = watchLookBookEntry.CallerDOB
 
-    
+      CallIn = watchLookBookEntry.CallIn
 
-      processTypeDetails = WatchLogProcessTypeDetails(processTypeDetails: watchLookBookEntry.processDetails!)
+    processTypeDetails = WatchLogProcessTypeDetails(
+    processTypeDetails: watchLookBookEntry.processDetails!)
 
     isLocked = watchLookBookEntry.isLocked
 
     //drawingData = WatchLookBookEntry.drawingData
     pkDrawingData = watchLookBookEntry.drawing
-      
-      isNewEntryLog = false
+
+    isNewEntryLog = false
 
   }
 
@@ -74,6 +76,7 @@ class WatchLogEntry {
     EntryTime = Date.now
     uuid = UUID()
     clear()
+    processTypeDetails = WatchLogProcessTypeDetails()
   }
 
   public func clear() {
@@ -82,11 +85,12 @@ class WatchLogEntry {
     CallerAdress = ""
     CallerDOB = nil
 
-    isLocked = false
-    isNewEntryLog = true
+      CallIn = .EMERGENCY
 
-    
-      processTypeDetails = WatchLogProcessTypeDetails()
+    isLocked = false
+    isNewEntryLog = false
+
+    // processTypeDetails = WatchLogProcessTypeDetails()
 
     //drawingData = Data()
     pkDrawingData = PKDrawing()
@@ -96,16 +100,5 @@ class WatchLogEntry {
 
     initialValues()
   }
-
-//  public func getDateFromDOB() -> Date? {
-//    let dateFormatter = DateFormatter()
-//    dateFormatter.dateFormat = "dd.MM.YYYY"
-//    if !self.CallerDOB.isEmpty {
-//      return dateFormatter.date(from: self.CallerDOB)!
-//    } else {
-//      return nil
-//    }
-//
-//  }
 
 }

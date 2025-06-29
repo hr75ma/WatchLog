@@ -58,5 +58,24 @@ extension Image {
     }
 }
 
+struct SizeReader: ViewModifier {
+  @Binding var size: CGSize
+
+  func body(content: Content) -> some View {
+    content
+      .onGeometryChange(for: CGSize.self, of: \.size) { newVal in
+        size = newVal
+        print("Size: \(size.width) x \(size.height)")
+      }
+
+  }
+}
+
+extension View {
+  func sizeReader(size: Binding<CGSize>) -> some View {
+    modifier(SizeReader(size: size))
+  }
+}
+
 
 

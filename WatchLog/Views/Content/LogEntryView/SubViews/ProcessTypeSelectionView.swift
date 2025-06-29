@@ -14,7 +14,7 @@
 import SwiftUI
 
 struct ProcessTypeSelectionView: View {
-  @Bindable var LogEntry: WatchLogEntry
+  @Bindable var logEntry: WatchLogEntry
   @Environment(\.appStyles) var appStyles
 
   @State private var selectedProcess: ProcessType.ProcessTypeShort = ProcessType.ProcessTypeShort
@@ -22,6 +22,10 @@ struct ProcessTypeSelectionView: View {
   @State private var selectedProcessHelper: ProcessType.ProcessTypeShort = ProcessType
     .ProcessTypeShort
     .UNKNOWN
+    
+    @State private var selectedProcessAsString: String = ProcessType.processTypes[ProcessType
+        .ProcessTypeShort
+        .UNKNOWN]!
 
   @State private var sortedByValue = ProcessType.processTypes
     
@@ -29,30 +33,29 @@ struct ProcessTypeSelectionView: View {
 
   var body: some View {
     HStack(alignment: .top, spacing: 0) {
-      Image(systemName: appStyles.SectionProcessTypeImage)
-        .SectionImageStyle(appStyles)
-        .symbolRenderingMode(.palette)
-        .foregroundStyle(appStyles.SectionProcessTypeImagePrimary, appStyles.SSectionProcessTypeImageSecondary)
+      
+        SectionImage
         
         VStack {
             
             HStack(alignment: .top, spacing: 0) {
                 
-                
-                
-                Text("Vorgangsart")
-                    .SectionTextLabelForToggle(appStyles)
+                Text("Ereignis")
+                    //.sectionTextLabelToggle(appStyles: appStyles)
+                    .sectionTextLabel(appStyles: appStyles)
                     .frame(alignment: .topLeading)
                 
                 
                 VStack(alignment: .leading, spacing: 0) {
                     
-                    HStack{
-                        Text(ProcessType.processTypes[LogEntry.processTypeDetails.processTypeShort]!)
-                            .SectionTextFieldSecondSimulatedSingleLine(appStyles, isLocked: LogEntry.isLocked)
-                            .isHidden(!tempLocked, remove: true)
-                        //.animation(.easeInOut(duration: 1), value: LogEntry.isLocked)
+                    HStack(alignment: .top, spacing: 0) {
                         
+                        if logEntry.isLocked {
+                            Text(selectedProcessAsString)
+                                  .SectionTextFieldSimulatedSingleLine(appStyles: appStyles, isLocked: logEntry.isLocked)
+                              .isHidden(!tempLocked, remove: true)
+                        }
+                        Spacer()
                         Picker("", selection: $selectedProcess) {
                             ForEach(
                                 Array(
@@ -61,7 +64,7 @@ struct ProcessTypeSelectionView: View {
                                     }), id: \.key
                             ) { key, value in
                                 Text(value).tag(key)
-                                    .font(Font.custom(appStyles.ProcessTypeFont, size: appStyles.ProcessTypeFontHight))
+                                    .font(Font.custom(appStyles.ProcessTypeFont, size: appStyles.ProcessTypeFontSize))
                                     .foregroundStyle(appStyles.ProcessTypeFontColor)
                             }
                         }
@@ -69,7 +72,7 @@ struct ProcessTypeSelectionView: View {
                         .clipped()
                         .contentShape(Rectangle())
                         .pickerStyle(.wheel)
-                        .background(LogEntry.isLocked ? appStyles.TextfieldBackgroundColorLocked : appStyles.TextfieldBackgroundColorUnLocked)
+                        .background(appStyles.GeneralBackgroundColor)
                         .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
                         .isHidden(tempLocked, remove: true)
                         
@@ -84,9 +87,9 @@ struct ProcessTypeSelectionView: View {
             .onAppear {
                 withAnimation(.easeInOut(duration: 1)) {
                     print("animation onappear")
-                    selectedProcess = LogEntry.processTypeDetails.processTypeShort
+                    selectedProcess = logEntry.processTypeDetails.processTypeShort
                     selectedProcessHelper = selectedProcess
-                    tempLocked = LogEntry.isLocked
+                    tempLocked = logEntry.isLocked
                 }
             }
             .onChange(of: selectedProcess) { oldValue, newValue in
@@ -94,23 +97,27 @@ struct ProcessTypeSelectionView: View {
                     selectedProcessHelper = selectedProcess
                     print("animation onchange")
                     
-                    if newValue != LogEntry.processTypeDetails.processTypeShort {
-                        LogEntry.processTypeDetails.clear()
-                        LogEntry.processTypeDetails.processTypeShort = newValue
-                        print(LogEntry.processTypeDetails.processTypeShort)
+                    if newValue != logEntry.processTypeDetails.processTypeShort {
+                        logEntry.processTypeDetails.clear()
+                        logEntry.processTypeDetails.processTypeShort = newValue
+                        selectedProcessAsString = ProcessType.processTypes[logEntry.processTypeDetails.processTypeShort]!
+                        print(logEntry.processTypeDetails.processTypeShort)
                     }
                 }
             }
-            .onChange(of: LogEntry.uuid) { oldValue, newValue in
+            .onChange(of: logEntry.uuid) { oldValue, newValue in
                 withAnimation(.easeInOut(duration: 1)) {
-                    print("animation onchange uuid")
-                    selectedProcess = LogEntry.processTypeDetails.processTypeShort
+                    print("animation process onchange uuid")
+                    selectedProcess = logEntry.processTypeDetails.processTypeShort
                     selectedProcessHelper = selectedProcess
+                    selectedProcessAsString = ProcessType.processTypes[logEntry.processTypeDetails.processTypeShort]!
                 }
             }
-            .onChange(of: LogEntry.isLocked) {
+            .onChange(of: logEntry.isLocked) {
                 withAnimation(.easeInOut(duration: 1)) {
-                    tempLocked = LogEntry.isLocked
+                    tempLocked = logEntry.isLocked
+                    selectedProcessHelper = selectedProcess
+                    selectedProcessAsString = ProcessType.processTypes[logEntry.processTypeDetails.processTypeShort]!
                 }
             }
             .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
@@ -118,27 +125,27 @@ struct ProcessTypeSelectionView: View {
             HStack {
                 switch selectedProcessHelper {
                 case ProcessType.ProcessTypeShort.VU:
-                    ProcessTypeSubVUView(LogEntry: LogEntry)
+                    ProcessTypeSubVUView(logEntry: logEntry)
                         .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
                         .isHidden(ProcessType.ProcessTypeShort.VU != selectedProcessHelper, remove: true)
                 case .VUW:
-                    ProcessTypeSubVUWView(LogEntry: LogEntry)
+                    ProcessTypeSubVUWView(logEntry: logEntry)
                         .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
                         .isHidden(ProcessType.ProcessTypeShort.VUW != selectedProcessHelper, remove: true)
                 case .KV:
-                    ProcessTypeSubKVView(LogEntry: LogEntry)
+                    ProcessTypeSubKVView(logEntry: logEntry)
                         .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
                         .isHidden(ProcessType.ProcessTypeShort.KV != selectedProcessHelper, remove: true)
                 case .DAUF:
-                    ProcessTypeSubDAUFView(LogEntry: LogEntry)
+                    ProcessTypeSubDAUFView(logEntry: logEntry)
                         .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
                         .isHidden(ProcessType.ProcessTypeShort.DAUF != selectedProcessHelper, remove: true)
                 case .TRUNK:
-                    ProcessTypeSubTRUNKView(LogEntry: LogEntry)
+                    ProcessTypeSubTRUNKView(logEntry: logEntry)
                         .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
                         .isHidden(ProcessType.ProcessTypeShort.TRUNK != selectedProcessHelper, remove: true)
                 case .VKKO:
-                    ProcessTypeSubVKKOView(LogEntry: LogEntry)
+                    ProcessTypeSubVKKOView(logEntry: logEntry)
                         .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
                         .isHidden(ProcessType.ProcessTypeShort.VKKO != selectedProcessHelper, remove: true)
                 default:
@@ -157,8 +164,20 @@ struct ProcessTypeSelectionView: View {
         .foregroundColor(appStyles.GeneralInnerFrameColor),  // Border color
       alignment: .bottom
     )
+    .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
   }
 }
+
+extension ProcessTypeSelectionView {
+    
+    private var SectionImage: some View {
+      Image(systemName: appStyles.SectionProcessTypeImage)
+            .SectionImageStyle(primaryColor: appStyles.SectionProcessTypeImagePrimary, secondaryColor: appStyles.SSectionProcessTypeImageSecondary)
+          //.symbolEffect(.variableColor.cumulative.hideInactiveLayers.nonReversing, options: .repeat(.continuous),isActive: !logEntry.isLocked)
+    }
+}
+
+
 
 //#Preview {
 //    ProcessTypeView()

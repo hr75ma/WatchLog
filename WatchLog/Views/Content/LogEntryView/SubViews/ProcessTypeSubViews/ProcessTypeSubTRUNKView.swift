@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ProcessTypeSubTRUNKView: View {
     
-    @Bindable var LogEntry: WatchLogEntry
+    @Bindable var logEntry: WatchLogEntry
     @Environment(\.appStyles) var appStyles
     
     
@@ -17,19 +17,15 @@ struct ProcessTypeSubTRUNKView: View {
         VStack(alignment: .leading, spacing: 5) {
             HStack(alignment: .center, spacing: 0) {
                 Text("Kennzeichen ON01")
-                    .SectionTextLabelSecond(appStyles)
-                    .frame(width: 215, height: appStyles.TextFieldHeight2, alignment: .topLeading)
+                    .sectionTextLabelSubWidth(appStyles: appStyles, width: 215)
                 
-                TextField("", text: $LogEntry.processTypeDetails.AccientLicensePlate01)
-                    .SectionTextFieldSingleLineSecond(appStyles, isLocked: LogEntry.isLocked)
-                    .limitInputLength(text: $LogEntry.processTypeDetails.AccientLicensePlate01, length: 10)
-                    .showClearButton($LogEntry.processTypeDetails.AccientLicensePlate01)
-                
+                TextField("", text: $logEntry.processTypeDetails.AccientLicensePlate01)
+                    .sectionTextField(appStyles: appStyles, text: $logEntry.processTypeDetails.AccientLicensePlate01, isLocked: logEntry.isLocked, numberOfCharacters: 10)
+                   
                 Spacer()
             }
         }
         .padding(EdgeInsets(top: 10, leading: 0, bottom: 0, trailing: 0))
-        .disabled(LogEntry.isLocked)
     }
 }
 

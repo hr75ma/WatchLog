@@ -24,9 +24,21 @@ final class StylesLogEntry:Sendable {
     
     private init() {}
     
-    let TextfieldBackgroundColor: Color = Color(hex: 0x272727).opacity(1)
-    let TextfieldBackgroundColorLocked: Color = Color(hex: 0x0a0a0a).opacity(1)
-    let TextfieldBackgroundColorUnLocked: Color = Color(hex: 0x1d1d1d).opacity(1)
+    let progressionColor: Color = .white
+    let progressionFont: String = "digital-7"
+    let progressionFontSize: CGFloat = 35
+    let progressionRefreshFontSize: CGFloat = 25
+    
+    
+     
+    let glowingColorSetLocked: [Color] = [.red, .blue, .red]
+    let glowingColorSetNew: [Color] = [.green, .blue, .green]
+    let glowingColorSetEditing: [Color] = [.blue, .teal, .blue]
+    
+    
+    let TextfieldBackgroundColor: Color = Color(hex: 0x272727)
+    let TextfieldBackgroundColorLocked: Color = Color(hex: 0x0a0a0a)
+    let TextfieldBackgroundColorUnLocked: Color = Color(hex: 0x1d1d1d)
     
     let TextFieldFontHeight: CGFloat = 32
     
@@ -39,25 +51,33 @@ final class StylesLogEntry:Sendable {
     
     
     let LabelFont: String = "digital-7"
-    let LabelFontSize: CGFloat = 45
-    let LabelFontSize2: CGFloat = 35
+    let LabelFontSize: CGFloat = 35
+    let LabelFontSizeSub: CGFloat = 35
     
     let TextFieldFont: String = "Roboto-MediumItalic"
+    let TextFieldFontSize: CGFloat = 28
+    let TextFieldFontSubSize: CGFloat = 30
     let TextFieldHeight: CGFloat = 35
-    let TextFieldHeight2: CGFloat = 30
+    let TextFieldHeightSub: CGFloat = 30
     
-    let SectionCallerImage: String = "phone.badge.waveform.fill"
+    let LogTimeFontSize: CGFloat = 40
+    
+    let SectionCallInImage: String = "arrow.down.message"
+    let SectionCallInImagePrimary: Color = Color.white
+    let SectionCallInImageSecondary: Color = Color.blue
+    
+    let SectionCallerImage: String = "waveform.and.person.filled"
     let SectionCallerImagePrimary: Color = Color.white
     let SectionCallerImageSecondary: Color = Color.blue
     
     
-    let SectionProcessTypeImage: String = "character.book.closed.fill"
-    let SectionProcessTypeImagePrimary: Color = Color.blue
+    let SectionProcessTypeImage: String = "exclamationmark.triangle"
+    let SectionProcessTypeImagePrimary: Color = Color.white
     let SSectionProcessTypeImageSecondary: Color = Color.blue
     
     
     //let SectionNoteImage = "phone.bubble.fill"
-    let SectionNoteImage = "message.badge.waveform.fill"
+    let SectionNoteImage = "message.badge.waveform"
     let SectionNoteImagePrimary: Color = Color.white
     let SectionNoteImageSecondary: Color = Color.blue
     
@@ -67,7 +87,8 @@ final class StylesLogEntry:Sendable {
     let isUnLockedColor: Color = Color.blue
     
     let GeneralTextColor:Color = Color.blue
-    let GeneralBackgroundColor:Color = Color.white
+    let GeneralPickerTextColor:Color = Color.white
+    let GeneralBackgroundColor:Color = Color.black
     let GeneralInnerFrameColor:Color = Color.blue
     let GeneralInnerFrameBorderWidth:CGFloat = 4
     
@@ -111,8 +132,8 @@ final class StylesLogEntry:Sendable {
     let ToolBarSaveColorUnActivePrimary: Color = Color.red
     let ToolBarSaveColorUnActiveSecondary: Color = Color.red
     
-    let ToolBarNewImageActive: String = "list.clipboard"
-    let ToolBarNewImageUnActive: String = "list.clipboard"
+    let ToolBarNewImageActive: String = "plus"
+    let ToolBarNewImageUnActive: String = "plus"
     let ToolBarNewColorActivePrimary: Color = Color.white
     let ToolBarNewColorActiveSecondary: Color = Color.blue
     let ToolBarNewColorUnActivePrimary: Color = Color.white
@@ -138,8 +159,8 @@ final class StylesLogEntry:Sendable {
     
     
     //tree navigation
-    let NavigationTreeAddEntryImage: String = "list.clipboard"
-    let NavigationTreeAddEntryImagePrimaryColor: Color = Color.white
+    let NavigationTreeAddEntryImage: String = "plus"
+    let NavigationTreeAddEntryImagePrimaryColor: Color = Color.blue
     let NavigationTreeAddEntryImageSecondaryColor: Color = Color.blue
     
     let NavigationTreeSettingImage: String = "gear"
@@ -162,14 +183,14 @@ final class StylesLogEntry:Sendable {
     let NavigationTreeSelectedRowColor: Color = Color(hex: 0x476f95).opacity(1)
     
     //clear button for textfield
-    let ClearButtonImage: String = "x.square.fill"//"multiply.circle.fill"
+    let ClearButtonImage: String = "xmark.circle.fill"//"multiply.circle.fill"
     let ClearButtonColorActivePrimary: Color = Color.white
     let ClearButtonColorActiveSecondary: Color = Color.blue
-    
-    
+    let ClearButtonSize: CGFloat = 20
     
     //Picker for ProcessType
     let ProcessTypeFont: String = "Roboto-MediumItalic"
+    let ProcessTypeFontSize: CGFloat = 25
     let ProcessTypeFontHight: CGFloat = 25
     let ProcessTypeFontColor: Color = Color.blue
     let ProcessTypeBackgroundColor: Color = Color.clear
