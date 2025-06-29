@@ -146,7 +146,7 @@ final class StylesLogEntry:Sendable {
     let ToolBarDeleteColorUnActivePrimary: Color = Color.red
     let ToolBarDeleteColorUnActiveSecondary: Color = Color.red
     
-    let ToolbarContextImage: String = "list.bullet.circle"
+    let ToolbarContextImage: String = "ellipsis.circle"
     let ToolbarContextColorActivePrimary: Color = Color.white
     let ToolbarContextColorActiveSecondary: Color = Color.blue
     let ToolbarContextColorUnActivePrimary: Color = Color.white
