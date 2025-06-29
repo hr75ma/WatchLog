@@ -20,13 +20,13 @@ struct WatchLogApp: App {
         let databaseService = DatabaseService()
         let viewModel = LogEntryViewModel(dataBaseService: databaseService)
         
-    
         WindowGroup {
         
                 SplashView()
                 //ContentView()
     }
         .environmentObject(viewModel)
+        .environment(BlurSetting())
         .environment(DisplayedLogEntryID())
 
     

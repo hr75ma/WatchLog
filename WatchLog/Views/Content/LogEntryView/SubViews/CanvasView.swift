@@ -1,66 +1,61 @@
 //
-//  File.swift
+//  CancasTestView.swift
 //  WatchLog
 //
-//  Created by Marcus Hörning on 16.05.25.
+//  Created by Marcus Hörning on 24.06.25.
 //
 
 import SwiftUI
 import PencilKit
 
 struct CanvasView: UIViewRepresentable {
+    @Binding var canvas: PKCanvasView
     @Binding var drawing: PKDrawing
-    @Binding var toolPickerShows: Bool
     
-    private let canvasView = PKCanvasView()
-    private let toolPicker = PKToolPicker()
+    let picker: PKToolPicker
+    
+    init(canvas: Binding<PKCanvasView>, drawing: Binding<PKDrawing>) {
+        self._canvas = canvas
+        self.picker = .init()
+        self._drawing = drawing
+        
+    }
     
     func makeUIView(context: Context) -> PKCanvasView {
-        // Allow finger drawing
-        canvasView.drawingPolicy = .pencilOnly
+    
+        //canvas.drawingPolicy = .pencilOnly
+        canvas.backgroundColor = .black
+        canvas.tool = PKInkingTool(.pencil, color: .darkText, width: 15)
         
         // Set the coordinator as the canvas's delegate
-        canvasView.delegate = context.coordinator
+        canvas.delegate = context.coordinator
         
+        canvas.contentSize = CGSize(width: 2000, height: 2000)
         
-        // Make the tool picker visible or invisible depending on toolPickerShows
-        toolPicker.setVisible(toolPickerShows, forFirstResponder: canvasView)
+        // for zooming
+        canvas.minimumZoomScale = 0.5
+        canvas.maximumZoomScale = 10
         
-        // Make the canvas respond to tool changes
-        toolPicker.addObserver(canvasView)
+        canvas.becomeFirstResponder()
         
-        // Make the canvas active -- first responder
-        if toolPickerShows {
-            canvasView.becomeFirstResponder()
+        return canvas
+}
+  
+    func updateUIView(_ uiView: PKCanvasView, context: Context) {
+        picker.addObserver(uiView)
+        picker.setVisible(true, forFirstResponder: uiView)
+        
+        if drawing != canvas.drawing {
+            canvas.drawing = drawing
         }
         
-        
-        
-        return canvasView
+        print("update")
+        DispatchQueue.main.async {
+            uiView.becomeFirstResponder()
+        }
     }
     
-    func updateUIView(_ canvasView: PKCanvasView, context: Context) {
-        // Called when SwiftUI updates the view, (makeUIView(context:) called when creating the view.)
-        // For example, called when toolPickerShows is toggled:
-        // so hide or show tool picker
-        
-        // Also called when users of CanvasView change the drawing propety
-        // so update the canvas view's drawing if necessary
-        if drawing != canvasView.drawing {
-            canvasView.drawing = drawing
-        }
-        
-        toolPicker.setVisible(toolPickerShows, forFirstResponder: canvasView)
-        toolPicker.addObserver(canvasView)
-        if toolPickerShows {
-            canvasView.becomeFirstResponder()
-        } else {
-            canvasView.resignFirstResponder()
-        }
-        
-        
-    }
-
+    
     class Coordinator: NSObject, PKCanvasViewDelegate {
         var drawing: Binding<PKDrawing>
         
@@ -76,4 +71,7 @@ struct CanvasView: UIViewRepresentable {
         func makeCoordinator() -> Coordinator {
             Coordinator(drawing: $drawing)
         }
-    }
+}
+
+
+

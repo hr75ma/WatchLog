@@ -17,6 +17,7 @@ struct LogBookEntryView: View {
 
   @Environment(\.appStyles) var appStyles
   @Environment(DisplayedLogEntryID.self) var displayedLogEntryUUID
+  @Environment(BlurSetting.self) var blurSetting
 
   @Environment(\.dismiss) var dismiss
 
@@ -42,16 +43,18 @@ struct LogBookEntryView: View {
       ZStack {
 
         glowingBorderEffect
-        
+
         VStack(alignment: .leading, spacing: 0) {
 
           LogTimeView(logTime: viewModel.watchLogEntry.EntryTime)
 
           LockEditingView(logEntry: viewModel.watchLogEntry)
 
+          CallInView(logEntry: viewModel.watchLogEntry)
+
           CallerDataView(logEntry: viewModel.watchLogEntry)
 
-          ProcessTypeSelectionView(LogEntry: viewModel.watchLogEntry)
+          ProcessTypeSelectionView(logEntry: viewModel.watchLogEntry)
 
           NoteView(
             logEntry: viewModel.watchLogEntry, drawing: $viewModel.watchLogEntry.pkDrawingData,
@@ -66,6 +69,8 @@ struct LogBookEntryView: View {
         )
         .cornerRadius(20)
         .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+        .blur(radius: blurSetting.isBlur ? 10 : 0)
+        .animation(.linear(duration: 0.3), value: blurSetting.isBlur)
       }
       .padding(EdgeInsets(top: 30, leading: 30, bottom: 30, trailing: 30))
     }
@@ -79,7 +84,6 @@ struct LogBookEntryView: View {
     .onDisappear {
       print("entry view onDisappear")
       //dismiss()
-
     }
     .onChange(
       of: logBookEntryUUID,
@@ -102,73 +106,28 @@ struct LogBookEntryView: View {
     .toolbar {
       ToolbarItem(placement: .topBarLeading) {
         Text("Log")
-          .font(Font.custom(appStyles.LabelFont, size: appStyles.LabelFontSize2))
+          .font(Font.custom(appStyles.LabelFont, size: appStyles.LabelFontSizeSub))
           .foregroundStyle(.blue)
           .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
       }
 
       ToolbarItemGroup(placement: .primaryAction) {
-
-        ContextButton
-          .alert("Log Löschen?", isPresented: $alertDelete) {
-            Button(
-              "Löschen", role: .destructive,
-              action: {
-                Task {
-                  await viewModel.deleteLogEntry(LogEntry: viewModel.watchLogEntry)
-                  newEntry(LogEntry: &viewModel.watchLogEntry, drawing: &drawing)
-                  logBookEntryUUID = viewModel.watchLogEntry.uuid
-                }
-              })
-            Button(
-              "Abbrechen", role: .cancel,
-              action: {
-              })
-          }
-          .alert("Neues Log erstellen?", isPresented: $alertNew) {
-            Button(
-              "Erstellen", role: .destructive,
-              action: {
-                newEntry(LogEntry: &viewModel.watchLogEntry, drawing: &drawing)
-                displayedLogEntryUUID.id = viewModel.watchLogEntry.uuid
-              })
-            Button(
-              "Abbrechen", role: .cancel,
-              action: {
-              })
-          }
-          .alert("Eingaben verwerfen?", isPresented: $alertClear) {
-            Button(
-              "Verwerfen", role: .destructive,
-              action: {
-                clearEntry(LogEntry: &viewModel.watchLogEntry, drawing: &drawing)
-              })
-            Button(
-              "Nein", role: .cancel,
-              action: {
-              })
-          }
+        MenuButton
       }
-
     }
-
   }
 
-    private func getGlowColorSet(logEntry: WatchLogEntry) -> [Color] {
-        
-            if logEntry.isLocked {
-                return appStyles.glowingColorSetLocked
-            } else {
-                if logEntry.isNewEntryLog {
-                    return appStyles.glowingColorSetNew
-                } else {
-                    return appStyles.glowingColorSetEditing
-                }
-                
-            }
-            
-        }
-    
+  private func getGlowColorSet(logEntry: WatchLogEntry) -> [Color] {
+    if logEntry.isLocked {
+      return appStyles.glowingColorSetLocked
+    } else {
+      if logEntry.isNewEntryLog {
+        return appStyles.glowingColorSetNew
+      } else {
+        return appStyles.glowingColorSetEditing
+      }
+    }
+  }
 }
 
 private func clearEntry(LogEntry: inout WatchLogEntry, drawing: inout PKDrawing) {
@@ -197,15 +156,15 @@ extension LogBookEntryView {
             center: .center,
             angle: .degrees(isAnimating ? 360 : 0))
         )
-        .blur(radius: 15)
+        .blur(radius: 18)
 
-      RoundedRectangle(cornerRadius: 20, style: .continuous)
-        .stroke(
-          AngularGradient(
-            colors: glowingColorSet,
-            center: .center,
-            angle: .degrees(isAnimating ? 360 : 0)),
-          style: StrokeStyle(lineWidth: 5, lineCap: .round))
+      //      RoundedRectangle(cornerRadius: 20, style: .continuous)
+      //        .stroke(
+      //          AngularGradient(
+      //            colors: glowingColorSet,
+      //            center: .center,
+      //            angle: .degrees(isAnimating ? 360 : 0)),
+      //          style: StrokeStyle(lineWidth: 4, lineCap: .round))
     }
     .onAppear {
       withAnimation(Animation.linear(duration: 2).repeatForever(autoreverses: false)) {
@@ -219,85 +178,120 @@ extension LogBookEntryView {
     }
   }
 
-  private var ContextButton: some View {
+  private var MenuButton: some View {
 
-    Image(systemName: appStyles.ToolbarContextImage)
-      .symbolRenderingMode(.palette)
-      .resizable()
-      .scaledToFit()
-      .frame(width: 30, height: 30, alignment: .center)
-      .foregroundStyle(
-        appStyles.ToolbarContextColorActivePrimary, appStyles.ToolbarContextColorActiveSecondary
-      )
-      .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(6))
+    Menu {
+      Button {
+        blurSetting.isBlur = true
+        alertNew.toggle()
+      } label: {
+        Label("Neues Log", systemImage: appStyles.ToolBarNewImageActive)
+          .symbolRenderingMode(.palette)
+          .foregroundStyle(
+            appStyles.ToolBarNewColorActiveSecondary, appStyles.ToolBarNewColorActiveSecondary
+          )
+          .labelStyle(.titleAndIcon)
+      }
 
-      .contextMenu {
-
+      if !viewModel.watchLogEntry.isLocked {
         Button {
-          alertNew.toggle()
+          Task {
+            blurSetting.isBlur = true
+            viewModel.watchLogEntry.isLocked = true
+            viewModel.watchLogEntry.isNewEntryLog = false
+            await viewModel.saveLogEntry(LogEntry: viewModel.watchLogEntry)
+            print(">>> Log saved \(viewModel.watchLogEntry.uuid)")
+            viewModel.watchLogEntry.isNewEntryLog = false
+            displayedLogEntryUUID.id = viewModel.watchLogEntry.uuid
+            logBookEntryUUID = displayedLogEntryUUID.id
+          }
+          blurSetting.isBlur = false
         } label: {
-
-          Label("Neues Log", systemImage: appStyles.ToolBarNewImageActive)
+          Label("Log Speichern", systemImage: appStyles.ToolBarSaveImageActive)
             .symbolRenderingMode(.palette)
             .foregroundStyle(
-              appStyles.ToolBarNewColorActiveSecondary, appStyles.ToolBarNewColorActiveSecondary
+              appStyles.ToolBarSaveColorActivePrimary, appStyles.ToolBarSaveColorActivePrimary
             )
             .labelStyle(.titleAndIcon)
-
         }
-
-        if !viewModel.watchLogEntry.isLocked {
-          Button {
-            Task {
-              viewModel.watchLogEntry.isLocked = true
-              viewModel.watchLogEntry.isNewEntryLog = false
-              await viewModel.saveLogEntry(LogEntry: viewModel.watchLogEntry)
-              print(">>> Log saved \(viewModel.watchLogEntry.uuid)")
-              //await  logBookEntry = viewModel.fetchLogEntryMod(LogEntryUUID: viewModel.watchLogEntry.uuid)!
-              viewModel.watchLogEntry.isNewEntryLog = false
-              displayedLogEntryUUID.id = viewModel.watchLogEntry.uuid
-              logBookEntryUUID = displayedLogEntryUUID.id
-
-            }
-          } label: {
-
-            Label("Log Speichern", systemImage: appStyles.ToolBarSaveImageActive)
-              .symbolRenderingMode(.palette)
-              .foregroundStyle(
-                appStyles.ToolBarSaveColorActivePrimary, appStyles.ToolBarSaveColorActivePrimary
-              )
-              .labelStyle(.titleAndIcon)
-
-          }
-
-        }
-
-        Divider()
-
-        if !viewModel.watchLogEntry.isLocked {
-          Button(role: .destructive) {
-            alertClear.toggle()
-          } label: {
-
-            Label("Log leeren", systemImage: appStyles.ToolBarEraserImageActive)
-              .labelStyle(.titleAndIcon)
-
-          }
-        }
-
-        if !viewModel.watchLogEntry.isLocked {
-          Button(role: .destructive) {
-            alertDelete.toggle()
-          } label: {
-
-            Label("Log Löschen", systemImage: appStyles.ToolBarDeleteImageActive)
-              .labelStyle(.titleAndIcon)
-
-          }
-
-        }
-
       }
+
+      Divider()
+
+      if !viewModel.watchLogEntry.isLocked {
+        Button(role: .destructive) {
+          blurSetting.isBlur = true
+          alertClear.toggle()
+        } label: {
+          Label("Log leeren", systemImage: appStyles.ToolBarEraserImageActive)
+            .labelStyle(.titleAndIcon)
+        }
+      }
+
+      if !viewModel.watchLogEntry.isLocked {
+        Button(role: .destructive) {
+          blurSetting.isBlur = true
+          alertDelete.toggle()
+        } label: {
+          Label("Log Löschen", systemImage: appStyles.ToolBarDeleteImageActive)
+            .labelStyle(.titleAndIcon)
+        }
+      }
+    } label: {
+      Image(systemName: appStyles.ToolbarContextImage)
+        .symbolRenderingMode(.palette)
+        .resizable()
+        .scaledToFit()
+        .frame(width: 30, height: 30, alignment: .center)
+        .foregroundStyle(
+          appStyles.ToolbarContextColorActivePrimary, appStyles.ToolbarContextColorActiveSecondary
+        )
+        .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(6))
+    }
+    .alert("Log Löschen?", isPresented: $alertDelete) {
+      Button(
+        "Löschen", role: .destructive,
+        action: {
+          Task {
+            await viewModel.deleteLogEntry(LogEntry: viewModel.watchLogEntry)
+            newEntry(LogEntry: &viewModel.watchLogEntry, drawing: &drawing)
+            logBookEntryUUID = viewModel.watchLogEntry.uuid
+            blurSetting.isBlur = false
+          }
+        })
+      Button(
+        "Abbrechen", role: .cancel,
+        action: {
+          blurSetting.isBlur = false
+        })
+    }
+    .alert("Neues Log erstellen?", isPresented: $alertNew) {
+      Button(
+        "Erstellen", role: .destructive,
+        action: {
+          newEntry(LogEntry: &viewModel.watchLogEntry, drawing: &drawing)
+          displayedLogEntryUUID.id = viewModel.watchLogEntry.uuid
+          blurSetting.isBlur = false
+        })
+      Button(
+        "Abbrechen", role: .cancel,
+        action: {
+          blurSetting.isBlur = false
+        })
+    }
+    .alert("Eingaben verwerfen?", isPresented: $alertClear) {
+      Button(
+        "Verwerfen", role: .destructive,
+        action: {
+          clearEntry(LogEntry: &viewModel.watchLogEntry, drawing: &drawing)
+          blurSetting.isBlur = false
+        })
+      Button(
+        "Nein", role: .cancel,
+        action: {
+          blurSetting.isBlur = false
+        })
+    }
   }
 }
 
@@ -311,6 +305,7 @@ extension LogBookEntryView {
 
   LogBookEntryView(logBookEntryUUID: $existingLogBookEntry)
     .environmentObject(viewModel)
+    .environment(BlurSetting())
     .environment(\.appStyles, StylesLogEntry.shared)
     //.environment(\.displayedLogEntryUUID, DisplayedLogEntryID())
     .environment(DisplayedLogEntryID())

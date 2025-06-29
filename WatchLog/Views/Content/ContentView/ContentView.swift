@@ -22,33 +22,41 @@ import SwiftUI
 
   return ContentView()
     .environmentObject(viewModel)
+    .environment(BlurSetting())
     .environment(\.appStyles, StylesLogEntry.shared)
     .environment(DisplayedLogEntryID())
 }
 
 struct ContentView: View {
-  @State private var columnVisibility = NavigationSplitViewVisibility.automatic
+  @State private var columnVisibility = NavigationSplitViewVisibility.doubleColumn
 
   @EnvironmentObject var viewModel: LogEntryViewModel
 
   @Environment(\.appStyles) var appStyles
   @Environment(DisplayedLogEntryID.self) var displayedLogEntryUUID
+  @Environment(BlurSetting.self) var blurSetting
 
   //@State private var logBookEntry: WatchLogBookEntry = WatchLogBookEntry()
 
   @State private var logBookEntryUUID: UUID = UUID()
 
-  @State var alertNew = false
-  @State var showSettingSheet = false
+  @State var alertNew: Bool = false
+  @State var showSettingSheet: Bool = false
+ 
+    @State var showProgression: Bool = false
 
   var body: some View {
 
     NavigationSplitView(columnVisibility: $columnVisibility) {
 
       //Text(logBookEntry.uuid.uuidString)
-      Text(logBookEntryUUID.uuidString)
-      Text("currentuuid: \(displayedLogEntryUUID.id.uuidString)")
+      //      Text(logBookEntryUUID.uuidString)
+      //      Text("currentuuid: \(displayedLogEntryUUID.id.uuidString)")
 
+//        if showProgression {
+//            ProgressionView()
+//        }
+        
       List(viewModel.WatchLogBooks, id: \.uuid) { book in
 
         buildLogBookNavigationTree(book: book)
@@ -67,6 +75,7 @@ struct ContentView: View {
       .toolbar {
         ToolbarItem(placement: .primaryAction) {
 
+        ToolbarItemGroup(placement: .topBarTrailing) {
           toolBarItemNewButton
 
             .alert("Neues Log erstellen?", isPresented: $alertNew) {
@@ -91,9 +100,22 @@ struct ContentView: View {
       .sheet(isPresented: $showSettingSheet) {
         SettingView()
       }
+      .sheet(isPresented: $showProgression) {
+          ProgressionView()
+              .background(Color.clear)
+      }
       .onAppear {
+
+        UIRefreshControl.appearance().tintColor = UIColor(appStyles.progressionColor)
+          UIRefreshControl.appearance().attributedTitle = NSAttributedString(string: "Aktualisiere...",attributes: [NSAttributedString.Key.font: UIFont(name: appStyles.progressionFont, size: appStyles.progressionRefreshFontSize)!])
+
+          
         Task {
+            showProgression = true
           await viewModel.fetchLogBook()
+            
+           //try? await Task.sleep(nanoseconds: 2 * 1000000000)
+            showProgression = false
         }
       }
       .task {
@@ -110,6 +132,9 @@ struct ContentView: View {
       //LogBookEntryView(logBookEntryUUID: logBookEntryUUID)
       LogBookEntryView(logBookEntryUUID: $logBookEntryUUID)
     }
+    .blur(radius: blurSetting.isBlur ? 10 : 0)
+
+  }
 
   }
 
@@ -170,7 +195,7 @@ struct ContentView: View {
 
   fileprivate func getDateWeekDay(date: Date) -> String {
     let dateFormatter = DateFormatter()
-    dateFormatter.dateFormat = "dd. - EEEE"  // OR "dd-MM-yyyy"
+    dateFormatter.dateFormat = "dd. EEEE"  // OR "dd-MM-yyyy"
 
     return dateFormatter.string(from: date)
   }
@@ -191,6 +216,7 @@ extension ContentView {
   private var toolBarItemNewButton: some View {
 
     Button(action: {
+      blurSetting.isBlur = true
       alertNew.toggle()
     }) {
 
@@ -203,6 +229,18 @@ extension ContentView {
         )
         .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(2))
         .symbolEffect(.scale)
+    }
+    .alert("Neues Log erstellen?", isPresented: $alertNew) {
+      Button(
+        "Erstellen", role: .destructive,
+        action: {
+          addNewLogEntry()
+        })
+      Button(
+        "Abbrechen", role: .cancel,
+        action: {
+          blurSetting.isBlur = false
+        })
     }
 
   }
@@ -288,6 +326,11 @@ extension ContentView {
         }) {
           VStack(alignment: .leading) {
             Text(getDateTime(date: entry.LogDate))
+              .TextLabel(
+                font: appStyles.NavigationTreeSubFont,
+                fontSize: appStyles.NavigationTreeFontSize,
+                fontColor: entry.uuid == displayedLogEntryUUID.id
+                  ? appStyles.NavigationTreeSubFontColor : appStyles.NavigationTreeFontColor)
             Text(ProcessType.processTypes[entry.processDetails!.processTypeShort]!)
               .TextLabel(
                 font: appStyles.NavigationTreeSubFont,

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ProcessTypeSubKVView: View {
     
-    @Bindable var LogEntry: WatchLogEntry
+    @Bindable var logEntry: WatchLogEntry
     @Environment(\.appStyles) var appStyles
     
     var body: some View {
@@ -18,29 +18,21 @@ struct ProcessTypeSubKVView: View {
                 
                 HStack(alignment: .center, spacing: 0) {
                     Text("Verletzte")
-                        .SectionTextLabelSecond(appStyles)
+                        .sectionTextLabelSub(appStyles: appStyles)
                         .fixedSize(horizontal: true, vertical: true)
                         .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 5))
                     
-                    Toggle("", isOn: $LogEntry.processTypeDetails.isInjured)
+                    Toggle("", isOn: $logEntry.processTypeDetails.isInjured)
                         .labelsHidden()
                         .toggleStyle(
-                            ToggleStyleImage(
-                                isOnImage: appStyles.AccidentImageisLocked,
-                                isOffImage: appStyles.AccidentImageisUnLocked,
-                                isOnColorPrimary: appStyles.AccidentColorIsLockedPrimary,
-                                isOnColorSecondary: appStyles.AccidentColorIsLockedSecondary,
-                                isOffColorPrimary: appStyles.AccidentColorIsUnLockedPrimary,
-                                isOffColorSecondary: appStyles.AccidentColorIsUnLockedSecondary,
-                                isLocked: LogEntry.isLocked, isLockedColor: appStyles.ToogleIsLockedColor
-                            )
+                            generalToggleStyleImage(appStyles: appStyles, isLocked: logEntry.isLocked)
                         )
-                        .frame(height: appStyles.TextFieldHeight2, alignment: .center)
+                        .frame(height: appStyles.TextFieldHeightSub, alignment: .center)
                         .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
                 }
             }
             .padding(EdgeInsets(top: 10, leading: 0, bottom: 0, trailing: 0))
-            .disabled(LogEntry.isLocked)
+            .disabled(logEntry.isLocked)
         }
     }
 }
