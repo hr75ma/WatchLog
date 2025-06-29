@@ -22,17 +22,19 @@ import SwiftUI
 
   return ContentView()
     .environmentObject(viewModel)
+    .environment(BlurSetting())
     .environment(\.appStyles, StylesLogEntry.shared)
     .environment(DisplayedLogEntryID())
 }
 
 struct ContentView: View {
-  @State private var columnVisibility = NavigationSplitViewVisibility.automatic
+  @State private var columnVisibility = NavigationSplitViewVisibility.doubleColumn
 
   @EnvironmentObject var viewModel: LogEntryViewModel
 
   @Environment(\.appStyles) var appStyles
   @Environment(DisplayedLogEntryID.self) var displayedLogEntryUUID
+  @Environment(BlurSetting.self) var blurSetting
 
   //@State private var logBookEntry: WatchLogBookEntry = WatchLogBookEntry()
 
@@ -46,8 +48,8 @@ struct ContentView: View {
     NavigationSplitView(columnVisibility: $columnVisibility) {
 
       //Text(logBookEntry.uuid.uuidString)
-//      Text(logBookEntryUUID.uuidString)
-//      Text("currentuuid: \(displayedLogEntryUUID.id.uuidString)")
+      //      Text(logBookEntryUUID.uuidString)
+      //      Text("currentuuid: \(displayedLogEntryUUID.id.uuidString)")
 
       List(viewModel.WatchLogBooks, id: \.uuid) { book in
 
@@ -78,14 +80,12 @@ struct ContentView: View {
               Button(
                 "Abbrechen", role: .cancel,
                 action: {
-
+                    blurSetting.isBlur = false
                 })
             }
-
         }
         ToolbarItem(placement: .primaryAction) {
           toolBarItemSettings
-
         }
       }
       .sheet(isPresented: $showSettingSheet) {
@@ -110,6 +110,7 @@ struct ContentView: View {
       //LogBookEntryView(logBookEntryUUID: logBookEntryUUID)
       LogBookEntryView(logBookEntryUUID: $logBookEntryUUID)
     }
+    .blur(radius: blurSetting.isBlur ? 10 : 0)
 
   }
 
@@ -191,6 +192,7 @@ extension ContentView {
   private var toolBarItemNewButton: some View {
 
     Button(action: {
+        blurSetting.isBlur = true
       alertNew.toggle()
     }) {
 
@@ -288,10 +290,11 @@ extension ContentView {
         }) {
           VStack(alignment: .leading) {
             Text(getDateTime(date: entry.LogDate))
-                  .TextLabel(
-                    font: appStyles.NavigationTreeSubFont,
-                    fontSize: appStyles.NavigationTreeFontSize,
-                    fontColor: entry.uuid == displayedLogEntryUUID.id ? appStyles.NavigationTreeSubFontColor : appStyles.NavigationTreeFontColor)
+              .TextLabel(
+                font: appStyles.NavigationTreeSubFont,
+                fontSize: appStyles.NavigationTreeFontSize,
+                fontColor: entry.uuid == displayedLogEntryUUID.id
+                  ? appStyles.NavigationTreeSubFontColor : appStyles.NavigationTreeFontColor)
             Text(ProcessType.processTypes[entry.processDetails!.processTypeShort]!)
               .TextLabel(
                 font: appStyles.NavigationTreeSubFont,
