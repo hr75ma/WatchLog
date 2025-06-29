@@ -186,12 +186,27 @@ extension View {
     self.modifier(
       SectionTextFieldSimulatedSingleLineModifier(appStyles: appStyles, isLocked: isLocked))
   }
+    
+    func ProgressionTextLabel(appStyles: StylesLogEntry) -> some View {
+      self.modifier(
+        ProgressionTextLabelModifier(appStyles: appStyles))
+    }
 
   func TextInnerPadding() -> some View {
     self.modifier(TextInnerPaddingModifier())
       .padding(.leading, 5)
       .padding(.trailing, 5)
       .padding(.vertical, 0)
+  }
+}
+
+
+struct ProgressionTextLabelModifier: ViewModifier {
+  let appStyles: StylesLogEntry
+  func body(content: Content) -> some View {
+    content
+          .font(Font.custom(appStyles.progressionFont, size: appStyles.progressionFontSize))
+          .foregroundStyle(appStyles.progressionColor)
   }
 }
 

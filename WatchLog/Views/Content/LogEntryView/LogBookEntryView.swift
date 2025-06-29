@@ -167,12 +167,10 @@ extension LogBookEntryView {
     .onAppear {
       withAnimation(Animation.linear(duration: 2).repeatForever(autoreverses: false)) {
         isAnimating = true
-        print("on")
       }
     }
     .onDisappear {
       isAnimating = false
-      print("off")
     }
   }
 

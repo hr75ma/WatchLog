@@ -40,8 +40,10 @@ struct ContentView: View {
 
   @State private var logBookEntryUUID: UUID = UUID()
 
-  @State var alertNew = false
-  @State var showSettingSheet = false
+  @State var alertNew: Bool = false
+  @State var showSettingSheet: Bool = false
+ 
+    @State var showProgression: Bool = false
 
   var body: some View {
 
@@ -51,6 +53,10 @@ struct ContentView: View {
       //      Text(logBookEntryUUID.uuidString)
       //      Text("currentuuid: \(displayedLogEntryUUID.id.uuidString)")
 
+//        if showProgression {
+//            ProgressionView()
+//        }
+        
       List(viewModel.WatchLogBooks, id: \.uuid) { book in
 
         buildLogBookNavigationTree(book: book)
@@ -76,9 +82,22 @@ struct ContentView: View {
       .sheet(isPresented: $showSettingSheet) {
         SettingView()
       }
+      .sheet(isPresented: $showProgression) {
+          ProgressionView()
+              .background(Color.clear)
+      }
       .onAppear {
+
+        UIRefreshControl.appearance().tintColor = UIColor(appStyles.progressionColor)
+          UIRefreshControl.appearance().attributedTitle = NSAttributedString(string: "Aktualisiere...",attributes: [NSAttributedString.Key.font: UIFont(name: appStyles.progressionFont, size: appStyles.progressionRefreshFontSize)!])
+
+          
         Task {
+            showProgression = true
           await viewModel.fetchLogBook()
+            
+           //try? await Task.sleep(nanoseconds: 2 * 1000000000)
+            showProgression = false
         }
       }
       .task {
@@ -92,7 +111,6 @@ struct ContentView: View {
 
     } detail: {
 
-      //LogBookEntryView(logBookEntryUUID: logBookEntryUUID)
       LogBookEntryView(logBookEntryUUID: $logBookEntryUUID)
     }
     .blur(radius: blurSetting.isBlur ? 10 : 0)

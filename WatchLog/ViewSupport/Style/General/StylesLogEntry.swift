@@ -24,6 +24,13 @@ final class StylesLogEntry:Sendable {
     
     private init() {}
     
+    let progressionColor: Color = .white
+    let progressionFont: String = "digital-7"
+    let progressionFontSize: CGFloat = 35
+    let progressionRefreshFontSize: CGFloat = 25
+    
+    
+     
     let glowingColorSetLocked: [Color] = [.red, .blue, .red]
     let glowingColorSetNew: [Color] = [.green, .blue, .green]
     let glowingColorSetEditing: [Color] = [.blue, .teal, .blue]
