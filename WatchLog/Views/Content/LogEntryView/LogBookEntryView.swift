@@ -31,8 +31,6 @@ struct LogBookEntryView: View {
   @State private var isAnimating = false
   @State private var glowingColorSet: [Color] = [.blue, .yellow, .red]
 
-  //@State private var isBlur = false
-
   var body: some View {
 
     //        Text(Date.now, format: .dateTime.hour().minute().second())
@@ -74,21 +72,17 @@ struct LogBookEntryView: View {
         .blur(radius: blurSetting.isBlur ? 10 : 0)
         .animation(.linear(duration: 0.3), value: blurSetting.isBlur)
       }
-
       .padding(EdgeInsets(top: 30, leading: 30, bottom: 30, trailing: 30))
-
     }
     .task {
       await viewModel.fetchLogEntry(LogEntryUUID: logBookEntryUUID)
       print("--------->task")
       displayedLogEntryUUID.id = viewModel.watchLogEntry.uuid
       glowingColorSet = getGlowColorSet(logEntry: viewModel.watchLogEntry)
-
     }
     .onDisappear {
       print("entry view onDisappear")
       //dismiss()
-
     }
     .onChange(
       of: logBookEntryUUID,
@@ -117,14 +111,12 @@ struct LogBookEntryView: View {
       }
 
       ToolbarItemGroup(placement: .primaryAction) {
-
         MenuButton
       }
     }
   }
 
   private func getGlowColorSet(logEntry: WatchLogEntry) -> [Color] {
-
     if logEntry.isLocked {
       return appStyles.glowingColorSetLocked
     } else {
@@ -133,11 +125,8 @@ struct LogBookEntryView: View {
       } else {
         return appStyles.glowingColorSetEditing
       }
-
     }
-
   }
-
 }
 
 private func clearEntry(LogEntry: inout WatchLogEntry, drawing: inout PKDrawing) {
@@ -151,7 +140,6 @@ private func newEntry(LogEntry: inout WatchLogEntry, drawing: inout PKDrawing) {
   withAnimation {
     LogEntry.EntryTime = .now
   }
-
 }
 
 extension LogBookEntryView {
@@ -191,20 +179,16 @@ extension LogBookEntryView {
   private var MenuButton: some View {
 
     Menu {
-
       Button {
         blurSetting.isBlur = true
         alertNew.toggle()
-
       } label: {
-
         Label("Neues Log", systemImage: appStyles.ToolBarNewImageActive)
           .symbolRenderingMode(.palette)
           .foregroundStyle(
             appStyles.ToolBarNewColorActiveSecondary, appStyles.ToolBarNewColorActiveSecondary
           )
           .labelStyle(.titleAndIcon)
-
       }
 
       if !viewModel.watchLogEntry.isLocked {
@@ -218,11 +202,9 @@ extension LogBookEntryView {
             viewModel.watchLogEntry.isNewEntryLog = false
             displayedLogEntryUUID.id = viewModel.watchLogEntry.uuid
             logBookEntryUUID = displayedLogEntryUUID.id
-
           }
           blurSetting.isBlur = false
         } label: {
-
           Label("Log Speichern", systemImage: appStyles.ToolBarSaveImageActive)
             .symbolRenderingMode(.palette)
             .foregroundStyle(
@@ -309,7 +291,6 @@ extension LogBookEntryView {
         })
     }
   }
-    
 }
 
 #Preview{
