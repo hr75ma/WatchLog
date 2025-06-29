@@ -30,8 +30,8 @@ struct LogBookEntryView: View {
 
   @State private var isAnimating = false
   @State private var glowingColorSet: [Color] = [.blue, .yellow, .red]
-  
- //@State private var isBlur = false
+
+  //@State private var isBlur = false
 
   var body: some View {
 
@@ -74,9 +74,9 @@ struct LogBookEntryView: View {
         .blur(radius: blurSetting.isBlur ? 10 : 0)
         .animation(.linear(duration: 0.3), value: blurSetting.isBlur)
       }
-      
+
       .padding(EdgeInsets(top: 30, leading: 30, bottom: 30, trailing: 30))
-        
+
     }
     .task {
       await viewModel.fetchLogEntry(LogEntryUUID: logBookEntryUUID)
@@ -118,55 +118,9 @@ struct LogBookEntryView: View {
 
       ToolbarItemGroup(placement: .primaryAction) {
 
-        ContextButton
-          .alert("Log Löschen?", isPresented: $alertDelete) {
-            Button(
-              "Löschen", role: .destructive,
-              action: {
-                Task {
-                  await viewModel.deleteLogEntry(LogEntry: viewModel.watchLogEntry)
-                  newEntry(LogEntry: &viewModel.watchLogEntry, drawing: &drawing)
-                  logBookEntryUUID = viewModel.watchLogEntry.uuid
-                    blurSetting.isBlur = false
-                }
-              })
-            Button(
-              "Abbrechen", role: .cancel,
-              action: {
-                  blurSetting.isBlur = false
-              })
-          }
-          .alert("Neues Log erstellen?", isPresented: $alertNew) {
-            Button(
-              "Erstellen", role: .destructive,
-              action: {
-                newEntry(LogEntry: &viewModel.watchLogEntry, drawing: &drawing)
-                displayedLogEntryUUID.id = viewModel.watchLogEntry.uuid
-                  blurSetting.isBlur = false
-              })
-            Button(
-              "Abbrechen", role: .cancel,
-              action: {
-                  blurSetting.isBlur = false
-              })
-          }
-          .alert("Eingaben verwerfen?", isPresented: $alertClear) {
-            Button(
-              "Verwerfen", role: .destructive,
-              action: {
-                clearEntry(LogEntry: &viewModel.watchLogEntry, drawing: &drawing)
-                  blurSetting.isBlur = false
-              })
-            Button(
-              "Nein", role: .cancel,
-              action: {
-                  blurSetting.isBlur = false
-              })
-          }
+        MenuButton
       }
-
     }
-
   }
 
   private func getGlowColorSet(logEntry: WatchLogEntry) -> [Color] {
@@ -234,14 +188,14 @@ extension LogBookEntryView {
     }
   }
 
-  private var ContextButton: some View {
+  private var MenuButton: some View {
 
     Menu {
 
       Button {
-          blurSetting.isBlur = true
+        blurSetting.isBlur = true
         alertNew.toggle()
-          
+
       } label: {
 
         Label("Neues Log", systemImage: appStyles.ToolBarNewImageActive)
@@ -256,18 +210,17 @@ extension LogBookEntryView {
       if !viewModel.watchLogEntry.isLocked {
         Button {
           Task {
-              blurSetting.isBlur = true
+            blurSetting.isBlur = true
             viewModel.watchLogEntry.isLocked = true
             viewModel.watchLogEntry.isNewEntryLog = false
             await viewModel.saveLogEntry(LogEntry: viewModel.watchLogEntry)
             print(">>> Log saved \(viewModel.watchLogEntry.uuid)")
-            //await  logBookEntry = viewModel.fetchLogEntryMod(LogEntryUUID: viewModel.watchLogEntry.uuid)!
             viewModel.watchLogEntry.isNewEntryLog = false
             displayedLogEntryUUID.id = viewModel.watchLogEntry.uuid
             logBookEntryUUID = displayedLogEntryUUID.id
 
           }
-            blurSetting.isBlur = false
+          blurSetting.isBlur = false
         } label: {
 
           Label("Log Speichern", systemImage: appStyles.ToolBarSaveImageActive)
@@ -283,7 +236,7 @@ extension LogBookEntryView {
 
       if !viewModel.watchLogEntry.isLocked {
         Button(role: .destructive) {
-            blurSetting.isBlur = true
+          blurSetting.isBlur = true
           alertClear.toggle()
         } label: {
           Label("Log leeren", systemImage: appStyles.ToolBarEraserImageActive)
@@ -293,7 +246,7 @@ extension LogBookEntryView {
 
       if !viewModel.watchLogEntry.isLocked {
         Button(role: .destructive) {
-            blurSetting.isBlur = true
+          blurSetting.isBlur = true
           alertDelete.toggle()
         } label: {
           Label("Log Löschen", systemImage: appStyles.ToolBarDeleteImageActive)
@@ -311,7 +264,52 @@ extension LogBookEntryView {
         )
         .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(6))
     }
+    .alert("Log Löschen?", isPresented: $alertDelete) {
+      Button(
+        "Löschen", role: .destructive,
+        action: {
+          Task {
+            await viewModel.deleteLogEntry(LogEntry: viewModel.watchLogEntry)
+            newEntry(LogEntry: &viewModel.watchLogEntry, drawing: &drawing)
+            logBookEntryUUID = viewModel.watchLogEntry.uuid
+            blurSetting.isBlur = false
+          }
+        })
+      Button(
+        "Abbrechen", role: .cancel,
+        action: {
+          blurSetting.isBlur = false
+        })
+    }
+    .alert("Neues Log erstellen?", isPresented: $alertNew) {
+      Button(
+        "Erstellen", role: .destructive,
+        action: {
+          newEntry(LogEntry: &viewModel.watchLogEntry, drawing: &drawing)
+          displayedLogEntryUUID.id = viewModel.watchLogEntry.uuid
+          blurSetting.isBlur = false
+        })
+      Button(
+        "Abbrechen", role: .cancel,
+        action: {
+          blurSetting.isBlur = false
+        })
+    }
+    .alert("Eingaben verwerfen?", isPresented: $alertClear) {
+      Button(
+        "Verwerfen", role: .destructive,
+        action: {
+          clearEntry(LogEntry: &viewModel.watchLogEntry, drawing: &drawing)
+          blurSetting.isBlur = false
+        })
+      Button(
+        "Nein", role: .cancel,
+        action: {
+          blurSetting.isBlur = false
+        })
+    }
   }
+    
 }
 
 #Preview{
