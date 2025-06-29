@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SwiftData
+import TipKit
 
 @main
 struct WatchLogApp: App {
@@ -23,6 +24,13 @@ struct WatchLogApp: App {
         WindowGroup {
         
                 SplashView()
+                .task {
+                    try? Tips.configure([
+                        //.displayFrequency(.immediate)
+                        .datastoreLocation(.applicationDefault)
+ 
+                    ])
+                }
                 //ContentView()
     }
         .environmentObject(viewModel)

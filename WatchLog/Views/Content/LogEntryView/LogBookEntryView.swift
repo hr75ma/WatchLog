@@ -200,6 +200,7 @@ extension LogBookEntryView {
             viewModel.watchLogEntry.isNewEntryLog = false
             displayedLogEntryUUID.id = viewModel.watchLogEntry.uuid
             logBookEntryUUID = displayedLogEntryUUID.id
+              blurSetting.isBlur = false
           }
           blurSetting.isBlur = false
         } label: {

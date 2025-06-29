@@ -7,6 +7,7 @@
 import Foundation
 import SwiftData
 import SwiftUI
+import TipKit
 
 #Preview{
 
@@ -25,6 +26,16 @@ import SwiftUI
     .environment(BlurSetting())
     .environment(\.appStyles, StylesLogEntry.shared)
     .environment(DisplayedLogEntryID())
+    .task {
+      try? Tips.resetDatastore()
+      try? Tips.configure([
+        //.displayFrequency(.immediate)
+        .datastoreLocation(.applicationDefault)
+
+      ])
+
+    }
+
 }
 
 struct ContentView: View {
@@ -42,8 +53,11 @@ struct ContentView: View {
 
   @State var alertNew: Bool = false
   @State var showSettingSheet: Bool = false
- 
-    @State var showProgression: Bool = false
+
+  @State var showProgression: Bool = false
+
+  let newLogEntryTip = NavigationTipNewLogEntry()
+  let refreshListTip = NavigationTipRefresh()
 
   var body: some View {
 
@@ -53,12 +67,14 @@ struct ContentView: View {
       //      Text(logBookEntryUUID.uuidString)
       //      Text("currentuuid: \(displayedLogEntryUUID.id.uuidString)")
 
-//        if showProgression {
-//            ProgressionView()
-//        }
-        
-      List(viewModel.WatchLogBooks, id: \.uuid) { book in
+      //        if showProgression {
+      //            ProgressionView()
+      //        }
 
+        TipView(refreshListTip)
+            .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
+      List(viewModel.WatchLogBooks, id: \.uuid) { book in
+        
         buildLogBookNavigationTree(book: book)
 
       }
@@ -76,6 +92,7 @@ struct ContentView: View {
 
         ToolbarItemGroup(placement: .topBarTrailing) {
           toolBarItemNewButton
+
           toolBarItemSettings
         }
       }
@@ -83,21 +100,25 @@ struct ContentView: View {
         SettingView()
       }
       .sheet(isPresented: $showProgression) {
-          ProgressionView()
-              .background(Color.clear)
+        ProgressionView()
+          .background(Color.clear)
       }
       .onAppear {
 
         UIRefreshControl.appearance().tintColor = UIColor(appStyles.progressionColor)
-          UIRefreshControl.appearance().attributedTitle = NSAttributedString(string: "Aktualisiere...",attributes: [NSAttributedString.Key.font: UIFont(name: appStyles.progressionFont, size: appStyles.progressionRefreshFontSize)!])
+        UIRefreshControl.appearance().attributedTitle = NSAttributedString(
+          string: "Aktualisiere...",
+          attributes: [
+            NSAttributedString.Key.font: UIFont(
+              name: appStyles.progressionFont, size: appStyles.progressionRefreshFontSize)!
+          ])
 
-          
         Task {
-            showProgression = true
+          showProgression = true
           await viewModel.fetchLogBook()
-            
-           //try? await Task.sleep(nanoseconds: 2 * 1000000000)
-            showProgression = false
+
+          //try? await Task.sleep(nanoseconds: 2 * 1000000000)
+          showProgression = false
         }
       }
       .task {
@@ -195,6 +216,7 @@ extension ContentView {
   private var toolBarItemNewButton: some View {
 
     Button(action: {
+      newLogEntryTip.invalidate(reason: .actionPerformed)
       blurSetting.isBlur = true
       alertNew.toggle()
     }) {
@@ -214,6 +236,7 @@ extension ContentView {
         "Erstellen", role: .destructive,
         action: {
           addNewLogEntry()
+            blurSetting.isBlur = false
         })
       Button(
         "Abbrechen", role: .cancel,
@@ -221,6 +244,7 @@ extension ContentView {
           blurSetting.isBlur = false
         })
     }
+    .popoverTip(newLogEntryTip)
 
   }
 
@@ -245,6 +269,7 @@ extension ContentView {
 
   func buildLogBookNavigationTree(book: WatchLogBook) -> some View {
 
+    
     ForEach(book.logYearsSorted) { year in
       DisclorsureGroupYear(year: year)
     }
