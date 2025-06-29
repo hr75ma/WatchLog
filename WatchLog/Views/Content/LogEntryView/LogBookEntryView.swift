@@ -20,6 +20,7 @@ struct LogBookEntryView: View {
   @Environment(BlurSetting.self) var blurSetting
 
   @Environment(\.dismiss) var dismiss
+    @Environment(\.scenePhase) var scenePhase
 
   @State var toolPickerShows = true
   @State var drawing = PKDrawing()
@@ -27,9 +28,12 @@ struct LogBookEntryView: View {
   @State var alertDelete = false
   @State var alertNew = false
   @State var alertClear = false
+    
+    @State var fromBackground: Bool = false
 
   @State private var isAnimating = false
   @State private var glowingColorSet: [Color] = [.blue, .yellow, .red]
+    
 
   var body: some View {
 
@@ -74,6 +78,10 @@ struct LogBookEntryView: View {
       }
       .padding(EdgeInsets(top: 30, leading: 30, bottom: 30, trailing: 30))
     }
+    .onAppear() {
+        fromBackground = false
+        isAnimating = true
+    }
     .task {
       await viewModel.fetchLogEntry(LogEntryUUID: logBookEntryUUID)
       print("--------->task")
@@ -82,9 +90,8 @@ struct LogBookEntryView: View {
     }
     .onDisappear {
       print("entry view onDisappear")
-      isAnimating = false
-        
-      dismiss()
+     // isAnimating = false
+     // dismiss()
     }
     .onChange(
       of: logBookEntryUUID,
@@ -102,6 +109,17 @@ struct LogBookEntryView: View {
     }
     .onChange(of: viewModel.watchLogEntry.isNewEntryLog) { oldValue, newValue in
       glowingColorSet = getGlowColorSet(logEntry: viewModel.watchLogEntry)
+        
+    }
+    .onChange(of: scenePhase) { _, newPhase in
+        switch newPhase {
+        case .background:
+            print("switch to background")
+            isAnimating = false
+            fromBackground = true
+        default:
+            break
+        }
     }
     .padding(EdgeInsets(top: 20, leading: 0, bottom: 0, trailing: 0))
     .toolbar {
@@ -151,10 +169,11 @@ extension LogBookEntryView {
     ZStack {
       RoundedRectangle(cornerRadius: 20, style: .continuous)
         .fill(
+            
           AngularGradient(
             colors: glowingColorSet,
             center: .center,
-            angle: .degrees(isAnimating ? 360 : 0))
+            angle: .degrees(isAnimating ? fromBackground ? 360 : 360 : fromBackground ? 0 : 0))
         )
         .blur(radius: 18)
 
@@ -166,15 +185,18 @@ extension LogBookEntryView {
       //            angle: .degrees(isAnimating ? 360 : 0)),
       //          style: StrokeStyle(lineWidth: 4, lineCap: .round))
     }
-    .onAppear {
-      withAnimation(Animation.linear(duration: 2).repeatForever(autoreverses: false)) {
-        isAnimating = true
-      }
-    }
-    .onDisappear {
-        print("animation dismiss")
-      isAnimating = false
-    }
+    .animation(Animation.linear(duration: 2).repeatForever(autoreverses: false), value: isAnimating)
+    
+//    .onAppear {
+//      withAnimation(Animation.linear(duration: 2).repeatForever(autoreverses: false)) {
+//        isAnimating = true
+//      }
+//    }
+
+//    .onDisappear {
+//        print("animation dismiss")
+//      isAnimating = false
+//    }
   }
 
   private var MenuButton: some View {
