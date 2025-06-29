@@ -68,15 +68,11 @@ extension CallInView {
                 Text(selectedCallInAsString)
                       .SectionTextFieldSimulatedSingleLine(appStyles: appStyles, isLocked: logEntry.isLocked)
                   .isHidden(!tempLocked, remove: true)
-                
-//                    TextField("", text: $selectedCallInAsString)
-//                        .sectionTextFieldSimulated(appStyles: appStyles, text: $selectedCallInAsString, isLocked: logEntry.isLocked, numberOfCharacters: 50)
-//                        .isHidden(!tempLocked, remove: true)
-                
+                    Spacer()
                 customSegmentedPickerView(preselectedIndex: $selectedCallIn, appStyles: appStyles)
                     .isHidden(tempLocked, remove: true)
                 
-                Spacer()
+                
                 }
                 .frame(maxWidth: .infinity)
                 .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))

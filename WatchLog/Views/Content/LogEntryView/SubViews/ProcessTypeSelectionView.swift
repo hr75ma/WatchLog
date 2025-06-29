@@ -55,7 +55,7 @@ struct ProcessTypeSelectionView: View {
                                   .SectionTextFieldSimulatedSingleLine(appStyles: appStyles, isLocked: logEntry.isLocked)
                               .isHidden(!tempLocked, remove: true)
                         }
-                        
+                        Spacer()
                         Picker("", selection: $selectedProcess) {
                             ForEach(
                                 Array(
@@ -75,8 +75,6 @@ struct ProcessTypeSelectionView: View {
                         .background(appStyles.GeneralBackgroundColor)
                         .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
                         .isHidden(tempLocked, remove: true)
-                        
-                        Spacer()
                         
                     }
                     .frame(maxWidth: .infinity)
