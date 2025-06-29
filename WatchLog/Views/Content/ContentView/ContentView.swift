@@ -67,24 +67,9 @@ struct ContentView: View {
         }
       })
       .toolbar {
-        ToolbarItem(placement: .primaryAction) {
 
+        ToolbarItemGroup(placement: .topBarTrailing) {
           toolBarItemNewButton
-
-            .alert("Neues Log erstellen?", isPresented: $alertNew) {
-              Button(
-                "Erstellen", role: .destructive,
-                action: {
-                  addNewLogEntry()
-                })
-              Button(
-                "Abbrechen", role: .cancel,
-                action: {
-                    blurSetting.isBlur = false
-                })
-            }
-        }
-        ToolbarItem(placement: .primaryAction) {
           toolBarItemSettings
         }
       }
@@ -192,7 +177,7 @@ extension ContentView {
   private var toolBarItemNewButton: some View {
 
     Button(action: {
-        blurSetting.isBlur = true
+      blurSetting.isBlur = true
       alertNew.toggle()
     }) {
 
@@ -205,6 +190,18 @@ extension ContentView {
         )
         .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(2))
         .symbolEffect(.scale)
+    }
+    .alert("Neues Log erstellen?", isPresented: $alertNew) {
+      Button(
+        "Erstellen", role: .destructive,
+        action: {
+          addNewLogEntry()
+        })
+      Button(
+        "Abbrechen", role: .cancel,
+        action: {
+          blurSetting.isBlur = false
+        })
     }
 
   }
