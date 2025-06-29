@@ -31,8 +31,8 @@ import TipKit
       try? Tips.configure([
         //.displayFrequency(.immediate)
         .datastoreLocation(.applicationDefault)
-
       ])
+       // try? Tips.showAllTipsForTesting()
 
     }
 
@@ -47,6 +47,7 @@ struct ContentView: View {
   @Environment(DisplayedLogEntryID.self) var displayedLogEntryUUID
   @Environment(BlurSetting.self) var blurSetting
 
+    @Environment(\.dismiss) var dismiss
   //@State private var logBookEntry: WatchLogBookEntry = WatchLogBookEntry()
 
   @State private var logBookEntryUUID: UUID = UUID()
@@ -73,7 +74,8 @@ struct ContentView: View {
 
         TipView(refreshListTip)
             .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
-      List(viewModel.WatchLogBooks, id: \.uuid) { book in
+      
+        List(viewModel.WatchLogBooks, id: \.uuid) { book in
         
         buildLogBookNavigationTree(book: book)
 
@@ -94,6 +96,8 @@ struct ContentView: View {
           toolBarItemNewButton
 
           toolBarItemSettings
+            
+            toolBarItemTest
         }
       }
       .sheet(isPresented: $showSettingSheet) {
@@ -103,8 +107,16 @@ struct ContentView: View {
         ProgressionView()
           .background(Color.clear)
       }
+      .onDisappear {
+        print("tree view onDisappear")
+          
+        dismiss()
+      }
       .onAppear {
 
+          Task { await NavigationTipRefresh.setNavigationRefreshEvent.donate() }
+         
+          
         UIRefreshControl.appearance().tintColor = UIColor(appStyles.progressionColor)
         UIRefreshControl.appearance().attributedTitle = NSAttributedString(
           string: "Aktualisiere...",
@@ -126,6 +138,7 @@ struct ContentView: View {
         await viewModel.fetchLogBook()
 
       }
+
       .listStyle(.sidebar)
       .scrollContentBackground(.hidden)
       //.background(Color.black.edgesIgnoringSafeArea(.all))
@@ -217,6 +230,7 @@ extension ContentView {
 
     Button(action: {
       newLogEntryTip.invalidate(reason: .actionPerformed)
+        Task { await NavigationTipNewLogEntry.setNavigationNewLogEvent.donate()}
       blurSetting.isBlur = true
       alertNew.toggle()
     }) {
@@ -245,6 +259,7 @@ extension ContentView {
         })
     }
     .popoverTip(newLogEntryTip)
+    //.tipViewStyle(TipStyler())
 
   }
 
@@ -266,6 +281,25 @@ extension ContentView {
     }
 
   }
+    
+    private var toolBarItemTest: some View {
+
+      Button(action: {
+          try? Tips.resetDatastore()
+      }) {
+
+        Image(systemName: appStyles.NavigationTreeSettingImage)
+          //.ToolbarImageStyle(appStyles)
+          .symbolRenderingMode(.palette)
+          .foregroundStyle(
+            appStyles.NavigationTreeSettingImagePrimaryColor,
+            appStyles.NavigationTreeAddEntryImageSecondaryColor
+          )
+          .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(2))
+          .symbolEffect(.scale)
+      }
+
+    }
 
   func buildLogBookNavigationTree(book: WatchLogBook) -> some View {
 

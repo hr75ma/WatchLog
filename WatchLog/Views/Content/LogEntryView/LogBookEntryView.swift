@@ -82,7 +82,9 @@ struct LogBookEntryView: View {
     }
     .onDisappear {
       print("entry view onDisappear")
-      //dismiss()
+      isAnimating = false
+        
+      dismiss()
     }
     .onChange(
       of: logBookEntryUUID,
@@ -170,6 +172,7 @@ extension LogBookEntryView {
       }
     }
     .onDisappear {
+        print("animation dismiss")
       isAnimating = false
     }
   }
