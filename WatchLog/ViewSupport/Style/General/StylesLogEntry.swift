@@ -24,8 +24,8 @@ final class StylesLogEntry:Sendable {
     
     private init() {}
     
-    let glowingColorSetLocked: [Color] = [.blue, .red, .blue]
-    let glowingColorSetNew: [Color] = [.blue, .green, .blue]
+    let glowingColorSetLocked: [Color] = [.red, .blue, .red]
+    let glowingColorSetNew: [Color] = [.green, .blue, .green]
     let glowingColorSetEditing: [Color] = [.blue, .teal, .blue]
     
     

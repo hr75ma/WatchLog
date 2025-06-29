@@ -288,6 +288,10 @@ extension ContentView {
         }) {
           VStack(alignment: .leading) {
             Text(getDateTime(date: entry.LogDate))
+                  .TextLabel(
+                    font: appStyles.NavigationTreeSubFont,
+                    fontSize: appStyles.NavigationTreeFontSize,
+                    fontColor: entry.uuid == displayedLogEntryUUID.id ? appStyles.NavigationTreeSubFontColor : appStyles.NavigationTreeFontColor)
             Text(ProcessType.processTypes[entry.processDetails!.processTypeShort]!)
               .TextLabel(
                 font: appStyles.NavigationTreeSubFont,
