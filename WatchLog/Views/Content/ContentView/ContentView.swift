@@ -242,8 +242,8 @@ extension ContentView {
           appStyles.NavigationTreeAddEntryImagePrimaryColor,
           appStyles.NavigationTreeAddEntryImageSecondaryColor
         )
-        .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(2))
-        .symbolEffect(.scale)
+       // .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(2))
+       // .symbolEffect(.scale)
     }
     .alert("Neues Log erstellen?", isPresented: $alertNew) {
       Button(
@@ -276,8 +276,8 @@ extension ContentView {
           appStyles.NavigationTreeSettingImagePrimaryColor,
           appStyles.NavigationTreeAddEntryImageSecondaryColor
         )
-        .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(2))
-        .symbolEffect(.scale)
+       // .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(2))
+       // .symbolEffect(.scale)
     }
 
   }
@@ -295,8 +295,8 @@ extension ContentView {
             appStyles.NavigationTreeSettingImagePrimaryColor,
             appStyles.NavigationTreeAddEntryImageSecondaryColor
           )
-          .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(2))
-          .symbolEffect(.scale)
+         // .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(2))
+        //  .symbolEffect(.scale)
       }
 
     }

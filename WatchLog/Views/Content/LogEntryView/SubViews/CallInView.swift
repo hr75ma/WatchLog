@@ -19,6 +19,9 @@ struct CallInView: View {
     
     
     @State private var tempLocked: Bool = false
+    
+    
+     @Namespace private var namespace
 
     
     var body: some View {
@@ -64,12 +67,16 @@ extension CallInView {
             VStack(alignment: .leading, spacing: 0) {
                 
                 HStack(alignment: .top, spacing: 0) {
-                    
+                
                 Text(selectedCallInAsString)
                       .SectionTextFieldSimulatedSingleLine(appStyles: appStyles, isLocked: logEntry.isLocked)
+                  .matchedGeometryEffect(id: "lockedEvent", in: namespace)
                   .isHidden(!tempLocked, remove: true)
                     Spacer()
+                
+                    
                 customSegmentedPickerView(preselectedIndex: $selectedCallIn, appStyles: appStyles)
+                        .matchedGeometryEffect(id: "lockedEvent", in: namespace)
                     .isHidden(tempLocked, remove: true)
                 
                 
