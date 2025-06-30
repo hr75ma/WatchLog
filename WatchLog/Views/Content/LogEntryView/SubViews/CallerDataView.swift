@@ -123,7 +123,6 @@ extension CallerDataView {
                       .labelsHidden()  // Hides the default label
                       .colorMultiply(.blue)
                       .font(Font.custom(appStyles.TextFieldFont, size: appStyles.TextFieldFontSize))
-                  
                       .frame(width: 300, height: 100)
                       .clipped()
                       .contentShape(Rectangle())
@@ -135,13 +134,13 @@ extension CallerDataView {
               .matchedGeometryEffect(id: "lockedEvent", in: namespace)
               .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
          
-              
-          Text(getFormatedDateFromDOB(from: logEntry.CallerDOB))
-                      .SectionTextFieldSimulatedSingleLine(appStyles: appStyles, isLocked: logEntry.isLocked)
-                      .matchedGeometryEffect(id: "lockedEvent", in: namespace)
-                      .isHidden(!tempLocked, remove: true)
-          
-          
+          if tempLocked {
+              Text(getFormatedDateFromDOB(from: logEntry.CallerDOB))
+                  .SectionTextFieldSimulatedSingleLine(appStyles: appStyles, isLocked: logEntry.isLocked)
+                  .matchedGeometryEffect(id: "lockedEvent", in: namespace)
+                  .isHidden(logEntry.CallerDOB == nil || !tempLocked, remove: true)
+          }
+                  
       }
       .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
       .onChange(of: logEntry.isLocked) {
