@@ -15,14 +15,13 @@ struct CallerDataView: View {
   @State private var withBirthday: Bool = true
   @State private var with: Bool = true
   @State private var tempLocked: Bool = false
-    
-    @Namespace private var namespace
-    
+
+  @Namespace private var namespace
+
   var body: some View {
     HStack(alignment: .top, spacing: 0) {
-        
+
       SectionImage
-      
 
       VStack(alignment: .leading, spacing: 5) {
 
@@ -47,23 +46,27 @@ struct CallerDataView: View {
   }
 }
 
-
 extension CallerDataView {
 
   private var SectionImage: some View {
     Image(systemName: appStyles.SectionCallerImage)
-          .SectionImageStyle(primaryColor: appStyles.SectionCallerImagePrimary, secondaryColor: appStyles.SectionCallerImageSecondary)
-        //.symbolEffect(.variableColor.cumulative.hideInactiveLayers.nonReversing, options: .repeat(.continuous),isActive: !logEntry.isLocked)
+      .SectionImageStyle(
+        primaryColor: appStyles.SectionCallerImagePrimary,
+        secondaryColor: appStyles.SectionCallerImageSecondary)
+    //.symbolEffect(.variableColor.cumulative.hideInactiveLayers.nonReversing, options: .repeat(.continuous),isActive: !logEntry.isLocked)
   }
 
   private var phoneSubSection: some View {
 
     HStack(alignment: .center, spacing: 0) {
       Text("Telefon")
-            .sectionTextLabel(appStyles: appStyles)
+        .sectionTextLabel(appStyles: appStyles)
 
       TextField("", text: $logEntry.CallerNumber)
-        .sectionTextField(appStyles: appStyles, text: $logEntry.CallerNumber, isLocked: logEntry.isLocked, numberOfCharacters: 20)
+        .sectionTextField(
+          appStyles: appStyles, text: $logEntry.CallerNumber, isLocked: logEntry.isLocked,
+          numberOfCharacters: 20
+        )
         .textFieldCheckOnNumbers(text: $logEntry.CallerNumber)
         .textContentType(.telephoneNumber)
         .keyboardType(.numberPad)
@@ -74,25 +77,34 @@ extension CallerDataView {
   private var nameSubSection: some View {
     HStack(alignment: .center, spacing: 0) {
       Text("Name")
-            .sectionTextLabel(appStyles: appStyles)
-            
+        .sectionTextLabel(appStyles: appStyles)
 
       TextField("", text: $logEntry.CallerName)
-        .sectionTextField(appStyles: appStyles, text: $logEntry.CallerName, isLocked: logEntry.isLocked, numberOfCharacters: 50)
+        .sectionTextField(
+          appStyles: appStyles, text: $logEntry.CallerName, isLocked: logEntry.isLocked,
+          numberOfCharacters: 50)
     }
   }
 
   private var dobSubSection: some View {
     HStack(alignment: .top, spacing: 0) {
       Text("DOB")
-            .sectionTextLabel(appStyles: appStyles)
-
+        .sectionTextLabel(appStyles: appStyles)
 
       HStack(alignment: .top, spacing: 0) {
-          
 
+          
+          HStack {
+              
+              if tempLocked {
+                  Text(getFormatedDateFromDOB(from: logEntry.CallerDOB))
+                      .SectionTextFieldSimulatedSingleLine(appStyles: appStyles, isLocked: logEntry.isLocked)
+                      .matchedGeometryEffect(id: "lockedEvent", in: namespace)
+                      .isHidden(logEntry.CallerDOB == nil || !tempLocked, remove: true)
+              }
               
               HStack {
+                  
                   Toggle("", isOn: $withBirthday)
                       .labelsHidden()
                       .toggleStyle(
@@ -133,14 +145,8 @@ extension CallerDataView {
               }
               .matchedGeometryEffect(id: "lockedEvent", in: namespace)
               .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-         
-          if tempLocked {
-              Text(getFormatedDateFromDOB(from: logEntry.CallerDOB))
-                  .SectionTextFieldSimulatedSingleLine(appStyles: appStyles, isLocked: logEntry.isLocked)
-                  .matchedGeometryEffect(id: "lockedEvent", in: namespace)
-                  .isHidden(logEntry.CallerDOB == nil || !tempLocked, remove: true)
           }
-                  
+
       }
       .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
       .onChange(of: logEntry.isLocked) {
@@ -188,22 +194,25 @@ extension CallerDataView {
   private var adressSubSection: some View {
     HStack(alignment: .top, spacing: 0) {
       Text("Adresse")
-            .sectionTextLabel(appStyles: appStyles)
+        .sectionTextLabel(appStyles: appStyles)
         .frame(alignment: .topLeading)
 
       TextField("", text: $logEntry.CallerAdress, axis: .vertical)
-        .sectionTextField(appStyles: appStyles, text: $logEntry.CallerAdress, isLocked: logEntry.isLocked, numberOfCharacters: 500)
+        .sectionTextField(
+          appStyles: appStyles, text: $logEntry.CallerAdress, isLocked: logEntry.isLocked,
+          numberOfCharacters: 500
+        )
         .lineLimit(4, reservesSpace: true)
     }
   }
 
 }
 
-public func ??<T: Sendable>(lhs: Binding<Optional<T>>, rhs: T) -> Binding<T> {
-    Binding(
-        get: { lhs.wrappedValue ?? rhs },
-        set: { lhs.wrappedValue = $0 }
-    )
+public func ?? <T: Sendable>(lhs: Binding<T?>, rhs: T) -> Binding<T> {
+  Binding(
+    get: { lhs.wrappedValue ?? rhs },
+    set: { lhs.wrappedValue = $0 }
+  )
 }
 
 private func getFormatedDateFromDOB(from dob: Date?) -> String {
