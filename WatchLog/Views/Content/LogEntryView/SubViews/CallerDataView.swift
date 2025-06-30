@@ -93,59 +93,65 @@ extension CallerDataView {
 
       HStack(alignment: .top, spacing: 0) {
 
-          
-          HStack {
-              
-              if tempLocked {
-                  Text(getFormatedDateFromDOB(from: logEntry.CallerDOB))
-                      .SectionTextFieldSimulatedSingleLine(appStyles: appStyles, isLocked: logEntry.isLocked)
-                      .matchedGeometryEffect(id: "lockedEvent", in: namespace)
-                      .isHidden(logEntry.CallerDOB == nil || !tempLocked, remove: true)
-              }
-              
-              HStack {
-                  
-                  Toggle("", isOn: $withBirthday)
-                      .labelsHidden()
-                      .toggleStyle(
-                        generalToggleStyleImage(appStyles: appStyles, isLocked: logEntry.isLocked)
-                      )
-                      .frame(height: appStyles.TextFieldHeight)
-                      .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-                      .isHidden(tempLocked, remove: true)
-                  
-                  Toggle("", isOn: $withBirthday)
-                      .labelsHidden()
-                      .toggleStyle(
-                        toggleStyleAnimationImage(
-                            isOnImage: "inset.filled.circle.dashed",
-                            isOffImage: "inset.filled.circle.dashed",
-                            isOnColorPrimary: appStyles.GeneralToggleIsActivePrimary,
-                            isOnColorSecondary: appStyles.GeneralToggleIsActiveSecondary,
-                            isOffColorPrimary: Color.red,
-                            isOffColorSecondary: appStyles.GeneralToggleIsUnactiveSecondary,
-                            isLocked: logEntry.isLocked, isLockedColor: appStyles.ToogleIsLockedColor
-                        )
-                      )
-                      .frame(height: appStyles.TextFieldHeight)
-                      .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-                      .isHidden(tempLocked, remove: true)
-                  
-                  DatePicker("", selection: $logEntry.CallerDOB ?? Date(), displayedComponents: [.date])
-                      .labelsHidden()  // Hides the default label
-                      .colorMultiply(.blue)
-                      .font(Font.custom(appStyles.TextFieldFont, size: appStyles.TextFieldFontSize))
-                      .frame(width: 300, height: 100)
-                      .clipped()
-                      .contentShape(Rectangle())
-                      .datePickerStyle(WheelDatePickerStyle())
-                      .background(appStyles.GeneralBackgroundColor)
-                      .environment(\.locale, Locale.current)
-                      .isHidden(!with || tempLocked, remove: true)
-              }
-              .matchedGeometryEffect(id: "lockedEvent", in: namespace)
+        HStack(alignment: .top, spacing: 0) {
+
+         
+
+          HStack(alignment: .top, spacing: 0) {
+
+            Toggle("", isOn: $withBirthday)
+              //    .matchedGeometryEffect(id: "lockedEvent", in: namespace)
+              .labelsHidden()
+              .toggleStyle(
+                generalToggleStyleImage(appStyles: appStyles, isLocked: logEntry.isLocked)
+              )
+              .frame(height: appStyles.TextFieldHeight)
               .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+              .isHidden(tempLocked, remove: true)
+
+            Toggle("", isOn: $withBirthday)
+               //   .matchedGeometryEffect(id: "lockedEvent", in: namespace)
+              .labelsHidden()
+              .toggleStyle(
+                toggleStyleAnimationImage(
+                  isOnImage: "inset.filled.circle.dashed",
+                  isOffImage: "inset.filled.circle.dashed",
+                  isOnColorPrimary: appStyles.GeneralToggleIsActivePrimary,
+                  isOnColorSecondary: appStyles.GeneralToggleIsActiveSecondary,
+                  isOffColorPrimary: Color.red,
+                  isOffColorSecondary: appStyles.GeneralToggleIsUnactiveSecondary,
+                  isLocked: logEntry.isLocked, isLockedColor: appStyles.ToogleIsLockedColor
+                )
+              )
+              .frame(height: appStyles.TextFieldHeight)
+              .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+              .isHidden(tempLocked, remove: true)
+
+            DatePicker("", selection: $logEntry.CallerDOB ?? Date(), displayedComponents: [.date])
+              .labelsHidden()  // Hides the default label
+              .colorMultiply(.blue)
+              .font(Font.custom(appStyles.TextFieldFont, size: appStyles.TextFieldFontSize))
+              .matchedGeometryEffect(id: "lockedEvent", in: namespace)
+              .frame(width: 300, height: 100)
+              .clipped()
+              .contentShape(Rectangle())
+              .datePickerStyle(WheelDatePickerStyle())
+              .background(appStyles.GeneralBackgroundColor)
+              .environment(\.locale, Locale.current)
+              .isHidden(!with || tempLocked, remove: true)
           }
+          .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+        }
+          
+           if tempLocked {
+             Text(getFormatedDateFromDOB(from: logEntry.CallerDOB))
+               .SectionTextFieldSimulatedSingleLine(
+                 appStyles: appStyles, isLocked: logEntry.isLocked
+               )
+               .matchedGeometryEffect(id: "lockedEvent", in: namespace)
+               .isHidden(logEntry.CallerDOB == nil || !tempLocked, remove: true)
+             Spacer()
+           }
 
       }
       .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
