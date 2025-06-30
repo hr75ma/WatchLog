@@ -29,6 +29,9 @@ final class StylesLogEntry:Sendable {
     let progressionFontSize: CGFloat = 35
     let progressionRefreshFontSize: CGFloat = 25
     
+    let callInFontSize: CGFloat = 25
+    let callInFieldHeight: CGFloat = 30
+    
     
      
     let glowingColorSetLocked: [Color] = [.red, .blue, .red]
@@ -70,17 +73,14 @@ final class StylesLogEntry:Sendable {
     let SectionCallerImagePrimary: Color = Color.white
     let SectionCallerImageSecondary: Color = Color.blue
     
-    
     let SectionProcessTypeImage: String = "exclamationmark.triangle"
     let SectionProcessTypeImagePrimary: Color = Color.white
     let SSectionProcessTypeImageSecondary: Color = Color.blue
-    
     
     //let SectionNoteImage = "phone.bubble.fill"
     let SectionNoteImage = "message.badge.waveform"
     let SectionNoteImagePrimary: Color = Color.white
     let SectionNoteImageSecondary: Color = Color.blue
-    
     
     //generale layouts
     let isLockedColor: Color = Color.red
@@ -94,7 +94,6 @@ final class StylesLogEntry:Sendable {
     
     //toogle
     let ToogleIsLockedColor: Color = Color.blue
-
     
     //Locking Section
     let LockImageisLocked: String = "lock.rotation"
@@ -103,7 +102,6 @@ final class StylesLogEntry:Sendable {
     let LockColorIsLockedSecondary: Color = Color.red
     let LockColorIsUnLockedPrimary: Color = Color.green
     let LockColorIsUnLockedSecondary: Color = Color.green
-    
     
     //Accident Section
     let AccidentImageisLocked: String = "checkmark.rectangle"
@@ -146,7 +144,7 @@ final class StylesLogEntry:Sendable {
     let ToolBarDeleteColorUnActivePrimary: Color = Color.red
     let ToolBarDeleteColorUnActiveSecondary: Color = Color.red
     
-    let ToolbarContextImage: String = "list.bullet.circle"
+    let ToolbarContextImage: String = "ellipsis.circle"
     let ToolbarContextColorActivePrimary: Color = Color.white
     let ToolbarContextColorActiveSecondary: Color = Color.blue
     let ToolbarContextColorUnActivePrimary: Color = Color.white

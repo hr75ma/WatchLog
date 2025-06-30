@@ -49,7 +49,7 @@ struct CanvasView: UIViewRepresentable {
             canvas.drawing = drawing
         }
         
-        print("update")
+        //print("update")
         DispatchQueue.main.async {
             uiView.becomeFirstResponder()
         }

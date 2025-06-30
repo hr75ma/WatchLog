@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SwiftData
+import TipKit
 
 @main
 struct WatchLogApp: App {
@@ -23,6 +24,8 @@ struct WatchLogApp: App {
         WindowGroup {
         
                 SplashView()
+                
+                
                 //ContentView()
     }
         .environmentObject(viewModel)
