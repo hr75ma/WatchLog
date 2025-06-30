@@ -33,6 +33,7 @@ struct LogBookEntryView: View {
 
   @State private var isAnimating = false
   @State private var glowingColorSet: [Color] = [.blue, .yellow, .red]
+
     
 
   var body: some View {
@@ -45,11 +46,14 @@ struct LogBookEntryView: View {
     ScrollView {
 
       ZStack {
+          
 
-        glowingBorderEffect
+              glowingBorderEffect
+                  .isHidden(fromBackground, remove: true)
 
         VStack(alignment: .leading, spacing: 0) {
 
+            
           LogTimeView(logTime: viewModel.watchLogEntry.EntryTime)
 
           LockEditingView(logEntry: viewModel.watchLogEntry)
@@ -79,15 +83,17 @@ struct LogBookEntryView: View {
       .padding(EdgeInsets(top: 30, leading: 30, bottom: 30, trailing: 30))
     }
     .onAppear() {
-        fromBackground = false
+       //fromBackground = false
         isAnimating = true
     }
     .task {
+        
       await viewModel.fetchLogEntry(LogEntryUUID: logBookEntryUUID)
-      print("--------->task")
+      print("---------------------->task")
       displayedLogEntryUUID.id = viewModel.watchLogEntry.uuid
       glowingColorSet = getGlowColorSet(logEntry: viewModel.watchLogEntry)
-    }
+        
+          }
     .onDisappear {
       print("entry view onDisappear")
      // isAnimating = false
@@ -110,11 +116,20 @@ struct LogBookEntryView: View {
     .onChange(of: viewModel.watchLogEntry.isNewEntryLog) { oldValue, newValue in
       glowingColorSet = getGlowColorSet(logEntry: viewModel.watchLogEntry)
         
+        
     }
     .onChange(of: scenePhase) { _, newPhase in
         switch newPhase {
+        case .active:
+            Task {
+                fromBackground = false
+            }
         case .background:
             print("switch to background")
+            isAnimating = false
+            fromBackground = true
+        case .inactive:
+            print("switch to inactive")
             isAnimating = false
             fromBackground = true
         default:
@@ -169,11 +184,10 @@ extension LogBookEntryView {
     ZStack {
       RoundedRectangle(cornerRadius: 20, style: .continuous)
         .fill(
-            
           AngularGradient(
             colors: glowingColorSet,
             center: .center,
-            angle: .degrees(isAnimating ? fromBackground ? 360 : 360 : fromBackground ? 0 : 0))
+            angle: .degrees(isAnimating ? 360 : 0))
         )
         .blur(radius: 18)
 
@@ -186,18 +200,11 @@ extension LogBookEntryView {
       //          style: StrokeStyle(lineWidth: 4, lineCap: .round))
     }
     .animation(Animation.linear(duration: 2).repeatForever(autoreverses: false), value: isAnimating)
-    
-//    .onAppear {
-//      withAnimation(Animation.linear(duration: 2).repeatForever(autoreverses: false)) {
-//        isAnimating = true
-//      }
-//    }
-
-//    .onDisappear {
-//        print("animation dismiss")
-//      isAnimating = false
-//    }
+    .onAppear {
+        isAnimating = true
+    }
   }
+
 
   private var MenuButton: some View {
 
@@ -315,6 +322,7 @@ extension LogBookEntryView {
         })
     }
   }
+    
 }
 
 #Preview{
