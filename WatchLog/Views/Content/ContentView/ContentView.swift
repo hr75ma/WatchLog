@@ -7,6 +7,7 @@
 import Foundation
 import SwiftData
 import SwiftUI
+import TipKit
 
 #Preview{
 
@@ -25,6 +26,16 @@ import SwiftUI
     .environment(BlurSetting())
     .environment(\.appStyles, StylesLogEntry.shared)
     .environment(DisplayedLogEntryID())
+    .task {
+      try? Tips.resetDatastore()
+      try? Tips.configure([
+        //.displayFrequency(.immediate)
+        .datastoreLocation(.applicationDefault)
+      ])
+      // try? Tips.showAllTipsForTesting()
+
+    }
+
 }
 
 struct ContentView: View {
@@ -35,85 +46,136 @@ struct ContentView: View {
   @Environment(\.appStyles) var appStyles
   @Environment(DisplayedLogEntryID.self) var displayedLogEntryUUID
   @Environment(BlurSetting.self) var blurSetting
+    @Environment(\.scenePhase) var scenePhase
 
+  // @Environment(\.dismiss) var dismiss
   //@State private var logBookEntry: WatchLogBookEntry = WatchLogBookEntry()
 
   @State private var logBookEntryUUID: UUID = UUID()
 
   @State var alertNew: Bool = false
   @State var showSettingSheet: Bool = false
- 
-    @State var showProgression: Bool = false
 
-  var body: some View {
+  @State var showProgression: Bool = false
+    
+    @State var showToolbarItem: Bool = true
 
-    NavigationSplitView(columnVisibility: $columnVisibility) {
 
-      //Text(logBookEntry.uuid.uuidString)
-      //      Text(logBookEntryUUID.uuidString)
-      //      Text("currentuuid: \(displayedLogEntryUUID.id.uuidString)")
+  let newLogEntryTip = NavigationTipNewLogEntry()
+  let refreshListTip = NavigationTipRefresh()
+  let listTip = NavigationTipList()
+    
 
-//        if showProgression {
-//            ProgressionView()
-//        }
+
+    var body: some View {
         
-      List(viewModel.WatchLogBooks, id: \.uuid) { book in
-
-        buildLogBookNavigationTree(book: book)
-
-      }
-      .listStyle(.insetGrouped)
-      .foregroundStyle(appStyles.NavigationTreeFontColor)
-      .fontWeight(.medium)
-      .font(Font.custom(appStyles.NavigationTreeFont, size: appStyles.NavigationTreeFontSize))
-      .refreshable(action: {
-        print("refresh")
-        Task {
-          await viewModel.fetchLogBook()
-        }
-      })
-      .toolbar {
-
-        ToolbarItemGroup(placement: .topBarTrailing) {
-          toolBarItemNewButton
-          toolBarItemSettings
-        }
-      }
-      .sheet(isPresented: $showSettingSheet) {
-        SettingView()
-      }
-      .sheet(isPresented: $showProgression) {
-          ProgressionView()
-              .background(Color.clear)
-      }
-      .onAppear {
-
-        UIRefreshControl.appearance().tintColor = UIColor(appStyles.progressionColor)
-          UIRefreshControl.appearance().attributedTitle = NSAttributedString(string: "Aktualisiere...",attributes: [NSAttributedString.Key.font: UIFont(name: appStyles.progressionFont, size: appStyles.progressionRefreshFontSize)!])
-
-          
-        Task {
-            showProgression = true
-          await viewModel.fetchLogBook()
+        NavigationSplitView(columnVisibility: $columnVisibility) {
             
-           //try? await Task.sleep(nanoseconds: 2 * 1000000000)
-            showProgression = false
+            //Text(logBookEntry.uuid.uuidString)
+            //      Text(logBookEntryUUID.uuidString)
+            //      Text("currentuuid: \(displayedLogEntryUUID.id.uuidString)")
+            
+            //        if showProgression {
+            //            ProgressionView()
+            //        }
+            
+            TipView(refreshListTip)
+                .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
+            TipView(listTip)
+                .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
+            
+            List(viewModel.WatchLogBooks, id: \.uuid) { book in
+                
+                buildLogBookNavigationTree(book: book)
+                
+            }
+            .listStyle(.insetGrouped)
+            .foregroundStyle(appStyles.NavigationTreeFontColor)
+            .fontWeight(.medium)
+            .font(Font.custom(appStyles.NavigationTreeFont, size: appStyles.NavigationTreeFontSize))
+            .refreshable(action: {
+                print("refresh")
+                Task {
+                    await viewModel.fetchLogBook()
+                }
+            })
+            .toolbar {
+                if showToolbarItem {
+                    ToolbarItemGroup(placement: .topBarTrailing) {
+                        toolBarItemNewButton
+                            .popoverTip(newLogEntryTip)
+                        
+                        
+                        toolBarItemSettings
+                        
+                        
+                        toolBarItemTest
+                        
+                    }
+                }
+
+            }
+            .sheet(isPresented: $showSettingSheet) {
+                SettingView()
+            }
+            .sheet(isPresented: $showProgression) {
+                ProgressionView()
+                    .background(Color.clear)
+            }
+            .onDisappear {
+                print("tree view onDisappear")
+                
+                //dismiss()
+            }
+            .onAppear {
+                
+                //Task { await NavigationTipRefresh.setNavigationRefreshEvent.donate() }
+                //Task { await NavigationTipList.setNavigationListEvent.donate() }
+                
+                UIRefreshControl.appearance().tintColor = UIColor(appStyles.progressionColor)
+                UIRefreshControl.appearance().attributedTitle = NSAttributedString(
+                    string: "Aktualisiere...",
+                    attributes: [
+                        NSAttributedString.Key.font: UIFont(
+                            name: appStyles.progressionFont, size: appStyles.progressionRefreshFontSize)!
+                    ])
+                
+                Task {
+                    showProgression = true
+                    await viewModel.fetchLogBook()
+                    
+                    //try? await Task.sleep(nanoseconds: 2 * 1000000000)
+                    showProgression = false
+                }
+            }
+            .task {
+                print("fetch tree")
+                await viewModel.fetchLogBook()
+                
+            }
+            
+            .listStyle(.sidebar)
+            .scrollContentBackground(.hidden)
+            //.background(Color.black.edgesIgnoringSafeArea(.all))
+            
+        } detail: {
+            
+            LogBookEntryView(logBookEntryUUID: $logBookEntryUUID)
         }
-      }
-      .task {
-        print("fetch tree")
-        await viewModel.fetchLogBook()
-
-      }
-      .listStyle(.sidebar)
-      .scrollContentBackground(.hidden)
-      //.background(Color.black.edgesIgnoringSafeArea(.all))
-
-    } detail: {
-
-      LogBookEntryView(logBookEntryUUID: $logBookEntryUUID)
-    }
-    .blur(radius: blurSetting.isBlur ? 10 : 0)
+        .blur(radius: blurSetting.isBlur ? 10 : 0)
+        .onChange(of: scenePhase) { _, newPhase in
+            switch newPhase {
+            case .active:
+                showToolbarItem = true
+            case .inactive:
+                showToolbarItem = false
+            case .background:
+                print("switch to background")
+                showToolbarItem = true
+            default:
+                break
+            }
+        }
 
   }
 
@@ -195,8 +257,11 @@ extension ContentView {
   private var toolBarItemNewButton: some View {
 
     Button(action: {
-      blurSetting.isBlur = true
+      newLogEntryTip.invalidate(reason: .actionPerformed)
       alertNew.toggle()
+      Task { await NavigationTipNewLogEntry.setNavigationNewLogEvent.donate() }
+      blurSetting.isBlur = true
+
     }) {
 
       Image(systemName: appStyles.NavigationTreeAddEntryImage)
@@ -206,14 +271,16 @@ extension ContentView {
           appStyles.NavigationTreeAddEntryImagePrimaryColor,
           appStyles.NavigationTreeAddEntryImageSecondaryColor
         )
-        .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(2))
-        .symbolEffect(.scale)
+      // .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(2))
+      // .symbolEffect(.scale)
     }
     .alert("Neues Log erstellen?", isPresented: $alertNew) {
       Button(
         "Erstellen", role: .destructive,
         action: {
+          blurSetting.isBlur = false
           addNewLogEntry()
+
         })
       Button(
         "Abbrechen", role: .cancel,
@@ -221,6 +288,8 @@ extension ContentView {
           blurSetting.isBlur = false
         })
     }
+
+    //.tipViewStyle(TipStyler())
 
   }
 
@@ -237,8 +306,27 @@ extension ContentView {
           appStyles.NavigationTreeSettingImagePrimaryColor,
           appStyles.NavigationTreeAddEntryImageSecondaryColor
         )
-        .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(2))
-        .symbolEffect(.scale)
+      // .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(2))
+      // .symbolEffect(.scale)
+    }
+
+  }
+
+  private var toolBarItemTest: some View {
+
+    Button(action: {
+      try? Tips.resetDatastore()
+    }) {
+
+      Image(systemName: appStyles.NavigationTreeSettingImage)
+        //.ToolbarImageStyle(appStyles)
+        .symbolRenderingMode(.palette)
+        .foregroundStyle(
+          appStyles.NavigationTreeSettingImagePrimaryColor,
+          appStyles.NavigationTreeAddEntryImageSecondaryColor
+        )
+      // .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(2))
+      //  .symbolEffect(.scale)
     }
 
   }

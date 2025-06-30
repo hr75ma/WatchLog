@@ -6,10 +6,11 @@
 //
 
 import SwiftUI
+import TipKit
 
 struct SplashView: View {
     @State var showSplashContent: Bool = true
-    
+    @Environment(\.dismiss) var dismiss
     
     var body: some View {
         
@@ -18,6 +19,15 @@ struct SplashView: View {
                 SplashContent()
             } else {
                 ContentView()
+                    .task {
+                        //try? Tips.resetDatastore()
+                        try? Tips.configure([
+                            .displayFrequency(.immediate),
+                            .datastoreLocation(.applicationDefault)
+                        ])
+                        
+                        //try? Tips.showAllTipsForTesting()
+                    }
             }
         }
         .onAppear {

@@ -19,7 +19,8 @@ struct LogBookEntryView: View {
   @Environment(DisplayedLogEntryID.self) var displayedLogEntryUUID
   @Environment(BlurSetting.self) var blurSetting
 
-  @Environment(\.dismiss) var dismiss
+  //@Environment(\.dismiss) var dismiss
+    @Environment(\.scenePhase) var scenePhase
 
   @State var toolPickerShows = true
   @State var drawing = PKDrawing()
@@ -27,9 +28,13 @@ struct LogBookEntryView: View {
   @State var alertDelete = false
   @State var alertNew = false
   @State var alertClear = false
+    
+    @State var fromBackground: Bool = false
 
   @State private var isAnimating = false
   @State private var glowingColorSet: [Color] = [.blue, .yellow, .red]
+
+    
 
   var body: some View {
 
@@ -41,11 +46,14 @@ struct LogBookEntryView: View {
     ScrollView {
 
       ZStack {
+          
 
-        glowingBorderEffect
+              glowingBorderEffect
+                  .isHidden(fromBackground, remove: true)
 
         VStack(alignment: .leading, spacing: 0) {
 
+            
           LogTimeView(logTime: viewModel.watchLogEntry.EntryTime)
 
           LockEditingView(logEntry: viewModel.watchLogEntry)
@@ -74,15 +82,22 @@ struct LogBookEntryView: View {
       }
       .padding(EdgeInsets(top: 30, leading: 30, bottom: 30, trailing: 30))
     }
+    .onAppear() {
+       //fromBackground = false
+        isAnimating = true
+    }
     .task {
+        
       await viewModel.fetchLogEntry(LogEntryUUID: logBookEntryUUID)
-      print("--------->task")
+      print("---------------------->task")
       displayedLogEntryUUID.id = viewModel.watchLogEntry.uuid
       glowingColorSet = getGlowColorSet(logEntry: viewModel.watchLogEntry)
-    }
+        
+          }
     .onDisappear {
       print("entry view onDisappear")
-      //dismiss()
+     // isAnimating = false
+     // dismiss()
     }
     .onChange(
       of: logBookEntryUUID,
@@ -100,6 +115,26 @@ struct LogBookEntryView: View {
     }
     .onChange(of: viewModel.watchLogEntry.isNewEntryLog) { oldValue, newValue in
       glowingColorSet = getGlowColorSet(logEntry: viewModel.watchLogEntry)
+        
+        
+    }
+    .onChange(of: scenePhase) { _, newPhase in
+        switch newPhase {
+        case .active:
+            Task {
+                fromBackground = false
+            }
+        case .background:
+            print("switch to background")
+            isAnimating = false
+            fromBackground = true
+        case .inactive:
+            print("switch to inactive")
+            isAnimating = false
+            fromBackground = true
+        default:
+            break
+        }
     }
     .padding(EdgeInsets(top: 20, leading: 0, bottom: 0, trailing: 0))
     .toolbar {
@@ -164,15 +199,12 @@ extension LogBookEntryView {
       //            angle: .degrees(isAnimating ? 360 : 0)),
       //          style: StrokeStyle(lineWidth: 4, lineCap: .round))
     }
+    .animation(Animation.linear(duration: 2).repeatForever(autoreverses: false), value: isAnimating)
     .onAppear {
-      withAnimation(Animation.linear(duration: 2).repeatForever(autoreverses: false)) {
         isAnimating = true
-      }
-    }
-    .onDisappear {
-      isAnimating = false
     }
   }
+
 
   private var MenuButton: some View {
 
@@ -200,6 +232,7 @@ extension LogBookEntryView {
             viewModel.watchLogEntry.isNewEntryLog = false
             displayedLogEntryUUID.id = viewModel.watchLogEntry.uuid
             logBookEntryUUID = displayedLogEntryUUID.id
+              blurSetting.isBlur = false
           }
           blurSetting.isBlur = false
         } label: {
@@ -289,6 +322,7 @@ extension LogBookEntryView {
         })
     }
   }
+    
 }
 
 #Preview{

@@ -30,6 +30,7 @@ struct ProcessTypeSelectionView: View {
   @State private var sortedByValue = ProcessType.processTypes
     
     @State private var tempLocked: Bool = false
+    @Namespace private var namespace
 
   var body: some View {
     HStack(alignment: .top, spacing: 0) {
@@ -50,11 +51,12 @@ struct ProcessTypeSelectionView: View {
                     
                     HStack(alignment: .top, spacing: 0) {
                         
-                        if logEntry.isLocked {
+                       // if logEntry.isLocked {
                             Text(selectedProcessAsString)
                                   .SectionTextFieldSimulatedSingleLine(appStyles: appStyles, isLocked: logEntry.isLocked)
+                            .matchedGeometryEffect(id: "lockedEvent", in: namespace)
                               .isHidden(!tempLocked, remove: true)
-                        }
+                       // }
                         Spacer()
                         Picker("", selection: $selectedProcess) {
                             ForEach(
@@ -68,6 +70,7 @@ struct ProcessTypeSelectionView: View {
                                     .foregroundStyle(appStyles.ProcessTypeFontColor)
                             }
                         }
+                        .matchedGeometryEffect(id: "lockedEvent", in: namespace)
                         .frame(height: 150)
                         .clipped()
                         .contentShape(Rectangle())

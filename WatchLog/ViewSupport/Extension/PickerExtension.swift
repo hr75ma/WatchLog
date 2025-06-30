@@ -20,9 +20,9 @@ struct customSegmentedPickerView: View {
         UISegmentedControl.appearance().selectedSegmentTintColor = UIColor(appStyles.GeneralInnerFrameColor)
         UISegmentedControl.appearance().backgroundColor = UIColor(appStyles.TextfieldBackgroundColorUnLocked)
         
-        UISegmentedControl.appearance().setTitleTextAttributes([.font: UIFont(name: appStyles.TextFieldFont, size: appStyles.TextFieldFontSize)!, .foregroundColor: UIColor(appStyles.GeneralTextColor)], for: .normal)
+        UISegmentedControl.appearance().setTitleTextAttributes([.font: UIFont(name: appStyles.TextFieldFont, size: appStyles.callInFontSize)!, .foregroundColor: UIColor(appStyles.GeneralTextColor)], for: .normal)
 
-        UISegmentedControl.appearance().setTitleTextAttributes([.font: UIFont(name: appStyles.TextFieldFont, size: appStyles.TextFieldFontSize)!, .foregroundColor: UIColor(appStyles.GeneralPickerTextColor)], for: .selected)
+        UISegmentedControl.appearance().setTitleTextAttributes([.font: UIFont(name: appStyles.TextFieldFont, size: appStyles.callInFontSize)!, .foregroundColor: UIColor(appStyles.GeneralPickerTextColor)], for: .selected)
         
         UISegmentedControl.appearance().setContentHuggingPriority(.defaultLow, for: .vertical)
     }
@@ -45,7 +45,7 @@ struct customSegmentedPickerView: View {
             
             
         }
-        .frame(height: appStyles.TextFieldHeight)
+        .frame(height: appStyles.callInFieldHeight)
         .pickerStyle(.segmented)
     }
 }
