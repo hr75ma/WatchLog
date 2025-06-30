@@ -18,7 +18,10 @@ struct NavigationTipNewLogEntry: Tip {
     }
     
     var message: Text? {
-        Text("Über das + wird ein neuer Wachbucheintrag erstellt.")
+        Text("Über das") +
+        Text(" + ")
+            .bold() +
+        Text("wird ein neuer Wachbucheintrag erstellt.")
     }
     
     var image: Image? {
@@ -55,6 +58,32 @@ struct NavigationTipRefresh: Tip {
     var rules: [Rule] {
         
         #Rule(Self.setNavigationRefreshEvent) { event in
+            event.donations.count > 2
+        }
+    }
+    
+}
+
+struct NavigationTipList: Tip {
+    static let setNavigationListEvent = Event(id: "setNavigationListEvent")
+    
+    var title: Text {
+        Text("Wachbuchliste")
+    }
+    
+    var message: Text? {
+        Text("Hier werden die Wachbucheinträge aufgelistet")
+    }
+    
+    var image: Image? {
+        
+    Image(systemName: "list.bullet")
+        
+        }
+    
+    var rules: [Rule] {
+        
+        #Rule(Self.setNavigationListEvent) { event in
             event.donations.count > 2
         }
     }

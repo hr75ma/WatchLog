@@ -63,22 +63,24 @@ extension CallInView {
         HStack(alignment: .center, spacing: 0) {
             Text("Eingang")
                 .sectionTextLabel(appStyles: appStyles)
+                //.border(.red)
             
             VStack(alignment: .leading, spacing: 0) {
                 
                 HStack(alignment: .top, spacing: 0) {
                 
-                Text(selectedCallInAsString)
-                      .SectionTextFieldSimulatedSingleLine(appStyles: appStyles, isLocked: logEntry.isLocked)
-                  .matchedGeometryEffect(id: "lockedEvent", in: namespace)
-                  .isHidden(!tempLocked, remove: true)
-                    Spacer()
-                
+                    if tempLocked {
+                        Text(selectedCallInAsString)
+                            .SectionTextFieldSimulatedSingleLine(appStyles: appStyles, isLocked: logEntry.isLocked)
+                            .matchedGeometryEffect(id: "lockedEvent", in: namespace)
+                            .isHidden(!tempLocked, remove: true)
+                        Spacer()
+                    }
                     
                 customSegmentedPickerView(preselectedIndex: $selectedCallIn, appStyles: appStyles)
                         .matchedGeometryEffect(id: "lockedEvent", in: namespace)
                     .isHidden(tempLocked, remove: true)
-                
+                    //.border(.red)
                 
                 }
                 .frame(maxWidth: .infinity)

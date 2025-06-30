@@ -32,7 +32,7 @@ import TipKit
         //.displayFrequency(.immediate)
         .datastoreLocation(.applicationDefault)
       ])
-       // try? Tips.showAllTipsForTesting()
+      // try? Tips.showAllTipsForTesting()
 
     }
 
@@ -47,7 +47,7 @@ struct ContentView: View {
   @Environment(DisplayedLogEntryID.self) var displayedLogEntryUUID
   @Environment(BlurSetting.self) var blurSetting
 
-    @Environment(\.dismiss) var dismiss
+  // @Environment(\.dismiss) var dismiss
   //@State private var logBookEntry: WatchLogBookEntry = WatchLogBookEntry()
 
   @State private var logBookEntryUUID: UUID = UUID()
@@ -59,6 +59,9 @@ struct ContentView: View {
 
   let newLogEntryTip = NavigationTipNewLogEntry()
   let refreshListTip = NavigationTipRefresh()
+  let listTip = NavigationTipList()
+    
+    let uuid1:UUID = UUID()
 
   var body: some View {
 
@@ -72,11 +75,13 @@ struct ContentView: View {
       //            ProgressionView()
       //        }
 
-        TipView(refreshListTip)
-            .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
-      
-        List(viewModel.WatchLogBooks, id: \.uuid) { book in
-        
+      TipView(refreshListTip)
+        .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
+      TipView(listTip)
+        .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
+
+      List(viewModel.WatchLogBooks, id: \.uuid) { book in
+
         buildLogBookNavigationTree(book: book)
 
       }
@@ -94,10 +99,14 @@ struct ContentView: View {
 
         ToolbarItemGroup(placement: .topBarTrailing) {
           toolBarItemNewButton
+            .popoverTip(newLogEntryTip)
+            //.id(UUID())
 
           toolBarItemSettings
             
-            toolBarItemTest
+
+          toolBarItemTest
+            //.id(UUID())
         }
       }
       .sheet(isPresented: $showSettingSheet) {
@@ -109,14 +118,14 @@ struct ContentView: View {
       }
       .onDisappear {
         print("tree view onDisappear")
-          
-        dismiss()
+
+        //dismiss()
       }
       .onAppear {
 
-          Task { await NavigationTipRefresh.setNavigationRefreshEvent.donate() }
-         
-          
+        //Task { await NavigationTipRefresh.setNavigationRefreshEvent.donate() }
+        //Task { await NavigationTipList.setNavigationListEvent.donate() }
+
         UIRefreshControl.appearance().tintColor = UIColor(appStyles.progressionColor)
         UIRefreshControl.appearance().attributedTitle = NSAttributedString(
           string: "Aktualisiere...",
@@ -230,9 +239,10 @@ extension ContentView {
 
     Button(action: {
       newLogEntryTip.invalidate(reason: .actionPerformed)
-        Task { await NavigationTipNewLogEntry.setNavigationNewLogEvent.donate()}
-      blurSetting.isBlur = true
       alertNew.toggle()
+      Task { await NavigationTipNewLogEntry.setNavigationNewLogEvent.donate() }
+      blurSetting.isBlur = true
+
     }) {
 
       Image(systemName: appStyles.NavigationTreeAddEntryImage)
@@ -242,15 +252,16 @@ extension ContentView {
           appStyles.NavigationTreeAddEntryImagePrimaryColor,
           appStyles.NavigationTreeAddEntryImageSecondaryColor
         )
-       // .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(2))
-       // .symbolEffect(.scale)
+      // .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(2))
+      // .symbolEffect(.scale)
     }
     .alert("Neues Log erstellen?", isPresented: $alertNew) {
       Button(
         "Erstellen", role: .destructive,
         action: {
+          blurSetting.isBlur = false
           addNewLogEntry()
-            blurSetting.isBlur = false
+
         })
       Button(
         "Abbrechen", role: .cancel,
@@ -258,7 +269,7 @@ extension ContentView {
           blurSetting.isBlur = false
         })
     }
-    .popoverTip(newLogEntryTip)
+
     //.tipViewStyle(TipStyler())
 
   }
@@ -276,34 +287,33 @@ extension ContentView {
           appStyles.NavigationTreeSettingImagePrimaryColor,
           appStyles.NavigationTreeAddEntryImageSecondaryColor
         )
-       // .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(2))
-       // .symbolEffect(.scale)
+      // .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(2))
+      // .symbolEffect(.scale)
     }
 
   }
-    
-    private var toolBarItemTest: some View {
 
-      Button(action: {
-          try? Tips.resetDatastore()
-      }) {
+  private var toolBarItemTest: some View {
 
-        Image(systemName: appStyles.NavigationTreeSettingImage)
-          //.ToolbarImageStyle(appStyles)
-          .symbolRenderingMode(.palette)
-          .foregroundStyle(
-            appStyles.NavigationTreeSettingImagePrimaryColor,
-            appStyles.NavigationTreeAddEntryImageSecondaryColor
-          )
-         // .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(2))
-        //  .symbolEffect(.scale)
-      }
+    Button(action: {
+      try? Tips.resetDatastore()
+    }) {
 
+      Image(systemName: appStyles.NavigationTreeSettingImage)
+        //.ToolbarImageStyle(appStyles)
+        .symbolRenderingMode(.palette)
+        .foregroundStyle(
+          appStyles.NavigationTreeSettingImagePrimaryColor,
+          appStyles.NavigationTreeAddEntryImageSecondaryColor
+        )
+      // .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(2))
+      //  .symbolEffect(.scale)
     }
+
+  }
 
   func buildLogBookNavigationTree(book: WatchLogBook) -> some View {
 
-    
     ForEach(book.logYearsSorted) { year in
       DisclorsureGroupYear(year: year)
     }

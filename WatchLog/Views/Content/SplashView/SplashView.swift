@@ -28,9 +28,6 @@ struct SplashView: View {
                         
                         //try? Tips.showAllTipsForTesting()
                     }
-                    .onDisappear {
-                        dismiss
-                    }
             }
         }
         .onAppear {
