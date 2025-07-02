@@ -69,8 +69,6 @@ extension Button {
     func selectedRowBackgroundColor(isSelectedRow: Bool, _ appStyles: StylesLogEntry) -> some View {
         self
             .listRowBackground(isSelectedRow ? appStyles.navigationTreeSelectedRowColor : appStyles.navigationTreeRowColor)
-        
-        
     }
 }
 

@@ -95,6 +95,7 @@ struct ContentView: View {
                 }
             })
             .toolbar {
+                
                 if showToolbarItem {
                     ToolbarItemGroup(placement: .topBarTrailing) {
                         toolBarItemNewButton
@@ -105,6 +106,8 @@ struct ContentView: View {
                 }
 
             }
+
+
             .sheet(isPresented: $showSettingSheet) {
                 SettingView()
             }
@@ -145,7 +148,6 @@ struct ContentView: View {
             .listStyle(.sidebar)
             .scrollContentBackground(.hidden)
             //.background(Color.black.edgesIgnoringSafeArea(.all))
-            
         } detail: {
             
             LogBookEntryView(logBookEntryUUID: $logBookEntryUUID)
