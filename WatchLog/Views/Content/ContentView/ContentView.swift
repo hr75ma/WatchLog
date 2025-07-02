@@ -27,7 +27,7 @@ import TipKit
     .environment(\.appStyles, StylesLogEntry.shared)
     .environment(DisplayedLogEntryID())
     .task {
-      try? Tips.resetDatastore()
+        //try? Tips.resetDatastore()
       try? Tips.configure([
         //.displayFrequency(.immediate)
         .datastoreLocation(.applicationDefault)
@@ -79,22 +79,17 @@ struct ContentView: View {
             //            ProgressionView()
             //        }
             
-            TipView(refreshListTip)
-                .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
-            TipView(listTip)
-                .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
+//            TipView(refreshListTip)
+//                .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
+//            TipView(listTip)
+//                .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
             
             List(viewModel.WatchLogBooks, id: \.uuid) { book in
                 
                 buildLogBookNavigationTree(book: book)
-                
             }
-            .listStyle(.insetGrouped)
-            .foregroundStyle(appStyles.NavigationTreeFontColor)
-            .fontWeight(.medium)
-            .font(Font.custom(appStyles.NavigationTreeFont, size: appStyles.NavigationTreeFontSize))
+            .listStyleGeneral()
             .refreshable(action: {
-                print("refresh")
                 Task {
                     await viewModel.fetchLogBook()
                 }
@@ -103,13 +98,8 @@ struct ContentView: View {
                 if showToolbarItem {
                     ToolbarItemGroup(placement: .topBarTrailing) {
                         toolBarItemNewButton
-                            .popoverTip(newLogEntryTip)
-                        
-                        
+                           // .popoverTip(newLogEntryTip)
                         toolBarItemSettings
-                        
-                        
-                        toolBarItemTest
                         
                     }
                 }
@@ -149,9 +139,7 @@ struct ContentView: View {
                 }
             }
             .task {
-                print("fetch tree")
                 await viewModel.fetchLogBook()
-                
             }
             
             .listStyle(.sidebar)
@@ -170,7 +158,6 @@ struct ContentView: View {
             case .inactive:
                 showToolbarItem = false
             case .background:
-                print("switch to background")
                 showToolbarItem = true
             default:
                 break
@@ -257,7 +244,7 @@ extension ContentView {
   private var toolBarItemNewButton: some View {
 
     Button(action: {
-      newLogEntryTip.invalidate(reason: .actionPerformed)
+      //newLogEntryTip.invalidate(reason: .actionPerformed)
       alertNew.toggle()
       Task { await NavigationTipNewLogEntry.setNavigationNewLogEvent.donate() }
       blurSetting.isBlur = true
@@ -300,37 +287,19 @@ extension ContentView {
     }) {
 
       Image(systemName: appStyles.NavigationTreeSettingImage)
-        //.ToolbarImageStyle(appStyles)
-        .symbolRenderingMode(.palette)
-        .foregroundStyle(
-          appStyles.NavigationTreeSettingImagePrimaryColor,
-          appStyles.NavigationTreeAddEntryImageSecondaryColor
-        )
-      // .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(2))
-      // .symbolEffect(.scale)
+        .symbolRenderingMode(.palette)        .foregroundStyle(appStyles.NavigationTreeSettingImagePrimaryColor,appStyles.NavigationTreeAddEntryImageSecondaryColor)
+       .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(2))
+       .symbolEffect(.scale)
     }
 
   }
 
-  private var toolBarItemTest: some View {
-
-    Button(action: {
-      try? Tips.resetDatastore()
-    }) {
-
-      Image(systemName: appStyles.NavigationTreeSettingImage)
-        //.ToolbarImageStyle(appStyles)
-        .symbolRenderingMode(.palette)
-        .foregroundStyle(
-          appStyles.NavigationTreeSettingImagePrimaryColor,
-          appStyles.NavigationTreeAddEntryImageSecondaryColor
-        )
-      // .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(2))
-      //  .symbolEffect(.scale)
-    }
-
-  }
-
+    
+    
+    
+    
+    
+    
   func buildLogBookNavigationTree(book: WatchLogBook) -> some View {
 
     ForEach(book.logYearsSorted) { year in
@@ -340,7 +309,6 @@ extension ContentView {
       indexSet.sorted(by: >).forEach { (i) in
         let LogEntry = book.logYearsSorted[i]
         deleteLogYear(watchLogBookYear: LogEntry)
-
       }
     })
   }
@@ -351,7 +319,6 @@ extension ContentView {
 
       ForEach(year.logMonthSorted) { month in
         DisclosureGroupLogMonth(month: month)
-
       }
       .onDelete(perform: { indexSet in
         indexSet.sorted(by: >).forEach { (i) in
@@ -361,14 +328,14 @@ extension ContentView {
         }
       })
     }
+    .disclosureGroupStyleYear(appStyles)
   }
 
   func DisclosureGroupLogMonth(month: WatchLogBookMonth) -> some View {
     DisclosureGroup(getDateMonth(date: month.LogDate)) {
       ForEach(month.logDaysSorted) { day in
         DisclosureGroupLogEntries(day: day)
-
-      }
+    }
       .onDelete(perform: { indexSet in
         indexSet.sorted(by: >).forEach { (i) in
           let LogEntry = month.watchLogBookDays![i]
@@ -377,39 +344,25 @@ extension ContentView {
         }
       })
     }
+    .disclosureGroupStyleMonth(appStyles)
   }
 
   func DisclosureGroupLogEntries(day: WatchLogBookDay) -> some View {
 
     DisclosureGroup(getDateWeekDay(date: day.LogDate)) {
       ForEach(day.logEntriesSorted) { entry in
-        // HStack {
-
         Button(action: {
-
-          //logBookEntry = entry
           logBookEntryUUID = entry.uuid
           displayedLogEntryUUID.id = logBookEntryUUID
         }) {
           VStack(alignment: .leading) {
             Text(getDateTime(date: entry.LogDate))
-              .TextLabel(
-                font: appStyles.NavigationTreeSubFont,
-                fontSize: appStyles.NavigationTreeFontSize,
-                fontColor: entry.uuid == displayedLogEntryUUID.id
-                  ? appStyles.NavigationTreeSubFontColor : appStyles.NavigationTreeFontColor)
+                  .navigationTreeLinkLabelStyle(isSeletecedItem: entry.uuid == displayedLogEntryUUID.id, appStyles: appStyles)
             Text(ProcessType.processTypes[entry.processDetails!.processTypeShort]!)
-              .TextLabel(
-                font: appStyles.NavigationTreeSubFont,
-                fontSize: appStyles.NavigationTreeSubFontSize,
-                fontColor: appStyles.NavigationTreeSubFontColor)
+                  .navigationTreeLinkSubLabelStyle(isSeletecedItem: entry.uuid == displayedLogEntryUUID.id, appStyles: appStyles)
           }
         }
-        .listRowBackground(
-          entry.uuid == displayedLogEntryUUID.id ? appStyles.NavigationTreeSelectedRowColor : .none)
-
-        //  }
-
+        .selectedRowBackgroundColor(isSelectedRow: entry.uuid == displayedLogEntryUUID.id, appStyles)
       }
       .onDelete(perform: { indexSet in
         indexSet.sorted(by: >).forEach { (i) in
@@ -418,6 +371,7 @@ extension ContentView {
         }
       })
     }
+    .disclosureGroupStyleDay(appStyles)
   }
 
 }

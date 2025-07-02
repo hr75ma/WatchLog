@@ -24,6 +24,25 @@ final class StylesLogEntry:Sendable {
     
     private init() {}
     
+    let standardFontColor: Color = .blue
+    
+    let navigationTreeColor: Color = .blue
+    let navigationTreeFontColor: Color = .blue
+    let navigationTreeRowColor: Color = Color(.systemGray6)
+    let navigationTreeSelectedItemFontColor: Color = .white
+    let navigationTreeSelectedRowColor: Color = .blue
+    let navigationTreeRowSeparatorColor: Color = Color(.systemGray4)
+    
+    
+    let NavigationTreeDisclosureYearGradientStart = Color(hex: 0x222222).opacity(1)
+    let NavigationTreeDisclosureYearGradientEnd = Color(hex: 0x2e2e2e).opacity(1)
+    
+    
+    
+    
+    
+    
+    
     let progressionColor: Color = .white
     let progressionFont: String = "digital-7"
     let progressionFontSize: CGFloat = 35
@@ -165,8 +184,7 @@ final class StylesLogEntry:Sendable {
     let NavigationTreeSettingImagePrimaryColor: Color = Color.blue
     let NavigationTreeSettingImageSecondaryColor: Color = Color.blue
     
-    let NavigationTreeDisclosureYearGradientStart = Color(hex: 0x222222).opacity(1)
-    let NavigationTreeDisclosureYearGradientEnd = Color(hex: 0x2e2e2e).opacity(1)
+
     
     
     let NavigationTreeFont: String = "Roboto-MediumItalic"

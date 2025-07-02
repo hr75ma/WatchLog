@@ -339,5 +339,29 @@ extension Text {
       .multilineTextAlignment(.leading)
       .lineLimit(1)
   }
+    
+    
+    
+    func TextLabel(fontColor: Color) -> some View {
+      self
+        .foregroundStyle(fontColor)
+        .multilineTextAlignment(.leading)
+        .lineLimit(1)
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
 }
