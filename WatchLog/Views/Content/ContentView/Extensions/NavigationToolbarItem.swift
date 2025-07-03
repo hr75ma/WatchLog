@@ -13,11 +13,19 @@ enum NavigationToolbarItemType {
   case settings
 }
 
+extension NavigationSplitView {
+    func accentColor(_ appStyles: StylesLogEntry) -> some View {
+        self
+            .accentColor(appStyles.standardNavigationBarItemColor)
+        
+    }
+}
+
 @ViewBuilder func NavigationToolbarItemImage(
-  toolbarItem: NavigationToolbarItemType, appStyles: StylesLogEntry
+      toolbarItemType: NavigationToolbarItemType, appStyles: StylesLogEntry
 ) -> some View {
 
-  switch toolbarItem {
+  switch     toolbarItemType {
   case .addEntry:
     NavigationToolbarAddEntryImage(appStyles: appStyles)
   case .settings:
@@ -31,12 +39,11 @@ struct NavigationToolbarAddEntryImage: View {
 
   var body: some View {
 
-    Image(systemName: appStyles.NavigationTreeAddEntryImage)
-      //.ToolbarImageStyle(appStyles)
+    Image(systemName: appStyles.navigationTreeAddEntryImage)
       .symbolRenderingMode(.palette)
       .foregroundStyle(
-        appStyles.NavigationTreeAddEntryImagePrimaryColor,
-        appStyles.NavigationTreeAddEntryImageSecondaryColor
+        appStyles.navigationTreeAddEntryImagePrimaryColor,
+        appStyles.navigationTreeAddEntryImageSecondaryColor
       )
       .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(2))
       .symbolEffect(.scale)
@@ -48,10 +55,10 @@ struct NavigationToolbarSettingsImage: View {
 
   var body: some View {
 
-    Image(systemName: appStyles.NavigationTreeSettingImage)
+    Image(systemName: appStyles.navigationTreeSettingImage)
       .symbolRenderingMode(.palette).foregroundStyle(
-        appStyles.NavigationTreeSettingImagePrimaryColor,
-        appStyles.NavigationTreeAddEntryImageSecondaryColor
+        appStyles.navigationTreeSettingImagePrimaryColor,
+        appStyles.navigationTreeAddEntryImageSecondaryColor
       )
       .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(2))
       .symbolEffect(.scale)

@@ -26,6 +26,8 @@ final class StylesLogEntry:Sendable {
     
     let standardFontColor: Color = .blue
     
+    
+    //navigation view section
     let standardNavigationBarItemColor: Color = .blue
     
     let navigationTreeColor: Color = .blue
@@ -34,6 +36,20 @@ final class StylesLogEntry:Sendable {
     let navigationTreeSelectedItemFontColor: Color = .white
     let navigationTreeSelectedRowColor: Color = .blue
     let navigationTreeRowSeparatorColor: Color = Color(.systemGray4)
+    
+    let navigationTreeAddEntryImage: String = "plus"
+    let navigationTreeAddEntryImagePrimaryColor: Color = Color.blue
+    let navigationTreeAddEntryImageSecondaryColor: Color = Color.blue
+    
+    let navigationTreeSettingImage: String = "gear"
+    let navigationTreeSettingImagePrimaryColor: Color = Color.blue
+    let navigationTreeSettingImageSecondaryColor: Color = Color.blue
+    
+    
+    
+    
+    
+    
     
     
     
@@ -184,13 +200,7 @@ final class StylesLogEntry:Sendable {
     
     
     //tree navigation
-    let NavigationTreeAddEntryImage: String = "plus"
-    let NavigationTreeAddEntryImagePrimaryColor: Color = Color.blue
-    let NavigationTreeAddEntryImageSecondaryColor: Color = Color.blue
-    
-    let NavigationTreeSettingImage: String = "gear"
-    let NavigationTreeSettingImagePrimaryColor: Color = Color.blue
-    let NavigationTreeSettingImageSecondaryColor: Color = Color.blue
+   
     
 
     

@@ -224,7 +224,7 @@ extension ContentView {
       Task { await NavigationTipNewLogEntry.setNavigationNewLogEvent.donate() }
       blurSetting.isBlur = true
     }) {
-        NavigationToolbarItemImage(toolbarItem: .addEntry, appStyles: appStyles)
+        NavigationToolbarItemImage(    toolbarItemType: .addEntry, appStyles: appStyles)
     }
     .alert("Neues Log erstellen?", isPresented: $alertNew) {
       Button(
