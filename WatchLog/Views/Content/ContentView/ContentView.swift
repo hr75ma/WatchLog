@@ -73,11 +73,6 @@ struct ContentView: View {
             
 
             
-            //            TipView(refreshListTip)
-            //                .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
-            //            TipView(listTip)
-            //                .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
-            
             if showProgression {
                 ProgressionView()
             }
@@ -97,14 +92,11 @@ struct ContentView: View {
                 if showToolbarItem {
                     ToolbarItemGroup(placement: .topBarTrailing) {
                         toolBarItemNewButton
-                        // .popoverTip(newLogEntryTip)
                         toolBarItemSettings
                         
                     }
                 }
-                
             }
-            
             .sheet(isPresented: $showSettingSheet) {
                 SettingView()
             }
@@ -118,9 +110,6 @@ struct ContentView: View {
                 //dismiss()
             }
             .onAppear {
-                
-                //Task { await NavigationTipRefresh.setNavigationRefreshEvent.donate() }
-                //Task { await NavigationTipList.setNavigationListEvent.donate() }
                 
                 UIRefreshControl.appearance().tintColor = UIColor(appStyles.progressionColor)
                 UIRefreshControl.appearance().attributedTitle = NSAttributedString(
