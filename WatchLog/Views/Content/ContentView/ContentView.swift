@@ -63,6 +63,8 @@ struct ContentView: View {
     let refreshListTip = NavigationTipRefresh()
     let listTip = NavigationTipList()
     
+
+    
     var body: some View {
         
         NavigationSplitView(columnVisibility: $columnVisibility) {
@@ -88,7 +90,6 @@ struct ContentView: View {
                 }
             })
             .toolbar {
-                
                 if showToolbarItem {
                     ToolbarItemGroup(placement: .topBarTrailing) {
                         toolBarItemNewButton
@@ -111,13 +112,7 @@ struct ContentView: View {
             }
             .onAppear {
                 
-                UIRefreshControl.appearance().tintColor = UIColor(appStyles.progressionColor)
-                UIRefreshControl.appearance().attributedTitle = NSAttributedString(
-                    string: "Aktualisiere...",
-                    attributes: [
-                        NSAttributedString.Key.font: UIFont(
-                            name: appStyles.progressionFont, size: appStyles.progressionRefreshFontSize)!
-                    ])
+                refreshProgressionBehavior(appStyles)
                 
                 Task {
                     showProgression = true
@@ -146,7 +141,7 @@ struct ContentView: View {
             case .inactive:
                 showToolbarItem = false
             case .background:
-                showToolbarItem = true
+                showToolbarItem = false
             default:
                 break
             }

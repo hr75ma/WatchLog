@@ -45,6 +45,27 @@ final class StylesLogEntry:Sendable {
     let navigationTreeSettingImagePrimaryColor: Color = Color.blue
     let navigationTreeSettingImageSecondaryColor: Color = Color.blue
     
+    let navigationRefreshProgressionColor: Color = .black
+    let navigationRefreshProgressionFont: String = "digital-7"
+    let navigationRefreshProgressionFontSize: CGFloat = 35
+    let navigationRefreshProgressionRefreshFontSize: CGFloat = 25
+    
+    
+    
+    
+    
+    
+    let ProcessTypeFont: String = "Roboto-MediumItalic"
+    let ProcessTypeFontSize: CGFloat = 25
+    let ProcessTypeFontHight: CGFloat = 25
+    let ProcessTypeFontColor: Color = Color.blue
+    let ProcessTypeBackgroundColor: Color = Color.clear
+    
+    let progressionColor: Color = .white
+    let progressionFont: String = "digital-7"
+    let progressionFontSize: CGFloat = 35
+    let progressionRefreshFontSize: CGFloat = 25
+    
     
     
     
@@ -61,16 +82,7 @@ final class StylesLogEntry:Sendable {
     let NavigationTreeDisclosureYearGradientStart = Color(hex: 0x222222).opacity(1)
     let NavigationTreeDisclosureYearGradientEnd = Color(hex: 0x2e2e2e).opacity(1)
     
-    
-    
-    
-    
-    
-    
-    let progressionColor: Color = .white
-    let progressionFont: String = "digital-7"
-    let progressionFontSize: CGFloat = 35
-    let progressionRefreshFontSize: CGFloat = 25
+
     
     let callInFontSize: CGFloat = 25
     let callInFieldHeight: CGFloat = 30
@@ -222,12 +234,6 @@ final class StylesLogEntry:Sendable {
     let ClearButtonColorActiveSecondary: Color = Color.blue
     let ClearButtonSize: CGFloat = 20
     
-    //Picker for ProcessType
-    let ProcessTypeFont: String = "Roboto-MediumItalic"
-    let ProcessTypeFontSize: CGFloat = 25
-    let ProcessTypeFontHight: CGFloat = 25
-    let ProcessTypeFontColor: Color = Color.blue
-    let ProcessTypeBackgroundColor: Color = Color.clear
     
     
     

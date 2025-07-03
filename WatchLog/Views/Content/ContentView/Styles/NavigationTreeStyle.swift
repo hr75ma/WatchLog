@@ -9,6 +9,20 @@ import Foundation
 import SwiftUI
 
 
+extension ContentView {
+    
+     func refreshProgressionBehavior(_ appStyles: StylesLogEntry) {
+         //UIRefreshControl.appearance().tintColor = UIColor(appStyles.navigationRefreshProgressionColor)
+        UIRefreshControl.appearance().attributedTitle = NSAttributedString(
+            string: "Aktualisiere...",
+            attributes: [
+                NSAttributedString.Key.font: UIFont(
+                    name: appStyles.navigationRefreshProgressionFont, size: appStyles.navigationRefreshProgressionRefreshFontSize)!
+            ])
+    }
+}
+
+
 extension List {
     func listStyleGeneral() -> some View {
         
@@ -17,8 +31,6 @@ extension List {
             .listStyle(.insetGrouped)
     }
 }
-
-
 
 extension DisclosureGroup {
     
