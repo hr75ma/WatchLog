@@ -37,8 +37,10 @@ class WatchLogBookDay: Identifiable, Hashable {
     }
     
     var logEntriesSorted: [WatchLogBookEntry] {
+        
         get {
-            watchLogBookEntries?.sorted(by: { $0.LogDate < $1.LogDate }) ?? []
+            print("bin schon hier")
+            return watchLogBookEntries?.sorted(by: { $0.LogDate < $1.LogDate }) ?? []
         }
         set {
             watchLogBookEntries = newValue

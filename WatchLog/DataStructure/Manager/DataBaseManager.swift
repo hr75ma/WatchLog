@@ -47,7 +47,7 @@ final class DataBaseManager {
   private init() {
     do {
       //preview
-      let config = ModelConfiguration(isStoredInMemoryOnly: true)
+      let config = ModelConfiguration(isStoredInMemoryOnly: false)
       self.modelContainer = try ModelContainer(for: WatchLogBook.self, configurations: config)
 
       //self.modelContainer = try ModelContainer(for: WatchLogBook.self)
@@ -205,6 +205,8 @@ final class DataBaseManager {
         //remove entry
         modelContext.delete(logEntry)
         try? modelContext.save()
+          
+          print("eintrag gelöscht")
 
         //check if day has zero entries --> can be deleted
         let fetchDayResult = fetchLogBookDay(with: logEntry.watchLogBookDay!.uuid)
@@ -212,6 +214,8 @@ final class DataBaseManager {
         if logDay.watchLogBookEntries!.isEmpty {
           modelContext.delete(logDay)
           try? modelContext.save()
+            
+            print("tag gelöscht")
 
           //check if month has zero entries --> can be deleted
           let fetchMonthResult = fetchLogBookMonth(with: logDay.watchLogBookMonth!.uuid)
@@ -219,6 +223,8 @@ final class DataBaseManager {
           if logMonth.watchLogBookDays!.isEmpty {
             modelContext.delete(logMonth)
             try? modelContext.save()
+              
+              print("monat gelöscht")
 
             //check if year has zero entries --> can be deleted
             let fetchYearResult = fetchLogBookYear(with: logMonth.watchLogBookYear!.uuid)
@@ -226,12 +232,12 @@ final class DataBaseManager {
             if logYear.watchLogBookMonths!.isEmpty {
               modelContext.delete(logYear)
               try? modelContext.save()
+                print("jahr gelöscht")
             }
 
           }
 
         }
-        try? modelContext.save()
       }
       return .success(())
     case .failure(let error):

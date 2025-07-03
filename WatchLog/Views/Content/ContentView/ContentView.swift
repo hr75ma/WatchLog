@@ -143,7 +143,6 @@ struct ContentView: View {
                 Task {
                     showProgression = true
                     await viewModel.fetchLogBook()
-                    
                     //try? await Task.sleep(nanoseconds: 2 * 1000000000)
                     showProgression = false
                 }
@@ -398,11 +397,13 @@ extension ContentView {
                 fontSize: appStyles.NavigationTreeFontSize,
                 fontColor: entry.uuid == displayedLogEntryUUID.id
                   ? appStyles.NavigationTreeSubFontColor : appStyles.NavigationTreeFontColor)
-            Text(ProcessType.processTypes[entry.processDetails!.processTypeShort]!)
-              .TextLabel(
-                font: appStyles.NavigationTreeSubFont,
-                fontSize: appStyles.NavigationTreeSubFontSize,
-                fontColor: appStyles.NavigationTreeSubFontColor)
+              if entry.processDetails != nil {
+                  Text(ProcessType.processTypes[entry.processDetails!.processTypeShort]!)
+                      .TextLabel(
+                        font: appStyles.NavigationTreeSubFont,
+                        fontSize: appStyles.NavigationTreeSubFontSize,
+                        fontColor: appStyles.NavigationTreeSubFontColor)
+              }
           }
         }
         .listRowBackground(
@@ -415,6 +416,7 @@ extension ContentView {
         indexSet.sorted(by: >).forEach { (i) in
           let LogEntry = day.watchLogBookEntries![i]
           deleteLogEntry(watchLogBookEntry: LogEntry)
+            print("----------------------->delete logentry uuid \(LogEntry.uuid)")
         }
       })
     }
