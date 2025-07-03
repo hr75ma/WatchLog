@@ -39,204 +39,181 @@ import TipKit
 }
 
 struct ContentView: View {
-  @State private var columnVisibility = NavigationSplitViewVisibility.doubleColumn
+    @State private var columnVisibility = NavigationSplitViewVisibility.doubleColumn
+    
+    @EnvironmentObject var viewModel: LogEntryViewModel
+    
+    @Environment(\.appStyles) var appStyles
+    @Environment(DisplayedLogEntryID.self) var displayedLogEntryUUID
+    @Environment(BlurSetting.self) var blurSetting
+    @Environment(\.scenePhase) var scenePhase
+    
+    // @Environment(\.dismiss) var dismiss
+    //@State private var logBookEntry: WatchLogBookEntry = WatchLogBookEntry()
+    
+    @State private var logBookEntryUUID: UUID = UUID()
+    
+    @State var alertNew: Bool = false
+    @State var showSettingSheet: Bool = false
+    
+    @State var showProgression: Bool = false
+    
+    @State var showToolbarItem: Bool = true
+    
+    let newLogEntryTip = NavigationTipNewLogEntry()
+    let refreshListTip = NavigationTipRefresh()
+    let listTip = NavigationTipList()
+    
+    var body: some View {
+        
+        NavigationSplitView(columnVisibility: $columnVisibility) {
+            
+            //Text(logBookEntry.uuid.uuidString)
+            //      Text(logBookEntryUUID.uuidString)
+            //      Text("currentuuid: \(displayedLogEntryUUID.id.uuidString)")
+            
 
-  @EnvironmentObject var viewModel: LogEntryViewModel
-
-  @Environment(\.appStyles) var appStyles
-  @Environment(DisplayedLogEntryID.self) var displayedLogEntryUUID
-  @Environment(BlurSetting.self) var blurSetting
-  @Environment(\.scenePhase) var scenePhase
-
-  // @Environment(\.dismiss) var dismiss
-  //@State private var logBookEntry: WatchLogBookEntry = WatchLogBookEntry()
-
-  @State private var logBookEntryUUID: UUID = UUID()
-
-  @State var alertNew: Bool = false
-  @State var showSettingSheet: Bool = false
-
-  @State var showProgression: Bool = false
-
-  @State var showToolbarItem: Bool = true
-
-  let newLogEntryTip = NavigationTipNewLogEntry()
-  let refreshListTip = NavigationTipRefresh()
-  let listTip = NavigationTipList()
-
-  var body: some View {
-
-    NavigationSplitView(columnVisibility: $columnVisibility) {
-
-      //Text(logBookEntry.uuid.uuidString)
-      //      Text(logBookEntryUUID.uuidString)
-      //      Text("currentuuid: \(displayedLogEntryUUID.id.uuidString)")
-
-      //        if showProgression {
-      //            ProgressionView()
-      //        }
-
-      //            TipView(refreshListTip)
-      //                .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
-      //            TipView(listTip)
-      //                .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
-
-      List(viewModel.WatchLogBooks, id: \.uuid) { book in
-
-        buildLogBookNavigationTree(book: book)
-      }
-      .listStyleGeneral()
-      .refreshable(action: {
+            
+            //            TipView(refreshListTip)
+            //                .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
+            //            TipView(listTip)
+            //                .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
+            
+            if showProgression {
+                ProgressionView()
+            }
+            
+            List(viewModel.WatchLogBooks, id: \.uuid) { book in
+                
+                buildLogBookNavigationTree(book: book)
+            }
+            .listStyleGeneral()
+            .refreshable(action: {
+                Task {
+                    await viewModel.fetchLogBook()
+                }
+            })
+            .toolbar {
+                
+                if showToolbarItem {
+                    ToolbarItemGroup(placement: .topBarTrailing) {
+                        toolBarItemNewButton
+                        // .popoverTip(newLogEntryTip)
+                        toolBarItemSettings
+                        
+                    }
+                }
+                
+            }
+            
+            .sheet(isPresented: $showSettingSheet) {
+                SettingView()
+            }
+            .sheet(isPresented: $showProgression) {
+                ProgressionView()
+                    .background(Color.clear)
+            }
+            .onDisappear {
+                print("tree view onDisappear")
+                
+                //dismiss()
+            }
+            .onAppear {
+                
+                //Task { await NavigationTipRefresh.setNavigationRefreshEvent.donate() }
+                //Task { await NavigationTipList.setNavigationListEvent.donate() }
+                
+                UIRefreshControl.appearance().tintColor = UIColor(appStyles.progressionColor)
+                UIRefreshControl.appearance().attributedTitle = NSAttributedString(
+                    string: "Aktualisiere...",
+                    attributes: [
+                        NSAttributedString.Key.font: UIFont(
+                            name: appStyles.progressionFont, size: appStyles.progressionRefreshFontSize)!
+                    ])
+                
+                Task {
+                    showProgression = true
+                    await viewModel.fetchLogBook()
+                    //try? await Task.sleep(nanoseconds: 2 * 1000000000)
+                    showProgression = false
+                }
+            }
+            .task {
+                await viewModel.fetchLogBook()
+            }
+            .listStyle(.sidebar)
+            .scrollContentBackground(.hidden)
+            //.background(Color.black.edgesIgnoringSafeArea(.all))
+        } detail: {
+            
+            LogBookEntryView(logBookEntryUUID: $logBookEntryUUID)
+        }
+        .accentColor(appStyles)
+        
+        .blur(radius: blurSetting.isBlur ? 10 : 0)
+        .onChange(of: scenePhase) { _, newPhase in
+            switch newPhase {
+            case .active:
+                showToolbarItem = true
+            case .inactive:
+                showToolbarItem = false
+            case .background:
+                showToolbarItem = true
+            default:
+                break
+            }
+        }
+        
+    }
+    
+    fileprivate func generateNewLogEntryAfterExistingDeleted(exisistingUuid: UUID) {
+        
         Task {
-          await viewModel.fetchLogBook()
+            let isCurrentUuuidExisting = await viewModel.isLogBookEntryExisting(from: exisistingUuid)
+            if !isCurrentUuuidExisting {
+                addNewLogEntry()
+            }
         }
-      })
-      .toolbar {
-
-        if showToolbarItem {
-          ToolbarItemGroup(placement: .topBarTrailing) {
-            toolBarItemNewButton
-            // .popoverTip(newLogEntryTip)
-            toolBarItemSettings
-
-          }
-        }
-
-      }
-
-      .sheet(isPresented: $showSettingSheet) {
-        SettingView()
-      }
-      .sheet(isPresented: $showProgression) {
-        ProgressionView()
-          .background(Color.clear)
-      }
-      .onDisappear {
-        print("tree view onDisappear")
-
-        //dismiss()
-      }
-      .onAppear {
-
-        //Task { await NavigationTipRefresh.setNavigationRefreshEvent.donate() }
-        //Task { await NavigationTipList.setNavigationListEvent.donate() }
-
-        UIRefreshControl.appearance().tintColor = UIColor(appStyles.progressionColor)
-        UIRefreshControl.appearance().attributedTitle = NSAttributedString(
-          string: "Aktualisiere...",
-          attributes: [
-            NSAttributedString.Key.font: UIFont(
-              name: appStyles.progressionFont, size: appStyles.progressionRefreshFontSize)!
-          ])
-
+    }
+    
+    private func deleteLogEntry(watchLogBookEntry: WatchLogBookEntry) {
         Task {
-          showProgression = true
-          await viewModel.fetchLogBook()
-
-          //try? await Task.sleep(nanoseconds: 2 * 1000000000)
-          showProgression = false
+            await viewModel.deleteLogEntry(
+                LogEntry: WatchLogEntry(watchLookBookEntry: watchLogBookEntry))
+            generateNewLogEntryAfterExistingDeleted(exisistingUuid: displayedLogEntryUUID.id)
         }
-      }
-      .task {
-        await viewModel.fetchLogBook()
-      }
-      .listStyle(.sidebar)
-      .scrollContentBackground(.hidden)
-      //.background(Color.black.edgesIgnoringSafeArea(.all))
-    } detail: {
-
-      LogBookEntryView(logBookEntryUUID: $logBookEntryUUID)
     }
-    .accentColor(appStyles)
-
-    .blur(radius: blurSetting.isBlur ? 10 : 0)
-    .onChange(of: scenePhase) { _, newPhase in
-      switch newPhase {
-      case .active:
-        showToolbarItem = true
-      case .inactive:
-        showToolbarItem = false
-      case .background:
-        showToolbarItem = true
-      default:
-        break
-      }
+    
+    private func deleteLogDay(watchLogBookDay: WatchLogBookDay) {
+        Task {
+            await viewModel.deleteLogDay(watchLogBookDay: watchLogBookDay)
+            generateNewLogEntryAfterExistingDeleted(exisistingUuid: displayedLogEntryUUID.id)
+        }
     }
-
-  }
-
-  fileprivate func generateNewLogEntryAfterExistingDeleted(exisistingUuid: UUID) {
-
-    Task {
-      let isCurrentUuuidExisting = await viewModel.isLogBookEntryExisting(from: exisistingUuid)
-      if !isCurrentUuuidExisting {
-        addNewLogEntry()
-      }
+    
+    private func deleteLogMonth(watchLogBookMonth: WatchLogBookMonth) {
+        Task {
+            await viewModel.deleteLogMonth(watchLogBookMonth: watchLogBookMonth)
+            generateNewLogEntryAfterExistingDeleted(exisistingUuid: displayedLogEntryUUID.id)
+        }
     }
-  }
-
-  private func deleteLogEntry(watchLogBookEntry: WatchLogBookEntry) {
-    Task {
-      await viewModel.deleteLogEntry(
-        LogEntry: WatchLogEntry(watchLookBookEntry: watchLogBookEntry))
-      generateNewLogEntryAfterExistingDeleted(exisistingUuid: displayedLogEntryUUID.id)
+    
+    private func deleteLogYear(watchLogBookYear: WatchLogBookYear) {
+        Task {
+            await viewModel.deleteLogYear(watchLogBookYear: watchLogBookYear)
+            generateNewLogEntryAfterExistingDeleted(exisistingUuid: displayedLogEntryUUID.id)
+        }
     }
-  }
-
-  private func deleteLogDay(watchLogBookDay: WatchLogBookDay) {
-    Task {
-      await viewModel.deleteLogDay(watchLogBookDay: watchLogBookDay)
-      generateNewLogEntryAfterExistingDeleted(exisistingUuid: displayedLogEntryUUID.id)
+    
+    private func addNewLogEntry() {
+        //logBookEntry = WatchLogBookEntry(uuid: UUID())
+        logBookEntryUUID = UUID()
+        displayedLogEntryUUID.id = logBookEntryUUID
+        print("------------> new entry added \(displayedLogEntryUUID.id)")
+        
     }
-  }
-
-  private func deleteLogMonth(watchLogBookMonth: WatchLogBookMonth) {
-    Task {
-      await viewModel.deleteLogMonth(watchLogBookMonth: watchLogBookMonth)
-      generateNewLogEntryAfterExistingDeleted(exisistingUuid: displayedLogEntryUUID.id)
-    }
-  }
-
-  private func deleteLogYear(watchLogBookYear: WatchLogBookYear) {
-    Task {
-      await viewModel.deleteLogYear(watchLogBookYear: watchLogBookYear)
-      generateNewLogEntryAfterExistingDeleted(exisistingUuid: displayedLogEntryUUID.id)
-    }
-  }
-
-  private func addNewLogEntry() {
-    //logBookEntry = WatchLogBookEntry(uuid: UUID())
-    logBookEntryUUID = UUID()
-    displayedLogEntryUUID.id = logBookEntryUUID
-    print("------------> new entry added \(displayedLogEntryUUID.id)")
-
-  }
-
-  fileprivate func getDateYear(date: Date) -> String {
-    return String(Calendar.current.component(.year, from: date))
-  }
-
-  fileprivate func getDateMonth(date: Date) -> String {
-    return date.formatted(.dateTime.month(.wide))
-  }
-
-  fileprivate func getDateWeekDay(date: Date) -> String {
-    let dateFormatter = DateFormatter()
-    dateFormatter.dateFormat = "dd. EEEE"  // OR "dd-MM-yyyy"
-
-    return dateFormatter.string(from: date)
-  }
-
-  fileprivate func getDateTime(date: Date) -> String {
-    //let dateFormatter = DateFormatter()
-    //dateFormatter.dateFormat = "HH:mm:ss"
-    //return dateFormatter.string(from: date)
-    let dateStyle = Date.FormatStyle.dateTime
-    return date.formatted(
-      dateStyle.hour(.twoDigits(amPM: .abbreviated)).minute(.twoDigits).second(.twoDigits))
-  }
-
 }
+  
 
 extension ContentView {
 
@@ -311,7 +288,7 @@ extension ContentView {
 
   func DisclorsureGroupYear(year: WatchLogBookYear) -> some View {
 
-    DisclosureGroup(getDateYear(date: year.LogDate)) {
+      DisclosureGroup(DateManipulation.getYear(from: year.LogDate)) {
 
       ForEach(year.logMonthSorted) { month in
         DisclosureGroupLogMonth(month: month)
@@ -328,7 +305,7 @@ extension ContentView {
   }
 
   func DisclosureGroupLogMonth(month: WatchLogBookMonth) -> some View {
-    DisclosureGroup(getDateMonth(date: month.LogDate)) {
+      DisclosureGroup(DateManipulation.getMonth(from: month.LogDate)) {
       ForEach(month.logDaysSorted) { day in
         DisclosureGroupLogEntries(day: day)
       }
@@ -345,14 +322,14 @@ extension ContentView {
 
   func DisclosureGroupLogEntries(day: WatchLogBookDay) -> some View {
 
-    DisclosureGroup(getDateWeekDay(date: day.LogDate)) {
+      DisclosureGroup(DateManipulation.getWeekDay(from: day.LogDate)) {
       ForEach(day.logEntriesSorted) { entry in
         Button(action: {
           logBookEntryUUID = entry.uuid
           displayedLogEntryUUID.id = logBookEntryUUID
         }) {
           VStack(alignment: .leading) {
-            Text(getDateTime(date: entry.LogDate))
+              Text(DateManipulation.getTime(from: entry.LogDate))
               .navigationTreeLinkLabelStyle(
                 isSeletecedItem: entry.uuid == displayedLogEntryUUID.id, appStyles: appStyles)
             Text(ProcessType.processTypes[entry.processDetails!.processTypeShort]!)
