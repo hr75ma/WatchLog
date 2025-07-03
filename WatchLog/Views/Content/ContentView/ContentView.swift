@@ -49,7 +49,6 @@ struct ContentView: View {
     @Environment(\.scenePhase) var scenePhase
     
     // @Environment(\.dismiss) var dismiss
-    //@State private var logBookEntry: WatchLogBookEntry = WatchLogBookEntry()
     
     @State private var logBookEntryUUID: UUID = UUID()
     
@@ -166,10 +165,10 @@ struct ContentView: View {
         
     }
     
-    fileprivate func generateNewLogEntryAfterExistingDeleted(exisistingUuid: UUID) {
+    fileprivate func generateNewLogEntryAfterExistingDeleted(existingEntryID: UUID) {
         
         Task {
-            let isCurrentUuuidExisting = await viewModel.isLogBookEntryExisting(from: exisistingUuid)
+            let isCurrentUuuidExisting = await viewModel.isLogBookEntryExisting(from: existingEntryID)
             if !isCurrentUuuidExisting {
                 addNewLogEntry()
             }
@@ -180,28 +179,28 @@ struct ContentView: View {
         Task {
             await viewModel.deleteLogEntry(
                 LogEntry: WatchLogEntry(watchLookBookEntry: watchLogBookEntry))
-            generateNewLogEntryAfterExistingDeleted(exisistingUuid: displayedLogEntryUUID.id)
+            generateNewLogEntryAfterExistingDeleted(existingEntryID: displayedLogEntryUUID.id)
         }
     }
     
     private func deleteLogDay(watchLogBookDay: WatchLogBookDay) {
         Task {
             await viewModel.deleteLogDay(watchLogBookDay: watchLogBookDay)
-            generateNewLogEntryAfterExistingDeleted(exisistingUuid: displayedLogEntryUUID.id)
+            generateNewLogEntryAfterExistingDeleted(existingEntryID: displayedLogEntryUUID.id)
         }
     }
     
     private func deleteLogMonth(watchLogBookMonth: WatchLogBookMonth) {
         Task {
             await viewModel.deleteLogMonth(watchLogBookMonth: watchLogBookMonth)
-            generateNewLogEntryAfterExistingDeleted(exisistingUuid: displayedLogEntryUUID.id)
+            generateNewLogEntryAfterExistingDeleted(existingEntryID: displayedLogEntryUUID.id)
         }
     }
     
     private func deleteLogYear(watchLogBookYear: WatchLogBookYear) {
         Task {
             await viewModel.deleteLogYear(watchLogBookYear: watchLogBookYear)
-            generateNewLogEntryAfterExistingDeleted(exisistingUuid: displayedLogEntryUUID.id)
+            generateNewLogEntryAfterExistingDeleted(existingEntryID: displayedLogEntryUUID.id)
         }
     }
     
@@ -224,18 +223,8 @@ extension ContentView {
       alertNew.toggle()
       Task { await NavigationTipNewLogEntry.setNavigationNewLogEvent.donate() }
       blurSetting.isBlur = true
-
     }) {
-
-      Image(systemName: appStyles.NavigationTreeAddEntryImage)
-        //.ToolbarImageStyle(appStyles)
-        .symbolRenderingMode(.palette)
-        .foregroundStyle(
-          appStyles.NavigationTreeAddEntryImagePrimaryColor,
-          appStyles.NavigationTreeAddEntryImageSecondaryColor
-        )
-      // .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(2))
-      // .symbolEffect(.scale)
+        NavigationToolbarItemImage(toolbarItem: .addEntry, appStyles: appStyles)
     }
     .alert("Neues Log erstellen?", isPresented: $alertNew) {
       Button(
@@ -261,19 +250,12 @@ extension ContentView {
     Button(action: {
       showSettingSheet = true
     }) {
-
-      Image(systemName: appStyles.NavigationTreeSettingImage)
-        .symbolRenderingMode(.palette).foregroundStyle(
-          appStyles.NavigationTreeSettingImagePrimaryColor,
-          appStyles.NavigationTreeAddEntryImageSecondaryColor
-        )
-        .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(2))
-        .symbolEffect(.scale)
+      NavigationToolbarSettingsImage(appStyles: appStyles)
     }
 
   }
 
-  func buildLogBookNavigationTree(book: WatchLogBook) -> some View {
+ private func buildLogBookNavigationTree(book: WatchLogBook) -> some View {
 
     ForEach(book.logYearsSorted) { year in
       DisclorsureGroupYear(year: year)
@@ -286,7 +268,7 @@ extension ContentView {
     })
   }
 
-  func DisclorsureGroupYear(year: WatchLogBookYear) -> some View {
+    private func DisclorsureGroupYear(year: WatchLogBookYear) -> some View {
 
       DisclosureGroup(DateManipulation.getYear(from: year.LogDate)) {
 
@@ -304,7 +286,7 @@ extension ContentView {
     .disclosureGroupStyleYear(appStyles)
   }
 
-  func DisclosureGroupLogMonth(month: WatchLogBookMonth) -> some View {
+    private func DisclosureGroupLogMonth(month: WatchLogBookMonth) -> some View {
       DisclosureGroup(DateManipulation.getMonth(from: month.LogDate)) {
       ForEach(month.logDaysSorted) { day in
         DisclosureGroupLogEntries(day: day)
@@ -320,7 +302,7 @@ extension ContentView {
     .disclosureGroupStyleMonth(appStyles)
   }
 
-  func DisclosureGroupLogEntries(day: WatchLogBookDay) -> some View {
+    private func DisclosureGroupLogEntries(day: WatchLogBookDay) -> some View {
 
       DisclosureGroup(DateManipulation.getWeekDay(from: day.LogDate)) {
       ForEach(day.logEntriesSorted) { entry in
