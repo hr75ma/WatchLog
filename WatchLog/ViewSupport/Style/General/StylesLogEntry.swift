@@ -25,6 +25,7 @@ final class StylesLogEntry:Sendable {
     private init() {}
     
     let standardFontColor: Color = .blue
+    let standardBlurFactor: CGFloat = 10
     
     
     //navigation view section

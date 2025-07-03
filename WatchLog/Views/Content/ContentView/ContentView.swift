@@ -42,7 +42,6 @@ struct ContentView: View {
     @State private var columnVisibility = NavigationSplitViewVisibility.doubleColumn
     
     @EnvironmentObject var viewModel: LogEntryViewModel
-    
     @Environment(\.appStyles) var appStyles
     @Environment(DisplayedLogEntryID.self) var displayedLogEntryUUID
     @Environment(BlurSetting.self) var blurSetting
@@ -54,9 +53,7 @@ struct ContentView: View {
     
     @State var alertNew: Bool = false
     @State var showSettingSheet: Bool = false
-    
     @State var showProgression: Bool = false
-    
     @State var showToolbarItem: Bool = true
     
     let newLogEntryTip = NavigationTipNewLogEntry()
@@ -94,7 +91,6 @@ struct ContentView: View {
                     ToolbarItemGroup(placement: .topBarTrailing) {
                         toolBarItemNewButton
                         toolBarItemSettings
-                        
                     }
                 }
             }
@@ -103,21 +99,17 @@ struct ContentView: View {
             }
             .sheet(isPresented: $showProgression) {
                 ProgressionView()
-                    .background(Color.clear)
             }
             .onDisappear {
                 print("tree view onDisappear")
-                
                 //dismiss()
             }
             .onAppear {
-                
                 refreshProgressionBehavior(appStyles)
-                
                 Task {
                     showProgression = true
                     await viewModel.fetchLogBook()
-                    //try? await Task.sleep(nanoseconds: 2 * 1000000000)
+                   // try? await Task.sleep(nanoseconds: 2 * 1000000000)
                     showProgression = false
                 }
             }
@@ -131,9 +123,7 @@ struct ContentView: View {
             
             LogBookEntryView(logBookEntryUUID: $logBookEntryUUID)
         }
-        .accentColor(appStyles)
-        
-        .blur(radius: blurSetting.isBlur ? 10 : 0)
+        .navigationSplitViewStyles(isBlur: blurSetting.isBlur, appStyles)
         .onChange(of: scenePhase) { _, newPhase in
             switch newPhase {
             case .active:
@@ -146,10 +136,9 @@ struct ContentView: View {
                 break
             }
         }
-        
     }
     
-    fileprivate func generateNewLogEntryAfterExistingDeleted(existingEntryID: UUID) {
+    private func generateNewLogEntryAfterExistingDeleted(existingEntryID: UUID) {
         
         Task {
             let isCurrentUuuidExisting = await viewModel.isLogBookEntryExisting(from: existingEntryID)
@@ -159,10 +148,33 @@ struct ContentView: View {
         }
     }
     
+    private func delete<T>(deleteType: DeleteTypes,toDeleteItem: T) {
+        
+        switch deleteType {
+            case .logEntry:
+            Task {
+                await viewModel.deleteLogEntry(LogEntry: WatchLogEntry(watchLookBookEntry: toDeleteItem as! WatchLogBookEntry))
+            }
+            case .day:
+            Task {
+                await viewModel.deleteLogDay(watchLogBookDay: toDeleteItem as! WatchLogBookDay)
+            }
+            case .month:
+            Task {
+                await viewModel.deleteLogMonth(watchLogBookMonth: toDeleteItem as! WatchLogBookMonth)
+            }
+            case .year:
+            Task {
+                await viewModel.deleteLogYear(watchLogBookYear: toDeleteItem as!  WatchLogBookYear)
+            }
+        }
+        generateNewLogEntryAfterExistingDeleted(existingEntryID: displayedLogEntryUUID.id)
+        
+    }
+    
     private func deleteLogEntry(watchLogBookEntry: WatchLogBookEntry) {
         Task {
-            await viewModel.deleteLogEntry(
-                LogEntry: WatchLogEntry(watchLookBookEntry: watchLogBookEntry))
+            await viewModel.deleteLogEntry(LogEntry: WatchLogEntry(watchLookBookEntry: watchLogBookEntry))
             generateNewLogEntryAfterExistingDeleted(existingEntryID: displayedLogEntryUUID.id)
         }
     }
@@ -189,11 +201,8 @@ struct ContentView: View {
     }
     
     private func addNewLogEntry() {
-        //logBookEntry = WatchLogBookEntry(uuid: UUID())
         logBookEntryUUID = UUID()
         displayedLogEntryUUID.id = logBookEntryUUID
-        print("------------> new entry added \(displayedLogEntryUUID.id)")
-        
     }
 }
   
@@ -201,14 +210,12 @@ struct ContentView: View {
 extension ContentView {
 
   private var toolBarItemNewButton: some View {
-
     Button(action: {
-      //newLogEntryTip.invalidate(reason: .actionPerformed)
       alertNew.toggle()
-      Task { await NavigationTipNewLogEntry.setNavigationNewLogEvent.donate() }
+      //Task { await NavigationTipNewLogEntry.setNavigationNewLogEvent.donate() }
       blurSetting.isBlur = true
     }) {
-        NavigationToolbarItemImage(    toolbarItemType: .addEntry, appStyles: appStyles)
+        NavigationToolbarItemImage(toolbarItemType: .addEntry, appStyles: appStyles)
     }
     .alert("Neues Log erstellen?", isPresented: $alertNew) {
       Button(
@@ -216,7 +223,6 @@ extension ContentView {
         action: {
           blurSetting.isBlur = false
           addNewLogEntry()
-
         })
       Button(
         "Abbrechen", role: .cancel,
@@ -224,19 +230,14 @@ extension ContentView {
           blurSetting.isBlur = false
         })
     }
-
-    //.tipViewStyle(TipStyler())
-
   }
 
   private var toolBarItemSettings: some View {
-
     Button(action: {
       showSettingSheet = true
     }) {
       NavigationToolbarSettingsImage(appStyles: appStyles)
     }
-
   }
 
  private func buildLogBookNavigationTree(book: WatchLogBook) -> some View {
@@ -247,6 +248,7 @@ extension ContentView {
     .onDelete(perform: { indexSet in
       indexSet.sorted(by: >).forEach { (i) in
         let LogEntry = book.logYearsSorted[i]
+        //  delete(deleteType: .year, toDeleteItem: LogEntry)
         deleteLogYear(watchLogBookYear: LogEntry)
       }
     })
@@ -262,8 +264,8 @@ extension ContentView {
       .onDelete(perform: { indexSet in
         indexSet.sorted(by: >).forEach { (i) in
           let LogEntry = year.watchLogBookMonths![i]
+          //  delete(deleteType: .month, toDeleteItem: LogEntry)
           deleteLogMonth(watchLogBookMonth: LogEntry)
-
         }
       })
     }
@@ -278,8 +280,8 @@ extension ContentView {
       .onDelete(perform: { indexSet in
         indexSet.sorted(by: >).forEach { (i) in
           let LogEntry = month.watchLogBookDays![i]
+          //delete(deleteType: .day, toDeleteItem: LogEntry)
           deleteLogDay(watchLogBookDay: LogEntry)
-
         }
       })
     }
@@ -309,6 +311,7 @@ extension ContentView {
       .onDelete(perform: { indexSet in
         indexSet.sorted(by: >).forEach { (i) in
           let LogEntry = day.watchLogBookEntries![i]
+         // delete(deleteType: .logEntry, toDeleteItem: LogEntry)
           deleteLogEntry(watchLogBookEntry : LogEntry)
         }
       })

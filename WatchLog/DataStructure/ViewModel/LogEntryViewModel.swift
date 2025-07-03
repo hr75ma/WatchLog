@@ -7,6 +7,15 @@
 import SwiftUI
 import Combine
 
+enum DeleteTypes {
+  case logEntry
+  case day
+  case month
+  case year
+    
+  static let deleteType: DeleteTypes = .logEntry
+}
+
 @MainActor
 final class LogEntryViewModel: ObservableObject {
     
@@ -15,7 +24,6 @@ final class LogEntryViewModel: ObservableObject {
     @Published var LogBookEntryYears: [WatchLogBookYear] = []
     @Published var LogBookEntries: [WatchLogBookEntry] = []
     @Published var WatchLogBooks: [WatchLogBook] = []
-    
     
     private let databaseService: DatabaseServiceProtocol
     
@@ -26,7 +34,7 @@ final class LogEntryViewModel: ObservableObject {
             await self.instanciateLogBook()
         }
         
-       // generateLogBookEntry()
+       //generateLogBookEntry()
     }
     
     

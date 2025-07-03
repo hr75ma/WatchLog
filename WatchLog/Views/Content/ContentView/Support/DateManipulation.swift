@@ -20,7 +20,7 @@ struct DateManipulation {
 
     static func getWeekDay(from: Date) -> String {
      let dateFormatter = DateFormatter()
-     dateFormatter.dateFormat = "dd. EEEE"  // OR "dd-MM-yyyy"
+     dateFormatter.dateFormat = "dd. EEEE"
 
      return dateFormatter.string(from: from)
    }

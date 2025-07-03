@@ -26,6 +26,7 @@ struct ProgressionView: View {
         }
         .presentationDetents([.large])
         .presentationBackground(.clear)
+        .background(Color.clear)
     }
 }
 

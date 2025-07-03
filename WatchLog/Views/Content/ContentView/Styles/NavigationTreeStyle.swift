@@ -8,21 +8,6 @@
 import Foundation
 import SwiftUI
 
-
-extension ContentView {
-    
-     func refreshProgressionBehavior(_ appStyles: StylesLogEntry) {
-         //UIRefreshControl.appearance().tintColor = UIColor(appStyles.navigationRefreshProgressionColor)
-        UIRefreshControl.appearance().attributedTitle = NSAttributedString(
-            string: "Aktualisiere...",
-            attributes: [
-                NSAttributedString.Key.font: UIFont(
-                    name: appStyles.navigationRefreshProgressionFont, size: appStyles.navigationRefreshProgressionRefreshFontSize)!
-            ])
-    }
-}
-
-
 extension List {
     func listStyleGeneral() -> some View {
         
@@ -30,6 +15,16 @@ extension List {
             .scrollContentBackground(.hidden)
             .listStyle(.insetGrouped)
     }
+}
+
+extension NavigationSplitView {
+    
+     func navigationSplitViewStyles(isBlur: Bool,_ appStyles: StylesLogEntry) -> some View {
+        self
+            .accentColor(appStyles.standardNavigationBarItemColor)
+            .blur(radius: isBlur ? appStyles.standardBlurFactor : 0)
+    }
+    
 }
 
 extension DisclosureGroup {
