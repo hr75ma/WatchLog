@@ -26,12 +26,20 @@ final class StylesLogEntry:Sendable {
     
     let standardFontColor: Color = .blue
     
+    let standardNavigationBarItemColor: Color = .blue
+    
     let navigationTreeColor: Color = .blue
     let navigationTreeFontColor: Color = .blue
     let navigationTreeRowColor: Color = Color(.systemGray6)
     let navigationTreeSelectedItemFontColor: Color = .white
     let navigationTreeSelectedRowColor: Color = .blue
     let navigationTreeRowSeparatorColor: Color = Color(.systemGray4)
+    
+    
+    
+    
+    
+    
     
     
     let NavigationTreeDisclosureYearGradientStart = Color(hex: 0x222222).opacity(1)

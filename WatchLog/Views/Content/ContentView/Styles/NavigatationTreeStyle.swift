@@ -18,6 +18,14 @@ extension List {
     }
 }
 
+extension NavigationSplitView {
+    func accentColor(_ appStyles: StylesLogEntry) -> some View {
+        self
+            .accentColor(appStyles.standardNavigationBarItemColor)
+        
+    }
+}
+
 extension DisclosureGroup {
     
     private func disclosureGroupStyleGeneral(_ appStyles: StylesLogEntry) -> some View {

@@ -27,7 +27,7 @@ import TipKit
     .environment(\.appStyles, StylesLogEntry.shared)
     .environment(DisplayedLogEntryID())
     .task {
-        //try? Tips.resetDatastore()
+      //try? Tips.resetDatastore()
       try? Tips.configure([
         //.displayFrequency(.immediate)
         .datastoreLocation(.applicationDefault)
@@ -46,7 +46,7 @@ struct ContentView: View {
   @Environment(\.appStyles) var appStyles
   @Environment(DisplayedLogEntryID.self) var displayedLogEntryUUID
   @Environment(BlurSetting.self) var blurSetting
-    @Environment(\.scenePhase) var scenePhase
+  @Environment(\.scenePhase) var scenePhase
 
   // @Environment(\.dismiss) var dismiss
   //@State private var logBookEntry: WatchLogBookEntry = WatchLogBookEntry()
@@ -57,114 +57,111 @@ struct ContentView: View {
   @State var showSettingSheet: Bool = false
 
   @State var showProgression: Bool = false
-    
-    @State var showToolbarItem: Bool = true
 
+  @State var showToolbarItem: Bool = true
 
   let newLogEntryTip = NavigationTipNewLogEntry()
   let refreshListTip = NavigationTipRefresh()
   let listTip = NavigationTipList()
-    
 
+  var body: some View {
 
-    var body: some View {
-        
-        NavigationSplitView(columnVisibility: $columnVisibility) {
-            
-            //Text(logBookEntry.uuid.uuidString)
-            //      Text(logBookEntryUUID.uuidString)
-            //      Text("currentuuid: \(displayedLogEntryUUID.id.uuidString)")
-            
-            //        if showProgression {
-            //            ProgressionView()
-            //        }
-            
-//            TipView(refreshListTip)
-//                .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
-//            TipView(listTip)
-//                .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
-            
-            List(viewModel.WatchLogBooks, id: \.uuid) { book in
-                
-                buildLogBookNavigationTree(book: book)
-            }
-            .listStyleGeneral()
-            .refreshable(action: {
-                Task {
-                    await viewModel.fetchLogBook()
-                }
-            })
-            .toolbar {
-                
-                if showToolbarItem {
-                    ToolbarItemGroup(placement: .topBarTrailing) {
-                        toolBarItemNewButton
-                           // .popoverTip(newLogEntryTip)
-                        toolBarItemSettings
-                        
-                    }
-                }
+    NavigationSplitView(columnVisibility: $columnVisibility) {
 
-            }
+      //Text(logBookEntry.uuid.uuidString)
+      //      Text(logBookEntryUUID.uuidString)
+      //      Text("currentuuid: \(displayedLogEntryUUID.id.uuidString)")
 
+      //        if showProgression {
+      //            ProgressionView()
+      //        }
 
-            .sheet(isPresented: $showSettingSheet) {
-                SettingView()
-            }
-            .sheet(isPresented: $showProgression) {
-                ProgressionView()
-                    .background(Color.clear)
-            }
-            .onDisappear {
-                print("tree view onDisappear")
-                
-                //dismiss()
-            }
-            .onAppear {
-                
-                //Task { await NavigationTipRefresh.setNavigationRefreshEvent.donate() }
-                //Task { await NavigationTipList.setNavigationListEvent.donate() }
-                
-                UIRefreshControl.appearance().tintColor = UIColor(appStyles.progressionColor)
-                UIRefreshControl.appearance().attributedTitle = NSAttributedString(
-                    string: "Aktualisiere...",
-                    attributes: [
-                        NSAttributedString.Key.font: UIFont(
-                            name: appStyles.progressionFont, size: appStyles.progressionRefreshFontSize)!
-                    ])
-                
-                Task {
-                    showProgression = true
-                    await viewModel.fetchLogBook()
-                    
-                    //try? await Task.sleep(nanoseconds: 2 * 1000000000)
-                    showProgression = false
-                }
-            }
-            .task {
-                await viewModel.fetchLogBook()
-            }
-            
-            .listStyle(.sidebar)
-            .scrollContentBackground(.hidden)
-            //.background(Color.black.edgesIgnoringSafeArea(.all))
-        } detail: {
-            
-            LogBookEntryView(logBookEntryUUID: $logBookEntryUUID)
+      //            TipView(refreshListTip)
+      //                .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
+      //            TipView(listTip)
+      //                .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
+
+      List(viewModel.WatchLogBooks, id: \.uuid) { book in
+
+        buildLogBookNavigationTree(book: book)
+      }
+      .listStyleGeneral()
+      .refreshable(action: {
+        Task {
+          await viewModel.fetchLogBook()
         }
-        .blur(radius: blurSetting.isBlur ? 10 : 0)
-        .onChange(of: scenePhase) { _, newPhase in
-            switch newPhase {
-            case .active:
-                showToolbarItem = true
-            case .inactive:
-                showToolbarItem = false
-            case .background:
-                showToolbarItem = true
-            default:
-                break
-            }
+      })
+      .toolbar {
+
+        if showToolbarItem {
+          ToolbarItemGroup(placement: .topBarTrailing) {
+            toolBarItemNewButton
+            // .popoverTip(newLogEntryTip)
+            toolBarItemSettings
+
+          }
         }
+
+      }
+
+      .sheet(isPresented: $showSettingSheet) {
+        SettingView()
+      }
+      .sheet(isPresented: $showProgression) {
+        ProgressionView()
+          .background(Color.clear)
+      }
+      .onDisappear {
+        print("tree view onDisappear")
+
+        //dismiss()
+      }
+      .onAppear {
+
+        //Task { await NavigationTipRefresh.setNavigationRefreshEvent.donate() }
+        //Task { await NavigationTipList.setNavigationListEvent.donate() }
+
+        UIRefreshControl.appearance().tintColor = UIColor(appStyles.progressionColor)
+        UIRefreshControl.appearance().attributedTitle = NSAttributedString(
+          string: "Aktualisiere...",
+          attributes: [
+            NSAttributedString.Key.font: UIFont(
+              name: appStyles.progressionFont, size: appStyles.progressionRefreshFontSize)!
+          ])
+
+        Task {
+          showProgression = true
+          await viewModel.fetchLogBook()
+
+          //try? await Task.sleep(nanoseconds: 2 * 1000000000)
+          showProgression = false
+        }
+      }
+      .task {
+        await viewModel.fetchLogBook()
+      }
+      .listStyle(.sidebar)
+      .scrollContentBackground(.hidden)
+      //.background(Color.black.edgesIgnoringSafeArea(.all))
+    } detail: {
+
+      LogBookEntryView(logBookEntryUUID: $logBookEntryUUID)
+    }
+    .accentColor(appStyles)
+
+    .blur(radius: blurSetting.isBlur ? 10 : 0)
+    .onChange(of: scenePhase) { _, newPhase in
+      switch newPhase {
+      case .active:
+        showToolbarItem = true
+      case .inactive:
+        showToolbarItem = false
+      case .background:
+        showToolbarItem = true
+      default:
+        break
+      }
+    }
 
   }
 
@@ -289,19 +286,16 @@ extension ContentView {
     }) {
 
       Image(systemName: appStyles.NavigationTreeSettingImage)
-        .symbolRenderingMode(.palette)        .foregroundStyle(appStyles.NavigationTreeSettingImagePrimaryColor,appStyles.NavigationTreeAddEntryImageSecondaryColor)
-       .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(2))
-       .symbolEffect(.scale)
+        .symbolRenderingMode(.palette).foregroundStyle(
+          appStyles.NavigationTreeSettingImagePrimaryColor,
+          appStyles.NavigationTreeAddEntryImageSecondaryColor
+        )
+        .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(2))
+        .symbolEffect(.scale)
     }
 
   }
 
-    
-    
-    
-    
-    
-    
   func buildLogBookNavigationTree(book: WatchLogBook) -> some View {
 
     ForEach(book.logYearsSorted) { year in
@@ -337,7 +331,7 @@ extension ContentView {
     DisclosureGroup(getDateMonth(date: month.LogDate)) {
       ForEach(month.logDaysSorted) { day in
         DisclosureGroupLogEntries(day: day)
-    }
+      }
       .onDelete(perform: { indexSet in
         indexSet.sorted(by: >).forEach { (i) in
           let LogEntry = month.watchLogBookDays![i]
@@ -359,17 +353,20 @@ extension ContentView {
         }) {
           VStack(alignment: .leading) {
             Text(getDateTime(date: entry.LogDate))
-                  .navigationTreeLinkLabelStyle(isSeletecedItem: entry.uuid == displayedLogEntryUUID.id, appStyles: appStyles)
+              .navigationTreeLinkLabelStyle(
+                isSeletecedItem: entry.uuid == displayedLogEntryUUID.id, appStyles: appStyles)
             Text(ProcessType.processTypes[entry.processDetails!.processTypeShort]!)
-                  .navigationTreeLinkSubLabelStyle(isSeletecedItem: entry.uuid == displayedLogEntryUUID.id, appStyles: appStyles)
+              .navigationTreeLinkSubLabelStyle(
+                isSeletecedItem: entry.uuid == displayedLogEntryUUID.id, appStyles: appStyles)
           }
         }
-        .selectedRowBackgroundColor(isSelectedRow: entry.uuid == displayedLogEntryUUID.id, appStyles)
+        .selectedRowBackgroundColor(
+          isSelectedRow: entry.uuid == displayedLogEntryUUID.id, appStyles)
       }
       .onDelete(perform: { indexSet in
         indexSet.sorted(by: >).forEach { (i) in
           let LogEntry = day.watchLogBookEntries![i]
-          deleteLogEntry(watchLogBookEntry: LogEntry)
+          deleteLogEntry(watchLogBookEntry : LogEntry)
         }
       })
     }
