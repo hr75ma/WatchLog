@@ -14,18 +14,18 @@ enum NavigationToolbarItemType {
 }
 
 extension NavigationSplitView {
-    func accentColor(_ appStyles: StylesLogEntry) -> some View {
-        self
-            .accentColor(appStyles.standardNavigationBarItemColor)
-        
-    }
+  func accentColor(_ appStyles: StylesLogEntry) -> some View {
+    self
+      .accentColor(appStyles.standardNavigationBarItemColor)
+
+  }
 }
 
 @ViewBuilder func NavigationToolbarItemImage(
-      toolbarItemType: NavigationToolbarItemType, appStyles: StylesLogEntry
+  toolbarItemType: NavigationToolbarItemType, appStyles: StylesLogEntry
 ) -> some View {
 
-  switch     toolbarItemType {
+  switch toolbarItemType {
   case .addEntry:
     NavigationToolbarAddEntryImage(appStyles: appStyles)
   case .settings:
