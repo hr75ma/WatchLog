@@ -46,7 +46,7 @@ struct LogBookEntryView: View {
     ScrollView {
 
       ZStack {
-          
+
 
               glowingBorderEffect
                   .isHidden(fromBackground, remove: true)

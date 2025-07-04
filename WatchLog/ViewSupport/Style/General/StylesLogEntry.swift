@@ -24,8 +24,11 @@ final class StylesLogEntry:Sendable {
     
     private init() {}
     
+    //global
     let standardFontColor: Color = .blue
     let standardBlurFactor: CGFloat = 10
+    
+    
     
     
     //navigation view section
@@ -55,7 +58,7 @@ final class StylesLogEntry:Sendable {
     
     
     
-    
+    //progession section
     let ProcessTypeFont: String = "Roboto-MediumItalic"
     let ProcessTypeFontSize: CGFloat = 25
     let ProcessTypeFontHight: CGFloat = 25
@@ -66,6 +69,21 @@ final class StylesLogEntry:Sendable {
     let progressionFont: String = "digital-7"
     let progressionFontSize: CGFloat = 35
     let progressionRefreshFontSize: CGFloat = 25
+    
+    //logboogEntryView
+    let logTimeFont: String = "digital-7"
+    let logTimeFontSize: CGFloat = 40
+    
+    
+    
+    
+    
+    let LabelFont: String = "digital-7"
+    let LabelFontSize: CGFloat = 35
+    let LabelFontSizeSub: CGFloat = 35
+    
+    
+    //logTime section
     
     
     
@@ -109,9 +127,7 @@ final class StylesLogEntry:Sendable {
     let GeneralToggleIsUnactiveSecondary: Color = Color.blue
     
     
-    let LabelFont: String = "digital-7"
-    let LabelFontSize: CGFloat = 35
-    let LabelFontSizeSub: CGFloat = 35
+
     
     let TextFieldFont: String = "Roboto-MediumItalic"
     let TextFieldFontSize: CGFloat = 28
@@ -119,7 +135,7 @@ final class StylesLogEntry:Sendable {
     let TextFieldHeight: CGFloat = 35
     let TextFieldHeightSub: CGFloat = 30
     
-    let LogTimeFontSize: CGFloat = 40
+    
     
     let SectionCallInImage: String = "arrow.down.message"
     let SectionCallInImagePrimary: Color = Color.white
