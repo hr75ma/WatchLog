@@ -172,34 +172,6 @@ struct ContentView: View {
         
     }
     
-    private func deleteLogEntry(watchLogBookEntry: WatchLogBookEntry) {
-        Task {
-            await viewModel.deleteLogEntry(LogEntry: WatchLogEntry(watchLookBookEntry: watchLogBookEntry))
-            generateNewLogEntryAfterExistingDeleted(existingEntryID: displayedLogEntryUUID.id)
-        }
-    }
-    
-    private func deleteLogDay(watchLogBookDay: WatchLogBookDay) {
-        Task {
-            await viewModel.deleteLogDay(watchLogBookDay: watchLogBookDay)
-            generateNewLogEntryAfterExistingDeleted(existingEntryID: displayedLogEntryUUID.id)
-        }
-    }
-    
-    private func deleteLogMonth(watchLogBookMonth: WatchLogBookMonth) {
-        Task {
-            await viewModel.deleteLogMonth(watchLogBookMonth: watchLogBookMonth)
-            generateNewLogEntryAfterExistingDeleted(existingEntryID: displayedLogEntryUUID.id)
-        }
-    }
-    
-    private func deleteLogYear(watchLogBookYear: WatchLogBookYear) {
-        Task {
-            await viewModel.deleteLogYear(watchLogBookYear: watchLogBookYear)
-            generateNewLogEntryAfterExistingDeleted(existingEntryID: displayedLogEntryUUID.id)
-        }
-    }
-    
     private func addNewLogEntry() {
         logBookEntryUUID = UUID()
         displayedLogEntryUUID.id = logBookEntryUUID
@@ -248,8 +220,8 @@ extension ContentView {
     .onDelete(perform: { indexSet in
       indexSet.sorted(by: >).forEach { (i) in
         let LogEntry = book.logYearsSorted[i]
-        //  delete(deleteType: .year, toDeleteItem: LogEntry)
-        deleteLogYear(watchLogBookYear: LogEntry)
+        delete(deleteType: .year, toDeleteItem: LogEntry)
+        
       }
     })
   }
@@ -264,8 +236,8 @@ extension ContentView {
       .onDelete(perform: { indexSet in
         indexSet.sorted(by: >).forEach { (i) in
           let LogEntry = year.watchLogBookMonths![i]
-          //  delete(deleteType: .month, toDeleteItem: LogEntry)
-          deleteLogMonth(watchLogBookMonth: LogEntry)
+          delete(deleteType: .month, toDeleteItem: LogEntry)
+          
         }
       })
     }
@@ -280,8 +252,8 @@ extension ContentView {
       .onDelete(perform: { indexSet in
         indexSet.sorted(by: >).forEach { (i) in
           let LogEntry = month.watchLogBookDays![i]
-          //delete(deleteType: .day, toDeleteItem: LogEntry)
-          deleteLogDay(watchLogBookDay: LogEntry)
+          delete(deleteType: .day, toDeleteItem: LogEntry)
+          
         }
       })
     }
@@ -300,9 +272,11 @@ extension ContentView {
               Text(DateManipulation.getTime(from: entry.LogDate))
               .navigationTreeLinkLabelStyle(
                 isSeletecedItem: entry.uuid == displayedLogEntryUUID.id, appStyles: appStyles)
-            Text(ProcessType.processTypes[entry.processDetails!.processTypeShort]!)
-              .navigationTreeLinkSubLabelStyle(
-                isSeletecedItem: entry.uuid == displayedLogEntryUUID.id, appStyles: appStyles)
+              if entry.processDetails != nil {
+                  Text(ProcessType.processTypes[entry.processDetails!.processTypeShort]!)
+                      .navigationTreeLinkSubLabelStyle(
+                        isSeletecedItem: entry.uuid == displayedLogEntryUUID.id, appStyles: appStyles)
+              }
           }
         }
         .selectedRowBackgroundColor(
@@ -311,8 +285,8 @@ extension ContentView {
       .onDelete(perform: { indexSet in
         indexSet.sorted(by: >).forEach { (i) in
           let LogEntry = day.watchLogBookEntries![i]
-         // delete(deleteType: .logEntry, toDeleteItem: LogEntry)
-          deleteLogEntry(watchLogBookEntry : LogEntry)
+          delete(deleteType: .logEntry, toDeleteItem: LogEntry)
+          
         }
       })
     }
