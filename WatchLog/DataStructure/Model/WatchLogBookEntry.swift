@@ -34,12 +34,12 @@ class WatchLogBookEntry: Identifiable, Hashable {
     var CallIn: CallInType.CallInTypeShort = CallInType.CallInTypeShort.EMERGENCY
     
     //var AccientInjured: Bool = false
-    var AccientHitAndRun: Bool = false
-    var AccientLicensePlate01: String = ""
-    var AccientLicensePlate02: String = ""
+//    var AccientHitAndRun: Bool = false
+//    var AccientLicensePlate01: String = ""
+//    var AccientLicensePlate02: String = ""
     //var isAccient: Bool = false
     
-    var isInjured: Bool = false
+//    var isInjured: Bool = false
     
     
     var isLocked: Bool = false
@@ -115,11 +115,11 @@ class WatchLogBookEntry: Identifiable, Hashable {
         
        // isAccient = false
        // AccientInjured = false
-        AccientHitAndRun = false
-        AccientLicensePlate01 = ""
-        AccientLicensePlate02 = ""
-        
-        isInjured = false
+//        AccientHitAndRun = false
+//        AccientLicensePlate01 = ""
+//        AccientLicensePlate02 = ""
+//        
+//        isInjured = false
         
         processTypeShort = ProcessType.ProcessTypeShort.UNKNOWN
         
@@ -146,11 +146,11 @@ class WatchLogBookEntry: Identifiable, Hashable {
         
         //isAccient = false
         //AccientInjured = false
-        AccientHitAndRun = false
-        AccientLicensePlate01 = ""
-        AccientLicensePlate02 = ""
-        
-        isInjured = false
+//        AccientHitAndRun = false
+//        AccientLicensePlate01 = ""
+//        AccientLicensePlate02 = ""
+//        
+//        isInjured = false
         
         processTypeShort = ProcessType.ProcessTypeShort.UNKNOWN
         
@@ -178,11 +178,11 @@ class WatchLogBookEntry: Identifiable, Hashable {
         
         //isAccient = false
         //AccientInjured = false
-        AccientHitAndRun = false
-        AccientLicensePlate01 = ""
-        AccientLicensePlate02 = ""
-        
-        isInjured = false
+//        AccientHitAndRun = false
+//        AccientLicensePlate01 = ""
+//        AccientLicensePlate02 = ""
+//        
+//        isInjured = false
         
         processTypeShort = ProcessType.ProcessTypeShort.UNKNOWN
         
