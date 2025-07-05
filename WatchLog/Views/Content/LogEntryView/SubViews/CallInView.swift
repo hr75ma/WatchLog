@@ -59,7 +59,7 @@ extension CallInView {
         
         HStack(alignment: .center, spacing: 0) {
             Text("Eingang")
-                .sectionTextLabel(appStyles: appStyles)
+                .sectionTextLabel()
             VStack(alignment: .leading, spacing: 0) {
                 
                 HStack(alignment: .top, spacing: 0) {

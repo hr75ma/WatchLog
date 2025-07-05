@@ -30,7 +30,7 @@ extension LockEditingView {
     HStack(alignment: .center) {
 
       Text(logEntry.isLocked ? "Gesperrt" : "Entsperrt")
-        .labelStyle(isLocked: logEntry.isLocked, appStyles)
+        .labelStyle(isLocked: logEntry.isLocked)
         .animation(.easeInOut(duration: 1), value: logEntry.isLocked)
 
       Toggle("", isOn: $logEntry.isLocked)

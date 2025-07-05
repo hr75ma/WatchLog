@@ -44,7 +44,7 @@ struct ProcessTypeSelectionView: View {
 
           Text("Ereignis")
             //.sectionTextLabelToggle(appStyles: appStyles)
-            .sectionTextLabel(appStyles: appStyles)
+            .sectionTextLabel()
             .frame(alignment: .topLeading)
 
           VStack(alignment: .leading, spacing: 0) {

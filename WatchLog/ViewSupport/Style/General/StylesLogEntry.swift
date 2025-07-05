@@ -41,7 +41,11 @@ final class StylesLogEntry:Sendable {
     let textFieldBackgroundColorLocked: Color = Color(.systemGray6)
     let textFieldBackgroundColorUnLocked: Color = Color(.systemGray5)
     
-    
+    //clear button for textfield
+    let clearButtonImage: String = "xmark.circle.fill"
+    let clearButtonColorActivePrimary: Color = Color.white
+    let clearButtonColorActiveSecondary: Color = Color.blue
+    let clearButtonSize: CGFloat = 20
     
     
     
@@ -268,11 +272,7 @@ final class StylesLogEntry:Sendable {
     // background color for selected row
     let NavigationTreeSelectedRowColor: Color = Color(hex: 0x476f95).opacity(1)
     
-    //clear button for textfield
-    let ClearButtonImage: String = "xmark.circle.fill"//"multiply.circle.fill"
-    let ClearButtonColorActivePrimary: Color = Color.white
-    let ClearButtonColorActiveSecondary: Color = Color.blue
-    let ClearButtonSize: CGFloat = 20
+
     
     
     

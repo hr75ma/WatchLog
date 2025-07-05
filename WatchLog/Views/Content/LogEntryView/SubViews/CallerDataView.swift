@@ -54,7 +54,7 @@ extension CallerDataView {
 
     HStack(alignment: .center, spacing: 0) {
       Text("Telefon")
-        .sectionTextLabel(appStyles: appStyles)
+        .sectionTextLabel()
         
       TextField("", text: $logEntry.CallerNumber)
             .sectionTextField(text: $logEntry.CallerNumber, isLocked: logEntry.isLocked,
@@ -70,7 +70,7 @@ extension CallerDataView {
   private var nameSubSection: some View {
     HStack(alignment: .center, spacing: 0) {
       Text("Name")
-        .sectionTextLabel(appStyles: appStyles)
+        .sectionTextLabel()
 
       TextField("", text: $logEntry.CallerName)
         .sectionTextField(
@@ -82,7 +82,7 @@ extension CallerDataView {
   private var dobSubSection: some View {
     HStack(alignment: .top, spacing: 0) {
       Text("DOB")
-        .sectionTextLabel(appStyles: appStyles)
+        .sectionTextLabel()
 
       HStack(alignment: .top, spacing: 0) {
 
@@ -193,15 +193,14 @@ extension CallerDataView {
   private var adressSubSection: some View {
     HStack(alignment: .top, spacing: 0) {
       Text("Adresse")
-        .sectionTextLabel(appStyles: appStyles)
+        .sectionTextLabel()
         .frame(alignment: .topLeading)
 
       TextField("", text: $logEntry.CallerAdress, axis: .vertical)
-        .sectionTextField(
+        .sectionTextFieldMultiline(
           text: $logEntry.CallerAdress, isLocked: logEntry.isLocked,
           numberOfCharacters: 500, appStyles: appStyles
         )
-        .lineLimit(4, reservesSpace: true)
     }
   }
 

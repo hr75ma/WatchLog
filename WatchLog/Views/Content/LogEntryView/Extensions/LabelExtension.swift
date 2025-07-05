@@ -9,7 +9,7 @@ import SwiftUI
 
 struct LabelFormatterStyle: ViewModifier {
   let isLocked: Bool
-  let appStyles: StylesLogEntry
+    @Environment(\.appStyles) var appStyles
   func body(content: Content) -> some View {
     content
       .font(Font.custom(appStyles.labelFont, size: appStyles.labelFontSize))
@@ -23,7 +23,7 @@ struct LabelFormatterStyle: ViewModifier {
 }
 
 struct SectionTextLabelModifier: ViewModifier {
-  let appStyles: StylesLogEntry
+    @Environment(\.appStyles) var appStyles
   func body(content: Content) -> some View {
     content
       .font(Font.custom(appStyles.labelFont, size: appStyles.labelFontSize))
@@ -36,12 +36,12 @@ struct SectionTextLabelModifier: ViewModifier {
 }
 
 extension Text {
-  @MainActor func labelStyle(isLocked: Bool, _ appStyles: StylesLogEntry) -> some View {
-    modifier(LabelFormatterStyle(isLocked: isLocked, appStyles: appStyles))
+  @MainActor func labelStyle(isLocked: Bool) -> some View {
+    modifier(LabelFormatterStyle(isLocked: isLocked))
   }
     
-    func sectionTextLabel(appStyles: StylesLogEntry) -> some View {
-      self.modifier(SectionTextLabelModifier(appStyles: appStyles))
+    func sectionTextLabel() -> some View {
+      self.modifier(SectionTextLabelModifier())
     }
     
 }
