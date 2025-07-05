@@ -36,6 +36,11 @@ final class StylesLogEntry:Sendable {
     let labelFontSize: CGFloat = 35
     let labelFontSizeSub: CGFloat = 35
     
+    let textFieldHeight: CGFloat = 35
+    let textFieldBackgroundColor: Color = Color(.systemGray5)
+    let textFieldBackgroundColorLocked: Color = Color(.systemGray6)
+    let textFieldBackgroundColorUnLocked: Color = Color(.systemGray5)
+    
     
     
     
@@ -86,7 +91,10 @@ final class StylesLogEntry:Sendable {
     let sectionCallInImagePrimary: Color = Color.white
     let sectionCallInImageSecondary: Color = Color.blue
     
-    
+    //caller data section
+    let sectionCallerImage: String = "waveform.and.person.filled"
+    let sectionCallerImagePrimary: Color = Color.white
+    let sectionCallerImageSecondary: Color = Color.blue
     
     
     
@@ -159,9 +167,7 @@ final class StylesLogEntry:Sendable {
     
     
     
-    let SectionCallerImage: String = "waveform.and.person.filled"
-    let SectionCallerImagePrimary: Color = Color.white
-    let SectionCallerImageSecondary: Color = Color.blue
+    
     
     let SectionProcessTypeImage: String = "exclamationmark.triangle"
     let SectionProcessTypeImagePrimary: Color = Color.white

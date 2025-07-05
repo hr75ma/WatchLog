@@ -20,7 +20,7 @@ struct ProcessTypeSubTRUNKView: View {
                     .sectionTextLabelSubWidth(appStyles: appStyles, width: 215)
                 
                 TextField("", text: $logEntry.processTypeDetails.AccientLicensePlate01)
-                    .sectionTextField(appStyles: appStyles, text: $logEntry.processTypeDetails.AccientLicensePlate01, isLocked: logEntry.isLocked, numberOfCharacters: 10)
+                    .sectionTextField(text: $logEntry.processTypeDetails.AccientLicensePlate01, isLocked: logEntry.isLocked, numberOfCharacters: 10, appStyles: appStyles)
                    
                 Spacer()
             }

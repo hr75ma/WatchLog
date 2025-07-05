@@ -39,7 +39,6 @@ extension LockEditingView {
         .frame(height: appStyles.labelFontSize, alignment: .center)
         .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
         .disabled(logEntry.isNewEntryLog)
-
       Spacer()
     }
   }

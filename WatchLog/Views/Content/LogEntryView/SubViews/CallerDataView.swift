@@ -35,24 +35,18 @@ struct CallerDataView: View {
       }
     }
     .disabled(logEntry.isLocked)
-    .padding(EdgeInsets(top: 5, leading: 0, bottom: 10, trailing: 10))
-    .overlay(
-      Rectangle()
-        .frame(height: appStyles.GeneralInnerFrameBorderWidth)  // Border thickness
-        .foregroundColor(appStyles.GeneralInnerFrameColor),  // Border color
-      alignment: .bottom
-    )
-    .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
+    .standardSubViewPadding()
+    .standardBottomBorder(appStyles)
   }
 }
 
 extension CallerDataView {
 
   private var SectionImage: some View {
-    Image(systemName: appStyles.SectionCallerImage)
+    Image(systemName: appStyles.sectionCallerImage)
       .sectionImageStyle(
-        primaryColor: appStyles.SectionCallerImagePrimary,
-        secondaryColor: appStyles.SectionCallerImageSecondary)
+        primaryColor: appStyles.sectionCallerImagePrimary,
+        secondaryColor: appStyles.sectionCallerImageSecondary)
     //.symbolEffect(.variableColor.cumulative.hideInactiveLayers.nonReversing, options: .repeat(.continuous),isActive: !logEntry.isLocked)
   }
 
@@ -61,11 +55,10 @@ extension CallerDataView {
     HStack(alignment: .center, spacing: 0) {
       Text("Telefon")
         .sectionTextLabel(appStyles: appStyles)
-
+        
       TextField("", text: $logEntry.CallerNumber)
-        .sectionTextField(
-          appStyles: appStyles, text: $logEntry.CallerNumber, isLocked: logEntry.isLocked,
-          numberOfCharacters: 20
+            .sectionTextField(text: $logEntry.CallerNumber, isLocked: logEntry.isLocked,
+                              numberOfCharacters: 20, appStyles: appStyles
         )
         .textFieldCheckOnNumbers(text: $logEntry.CallerNumber)
         .textContentType(.telephoneNumber)
@@ -81,8 +74,8 @@ extension CallerDataView {
 
       TextField("", text: $logEntry.CallerName)
         .sectionTextField(
-          appStyles: appStyles, text: $logEntry.CallerName, isLocked: logEntry.isLocked,
-          numberOfCharacters: 50)
+            text: $logEntry.CallerName, isLocked: logEntry.isLocked, numberOfCharacters: 50,
+            appStyles: appStyles)
     }
   }
 
@@ -205,8 +198,8 @@ extension CallerDataView {
 
       TextField("", text: $logEntry.CallerAdress, axis: .vertical)
         .sectionTextField(
-          appStyles: appStyles, text: $logEntry.CallerAdress, isLocked: logEntry.isLocked,
-          numberOfCharacters: 500
+          text: $logEntry.CallerAdress, isLocked: logEntry.isLocked,
+          numberOfCharacters: 500, appStyles: appStyles
         )
         .lineLimit(4, reservesSpace: true)
     }

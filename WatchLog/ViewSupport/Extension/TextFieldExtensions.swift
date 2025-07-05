@@ -9,39 +9,19 @@ import Foundation
 import SwiftUI
 
 extension View {
-  func textFieldButtonClearButton(_ text: Binding<String>, isLocked: Bool) -> some View {
-    modifier(TextFieldButtonClearButtonModifier(text: text, isLocked: isLocked))
-      .padding(.leading, 5)
-      .padding(.trailing, 45)
-      .padding(.vertical, 0)
-  }
 
-  func textFieldLimitInputLength(text: Binding<String>, length: Int) -> some View {
-    self.modifier(TextFieldLimitModifer(text: text, length: length))
-  }
 
-  func textFieldCheckOnNumbers(text: Binding<String>) -> some View {
-    self.modifier(TextFieldCheckOnNumbersModifier(text: text))
-  }
+  
 
-  func sectionTextField(
-    appStyles: StylesLogEntry, text: Binding<String>, isLocked: Bool, numberOfCharacters: Int
-  ) -> some View {
-    self.modifier(
-      SectionTextFieldModifier(
-        appStyles: appStyles, text: text, isLocked: isLocked,
-        numberOfCharacters: numberOfCharacters, textFieldFont: appStyles.TextFieldFont,
-        textFieldFontSize: appStyles.TextFieldFontSize))
-  }
+
 
   func sectionTextFieldSubSection(
     appStyles: StylesLogEntry, text: Binding<String>, isLocked: Bool, numberOfCharacters: Int
   ) -> some View {
     self.modifier(
       SectionTextFieldModifier(
-        appStyles: appStyles, text: text, isLocked: isLocked,
-        numberOfCharacters: numberOfCharacters, textFieldFont: appStyles.TextFieldFont,
-        textFieldFontSize: appStyles.TextFieldFontSubSize))
+        text: text, isLocked: isLocked,
+        numberOfCharacters: numberOfCharacters, textFieldHeight: appStyles.textFieldHeight, appStyles: appStyles))
   }
 
   func sectionTextFieldSimulated(
@@ -55,83 +35,11 @@ extension View {
   }
 }
 
-struct TextFieldButtonClearButtonModifier: ViewModifier {
-  @Binding var text: String
-  let isLocked: Bool
-  @Environment(\.appStyles) var appStyles
 
-  func body(content: Content) -> some View {
 
-    ZStack(alignment: .trailing) {
-      content
 
-      if !text.isEmpty && !isLocked {
-        Button {
-          text = ""
-        } label: {
-          Image(systemName: appStyles.ClearButtonImage)
-            .resizable()
-            .frame(
-              width: appStyles.ClearButtonSize, height: appStyles.ClearButtonSize,
-              alignment: .center)
-        }
-        .offset(x: 30)
-      }
-    }
-  }
-}
 
-struct TextFieldLimitModifer: ViewModifier {
-  @Binding var text: String
-  var length: Int
 
-  func body(content: Content) -> some View {
-    content
-      .onChange(of: $text.wrappedValue) { old, new in
-        text = String($text.wrappedValue.prefix(length))
-      }
-  }
-}
-
-struct TextFieldCheckOnNumbersModifier: ViewModifier {
-  @Binding var text: String
-
-  func body(content: Content) -> some View {
-    content
-      .onChange(of: $text.wrappedValue) { old, new in
-        if !new.allSatisfy(\.isNumber) {
-          text = old
-        }
-      }
-  }
-}
-
-struct SectionTextFieldModifier: ViewModifier {
-  let appStyles: StylesLogEntry
-  @Binding var text: String
-  let isLocked: Bool
-  let numberOfCharacters: Int
-  let textFieldFont: String
-  let textFieldFontSize: CGFloat
-
-  func body(content: Content) -> some View {
-    content
-      .textFieldButtonClearButton($text, isLocked: isLocked)
-      .font(Font.custom(textFieldFont, size: textFieldFontSize))
-      .lineLimit(1)
-      .foregroundStyle(appStyles.GeneralTextColor)
-      .background(
-        isLocked
-          ? appStyles.TextfieldBackgroundColorLocked : appStyles.TextfieldBackgroundColorUnLocked
-      )
-      .fixedSize(horizontal: false, vertical: true)
-      .textFieldLimitInputLength(text: $text, length: numberOfCharacters)
-      .animation(.easeInOut(duration: 1), value: isLocked)
-      .autocorrectionDisabled(true)
-      .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
-      .disabled(isLocked)
-  }
-}
 
 struct SectionTextFieldSimulatedModifier: ViewModifier {
   let appStyles: StylesLogEntry
