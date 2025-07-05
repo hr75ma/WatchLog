@@ -17,15 +17,9 @@ struct LockEditingView: View {
   var body: some View {
 
     lockSection
-      .frame(height: appStyles.LabelFontSizeSub, alignment: .center)
-      .padding(EdgeInsets(top: 5, leading: 20, bottom: 10, trailing: 20))
-      .overlay(
-        Rectangle()
-          .frame(height: appStyles.GeneralInnerFrameBorderWidth)  // Border thickness
-          .foregroundColor(appStyles.GeneralInnerFrameColor),  // Border color
-        alignment: .bottom
-      )
-      .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
+      .frame(height: appStyles.labelFontSize, alignment: .center)
+      .timeSectionPadding()
+      .standardBottomBorder(appStyles)
   }
 }
 
@@ -36,23 +30,13 @@ extension LockEditingView {
     HStack(alignment: .center) {
 
       Text(logEntry.isLocked ? "Gesperrt" : "Entsperrt")
-        .font(Font.custom(appStyles.LabelFont, size: appStyles.LabelFontSize))
-        .foregroundStyle(logEntry.isLocked ? appStyles.isLockedColor : appStyles.GeneralTextColor)
-        .frame(width: 170, height: appStyles.LabelFontSizeSub, alignment: .leading)
-        .multilineTextAlignment(.leading)
-        .lineLimit(1)
-        .fixedSize(horizontal: true, vertical: true)
-        .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 5))
-        .lineSpacing(0)
+        .labelStyle(isLocked: logEntry.isLocked, appStyles)
         .animation(.easeInOut(duration: 1), value: logEntry.isLocked)
 
-        Toggle("", isOn: $logEntry.isLocked)
-          .labelsHidden()
-          .toggleStyle(
-            toggleStyleLockImage(appStyles: appStyles, isLocked: logEntry.isLocked)
-          )
-
-        .frame(height: appStyles.LabelFontSizeSub, alignment: .center)
+      Toggle("", isOn: $logEntry.isLocked)
+        .labelsHidden()
+        .toggleStyle(toggleStyleLockImage(isLocked: logEntry.isLocked, appStyles: appStyles))
+        .frame(height: appStyles.labelFontSize, alignment: .center)
         .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
         .disabled(logEntry.isNewEntryLog)
 

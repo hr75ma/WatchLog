@@ -50,7 +50,7 @@ extension CallerDataView {
 
   private var SectionImage: some View {
     Image(systemName: appStyles.SectionCallerImage)
-      .SectionImageStyle(
+      .sectionImageStyle(
         primaryColor: appStyles.SectionCallerImagePrimary,
         secondaryColor: appStyles.SectionCallerImageSecondary)
     //.symbolEffect(.variableColor.cumulative.hideInactiveLayers.nonReversing, options: .repeat(.continuous),isActive: !logEntry.isLocked)

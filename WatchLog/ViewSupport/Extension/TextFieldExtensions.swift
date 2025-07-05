@@ -162,9 +162,7 @@ struct SectionTextFieldSimulatedModifier: ViewModifier {
 
 extension View {
 
-  func sectionTextLabel(appStyles: StylesLogEntry) -> some View {
-    self.modifier(SectionTextLabelModifier(appStyles: appStyles))
-  }
+  
 
   func sectionTextLabelSub(appStyles: StylesLogEntry, width: CGFloat = 0) -> some View {
     self.modifier(SectionTextLabelSubModifier(appStyles: appStyles))
@@ -198,18 +196,7 @@ extension View {
 
 
 
-struct SectionTextLabelModifier: ViewModifier {
-  let appStyles: StylesLogEntry
-  func body(content: Content) -> some View {
-    content
-      .font(Font.custom(appStyles.LabelFont, size: appStyles.LabelFontSize))
-      .foregroundStyle(appStyles.GeneralTextColor)
-      .frame(width: 120, height: appStyles.TextFieldHeight, alignment: .topLeading)
-      .multilineTextAlignment(.leading)
-      .lineLimit(1)
-      .fixedSize(horizontal: true, vertical: true)
-  }
-}
+
 
 struct SectionTextLabelForToggleModifier: ViewModifier {
   let appStyles: StylesLogEntry

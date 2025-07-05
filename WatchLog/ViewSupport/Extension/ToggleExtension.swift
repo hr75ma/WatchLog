@@ -55,39 +55,7 @@ struct toggleStyleAnimationImage: ToggleStyle {
 
 
 
-struct toggleStyleLockImage: ToggleStyle {
-    let appStyles: StylesLogEntry
-    
-    var isLocked: Bool = false
-    var isLockedColor: Color = .green
 
-  func makeBody(configuration: toggleStyleLockImage.Configuration) -> some View {
-          
-      ZStack(alignment: .center) {
-          
-          
-          Image(systemName: configuration.isOn ? appStyles.LockImageisLocked : appStyles.LockImageisUnLocked)
-              .symbolRenderingMode(.palette)
-              .resizable()
-              .scaledToFit()
-              
-              
-              .foregroundStyle(configuration.isOn ? appStyles.LockColorIsLockedPrimary: appStyles.LockColorIsUnLockedPrimary, configuration.isOn ? appStyles.LockColorIsLockedSecondary : appStyles.LockColorIsUnLockedSecondary)
-              .animation(.easeInOut(duration: 1), value: configuration.isOn)
-          
-              .symbolEffect(.rotate.clockwise.byLayer, options: .nonRepeating, isActive: configuration.isOn)
-              .symbolEffect(.rotate.clockwise.byLayer, options: .nonRepeating, isActive: !configuration.isOn)
-              .padding(EdgeInsets(top: 4, leading: 4, bottom: 4, trailing: 4))
-      }
-      .animation(.easeInOut(duration: 1),  value: isLocked)
-      .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-             
-              .onTapGesture {
-                  configuration.$isOn.wrappedValue.toggle()
-              }
-    
-  }
-}
 
 
 struct generalToggleStyleImage: ToggleStyle {

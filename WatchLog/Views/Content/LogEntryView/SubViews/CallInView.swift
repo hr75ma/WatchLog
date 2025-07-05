@@ -15,13 +15,8 @@ struct CallInView: View {
     @State private var selectedCallIn: CallInType.CallInTypeShort = CallInType.CallInTypeShort.EMERGENCY
     @State private var selectedCallInHelper: CallInType.CallInTypeShort = CallInType.CallInTypeShort.EMERGENCY
     @State private var selectedCallInAsString: String = CallInType.callInTypes[CallInType.CallInTypeShort.EMERGENCY]!
-    
-    
-    
     @State private var tempLocked: Bool = false
-    
-    
-     @Namespace private var namespace
+    @Namespace private var namespace
 
     
     var body: some View {
@@ -36,14 +31,8 @@ struct CallInView: View {
         }
       }
       .disabled(logEntry.isLocked)
-      .padding(EdgeInsets(top: 5, leading: 0, bottom: 10, trailing: 10))
-      .overlay(
-        Rectangle()
-          .frame(height: appStyles.GeneralInnerFrameBorderWidth)  // Border thickness
-          .foregroundColor(appStyles.GeneralInnerFrameColor),  // Border color
-        alignment: .bottom
-      )
-      .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
+      .standardSubViewPadding()
+      .standardBottomBorder(appStyles)
     }
   }
 
@@ -53,18 +42,24 @@ struct CallInView: View {
 extension CallInView {
     
     private var SectionImage: some View {
-        Image(systemName: appStyles.SectionCallInImage)
-            .SectionImageStyle(primaryColor: appStyles.SectionCallInImagePrimary, secondaryColor: appStyles.SectionCallInImageSecondary)
+        Image(systemName: appStyles.sectionCallInImage)
+            .sectionImageStyle(primaryColor: appStyles.sectionCallInImagePrimary, secondaryColor: appStyles.sectionCallInImageSecondary)
         //.symbolEffect(.variableColor.cumulative.hideInactiveLayers.nonReversing, options: .repeat(.continuous),isActive: !logEntry.isLocked)
     }
+    
+    
+    
+    
+    
+    
+    
+    
     
     private var callInSection: some View {
         
         HStack(alignment: .center, spacing: 0) {
             Text("Eingang")
                 .sectionTextLabel(appStyles: appStyles)
-                //.border(.red)
-            
             VStack(alignment: .leading, spacing: 0) {
                 
                 HStack(alignment: .top, spacing: 0) {
@@ -80,7 +75,6 @@ extension CallInView {
                 customSegmentedPickerView(preselectedIndex: $selectedCallIn, appStyles: appStyles)
                         .matchedGeometryEffect(id: "lockedEvent", in: namespace)
                     .isHidden(tempLocked, remove: true)
-                    //.border(.red)
                 
                 }
                 .frame(maxWidth: .infinity)

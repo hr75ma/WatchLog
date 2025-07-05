@@ -182,7 +182,7 @@ extension ProcessTypeSelectionView {
 
   private var SectionImage: some View {
     Image(systemName: appStyles.SectionProcessTypeImage)
-      .SectionImageStyle(
+      .sectionImageStyle(
         primaryColor: appStyles.SectionProcessTypeImagePrimary,
         secondaryColor: appStyles.SSectionProcessTypeImageSecondary)
     //.symbolEffect(.variableColor.cumulative.hideInactiveLayers.nonReversing, options: .repeat(.continuous),isActive: !logEntry.isLocked)

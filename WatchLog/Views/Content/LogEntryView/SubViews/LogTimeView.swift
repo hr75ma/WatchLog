@@ -19,8 +19,8 @@ struct LogTimeView: View {
 
     logTimeSection
       .animation(.default, value: logTime)
-      .standardSubViewPadding()
-      .bottomBorder(appStyles)
+      .timeSectionPadding()
+      .standardBottomBorder(appStyles)
   }
 }
 
@@ -29,13 +29,13 @@ extension LogTimeView {
   private var logTimeSection: some View {
     HStack(alignment: .center) {
       Text(logTime.formatted(.dateTime.locale(Locale.current).weekday(.wide)))
-        .LogTimeStyleAndAnimation(appStyles)
+        .logTimeStyleAndAnimation(appStyles)
       Spacer()
       Text(logTime.formatted(.dateTime.day(.twoDigits).month(.twoDigits).year()))
-        .LogTimeStyleAndAnimation(appStyles)
+        .logTimeStyleAndAnimation(appStyles)
       Spacer()
       Text(logTime.formatted(.dateTime.hour().minute().second()))
-        .LogTimeStyleAndAnimation(appStyles)
+        .logTimeStyleAndAnimation(appStyles)
     }
   }
 }

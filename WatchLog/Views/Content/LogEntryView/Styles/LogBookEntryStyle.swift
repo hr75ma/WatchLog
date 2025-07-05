@@ -8,37 +8,41 @@
 import Foundation
 import SwiftUI
 
-
 //general section
 
 extension View {
-    
-    func bottomBorder(_ appStyles: StylesLogEntry) -> some View {
-        self
-        .overlay(
-          Rectangle()
-            .frame(height: appStyles.GeneralInnerFrameBorderWidth)  // Border thickness
-            .foregroundColor(appStyles.GeneralInnerFrameColor),  // Border color
-          alignment: .bottom
-        )
-        .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
-    }
-    
-    func standardSubViewPadding() -> some View {
-        self
-            .padding(EdgeInsets(top: 5, leading: 20, bottom: 5, trailing: 20))
-    }
-    
-    
+
+  func standardBottomBorder(_ appStyles: StylesLogEntry) -> some View {
+    self
+      .overlay(
+        Rectangle()
+          .frame(height: appStyles.standardInnerFrameBorderWidth)  // Border thickness
+            .foregroundColor(appStyles.standardFrameColor),  // Border color
+        alignment: .bottom
+      )
+      .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
+  }
+
+  func standardSubViewPadding() -> some View {
+    self
+      .padding(EdgeInsets(top: 5, leading: 0, bottom: 10, trailing: 10))
+  }
 }
-
-
 
 
 
 // logTime section
 
- struct TextFormatterStyle: ViewModifier {
+
+extension View {
+    func timeSectionPadding() -> some View {
+      self
+        .padding(EdgeInsets(top: 5, leading: 20, bottom: 5, trailing: 20))
+
+    }
+}
+
+struct TextFormatterStyle: ViewModifier {
   let appStyles: StylesLogEntry
   func body(content: Content) -> some View {
     content
@@ -49,7 +53,9 @@ extension View {
 }
 
 extension Text {
-  @MainActor func LogTimeStyleAndAnimation(_ appStyles: StylesLogEntry) -> some View {
+  @MainActor func logTimeStyleAndAnimation(_ appStyles: StylesLogEntry) -> some View {
     modifier(TextFormatterStyle(appStyles: appStyles))
   }
 }
+
+//locked section

@@ -18,7 +18,7 @@ extension Image {
       .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
   }
 
-  func SectionImageStyle(primaryColor: Color, secondaryColor: Color) -> some View {
+  func sectionImageStyle(primaryColor: Color, secondaryColor: Color) -> some View {
     self.resizable()
       .aspectRatio(contentMode: .fit)
       .frame(width: 40, height: 40)

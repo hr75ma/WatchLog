@@ -26,7 +26,16 @@ final class StylesLogEntry:Sendable {
     
     //global
     let standardFontColor: Color = .blue
+    let standardLockedColor: Color = Color.red
     let standardBlurFactor: CGFloat = 10
+    let standardFrameColor:Color = Color.blue
+    let standardInnerFrameBorderWidth:CGFloat = 4
+    
+    
+    let labelFont: String = "digital-7"
+    let labelFontSize: CGFloat = 35
+    let labelFontSizeSub: CGFloat = 35
+    
     
     
     
@@ -54,17 +63,7 @@ final class StylesLogEntry:Sendable {
     let navigationRefreshProgressionFontSize: CGFloat = 35
     let navigationRefreshProgressionRefreshFontSize: CGFloat = 25
     
-    
-    
-    
-    
     //progession section
-    let ProcessTypeFont: String = "Roboto-MediumItalic"
-    let ProcessTypeFontSize: CGFloat = 25
-    let ProcessTypeFontHight: CGFloat = 25
-    let ProcessTypeFontColor: Color = Color.blue
-    let ProcessTypeBackgroundColor: Color = Color.clear
-    
     let progressionColor: Color = .white
     let progressionFont: String = "digital-7"
     let progressionFontSize: CGFloat = 35
@@ -74,24 +73,45 @@ final class StylesLogEntry:Sendable {
     let logTimeFont: String = "digital-7"
     let logTimeFontSize: CGFloat = 40
     
+    let lockImageIsLocked: String = "lock.rotation"
+    let lockImageIsUnLocked: String = "lock.open.rotation"
+    let lockColorIsLockedPrimary: Color = Color.red
+    let lockColorIsLockedSecondary: Color = Color.red
+    let lockColorIsUnLockedPrimary: Color = Color.green
+    let lockColorIsUnLockedSecondary: Color = Color.green
+    
+    
+    //callin section
+    let sectionCallInImage: String = "arrow.down.message"
+    let sectionCallInImagePrimary: Color = Color.white
+    let sectionCallInImageSecondary: Color = Color.blue
     
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    //logTime section
     let LabelFont: String = "digital-7"
     let LabelFontSize: CGFloat = 35
     let LabelFontSizeSub: CGFloat = 35
     
     
-    //logTime section
     
     
     
     
-    
-    
-    
-    
+    let ProcessTypeFont: String = "Roboto-MediumItalic"
+    let ProcessTypeFontSize: CGFloat = 25
+    let ProcessTypeFontHight: CGFloat = 25
+    let ProcessTypeFontColor: Color = Color.blue
+    let ProcessTypeBackgroundColor: Color = Color.clear
     
     
     
@@ -137,9 +157,7 @@ final class StylesLogEntry:Sendable {
     
     
     
-    let SectionCallInImage: String = "arrow.down.message"
-    let SectionCallInImagePrimary: Color = Color.white
-    let SectionCallInImageSecondary: Color = Color.blue
+    
     
     let SectionCallerImage: String = "waveform.and.person.filled"
     let SectionCallerImagePrimary: Color = Color.white
@@ -155,8 +173,7 @@ final class StylesLogEntry:Sendable {
     let SectionNoteImageSecondary: Color = Color.blue
     
     //generale layouts
-    let isLockedColor: Color = Color.red
-    let isUnLockedColor: Color = Color.blue
+    
     
     let GeneralTextColor:Color = Color.blue
     let GeneralPickerTextColor:Color = Color.white
