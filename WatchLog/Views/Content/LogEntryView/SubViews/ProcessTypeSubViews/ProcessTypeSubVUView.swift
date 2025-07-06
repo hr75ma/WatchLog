@@ -35,27 +35,21 @@ struct ProcessTypeSubVUView: View {
             
             HStack(alignment: .center, spacing: 0) {
                 Text("Verletzte")
-                    .sectionTextLabelSub(appStyles: appStyles)
-                    .fixedSize(horizontal: true, vertical: true)
-                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 5))
+                    .subSectionTextLabel()
                 
                 ToggleView(toggleValue: $logEntry.processTypeDetails.isInjured, isLocked: logEntry.isLocked, toggleType: .sub)
                 
                 Spacer()
                 
                 Text("Flucht")
-                    .sectionTextLabelSub(appStyles: appStyles)
-                    .fixedSize(horizontal: true, vertical: true)
-                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 5))
+                    .subSectionTextLabel()
                 
                 ToggleView(toggleValue: $logEntry.processTypeDetails.AccientHitAndRun, isLocked: logEntry.isLocked, toggleType: .sub)
                 
                 Spacer()
                 
                 Text("Alkohol/BtM")
-                    .sectionTextLabelSub(appStyles: appStyles)
-                    .fixedSize(horizontal: true, vertical: true)
-                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 5))
+                    .subSectionTextLabel()
                 
                 ToggleView(toggleValue: $logEntry.processTypeDetails.AlcoholConsumed, isLocked: logEntry.isLocked, toggleType: .sub)
 

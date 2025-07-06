@@ -35,13 +35,50 @@ struct SectionTextLabelModifier: ViewModifier {
   }
 }
 
+struct SubSectionTextLabelModifier: ViewModifier {
+    @Environment(\.appStyles) var appStyles
+  
+    func body(content: Content) -> some View {
+    content
+      .font(Font.custom(appStyles.labelFont, size: appStyles.LabelFontSizeSub))
+      .foregroundStyle(appStyles.standardFontColor)
+      .frame(height: appStyles.LabelFontSizeSub, alignment: .topLeading)
+      .lineLimit(1)
+      .fixedSize(horizontal: false, vertical: true)
+      .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 5))
+  }
+}
+
+struct SubSectionTextLabelWidthModifier: ViewModifier {
+  let width: CGFloat
+  @Environment(\.appStyles) var appStyles
+  
+  func body(content: Content) -> some View {
+    content
+          .font(Font.custom(appStyles.labelFont, size: appStyles.LabelFontSizeSub))
+          .foregroundStyle(appStyles.standardFontColor)
+          .frame(width: width, height: appStyles.LabelFontSizeSub, alignment: .topLeading)
+          .lineLimit(1)
+          .fixedSize(horizontal: false, vertical: true)
+          .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 5))
+  }
+}
+
 extension Text {
-  @MainActor func labelStyle(isLocked: Bool) -> some View {
+func labelStyle(isLocked: Bool) -> some View {
     modifier(LabelFormatterStyle(isLocked: isLocked))
   }
     
     func sectionTextLabel() -> some View {
       self.modifier(SectionTextLabelModifier())
+    }
+    
+    func subSectionTextLabel() -> some View {
+      self.modifier(SubSectionTextLabelModifier())
+    }
+    
+    func subSectionTextWidthLabel(width: CGFloat) -> some View {
+        self.modifier(SubSectionTextLabelWidthModifier(width: width))
     }
     
 }

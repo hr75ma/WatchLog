@@ -17,7 +17,7 @@ import SwiftUI
             VStack(alignment: .leading, spacing: 5) {
                 HStack(alignment: .center, spacing: 0) {
                     Text("Kennzeichen")
-                        .sectionTextLabelSub(appStyles: appStyles)
+                        .subSectionTextLabel()
                     
                     TextField("", text: $logEntry.processTypeDetails.AccientLicensePlate01)
                         .sectionTextFieldSubSection(appStyles: appStyles, text: $logEntry.processTypeDetails.AccientLicensePlate01, isLocked: logEntry.isLocked, numberOfCharacters: 10)

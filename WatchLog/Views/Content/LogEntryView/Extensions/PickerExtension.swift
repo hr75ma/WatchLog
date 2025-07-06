@@ -10,12 +10,13 @@ import SwiftUI
 
 struct customSegmentedPickerView: View {
     @Binding var preselectedIndex: CallInType.CallInTypeShort
-    @Environment(\.appStyles) var appStyles
+    let appStyles: StylesLogEntry
     
-    init(preselectedIndex: Binding<CallInType.CallInTypeShort>) {
+    init(preselectedIndex: Binding<CallInType.CallInTypeShort>, appStyles: StylesLogEntry) {
         self._preselectedIndex = preselectedIndex
+        self.appStyles = appStyles
         
-        UISegmentedControl.appearance().selectedSegmentTintColor = UIColor(appStyles.standardFrameColor)
+        UISegmentedControl.appearance().selectedSegmentTintColor = UIColor(self.appStyles.standardFrameColor)
         UISegmentedControl.appearance().backgroundColor = UIColor(appStyles.TextfieldBackgroundColorUnLocked)
         
         UISegmentedControl.appearance().setTitleTextAttributes([.font: UIFont.systemFont(ofSize: appStyles.segmentedCallInFontSize, weight: .semibold, width: .standard), .foregroundColor: UIColor(appStyles.standardFontColor)], for: .normal)

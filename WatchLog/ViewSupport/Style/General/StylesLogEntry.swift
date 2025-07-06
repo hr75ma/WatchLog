@@ -34,7 +34,8 @@ final class StylesLogEntry:Sendable {
     
     let labelFont: String = "digital-7"
     let labelFontSize: CGFloat = 35
-    let labelFontSizeSub: CGFloat = 35
+    let labelFontSizeSub: CGFloat = 30
+
     
     let textFieldHeight: CGFloat = 35
     let textFieldSubHeight: CGFloat = 30
@@ -130,7 +131,7 @@ final class StylesLogEntry:Sendable {
     //logTime section
     let LabelFont: String = "digital-7"
     let LabelFontSize: CGFloat = 35
-    let LabelFontSizeSub: CGFloat = 35
+    let LabelFontSizeSub: CGFloat = 30
     
     
     

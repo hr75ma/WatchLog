@@ -57,7 +57,7 @@ extension CallInView {
             Spacer()
           }
 
-          customSegmentedPickerView(preselectedIndex: $selectedCallIn)
+          customSegmentedPickerView(preselectedIndex: $selectedCallIn, appStyles: appStyles)
             .matchedGeometryEffect(id: "lockedEvent", in: namespace)
             .isHidden(tempLocked, remove: true)
 
