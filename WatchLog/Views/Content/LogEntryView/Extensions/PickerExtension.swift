@@ -48,7 +48,6 @@ struct customSegmentedPickerView: View {
     }
 }
 
-
 extension DatePicker {
 
   func datePickerWheelStyle() -> some View {
@@ -56,7 +55,6 @@ extension DatePicker {
         DatePickerModifier())
   }
 }
-
 
 struct DatePickerModifier: ViewModifier {
   @Environment(\.appStyles) var appStyles
