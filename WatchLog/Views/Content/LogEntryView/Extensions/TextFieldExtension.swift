@@ -105,7 +105,7 @@ extension TextField {
     self.modifier(
       SectionTextFieldModifier(
         text: text, isLocked: isLocked,
-        numberOfCharacters: numberOfCharacters, textFieldHeight: appStyles.textFieldHeight))
+        numberOfCharacters: numberOfCharacters, textFieldHeight: appStyles.textFieldHeight, font: Font.title))
   }
 
   func sectionTextFieldMultiline(
@@ -116,6 +116,16 @@ extension TextField {
         text: text, isLocked: isLocked,
         numberOfCharacters: numberOfCharacters))
   }
+    
+    func subSectionTextField(
+      text: Binding<String>, isLocked: Bool, numberOfCharacters: Int, appStyles: StylesLogEntry
+    ) -> some View {
+      self.modifier(
+        SectionTextFieldModifier(
+          text: text, isLocked: isLocked,
+          numberOfCharacters: numberOfCharacters, textFieldHeight: appStyles.textFieldSubHeight, font: Font.title2))
+    }
+    
 }
 
 struct SectionTextFieldModifier: ViewModifier {
@@ -123,12 +133,13 @@ struct SectionTextFieldModifier: ViewModifier {
   let isLocked: Bool
   let numberOfCharacters: Int
   let textFieldHeight: CGFloat
+  let font: Font
   @Environment(\.appStyles) var appStyles
 
   func body(content: Content) -> some View {
     content
       .textFieldButtonClearButton(text: $text, isLocked: isLocked)
-      .font(.title)
+      .font(font)
       .fontWeight(.semibold)
       .fontWidth(.standard)
       .fontDesign(.rounded)

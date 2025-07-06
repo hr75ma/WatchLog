@@ -21,7 +21,7 @@ extension View {
     self.modifier(
       SectionTextFieldModifier(
         text: text, isLocked: isLocked,
-        numberOfCharacters: numberOfCharacters, textFieldHeight: appStyles.textFieldHeight))
+        numberOfCharacters: numberOfCharacters, textFieldHeight: appStyles.textFieldHeight, font: .title))
   }
 
   func sectionTextFieldSimulated(

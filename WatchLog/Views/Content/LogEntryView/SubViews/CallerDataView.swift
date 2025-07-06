@@ -57,7 +57,6 @@ extension CallerDataView {
         .textFieldCheckOnNumbers(text: $logEntry.CallerNumber)
         .textContentType(.telephoneNumber)
         .keyboardType(.numberPad)
-
     }
   }
 

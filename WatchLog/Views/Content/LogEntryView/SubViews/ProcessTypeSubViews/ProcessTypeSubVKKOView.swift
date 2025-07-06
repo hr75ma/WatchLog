@@ -18,9 +18,10 @@ import SwiftUI
                 HStack(alignment: .center, spacing: 0) {
                     Text("Kennzeichen")
                         .subSectionTextLabel()
-                    
+
                     TextField("", text: $logEntry.processTypeDetails.AccientLicensePlate01)
-                        .sectionTextFieldSubSection(appStyles: appStyles, text: $logEntry.processTypeDetails.AccientLicensePlate01, isLocked: logEntry.isLocked, numberOfCharacters: 10)
+                        .subSectionTextField(text: $logEntry.processTypeDetails.AccientLicensePlate01, isLocked: logEntry.isLocked, numberOfCharacters: 10, appStyles: appStyles)
+
                         
                         .padding(EdgeInsets(top: 0, leading: 5, bottom: 0, trailing: 0))
                 }
