@@ -28,8 +28,9 @@ final class StylesLogEntry:Sendable {
     let standardFontColor: Color = .blue
     let standardLockedColor: Color = Color.red
     let standardBlurFactor: CGFloat = 10
-    let standardFrameColor:Color = Color.blue
+    let standardFrameColor: Color = Color.blue
     let standardInnerFrameBorderWidth:CGFloat = 4
+    let standardBackgroundColor: Color = Color.black
     
     
     let labelFont: String = "digital-7"

@@ -49,3 +49,38 @@ struct customSegmentedPickerView: View {
         .pickerStyle(.segmented)
     }
 }
+
+
+extension DatePicker {
+
+  func datePickerWheelStyle() -> some View {
+    self.modifier(
+        DatePickerModifier())
+  }
+}
+
+
+struct DatePickerModifier: ViewModifier {
+  @Environment(\.appStyles) var appStyles
+    @Environment(\.colorScheme) var colorScheme
+
+  func body(content: Content) -> some View {
+    content
+          .labelsHidden()  // Hides the default label
+          .colorMultiply(colorScheme == .dark ? appStyles.standardFontColor : appStyles.standardFontColor)
+          .background(colorScheme == .dark ? appStyles.standardBackgroundColor : .white)
+          .font(.largeTitle)
+          .fontWeight(.semibold)
+          .fontWidth(.standard)
+          .fontDesign(.rounded)
+          .frame(width: 300, height: 100)
+          .clipped()
+          .contentShape(Rectangle())
+          .datePickerStyle(.wheel)
+          .environment(\.locale, Locale.current)
+  }
+}
+
+
+
+

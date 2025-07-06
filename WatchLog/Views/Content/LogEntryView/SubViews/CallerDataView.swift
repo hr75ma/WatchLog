@@ -11,6 +11,7 @@ struct CallerDataView: View {
 
   @Bindable var logEntry: WatchLogEntry
   @Environment(\.appStyles) var appStyles
+    @Environment(\.colorScheme) var colorScheme
 
   @State private var withBirthday: Bool = true
   @State private var with: Bool = true
@@ -120,16 +121,8 @@ extension CallerDataView {
             //              .isHidden(tempLocked, remove: true)
 
             DatePicker("", selection: $logEntry.CallerDOB ?? Date(), displayedComponents: [.date])
-              .labelsHidden()  // Hides the default label
-              .colorMultiply(.blue)
-              .font(Font.custom(appStyles.TextFieldFont, size: appStyles.TextFieldFontSize))
+              .datePickerWheelStyle()
               .matchedGeometryEffect(id: "lockedEvent", in: namespace)
-              .frame(width: 300, height: 100)
-              .clipped()
-              .contentShape(Rectangle())
-              .datePickerStyle(WheelDatePickerStyle())
-              .background(appStyles.GeneralBackgroundColor)
-              .environment(\.locale, Locale.current)
               .isHidden(!with || tempLocked, remove: true)
           }
           .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
@@ -197,3 +190,5 @@ public func ?? <T: Sendable>(lhs: Binding<T?>, rhs: T) -> Binding<T> {
     set: { lhs.wrappedValue = $0 }
   )
 }
+
+
