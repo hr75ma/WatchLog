@@ -167,14 +167,8 @@ struct ProcessTypeSelectionView: View {
       }
     }
     .frame(maxWidth: .infinity)
-    .padding(EdgeInsets(top: 5, leading: 0, bottom: 10, trailing: 10))
-    .overlay(
-      Rectangle()
-        .frame(height: appStyles.GeneralInnerFrameBorderWidth)  // Border thickness
-        .foregroundColor(appStyles.GeneralInnerFrameColor),  // Border color
-      alignment: .bottom
-    )
-    .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
+    .standardSubViewPadding()
+    .standardBottomBorder(appStyles)
   }
 }
 

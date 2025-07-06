@@ -17,9 +17,10 @@ extension View {
       .overlay(
         Rectangle()
           .frame(height: appStyles.standardInnerFrameBorderWidth)  // Border thickness
-            .foregroundColor(appStyles.standardFrameColor),  // Border color
+          .foregroundColor(appStyles.standardFrameColor),  // Border color
         alignment: .bottom
       )
+      .cornerRadius(10)
       .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
   }
 
@@ -29,17 +30,14 @@ extension View {
   }
 }
 
-
-
 // logTime section
 
-
 extension View {
-    func timeSectionPadding() -> some View {
-      self
-        .padding(EdgeInsets(top: 5, leading: 20, bottom: 5, trailing: 20))
+  func timeSectionPadding() -> some View {
+    self
+      .padding(EdgeInsets(top: 5, leading: 20, bottom: 5, trailing: 20))
 
-    }
+  }
 }
 
 struct TextFormatterStyle: ViewModifier {

@@ -21,7 +21,7 @@ struct CallerDataView: View {
   var body: some View {
     HStack(alignment: .top, spacing: 0) {
 
-        ViewSectionImage(sectionType: SectionImageType.callerData)
+      ViewSectionImage(sectionType: SectionImageType.callerData)
 
       VStack(alignment: .leading, spacing: 5) {
 
@@ -47,10 +47,11 @@ extension CallerDataView {
     HStack(alignment: .center, spacing: 0) {
       Text("Telefon")
         .sectionTextLabel()
-        
+
       TextField("", text: $logEntry.CallerNumber)
-            .sectionTextField(text: $logEntry.CallerNumber, isLocked: logEntry.isLocked,
-                              numberOfCharacters: 20, appStyles: appStyles
+        .sectionTextField(
+          text: $logEntry.CallerNumber, isLocked: logEntry.isLocked,
+          numberOfCharacters: 20, appStyles: appStyles
         )
         .textFieldCheckOnNumbers(text: $logEntry.CallerNumber)
         .textContentType(.telephoneNumber)
@@ -66,8 +67,22 @@ extension CallerDataView {
 
       TextField("", text: $logEntry.CallerName)
         .sectionTextField(
-            text: $logEntry.CallerName, isLocked: logEntry.isLocked, numberOfCharacters: 50,
-            appStyles: appStyles)
+          text: $logEntry.CallerName, isLocked: logEntry.isLocked, numberOfCharacters: 50,
+          appStyles: appStyles)
+    }
+  }
+
+  private var adressSubSection: some View {
+    HStack(alignment: .top, spacing: 0) {
+      Text("Adresse")
+        .sectionTextLabel()
+        .frame(alignment: .topLeading)
+
+      TextField("", text: $logEntry.CallerAdress, axis: .vertical)
+        .sectionTextFieldMultiline(
+          text: $logEntry.CallerAdress, isLocked: logEntry.isLocked,
+          numberOfCharacters: 500, appStyles: appStyles
+        )
     }
   }
 
@@ -80,12 +95,9 @@ extension CallerDataView {
 
         HStack(alignment: .top, spacing: 0) {
 
-         
-
           HStack(alignment: .top, spacing: 0) {
 
             Toggle("", isOn: $withBirthday)
-              //    .matchedGeometryEffect(id: "lockedEvent", in: namespace)
               .labelsHidden()
               .toggleStyle(
                 generalToggleStyleImage(appStyles: appStyles, isLocked: logEntry.isLocked)
@@ -95,7 +107,6 @@ extension CallerDataView {
               .isHidden(tempLocked, remove: true)
 
             Toggle("", isOn: $withBirthday)
-               //   .matchedGeometryEffect(id: "lockedEvent", in: namespace)
               .labelsHidden()
               .toggleStyle(
                 toggleStyleAnimationImage(
@@ -127,16 +138,16 @@ extension CallerDataView {
           }
           .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
         }
-          
-           if tempLocked {
-               Text(DateManipulation.getFormatedDateFromDOB(from: logEntry.CallerDOB))
-               .SectionTextFieldSimulatedSingleLine(
-                 appStyles: appStyles, isLocked: logEntry.isLocked
-               )
-               .matchedGeometryEffect(id: "lockedEvent", in: namespace)
-               .isHidden(logEntry.CallerDOB == nil || !tempLocked, remove: true)
-             Spacer()
-           }
+
+        if tempLocked {
+          Text(DateManipulation.getFormatedDateFromDOB(from: logEntry.CallerDOB))
+            .SectionTextFieldSimulatedSingleLine(
+              appStyles: appStyles, isLocked: logEntry.isLocked
+            )
+            .matchedGeometryEffect(id: "lockedEvent", in: namespace)
+            .isHidden(logEntry.CallerDOB == nil || !tempLocked, remove: true)
+          Spacer()
+        }
 
       }
       .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
@@ -182,20 +193,6 @@ extension CallerDataView {
     .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
   }
 
-  private var adressSubSection: some View {
-    HStack(alignment: .top, spacing: 0) {
-      Text("Adresse")
-        .sectionTextLabel()
-        .frame(alignment: .topLeading)
-
-      TextField("", text: $logEntry.CallerAdress, axis: .vertical)
-        .sectionTextFieldMultiline(
-          text: $logEntry.CallerAdress, isLocked: logEntry.isLocked,
-          numberOfCharacters: 500, appStyles: appStyles
-        )
-    }
-  }
-
 }
 
 public func ?? <T: Sendable>(lhs: Binding<T?>, rhs: T) -> Binding<T> {
@@ -204,5 +201,3 @@ public func ?? <T: Sendable>(lhs: Binding<T?>, rhs: T) -> Binding<T> {
     set: { lhs.wrappedValue = $0 }
   )
 }
-
-
