@@ -35,9 +35,7 @@ extension LockEditingView {
 
       Toggle("", isOn: $logEntry.isLocked)
         .labelsHidden()
-        .toggleStyle(toggleStyleLockImage(isLocked: logEntry.isLocked, appStyles: appStyles))
-        .frame(height: appStyles.labelFontSize, alignment: .center)
-        .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+        .toggleStyle(toggleStyleLockImage(isLocked: logEntry.isLocked))
         .disabled(logEntry.isNewEntryLog)
       Spacer()
     }
