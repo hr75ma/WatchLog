@@ -39,16 +39,8 @@ struct NoteView: View {
               
           
       }
-      .cornerRadius(20)
-      .overlay(
-        RoundedRectangle(cornerRadius: 20, style: .continuous)
-          
-            .stroke(logEntry.isLocked ? appStyles.CanvasLockedColor : appStyles.CanvasUnLockedColor, lineWidth: 1)
-          
-      )
+      .canvasBorder(isLocked: logEntry.isLocked)
       .animation(.easeInOut(duration: 1),  value: logEntry.isLocked)
-      .padding(EdgeInsets(top: 5, leading: 10, bottom: 10, trailing: 10))
-      
     }
     .padding(EdgeInsets(top: 0, leading: 10, bottom: 10, trailing: 10))
     .containerRelativeFrame([.vertical], alignment: .topLeading)

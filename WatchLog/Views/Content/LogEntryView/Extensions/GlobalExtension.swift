@@ -15,6 +15,10 @@ func standardBottomBorder() -> some View {
       modifier(StandardBottomBorder())
     }
 
+    func canvasBorder(isLocked: Bool) -> some View {
+        modifier(CanvasBorder(isLocked: isLocked))
+        }
+
   func standardSubViewPadding() -> some View {
     self
       .padding(EdgeInsets(top: 5, leading: 0, bottom: 10, trailing: 10))
@@ -33,6 +37,20 @@ struct StandardBottomBorder: ViewModifier {
             )
             .cornerRadius(10)
             .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
+    }
+}
+
+struct CanvasBorder: ViewModifier {
+    let isLocked: Bool
+    @Environment(\.appStyles) var appStyles
+    func body(content: Content) -> some View {
+        content
+            .cornerRadius(20)
+            .overlay(
+              RoundedRectangle(cornerRadius: 20, style: .continuous)
+                  .stroke(isLocked ? appStyles.canvasLockedColor : appStyles.canvasUnLockedColor, lineWidth: 1)
+            )
+            .padding(EdgeInsets(top: 5, leading: 10, bottom: 10, trailing: 10))
     }
 }
 

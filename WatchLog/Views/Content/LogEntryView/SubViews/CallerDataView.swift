@@ -156,7 +156,6 @@ extension CallerDataView {
       }
       .onChange(of: withBirthday) { old, value in
         withAnimation(.easeInOut(duration: 1)) {
-          print("2. onChang")
           if !withBirthday {
             logEntry.CallerDOB = nil
             with = withBirthday
@@ -167,7 +166,6 @@ extension CallerDataView {
       }
       .onAppear {
         withAnimation(.easeInOut(duration: 1)) {
-          print("onappear")
           if logEntry.CallerDOB == nil {
             withBirthday = false
             with = withBirthday

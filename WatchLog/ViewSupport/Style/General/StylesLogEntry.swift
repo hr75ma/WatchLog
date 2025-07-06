@@ -122,7 +122,9 @@ final class StylesLogEntry:Sendable {
     let selectedCallInColor: Color = Color.white
     let segmentedCallInFontSize: CGFloat = 25
     
-    
+    // section Canvas
+    let canvasLockedColor: Color = Color.red
+    let canvasUnLockedColor: Color = Color.blue
     
     
     //logTime section
@@ -132,29 +134,14 @@ final class StylesLogEntry:Sendable {
     
     
     
-    
-    
-    
     let ProcessTypeFont: String = "Roboto-MediumItalic"
     let ProcessTypeFontSize: CGFloat = 25
     let ProcessTypeFontHight: CGFloat = 25
     let ProcessTypeFontColor: Color = Color.blue
     let ProcessTypeBackgroundColor: Color = Color.clear
     
-    
-    
-    
-    
-    
-    let NavigationTreeDisclosureYearGradientStart = Color(hex: 0x222222).opacity(1)
-    let NavigationTreeDisclosureYearGradientEnd = Color(hex: 0x2e2e2e).opacity(1)
-    
-
-    
     let callInFontSize: CGFloat = 25
     let callInFieldHeight: CGFloat = 30
-    
-    
      
     let glowingColorSetLocked: [Color] = [.red, .blue, .red]
     let glowingColorSetNew: [Color] = [.green, .blue, .green]
@@ -246,9 +233,7 @@ final class StylesLogEntry:Sendable {
     let ToolbarContextColorUnActivePrimary: Color = Color.white
     let ToolbarContextColorUnActiveSecondary: Color = Color.red
     
-    // Section Canvas
-    let CanvasLockedColor: Color = Color(hex: 0x585858).opacity(1)
-    let CanvasUnLockedColor: Color = Color.blue
+
     
     
     
