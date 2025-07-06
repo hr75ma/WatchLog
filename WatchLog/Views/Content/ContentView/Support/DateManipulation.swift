@@ -31,6 +31,13 @@ struct DateManipulation {
        dateStyle.hour(.twoDigits(amPM: .abbreviated)).minute(.twoDigits).second(.twoDigits))
    }
     
+    static func getFormatedDateFromDOB(from dob: Date?) -> String {
+      if dob != nil {
+        return dob!.formatted(date: .long, time: .omitted)
+      }
+      return ""
+    }
+    
 }
 
 

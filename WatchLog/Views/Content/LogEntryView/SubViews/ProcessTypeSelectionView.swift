@@ -36,7 +36,7 @@ struct ProcessTypeSelectionView: View {
   var body: some View {
     HStack(alignment: .top, spacing: 0) {
 
-      SectionImage
+        ViewSectionImage(sectionType: .event)
 
       VStack {
 
@@ -175,17 +175,6 @@ struct ProcessTypeSelectionView: View {
       alignment: .bottom
     )
     .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
-  }
-}
-
-extension ProcessTypeSelectionView {
-
-  private var SectionImage: some View {
-    Image(systemName: appStyles.SectionProcessTypeImage)
-      .sectionImageStyle(
-        primaryColor: appStyles.SectionProcessTypeImagePrimary,
-        secondaryColor: appStyles.SSectionProcessTypeImageSecondary)
-    //.symbolEffect(.variableColor.cumulative.hideInactiveLayers.nonReversing, options: .repeat(.continuous),isActive: !logEntry.isLocked)
   }
 }
 

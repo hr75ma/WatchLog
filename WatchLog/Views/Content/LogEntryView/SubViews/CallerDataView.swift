@@ -21,7 +21,7 @@ struct CallerDataView: View {
   var body: some View {
     HStack(alignment: .top, spacing: 0) {
 
-      SectionImage
+        ViewSectionImage(sectionType: SectionImageType.callerData)
 
       VStack(alignment: .leading, spacing: 5) {
 
@@ -41,14 +41,6 @@ struct CallerDataView: View {
 }
 
 extension CallerDataView {
-
-  private var SectionImage: some View {
-    Image(systemName: appStyles.sectionCallerImage)
-      .sectionImageStyle(
-        primaryColor: appStyles.sectionCallerImagePrimary,
-        secondaryColor: appStyles.sectionCallerImageSecondary)
-    //.symbolEffect(.variableColor.cumulative.hideInactiveLayers.nonReversing, options: .repeat(.continuous),isActive: !logEntry.isLocked)
-  }
 
   private var phoneSubSection: some View {
 
@@ -137,7 +129,7 @@ extension CallerDataView {
         }
           
            if tempLocked {
-             Text(getFormatedDateFromDOB(from: logEntry.CallerDOB))
+               Text(DateManipulation.getFormatedDateFromDOB(from: logEntry.CallerDOB))
                .SectionTextFieldSimulatedSingleLine(
                  appStyles: appStyles, isLocked: logEntry.isLocked
                )
@@ -213,9 +205,4 @@ public func ?? <T: Sendable>(lhs: Binding<T?>, rhs: T) -> Binding<T> {
   )
 }
 
-private func getFormatedDateFromDOB(from dob: Date?) -> String {
-  if dob != nil {
-    return dob!.formatted(date: .long, time: .omitted)
-  }
-  return ""
-}
+

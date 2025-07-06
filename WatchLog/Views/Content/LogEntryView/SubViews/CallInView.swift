@@ -22,7 +22,7 @@ struct CallInView: View {
     var body: some View {
       HStack(alignment: .top, spacing: 0) {
           
-        SectionImage
+          ViewSectionImage(sectionType: SectionImageType.callIn)
         
 
         VStack(alignment: .leading, spacing: 5) {
@@ -40,20 +40,6 @@ struct CallInView: View {
 
 
 extension CallInView {
-    
-    private var SectionImage: some View {
-        Image(systemName: appStyles.sectionCallInImage)
-            .sectionImageStyle(primaryColor: appStyles.sectionCallInImagePrimary, secondaryColor: appStyles.sectionCallInImageSecondary)
-        //.symbolEffect(.variableColor.cumulative.hideInactiveLayers.nonReversing, options: .repeat(.continuous),isActive: !logEntry.isLocked)
-    }
-    
-    
-    
-    
-    
-    
-    
-    
     
     private var callInSection: some View {
         

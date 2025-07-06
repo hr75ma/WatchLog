@@ -24,7 +24,7 @@ struct NoteView: View {
     VStack(alignment: .leading, spacing: 0) {
       HStack(alignment: .top, spacing: 0) {
          
-          SectionImage
+          ViewSectionImage(sectionType: .note)
           
           Text("Notiz")
               .sectionTextLabel()
@@ -63,11 +63,3 @@ struct NoteView: View {
   }
 }
 
-extension NoteView {
-    
-    private var SectionImage: some View {
-      Image(systemName: appStyles.SectionNoteImage)
-            .sectionImageStyle(primaryColor: appStyles.SectionNoteImagePrimary, secondaryColor: appStyles.SectionNoteImageSecondary)
-          //.symbolEffect(.variableColor.cumulative.hideInactiveLayers.nonReversing, options: .repeat(.continuous),isActive: !logEntry.isLocked)
-    }
-}

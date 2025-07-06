@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+
 extension View {
 
   func textFieldButtonClearButton(text: Binding<String>, isLocked: Bool) -> some View {
@@ -26,6 +27,7 @@ extension View {
 }
 
 extension TextField {
+    
 
   func sectionTextField(
     text: Binding<String>, isLocked: Bool, numberOfCharacters: Int, appStyles: StylesLogEntry
