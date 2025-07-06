@@ -22,7 +22,7 @@ struct CallInView: View {
     var body: some View {
       HStack(alignment: .top, spacing: 0) {
           
-          ViewSectionImage(sectionType: SectionImageType.callIn)
+          SectionImageView(sectionType: SectionImageType.callIn)
         
 
         VStack(alignment: .leading, spacing: 5) {

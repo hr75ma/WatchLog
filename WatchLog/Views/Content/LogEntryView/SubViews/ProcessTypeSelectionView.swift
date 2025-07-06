@@ -36,7 +36,7 @@ struct ProcessTypeSelectionView: View {
   var body: some View {
     HStack(alignment: .top, spacing: 0) {
 
-        ViewSectionImage(sectionType: .event)
+        SectionImageView(sectionType: .event)
 
       VStack {
 

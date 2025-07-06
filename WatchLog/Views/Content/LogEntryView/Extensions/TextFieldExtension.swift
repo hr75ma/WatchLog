@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-
+//globals
 extension View {
 
   func textFieldButtonClearButton(text: Binding<String>, isLocked: Bool) -> some View {
@@ -24,10 +24,80 @@ extension View {
   func textFieldCheckOnNumbers(text: Binding<String>) -> some View {
     self.modifier(TextFieldCheckOnNumbersModifier(text: text))
   }
+
+  func innerPadding() -> some View {
+    self.modifier(InnerPaddingModifier())
+      .padding(.leading, 5)
+      .padding(.trailing, 5)
+      .padding(.vertical, 0)
+  }
+
 }
 
+struct TextFieldButtonClearButtonModifier: ViewModifier {
+  @Binding var text: String
+  let isLocked: Bool
+  @Environment(\.appStyles) var appStyles
+
+  func body(content: Content) -> some View {
+
+    ZStack(alignment: .trailing) {
+      content
+
+      if !text.isEmpty && !isLocked {
+        Button {
+          text = ""
+        } label: {
+          Image(systemName: appStyles.clearButtonImage)
+            .resizable()
+            .frame(
+              width: appStyles.clearButtonSize, height: appStyles.clearButtonSize,
+              alignment: .center)
+        }
+        .offset(x: 30)
+      }
+    }
+  }
+}
+
+struct TextFieldLimitModifer: ViewModifier {
+  @Binding var text: String
+  var length: Int
+
+  func body(content: Content) -> some View {
+    content
+      .onChange(of: $text.wrappedValue) { old, new in
+        text = String($text.wrappedValue.prefix(length))
+      }
+  }
+}
+
+struct TextFieldCheckOnNumbersModifier: ViewModifier {
+  @Binding var text: String
+
+  func body(content: Content) -> some View {
+    content
+      .onChange(of: $text.wrappedValue) { old, new in
+        if !new.allSatisfy(\.isNumber) {
+          text = old
+        }
+      }
+  }
+}
+
+struct InnerPaddingModifier: ViewModifier {
+  func body(content: Content) -> some View {
+    ZStack(alignment: .trailing) {
+      content
+        .background(.clear)
+    }
+    .background(.clear)
+  }
+}
+
+//-----------------------------------------------------------
+
 extension TextField {
-    
 
   func sectionTextField(
     text: Binding<String>, isLocked: Bool, numberOfCharacters: Int, appStyles: StylesLogEntry
@@ -37,17 +107,16 @@ extension TextField {
         text: text, isLocked: isLocked,
         numberOfCharacters: numberOfCharacters, textFieldHeight: appStyles.textFieldHeight))
   }
-    
-    func sectionTextFieldMultiline(
-      text: Binding<String>, isLocked: Bool, numberOfCharacters: Int, appStyles: StylesLogEntry
-    ) -> some View {
-      self.modifier(
-        SectionTextFieldMultilineModifier(
-          text: text, isLocked: isLocked,
-          numberOfCharacters: numberOfCharacters))
-    }
-}
 
+  func sectionTextFieldMultiline(
+    text: Binding<String>, isLocked: Bool, numberOfCharacters: Int, appStyles: StylesLogEntry
+  ) -> some View {
+    self.modifier(
+      SectionTextFieldMultilineModifier(
+        text: text, isLocked: isLocked,
+        numberOfCharacters: numberOfCharacters))
+  }
+}
 
 struct SectionTextFieldModifier: ViewModifier {
   @Binding var text: String
@@ -107,60 +176,33 @@ struct SectionTextFieldMultilineModifier: ViewModifier {
   }
 }
 
+//---------------------------------------------------------------------------------------------
 
+extension Text {
+  func sectionSimulatedTextFieldSingleLine(isLocked: Bool) -> some View {
+    self.modifier(
+        SectionSimulatedTextFieldSingleLineModifier(isLocked: isLocked))
+  }
+}
 
-
-
-
-
-
-struct TextFieldButtonClearButtonModifier: ViewModifier {
-  @Binding var text: String
+struct SectionSimulatedTextFieldSingleLineModifier: ViewModifier {
   let isLocked: Bool
-  @Environment(\.appStyles) var appStyles
-
-  func body(content: Content) -> some View {
-
-    ZStack(alignment: .trailing) {
-      content
-
-      if !text.isEmpty && !isLocked {
-        Button {
-          text = ""
-        } label: {
-          Image(systemName: appStyles.clearButtonImage)
-            .resizable()
-            .frame(
-              width: appStyles.clearButtonSize, height: appStyles.clearButtonSize,
-              alignment: .center)
-        }
-        .offset(x: 30)
-      }
-    }
-  }
-}
-
-struct TextFieldLimitModifer: ViewModifier {
-  @Binding var text: String
-  var length: Int
+    @Environment(\.appStyles) var appStyles
 
   func body(content: Content) -> some View {
     content
-      .onChange(of: $text.wrappedValue) { old, new in
-        text = String($text.wrappedValue.prefix(length))
-      }
-  }
-}
-
-struct TextFieldCheckOnNumbersModifier: ViewModifier {
-  @Binding var text: String
-
-  func body(content: Content) -> some View {
-    content
-      .onChange(of: $text.wrappedValue) { old, new in
-        if !new.allSatisfy(\.isNumber) {
-          text = old
-        }
-      }
+          .font(.title)
+          .fontWeight(.semibold)
+          .fontWidth(.standard)
+          .fontDesign(.rounded)
+      .innerPadding()
+      .lineLimit(1)
+      .foregroundStyle(appStyles.standardFontColor)
+      .background(
+        isLocked
+          ? appStyles.textFieldBackgroundColorLocked : appStyles.textFieldBackgroundColorUnLocked
+      )
+      .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+      .fixedSize(horizontal: true, vertical: true)
   }
 }

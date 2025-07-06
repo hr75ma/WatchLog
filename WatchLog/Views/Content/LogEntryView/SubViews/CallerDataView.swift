@@ -21,7 +21,7 @@ struct CallerDataView: View {
   var body: some View {
     HStack(alignment: .top, spacing: 0) {
 
-      ViewSectionImage(sectionType: SectionImageType.callerData)
+        SectionImageView(sectionType: SectionImageType.callerData)
 
       VStack(alignment: .leading, spacing: 5) {
 
@@ -141,8 +141,8 @@ extension CallerDataView {
 
         if tempLocked {
           Text(DateManipulation.getFormatedDateFromDOB(from: logEntry.CallerDOB))
-            .SectionTextFieldSimulatedSingleLine(
-              appStyles: appStyles, isLocked: logEntry.isLocked
+            .sectionSimulatedTextFieldSingleLine(
+              isLocked: logEntry.isLocked
             )
             .matchedGeometryEffect(id: "lockedEvent", in: namespace)
             .isHidden(logEntry.CallerDOB == nil || !tempLocked, remove: true)

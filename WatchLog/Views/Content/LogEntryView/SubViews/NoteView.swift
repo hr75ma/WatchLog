@@ -24,7 +24,7 @@ struct NoteView: View {
     VStack(alignment: .leading, spacing: 0) {
       HStack(alignment: .top, spacing: 0) {
          
-          ViewSectionImage(sectionType: .note)
+          SectionImageView(sectionType: .note)
           
           Text("Notiz")
               .sectionTextLabel()
