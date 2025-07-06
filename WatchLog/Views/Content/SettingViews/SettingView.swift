@@ -17,18 +17,18 @@ struct SettingView: View {
         VStack(alignment: .center, spacing: 0) {
             Text("WatchLog")
                 .font(Font.custom(appStyles.LabelFont, size: appStyles.LabelFontSize))
-                .foregroundStyle(appStyles.GeneralTextColor)
+                .foregroundStyle(appStyles.standardFontColor)
                 .contentTransition(.numericText())
         }
         
         Text("Version 0.1")
             .font(Font.custom(appStyles.LabelFont, size: appStyles.LabelFontSize))
-            .foregroundStyle(appStyles.GeneralTextColor)
+            .foregroundStyle(appStyles.standardFontColor)
             .contentTransition(.numericText())
         
         Text("by HL")
             .font(Font.custom(appStyles.LabelFont, size: appStyles.LabelFontSize))
-            .foregroundStyle(appStyles.GeneralTextColor)
+            .foregroundStyle(appStyles.standardFontColor)
             .contentTransition(.numericText())
     }
 }

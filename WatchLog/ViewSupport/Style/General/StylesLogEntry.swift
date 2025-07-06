@@ -35,6 +35,10 @@ final class StylesLogEntry:Sendable {
     let labelFont: String = "digital-7"
     let labelFontSize: CGFloat = 35
     let labelFontSizeSub: CGFloat = 30
+    
+    let glowingColorSetLocked: [Color] = [.red, .blue, .red]
+    let glowingColorSetNew: [Color] = [.green, .blue, .green]
+    let glowingColorSetEditing: [Color] = [.blue, .teal, .blue]
 
     
     let textFieldHeight: CGFloat = 35
@@ -144,27 +148,16 @@ final class StylesLogEntry:Sendable {
     let callInFontSize: CGFloat = 25
     let callInFieldHeight: CGFloat = 30
      
-    let glowingColorSetLocked: [Color] = [.red, .blue, .red]
-    let glowingColorSetNew: [Color] = [.green, .blue, .green]
-    let glowingColorSetEditing: [Color] = [.blue, .teal, .blue]
+
     
     
-    let TextfieldBackgroundColor: Color = Color(hex: 0x272727)
-    let TextfieldBackgroundColorLocked: Color = Color(hex: 0x0a0a0a)
-    let TextfieldBackgroundColorUnLocked: Color = Color(hex: 0x1d1d1d)
     
-    let TextFieldFontHeight: CGFloat = 32
     
 
     
     
 
     
-    let TextFieldFont: String = "Roboto-MediumItalic"
-    let TextFieldFontSize: CGFloat = 28
-    let TextFieldFontSubSize: CGFloat = 30
-    let TextFieldHeight: CGFloat = 35
-    let TextFieldHeightSub: CGFloat = 30
     
     
     
@@ -174,32 +167,6 @@ final class StylesLogEntry:Sendable {
     
     
     
-    //generale layouts
-    
-    
-    let GeneralTextColor:Color = Color.blue
-    let GeneralPickerTextColor:Color = Color.white
-    let GeneralBackgroundColor:Color = Color.black
-    let GeneralInnerFrameColor:Color = Color.blue
-    let GeneralInnerFrameBorderWidth:CGFloat = 4
-    
-    //toogle
-    
-    
-    
-    //Accident Section
-    let AccidentImageisLocked: String = "checkmark.rectangle"
-    let AccidentImageisUnLocked: String = "rectangle"
-    let AccidentColorIsLockedPrimary: Color = Color.green
-    let AccidentColorIsLockedSecondary: Color = Color.blue
-    let AccidentColorIsUnLockedPrimary: Color = Color.blue
-    let AccidentColorIsUnLockedSecondary: Color = Color.blue
-    
-    //Porcesstype Section
-    let ProcessTypeColorIsLockedPrimary: Color = Color.blue
-    let ProcessTypeColorIsLockedSecondary: Color = Color.blue
-    let ProcessTypeColorIsUnLockedPrimary: Color = Color.blue
-    let ProcessTypeColorIsUnLockedSecondary: Color = Color.blue
     
     //ToolbarItem
     let ToolBarEraserImageActive: String = "eraser"
@@ -233,43 +200,5 @@ final class StylesLogEntry:Sendable {
     let ToolbarContextColorActiveSecondary: Color = Color.blue
     let ToolbarContextColorUnActivePrimary: Color = Color.white
     let ToolbarContextColorUnActiveSecondary: Color = Color.red
-    
-
-    
-    
-    
-    //tree navigation
-   
-    
-
-    
-    
-    let NavigationTreeFont: String = "Roboto-MediumItalic"
-    let NavigationTreeFontSize: CGFloat = 20
-    let NavigationTreeFontColor: Color = Color.blue
-    
-    let NavigationTreeSubFont: String = "Roboto-MediumItalic"
-    let NavigationTreeSubFontSize: CGFloat = 15
-    let NavigationTreeSubFontColor: Color = Color.white
-    
-    // background color for selected row
-    let NavigationTreeSelectedRowColor: Color = Color(hex: 0x476f95).opacity(1)
-    
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
 }
 

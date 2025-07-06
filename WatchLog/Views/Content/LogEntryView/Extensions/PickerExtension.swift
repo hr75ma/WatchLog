@@ -17,7 +17,7 @@ struct customSegmentedPickerView: View {
         self.appStyles = appStyles
         
         UISegmentedControl.appearance().selectedSegmentTintColor = UIColor(self.appStyles.standardFrameColor)
-        UISegmentedControl.appearance().backgroundColor = UIColor(appStyles.TextfieldBackgroundColorUnLocked)
+        UISegmentedControl.appearance().backgroundColor = UIColor(appStyles.textFieldBackgroundColor)
         
         UISegmentedControl.appearance().setTitleTextAttributes([.font: UIFont.systemFont(ofSize: appStyles.segmentedCallInFontSize, weight: .semibold, width: .standard), .foregroundColor: UIColor(appStyles.standardFontColor)], for: .normal)
 

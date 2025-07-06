@@ -16,7 +16,7 @@ struct ProcessTypeSubVUView: View {
     VStack(alignment: .leading, spacing: 5) {
       HStack(alignment: .center, spacing: 0) {
         Text("Kennzeichen ON01")
-          .sectionTextLabelSubWidth(appStyles: appStyles, width: 215)
+              .subSectionTextWidthLabel(width: 215)
 
         TextField("", text: $logEntry.processTypeDetails.AccientLicensePlate01)
           .subSectionTextField(
@@ -26,7 +26,7 @@ struct ProcessTypeSubVUView: View {
 
       HStack(alignment: .center, spacing: 0) {
         Text("Kennzeichen ON02")
-          .sectionTextLabelSubWidth(appStyles: appStyles, width: 215)
+              .subSectionTextWidthLabel(width: 215)
 
         TextField("", text: $logEntry.processTypeDetails.AccientLicensePlate02)
           .subSectionTextField(

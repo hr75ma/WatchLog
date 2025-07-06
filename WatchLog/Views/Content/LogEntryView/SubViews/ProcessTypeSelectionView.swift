@@ -53,9 +53,8 @@ struct ProcessTypeSelectionView: View {
 
                 if tempLocked {
                 Text(selectedProcessAsString)
-                  .sectionTextFieldSimulatedSingleLine(
-                    appStyles: appStyles, isLocked: logEntry.isLocked
-                  )
+                        .sectionSimulatedTextFieldSingleLine(isLocked: logEntry.isLocked)
+
                   .matchedGeometryEffect(id: "lockedEvent", in: namespace)
                   .isHidden(!tempLocked, remove: true)
                 Spacer()
@@ -80,7 +79,7 @@ struct ProcessTypeSelectionView: View {
               .clipped()
               .contentShape(Rectangle())
               .pickerStyle(.wheel)
-              .background(appStyles.GeneralBackgroundColor)
+              .background(appStyles.standardBackgroundColor)
               .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
               .isHidden(tempLocked, remove: true)
 
