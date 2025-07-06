@@ -34,14 +34,14 @@ struct SectionImageView: View {
                 secondaryColor: appStyles.sectionCallerImageSecondary)
               //.symbolEffect(.variableColor.cumulative.hideInactiveLayers.nonReversing, options: .repeat(.continuous),isActive: !logEntry.isLocked)
         case .event:
-            Image(systemName: appStyles.SectionProcessTypeImage)
+            Image(systemName: appStyles.sectionEventTypeImage)
               .sectionImageStyle(
-                primaryColor: appStyles.SectionProcessTypeImagePrimary,
-                secondaryColor: appStyles.SSectionProcessTypeImageSecondary)
+                primaryColor: appStyles.sectionEventTypeImagePrimary,
+                secondaryColor: appStyles.sectionEventTypeImageSecondary)
             //.symbolEffect(.variableColor.cumulative.hideInactiveLayers.nonReversing, options: .repeat(.continuous),isActive: !logEntry.isLocked)
         case .note:
-            Image(systemName: appStyles.SectionNoteImage)
-                  .sectionImageStyle(primaryColor: appStyles.SectionNoteImagePrimary, secondaryColor: appStyles.SectionNoteImageSecondary)
+            Image(systemName: appStyles.sectionNoteImage)
+                  .sectionImageStyle(primaryColor: appStyles.sectionNoteImagePrimary, secondaryColor: appStyles.sectionNoteImageSecondary)
                 //.symbolEffect(.variableColor.cumulative.hideInactiveLayers.nonReversing, options: .repeat(.continuous),isActive: !logEntry.isLocked)
         }
     }

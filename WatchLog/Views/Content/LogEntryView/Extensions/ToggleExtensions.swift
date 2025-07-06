@@ -15,7 +15,7 @@ struct toggleStyleLockImage: ToggleStyle {
 
     ZStack(alignment: .center) {
       Image(
-        systemName: configuration.isOn ? appStyles.LockImageisLocked : appStyles.lockImageIsUnLocked
+        systemName: configuration.isOn ? appStyles.lockImageIsLocked : appStyles.lockImageIsUnLocked
       )
       .symbolRenderingMode(.palette)
       .resizable()
@@ -26,7 +26,11 @@ struct toggleStyleLockImage: ToggleStyle {
         configuration.isOn
           ? appStyles.lockColorIsLockedSecondary : appStyles.lockColorIsUnLockedSecondary
       )
-      .animation(.easeInOut(duration: 1), value: configuration.isOn)
+      
+      //.animation(.easeInOut(duration: 1), value: configuration.isOn)
+     // .scaleEffect(x: isLocked ? -1:1, y: 1).transaction { transaction in
+     //     transaction.animation = nil
+    // }
       .symbolEffect(.rotate.clockwise.byLayer, options: .nonRepeating, isActive: configuration.isOn)
       .symbolEffect(
         .rotate.clockwise.byLayer, options: .nonRepeating, isActive: !configuration.isOn
@@ -42,12 +46,11 @@ struct toggleStyleLockImage: ToggleStyle {
   }
 }
 
-struct generalToggleStyle: ToggleStyle {
+struct standardToggleStyle: ToggleStyle {
+    var isLocked: Bool = false
     let appStyles: StylesLogEntry
     
-    var isLocked: Bool = false
-   
-  func makeBody(configuration: generalToggleStyleImage.Configuration) -> some View {
+  func makeBody(configuration: standardToggleStyle.Configuration) -> some View {
           
       ZStack(alignment: .center) {
           Image(systemName: configuration.isOn ? appStyles.GeneralToggleIsActiveImage : appStyles.GeneralToggleIsUnactiveImage)
@@ -55,7 +58,7 @@ struct generalToggleStyle: ToggleStyle {
               .resizable()
               .scaledToFit()
               .foregroundStyle(configuration.isOn ?  isLocked ? appStyles.ToogleIsLockedColor : appStyles.GeneralToggleIsActivePrimary : appStyles.GeneralToggleIsUnactivePrimary, configuration.isOn ? appStyles.GeneralToggleIsActiveSecondary : appStyles.GeneralToggleIsUnactiveSecondary)
-              .animation(.easeInOut(duration: 1), value: configuration.isOn)
+              //.animation(.easeInOut(duration: 1), value: configuration.isOn)
               .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(6) ,isActive: configuration.isOn)
               .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(6), isActive: !configuration.isOn)
               .symbolEffect(.scale)

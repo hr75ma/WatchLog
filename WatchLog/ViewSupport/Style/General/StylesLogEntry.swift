@@ -100,7 +100,15 @@ final class StylesLogEntry:Sendable {
     let sectionCallerImagePrimary: Color = Color.white
     let sectionCallerImageSecondary: Color = Color.blue
     
+    //event section
+    let sectionEventTypeImage: String = "exclamationmark.triangle"
+    let sectionEventTypeImagePrimary: Color = Color.white
+    let sectionEventTypeImageSecondary: Color = Color.blue
     
+    //note section
+    let sectionNoteImage = "message.badge.waveform"
+    let sectionNoteImagePrimary: Color = Color.white
+    let sectionNoteImageSecondary: Color = Color.blue
     
     
     
@@ -173,14 +181,7 @@ final class StylesLogEntry:Sendable {
     
     
     
-    let SectionProcessTypeImage: String = "exclamationmark.triangle"
-    let SectionProcessTypeImagePrimary: Color = Color.white
-    let SSectionProcessTypeImageSecondary: Color = Color.blue
     
-    //let SectionNoteImage = "phone.bubble.fill"
-    let SectionNoteImage = "message.badge.waveform"
-    let SectionNoteImagePrimary: Color = Color.white
-    let SectionNoteImageSecondary: Color = Color.blue
     
     //generale layouts
     
@@ -194,13 +195,6 @@ final class StylesLogEntry:Sendable {
     //toogle
     let ToogleIsLockedColor: Color = Color.blue
     
-    //Locking Section
-    let LockImageisLocked: String = "lock.rotation"
-    let LockImageisUnLocked: String = "lock.open.rotation"
-    let LockColorIsLockedPrimary: Color = Color.red
-    let LockColorIsLockedSecondary: Color = Color.red
-    let LockColorIsUnLockedPrimary: Color = Color.green
-    let LockColorIsUnLockedSecondary: Color = Color.green
     
     //Accident Section
     let AccidentImageisLocked: String = "checkmark.rectangle"
