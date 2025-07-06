@@ -53,37 +53,3 @@ struct toggleStyleAnimationImage: ToggleStyle {
 }
 
 
-
-
-
-
-
-struct generalToggleStyleImage: ToggleStyle {
-    let appStyles: StylesLogEntry
-    
-    var isLocked: Bool = false
-   
-  func makeBody(configuration: generalToggleStyleImage.Configuration) -> some View {
-          
-      ZStack(alignment: .center) {
-          Image(systemName: configuration.isOn ? appStyles.GeneralToggleIsActiveImage : appStyles.GeneralToggleIsUnactiveImage)
-              .symbolRenderingMode(.palette)
-              .resizable()
-              .scaledToFit()
-              .foregroundStyle(configuration.isOn ?  isLocked ? appStyles.ToogleIsLockedColor : appStyles.GeneralToggleIsActivePrimary : appStyles.GeneralToggleIsUnactivePrimary, configuration.isOn ? appStyles.GeneralToggleIsActiveSecondary : appStyles.GeneralToggleIsUnactiveSecondary)
-              .animation(.easeInOut(duration: 1), value: configuration.isOn)
-              .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(6) ,isActive: configuration.isOn)
-              .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(6), isActive: !configuration.isOn)
-              .symbolEffect(.scale)
-              .padding(EdgeInsets(top: 4, leading: 4, bottom: 4, trailing: 4))
-      }
-      .animation(.easeInOut(duration: 1),  value: isLocked)
-      .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-      .labelsHidden()
-              .onTapGesture {
-                  configuration.$isOn.wrappedValue.toggle()
-              }
-    
-  }
-}
-

@@ -97,31 +97,25 @@ extension CallerDataView {
 
           HStack(alignment: .top, spacing: 0) {
 
-            Toggle("", isOn: $withBirthday)
-              .labelsHidden()
-              .toggleStyle(
-                generalToggleStyleImage(appStyles: appStyles, isLocked: logEntry.isLocked)
-              )
-              .frame(height: appStyles.TextFieldHeight)
-              .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+              ToggleView(toggleValue: self.$withBirthday, isLocked: logEntry.isLocked, toggleType: .standard)
               .isHidden(tempLocked, remove: true)
 
-            Toggle("", isOn: $withBirthday)
-              .labelsHidden()
-              .toggleStyle(
-                toggleStyleAnimationImage(
-                  isOnImage: "inset.filled.circle.dashed",
-                  isOffImage: "inset.filled.circle.dashed",
-                  isOnColorPrimary: appStyles.GeneralToggleIsActivePrimary,
-                  isOnColorSecondary: appStyles.GeneralToggleIsActiveSecondary,
-                  isOffColorPrimary: Color.red,
-                  isOffColorSecondary: appStyles.GeneralToggleIsUnactiveSecondary,
-                  isLocked: logEntry.isLocked, isLockedColor: appStyles.ToogleIsLockedColor
-                )
-              )
-              .frame(height: appStyles.TextFieldHeight)
-              .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-              .isHidden(tempLocked, remove: true)
+//            Toggle("", isOn: $withBirthday)
+//              .labelsHidden()
+//              .toggleStyle(
+//                toggleStyleAnimationImage(
+//                  isOnImage: "inset.filled.circle.dashed",
+//                  isOffImage: "inset.filled.circle.dashed",
+//                  isOnColorPrimary: appStyles.GeneralToggleIsActivePrimary,
+//                  isOnColorSecondary: appStyles.GeneralToggleIsActiveSecondary,
+//                  isOffColorPrimary: Color.red,
+//                  isOffColorSecondary: appStyles.GeneralToggleIsUnactiveSecondary,
+//                  isLocked: logEntry.isLocked, isLockedColor: appStyles.ToogleIsLockedColor
+//                )
+//              )
+//              .frame(height: appStyles.TextFieldHeight)
+//              .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+//              .isHidden(tempLocked, remove: true)
 
             DatePicker("", selection: $logEntry.CallerDOB ?? Date(), displayedComponents: [.date])
               .labelsHidden()  // Hides the default label

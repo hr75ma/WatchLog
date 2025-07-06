@@ -37,6 +37,7 @@ final class StylesLogEntry:Sendable {
     let labelFontSizeSub: CGFloat = 35
     
     let textFieldHeight: CGFloat = 35
+    let textFieldSubHeight: CGFloat = 30
     let textFieldBackgroundColor: Color = Color(.systemGray5)
     let textFieldBackgroundColorLocked: Color = Color(.systemGray6)
     let textFieldBackgroundColorUnLocked: Color = Color(.systemGray5)
@@ -46,8 +47,6 @@ final class StylesLogEntry:Sendable {
     let clearButtonColorActivePrimary: Color = Color.white
     let clearButtonColorActiveSecondary: Color = Color.blue
     let clearButtonSize: CGFloat = 20
-    
-    
     
     //navigation view section
     let standardNavigationBarItemColor: Color = .blue
@@ -110,7 +109,14 @@ final class StylesLogEntry:Sendable {
     let sectionNoteImagePrimary: Color = Color.white
     let sectionNoteImageSecondary: Color = Color.blue
     
-    
+    //standard toggle
+    let standardToggleIsActiveImage: String = "checkmark.rectangle"
+    let standardToggleIsUnactiveImage: String = "rectangle"
+    let standardToggleIsActivePrimary: Color = Color.green
+    let standardToggleIsActiveSecondary: Color = Color.blue
+    let standardToggleIsUnactivePrimary: Color = Color.blue
+    let standardToggleIsUnactiveSecondary: Color = Color.blue
+    let standardToogleIsLockedColor: Color = Color.blue
     
     
     
@@ -159,12 +165,7 @@ final class StylesLogEntry:Sendable {
     
     let TextFieldFontHeight: CGFloat = 32
     
-    let GeneralToggleIsActiveImage: String = "checkmark.rectangle"
-    let GeneralToggleIsUnactiveImage: String = "rectangle"
-    let GeneralToggleIsActivePrimary: Color = Color.green
-    let GeneralToggleIsActiveSecondary: Color = Color.blue
-    let GeneralToggleIsUnactivePrimary: Color = Color.blue
-    let GeneralToggleIsUnactiveSecondary: Color = Color.blue
+
     
     
 
@@ -193,7 +194,7 @@ final class StylesLogEntry:Sendable {
     let GeneralInnerFrameBorderWidth:CGFloat = 4
     
     //toogle
-    let ToogleIsLockedColor: Color = Color.blue
+    
     
     
     //Accident Section

@@ -17,7 +17,6 @@ enum SectionImageType: Int, CaseIterable {
 
 struct SectionImageView: View {
     let sectionType: SectionImageType
-    
     @Environment(\.appStyles) var appStyles
     
     var body: some View {
