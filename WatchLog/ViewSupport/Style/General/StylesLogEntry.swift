@@ -32,7 +32,6 @@ final class StylesLogEntry:Sendable {
     let standardInnerFrameBorderWidth:CGFloat = 4
     let standardBackgroundColor: Color = Color.black
     
-    
     let labelFont: String = "digital-7"
     let labelFontSize: CGFloat = 35
     let labelFontSizeSub: CGFloat = 35
@@ -119,7 +118,9 @@ final class StylesLogEntry:Sendable {
     let standardToggleIsUnactiveSecondary: Color = Color.blue
     let standardToogleIsLockedColor: Color = Color.blue
     
-    
+    //call in
+    let selectedCallInColor: Color = Color.white
+    let segmentedCallInFontSize: CGFloat = 25
     
     
     

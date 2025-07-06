@@ -88,7 +88,7 @@ extension View {
     self.modifier(SectionTextLabelForToggleModifier(appStyles: appStyles))
   }
 
-  func SectionTextFieldSimulatedSingleLine(appStyles: StylesLogEntry, isLocked: Bool) -> some View {
+  func sectionTextFieldSimulatedSingleLine(appStyles: StylesLogEntry, isLocked: Bool) -> some View {
     self.modifier(
       SectionTextFieldSimulatedSingleLineModifier(appStyles: appStyles, isLocked: isLocked))
   }

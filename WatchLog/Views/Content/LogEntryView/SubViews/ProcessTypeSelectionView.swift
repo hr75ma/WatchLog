@@ -53,7 +53,7 @@ struct ProcessTypeSelectionView: View {
 
                 if tempLocked {
                 Text(selectedProcessAsString)
-                  .SectionTextFieldSimulatedSingleLine(
+                  .sectionTextFieldSimulatedSingleLine(
                     appStyles: appStyles, isLocked: logEntry.isLocked
                   )
                   .matchedGeometryEffect(id: "lockedEvent", in: namespace)

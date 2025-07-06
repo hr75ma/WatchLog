@@ -10,19 +10,17 @@ import SwiftUI
 
 struct customSegmentedPickerView: View {
     @Binding var preselectedIndex: CallInType.CallInTypeShort
-    let appStyles: StylesLogEntry
+    @Environment(\.appStyles) var appStyles
     
-    init(preselectedIndex: Binding<CallInType.CallInTypeShort>, appStyles: StylesLogEntry) {
+    init(preselectedIndex: Binding<CallInType.CallInTypeShort>) {
         self._preselectedIndex = preselectedIndex
         
-        self.appStyles = appStyles
-        
-        UISegmentedControl.appearance().selectedSegmentTintColor = UIColor(appStyles.GeneralInnerFrameColor)
+        UISegmentedControl.appearance().selectedSegmentTintColor = UIColor(appStyles.standardFrameColor)
         UISegmentedControl.appearance().backgroundColor = UIColor(appStyles.TextfieldBackgroundColorUnLocked)
         
-        UISegmentedControl.appearance().setTitleTextAttributes([.font: UIFont(name: appStyles.TextFieldFont, size: appStyles.callInFontSize)!, .foregroundColor: UIColor(appStyles.GeneralTextColor)], for: .normal)
+        UISegmentedControl.appearance().setTitleTextAttributes([.font: UIFont.systemFont(ofSize: appStyles.segmentedCallInFontSize, weight: .semibold, width: .standard), .foregroundColor: UIColor(appStyles.standardFontColor)], for: .normal)
 
-        UISegmentedControl.appearance().setTitleTextAttributes([.font: UIFont(name: appStyles.TextFieldFont, size: appStyles.callInFontSize)!, .foregroundColor: UIColor(appStyles.GeneralPickerTextColor)], for: .selected)
+        UISegmentedControl.appearance().setTitleTextAttributes([.font: UIFont.systemFont(ofSize: appStyles.segmentedCallInFontSize, weight: .semibold, width: .standard), .foregroundColor: UIColor(appStyles.selectedCallInColor)], for: .selected)
         
         UISegmentedControl.appearance().setContentHuggingPriority(.defaultLow, for: .vertical)
     }
