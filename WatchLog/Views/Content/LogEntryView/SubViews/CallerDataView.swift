@@ -37,7 +37,7 @@ struct CallerDataView: View {
     }
     .disabled(logEntry.isLocked)
     .standardSubViewPadding()
-    .standardBottomBorder(appStyles)
+    .standardBottomBorder()
   }
 }
 

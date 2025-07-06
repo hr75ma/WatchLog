@@ -50,13 +50,6 @@ struct NoteView: View {
       .padding(EdgeInsets(top: 5, leading: 10, bottom: 10, trailing: 10))
       
     }
-    .cornerRadius(20)
-    .overlay(
-      Rectangle()
-        .frame(height: 0)  // Border thickness
-        .foregroundColor(appStyles.GeneralInnerFrameColor),  // Border color
-      alignment: .bottom
-    )
     .padding(EdgeInsets(top: 0, leading: 10, bottom: 10, trailing: 10))
     .containerRelativeFrame([.vertical], alignment: .topLeading)
     .disabled(logEntry.isLocked)

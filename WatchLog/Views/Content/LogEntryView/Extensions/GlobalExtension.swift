@@ -11,23 +11,29 @@ import SwiftUI
 //general section
 
 extension View {
-
-  func standardBottomBorder(_ appStyles: StylesLogEntry) -> some View {
-    self
-      .overlay(
-        Rectangle()
-          .frame(height: appStyles.standardInnerFrameBorderWidth)  // Border thickness
-          .foregroundColor(appStyles.standardFrameColor),  // Border color
-        alignment: .bottom
-      )
-      .cornerRadius(10)
-      .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
-  }
+func standardBottomBorder() -> some View {
+      modifier(StandardBottomBorder())
+    }
 
   func standardSubViewPadding() -> some View {
     self
       .padding(EdgeInsets(top: 5, leading: 0, bottom: 10, trailing: 10))
   }
+}
+
+struct StandardBottomBorder: ViewModifier {
+    @Environment(\.appStyles) var appStyles
+    func body(content: Content) -> some View {
+        content
+            .overlay(
+              Rectangle()
+                .frame(height: appStyles.standardInnerFrameBorderWidth)  // Border thickness
+                .foregroundColor(appStyles.standardFrameColor),  // Border color
+              alignment: .bottom
+            )
+            .cornerRadius(10)
+            .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
+    }
 }
 
 // logTime section
@@ -41,7 +47,7 @@ extension View {
 }
 
 struct TextFormatterStyle: ViewModifier {
-  let appStyles: StylesLogEntry
+    @Environment(\.appStyles) var appStyles
   func body(content: Content) -> some View {
     content
       .font(Font.custom(appStyles.logTimeFont, size: appStyles.logTimeFontSize))
@@ -51,8 +57,8 @@ struct TextFormatterStyle: ViewModifier {
 }
 
 extension Text {
-  @MainActor func logTimeStyleAndAnimation(_ appStyles: StylesLogEntry) -> some View {
-    modifier(TextFormatterStyle(appStyles: appStyles))
+  @MainActor func logTimeStyleAndAnimation() -> some View {
+    modifier(TextFormatterStyle())
   }
 }
 

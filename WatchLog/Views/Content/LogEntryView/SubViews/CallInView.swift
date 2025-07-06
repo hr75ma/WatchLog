@@ -32,7 +32,7 @@ struct CallInView: View {
     }
     .disabled(logEntry.isLocked)
     .standardSubViewPadding()
-    .standardBottomBorder(appStyles)
+    .standardBottomBorder()
   }
 }
 

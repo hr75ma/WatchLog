@@ -168,7 +168,7 @@ struct ProcessTypeSelectionView: View {
     }
     .frame(maxWidth: .infinity)
     .standardSubViewPadding()
-    .standardBottomBorder(appStyles)
+    .standardBottomBorder()
   }
 }
 
