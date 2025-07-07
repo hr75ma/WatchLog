@@ -64,6 +64,19 @@ struct SubSectionTextLabelWidthModifier: ViewModifier {
   }
 }
 
+struct PickerTextModifier: ViewModifier {
+  @Environment(\.appStyles) var appStyles
+  
+  func body(content: Content) -> some View {
+    content
+          .font(.title)
+          .fontWeight(.semibold)
+          .fontWidth(.standard)
+          .fontDesign(.rounded)
+          .foregroundStyle(appStyles.processTypeFontColor)
+  }
+}
+
 extension Text {
 func labelStyle(isLocked: Bool) -> some View {
     modifier(LabelFormatterStyle(isLocked: isLocked))
@@ -79,6 +92,10 @@ func labelStyle(isLocked: Bool) -> some View {
     
     func subSectionTextWidthLabel(width: CGFloat) -> some View {
         self.modifier(SubSectionTextLabelWidthModifier(width: width))
+    }
+    
+    func pickerTextModifier() -> some View {
+        self.modifier(PickerTextModifier())
     }
     
 }

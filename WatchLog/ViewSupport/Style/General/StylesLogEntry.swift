@@ -137,12 +137,7 @@ final class StylesLogEntry:Sendable {
     let LabelFontSize: CGFloat = 35
     let LabelFontSizeSub: CGFloat = 30
     
-    
-    
-    let ProcessTypeFont: String = "Roboto-MediumItalic"
-    let ProcessTypeFontSize: CGFloat = 25
-    let ProcessTypeFontHight: CGFloat = 25
-    let ProcessTypeFontColor: Color = Color.blue
+    let processTypeFontColor: Color = Color.blue
     let ProcessTypeBackgroundColor: Color = Color.clear
     
     let callInFontSize: CGFloat = 25

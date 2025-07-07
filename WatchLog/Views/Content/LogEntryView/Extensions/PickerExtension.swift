@@ -78,6 +78,30 @@ struct DatePickerModifier: ViewModifier {
   }
 }
 
+extension Picker {
+    func processPickerWheelStyle() -> some View {
+      self.modifier(
+          ProcessPickerModifier())
+    }
+}
+
+
+struct ProcessPickerModifier: ViewModifier {
+  @Environment(\.appStyles) var appStyles
+    @Environment(\.colorScheme) var colorScheme
+
+  func body(content: Content) -> some View {
+    content
+          .labelsHidden()  // Hides the default label
+          .frame(height: 150)
+          .clipped()
+          .contentShape(Rectangle())
+          .pickerStyle(.wheel)
+          .background(colorScheme == .dark ? appStyles.standardBackgroundColor : .white)
+          .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+  }
+}
+
 
 
 
