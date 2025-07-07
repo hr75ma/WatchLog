@@ -164,8 +164,8 @@
             filePath = "WatchLog/Views/Content/LogEntryView/SubViews/CanvasView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "29"
-            endingLineNumber = "29"
+            startingLineNumber = "31"
+            endingLineNumber = "31"
             landmarkName = "makeUIView(context:)"
             landmarkType = "7">
          </BreakpointContent>

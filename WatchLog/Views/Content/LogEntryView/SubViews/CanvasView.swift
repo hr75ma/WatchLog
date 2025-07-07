@@ -11,15 +11,17 @@ import PencilKit
 struct CanvasView: UIViewRepresentable {
     @Binding var canvas: PKCanvasView
     @Binding var drawing: PKDrawing
+    @Binding var readOnly: Bool
     @Environment(\.appStyles) var appStyles
       @Environment(\.colorScheme) var colorScheme
     
     let picker: PKToolPicker
     
-    init(canvas: Binding<PKCanvasView>, drawing: Binding<PKDrawing>) {
+    init(canvas: Binding<PKCanvasView>, drawing: Binding<PKDrawing>, readOnly: Binding<Bool>) {
         self._canvas = canvas
         self.picker = .init()
         self._drawing = drawing
+        self._readOnly = readOnly
         
     }
     
@@ -28,6 +30,16 @@ struct CanvasView: UIViewRepresentable {
         //canvas.drawingPolicy = .pencilOnly
         canvas.backgroundColor = colorScheme == .dark ? appStyles.canvasBackgroundColorDark : appStyles.canvasBackgroundColorLight
         canvas.tool = PKInkingTool(.pencil, color: .darkText, width: 15)
+        
+        if readOnly {
+            picker.setVisible(false, forFirstResponder: canvas)
+            //canvas.isUserInteractionEnabled = false
+            canvas.isDrawingEnabled = false
+        } else {
+            //picker.setVisible(false, forFirstResponder: canvas)
+            //canvas.isUserInteractionEnabled = false
+            canvas.isDrawingEnabled = true
+        }
         
         // Set the coordinator as the canvas's delegate
         canvas.delegate = context.coordinator
@@ -48,6 +60,17 @@ struct CanvasView: UIViewRepresentable {
         picker.setVisible(true, forFirstResponder: uiView)
         
         canvas.backgroundColor = colorScheme == .dark ? appStyles.canvasBackgroundColorDark : appStyles.canvasBackgroundColorLight
+        
+        
+        if readOnly {
+            picker.setVisible(false, forFirstResponder: canvas)
+            //canvas.isUserInteractionEnabled = false
+            canvas.isDrawingEnabled = false
+        } else {
+            picker.setVisible(true, forFirstResponder: canvas)
+            //canvas.isUserInteractionEnabled = false
+            canvas.isDrawingEnabled = true
+        }
         
         if drawing != canvas.drawing {
             canvas.drawing = drawing
