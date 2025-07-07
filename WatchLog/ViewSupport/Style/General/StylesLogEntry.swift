@@ -27,10 +27,11 @@ final class StylesLogEntry:Sendable {
     //global
     let standardFontColor: Color = .blue
     let standardLockedColor: Color = Color.red
-    let standardBlurFactor: CGFloat = 10
+    let standardBlurRadius: CGFloat = 10
     let standardFrameColor: Color = Color.blue
     let standardInnerFrameBorderWidth:CGFloat = 4
-    let standardBackgroundColor: Color = Color.black
+    let standardBackgroundColorDark: Color = Color.black
+    let standardBackgroundColorLight: Color = Color.white
     
     let labelFont: String = "digital-7"
     let labelFontSize: CGFloat = 35
@@ -130,6 +131,9 @@ final class StylesLogEntry:Sendable {
     // section Canvas
     let canvasLockedColor: Color = Color.red
     let canvasUnLockedColor: Color = Color.blue
+    
+    
+    
     
     
     //logTime section

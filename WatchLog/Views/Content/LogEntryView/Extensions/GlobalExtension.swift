@@ -49,11 +49,35 @@ extension View {
     self
       .padding(EdgeInsets(top: 5, leading: 0, bottom: 10, trailing: 10))
   }
+    
+    func standardScrollViewPadding() -> some View {
+        self
+            .padding(EdgeInsets(top: 20, leading: 0, bottom: 0, trailing: 0))
+    }
+    
+    func standardLogEntryViewPadding() -> some View {
+      self
+        .padding(EdgeInsets(top: 30, leading: 30, bottom: 30, trailing: 30))
+    }
 
   func standardEventSubViewPadding() -> some View {
     self
       .padding(EdgeInsets(top: 10, leading: 0, bottom: 0, trailing: 0))
   }
+
+    func standardViewBackground() -> some View {
+      modifier(StandardViewBackground())
+    }
+    
+}
+
+struct StandardViewBackground: ViewModifier {
+    @Environment(\.appStyles) var appStyles
+    @Environment(\.colorScheme) var colorScheme
+    func body(content: Content) -> some View {
+        content
+            .background(colorScheme == .dark ? appStyles.standardBackgroundColorDark : appStyles.standardBackgroundColorLight)
+    }
 }
 
 struct StandardBottomBorder: ViewModifier {

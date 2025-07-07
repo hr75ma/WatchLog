@@ -22,7 +22,7 @@ extension NavigationSplitView {
      func navigationSplitViewStyles(isBlur: Bool,_ appStyles: StylesLogEntry) -> some View {
         self
             .accentColor(appStyles.standardNavigationBarItemColor)
-            .blur(radius: isBlur ? appStyles.standardBlurFactor : 0)
+            .blur(radius: isBlur ? appStyles.standardBlurRadius : 0)
     }
     
 }

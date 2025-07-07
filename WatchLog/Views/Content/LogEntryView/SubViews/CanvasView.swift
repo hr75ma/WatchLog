@@ -33,11 +33,8 @@ struct CanvasView: UIViewRepresentable {
         
         if readOnly {
             picker.setVisible(false, forFirstResponder: canvas)
-            //canvas.isUserInteractionEnabled = false
             canvas.isDrawingEnabled = false
         } else {
-            //picker.setVisible(false, forFirstResponder: canvas)
-            //canvas.isUserInteractionEnabled = false
             canvas.isDrawingEnabled = true
         }
         
@@ -59,16 +56,15 @@ struct CanvasView: UIViewRepresentable {
         picker.addObserver(uiView)
         picker.setVisible(true, forFirstResponder: uiView)
         
+        
         canvas.backgroundColor = colorScheme == .dark ? appStyles.canvasBackgroundColorDark : appStyles.canvasBackgroundColorLight
         
         
         if readOnly {
             picker.setVisible(false, forFirstResponder: canvas)
-            //canvas.isUserInteractionEnabled = false
             canvas.isDrawingEnabled = false
         } else {
             picker.setVisible(true, forFirstResponder: canvas)
-            //canvas.isUserInteractionEnabled = false
             canvas.isDrawingEnabled = true
         }
         

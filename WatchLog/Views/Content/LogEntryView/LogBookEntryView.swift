@@ -65,7 +65,7 @@ struct LogBookEntryView: View {
             toolPickerShows: $toolPickerShows
           )
         }
-        .background(Color.black)
+        .standardViewBackground()
         .frame(
           maxWidth: .infinity,
           maxHeight: .infinity,
@@ -73,32 +73,27 @@ struct LogBookEntryView: View {
         )
         .cornerRadius(20)
         .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-        .blur(radius: blurSetting.isBlur ? 10 : 0)
+        .blur(radius: blurSetting.isBlur ? appStyles.standardBlurRadius : 0)
         .animation(.linear(duration: 0.3), value: blurSetting.isBlur)
       }
-      .padding(EdgeInsets(top: 30, leading: 30, bottom: 30, trailing: 30))
+      .standardLogEntryViewPadding()
     }
     .onAppear {
-      //fromBackground = false
       isAnimating = true
     }
     .task {
-
       await viewModel.fetchLogEntry(LogEntryUUID: logBookEntryUUID)
-      print("---------------------->task")
       displayedLogEntryUUID.id = viewModel.watchLogEntry.uuid
       glowingColorSet = getGlowColorSet(logEntry: viewModel.watchLogEntry)
 
     }
     .onDisappear {
-      print("entry view onDisappear")
       // isAnimating = false
       // dismiss()
     }
     .onChange(
       of: logBookEntryUUID,
       { oldValue, newValue in
-        print("--------->onchange")
         Task {
           await viewModel.fetchLogEntry(LogEntryUUID: newValue)
           displayedLogEntryUUID.id = viewModel.watchLogEntry.uuid
@@ -108,6 +103,9 @@ struct LogBookEntryView: View {
     )
     .onChange(of: viewModel.watchLogEntry.isLocked) { oldValue, newValue in
       glowingColorSet = getGlowColorSet(logEntry: viewModel.watchLogEntry)
+        if(newValue) {
+            saveEntry()
+        }
     }
     .onChange(of: viewModel.watchLogEntry.isNewEntryLog) { oldValue, newValue in
       glowingColorSet = getGlowColorSet(logEntry: viewModel.watchLogEntry)
@@ -120,21 +118,19 @@ struct LogBookEntryView: View {
           fromBackground = false
         }
       case .background:
-        print("switch to background")
         isAnimating = false
         fromBackground = true
       case .inactive:
-        print("switch to inactive")
         isAnimating = false
         fromBackground = true
       default:
         break
       }
     }
-    .padding(EdgeInsets(top: 20, leading: 0, bottom: 0, trailing: 0))
+    .standardScrollViewPadding()
     .toolbar {
       ToolbarItem(placement: .topBarLeading) {
-        Text("Log")
+        Text("Wachbuch")
           .font(Font.custom(appStyles.LabelFont, size: appStyles.LabelFontSizeSub))
           .foregroundStyle(.blue)
           .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
@@ -200,7 +196,7 @@ extension LogBookEntryView {
     }
   }
 
-  private var MenuButton: some View {
+  var MenuButton: some View {
 
     Menu {
       Button {
@@ -217,17 +213,7 @@ extension LogBookEntryView {
 
       if !viewModel.watchLogEntry.isLocked {
         Button {
-          Task {
-            blurSetting.isBlur = true
-            viewModel.watchLogEntry.isLocked = true
-            viewModel.watchLogEntry.isNewEntryLog = false
-            await viewModel.saveLogEntry(LogEntry: viewModel.watchLogEntry)
-            print(">>> Log saved \(viewModel.watchLogEntry.uuid)")
-            viewModel.watchLogEntry.isNewEntryLog = false
-            displayedLogEntryUUID.id = viewModel.watchLogEntry.uuid
-            logBookEntryUUID = displayedLogEntryUUID.id
-            blurSetting.isBlur = false
-          }
+          saveEntry()
           blurSetting.isBlur = false
         } label: {
           Label("Log Speichern", systemImage: appStyles.ToolBarSaveImageActive)
@@ -314,6 +300,19 @@ extension LogBookEntryView {
         action: {
           blurSetting.isBlur = false
         })
+    }
+  }
+
+  private func saveEntry() {
+    Task {
+      blurSetting.isBlur = true
+      viewModel.watchLogEntry.isLocked = true
+      viewModel.watchLogEntry.isNewEntryLog = false
+      await viewModel.saveLogEntry(LogEntry: viewModel.watchLogEntry)
+      viewModel.watchLogEntry.isNewEntryLog = false
+      displayedLogEntryUUID.id = viewModel.watchLogEntry.uuid
+      logBookEntryUUID = displayedLogEntryUUID.id
+      blurSetting.isBlur = false
     }
   }
 

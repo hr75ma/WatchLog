@@ -65,7 +65,7 @@ struct DatePickerModifier: ViewModifier {
     content
           .labelsHidden()  // Hides the default label
           .colorMultiply(colorScheme == .dark ? appStyles.standardFontColor : appStyles.standardFontColor)
-          .background(colorScheme == .dark ? appStyles.standardBackgroundColor : .white)
+          .background(colorScheme == .dark ? appStyles.standardBackgroundColorDark : appStyles.standardBackgroundColorLight)
           .font(.largeTitle)
           .fontWeight(.semibold)
           .fontWidth(.standard)
@@ -97,7 +97,7 @@ struct ProcessPickerModifier: ViewModifier {
           .clipped()
           .contentShape(Rectangle())
           .pickerStyle(.wheel)
-          .background(colorScheme == .dark ? appStyles.standardBackgroundColor : .white)
+          .background(colorScheme == .dark ? appStyles.standardBackgroundColorDark : appStyles.standardBackgroundColorLight)
           .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
   }
 }

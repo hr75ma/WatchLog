@@ -28,9 +28,10 @@ struct NoteView: View {
           
           Text("Notiz")
               .sectionTextLabel()
+          Spacer()
           
       }
-      .standardBottomBorder()
+      .standardSubViewPadding()
         
       HStack(alignment: .top, spacing: 0) {
           CanvasView(canvas: $canvasview, drawing: $drawing, readOnly: $logEntry.isLocked)
@@ -38,7 +39,6 @@ struct NoteView: View {
       .canvasBorder(isLocked: logEntry.isLocked)
       .animation(.easeInOut(duration: 1),  value: logEntry.isLocked)
     }
-    //.padding(EdgeInsets(top: 0, leading: 10, bottom: 10, trailing: 10))
     .containerRelativeFrame([.vertical], alignment: .topLeading)
    // .disabled(logEntry.isLocked)
   }
