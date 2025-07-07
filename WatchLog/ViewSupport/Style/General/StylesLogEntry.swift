@@ -137,11 +137,22 @@ final class StylesLogEntry:Sendable {
     let LabelFontSize: CGFloat = 35
     let LabelFontSizeSub: CGFloat = 30
     
+    //process selection
     let processTypeFontColor: Color = Color.blue
     let ProcessTypeBackgroundColor: Color = Color.clear
     
+    //callin section
     let callInFontSize: CGFloat = 25
     let callInFieldHeight: CGFloat = 30
+    
+    //canvas
+    let canvasBackgroundColorDark: UIColor = .black
+    let canvasBackgroundColorLight: UIColor = .white
+    let canvasSize: CGFloat = 2000
+    let canvasMinimumZoomScale: CGFloat = 0.25
+    let canvasMaximumZoomScale: CGFloat = 10
+    
+    
      
 
     

@@ -35,14 +35,11 @@ struct NoteView: View {
       HStack(alignment: .top, spacing: 0) {
           //CanvasView(drawing: $drawing, toolPickerShows: $toolPickerShows)
           CanvasView(canvas: $canvasview, drawing: $drawing)
-
-              
-          
       }
       .canvasBorder(isLocked: logEntry.isLocked)
       .animation(.easeInOut(duration: 1),  value: logEntry.isLocked)
     }
-    .padding(EdgeInsets(top: 0, leading: 10, bottom: 10, trailing: 10))
+    //.padding(EdgeInsets(top: 0, leading: 10, bottom: 10, trailing: 10))
     .containerRelativeFrame([.vertical], alignment: .topLeading)
     .disabled(logEntry.isLocked)
   }

@@ -11,6 +11,8 @@ import PencilKit
 struct CanvasView: UIViewRepresentable {
     @Binding var canvas: PKCanvasView
     @Binding var drawing: PKDrawing
+    @Environment(\.appStyles) var appStyles
+      @Environment(\.colorScheme) var colorScheme
     
     let picker: PKToolPicker
     
@@ -24,17 +26,17 @@ struct CanvasView: UIViewRepresentable {
     func makeUIView(context: Context) -> PKCanvasView {
     
         //canvas.drawingPolicy = .pencilOnly
-        canvas.backgroundColor = .black
+        canvas.backgroundColor = colorScheme == .dark ? appStyles.canvasBackgroundColorDark : appStyles.canvasBackgroundColorLight
         canvas.tool = PKInkingTool(.pencil, color: .darkText, width: 15)
         
         // Set the coordinator as the canvas's delegate
         canvas.delegate = context.coordinator
         
-        canvas.contentSize = CGSize(width: 2000, height: 2000)
+        canvas.contentSize = CGSize(width: appStyles.canvasSize, height: appStyles.canvasSize)
         
         // for zooming
-        canvas.minimumZoomScale = 0.5
-        canvas.maximumZoomScale = 10
+        canvas.minimumZoomScale = appStyles.canvasMinimumZoomScale
+        canvas.maximumZoomScale = appStyles.canvasMaximumZoomScale
         
         canvas.becomeFirstResponder()
         
@@ -44,6 +46,8 @@ struct CanvasView: UIViewRepresentable {
     func updateUIView(_ uiView: PKCanvasView, context: Context) {
         picker.addObserver(uiView)
         picker.setVisible(true, forFirstResponder: uiView)
+        
+        canvas.backgroundColor = colorScheme == .dark ? appStyles.canvasBackgroundColorDark : appStyles.canvasBackgroundColorLight
         
         if drawing != canvas.drawing {
             canvas.drawing = drawing
