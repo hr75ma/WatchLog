@@ -110,60 +110,13 @@ final class StylesLogEntry:Sendable {
     let canvasSize: CGFloat = 2000
     let canvasMinimumZoomScale: CGFloat = 0.25
     let canvasMaximumZoomScale: CGFloat = 10
-    
-    
-     
-
-    
-    
-    
-    
-
-    
-    
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+        
     //ToolbarItem
-    let ToolBarEraserImageActive: String = "eraser"
-    let ToolBarEraserImageUnActive: String = "eraser"
-    let ToolBarEraserColorActive: Color = Color.blue
-    let ToolBarEraserColorUnActive: Color = Color.red
+    let eraserImageActive: String = "eraser"
+    let saveImageActive: String = "square.and.arrow.down"
+    let newImageActive: String = "plus"
+    let deleteImageActive: String = "trash"
+    let contextImage: String = "ellipsis.circle"
     
-    let ToolBarSaveImageActive: String = "square.and.arrow.down"
-    let ToolBarSaveImageUnActive: String = "square.and.arrow.down"
-    let ToolBarSaveColorActivePrimary: Color = Color.blue
-    let ToolBarSaveColorActiveSecondary: Color = Color.blue
-    let ToolBarSaveColorUnActivePrimary: Color = Color.red
-    let ToolBarSaveColorUnActiveSecondary: Color = Color.red
-    
-    let ToolBarNewImageActive: String = "plus"
-    let ToolBarNewImageUnActive: String = "plus"
-    let ToolBarNewColorActivePrimary: Color = Color.white
-    let ToolBarNewColorActiveSecondary: Color = Color.blue
-    let ToolBarNewColorUnActivePrimary: Color = Color.white
-    let ToolBarNewColorUnActiveSecondary: Color = Color.red
-    
-    let ToolBarDeleteImageActive: String = "trash"
-    let ToolBarDeleteImageUnActive: String = "trash.slash"
-    let ToolBarDeleteColorActivePrimary: Color = Color.blue
-    let ToolBarDeleteColorActiveSecondary: Color = Color.blue
-    let ToolBarDeleteColorUnActivePrimary: Color = Color.red
-    let ToolBarDeleteColorUnActiveSecondary: Color = Color.red
-    
-    let ToolbarContextImage: String = "ellipsis.circle"
-    let ToolbarContextColorActivePrimary: Color = Color.white
-    let ToolbarContextColorActiveSecondary: Color = Color.blue
-    let ToolbarContextColorUnActivePrimary: Color = Color.white
-    let ToolbarContextColorUnActiveSecondary: Color = Color.red
 }
 

@@ -203,10 +203,10 @@ extension LogBookEntryView {
         blurSetting.isBlur = true
         alertNew.toggle()
       } label: {
-        Label("Neues Log", systemImage: appStyles.ToolBarNewImageActive)
+        Label("Neues Log", systemImage: appStyles.newImageActive)
           .symbolRenderingMode(.palette)
           .foregroundStyle(
-            appStyles.ToolBarNewColorActiveSecondary, appStyles.ToolBarNewColorActiveSecondary
+            .watchLogNewColorActiveSecondary, .watchLogNewColorActiveSecondary
           )
           .labelStyle(.titleAndIcon)
       }
@@ -216,10 +216,10 @@ extension LogBookEntryView {
           saveEntry()
           blurSetting.isBlur = false
         } label: {
-          Label("Log Speichern", systemImage: appStyles.ToolBarSaveImageActive)
+          Label("Log Speichern", systemImage: appStyles.saveImageActive)
             .symbolRenderingMode(.palette)
             .foregroundStyle(
-              appStyles.ToolBarSaveColorActivePrimary, appStyles.ToolBarSaveColorActivePrimary
+                .watchLogSaveColorActivePrimary, .watchLogSaveColorActivePrimary
             )
             .labelStyle(.titleAndIcon)
         }
@@ -232,7 +232,7 @@ extension LogBookEntryView {
           blurSetting.isBlur = true
           alertClear.toggle()
         } label: {
-          Label("Log leeren", systemImage: appStyles.ToolBarEraserImageActive)
+          Label("Log leeren", systemImage: appStyles.eraserImageActive)
             .labelStyle(.titleAndIcon)
         }
       }
@@ -242,18 +242,18 @@ extension LogBookEntryView {
           blurSetting.isBlur = true
           alertDelete.toggle()
         } label: {
-          Label("Log Löschen", systemImage: appStyles.ToolBarDeleteImageActive)
+          Label("Log Löschen", systemImage: appStyles.deleteImageActive)
             .labelStyle(.titleAndIcon)
         }
       }
     } label: {
-      Image(systemName: appStyles.ToolbarContextImage)
+      Image(systemName: appStyles.contextImage)
         .symbolRenderingMode(.palette)
         .resizable()
         .scaledToFit()
         .frame(width: 30, height: 30, alignment: .center)
         .foregroundStyle(
-          appStyles.ToolbarContextColorActivePrimary, appStyles.ToolbarContextColorActiveSecondary
+            .watchLogToolBarContextColorActivePrimary, .watchLogToolBarContextColorActiveSecondary
         )
         .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(6))
     }
