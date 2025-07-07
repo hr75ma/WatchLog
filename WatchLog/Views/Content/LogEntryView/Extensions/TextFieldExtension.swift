@@ -53,6 +53,7 @@ struct TextFieldButtonClearButtonModifier: ViewModifier {
             .frame(
               width: appStyles.clearButtonSize, height: appStyles.clearButtonSize,
               alignment: .center)
+            .foregroundStyle(.watchLogClearButtonPrimary, .watchLogClearButtonSecondary)
         }
         .offset(x: 30)
       }
@@ -145,10 +146,10 @@ struct SectionTextFieldModifier: ViewModifier {
       .fontDesign(.rounded)
       .frame(height: textFieldHeight)
       .lineLimit(1)
-      .foregroundStyle(appStyles.standardFontColor)
+      .foregroundStyle(.watchLogFont)
       .background(
         isLocked
-          ? appStyles.textFieldBackgroundColorLocked : appStyles.textFieldBackgroundColorUnLocked
+        ? .watchLogTextfieldBackgoundLocked : .watchLogTextfieldBackgroundUnlocked
       )
       .fixedSize(horizontal: false, vertical: true)
       .textFieldLimitInputLength(text: $text, length: numberOfCharacters)
@@ -173,10 +174,10 @@ struct SectionTextFieldMultilineModifier: ViewModifier {
       .fontWidth(.standard)
       .fontDesign(.rounded)
       .lineLimit(4, reservesSpace: true)
-      .foregroundStyle(appStyles.standardFontColor)
+      .foregroundStyle(.watchLogFont)
       .background(
         isLocked
-          ? appStyles.textFieldBackgroundColorLocked : appStyles.textFieldBackgroundColorUnLocked
+          ? .watchLogTextfieldBackgoundLocked : .watchLogTextfieldBackgroundUnlocked
       )
       .fixedSize(horizontal: false, vertical: false)
       .textFieldLimitInputLength(text: $text, length: numberOfCharacters)
@@ -208,10 +209,10 @@ struct SectionSimulatedTextFieldSingleLineModifier: ViewModifier {
           .fontDesign(.rounded)
       .innerPadding()
       .lineLimit(1)
-      .foregroundStyle(appStyles.standardFontColor)
+      .foregroundStyle(.watchLogFont)
       .background(
         isLocked
-          ? appStyles.textFieldBackgroundColorLocked : appStyles.textFieldBackgroundColorUnLocked
+          ? .watchLogTextfieldBackgoundLocked : .watchLogTextfieldBackgroundUnlocked
       )
       .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
       .fixedSize(horizontal: true, vertical: true)

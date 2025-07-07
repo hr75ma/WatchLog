@@ -76,7 +76,7 @@ struct StandardViewBackground: ViewModifier {
     @Environment(\.colorScheme) var colorScheme
     func body(content: Content) -> some View {
         content
-            .background(colorScheme == .dark ? appStyles.standardBackgroundColorDark : appStyles.standardBackgroundColorLight)
+            .background(.watchLogViewBackground)
     }
 }
 
@@ -87,7 +87,7 @@ struct StandardBottomBorder: ViewModifier {
       .overlay(
         Rectangle()
           .frame(height: appStyles.standardInnerFrameBorderWidth)  // Border thickness
-          .foregroundColor(appStyles.standardFrameColor),  // Border color
+            .foregroundColor(.watchLogFrameBorder),  // Border color
         alignment: .bottom
       )
       .cornerRadius(10)
@@ -125,7 +125,7 @@ struct TextFormatterStyle: ViewModifier {
   func body(content: Content) -> some View {
     content
       .font(Font.custom(appStyles.logTimeFont, size: appStyles.logTimeFontSize))
-      .foregroundStyle(appStyles.standardFontColor)
+      .foregroundStyle(.watchLogFont)
       .contentTransition(.numericText())
   }
 }

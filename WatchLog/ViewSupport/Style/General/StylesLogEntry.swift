@@ -25,52 +25,35 @@ final class StylesLogEntry:Sendable {
     private init() {}
     
     //global
-    let standardFontColor: Color = .blue
-    let standardLockedColor: Color = Color.red
+    
     let standardBlurRadius: CGFloat = 10
-    let standardFrameColor: Color = Color.blue
     let standardInnerFrameBorderWidth:CGFloat = 4
-    let standardBackgroundColorDark: Color = Color.black
-    let standardBackgroundColorLight: Color = Color.white
     
     let labelFont: String = "digital-7"
     let labelFontSize: CGFloat = 35
     let labelFontSizeSub: CGFloat = 30
     
-    let glowingColorSetLocked: [Color] = [.red, .blue, .red]
-    let glowingColorSetNew: [Color] = [.green, .blue, .green]
-    let glowingColorSetEditing: [Color] = [.blue, .teal, .blue]
+    let glowingColorSetLocked: [Color] = [.watchLogGlowing1, .watchLogGlowing2, .watchLogGlowing1]
+    let glowingColorSetNew: [Color] = [.watchLogGlowing3, .watchLogGlowing2, .watchLogGlowing3]
+    let glowingColorSetEditing: [Color] = [.watchLogGlowing2, .watchLogGlowing4, .watchLogGlowing2]
 
     
     let textFieldHeight: CGFloat = 40
     let textFieldSubHeight: CGFloat = 35
-    let textFieldBackgroundColor: Color = Color(.systemGray5)
-    let textFieldBackgroundColorLocked: Color = Color(.systemGray6)
-    let textFieldBackgroundColorUnLocked: Color = Color(.systemGray5)
+    
     
     //clear button for textfield
     let clearButtonImage: String = "xmark.circle.fill"
-    let clearButtonColorActivePrimary: Color = Color.white
-    let clearButtonColorActiveSecondary: Color = Color.blue
     let clearButtonSize: CGFloat = 20
     
     //navigation view section
-    let standardNavigationBarItemColor: Color = .blue
     
-    let navigationTreeColor: Color = .blue
-    let navigationTreeFontColor: Color = .blue
-    let navigationTreeRowColor: Color = Color(.systemGray6)
-    let navigationTreeSelectedItemFontColor: Color = .white
-    let navigationTreeSelectedRowColor: Color = .blue
-    let navigationTreeRowSeparatorColor: Color = Color(.systemGray4)
+    
     
     let navigationTreeAddEntryImage: String = "plus"
-    let navigationTreeAddEntryImagePrimaryColor: Color = Color.blue
-    let navigationTreeAddEntryImageSecondaryColor: Color = Color.blue
     
     let navigationTreeSettingImage: String = "gear"
-    let navigationTreeSettingImagePrimaryColor: Color = Color.blue
-    let navigationTreeSettingImageSecondaryColor: Color = Color.blue
+    
     
     let navigationRefreshProgressionColor: Color = .black
     let navigationRefreshProgressionFont: String = "digital-7"

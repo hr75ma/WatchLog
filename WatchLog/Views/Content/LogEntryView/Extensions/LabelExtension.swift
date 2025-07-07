@@ -13,7 +13,7 @@ struct LabelFormatterStyle: ViewModifier {
   func body(content: Content) -> some View {
     content
       .font(Font.custom(appStyles.labelFont, size: appStyles.labelFontSize))
-      .foregroundStyle(isLocked ? appStyles.standardLockedColor : appStyles.standardFontColor)
+      .foregroundStyle(isLocked ? .watchLogLocked : .watchLogFont)
       .frame(width: 170, height: appStyles.labelFontSize, alignment: .leading)
       .lineLimit(1)
       .fixedSize(horizontal: true, vertical: true)
@@ -27,7 +27,7 @@ struct SectionTextLabelModifier: ViewModifier {
   func body(content: Content) -> some View {
     content
       .font(Font.custom(appStyles.labelFont, size: appStyles.labelFontSize))
-      .foregroundStyle(appStyles.standardFontColor)
+      .foregroundStyle(.watchLogFont)
       .frame(width: 120, height: appStyles.labelFontSize, alignment: .topLeading)
       .multilineTextAlignment(.leading)
       .lineLimit(1)
@@ -41,7 +41,7 @@ struct SubSectionTextLabelModifier: ViewModifier {
     func body(content: Content) -> some View {
     content
       .font(Font.custom(appStyles.labelFont, size: appStyles.LabelFontSizeSub))
-      .foregroundStyle(appStyles.standardFontColor)
+      .foregroundStyle(.watchLogFont)
       .frame(height: appStyles.LabelFontSizeSub, alignment: .topLeading)
       .lineLimit(1)
       .fixedSize(horizontal: false, vertical: true)
@@ -56,7 +56,7 @@ struct SubSectionTextLabelWidthModifier: ViewModifier {
   func body(content: Content) -> some View {
     content
           .font(Font.custom(appStyles.labelFont, size: appStyles.LabelFontSizeSub))
-          .foregroundStyle(appStyles.standardFontColor)
+          .foregroundStyle(.watchLogFont)
           .frame(width: width, height: appStyles.LabelFontSizeSub, alignment: .topLeading)
           .lineLimit(1)
           .fixedSize(horizontal: false, vertical: true)

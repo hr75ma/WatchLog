@@ -10,7 +10,7 @@ import Foundation
 
 struct CallInType {
     
-    enum CallInTypeShort: Codable {
+    enum CallInTypeShort: CaseIterable, Codable {
         case EMERGENCY
         case REGULAR
         case RADIO

@@ -34,8 +34,8 @@ struct NavigationToolbarAddEntryImage: View {
     Image(systemName: appStyles.navigationTreeAddEntryImage)
       .symbolRenderingMode(.palette)
       .foregroundStyle(
-        appStyles.navigationTreeAddEntryImagePrimaryColor,
-        appStyles.navigationTreeAddEntryImageSecondaryColor
+        .watchLogNavigationTreeAddEntryImagePrimary,
+        .watchLogNavigationTreeAddEntryImageSecondary
       )
       .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(2))
       .symbolEffect(.scale)
@@ -49,8 +49,8 @@ struct NavigationToolbarSettingsImage: View {
 
     Image(systemName: appStyles.navigationTreeSettingImage)
       .symbolRenderingMode(.palette).foregroundStyle(
-        appStyles.navigationTreeSettingImagePrimaryColor,
-        appStyles.navigationTreeAddEntryImageSecondaryColor
+        .watchLogNavigationTreeSettingImagePrimary,
+        .watchLogNavigationTreeSettingImageSecondary
       )
       .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(2))
       .symbolEffect(.scale)

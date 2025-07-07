@@ -21,7 +21,7 @@ extension NavigationSplitView {
     
      func navigationSplitViewStyles(isBlur: Bool,_ appStyles: StylesLogEntry) -> some View {
         self
-            .accentColor(appStyles.standardNavigationBarItemColor)
+             .accentColor(.watchLogNavigationBarItem)
             .blur(radius: isBlur ? appStyles.standardBlurRadius : 0)
     }
     
@@ -31,12 +31,12 @@ extension DisclosureGroup {
     
     private func disclosureGroupStyleGeneral(_ appStyles: StylesLogEntry) -> some View {
         self
-            .foregroundStyle(appStyles.navigationTreeFontColor)
-            .accentColor(appStyles.navigationTreeColor)
-            .tint(appStyles.navigationTreeColor)
+            .foregroundStyle(.watchLogNavigationTreeFont)
+            .accentColor(.watchLogNavigationTree)
+            .tint(.watchLogNavigationTree)
             //.listRowBackground(appStyles.navigationTreeRowColor)
             .listRowSeparator(.automatic)
-            .listRowSeparatorTint(appStyles.navigationTreeRowSeparatorColor)
+            .listRowSeparatorTint(.watchLogNavigationTreeRowSeparator)
     }
     
     
@@ -47,7 +47,7 @@ extension DisclosureGroup {
             .fontWeight(.medium)
             .fontWidth(.standard)
             .fontDesign(.rounded)
-            .listRowBackground(appStyles.navigationTreeRowColor)
+            .listRowBackground(Color.watchLogNavigationTreeRow)
             
     }
     
@@ -77,7 +77,7 @@ extension Button {
     
     func selectedRowBackgroundColor(isSelectedRow: Bool, _ appStyles: StylesLogEntry) -> some View {
         self
-            .listRowBackground(isSelectedRow ? appStyles.navigationTreeSelectedRowColor : appStyles.navigationTreeRowColor)
+            .listRowBackground(isSelectedRow ? Color.watchLogNavigationTreeSelectedRow : Color.watchLogNavigationTreeRow)
     }
 }
 
@@ -87,7 +87,7 @@ extension Text {
     
     func navigationTreeLinkLabelStyle(isSeletecedItem: Bool, appStyles: StylesLogEntry) -> some View {
         self
-            .foregroundStyle(isSeletecedItem ? appStyles.navigationTreeSelectedItemFontColor : appStyles.navigationTreeFontColor)
+            .foregroundStyle(isSeletecedItem ? .watchLogNavigationTreeSelectedItemFont : .watchLogNavigationTreeFont)
             .font(.title3)
             .fontWeight(.semibold)
             .fontWidth(.standard)
@@ -97,7 +97,7 @@ extension Text {
 
     func navigationTreeLinkSubLabelStyle(isSeletecedItem: Bool, appStyles: StylesLogEntry) -> some View {
         self
-            .foregroundStyle(isSeletecedItem ? appStyles.navigationTreeSelectedItemFontColor : appStyles.navigationTreeFontColor)
+            .foregroundStyle(isSeletecedItem ? .watchLogNavigationTreeSelectedItemFont : .watchLogNavigationTreeFont)
             .font(.callout)
             .fontWeight(.medium)
             .fontWidth(.standard)

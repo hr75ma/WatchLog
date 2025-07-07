@@ -16,10 +16,10 @@ struct customSegmentedPickerView: View {
         self._preselectedIndex = preselectedIndex
         self.appStyles = appStyles
         
-        UISegmentedControl.appearance().selectedSegmentTintColor = UIColor(self.appStyles.standardFrameColor)
-        UISegmentedControl.appearance().backgroundColor = UIColor(appStyles.textFieldBackgroundColor)
+        UISegmentedControl.appearance().selectedSegmentTintColor = UIColor(.watchLogFrameBorder)
+        UISegmentedControl.appearance().backgroundColor = UIColor(.watchLogTextfieldBackgroundUnlocked)
         
-        UISegmentedControl.appearance().setTitleTextAttributes([.font: UIFont.systemFont(ofSize: appStyles.segmentedCallInFontSize, weight: .semibold, width: .standard), .foregroundColor: UIColor(appStyles.standardFontColor)], for: .normal)
+        UISegmentedControl.appearance().setTitleTextAttributes([.font: UIFont.systemFont(ofSize: appStyles.segmentedCallInFontSize, weight: .semibold, width: .standard), .foregroundColor: UIColor(.watchLogFont)], for: .normal)
 
         UISegmentedControl.appearance().setTitleTextAttributes([.font: UIFont.systemFont(ofSize: appStyles.segmentedCallInFontSize, weight: .semibold, width: .standard), .foregroundColor: UIColor(appStyles.selectedCallInColor)], for: .selected)
         
@@ -64,8 +64,8 @@ struct DatePickerModifier: ViewModifier {
   func body(content: Content) -> some View {
     content
           .labelsHidden()  // Hides the default label
-          .colorMultiply(colorScheme == .dark ? appStyles.standardFontColor : appStyles.standardFontColor)
-          .background(colorScheme == .dark ? appStyles.standardBackgroundColorDark : appStyles.standardBackgroundColorLight)
+          .colorMultiply(.watchLogFont)
+          .background(.watchLogViewBackground)
           .font(.largeTitle)
           .fontWeight(.semibold)
           .fontWidth(.standard)
@@ -97,7 +97,7 @@ struct ProcessPickerModifier: ViewModifier {
           .clipped()
           .contentShape(Rectangle())
           .pickerStyle(.wheel)
-          .background(colorScheme == .dark ? appStyles.standardBackgroundColorDark : appStyles.standardBackgroundColorLight)
+          .background(.watchLogViewBackground)
           .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
   }
 }
