@@ -41,8 +41,8 @@ final class StylesLogEntry:Sendable {
     let glowingColorSetEditing: [Color] = [.blue, .teal, .blue]
 
     
-    let textFieldHeight: CGFloat = 35
-    let textFieldSubHeight: CGFloat = 30
+    let textFieldHeight: CGFloat = 40
+    let textFieldSubHeight: CGFloat = 35
     let textFieldBackgroundColor: Color = Color(.systemGray5)
     let textFieldBackgroundColorLocked: Color = Color(.systemGray6)
     let textFieldBackgroundColorUnLocked: Color = Color(.systemGray5)
