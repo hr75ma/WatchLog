@@ -28,7 +28,7 @@ struct CanvasView: UIViewRepresentable {
     func makeUIView(context: Context) -> PKCanvasView {
     
         //canvas.drawingPolicy = .pencilOnly
-        canvas.backgroundColor = colorScheme == .dark ? appStyles.canvasBackgroundColorDark : appStyles.canvasBackgroundColorLight
+        canvas.backgroundColor = .watchLogCanvasBackground
         canvas.tool = PKInkingTool(.pencil, color: .darkText, width: 15)
         
         if readOnly {
@@ -57,7 +57,7 @@ struct CanvasView: UIViewRepresentable {
         picker.setVisible(true, forFirstResponder: uiView)
         
         
-        canvas.backgroundColor = colorScheme == .dark ? appStyles.canvasBackgroundColorDark : appStyles.canvasBackgroundColorLight
+        canvas.backgroundColor = .watchLogCanvasBackground
         
         
         if readOnly {

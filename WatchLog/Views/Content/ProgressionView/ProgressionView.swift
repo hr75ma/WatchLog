@@ -22,7 +22,7 @@ struct ProgressionView: View {
             }
             .progressViewStyle(.circular)
             .controlSize(.extraLarge)
-            .tint(appStyles.progressionColor)
+            .tint(.watchLogProgression)
         }
         .presentationDetents([.large])
         .presentationBackground(.clear)

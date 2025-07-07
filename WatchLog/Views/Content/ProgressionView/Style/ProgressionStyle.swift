@@ -35,6 +35,6 @@ struct ProgressionTextLabelModifier: ViewModifier {
   func body(content: Content) -> some View {
     content
           .font(Font.custom(appStyles.progressionFont, size: appStyles.progressionFontSize))
-          .foregroundStyle(appStyles.progressionColor)
+          .foregroundStyle(.watchLogProgression)
   }
 }

@@ -22,9 +22,9 @@ struct toggleStyleLockImage: ToggleStyle {
       .scaledToFit()
       .foregroundStyle(
         configuration.isOn
-          ? appStyles.lockColorIsLockedPrimary : appStyles.lockColorIsUnLockedPrimary,
+        ? .watchLogIsLockedImagePrimary : .watchLogIsUnLockedImagePrimary,
         configuration.isOn
-          ? appStyles.lockColorIsLockedSecondary : appStyles.lockColorIsUnLockedSecondary
+        ? .watchLogIsLockedImageSecondary : .watchLogIsUnLockedImageSecondary
       )
 
       //.animation(.easeInOut(duration: 1), value: configuration.isOn)
@@ -62,10 +62,10 @@ struct standardToggleStyleImage: ToggleStyle {
       .scaledToFit()
       .foregroundStyle(
         configuration.isOn
-          ? isLocked ? appStyles.standardToogleIsLockedColor : appStyles.standardToggleIsActivePrimary
-          : appStyles.standardToggleIsUnactivePrimary,
+        ? isLocked ? .watchLogStandardToogleIsLocked : .watchLogStandardToggleIsActivePrimary
+          : .watchLogStandardToggleIsUnactivePrimary,
         configuration.isOn
-          ? appStyles.standardToggleIsActiveSecondary : appStyles.standardToggleIsUnactiveSecondary
+          ? .watchLogStandardToggleIsActiveSecondary : .watchLogStandardToggleIsUnactiveSecondary
       )
       //.animation(.easeInOut(duration: 1), value: configuration.isOn)
       .symbolEffect(

@@ -55,13 +55,11 @@ final class StylesLogEntry:Sendable {
     let navigationTreeSettingImage: String = "gear"
     
     
-    let navigationRefreshProgressionColor: Color = .black
     let navigationRefreshProgressionFont: String = "digital-7"
     let navigationRefreshProgressionFontSize: CGFloat = 35
     let navigationRefreshProgressionRefreshFontSize: CGFloat = 25
     
     //progession section
-    let progressionColor: Color = .white
     let progressionFont: String = "digital-7"
     let progressionFontSize: CGFloat = 35
     let progressionRefreshFontSize: CGFloat = 25
@@ -72,49 +70,28 @@ final class StylesLogEntry:Sendable {
     
     let lockImageIsLocked: String = "lock.rotation"
     let lockImageIsUnLocked: String = "lock.open.rotation"
-    let lockColorIsLockedPrimary: Color = Color.red
-    let lockColorIsLockedSecondary: Color = Color.red
-    let lockColorIsUnLockedPrimary: Color = Color.green
-    let lockColorIsUnLockedSecondary: Color = Color.green
-    
     
     //callin section
     let sectionCallInImage: String = "arrow.down.message"
-    let sectionCallInImagePrimary: Color = Color.white
-    let sectionCallInImageSecondary: Color = Color.blue
     
     //caller data section
     let sectionCallerImage: String = "waveform.and.person.filled"
-    let sectionCallerImagePrimary: Color = Color.white
-    let sectionCallerImageSecondary: Color = Color.blue
+    
     
     //event section
     let sectionEventTypeImage: String = "exclamationmark.triangle"
-    let sectionEventTypeImagePrimary: Color = Color.white
-    let sectionEventTypeImageSecondary: Color = Color.blue
+
     
     //note section
     let sectionNoteImage = "message.badge.waveform"
-    let sectionNoteImagePrimary: Color = Color.white
-    let sectionNoteImageSecondary: Color = Color.blue
+    
     
     //standard toggle
     let standardToggleIsActiveImage: String = "checkmark.rectangle"
     let standardToggleIsUnactiveImage: String = "rectangle"
-    let standardToggleIsActivePrimary: Color = Color.green
-    let standardToggleIsActiveSecondary: Color = Color.blue
-    let standardToggleIsUnactivePrimary: Color = Color.blue
-    let standardToggleIsUnactiveSecondary: Color = Color.blue
-    let standardToogleIsLockedColor: Color = Color.blue
     
     //call in
-    let selectedCallInColor: Color = Color.white
     let segmentedCallInFontSize: CGFloat = 25
-    
-    // section Canvas
-    let canvasLockedColor: Color = Color.red
-    let canvasUnLockedColor: Color = Color.blue
-    
     
     
     
@@ -124,17 +101,12 @@ final class StylesLogEntry:Sendable {
     let LabelFontSize: CGFloat = 35
     let LabelFontSizeSub: CGFloat = 30
     
-    //process selection
-    let processTypeFontColor: Color = Color.blue
-    let ProcessTypeBackgroundColor: Color = Color.clear
     
     //callin section
     let callInFontSize: CGFloat = 25
     let callInFieldHeight: CGFloat = 30
     
     //canvas
-    let canvasBackgroundColorDark: UIColor = .black
-    let canvasBackgroundColorLight: UIColor = .white
     let canvasSize: CGFloat = 2000
     let canvasMinimumZoomScale: CGFloat = 0.25
     let canvasMaximumZoomScale: CGFloat = 10

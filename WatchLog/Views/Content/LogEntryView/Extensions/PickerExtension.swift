@@ -21,7 +21,7 @@ struct customSegmentedPickerView: View {
         
         UISegmentedControl.appearance().setTitleTextAttributes([.font: UIFont.systemFont(ofSize: appStyles.segmentedCallInFontSize, weight: .semibold, width: .standard), .foregroundColor: UIColor(.watchLogFont)], for: .normal)
 
-        UISegmentedControl.appearance().setTitleTextAttributes([.font: UIFont.systemFont(ofSize: appStyles.segmentedCallInFontSize, weight: .semibold, width: .standard), .foregroundColor: UIColor(appStyles.selectedCallInColor)], for: .selected)
+        UISegmentedControl.appearance().setTitleTextAttributes([.font: UIFont.systemFont(ofSize: appStyles.segmentedCallInFontSize, weight: .semibold, width: .standard), .foregroundColor: UIColor(.watchLogSelectedCallIn)], for: .selected)
         
         UISegmentedControl.appearance().setContentHuggingPriority(.defaultLow, for: .vertical)
     }

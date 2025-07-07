@@ -24,23 +24,23 @@ struct SectionImageView: View {
         switch sectionType {
         case .callIn:
             Image(systemName: appStyles.sectionCallInImage)
-                .sectionImageStyle(primaryColor: appStyles.sectionCallInImagePrimary, secondaryColor: appStyles.sectionCallInImageSecondary)
+                .sectionImageStyle(primaryColor: .watchLogSectionCallInImagePrimary, secondaryColor: .watchLogSectionCallInImageSecondary)
             //.symbolEffect(.variableColor.cumulative.hideInactiveLayers.nonReversing, options: .repeat(.continuous),isActive: true)
         case .callerData:
             Image(systemName: appStyles.sectionCallerImage)
               .sectionImageStyle(
-                primaryColor: appStyles.sectionCallerImagePrimary,
-                secondaryColor: appStyles.sectionCallerImageSecondary)
+                primaryColor: .watchLogSectionCallerImagePrimary,
+                secondaryColor: .watchLogSectionCallerImageSecondary)
               //.symbolEffect(.variableColor.cumulative.hideInactiveLayers.nonReversing, options: .repeat(.continuous),isActive: !logEntry.isLocked)
         case .event:
             Image(systemName: appStyles.sectionEventTypeImage)
               .sectionImageStyle(
-                primaryColor: appStyles.sectionEventTypeImagePrimary,
-                secondaryColor: appStyles.sectionEventTypeImageSecondary)
+                primaryColor: .watchLogSectionEventTypeImagePrimary,
+                secondaryColor: .watchLogSectionEventTypeImageSecondary)
             //.symbolEffect(.variableColor.cumulative.hideInactiveLayers.nonReversing, options: .repeat(.continuous),isActive: !logEntry.isLocked)
         case .note:
             Image(systemName: appStyles.sectionNoteImage)
-                  .sectionImageStyle(primaryColor: appStyles.sectionNoteImagePrimary, secondaryColor: appStyles.sectionNoteImageSecondary)
+                .sectionImageStyle(primaryColor: .watchLogSectionNoteImagePrimary, secondaryColor: .watchLogSectionNoteImageSecondary)
                 //.symbolEffect(.variableColor.cumulative.hideInactiveLayers.nonReversing, options: .repeat(.continuous),isActive: !logEntry.isLocked)
         }
     }

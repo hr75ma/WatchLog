@@ -73,7 +73,7 @@ struct PickerTextModifier: ViewModifier {
           .fontWeight(.semibold)
           .fontWidth(.standard)
           .fontDesign(.rounded)
-          .foregroundStyle(appStyles.processTypeFontColor)
+          .foregroundStyle(.watchLogProcessionTypeFont)
   }
 }
 

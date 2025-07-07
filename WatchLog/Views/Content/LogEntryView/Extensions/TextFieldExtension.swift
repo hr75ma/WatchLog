@@ -53,7 +53,7 @@ struct TextFieldButtonClearButtonModifier: ViewModifier {
             .frame(
               width: appStyles.clearButtonSize, height: appStyles.clearButtonSize,
               alignment: .center)
-            .foregroundStyle(.watchLogClearButtonPrimary, .watchLogClearButtonSecondary)
+            .foregroundStyle(.watchLogClearButtonImagePrimary, .watchLogClearButtonImageSecondary)
         }
         .offset(x: 30)
       }
