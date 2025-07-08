@@ -21,8 +21,29 @@ class WatchLogEntry {
   var CallerName: String = ""
   var CallerNumber: String = ""
   var CallerAdress: String = ""
-  var CallerDOB: Date?
-    
+    var CallerDOB: Date?
+//    var CallerDOB: Date? {
+//        didSet {
+//            
+//            if CallerDOB != nil {
+//                
+//                let testDateComponent = Calendar.current.dateComponents([.minute, .second, .nanosecond], from: self.CallerDOB!)
+//                var currentDateComponent = Calendar.current.dateComponents(
+//                    [.year, .month, .day, .hour, .minute, .second, .nanosecond], from: Date())
+//                
+//                currentDateComponent.hour = testDateComponent.hour
+//                currentDateComponent.minute = testDateComponent.minute
+//                currentDateComponent.second = testDateComponent.second
+//                currentDateComponent.nanosecond = testDateComponent.nanosecond
+//                
+//                let currentDate = Calendar.current.date(from: currentDateComponent)!
+//                
+//                if currentDate < self.CallerDOB! {
+//                    self.CallerDOB = nil
+//                }
+//            }
+//        }
+//    }
 
   var CallIn = CallInType.CallInTypeShort.EMERGENCY
 
