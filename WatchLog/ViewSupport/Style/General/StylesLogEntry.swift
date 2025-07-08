@@ -26,6 +26,7 @@ final class StylesLogEntry:Sendable {
     
     //global
     let standardInnerFrameBorderWidth:CGFloat = 4
+    let standardCornerRadius: Double = 20
     
     let labelFont: String = "digital-7"
     let labelFontSize: CGFloat = 35
@@ -34,7 +35,9 @@ final class StylesLogEntry:Sendable {
     let glowingColorSetLocked: [Color] = [.watchLogGlowing1, .watchLogGlowing2, .watchLogGlowing1]
     let glowingColorSetNew: [Color] = [.watchLogGlowing3, .watchLogGlowing2, .watchLogGlowing3]
     let glowingColorSetEditing: [Color] = [.watchLogGlowing2, .watchLogGlowing4, .watchLogGlowing2]
-
+    let glowingBlurRadius: Double = 18
+    let glowingAnimationDuration: Double = 2
+    
     
     let textFieldHeight: CGFloat = 40
     let textFieldSubHeight: CGFloat = 35

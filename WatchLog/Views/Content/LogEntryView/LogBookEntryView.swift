@@ -71,7 +71,7 @@ struct LogBookEntryView: View {
           maxHeight: .infinity,
           alignment: .topLeading
         )
-        .cornerRadius(20)
+        .cornerRadius(appStyles.standardCornerRadius)
         .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
       }
       .standardLogEntryViewPadding()
@@ -169,14 +169,14 @@ extension LogBookEntryView {
   private var glowingBorderEffect: some View {
 
     ZStack {
-      RoundedRectangle(cornerRadius: 20, style: .continuous)
+      RoundedRectangle(cornerRadius: appStyles.standardCornerRadius, style: .continuous)
         .fill(
           AngularGradient(
             colors: glowingColorSet,
             center: .center,
             angle: .degrees(isAnimating ? 360 : 0))
         )
-        .blur(radius: 18)
+        .blur(radius: appStyles.glowingBlurRadius)
 
       //      RoundedRectangle(cornerRadius: 20, style: .continuous)
       //        .stroke(
@@ -186,7 +186,7 @@ extension LogBookEntryView {
       //            angle: .degrees(isAnimating ? 360 : 0)),
       //          style: StrokeStyle(lineWidth: 4, lineCap: .round))
     }
-    .animation(Animation.linear(duration: 2).repeatForever(autoreverses: false), value: isAnimating)
+    .animation(Animation.linear(duration: appStyles.glowingAnimationDuration).repeatForever(autoreverses: false), value: isAnimating)
     .onAppear {
       isAnimating = true
     }
