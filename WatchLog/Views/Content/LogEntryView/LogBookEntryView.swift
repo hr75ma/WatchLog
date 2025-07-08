@@ -128,7 +128,7 @@ struct LogBookEntryView: View {
     .standardScrollViewPadding()
     .toolbar {
       ToolbarItem(placement: .topBarLeading) {
-        Text("Wachbuch")
+        Text("Eintrag")
           .navigationTitleModifier()
       }
 

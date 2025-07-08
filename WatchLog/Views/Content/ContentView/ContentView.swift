@@ -90,7 +90,7 @@ struct ContentView: View {
           }
             ToolbarItem(placement: .principal) {
                 VStack {
-                    Text("Logs")
+                    Text("Wachbuch")
                         .navigationTitleModifier()
                 }
             }

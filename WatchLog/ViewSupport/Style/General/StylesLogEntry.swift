@@ -52,8 +52,8 @@ final class StylesLogEntry:Sendable {
     let clearButtonSize: CGFloat = 20
     
     //navigation view section
-    let navigationAddImage: String = "plus"
-    let navigationSettingImage: String = "gear"
+    let navigationAddImage: String = "plus.circle"
+    let navigationSettingImage: String = "gear.circle"
     let navigationMenuImage: String = "ellipsis.circle"
     let navigationItemImageSize: CGFloat = 25
     let navigationItemAnimationDuration: Double = 3

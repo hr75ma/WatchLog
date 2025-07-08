@@ -37,7 +37,8 @@ struct NavigationToolbarAddEntryImage: View {
     Image(systemName: appStyles.navigationAddImage)
       .navigationToolBarSymbolModifier(appStyles: appStyles)
       .foregroundStyle(
-        .watchLogNavigationTreeAddEntryImagePrimary, .watchLogNavigationTreeAddEntryImageSecondary
+        //.watchLogNavigationTreeAddEntryImagePrimary, .watchLogNavigationTreeAddEntryImageSecondary
+            .watchLogToolBarContextColorActivePrimary, .watchLogToolBarContextColorActiveSecondary
       )
   }
 }
@@ -50,7 +51,8 @@ struct NavigationToolbarSettingsImage: View {
     Image(systemName: appStyles.navigationSettingImage)
       .navigationToolBarSymbolModifier(appStyles: appStyles)
       .foregroundStyle(
-        .watchLogNavigationTreeSettingImagePrimary, .watchLogNavigationTreeSettingImageSecondary
+        //.watchLogNavigationTreeSettingImagePrimary, .watchLogNavigationTreeSettingImageSecondary
+        .watchLogToolBarContextColorActivePrimary, .watchLogToolBarContextColorActiveSecondary
       )
   }
 }
