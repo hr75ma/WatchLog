@@ -22,6 +22,7 @@ class WatchLogEntry {
   var CallerNumber: String = ""
   var CallerAdress: String = ""
   var CallerDOB: Date?
+    
 
   var CallIn = CallInType.CallInTypeShort.EMERGENCY
 

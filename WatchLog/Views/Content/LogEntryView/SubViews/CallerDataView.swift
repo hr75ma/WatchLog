@@ -119,7 +119,7 @@ extension CallerDataView {
             //              .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
             //              .isHidden(tempLocked, remove: true)
 
-            DatePicker("", selection: $logEntry.CallerDOB ?? Date(), displayedComponents: [.date])
+              DatePicker("", selection: $logEntry.CallerDOB ?? Date(), in: ...Date(), displayedComponents: [.date])
               .datePickerWheelStyle()
               .matchedGeometryEffect(id: "lockedEvent", in: namespace)
               .isHidden(!with || tempLocked, remove: true)

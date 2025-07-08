@@ -26,6 +26,7 @@ import TipKit
     .environment(BlurSetting())
     .environment(\.appStyles, StylesLogEntry.shared)
     .environment(DisplayedLogEntryID())
+    .environmentObject(AppSettings.shared)
     .task {
       //try? Tips.resetDatastore()
       try? Tips.configure([

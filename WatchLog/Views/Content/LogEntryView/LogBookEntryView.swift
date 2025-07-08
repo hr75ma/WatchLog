@@ -300,4 +300,5 @@ extension LogBookEntryView {
     .environment(\.appStyles, StylesLogEntry.shared)
     //.environment(\.displayedLogEntryUUID, DisplayedLogEntryID())
     .environment(DisplayedLogEntryID())
+    .environmentObject(AppSettings.shared)
 }
