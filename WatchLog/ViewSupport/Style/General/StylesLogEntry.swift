@@ -28,6 +28,11 @@ final class StylesLogEntry:Sendable {
     let standardInnerFrameBorderWidth:CGFloat = 4
     let standardCornerRadius: Double = 20
     
+    //standard toggle
+    let standardToggleIsActiveImage: String = "checkmark.rectangle"
+    let standardToggleIsUnactiveImage: String = "rectangle"
+    
+    
     let labelFont: String = "digital-7"
     let labelFontSize: CGFloat = 35
     let labelFontSizeSub: CGFloat = 30
@@ -42,18 +47,16 @@ final class StylesLogEntry:Sendable {
     let textFieldHeight: CGFloat = 40
     let textFieldSubHeight: CGFloat = 35
     
-    
     //clear button for textfield
     let clearButtonImage: String = "xmark.circle.fill"
     let clearButtonSize: CGFloat = 20
     
     //navigation view section
-    
-    
-    
-    let navigationTreeAddEntryImage: String = "plus"
-    
-    let navigationTreeSettingImage: String = "gear"
+    let navigationAddImage: String = "plus"
+    let navigationSettingImage: String = "gear"
+    let navigationMenuImage: String = "ellipsis.circle"
+    let navigationItemImageSize: CGFloat = 25
+    let navigationItemAnimationDuration: Double = 3
     
     
     let navigationRefreshProgressionFont: String = "digital-7"
@@ -87,9 +90,7 @@ final class StylesLogEntry:Sendable {
     let sectionNoteImage = "message.badge.waveform"
     
     
-    //standard toggle
-    let standardToggleIsActiveImage: String = "checkmark.rectangle"
-    let standardToggleIsUnactiveImage: String = "rectangle"
+
     
     //call in
     let segmentedCallInFontSize: CGFloat = 25
@@ -97,7 +98,6 @@ final class StylesLogEntry:Sendable {
     
     let navigationTitleFont: String = "digital-7"
     let navigationTitleFontSize: CGFloat = 30
-    
     
     //callin section
     let callInFontSize: CGFloat = 25
@@ -113,7 +113,7 @@ final class StylesLogEntry:Sendable {
     let saveImageActive: String = "square.and.arrow.down"
     let newImageActive: String = "plus"
     let deleteImageActive: String = "trash"
-    let contextImage: String = "ellipsis.circle"
+
     
 }
 

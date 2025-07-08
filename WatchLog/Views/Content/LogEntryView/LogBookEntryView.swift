@@ -226,8 +226,7 @@ extension LogBookEntryView {
         }
       }
     } label: {
-      Image(systemName: appStyles.contextImage)
-        .navigationMenuSymbolModifier()
+        NavigationToolbarItemImage(toolbarItemType: .menu, appStyles: appStyles)
     }
     .alert("Log Löschen?", isPresented: $alertDelete) {
       Button(

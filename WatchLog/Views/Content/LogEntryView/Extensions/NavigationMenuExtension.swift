@@ -77,22 +77,16 @@ extension Label {
 }
 
 
-
-
-
-
 extension Image {
     
-    func navigationMenuSymbolModifier() -> some View {
+    func navigationToolBarSymbolModifier(appStyles: StylesLogEntry) -> some View {
       self
             .symbolRenderingMode(.palette)
             .resizable()
             .scaledToFit()
-            .frame(width: 30, height: 30, alignment: .center)
-            .foregroundStyle(
-              .watchLogToolBarContextColorActivePrimary, .watchLogToolBarContextColorActiveSecondary
-            )
-            .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(6))
+            .frame(width: appStyles.navigationItemImageSize, height: appStyles.navigationItemImageSize, alignment: .center)
+            .symbolEffect(.scale)
+            .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(appStyles.navigationItemAnimationDuration))
     }
 }
 

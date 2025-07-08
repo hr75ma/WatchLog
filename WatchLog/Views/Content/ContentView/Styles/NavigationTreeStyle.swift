@@ -19,9 +19,12 @@ extension List {
 
 extension NavigationSplitView {
     
-     func navigationSplitViewStyles() -> some View {
+     func navigationSplitViewStyles(_ appStyles: StylesLogEntry) -> some View {
         self
              .accentColor(.watchLogNavigationBarItem)
+             .symbolRenderingMode(.palette)
+             .symbolEffect(.scale)
+             .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(appStyles.navigationItemAnimationDuration))
     }
     
 }

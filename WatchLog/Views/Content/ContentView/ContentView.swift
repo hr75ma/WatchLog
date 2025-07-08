@@ -88,6 +88,12 @@ struct ContentView: View {
             toolBarItemNewButton
             toolBarItemSettings
           }
+            ToolbarItem(placement: .principal) {
+                VStack {
+                    Text("Logs")
+                        .navigationTitleModifier()
+                }
+            }
         }
       }
       .sheet(isPresented: $showSettingSheet) {
@@ -119,7 +125,7 @@ struct ContentView: View {
 
       LogBookEntryView(logBookEntryUUID: $logBookEntryUUID)
     }
-    .navigationSplitViewStyles()
+    .navigationSplitViewStyles(appStyles)
     .blurring(blurSetting: blurSetting)
     .onChange(of: scenePhase) { _, newPhase in
       switch newPhase {
@@ -205,7 +211,8 @@ extension ContentView {
     Button(action: {
       showSettingSheet = true
     }) {
-      NavigationToolbarSettingsImage(appStyles: appStyles)
+        
+        NavigationToolbarItemImage(toolbarItemType: .settings, appStyles: appStyles)
     }
   }
 

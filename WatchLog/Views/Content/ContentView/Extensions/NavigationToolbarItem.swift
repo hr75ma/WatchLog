@@ -11,6 +11,7 @@ import SwiftUI
 enum NavigationToolbarItemType {
   case addEntry
   case settings
+  case menu
 }
 
 @ViewBuilder func NavigationToolbarItemImage(
@@ -22,6 +23,8 @@ enum NavigationToolbarItemType {
     NavigationToolbarAddEntryImage(appStyles: appStyles)
   case .settings:
     NavigationToolbarSettingsImage(appStyles: appStyles)
+  case .menu:
+    NavigationToolbarMenuImage(appStyles: appStyles)
   }
 
 }
@@ -31,14 +34,11 @@ struct NavigationToolbarAddEntryImage: View {
 
   var body: some View {
 
-    Image(systemName: appStyles.navigationTreeAddEntryImage)
-      .symbolRenderingMode(.palette)
+    Image(systemName: appStyles.navigationAddImage)
+      .navigationToolBarSymbolModifier(appStyles: appStyles)
       .foregroundStyle(
-        .watchLogNavigationTreeAddEntryImagePrimary,
-        .watchLogNavigationTreeAddEntryImageSecondary
+        .watchLogNavigationTreeAddEntryImagePrimary, .watchLogNavigationTreeAddEntryImageSecondary
       )
-      .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(2))
-      .symbolEffect(.scale)
   }
 }
 
@@ -47,12 +47,22 @@ struct NavigationToolbarSettingsImage: View {
 
   var body: some View {
 
-    Image(systemName: appStyles.navigationTreeSettingImage)
-      .symbolRenderingMode(.palette).foregroundStyle(
-        .watchLogNavigationTreeSettingImagePrimary,
-        .watchLogNavigationTreeSettingImageSecondary
+    Image(systemName: appStyles.navigationSettingImage)
+      .navigationToolBarSymbolModifier(appStyles: appStyles)
+      .foregroundStyle(
+        .watchLogNavigationTreeSettingImagePrimary, .watchLogNavigationTreeSettingImageSecondary
       )
-      .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(2))
-      .symbolEffect(.scale)
+  }
+}
+
+struct NavigationToolbarMenuImage: View {
+  let appStyles: StylesLogEntry
+
+  var body: some View {
+    Image(systemName: appStyles.navigationMenuImage)
+      .navigationToolBarSymbolModifier(appStyles: appStyles)
+      .foregroundStyle(
+        .watchLogToolBarContextColorActivePrimary, .watchLogToolBarContextColorActiveSecondary
+      )
   }
 }
