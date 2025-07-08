@@ -46,6 +46,8 @@ final class StylesLogEntry:Sendable {
     let clearButtonImage: String = "xmark.circle.fill"
     let clearButtonSize: CGFloat = 20
     
+    let blurAnimationDuration: Double = 0.1
+    
     //navigation view section
     
     
@@ -94,12 +96,8 @@ final class StylesLogEntry:Sendable {
     let segmentedCallInFontSize: CGFloat = 25
     
     
-    
-    
-    //logTime section
-    let LabelFont: String = "digital-7"
-    let LabelFontSize: CGFloat = 35
-    let LabelFontSizeSub: CGFloat = 30
+    let navigationTitleFont: String = "digital-7"
+    let navigationTitleFontSize: CGFloat = 30
     
     
     //callin section

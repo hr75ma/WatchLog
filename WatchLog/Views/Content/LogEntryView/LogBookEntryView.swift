@@ -74,7 +74,7 @@ struct LogBookEntryView: View {
         .cornerRadius(20)
         .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
         .blur(radius: blurSetting.isBlur ? appStyles.standardBlurRadius : 0)
-        .animation(.linear(duration: 0.3), value: blurSetting.isBlur)
+        .animation(.linear(duration: appStyles.blurAnimationDuration), value: blurSetting.isBlur)
       }
       .standardLogEntryViewPadding()
     }
@@ -103,9 +103,9 @@ struct LogBookEntryView: View {
     )
     .onChange(of: viewModel.watchLogEntry.isLocked) { oldValue, newValue in
       glowingColorSet = getGlowColorSet(logEntry: viewModel.watchLogEntry)
-        if(newValue) {
-            saveEntry()
-        }
+      if newValue {
+        saveEntry()
+      }
     }
     .onChange(of: viewModel.watchLogEntry.isNewEntryLog) { oldValue, newValue in
       glowingColorSet = getGlowColorSet(logEntry: viewModel.watchLogEntry)
@@ -131,9 +131,7 @@ struct LogBookEntryView: View {
     .toolbar {
       ToolbarItem(placement: .topBarLeading) {
         Text("Wachbuch")
-          .font(Font.custom(appStyles.LabelFont, size: appStyles.LabelFontSizeSub))
-          .foregroundStyle(.blue)
-          .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+          .navigationTitleModifier()
       }
 
       ToolbarItemGroup(placement: .primaryAction) {
@@ -195,20 +193,14 @@ extension LogBookEntryView {
       isAnimating = true
     }
   }
-
-  var MenuButton: some View {
+    var MenuButton: some View {
 
     Menu {
       Button {
         blurSetting.isBlur = true
         alertNew.toggle()
       } label: {
-        Label("Neues Log", systemImage: appStyles.newImageActive)
-          .symbolRenderingMode(.palette)
-          .foregroundStyle(
-            .watchLogNewColorActiveSecondary, .watchLogNewColorActiveSecondary
-          )
-          .labelStyle(.titleAndIcon)
+          NavigationMenuLabelView(menuItemType: MenuType.new)
       }
 
       if !viewModel.watchLogEntry.isLocked {
@@ -216,46 +208,28 @@ extension LogBookEntryView {
           saveEntry()
           blurSetting.isBlur = false
         } label: {
-          Label("Log Speichern", systemImage: appStyles.saveImageActive)
-            .symbolRenderingMode(.palette)
-            .foregroundStyle(
-                .watchLogSaveColorActivePrimary, .watchLogSaveColorActivePrimary
-            )
-            .labelStyle(.titleAndIcon)
+          NavigationMenuLabelView(menuItemType: MenuType.save)
         }
-      }
 
-      Divider()
+        Divider()
 
-      if !viewModel.watchLogEntry.isLocked {
         Button(role: .destructive) {
           blurSetting.isBlur = true
           alertClear.toggle()
         } label: {
-          Label("Log leeren", systemImage: appStyles.eraserImageActive)
-            .labelStyle(.titleAndIcon)
+            NavigationMenuLabelView(menuItemType: MenuType.clear)
         }
-      }
 
-      if !viewModel.watchLogEntry.isLocked {
         Button(role: .destructive) {
           blurSetting.isBlur = true
           alertDelete.toggle()
         } label: {
-          Label("Log Löschen", systemImage: appStyles.deleteImageActive)
-            .labelStyle(.titleAndIcon)
+            NavigationMenuLabelView(menuItemType: MenuType.delete)
         }
       }
     } label: {
       Image(systemName: appStyles.contextImage)
-        .symbolRenderingMode(.palette)
-        .resizable()
-        .scaledToFit()
-        .frame(width: 30, height: 30, alignment: .center)
-        .foregroundStyle(
-            .watchLogToolBarContextColorActivePrimary, .watchLogToolBarContextColorActiveSecondary
-        )
-        .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(6))
+            .navigationMenuSymbolModifier()
     }
     .alert("Log Löschen?", isPresented: $alertDelete) {
       Button(
@@ -268,11 +242,7 @@ extension LogBookEntryView {
             blurSetting.isBlur = false
           }
         })
-      Button(
-        "Abbrechen", role: .cancel,
-        action: {
-          blurSetting.isBlur = false
-        })
+        cancelAlertButton()
     }
     .alert("Neues Log erstellen?", isPresented: $alertNew) {
       Button(
@@ -282,11 +252,7 @@ extension LogBookEntryView {
           displayedLogEntryUUID.id = viewModel.watchLogEntry.uuid
           blurSetting.isBlur = false
         })
-      Button(
-        "Abbrechen", role: .cancel,
-        action: {
-          blurSetting.isBlur = false
-        })
+        cancelAlertButton()
     }
     .alert("Eingaben verwerfen?", isPresented: $alertClear) {
       Button(
@@ -295,13 +261,17 @@ extension LogBookEntryView {
           clearEntry(LogEntry: &viewModel.watchLogEntry, drawing: &drawing)
           blurSetting.isBlur = false
         })
-      Button(
-        "Nein", role: .cancel,
-        action: {
-          blurSetting.isBlur = false
-        })
+        cancelAlertButton()
     }
   }
+    
+    fileprivate func cancelAlertButton() -> Button<Text> {
+        return Button(
+            "Abbrechen", role: .cancel,
+            action: {
+                blurSetting.isBlur = false
+            })
+    }
 
   private func saveEntry() {
     Task {

@@ -40,9 +40,9 @@ struct SubSectionTextLabelModifier: ViewModifier {
   
     func body(content: Content) -> some View {
     content
-      .font(Font.custom(appStyles.labelFont, size: appStyles.LabelFontSizeSub))
+      .font(Font.custom(appStyles.labelFont, size: appStyles.labelFontSizeSub))
       .foregroundStyle(.watchLogFont)
-      .frame(height: appStyles.LabelFontSizeSub, alignment: .topLeading)
+      .frame(height: appStyles.labelFontSizeSub, alignment: .topLeading)
       .lineLimit(1)
       .fixedSize(horizontal: false, vertical: true)
       .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 5))
@@ -55,9 +55,9 @@ struct SubSectionTextLabelWidthModifier: ViewModifier {
   
   func body(content: Content) -> some View {
     content
-          .font(Font.custom(appStyles.labelFont, size: appStyles.LabelFontSizeSub))
+          .font(Font.custom(appStyles.labelFont, size: appStyles.labelFontSizeSub))
           .foregroundStyle(.watchLogFont)
-          .frame(width: width, height: appStyles.LabelFontSizeSub, alignment: .topLeading)
+          .frame(width: width, height: appStyles.labelFontSizeSub, alignment: .topLeading)
           .lineLimit(1)
           .fixedSize(horizontal: false, vertical: true)
           .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 5))
@@ -74,6 +74,16 @@ struct PickerTextModifier: ViewModifier {
           .fontWidth(.standard)
           .fontDesign(.rounded)
           .foregroundStyle(.watchLogProcessionTypeFont)
+  }
+}
+
+struct NavigationTitleModifier: ViewModifier {
+    @Environment(\.appStyles) var appStyles
+  func body(content: Content) -> some View {
+    content
+      .font(Font.custom(appStyles.navigationTitleFont, size: appStyles.navigationTitleFontSize))
+      .foregroundStyle(.watchLogFont)
+      .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
   }
 }
 
@@ -98,4 +108,9 @@ func labelStyle(isLocked: Bool) -> some View {
         self.modifier(PickerTextModifier())
     }
     
+    func navigationTitleModifier() -> some View {
+        self.modifier(NavigationTitleModifier())
+    }
 }
+
+
