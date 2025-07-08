@@ -29,32 +29,34 @@ extension NavigationSplitView {
     
 }
 
+struct DisclosureGroupStyleYearModifier: ViewModifier {
+    @Environment(\.colorScheme) var colorScheme
+    
+  func body(content: Content) -> some View {
+    content
+          .foregroundStyle(.watchLogNavigationTreeFont)
+          .accentColor(.watchLogNavigationTree)
+          .tint(.watchLogNavigationTree)
+          .listRowSeparator(.automatic)
+          .listRowSeparatorTint(.watchLogNavigationTreeRowSeparator)
+          .font(.title)
+          .fontWeight(.medium)
+          .fontWidth(.standard)
+          .fontDesign(.rounded)
+          
+          .listRowBackground(colorScheme == .dark ? LinearGradient(colors: [Color.watchLogNavigationTreeRow.opacity(0.5), Color.watchLogNavigationTreeRow.opacity(1)], startPoint: .leading, endPoint: .trailing) : LinearGradient(colors: [Color.watchLogNavigationTreeRow.opacity(1), Color.watchLogNavigationTreeRow.opacity(0.5)], startPoint: .leading, endPoint: .trailing))
+  }
+}
+
 extension DisclosureGroup {
     
-    private func disclosureGroupStyleGeneral(_ appStyles: StylesLogEntry) -> some View {
-        self
-            .foregroundStyle(.watchLogNavigationTreeFont)
-            .accentColor(.watchLogNavigationTree)
-            .tint(.watchLogNavigationTree)
-            .listRowSeparator(.automatic)
-            .listRowSeparatorTint(.watchLogNavigationTreeRowSeparator)
-    }
-    
-    
-    func disclosureGroupStyleYear(_ appStyles: StylesLogEntry) -> some View {
-        self
-            .disclosureGroupStyleGeneral(appStyles)
-            .font(.title)
-            .fontWeight(.medium)
-            .fontWidth(.standard)
-            .fontDesign(.rounded)
-            .listRowBackground(Color.watchLogNavigationTreeRow)
-            
+    func disclosureGroupStyleYearModifier() -> some View {
+        modifier(DisclosureGroupStyleYearModifier())
     }
     
     func disclosureGroupStyleMonth(_ appStyles: StylesLogEntry) -> some View {
         self
-            .disclosureGroupStyleGeneral(appStyles)
+            
             .font(.title2)
             .fontWeight(.medium)
             .fontWidth(.standard)
@@ -64,22 +66,35 @@ extension DisclosureGroup {
     
     func disclosureGroupStyleDay(_ appStyles: StylesLogEntry) -> some View {
         self
-            .disclosureGroupStyleGeneral(appStyles)
             .font(.title3)
             .fontWeight(.medium)
             .fontWidth(.standard)
             .fontDesign(.rounded)
-            
     }
     
 }
 
+struct SelectedRowBackgroundColor: ViewModifier {
+    let isSelectedRow: Bool
+    @Environment(\.colorScheme) var colorScheme
+    
+  func body(content: Content) -> some View {
+    
+      if isSelectedRow {
+          content
+              .listRowBackground(colorScheme == .dark ? LinearGradient(colors: [Color.watchLogNavigationTreeSelectedRow.opacity(0.5), Color.watchLogNavigationTreeSelectedRow.opacity(1)], startPoint: .leading, endPoint: .trailing) : LinearGradient(colors: [Color.watchLogNavigationTreeSelectedRow.opacity(1), Color.watchLogNavigationTreeSelectedRow.opacity(0.5)], startPoint: .leading, endPoint: .trailing))
+      } else {
+          content
+                .listRowBackground(colorScheme == .dark ? LinearGradient(colors: [Color.watchLogNavigationTreeRow.opacity(0.5), Color.watchLogNavigationTreeRow.opacity(1)], startPoint: .leading, endPoint: .trailing) : LinearGradient(colors: [Color.watchLogNavigationTreeRow.opacity(1), Color.watchLogNavigationTreeRow.opacity(0.5)], startPoint: .leading, endPoint: .trailing))
+      }
+  }
+}
+
 extension Button {
     
-    func selectedRowBackgroundColor(isSelectedRow: Bool, _ appStyles: StylesLogEntry) -> some View {
-        self
-            .listRowBackground(isSelectedRow ? Color.watchLogNavigationTreeSelectedRow : Color.watchLogNavigationTreeRow)
-    }
+    func selectedRowBackgroundColor(isSelectedRow: Bool) -> some View {
+        modifier(SelectedRowBackgroundColor(isSelectedRow: isSelectedRow))
+      }
 }
 
 

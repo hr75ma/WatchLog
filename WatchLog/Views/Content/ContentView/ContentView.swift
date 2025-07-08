@@ -245,7 +245,7 @@ extension ContentView {
         }
       })
     }
-    .disclosureGroupStyleYear(appStyles)
+    .disclosureGroupStyleYearModifier()
   }
 
   private func DisclosureGroupLogMonth(month: WatchLogBookMonth) -> some View {
@@ -284,7 +284,7 @@ extension ContentView {
           }
         }
         .selectedRowBackgroundColor(
-          isSelectedRow: entry.uuid == displayedLogEntryUUID.id, appStyles)
+          isSelectedRow: entry.uuid == displayedLogEntryUUID.id)
       }
       .onDelete(perform: { indexSet in
         indexSet.sorted(by: >).forEach { (i) in
