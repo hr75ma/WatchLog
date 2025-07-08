@@ -136,6 +136,7 @@ struct LogBookEntryView: View {
         MenuButton
       }
     }
+    .navigationBarBackground()
   }
 
   private func getGlowColorSet(logEntry: WatchLogEntry) -> [Color] {

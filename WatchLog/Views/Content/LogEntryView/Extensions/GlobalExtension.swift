@@ -73,7 +73,6 @@ extension View {
 
 struct StandardViewBackground: ViewModifier {
     @Environment(\.appStyles) var appStyles
-    @Environment(\.colorScheme) var colorScheme
     func body(content: Content) -> some View {
         content
             .background(.watchLogViewBackground)

@@ -34,6 +34,7 @@ final class StylesLogEntry:Sendable {
     
     
     let labelFont: String = "digital-7"
+    //let labelFont: String = "digital display tfb"
     let labelFontSize: CGFloat = 35
     let labelFontSizeSub: CGFloat = 30
     

@@ -107,5 +107,20 @@ extension Text {
     }
 }
 
+struct NavigationBarBackground: ViewModifier {
+    @Environment(\.appStyles) var appStyles
+    func body(content: Content) -> some View {
+        content
+            .toolbarBackground(.watchLogViewBackground)
+    }
+}
+
+extension View {
+    
+    func navigationBarBackground() -> some View {
+      modifier(NavigationBarBackground())
+    }
+}
+
 
 
