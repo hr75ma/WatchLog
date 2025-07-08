@@ -73,8 +73,6 @@ struct LogBookEntryView: View {
         )
         .cornerRadius(20)
         .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-        .blur(radius: blurSetting.isBlur ? appStyles.standardBlurRadius : 0)
-        .animation(.linear(duration: appStyles.blurAnimationDuration), value: blurSetting.isBlur)
       }
       .standardLogEntryViewPadding()
     }
@@ -193,14 +191,14 @@ extension LogBookEntryView {
       isAnimating = true
     }
   }
-    var MenuButton: some View {
+  var MenuButton: some View {
 
     Menu {
       Button {
         blurSetting.isBlur = true
         alertNew.toggle()
       } label: {
-          NavigationMenuLabelView(menuItemType: MenuType.new)
+        NavigationMenuLabelView(menuItemType: MenuType.new)
       }
 
       if !viewModel.watchLogEntry.isLocked {
@@ -217,19 +215,19 @@ extension LogBookEntryView {
           blurSetting.isBlur = true
           alertClear.toggle()
         } label: {
-            NavigationMenuLabelView(menuItemType: MenuType.clear)
+          NavigationMenuLabelView(menuItemType: MenuType.clear)
         }
 
         Button(role: .destructive) {
           blurSetting.isBlur = true
           alertDelete.toggle()
         } label: {
-            NavigationMenuLabelView(menuItemType: MenuType.delete)
+          NavigationMenuLabelView(menuItemType: MenuType.delete)
         }
       }
     } label: {
       Image(systemName: appStyles.contextImage)
-            .navigationMenuSymbolModifier()
+        .navigationMenuSymbolModifier()
     }
     .alert("Log Löschen?", isPresented: $alertDelete) {
       Button(
@@ -242,7 +240,7 @@ extension LogBookEntryView {
             blurSetting.isBlur = false
           }
         })
-        cancelAlertButton()
+      cancelAlertButton()
     }
     .alert("Neues Log erstellen?", isPresented: $alertNew) {
       Button(
@@ -252,7 +250,7 @@ extension LogBookEntryView {
           displayedLogEntryUUID.id = viewModel.watchLogEntry.uuid
           blurSetting.isBlur = false
         })
-        cancelAlertButton()
+      cancelAlertButton()
     }
     .alert("Eingaben verwerfen?", isPresented: $alertClear) {
       Button(
@@ -261,17 +259,17 @@ extension LogBookEntryView {
           clearEntry(LogEntry: &viewModel.watchLogEntry, drawing: &drawing)
           blurSetting.isBlur = false
         })
-        cancelAlertButton()
+      cancelAlertButton()
     }
   }
-    
-    fileprivate func cancelAlertButton() -> Button<Text> {
-        return Button(
-            "Abbrechen", role: .cancel,
-            action: {
-                blurSetting.isBlur = false
-            })
-    }
+
+  fileprivate func cancelAlertButton() -> Button<Text> {
+    return Button(
+      "Abbrechen", role: .cancel,
+      action: {
+        blurSetting.isBlur = false
+      })
+  }
 
   private func saveEntry() {
     Task {

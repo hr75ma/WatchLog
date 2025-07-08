@@ -119,7 +119,8 @@ struct ContentView: View {
 
       LogBookEntryView(logBookEntryUUID: $logBookEntryUUID)
     }
-    .navigationSplitViewStyles(isBlur: blurSetting.isBlur, appStyles)
+    .navigationSplitViewStyles()
+    .blurring(blurSetting: blurSetting)
     .onChange(of: scenePhase) { _, newPhase in
       switch newPhase {
       case .active:

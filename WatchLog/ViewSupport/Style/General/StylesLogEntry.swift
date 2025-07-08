@@ -25,8 +25,6 @@ final class StylesLogEntry:Sendable {
     private init() {}
     
     //global
-    
-    let standardBlurRadius: CGFloat = 10
     let standardInnerFrameBorderWidth:CGFloat = 4
     
     let labelFont: String = "digital-7"
@@ -45,8 +43,6 @@ final class StylesLogEntry:Sendable {
     //clear button for textfield
     let clearButtonImage: String = "xmark.circle.fill"
     let clearButtonSize: CGFloat = 20
-    
-    let blurAnimationDuration: Double = 0.1
     
     //navigation view section
     

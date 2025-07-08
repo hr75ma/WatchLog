@@ -19,10 +19,9 @@ extension List {
 
 extension NavigationSplitView {
     
-     func navigationSplitViewStyles(isBlur: Bool,_ appStyles: StylesLogEntry) -> some View {
+     func navigationSplitViewStyles() -> some View {
         self
              .accentColor(.watchLogNavigationBarItem)
-            .blur(radius: isBlur ? appStyles.standardBlurRadius : 0)
     }
     
 }
@@ -34,7 +33,6 @@ extension DisclosureGroup {
             .foregroundStyle(.watchLogNavigationTreeFont)
             .accentColor(.watchLogNavigationTree)
             .tint(.watchLogNavigationTree)
-            //.listRowBackground(appStyles.navigationTreeRowColor)
             .listRowSeparator(.automatic)
             .listRowSeparatorTint(.watchLogNavigationTreeRowSeparator)
     }

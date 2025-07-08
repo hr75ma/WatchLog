@@ -118,6 +118,12 @@ extension View {
       .padding(EdgeInsets(top: 5, leading: 20, bottom: 5, trailing: 20))
 
   }
+    
+    func blurring(blurSetting: BlurSetting) -> some View {
+        self
+            .blur(radius: blurSetting.isBlur ? blurSetting.blurRadius : 0)
+            .animation(.linear(duration: blurSetting.animationDuration), value: blurSetting.isBlur)
+    }
 }
 
 struct TextFormatterStyle: ViewModifier {
