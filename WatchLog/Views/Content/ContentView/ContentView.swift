@@ -139,6 +139,7 @@ struct ContentView: View {
         break
       }
     }
+    .appearanceUpdate()
   }
 
   private func generateNewLogEntryAfterExistingDeleted(existingEntryID: UUID) {

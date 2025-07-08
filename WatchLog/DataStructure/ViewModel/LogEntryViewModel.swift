@@ -7,7 +7,7 @@
 import SwiftUI
 import Combine
 
-enum DeleteTypes {
+enum DeleteTypes: CaseIterable, Codable {
   case logEntry
   case day
   case month

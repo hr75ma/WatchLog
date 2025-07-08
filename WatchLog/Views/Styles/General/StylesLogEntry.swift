@@ -57,14 +57,17 @@ final class StylesLogEntry:Sendable {
     let navigationSettingImage: String = "gear.circle"
     let navigationMenuImage: String = "ellipsis.circle"
     let navigationItemImageSize: CGFloat = 25
-    let navigationItemAnimationDuration: Double = 3
+    let navigationItemAnimationDuration: Double = 2
+    
+    let navigationTitleFont: String = "digital-7"
+    let navigationTitleFontSize: CGFloat = 30
     
     
+    //progession section
     let navigationRefreshProgressionFont: String = "digital-7"
     let navigationRefreshProgressionFontSize: CGFloat = 35
     let navigationRefreshProgressionRefreshFontSize: CGFloat = 25
     
-    //progession section
     let progressionFont: String = "digital-7"
     let progressionFontSize: CGFloat = 35
     let progressionRefreshFontSize: CGFloat = 25
@@ -76,29 +79,16 @@ final class StylesLogEntry:Sendable {
     let lockImageIsLocked: String = "lock.rotation"
     let lockImageIsUnLocked: String = "lock.open.rotation"
     
-    //callin section
+    //section image
     let sectionCallInImage: String = "arrow.down.message"
-    
-    //caller data section
     let sectionCallerImage: String = "waveform.and.person.filled"
-    
-    
-    //event section
     let sectionEventTypeImage: String = "exclamationmark.triangle"
-
-    
-    //note section
     let sectionNoteImage = "message.badge.waveform"
     
     
-
     
-    //call in
+    
     let segmentedCallInFontSize: CGFloat = 25
-    
-    
-    let navigationTitleFont: String = "digital-7"
-    let navigationTitleFontSize: CGFloat = 30
     
     //callin section
     let callInFontSize: CGFloat = 25
@@ -114,7 +104,8 @@ final class StylesLogEntry:Sendable {
     let saveImageActive: String = "square.and.arrow.down"
     let newImageActive: String = "plus"
     let deleteImageActive: String = "trash"
-
+    
+    
     
 }
 
