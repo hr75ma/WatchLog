@@ -277,11 +277,11 @@ extension ContentView {
           VStack(alignment: .leading) {
             Text(DateManipulation.getTime(from: entry.LogDate))
               .navigationTreeLinkLabelStyle(
-                isSeletecedItem: entry.uuid == displayedLogEntryUUID.id, appStyles: appStyles)
+                isSeletecedItem: entry.uuid == displayedLogEntryUUID.id)
             if entry.processDetails != nil {
               Text(ProcessType.processTypes[entry.processDetails!.processTypeShort]!)
                 .navigationTreeLinkSubLabelStyle(
-                  isSeletecedItem: entry.uuid == displayedLogEntryUUID.id, appStyles: appStyles)
+                  isSeletecedItem: entry.uuid == displayedLogEntryUUID.id)
             }
           }
         }

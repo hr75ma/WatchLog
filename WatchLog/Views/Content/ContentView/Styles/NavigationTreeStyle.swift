@@ -79,14 +79,15 @@ struct SelectedRowBackgroundColor: ViewModifier {
     @Environment(\.colorScheme) var colorScheme
     
   func body(content: Content) -> some View {
-    
-      if isSelectedRow {
-          content
-              .listRowBackground(colorScheme == .dark ? LinearGradient(colors: [Color.watchLogNavigationTreeSelectedRow.opacity(0.5), Color.watchLogNavigationTreeSelectedRow.opacity(1)], startPoint: .leading, endPoint: .trailing) : LinearGradient(colors: [Color.watchLogNavigationTreeSelectedRow.opacity(1), Color.watchLogNavigationTreeSelectedRow.opacity(0.5)], startPoint: .leading, endPoint: .trailing))
-      } else {
-          content
-                .listRowBackground(colorScheme == .dark ? LinearGradient(colors: [Color.watchLogNavigationTreeRow.opacity(0.5), Color.watchLogNavigationTreeRow.opacity(1)], startPoint: .leading, endPoint: .trailing) : LinearGradient(colors: [Color.watchLogNavigationTreeRow.opacity(1), Color.watchLogNavigationTreeRow.opacity(0.5)], startPoint: .leading, endPoint: .trailing))
-      }
+    let isSelectedDarkGradient = LinearGradient(colors: [Color.watchLogNavigationTreeSelectedRow.opacity(0.5), Color.watchLogNavigationTreeSelectedRow.opacity(1)], startPoint: .leading, endPoint: .trailing)
+    let isSelectedLightGradient = LinearGradient(colors: [Color.watchLogNavigationTreeSelectedRow.opacity(1), Color.watchLogNavigationTreeSelectedRow.opacity(0.5)], startPoint: .leading, endPoint: .trailing)
+      
+    let notSelectedDarkGradient = LinearGradient(colors: [Color.watchLogNavigationTreeRow.opacity(0.5), Color.watchLogNavigationTreeRow.opacity(1)], startPoint: .leading, endPoint: .trailing)
+    let notSelectedLightGradient = LinearGradient(colors: [Color.watchLogNavigationTreeRow.opacity(1), Color.watchLogNavigationTreeRow.opacity(0.5)], startPoint: .leading, endPoint: .trailing)
+      
+      content
+          .listRowBackground(isSelectedRow ? colorScheme == .dark ? isSelectedDarkGradient : isSelectedLightGradient : colorScheme == .dark ? notSelectedDarkGradient : notSelectedLightGradient)
+ 
   }
 }
 
@@ -101,24 +102,25 @@ extension Button {
 extension Text {
     
     
-    func navigationTreeLinkLabelStyle(isSeletecedItem: Bool, appStyles: StylesLogEntry) -> some View {
+    func navigationTreeLinkLabelStyle(isSeletecedItem: Bool) -> some View {
         self
             .foregroundStyle(isSeletecedItem ? .watchLogNavigationTreeSelectedItemFont : .watchLogNavigationTreeFont)
             .font(.title3)
             .fontWeight(.semibold)
             .fontWidth(.standard)
             .fontDesign(.rounded)
+            .animation(.easeIn(duration: 0.25).delay(0.25), value: isSeletecedItem)
             
     }
 
-    func navigationTreeLinkSubLabelStyle(isSeletecedItem: Bool, appStyles: StylesLogEntry) -> some View {
+    func navigationTreeLinkSubLabelStyle(isSeletecedItem: Bool) -> some View {
         self
             .foregroundStyle(isSeletecedItem ? .watchLogNavigationTreeSelectedItemFont : .watchLogNavigationTreeFont)
             .font(.callout)
             .fontWeight(.medium)
             .fontWidth(.standard)
             .fontDesign(.rounded)
-            
+            .animation(.easeIn(duration: 0.25).delay(0.25), value: isSeletecedItem)
     }
 }
 
