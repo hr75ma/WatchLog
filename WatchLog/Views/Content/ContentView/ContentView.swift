@@ -47,6 +47,7 @@ struct ContentView: View {
   @Environment(DisplayedLogEntryID.self) var displayedLogEntryUUID
   @Environment(BlurSetting.self) var blurSetting
   @Environment(\.scenePhase) var scenePhase
+  @Environment(\.colorScheme) var colorScheme
 
   // @Environment(\.dismiss) var dismiss
 
@@ -56,6 +57,8 @@ struct ContentView: View {
   @State var showSettingSheet: Bool = false
   @State var showProgression: Bool = false
   @State var showToolbarItem: Bool = true
+
+  @State var isMarked: Bool = true
 
   let newLogEntryTip = NavigationTipNewLogEntry()
   let refreshListTip = NavigationTipRefresh()
@@ -89,12 +92,12 @@ struct ContentView: View {
             toolBarItemNewButton
             toolBarItemSettings
           }
-            ToolbarItem(placement: .principal) {
-                VStack {
-                    Text("Wachbuch")
-                        .navigationTitleModifier()
-                }
+          ToolbarItem(placement: .principal) {
+            VStack {
+              Text("Wachbuch")
+                .navigationTitleModifier()
             }
+          }
         }
       }
       .sheet(isPresented: $showSettingSheet) {
@@ -185,118 +188,203 @@ struct ContentView: View {
 }
 
 extension ContentView {
-
-  private var toolBarItemNewButton: some View {
-    Button(action: {
-      alertNew.toggle()
-      //Task { await NavigationTipNewLogEntry.setNavigationNewLogEvent.donate() }
-      blurSetting.isBlur = true
-    }) {
-      NavigationToolbarItemImage(toolbarItemType: .addEntry, appStyles: appStyles)
-    }
-    .alert("Neues Log erstellen?", isPresented: $alertNew) {
-      Button(
-        "Erstellen", role: .destructive,
-        action: {
-          blurSetting.isBlur = false
-          addNewLogEntry()
-        })
-      Button(
-        "Abbrechen", role: .cancel,
-        action: {
-          blurSetting.isBlur = false
-        })
-    }
-  }
-
-  private var toolBarItemSettings: some View {
-    Button(action: {
-      showSettingSheet = true
-    }) {
-        
-        NavigationToolbarItemImage(toolbarItemType: .settings, appStyles: appStyles)
-    }
-  }
-
-  private func buildLogBookNavigationTree(book: WatchLogBook) -> some View {
-
-    ForEach(book.logYearsSorted) { year in
-      DisclorsureGroupYear(year: year)
-    }
-    .onDelete(perform: { indexSet in
-      indexSet.sorted(by: >).forEach { (i) in
-        let LogEntry = book.logYearsSorted[i]
-        delete(deleteType: .year, toDeleteItem: LogEntry)
-
-      }
-    })
-  }
-
-  private func DisclorsureGroupYear(year: WatchLogBookYear) -> some View {
-
-    DisclosureGroup(DateManipulation.getYear(from: year.LogDate)) {
-
-      ForEach(year.logMonthSorted) { month in
-        DisclosureGroupLogMonth(month: month)
-      }
-      .onDelete(perform: { indexSet in
-        indexSet.sorted(by: >).forEach { (i) in
-          let LogEntry = year.watchLogBookMonths![i]
-          delete(deleteType: .month, toDeleteItem: LogEntry)
-
-        }
-      })
-    }
-    .disclosureGroupStyleYearModifier()
-  }
-
-  private func DisclosureGroupLogMonth(month: WatchLogBookMonth) -> some View {
-    DisclosureGroup(DateManipulation.getMonth(from: month.LogDate)) {
-      ForEach(month.logDaysSorted) { day in
-        DisclosureGroupLogEntries(day: day)
-      }
-      .onDelete(perform: { indexSet in
-        indexSet.sorted(by: >).forEach { (i) in
-          let LogEntry = month.watchLogBookDays![i]
-          delete(deleteType: .day, toDeleteItem: LogEntry)
-
-        }
-      })
-    }
-    .disclosureGroupStyleMonth(appStyles)
-  }
-
-  private func DisclosureGroupLogEntries(day: WatchLogBookDay) -> some View {
-
-    DisclosureGroup(DateManipulation.getWeekDay(from: day.LogDate)) {
-      ForEach(day.logEntriesSorted) { entry in
+    
+    private var toolBarItemNewButton: some View {
         Button(action: {
-          logBookEntryUUID = entry.uuid
-          displayedLogEntryUUID.id = logBookEntryUUID
+            alertNew.toggle()
+            //Task { await NavigationTipNewLogEntry.setNavigationNewLogEvent.donate() }
+            blurSetting.isBlur = true
         }) {
-          VStack(alignment: .leading) {
-            Text(DateManipulation.getTime(from: entry.LogDate))
-              .navigationTreeLinkLabelStyle(
-                isSeletecedItem: entry.uuid == displayedLogEntryUUID.id)
-            if entry.processDetails != nil {
-              Text(ProcessType.processTypes[entry.processDetails!.processTypeShort]!)
-                .navigationTreeLinkSubLabelStyle(
-                  isSeletecedItem: entry.uuid == displayedLogEntryUUID.id)
-            }
-          }
+            NavigationToolbarItemImage(toolbarItemType: .addEntry, appStyles: appStyles)
         }
-        .selectedRowBackgroundColor(
-          isSelectedRow: entry.uuid == displayedLogEntryUUID.id)
-      }
-      .onDelete(perform: { indexSet in
-        indexSet.sorted(by: >).forEach { (i) in
-          let LogEntry = day.watchLogBookEntries![i]
-          delete(deleteType: .logEntry, toDeleteItem: LogEntry)
-
+        .alert("Neues Log erstellen?", isPresented: $alertNew) {
+            Button(
+                "Erstellen", role: .destructive,
+                action: {
+                    blurSetting.isBlur = false
+                    addNewLogEntry()
+                })
+            Button(
+                "Abbrechen", role: .cancel,
+                action: {
+                    blurSetting.isBlur = false
+                })
         }
-      })
     }
-    .disclosureGroupStyleDay(appStyles)
-  }
-
+    
+    private var toolBarItemSettings: some View {
+        Button(action: {
+            showSettingSheet = true
+        }) {
+            
+            NavigationToolbarItemImage(toolbarItemType: .settings, appStyles: appStyles)
+        }
+    }
+    
+    private func buildLogBookNavigationTree(book: WatchLogBook) -> some View {
+        
+        ForEach(book.logYearsSorted) { year in
+            DisclorsureGroupYear(year: year)
+        }
+        .onDelete(perform: { indexSet in
+            indexSet.sorted(by: >).forEach { (i) in
+                let LogEntry = book.logYearsSorted[i]
+                delete(deleteType: .year, toDeleteItem: LogEntry)
+                
+            }
+        })
+    }
+    
+    private func DisclorsureGroupYear(year: WatchLogBookYear) -> some View {
+        
+        DisclosureGroup(DateManipulation.getYear(from: year.LogDate)) {
+            
+            ForEach(year.logMonthSorted) { month in
+                DisclosureGroupLogMonth(month: month)
+            }
+            .onDelete(perform: { indexSet in
+                indexSet.sorted(by: >).forEach { (i) in
+                    let LogEntry = year.watchLogBookMonths![i]
+                    delete(deleteType: .month, toDeleteItem: LogEntry)
+                    
+                }
+            })
+        }
+        .disclosureGroupStyleYearModifier()
+    }
+    
+    private func DisclosureGroupLogMonth(month: WatchLogBookMonth) -> some View {
+        DisclosureGroup(DateManipulation.getMonth(from: month.LogDate)) {
+            ForEach(month.logDaysSorted) { day in
+                DisclosureGroupLogEntries(day: day)
+                //DisclosureTestView(day: day, logBookEntryUUID: $logBookEntryUUID)
+            }
+            .onDelete(perform: { indexSet in
+                indexSet.sorted(by: >).forEach { (i) in
+                    let LogEntry = month.watchLogBookDays![i]
+                    delete(deleteType: .day, toDeleteItem: LogEntry)
+                    
+                }
+            })
+        }
+        .disclosureGroupStyleMonth(appStyles)
+    }
+    
+    private func DisclosureGroupLogEntries(day: WatchLogBookDay) -> some View {
+        
+        DisclosureGroup(DateManipulation.getWeekDay(from: day.LogDate)) {
+            ForEach(day.logEntriesSorted) { entry in
+                Button(action: {
+                    logBookEntryUUID = entry.uuid
+                    displayedLogEntryUUID.id = logBookEntryUUID
+                }) {
+                    VStack(alignment: .leading) {
+                        Text(DateManipulation.getTime(from: entry.LogDate))
+                            .navigationTreeLinkLabelStyle(
+                                isSeletecedItem: entry.uuid == displayedLogEntryUUID.id, appStyles: appStyles)
+                        if entry.processDetails != nil {
+                            Text(ProcessType.processTypes[entry.processDetails!.processTypeShort]!)
+                                .navigationTreeLinkSubLabelStyle(
+                                    isSeletecedItem: entry.uuid == displayedLogEntryUUID.id, appStyles: appStyles)
+                        }
+                    }
+                }
+                .listRowBackground(
+//                    RoundedRectangle(cornerRadius: 0)
+                    Rectangle()
+                    
+                        .selectedRowBackgroundAnimation(isSelectedRow: entry.uuid == displayedLogEntryUUID.id, colorScheme: colorScheme, appStyles: appStyles)
+                        //.backgroundRow(isSelectedRow: entry.uuid == displayedLogEntryUUID.id, colorScheme: colorScheme)
+                )
+                //.selectedRowBackgroundColor(isSelectedRow: entry.uuid == displayedLogEntryUUID.id)
+            }
+            .onDelete(perform: { indexSet in
+                indexSet.sorted(by: >).forEach { (i) in
+                    let LogEntry = day.watchLogBookEntries![i]
+                    delete(deleteType: .logEntry, toDeleteItem: LogEntry)
+                    
+                }
+            })
+        }
+        .disclosureGroupStyleDay(appStyles)
+    }
 }
+  
+
+//extension DisclosureTestView {
+//  public func testOnEqualUUID(logEntryUUID: UUID, displayedLogEntryUUID: UUID) -> Bool {
+//    if logEntryUUID == displayedLogEntryUUID {
+//      //isSelection = true
+//
+//      return true
+//    }
+//    //isSelection = false
+// 
+//    return false
+//  }
+//}
+
+//struct DisclosureTestView: View {
+//  @State var day: WatchLogBookDay
+//  @Environment(DisplayedLogEntryID.self) var displayedLogEntryUUID
+//  @Binding var logBookEntryUUID: UUID
+//
+//  @State var isSelection: Bool = false
+//  @State var isSelectedRow: WatchLogBookEntry? = nil
+//
+//  @Environment(\.appStyles) var appStyles
+//  @Environment(\.colorScheme) var colorScheme
+//
+//  var body: some View {
+//
+//    DisclosureGroup(DateManipulation.getWeekDay(from: day.LogDate)) {
+//      ForEach(day.logEntriesSorted) { entry in
+//        Button(action: {
+//          logBookEntryUUID = entry.uuid
+//          displayedLogEntryUUID.id = logBookEntryUUID
+//            
+//        }) {
+//          VStack(alignment: .leading) {
+//            Text(DateManipulation.getTime(from: entry.LogDate))
+//              .navigationTreeLinkLabelStyle(
+//                isSeletecedItem: testOnEqualUUID(
+//                  logEntryUUID: entry.uuid, displayedLogEntryUUID: displayedLogEntryUUID.id))
+//            if entry.processDetails != nil {
+//              Text(ProcessType.processTypes[entry.processDetails!.processTypeShort]!)
+//                .navigationTreeLinkSubLabelStyle(
+//                  isSeletecedItem: entry.uuid == displayedLogEntryUUID.id)
+//            }
+//          }
+//          .onChange(
+//            of: testOnEqualUUID(
+//              logEntryUUID: entry.uuid, displayedLogEntryUUID: displayedLogEntryUUID.id)
+//          ) { oldValue, newValue in
+//              print("--->onchange:")
+//              print("entryuuid: \(entry.LogDate)")
+//              print("entryuuid: \(entry.uuid)")
+//              print("displayedLogEntryUUID: \(displayedLogEntryUUID.id)")
+//              print("isSelectedRow: \(isSelectedRow?.uuid)")
+//              
+//            withAnimation {
+//               // isSelectedRow = isSelectedRow == entry && isSelectedRow?.id == displayedLogEntryUUID.id ? nil : entry
+//                isSelectedRow = isSelectedRow == entry && entry.uuid == displayedLogEntryUUID.id ? nil : entry
+//               print("isSelectedRow: \(isSelectedRow?.uuid)")
+//                print("")
+//            }
+//          }
+//
+//        }
+//        .listRowBackground(
+//          RoundedRectangle(cornerRadius: 0)
+//            //.backgroundRow(isSelectedRow: isSelectedRow == entry, colorScheme: colorScheme)
+//            //.backgroundRow(isSelectedRow: isSelectedRow == entry, colorScheme: colorScheme)
+//            .backgroundRow(isSelectedRow: entry.uuid == displayedLogEntryUUID.id, colorScheme: colorScheme)
+//            //.animation(.easeInOut(duration: 1), value: isSelectedRow)
+//        )
+//      }
+//
+//    }
+//    .disclosureGroupStyleDay(appStyles)
+//
+//  }
+//}

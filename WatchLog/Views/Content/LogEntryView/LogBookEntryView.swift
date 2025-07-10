@@ -18,6 +18,7 @@ struct LogBookEntryView: View {
   @Environment(\.appStyles) var appStyles
   @Environment(DisplayedLogEntryID.self) var displayedLogEntryUUID
   @Environment(BlurSetting.self) var blurSetting
+    
 
   //@Environment(\.dismiss) var dismiss
   @Environment(\.scenePhase) var scenePhase

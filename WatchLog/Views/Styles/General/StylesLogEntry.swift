@@ -62,6 +62,10 @@ final class StylesLogEntry:Sendable {
     let navigationTitleFont: String = "digital-7"
     let navigationTitleFontSize: CGFloat = 30
     
+    let navigationRowAnimationDuration: Double = 0.75
+    let navigationRowGradientOpacityStart: Double = 0.5
+    let navigationRowGradientOpacityEnd: Double = 1
+    
     
     //progession section
     let navigationRefreshProgressionFont: String = "digital-7"

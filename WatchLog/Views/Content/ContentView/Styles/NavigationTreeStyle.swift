@@ -87,7 +87,7 @@ struct SelectedRowBackgroundColor: ViewModifier {
       
       content
           .listRowBackground(isSelectedRow ? colorScheme == .dark ? isSelectedDarkGradient : isSelectedLightGradient : colorScheme == .dark ? notSelectedDarkGradient : notSelectedLightGradient)
- 
+          .animation(.easeInOut(duration: 1), value: isSelectedRow)
   }
 }
 
@@ -99,28 +99,38 @@ extension Button {
 }
 
 
+extension Rectangle {
+    
+    func selectedRowBackgroundAnimation(isSelectedRow: Bool, colorScheme: ColorScheme, appStyles: StylesLogEntry) -> some View {
+        self
+            .fill(isSelectedRow ? colorScheme == .dark ? LinearGradient(colors: [Color.watchLogNavigationTreeSelectedRow.opacity(appStyles.navigationRowGradientOpacityStart), Color.watchLogNavigationTreeSelectedRow.opacity(appStyles.navigationRowGradientOpacityEnd)], startPoint: .leading, endPoint: .trailing) : LinearGradient(colors: [Color.watchLogNavigationTreeSelectedRow.opacity(appStyles.navigationRowGradientOpacityEnd), Color.watchLogNavigationTreeSelectedRow.opacity(appStyles.navigationRowGradientOpacityStart)], startPoint: .leading, endPoint: .trailing) : colorScheme == .dark ? LinearGradient(colors: [Color.watchLogNavigationTreeRow.opacity(appStyles.navigationRowGradientOpacityStart), Color.watchLogNavigationTreeRow.opacity(appStyles.navigationRowGradientOpacityEnd)], startPoint: .leading, endPoint: .trailing) : LinearGradient(colors: [Color.watchLogNavigationTreeRow.opacity(appStyles.navigationRowGradientOpacityEnd), Color.watchLogNavigationTreeRow.opacity(appStyles.navigationRowGradientOpacityStart)], startPoint: .leading, endPoint: .trailing))
+            .animation(.easeInOut(duration: appStyles.navigationRowAnimationDuration), value: isSelectedRow)
+    }#
+}
+
+
 extension Text {
     
     
-    func navigationTreeLinkLabelStyle(isSeletecedItem: Bool) -> some View {
+    func navigationTreeLinkLabelStyle(isSeletecedItem: Bool, appStyles: StylesLogEntry) -> some View {
         self
             .foregroundStyle(isSeletecedItem ? .watchLogNavigationTreeSelectedItemFont : .watchLogNavigationTreeFont)
             .font(.title3)
             .fontWeight(.semibold)
             .fontWidth(.standard)
             .fontDesign(.rounded)
-            .animation(.easeIn(duration: 0.25).delay(0.25), value: isSeletecedItem)
+            .animation(.easeInOut(duration: appStyles.navigationItemAnimationDuration).speed(5),  value: isSeletecedItem)
             
     }
 
-    func navigationTreeLinkSubLabelStyle(isSeletecedItem: Bool) -> some View {
+    func navigationTreeLinkSubLabelStyle(isSeletecedItem: Bool, appStyles: StylesLogEntry) -> some View {
         self
             .foregroundStyle(isSeletecedItem ? .watchLogNavigationTreeSelectedItemFont : .watchLogNavigationTreeFont)
             .font(.callout)
             .fontWeight(.medium)
             .fontWidth(.standard)
             .fontDesign(.rounded)
-            .animation(.easeIn(duration: 0.25).delay(0.25), value: isSeletecedItem)
+            .animation(.easeInOut(duration: appStyles.navigationItemAnimationDuration).speed(6), value: isSeletecedItem)
     }
 }
 
