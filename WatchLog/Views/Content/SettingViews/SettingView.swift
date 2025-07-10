@@ -7,34 +7,57 @@
 
 import SwiftUI
 
-struct SettingView: View {
-    
-    @Environment(\.appStyles) var appStyles
-    
-    
-    var body: some View {
-        
-        VStack(alignment: .center, spacing: 0) {
-            Text("WatchLog")
-                .font(Font.custom(appStyles.LabelFont, size: appStyles.LabelFontSize))
-                .foregroundStyle(appStyles.GeneralTextColor)
-                .contentTransition(.numericText())
-        }
-        
-        Text("Version 0.1")
-            .font(Font.custom(appStyles.LabelFont, size: appStyles.LabelFontSize))
-            .foregroundStyle(appStyles.GeneralTextColor)
-            .contentTransition(.numericText())
-        
-        Text("by HL")
-            .font(Font.custom(appStyles.LabelFont, size: appStyles.LabelFontSize))
-            .foregroundStyle(appStyles.GeneralTextColor)
-            .contentTransition(.numericText())
-    }
+enum ColorMode: Sendable, CaseIterable, Codable {
+    case darkMode
+    case lightMode
 }
 
-#Preview {
+
+
+struct SettingView: View {
+
+  @Environment(\.appStyles) var appStyles
     
-    SettingView()
-        .environment(\.appStyles  ,StylesLogEntry.shared)
+    @AppStorage("currentAppearance") private var appearanceSelection: AppSetting.Appearance = .dark
+
+  var body: some View {
+
+      VStack(alignment: .center, spacing: 0) {
+          Text("WatchLog")
+              .font(.largeTitle)
+              .foregroundStyle(.watchLogFont)
+              .contentTransition(.numericText())
+          
+          
+          Text("Version 0.9")
+              .font(.title)
+              .foregroundStyle(.watchLogFont)
+              .contentTransition(.numericText())
+          
+          Text("by HL")
+              .font(.title2)
+              .foregroundStyle(.watchLogFont)
+              .contentTransition(.numericText())
+          
+          Picker(selection: $appearanceSelection) {
+              Text("System")
+                  .tag(AppSetting.Appearance.automatic)
+              Text("Light")
+                  .tag(AppSetting.Appearance.light)
+              Text("Dark")
+                  .tag(AppSetting.Appearance.dark)
+          } label: {
+              Text("Select Appearance")
+          }
+          .pickerStyle(SegmentedPickerStyle())
+          .frame(width: 400, height: 30)
+      }
+      .appearanceUpdate()
+  }
+}
+
+#Preview{
+
+  SettingView()
+    .environment(\.appStyles, StylesLogEntry.shared)
 }

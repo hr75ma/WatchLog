@@ -17,33 +17,23 @@ struct ProcessTypeSubVUWView: View {
         VStack(alignment: .leading, spacing: 5) {
             HStack(alignment: .center, spacing: 0) {
                 Text("Kennzeichen")
-                    .sectionTextLabelSub(appStyles: appStyles)
+                    .subSectionTextLabel()
                 
                 TextField("", text: $logEntry.processTypeDetails.AccientLicensePlate01)
-                    .sectionTextFieldSubSection(appStyles: appStyles, text: $logEntry.processTypeDetails.AccientLicensePlate01, isLocked: logEntry.isLocked, numberOfCharacters: 10)
+                    .subSectionTextField(text: $logEntry.processTypeDetails.AccientLicensePlate01, isLocked: logEntry.isLocked, numberOfCharacters: 10, appStyles: appStyles)
                     
                     .padding(EdgeInsets(top: 0, leading: 5, bottom: 0, trailing: 0))
-                
             }
             
             HStack(alignment: .center, spacing: 0) {
                 Text("Tier lebt")
-                    .sectionTextLabelSub(appStyles: appStyles)
-                    .fixedSize(horizontal: true, vertical: true)
-                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 5))
+                    .subSectionTextLabel()
                 
-                Toggle("", isOn: $logEntry.processTypeDetails.isInjured)
-                    .labelsHidden()
-                    .toggleStyle(
-                        generalToggleStyleImage(appStyles: appStyles, isLocked: logEntry.isLocked)
-                    )
-                    .frame(height: appStyles.TextFieldHeightSub, alignment: .center)
-                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                ToggleView(toggleValue: $logEntry.processTypeDetails.isInjured, isLocked: logEntry.isLocked, toggleType: .sub)
                     .disabled(logEntry.isLocked)
                 Spacer()
             }
         }
-        .padding(EdgeInsets(top: 10, leading: 0, bottom: 0, trailing: 0))        
-        
+        .standardEventSubViewPadding()
     }
 }

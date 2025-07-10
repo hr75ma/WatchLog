@@ -18,20 +18,13 @@ struct ProcessTypeSubKVView: View {
                 
                 HStack(alignment: .center, spacing: 0) {
                     Text("Verletzte")
-                        .sectionTextLabelSub(appStyles: appStyles)
-                        .fixedSize(horizontal: true, vertical: true)
-                        .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 5))
+                        .subSectionTextLabel()
                     
-                    Toggle("", isOn: $logEntry.processTypeDetails.isInjured)
-                        .labelsHidden()
-                        .toggleStyle(
-                            generalToggleStyleImage(appStyles: appStyles, isLocked: logEntry.isLocked)
-                        )
-                        .frame(height: appStyles.TextFieldHeightSub, alignment: .center)
-                        .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                    ToggleView(toggleValue: $logEntry.processTypeDetails.isInjured, isLocked: logEntry.isLocked, toggleType: .sub)
+                    Spacer()
                 }
             }
-            .padding(EdgeInsets(top: 10, leading: 0, bottom: 0, trailing: 0))
+            .standardEventSubViewPadding()
             .disabled(logEntry.isLocked)
         }
     }

@@ -5,7 +5,7 @@
 	<key>UIAppFonts</key>
 	<array>
 		<string>digital-7.ttf</string>
-		<string>Roboto-MediumItalic.ttf</string>
+		<string>digital display tfb.ttf</string>
 	</array>
 	<key>UILaunchScreen</key>
 	<dict>

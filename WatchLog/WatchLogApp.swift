@@ -15,7 +15,6 @@ struct WatchLogApp: App {
     @State private var showSplashView:Bool = true
     
     
-    
     var body: some Scene {
         
         let databaseService = DatabaseService()
@@ -24,13 +23,12 @@ struct WatchLogApp: App {
         WindowGroup {
         
                 SplashView()
-                
-                
-                //ContentView()
     }
         .environmentObject(viewModel)
         .environment(BlurSetting())
         .environment(DisplayedLogEntryID())
+        .environmentObject(AppSettings.shared)
+       
 
     
     }
