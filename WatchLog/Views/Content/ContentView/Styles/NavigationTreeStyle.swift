@@ -8,6 +8,11 @@
 import Foundation
 import SwiftUI
 
+enum TextLevel: Int, CaseIterable, Codable {
+    case standard
+    case sub
+}
+
 extension List {
     func listStyleGeneral() -> some View {
         
@@ -100,7 +105,6 @@ extension Button {
 
 
 extension Rectangle {
-    
     func selectedRowBackgroundAnimation(isSelectedRow: Bool, colorScheme: ColorScheme, appStyles: StylesLogEntry) -> some View {
         self
             .fill(isSelectedRow ? colorScheme == .dark ? LinearGradient(colors: [Color.watchLogNavigationTreeSelectedRow.opacity(appStyles.navigationRowGradientOpacityStart), Color.watchLogNavigationTreeSelectedRow.opacity(appStyles.navigationRowGradientOpacityEnd)], startPoint: .leading, endPoint: .trailing) : LinearGradient(colors: [Color.watchLogNavigationTreeSelectedRow.opacity(appStyles.navigationRowGradientOpacityEnd), Color.watchLogNavigationTreeSelectedRow.opacity(appStyles.navigationRowGradientOpacityStart)], startPoint: .leading, endPoint: .trailing) : colorScheme == .dark ? LinearGradient(colors: [Color.watchLogNavigationTreeRow.opacity(appStyles.navigationRowGradientOpacityStart), Color.watchLogNavigationTreeRow.opacity(appStyles.navigationRowGradientOpacityEnd)], startPoint: .leading, endPoint: .trailing) : LinearGradient(colors: [Color.watchLogNavigationTreeRow.opacity(appStyles.navigationRowGradientOpacityEnd), Color.watchLogNavigationTreeRow.opacity(appStyles.navigationRowGradientOpacityStart)], startPoint: .leading, endPoint: .trailing))
@@ -108,8 +112,49 @@ extension Rectangle {
     }
 }
 
+struct NavigationTreeButtonLabelStyle: ViewModifier {
+    let isSeletecedItem: Bool
+   
+    @Environment(\.appStyles) var appStyles
+    
+  func body(content: Content) -> some View {
+      content
+          .foregroundStyle(isSeletecedItem ? .watchLogNavigationTreeSelectedItemFont : .watchLogNavigationTreeFont)
+          .font(.title3)
+          .fontWeight(.semibold)
+          .fontWidth(.standard)
+          .fontDesign(.rounded)
+          .animation(.easeInOut(duration: appStyles.navigationItemAnimationDuration).speed(5),  value: isSeletecedItem)
+  }
+}
+
+struct NavigationTreeButtonSubLabelStyle: ViewModifier {
+    let isSeletecedItem: Bool
+   
+    @Environment(\.appStyles) var appStyles
+    
+  func body(content: Content) -> some View {
+      content
+          .foregroundStyle(isSeletecedItem ? .watchLogNavigationTreeSelectedItemFont : .watchLogNavigationTreeFont)
+          .font(.callout)
+          .fontWeight(.semibold)
+          .fontWidth(.standard)
+          .fontDesign(.rounded)
+          .animation(.easeInOut(duration: appStyles.navigationItemAnimationDuration).speed(5),  value: isSeletecedItem)
+  }
+}
+
 
 extension Text {
+    
+    func navigationTreeButtonLabelStyle(isSeletecedItem: Bool) -> some View {
+        modifier(NavigationTreeButtonLabelStyle(isSeletecedItem: isSeletecedItem))
+    }
+    
+    func navigationTreeButtonSubLabelStyle(isSeletecedItem: Bool) -> some View {
+        modifier(NavigationTreeButtonSubLabelStyle(isSeletecedItem: isSeletecedItem))
+    }
+    
     
     
     func navigationTreeLinkLabelStyle(isSeletecedItem: Bool, appStyles: StylesLogEntry) -> some View {

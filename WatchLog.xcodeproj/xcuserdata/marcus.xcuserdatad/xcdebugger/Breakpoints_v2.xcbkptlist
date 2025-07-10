@@ -30,8 +30,8 @@
             filePath = "WatchLog/Views/Content/ContentView/ContentView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "351"
-            endingLineNumber = "351"
+            startingLineNumber = "346"
+            endingLineNumber = "346"
             landmarkName = "unknown"
             landmarkType = "0">
          </BreakpointContent>
@@ -62,8 +62,8 @@
             filePath = "WatchLog/Views/Content/ContentView/ContentView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "333"
-            endingLineNumber = "333"
+            startingLineNumber = "328"
+            endingLineNumber = "328"
             landmarkName = "unknown"
             landmarkType = "0">
          </BreakpointContent>
@@ -78,8 +78,8 @@
             filePath = "WatchLog/Views/Content/ContentView/ContentView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "390"
-            endingLineNumber = "390"
+            startingLineNumber = "385"
+            endingLineNumber = "385"
             landmarkName = "unknown"
             landmarkType = "0">
          </BreakpointContent>
@@ -238,8 +238,8 @@
             filePath = "WatchLog/Views/Content/ContentView/ContentView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "360"
-            endingLineNumber = "360"
+            startingLineNumber = "355"
+            endingLineNumber = "355"
             landmarkName = "unknown"
             landmarkType = "0">
          </BreakpointContent>
@@ -254,8 +254,8 @@
             filePath = "WatchLog/Views/Content/ContentView/ContentView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "361"
-            endingLineNumber = "361"
+            startingLineNumber = "356"
+            endingLineNumber = "356"
             landmarkName = "unknown"
             landmarkType = "0">
          </BreakpointContent>
@@ -270,8 +270,8 @@
             filePath = "WatchLog/Views/Content/ContentView/Styles/NavigationTreeStyle.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "106"
-            endingLineNumber = "106"
+            startingLineNumber = "110"
+            endingLineNumber = "110"
             landmarkName = "selectedRowBackgroundAnimation(isSelectedRow:colorScheme:appStyles:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -286,8 +286,8 @@
             filePath = "WatchLog/Views/Content/ContentView/ContentView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "369"
-            endingLineNumber = "369"
+            startingLineNumber = "364"
+            endingLineNumber = "364"
             landmarkName = "unknown"
             landmarkType = "0">
          </BreakpointContent>

@@ -280,23 +280,18 @@ extension ContentView {
                 }) {
                     VStack(alignment: .leading) {
                         Text(DateManipulation.getTime(from: entry.LogDate))
-                            .navigationTreeLinkLabelStyle(
-                                isSeletecedItem: entry.uuid == displayedLogEntryUUID.id, appStyles: appStyles)
+                            .navigationTreeButtonLabelStyle(isSeletecedItem: entry.uuid == displayedLogEntryUUID.id)
+                          
                         if entry.processDetails != nil {
                             Text(ProcessType.processTypes[entry.processDetails!.processTypeShort]!)
-                                .navigationTreeLinkSubLabelStyle(
-                                    isSeletecedItem: entry.uuid == displayedLogEntryUUID.id, appStyles: appStyles)
+                            .navigationTreeButtonSubLabelStyle(isSeletecedItem: entry.uuid == displayedLogEntryUUID.id)
                         }
                     }
                 }
                 .listRowBackground(
-//                    RoundedRectangle(cornerRadius: 0)
                     Rectangle()
-                    
                         .selectedRowBackgroundAnimation(isSelectedRow: entry.uuid == displayedLogEntryUUID.id, colorScheme: colorScheme, appStyles: appStyles)
-                        //.backgroundRow(isSelectedRow: entry.uuid == displayedLogEntryUUID.id, colorScheme: colorScheme)
                 )
-                //.selectedRowBackgroundColor(isSelectedRow: entry.uuid == displayedLogEntryUUID.id)
             }
             .onDelete(perform: { indexSet in
                 indexSet.sorted(by: >).forEach { (i) in
