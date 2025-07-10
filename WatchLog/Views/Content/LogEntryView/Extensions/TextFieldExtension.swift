@@ -108,6 +108,14 @@ extension TextField {
         text: text, isLocked: isLocked,
         numberOfCharacters: numberOfCharacters, textFieldHeight: appStyles.textFieldHeight, font: Font.title))
   }
+    
+    func sectionTextFieldIndicator(
+      text: Binding<String>, isLocked: Bool, appStyles: StylesLogEntry
+    ) -> some View {
+      self.modifier(
+        SectionTextFieldIndicator(
+          text: text, isLocked: isLocked, textFieldHeight: appStyles.textFieldHeight, font: Font.title))
+    }
 
   func sectionTextFieldMultiline(
     text: Binding<String>, isLocked: Bool, numberOfCharacters: Int, appStyles: StylesLogEntry
@@ -153,6 +161,35 @@ struct SectionTextFieldModifier: ViewModifier {
       )
       .fixedSize(horizontal: false, vertical: true)
       .textFieldLimitInputLength(text: $text, length: numberOfCharacters)
+      .animation(.easeInOut(duration: 1), value: isLocked)
+      .autocorrectionDisabled(true)
+      .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+      .disabled(isLocked)
+  }
+}
+
+struct SectionTextFieldIndicator: ViewModifier {
+  @Binding var text: String
+  let isLocked: Bool
+  let textFieldHeight: CGFloat
+  let font: Font
+  @Environment(\.appStyles) var appStyles
+
+  func body(content: Content) -> some View {
+    content
+      .textFieldButtonClearButton(text: $text, isLocked: isLocked)
+      .font(font)
+      .fontWeight(.semibold)
+      .fontWidth(.standard)
+      .fontDesign(.rounded)
+      .frame(height: textFieldHeight)
+      .lineLimit(1)
+      .foregroundStyle(.watchLogFont)
+      .background(
+        isLocked
+        ? .watchLogTextfieldBackgoundLocked : .watchLogTextfieldBackgroundUnlocked
+      )
+      .fixedSize(horizontal: false, vertical: true)
       .animation(.easeInOut(duration: 1), value: isLocked)
       .autocorrectionDisabled(true)
       .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))

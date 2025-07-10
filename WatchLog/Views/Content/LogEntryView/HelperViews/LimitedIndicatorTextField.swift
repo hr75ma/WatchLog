@@ -12,48 +12,40 @@ struct LimitedIndicatorTextField: View {
     var config: Config
     var hint: String
     @Binding var value: String
+    let isLocked: Bool
+    
+    @Environment(\.appStyles) var appStyles
+    
    // view properties
     @FocusState private var isKeyboardShowing: Bool
     var body: some View {
-        VStack(alignment: config.progressConfig.alignment, spacing: 12) {
-            ZStack(alignment: .top) {
-                RoundedRectangle(cornerRadius: config.borderConfig.radius)
-                    .fill(.clear)
-                    .frame(height: config.autoResizes ? 0 : nil)
-                    .contentShape(.rect(cornerRadius: config.borderConfig.radius))
-                    .onTapGesture {
-                        //show keyboard
-                        isKeyboardShowing = true
-                        
-                    }
-                TextField(hint, text: $value, axis: .vertical)
-                    .focused($isKeyboardShowing)
-                    .onChange(of: value, initial: true) { oldValue, newValue in
-                        guard !config.allowsExcessTyping else { return }
-                        value = String(value.prefix(config.limit))
-                        
-                    }
-            }
-            .padding(.horizontal, 15)
-            .padding(.vertical, 10)
-            .background {
-                RoundedRectangle(cornerRadius: config.borderConfig.radius)
-                    .stroke(progressColor.gradient, lineWidth: config.borderConfig.width)
-            }
+       // VStack(alignment: config.progressConfig.alignment, spacing: 12) {
+        ZStack(alignment: .trailing) {
+            TextField(hint, text: $value, axis: .vertical)
+                .sectionTextFieldIndicator(
+                                    text: $value, isLocked: isLocked, appStyles: appStyles
+                                )
+                .focused($isKeyboardShowing)
+                .onChange(of: value, initial: true) { oldValue, newValue in
+                    guard !config.allowsExcessTyping else { return }
+                    value = String(value.prefix(config.limit))
+                    
+                }
             
-            //progress bar - text indicator
-            HStack(alignment: .top, spacing: 12) {
-                if config.progressConfig.showsRing {
+//            //progress bar - text indicator
+            HStack(alignment: .top, spacing: 0) {
+                if config.progressConfig.showsRing && !isLocked {
                     ZStack {
                         Circle()
-                            .stroke(.ultraThinMaterial, lineWidth: 5)
+                            .stroke(.ultraThinMaterial, lineWidth: 4)
                         
                         Circle()
                             .trim(from: 0, to: progress)
-                            .stroke(progressColor.gradient, lineWidth: 5)
+                            .stroke(progressColor.gradient, lineWidth: 4)
                             .rotationEffect(.init(degrees:-90))
+                            .animation(.linear(duration: 0.25), value: progressColor)
                     }
-                    .frame(width: 20, height: 20)
+                    .frame(width: 23, height: 23)
                 }
                 
                 if config.progressConfig.showsText {
@@ -61,6 +53,8 @@ struct LimitedIndicatorTextField: View {
                         .foregroundStyle(progressColor.gradient)
                 }
             }
+            .offset(x: -14)
+            .animation(.easeOut(duration: 1), value: isLocked)
         }
     }
     
@@ -69,7 +63,7 @@ struct LimitedIndicatorTextField: View {
     }
     
     var progressColor: Color {
-        return progress < 0.6 ? config.tint : progress == 1.0 ? .red : .orange
+        return withAnimation { progress < 0.6 ? config.tint : progress == 1.0 ? .red : .orange }
     }
         
         //textfield config

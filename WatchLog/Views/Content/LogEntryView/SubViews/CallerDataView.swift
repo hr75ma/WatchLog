@@ -44,14 +44,19 @@ extension CallerDataView {
             Text("Telefon")
                 .sectionTextLabel()
 
-            TextField("", text: $logEntry.CallerNumber)
-                .sectionTextField(
-                    text: $logEntry.CallerNumber, isLocked: logEntry.isLocked,
-                    numberOfCharacters: 20, appStyles: appStyles
-                )
+            LimitedIndicatorTextField(config: .init(limit:20, tint: .watchLogFont, autoResizes: true, ), hint: "", value: $logEntry.CallerNumber, isLocked: logEntry.isLocked)
+                .autocorrectionDisabled()
                 .textFieldCheckOnNumbers(text: $logEntry.CallerNumber)
                 .textContentType(.telephoneNumber)
                 .keyboardType(.numberPad)
+//            TextField("", text: $logEntry.CallerNumber)
+//                .sectionTextField(
+//                    text: $logEntry.CallerNumber, isLocked: logEntry.isLocked,
+//                    numberOfCharacters: 20, appStyles: appStyles
+//                )
+//                .textFieldCheckOnNumbers(text: $logEntry.CallerNumber)
+//                .textContentType(.telephoneNumber)
+//                .keyboardType(.numberPad)
         }
     }
 
