@@ -87,7 +87,7 @@ extension Image {
             .frame(width: appStyles.navigationItemImageSize, height: appStyles.navigationItemImageSize, alignment: .center)
             .foregroundStyle(
               //.watchLogNavigationTreeAddEntryImagePrimary, .watchLogNavigationTreeAddEntryImageSecondary
-                  .watchLogToolBarContextColorActivePrimary, .watchLogToolBarContextColorActiveSecondary
+                  .watchLogToolBarContextColorActivePrimary, .watchLogToolbarContextColorActiveSecondary
             )
             .symbolEffect(.scale)
             .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(appStyles.navigationItemAnimationDuration))
