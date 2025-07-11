@@ -44,19 +44,10 @@ extension CallerDataView {
             Text("Telefon")
                 .sectionTextLabel()
 
-            LimitedIndicatorTextField(config: .init(limit:20, tint: .watchLogFont, autoResizes: true, ), hint: "", value: $logEntry.CallerNumber, isLocked: logEntry.isLocked)
-                .autocorrectionDisabled()
+            LimitedIndicatorTextField(config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.section, limit:20, tint: .watchLogFont, autoResizes: true), hint: "", text: $logEntry.CallerNumber, isLocked: logEntry.isLocked)
                 .textFieldCheckOnNumbers(text: $logEntry.CallerNumber)
                 .textContentType(.telephoneNumber)
                 .keyboardType(.numberPad)
-//            TextField("", text: $logEntry.CallerNumber)
-//                .sectionTextField(
-//                    text: $logEntry.CallerNumber, isLocked: logEntry.isLocked,
-//                    numberOfCharacters: 20, appStyles: appStyles
-//                )
-//                .textFieldCheckOnNumbers(text: $logEntry.CallerNumber)
-//                .textContentType(.telephoneNumber)
-//                .keyboardType(.numberPad)
         }
     }
 
@@ -65,10 +56,7 @@ extension CallerDataView {
             Text("Name")
                 .sectionTextLabel()
 
-            TextField("", text: $logEntry.CallerName)
-                .sectionTextField(
-                    text: $logEntry.CallerName, isLocked: logEntry.isLocked, numberOfCharacters: 50,
-                    appStyles: appStyles)
+            LimitedIndicatorTextField(config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.section, limit:50, tint: .watchLogFont, autoResizes: true), hint: "", text: $logEntry.CallerName, isLocked: logEntry.isLocked)
         }
     }
 
@@ -78,11 +66,7 @@ extension CallerDataView {
                 .sectionTextLabel()
                 .frame(alignment: .topLeading)
 
-            TextField("", text: $logEntry.CallerAdress, axis: .vertical)
-                .sectionTextFieldMultiline(
-                    text: $logEntry.CallerAdress, isLocked: logEntry.isLocked,
-                    numberOfCharacters: 500, appStyles: appStyles
-                )
+            LimitedIndicatorTextField(config: .init(textfieldType: TextFieldType.multiLine, textfieldLevel: TextFieldLevel.section, limit:200, tint: .watchLogFont, autoResizes: true), hint: "", text: $logEntry.CallerAdress, isLocked: logEntry.isLocked)
         }
     }
 

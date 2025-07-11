@@ -19,11 +19,8 @@ import SwiftUI
                     Text("Kennzeichen")
                         .subSectionTextLabel()
 
-                    TextField("", text: $logEntry.processTypeDetails.AccientLicensePlate01)
-                        .subSectionTextField(text: $logEntry.processTypeDetails.AccientLicensePlate01, isLocked: logEntry.isLocked, numberOfCharacters: 10, appStyles: appStyles)
+                    LimitedIndicatorTextField(config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.sub, limit:10, tint: .watchLogFont, autoResizes: true), hint: "", text: $logEntry.processTypeDetails.AccientLicensePlate01, isLocked: logEntry.isLocked)
 
-                        
-                        .padding(EdgeInsets(top: 0, leading: 5, bottom: 0, trailing: 0))
                 }
             }
             .standardEventSubViewPadding()
