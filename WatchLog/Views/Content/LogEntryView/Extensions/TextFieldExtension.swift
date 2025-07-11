@@ -13,7 +13,7 @@ enum TextFieldType: CaseIterable, Codable {
 }
 
 enum TextFieldLevel: CaseIterable, Codable {
-    case section
+    case standard
     case sub
 }
 

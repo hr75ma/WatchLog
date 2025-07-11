@@ -22,7 +22,7 @@ struct LimitedIndicatorTextField: View {
         // VStack(alignment: config.progressConfig.alignment, spacing: 12) {
         ZStack(alignment: .trailing) {
             TextField(hint, text: $text, axis: .vertical)
-                .if(config.textfieldLevel == TextFieldLevel.section) { view in
+                .if(config.textfieldLevel == TextFieldLevel.standard) { view in
                     view.textFieldIndicator(text: $text, isLocked: isLocked, textfieldType: config.textfieldType, appStyles: appStyles)
             }
                 .if(config.textfieldLevel == TextFieldLevel.sub) { view in
@@ -34,9 +34,6 @@ struct LimitedIndicatorTextField: View {
                     guard !config.allowsExcessTyping else { return }
                     text = String(text.prefix(config.limit))
                 }
-//                .onChange(of: $text.wrappedValue) { _, _ in
-//                    text = String($text.wrappedValue.prefix(config.limit))
-//                }
 
 //            //progress bar - text indicator
             HStack(alignment: .top, spacing: 0) {
