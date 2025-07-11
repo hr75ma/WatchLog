@@ -19,14 +19,14 @@ enum TextFieldLevel: CaseIterable, Codable {
 
 // globals
 extension View {
-    func textFieldButtonClearButton(text: Binding<String>, isLocked: Bool) -> some View {
+fileprivate func textFieldButtonClearButton(text: Binding<String>, isLocked: Bool) -> some View {
         modifier(TextFieldButtonClearButtonModifier(text: text, isLocked: isLocked))
             .padding(.leading, 5)
             .padding(.trailing, 45)
             .padding(.vertical, 0)
     }
 
-    func textFieldLimitInputLength(text: Binding<String>, length: Int) -> some View {
+fileprivate func textFieldLimitInputLength(text: Binding<String>, length: Int) -> some View {
         modifier(TextFieldLimitModifer(text: text, length: length))
     }
 
@@ -34,7 +34,7 @@ extension View {
         modifier(TextFieldCheckOnNumbersModifier(text: text))
     }
 
-    func innerPadding() -> some View {
+fileprivate func innerPadding() -> some View {
         modifier(InnerPaddingModifier())
             .padding(.leading, 5)
             .padding(.trailing, 5)
@@ -42,7 +42,7 @@ extension View {
     }
 }
 
-struct TextFieldButtonClearButtonModifier: ViewModifier {
+fileprivate struct TextFieldButtonClearButtonModifier: ViewModifier {
     @Binding var text: String
     let isLocked: Bool
     @Environment(\.appStyles) var appStyles
@@ -68,7 +68,7 @@ struct TextFieldButtonClearButtonModifier: ViewModifier {
     }
 }
 
-struct TextFieldLimitModifer: ViewModifier {
+fileprivate struct TextFieldLimitModifer: ViewModifier {
     @Binding var text: String
     var length: Int
 
@@ -93,7 +93,7 @@ struct TextFieldCheckOnNumbersModifier: ViewModifier {
     }
 }
 
-struct InnerPaddingModifier: ViewModifier {
+fileprivate struct InnerPaddingModifier: ViewModifier {
     func body(content: Content) -> some View {
         ZStack(alignment: .trailing) {
             content
@@ -170,7 +170,7 @@ extension Text {
     }
 }
 
-struct SectionSimulatedTextFieldSingleLineModifier: ViewModifier {
+fileprivate struct SectionSimulatedTextFieldSingleLineModifier: ViewModifier {
     let isLocked: Bool
     @Environment(\.appStyles) var appStyles
 

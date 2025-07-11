@@ -42,7 +42,7 @@ struct ProcessTypeSelectionView: View {
         HStack(alignment: .top, spacing: 0) {
 
           Text("Ereignis")
-            .sectionTextLabel()
+                .textLabel(textLabelLevel: TextLabelLevel.standard)
             .frame(alignment: .topLeading)
 
           VStack(alignment: .leading, spacing: 0) {

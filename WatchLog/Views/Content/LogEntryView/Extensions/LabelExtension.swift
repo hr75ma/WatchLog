@@ -7,6 +7,12 @@
 
 import SwiftUI
 
+enum TextLabelLevel: CaseIterable, Codable {
+    case standard
+    case sub
+    case subWithWidth
+}
+
 struct LabelFormatterStyle: ViewModifier {
   let isLocked: Bool
     @Environment(\.appStyles) var appStyles
@@ -22,45 +28,33 @@ struct LabelFormatterStyle: ViewModifier {
   }
 }
 
-struct SectionTextLabelModifier: ViewModifier {
+struct TextLabelModifier: ViewModifier {
+    let textLabelLevel: TextLabelLevel
+    let textLabelWidth: CGFloat?
+    
     @Environment(\.appStyles) var appStyles
   func body(content: Content) -> some View {
     content
-      .font(Font.custom(appStyles.labelFont, size: appStyles.labelFontSize))
+          .if(textLabelLevel == TextLabelLevel.standard) { view in
+              view
+                  .font(Font.custom(appStyles.labelFont, size: appStyles.labelFontSize))
+                  .frame(width: 120, height: appStyles.labelFontSize, alignment: .topLeading)
+          }
+          .if(textLabelLevel == TextLabelLevel.sub) { view in
+              view
+                  .font(Font.custom(appStyles.labelFont, size: appStyles.labelFontSizeSub))
+                  .frame(height: appStyles.labelFontSizeSub, alignment: .topLeading)
+                  .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 5))
+          }
+          .if(textLabelLevel == TextLabelLevel.subWithWidth) { view in
+              view
+                  .font(Font.custom(appStyles.labelFont, size: appStyles.labelFontSizeSub))
+                  .frame(width: textLabelWidth, height: appStyles.labelFontSizeSub, alignment: .topLeading)
+          }
       .foregroundStyle(.watchLogFont)
-      .frame(width: 120, height: appStyles.labelFontSize, alignment: .topLeading)
       .multilineTextAlignment(.leading)
       .lineLimit(1)
       .fixedSize(horizontal: true, vertical: true)
-  }
-}
-
-struct SubSectionTextLabelModifier: ViewModifier {
-    @Environment(\.appStyles) var appStyles
-  
-    func body(content: Content) -> some View {
-    content
-      .font(Font.custom(appStyles.labelFont, size: appStyles.labelFontSizeSub))
-      .foregroundStyle(.watchLogFont)
-      .frame(height: appStyles.labelFontSizeSub, alignment: .topLeading)
-      .lineLimit(1)
-      .fixedSize(horizontal: false, vertical: true)
-      .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 5))
-  }
-}
-
-struct SubSectionTextLabelWidthModifier: ViewModifier {
-  let width: CGFloat
-  @Environment(\.appStyles) var appStyles
-  
-  func body(content: Content) -> some View {
-    content
-          .font(Font.custom(appStyles.labelFont, size: appStyles.labelFontSizeSub))
-          .foregroundStyle(.watchLogFont)
-          .frame(width: width, height: appStyles.labelFontSizeSub, alignment: .topLeading)
-          .lineLimit(1)
-          .fixedSize(horizontal: false, vertical: true)
-          .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 5))
   }
 }
 
@@ -92,16 +86,8 @@ func labelStyle(isLocked: Bool) -> some View {
     modifier(LabelFormatterStyle(isLocked: isLocked))
   }
     
-    func sectionTextLabel() -> some View {
-      self.modifier(SectionTextLabelModifier())
-    }
-    
-    func subSectionTextLabel() -> some View {
-      self.modifier(SubSectionTextLabelModifier())
-    }
-    
-    func subSectionTextWidthLabel(width: CGFloat) -> some View {
-        self.modifier(SubSectionTextLabelWidthModifier(width: width))
+    func textLabel(textLabelLevel: TextLabelLevel, textLebelWidth: CGFloat = 50) -> some View {
+        self.modifier(TextLabelModifier(textLabelLevel: textLabelLevel, textLabelWidth: textLebelWidth))
     }
     
     func pickerTextModifier() -> some View {

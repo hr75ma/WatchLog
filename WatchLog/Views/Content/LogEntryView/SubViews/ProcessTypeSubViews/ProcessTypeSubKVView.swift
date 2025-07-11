@@ -18,7 +18,7 @@ struct ProcessTypeSubKVView: View {
                 
                 HStack(alignment: .center, spacing: 0) {
                     Text("Verletzte")
-                        .subSectionTextLabel()
+                        .textLabel(textLabelLevel: TextLabelLevel.sub)
                     
                     ToggleView(toggleValue: $logEntry.processTypeDetails.isInjured, isLocked: logEntry.isLocked, toggleType: .sub)
                     Spacer()

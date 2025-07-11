@@ -57,7 +57,7 @@ extension DatePicker {
   }
 }
 
-struct DatePickerModifier: ViewModifier {
+private struct DatePickerModifier: ViewModifier {
   @Environment(\.appStyles) var appStyles
     @Environment(\.colorScheme) var colorScheme
 
@@ -86,7 +86,7 @@ extension Picker {
 }
 
 
-struct ProcessPickerModifier: ViewModifier {
+private struct ProcessPickerModifier: ViewModifier {
   @Environment(\.appStyles) var appStyles
     @Environment(\.colorScheme) var colorScheme
 

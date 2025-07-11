@@ -42,7 +42,8 @@ extension CallInView {
 
     HStack(alignment: .center, spacing: 0) {
       Text("Eingang")
-        .sectionTextLabel()
+            .textLabel(textLabelLevel: TextLabelLevel.standard)
+        
       VStack(alignment: .leading, spacing: 0) {
 
         HStack(alignment: .top, spacing: 0) {
