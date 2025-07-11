@@ -6,29 +6,24 @@
 //
 
 import Foundation
-import SwiftUI
 import SwiftData
+import SwiftUI
 
 @Model
 class WatchLogBook: Identifiable, Hashable {
     #Unique<WatchLogBook>([\.uuid])
     @Attribute(.unique) var uuid: UUID
-    
-    
+
     @Relationship(deleteRule: .cascade) var watchLogBookYears: [WatchLogBookYear]? = []
-    
-    
-    
-    
-    
+
     init(LogDate: Date) {
-        self.uuid = UUID()
+        uuid = UUID()
     }
-    
+
     init() {
-        self.uuid = UUID()
+        uuid = UUID()
     }
-    
+
     var logYearsSorted: [WatchLogBookYear] {
         get {
             watchLogBookYears?.sorted(by: { $0.LogDate > $1.LogDate }) ?? []

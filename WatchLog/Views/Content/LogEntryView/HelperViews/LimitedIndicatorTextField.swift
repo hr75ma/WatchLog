@@ -24,11 +24,11 @@ struct LimitedIndicatorTextField: View {
             TextField(hint, text: $text, axis: .vertical)
                 .if(config.textfieldLevel == TextFieldLevel.standard) { view in
                     view.textFieldIndicator(text: $text, isLocked: isLocked, textfieldType: config.textfieldType, appStyles: appStyles)
-            }
+                }
                 .if(config.textfieldLevel == TextFieldLevel.sub) { view in
                     view.subTextFieldIndicator(text: $text, isLocked: isLocked, textfieldType: config.textfieldType, appStyles: appStyles)
-            }
-           
+                }
+
                 .focused($isKeyboardShowing)
                 .onChange(of: text, initial: true) { _, _ in
                     guard !config.allowsExcessTyping else { return }

@@ -19,14 +19,14 @@ enum TextFieldLevel: CaseIterable, Codable {
 
 // globals
 extension View {
-fileprivate func textFieldButtonClearButton(text: Binding<String>, isLocked: Bool) -> some View {
+    fileprivate func textFieldButtonClearButton(text: Binding<String>, isLocked: Bool) -> some View {
         modifier(TextFieldButtonClearButtonModifier(text: text, isLocked: isLocked))
             .padding(.leading, 5)
             .padding(.trailing, 45)
             .padding(.vertical, 0)
     }
 
-fileprivate func textFieldLimitInputLength(text: Binding<String>, length: Int) -> some View {
+    fileprivate func textFieldLimitInputLength(text: Binding<String>, length: Int) -> some View {
         modifier(TextFieldLimitModifer(text: text, length: length))
     }
 
@@ -34,7 +34,7 @@ fileprivate func textFieldLimitInputLength(text: Binding<String>, length: Int) -
         modifier(TextFieldCheckOnNumbersModifier(text: text))
     }
 
-fileprivate func innerPadding() -> some View {
+    fileprivate func innerPadding() -> some View {
         modifier(InnerPaddingModifier())
             .padding(.leading, 5)
             .padding(.trailing, 5)
@@ -106,7 +106,6 @@ fileprivate struct InnerPaddingModifier: ViewModifier {
 // -----------------------------------------------------------
 
 extension View {
-
     func textFieldIndicator(
         text: Binding<String>, isLocked: Bool, textfieldType: TextFieldType, appStyles: StylesLogEntry
     ) -> some View {

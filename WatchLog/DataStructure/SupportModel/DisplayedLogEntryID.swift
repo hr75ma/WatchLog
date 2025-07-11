@@ -9,19 +9,18 @@ import Foundation
 import SwiftUI
 
 @Observable
-final public class DisplayedLogEntryID: Identifiable {
+public final class DisplayedLogEntryID: Identifiable {
     public var id: UUID = UUID()
     public var dayId: UUID = UUID()
     public var monthId: UUID = UUID()
     public var yearId: UUID = UUID()
     public var bookId: UUID = UUID()
-    
-    
+
     init(id: UUID) {
         self.id = id
     }
-    
+
     init() {
-        self.id = UUID()
+        id = UUID()
     }
 }

@@ -9,11 +9,9 @@ import SwiftUI
 
 struct ProgressionView: View {
     @Environment(\.appStyles) var appStyles
-    
+
     var body: some View {
-        
         HStack {
-            
             ProgressView {
                 HStack {
                     Text("Lade Logs...")
