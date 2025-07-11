@@ -13,7 +13,7 @@ enum TextLabelLevel: CaseIterable, Codable {
     case subWithWidth
 }
 
-struct LabelFormatterStyle: ViewModifier {
+private struct LabelFormatterStyle: ViewModifier {
   let isLocked: Bool
     @Environment(\.appStyles) var appStyles
   func body(content: Content) -> some View {
@@ -28,7 +28,7 @@ struct LabelFormatterStyle: ViewModifier {
   }
 }
 
-struct TextLabelModifier: ViewModifier {
+private struct TextLabelModifier: ViewModifier {
     let textLabelLevel: TextLabelLevel
     let textLabelWidth: CGFloat?
     
@@ -58,18 +58,7 @@ struct TextLabelModifier: ViewModifier {
   }
 }
 
-struct PickerTextModifier: ViewModifier {
-  @Environment(\.appStyles) var appStyles
-  
-  func body(content: Content) -> some View {
-    content
-          .font(.title)
-          .fontWeight(.semibold)
-          .fontWidth(.standard)
-          .fontDesign(.rounded)
-          .foregroundStyle(.watchLogProcessionTypeFont)
-  }
-}
+
 
 struct NavigationTitleModifier: ViewModifier {
     @Environment(\.appStyles) var appStyles
@@ -90,9 +79,7 @@ func labelStyle(isLocked: Bool) -> some View {
         self.modifier(TextLabelModifier(textLabelLevel: textLabelLevel, textLabelWidth: textLebelWidth))
     }
     
-    func pickerTextModifier() -> some View {
-        self.modifier(PickerTextModifier())
-    }
+    
     
     func navigationTitleModifier() -> some View {
         self.modifier(NavigationTitleModifier())

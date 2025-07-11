@@ -103,5 +103,22 @@ private struct ProcessPickerModifier: ViewModifier {
 }
 
 
+private struct PickerTextModifier: ViewModifier {
+  @Environment(\.appStyles) var appStyles
+  
+  func body(content: Content) -> some View {
+    content
+          .font(.title)
+          .fontWeight(.semibold)
+          .fontWidth(.standard)
+          .fontDesign(.rounded)
+          .foregroundStyle(.watchLogProcessionTypeFont)
+  }
+}
 
+extension Text  {
+    func pickerTextModifier() -> some View {
+        self.modifier(PickerTextModifier())
+    }
+}
 
