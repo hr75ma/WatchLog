@@ -32,7 +32,7 @@ protocol DatabaseServiceProtocol {
 
     func instanciateLogBook() async -> Result<Void, Error>
     
-    func fetchLogEntriesFromDay(from: UUID) -> Result<[WatchLogBookEntry], Error>
+    func fetchLogEntriesFromDay(from: UUID) async -> Result<[WatchLogBookEntry], Error>
 }
 
 @Observable
@@ -156,7 +156,7 @@ class DatabaseService: DatabaseServiceProtocol {
         }
     }
     
-    func fetchLogEntriesFromDay(from: UUID) -> Result<[WatchLogBookEntry], Error> {
+    func fetchLogEntriesFromDay(from: UUID) async -> Result<[WatchLogBookEntry], Error> {
         var logBookEntries: [WatchLogBookEntry] = []
         let fetchResult = dataSource.fetchLogEntriesFromDay(from: from)
         switch fetchResult {

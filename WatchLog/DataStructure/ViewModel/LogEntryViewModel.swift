@@ -65,8 +65,6 @@ final class LogEntryViewModel: ObservableObject {
         return []
     }
     
-    
-
     func instanciateLogBook() async {
         let result = await databaseService.instanciateLogBook()
         switch result {

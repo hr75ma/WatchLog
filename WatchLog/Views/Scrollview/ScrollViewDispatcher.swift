@@ -15,7 +15,7 @@ struct ScrollViewDispatcher: View {
     @EnvironmentObject var viewModel: LogEntryViewModel
     @Environment(DisplayedLogEntryID.self) var displayedLogEntryUUID
 
-    @State private var logBookEntriesforDay: [WatchLogBookEntry] = []
+    @State private var logBookEntriesForDay: [WatchLogBookEntry] = []
     @State private var displayedLogEntry: UUID = UUID()
 
     var body: some View {
@@ -23,13 +23,14 @@ struct ScrollViewDispatcher: View {
 
             ScrollView(.horizontal) {
                 HStack {
-                    ForEach(logBookEntriesforDay.indices, id: \.self) { index in
-                        LogBookEntryView(logBookEntryUUID: $logBookEntriesforDay[index].uuid, displayedLogEntryUUID: $displayedLogEntry)
-                            .id(logBookEntriesforDay[index].uuid)
+                    
+                    ForEach(logBookEntriesForDay.indices, id: \.self) { index in
+                        LogBookEntryView(logBookEntryUUID: $logBookEntriesForDay[index].uuid, displayedLogEntryUUID: $displayedLogEntry)
+                            .id(logBookEntriesForDay[index].uuid)
                             .onScrollVisibilityChange(threshold: 1) { _ in
-                                print("index \(index) - \(logBookEntriesforDay[index].uuid.uuidString)")
+                                print("index \(index) - \(logBookEntriesForDay[index].uuid.uuidString)")
                                 // logBookEntryUUID = logBookEntriesforDay[index].uuid
-                                displayedLogEntryUUID.id = logBookEntriesforDay[index].uuid
+                                displayedLogEntryUUID.id = logBookEntriesForDay[index].uuid
                             }
                             .containerRelativeFrame(.horizontal, count: 1, spacing: 0)
 //                            .scrollTransition { content, phase in
@@ -42,18 +43,13 @@ struct ScrollViewDispatcher: View {
                 .scrollTargetLayout()
             }
             .scrollTargetBehavior(.viewAligned)
-
-//            .task {
-//                await logBookEntriesforDay = viewModel.fetchLogEntriesFromDay(from: logBookDayUUID)
-//                displayedLogEntryUUID.id = logBookEntryUUID
-//                displayedLogEntry = displayedLogEntryUUID.id
-//                    print("task \(logBookEntryUUID)")
-//                    proxy.scrollTo(logBookEntryUUID, anchor: .top)
-//
-//            }
+            .task {
+                await logBookEntriesForDay = viewModel.fetchLogEntriesFromDay(from: logEntryUUIDContainer.logDayUUID)
+                print("task running")
+            }
             .onAppear {
                 Task {
-                    await logBookEntriesforDay = viewModel.fetchLogEntriesFromDay(from: logEntryUUIDContainer.logDayUUID)
+                    await logBookEntriesForDay = viewModel.fetchLogEntriesFromDay(from: logEntryUUIDContainer.logDayUUID)
                     withAnimation {
                         print("onappear \(logEntryUUIDContainer.logEntryUUID)")
                         proxy.scrollTo(logEntryUUIDContainer.logEntryUUID, anchor: .top)
@@ -66,8 +62,10 @@ struct ScrollViewDispatcher: View {
                     Task {
                         if oldValue.logDayUUID != newValue.logDayUUID {
                             
-                            await logBookEntriesforDay = viewModel.fetchLogEntriesFromDay(from: logEntryUUIDContainer.logDayUUID)
-                            
+                            await logBookEntriesForDay = viewModel.fetchLogEntriesFromDay(from: logEntryUUIDContainer.logDayUUID)
+                            if logBookEntriesForDay.isEmpty {
+                                logBookEntriesForDay.append(WatchLogBookEntry(uuid: logEntryUUIDContainer.logEntryUUID))
+                            }
                         }
                         
                         withAnimation {

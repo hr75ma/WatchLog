@@ -48,7 +48,7 @@ struct ContentView: View {
 
     // @Environment(\.dismiss) var dismiss
 
-    @State private var logBookEntryUUID: UUID = UUID()
+    //@State private var logBookEntryUUID: UUID = UUID()
 
     @State var alertNew: Bool = false
     @State var showSettingSheet: Bool = false
@@ -175,8 +175,9 @@ struct ContentView: View {
     }
 
     private func addNewLogEntry() {
-        logBookEntryUUID = UUID()
-        displayedLogEntryUUID.id = logBookEntryUUID
+        logEntryUUIDContainer = .init()
+        logEntryUUIDContainer.logEntryUUID = UUID()
+        displayedLogEntryUUID.id = logEntryUUIDContainer.logEntryUUID
     }
 }
 
@@ -260,7 +261,7 @@ extension ContentView {
             ForEach(day.logEntriesSorted) { entry in
                 Button(action: {
                     logEntryUUIDContainer = .init(logEntryUUID: entry.uuid, logDayUUID: day.uuid)
-                    displayedLogEntryUUID.id = logBookEntryUUID
+                    displayedLogEntryUUID.id = logEntryUUIDContainer.logEntryUUID
 
                 }) {
                     VStack(alignment: .leading) {
