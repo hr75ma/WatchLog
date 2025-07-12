@@ -17,10 +17,16 @@
          contextName = "closure #1 in closure #1 in closure #1 in LogBookEntryView.body.getter:LogBookEntryView.swift">
          <PersistentStrings>
             <PersistentString
+               value = "geometry.size.width">
+            </PersistentString>
+            <PersistentString
+               value = "viewModel.watchLogEntry">
+            </PersistentString>
+            <PersistentString
                value = "toolPickerShows">
             </PersistentString>
             <PersistentString
-               value = "geometry.size.width">
+               value = "logBookEntryUUID">
             </PersistentString>
             <PersistentString
                value = "geometry.size.height">
@@ -31,13 +37,16 @@
          contextName = "closure #1 in closure #1 in closure #1 in ContentView.DisclosureGroupLogEntries(day:):ContentView.swift">
          <PersistentStrings>
             <PersistentString
+               value = "testOnSelectedEntry(entryID: entry.uuid, testID: displayedLogEntryUUID.id)">
+            </PersistentString>
+            <PersistentString
                value = "displayedLogEntryUUID.id">
             </PersistentString>
             <PersistentString
                value = "entry.uuid">
             </PersistentString>
             <PersistentString
-               value = "testOnSelectedEntry(entryID: entry.uuid, testID: displayedLogEntryUUID.id)">
+               value = "logBookEntryUUID">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -138,22 +147,30 @@
          contextName = "closure #1 in closure #1 in ContentView.DisclosureGroupLogEntries(day:):ContentView.swift">
          <PersistentStrings>
             <PersistentString
-               value = "newValue">
+               value = "day.logEntriesSorted">
             </PersistentString>
             <PersistentString
-               value = "entry.uuid">
+               value = "day">
             </PersistentString>
             <PersistentString
                value = "displayedLogEntryUUID.id">
             </PersistentString>
             <PersistentString
+               value = "entry.uuid">
+            </PersistentString>
+            <PersistentString
+               value = "newValue">
+            </PersistentString>
+            <PersistentString
                value = "logBookEntry.uuid">
             </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "LogBookEntryView.body.getter:LogBookEntryView.swift">
+         <PersistentStrings>
             <PersistentString
-               value = "day.logEntriesSorted">
-            </PersistentString>
-            <PersistentString
-               value = "day">
+               value = "logBookEntryUUID">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -303,6 +320,9 @@
       <ContextState
          contextName = "closure #2 in ContentView.body.getter:ContentView.swift">
          <PersistentStrings>
+            <PersistentString
+               value = "logBookEntryUUID">
+            </PersistentString>
             <PersistentString
                value = "displayedLogEntryUUID">
             </PersistentString>

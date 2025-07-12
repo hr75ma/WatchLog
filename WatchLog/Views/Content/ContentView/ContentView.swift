@@ -57,15 +57,17 @@ struct ContentView: View {
 
     @State var isMarked: Bool = true
 
+    @State var dayOfLog:UUID = UUID()
+    
+    
     let newLogEntryTip = NavigationTipNewLogEntry()
     let refreshListTip = NavigationTipRefresh()
     let listTip = NavigationTipList()
 
     var body: some View {
         NavigationSplitView(columnVisibility: $columnVisibility) {
-            // Text(logBookEntry.uuid.uuidString)
-            //      Text(logBookEntryUUID.uuidString)
-            //      Text("currentuuid: \(displayedLogEntryUUID.id.uuidString)")
+                  Text(logBookEntryUUID.uuidString)
+                  Text("currentuuid: \(displayedLogEntryUUID.id.uuidString)")
 
             if showProgression {
                 ProgressionView()
@@ -121,7 +123,8 @@ struct ContentView: View {
             .scrollContentBackground(.hidden)
             // .background(Color.black.edgesIgnoringSafeArea(.all))
         } detail: {
-            LogBookEntryView(logBookEntryUUID: $logBookEntryUUID)
+          //LogBookEntryView(logBookEntryUUID: $logBookEntryUUID)
+           ScrollViewDispatcher(logBookEntryUUID: $logBookEntryUUID, logBookDayUUID: $dayOfLog)
         }
         .navigationSplitViewStyles(appStyles)
         .blurring(blurSetting: blurSetting)
@@ -259,6 +262,8 @@ extension ContentView {
                 Button(action: {
                     logBookEntryUUID = entry.uuid
                     displayedLogEntryUUID.id = logBookEntryUUID
+                    
+                    dayOfLog = day.uuid
                 }) {
                     VStack(alignment: .leading) {
                         Text(DateManipulation.getTime(from: entry.LogDate))

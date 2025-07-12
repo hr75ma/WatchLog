@@ -24,6 +24,9 @@ protocol DataBaseManagerProtocol {
     func removeLogBookYear(with EntryUUID: UUID) -> Result<Void, Error>
 
     func instanciateLogBook() -> Result<WatchLogBook, Error>
+    
+    
+    func fetchLogEntriesFromDay(from: UUID) -> Result<[WatchLogBookEntry], Error>
 }
 
 extension DataBaseManager: DataBaseManagerProtocol {}
@@ -267,6 +270,27 @@ final class DataBaseManager {
         } catch {
             return .failure(error)
         }
+    }
+    
+    func fetchLogEntriesFromDay(from: UUID) -> Result<[WatchLogBookEntry], Error> {
+        var daysLogEntries: [WatchLogBookEntry] = []
+        
+        var logDay: WatchLogBookDay?
+        let fetchDiscriptor = FetchDescriptor<WatchLogBookDay>(
+            predicate: #Predicate { $0.uuid == from })
+        do {
+            logDay = try modelContext.fetch(fetchDiscriptor).first
+        } catch {
+            print("fetch WatchLogBookDay failed")
+        }
+
+        if logDay != nil {
+            daysLogEntries = logDay!.logEntriesSorted
+        }
+        
+        return .success(daysLogEntries)
+        
+        
     }
 
     func fetchDaysFromLogBookEntry(logEntry: WatchLogBookEntry) -> Result<[WatchLogBookEntry], Error> {

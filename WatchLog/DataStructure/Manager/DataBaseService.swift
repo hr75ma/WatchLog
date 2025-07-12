@@ -31,6 +31,8 @@ protocol DatabaseServiceProtocol {
     func existsWatchLogBookEntry(uuid: UUID) async -> Result<Bool, Error>
 
     func instanciateLogBook() async -> Result<Void, Error>
+    
+    func fetchLogEntriesFromDay(from: UUID) -> Result<[WatchLogBookEntry], Error>
 }
 
 @Observable
@@ -133,7 +135,6 @@ class DatabaseService: DatabaseServiceProtocol {
         case let .success(entry):
             if !entry.isEmpty {
                 watchLogEntry = .init(watchLookBookEntry: entry.first!)
-                // watchLogEntry.isNewEntryLog = false
             }
             return .success(watchLogEntry)
         case let .failure(error):
@@ -150,6 +151,18 @@ class DatabaseService: DatabaseServiceProtocol {
                 watchLogBookEntry = entry.first!
             }
             return .success(watchLogBookEntry)
+        case let .failure(error):
+            return .failure(error)
+        }
+    }
+    
+    func fetchLogEntriesFromDay(from: UUID) -> Result<[WatchLogBookEntry], Error> {
+        var logBookEntries: [WatchLogBookEntry] = []
+        let fetchResult = dataSource.fetchLogEntriesFromDay(from: from)
+        switch fetchResult {
+        case let .success(entries):
+            logBookEntries = entries
+            return .success(logBookEntries)
         case let .failure(error):
             return .failure(error)
         }

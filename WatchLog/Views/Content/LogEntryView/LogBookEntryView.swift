@@ -22,6 +22,8 @@ struct LogBookEntryView: View {
     // @Environment(\.dismiss) var dismiss
     @Environment(\.scenePhase) var scenePhase
 
+    @State var watchLogEntry: WatchLogEntry = .init()
+    
     @State var toolPickerShows = true
     @State var drawing = PKDrawing()
 
@@ -35,10 +37,10 @@ struct LogBookEntryView: View {
     @State private var glowingColorSet: [Color] = [.blue, .yellow, .red]
 
     var body: some View {
-        //        Text(Date.now, format: .dateTime.hour().minute().second())
-        //           Text(logBookEntry.uuid.uuidString)
-        //       Text("currentuuid: \(displayedLogEntryUUID.id.uuidString)")
-        //      Text("currentuuid: \(viewModel.watchLogEntry.uuid.uuidString)")
+//                Text(Date.now, format: .dateTime.hour().minute().second())
+//                   Text(logBookEntryUUID.uuidString)
+//               Text("currentuuid: \(displayedLogEntryUUID.id.uuidString)")
+//              Text("currentuuid: \(viewModel.watchLogEntry.uuid.uuidString)")
 
         ScrollView {
             ZStack {
@@ -46,18 +48,18 @@ struct LogBookEntryView: View {
                     .isHidden(fromBackground, remove: true)
 
                 VStack(alignment: .leading, spacing: 0) {
-                    LogTimeView(logTime: viewModel.watchLogEntry.EntryTime)
+                    LogTimeView(logTime: watchLogEntry.EntryTime)
 
-                    LockEditingView(logEntry: viewModel.watchLogEntry)
+                    LockEditingView(logEntry: watchLogEntry)
 
-                    CallInView(logEntry: viewModel.watchLogEntry)
+                    CallInView(logEntry: watchLogEntry)
 
-                    CallerDataView(logEntry: viewModel.watchLogEntry)
+                    CallerDataView(logEntry: watchLogEntry)
 
-                    ProcessTypeSelectionView(logEntry: viewModel.watchLogEntry)
+                    ProcessTypeSelectionView(logEntry: watchLogEntry)
 
                     NoteView(
-                        logEntry: viewModel.watchLogEntry, drawing: $viewModel.watchLogEntry.pkDrawingData,
+                        logEntry: watchLogEntry, drawing: $watchLogEntry.pkDrawingData,
                         toolPickerShows: $toolPickerShows
                     )
                 }
@@ -74,13 +76,15 @@ struct LogBookEntryView: View {
         }
         .onAppear {
             isAnimating = true
+            print("onappear")
         }
         .task {
-            await viewModel.fetchLogEntry(LogEntryUUID: logBookEntryUUID)
-            displayedLogEntryUUID.id = viewModel.watchLogEntry.uuid
-            glowingColorSet = getGlowColorSet(logEntry: viewModel.watchLogEntry)
+            watchLogEntry = await viewModel.fetchLogEntryMod(LogEntryUUID: logBookEntryUUID)
+            displayedLogEntryUUID.id = watchLogEntry.uuid
+            glowingColorSet = getGlowColorSet(logEntry: watchLogEntry)
         }
         .onDisappear {
+            print("diappear")
             // isAnimating = false
             // dismiss()
         }
@@ -88,20 +92,20 @@ struct LogBookEntryView: View {
             of: logBookEntryUUID,
             { _, newValue in
                 Task {
-                    await viewModel.fetchLogEntry(LogEntryUUID: newValue)
-                    displayedLogEntryUUID.id = viewModel.watchLogEntry.uuid
-                    glowingColorSet = getGlowColorSet(logEntry: viewModel.watchLogEntry)
+                    watchLogEntry = await viewModel.fetchLogEntryMod(LogEntryUUID: logBookEntryUUID)
+                    displayedLogEntryUUID.id = watchLogEntry.uuid
+                    glowingColorSet = getGlowColorSet(logEntry: watchLogEntry)
                 }
             }
         )
-        .onChange(of: viewModel.watchLogEntry.isLocked) { _, newValue in
-            glowingColorSet = getGlowColorSet(logEntry: viewModel.watchLogEntry)
+        .onChange(of: watchLogEntry.isLocked) { _, newValue in
+            glowingColorSet = getGlowColorSet(logEntry: watchLogEntry)
             if newValue {
                 saveEntry()
             }
         }
-        .onChange(of: viewModel.watchLogEntry.isNewEntryLog) { _, _ in
-            glowingColorSet = getGlowColorSet(logEntry: viewModel.watchLogEntry)
+        .onChange(of: watchLogEntry.isNewEntryLog) { _, _ in
+            glowingColorSet = getGlowColorSet(logEntry: watchLogEntry)
         }
         .onChange(of: scenePhase) { _, newPhase in
             switch newPhase {
@@ -112,6 +116,7 @@ struct LogBookEntryView: View {
             case .background:
                 isAnimating = false
                 fromBackground = true
+                print("come from background")
             case .inactive:
                 isAnimating = false
                 fromBackground = true
@@ -194,7 +199,7 @@ extension LogBookEntryView {
                 NavigationMenuLabelView(menuItemType: MenuType.new)
             }
 
-            if !viewModel.watchLogEntry.isLocked {
+            if !watchLogEntry.isLocked {
                 Button {
                     saveEntry()
                     blurSetting.isBlur = false
@@ -227,8 +232,8 @@ extension LogBookEntryView {
                 action: {
                     Task {
                         await viewModel.deleteLogEntry(LogEntry: viewModel.watchLogEntry)
-                        newEntry(LogEntry: &viewModel.watchLogEntry, drawing: &drawing)
-                        logBookEntryUUID = viewModel.watchLogEntry.uuid
+                        newEntry(LogEntry: &watchLogEntry, drawing: &drawing)
+                        logBookEntryUUID = watchLogEntry.uuid
                         blurSetting.isBlur = false
                     }
                 })
@@ -239,7 +244,7 @@ extension LogBookEntryView {
                 "Erstellen", role: .destructive,
                 action: {
                     newEntry(LogEntry: &viewModel.watchLogEntry, drawing: &drawing)
-                    displayedLogEntryUUID.id = viewModel.watchLogEntry.uuid
+                    displayedLogEntryUUID.id = watchLogEntry.uuid
                     blurSetting.isBlur = false
                 })
             cancelAlertButton()
@@ -248,7 +253,7 @@ extension LogBookEntryView {
             Button(
                 "Verwerfen", role: .destructive,
                 action: {
-                    clearEntry(LogEntry: &viewModel.watchLogEntry, drawing: &drawing)
+                    clearEntry(LogEntry: &watchLogEntry, drawing: &drawing)
                     blurSetting.isBlur = false
                 })
             cancelAlertButton()
@@ -266,11 +271,11 @@ extension LogBookEntryView {
     private func saveEntry() {
         Task {
             blurSetting.isBlur = true
-            viewModel.watchLogEntry.isLocked = true
-            viewModel.watchLogEntry.isNewEntryLog = false
-            await viewModel.saveLogEntry(LogEntry: viewModel.watchLogEntry)
-            viewModel.watchLogEntry.isNewEntryLog = false
-            displayedLogEntryUUID.id = viewModel.watchLogEntry.uuid
+            watchLogEntry.isLocked = true
+            watchLogEntry.isNewEntryLog = false
+            await viewModel.saveLogEntry(LogEntry: watchLogEntry)
+            watchLogEntry.isNewEntryLog = false
+            displayedLogEntryUUID.id = watchLogEntry.uuid
             logBookEntryUUID = displayedLogEntryUUID.id
             blurSetting.isBlur = false
         }

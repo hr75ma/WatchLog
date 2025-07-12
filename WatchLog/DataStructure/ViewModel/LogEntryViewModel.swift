@@ -33,14 +33,14 @@ final class LogEntryViewModel: ObservableObject {
             await self.instanciateLogBook()
         }
 
-        // generateLogBookEntry()
+         generateLogBookEntry()
     }
 
     func generateLogBookEntry() {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd.MM.yyyy HH:mm:ss"
 
-        let entries = ["01.01.2023 06:10:10", "20.01.2023 16:10:10", "05.03.2023 03:10:10", "10.03.2023 06:10:10", "17.05.2023 08:11:10", "21.05.2023 02:10:10", "07.09.2023 13:10:12", "23.09.2023 20:10:10", "31.12.2023 22:10:10", "01.01.2024 06:10:10", "02.01.2024 16:10:10", "01.02.2024 04:10:10", "01.02.2024 15:10:10", "01.03.2024 18:10:10", "01.03.2024 13:10:10", "02.03.2024 11:10:10", "09.04.2024 06:10:10", "10.04.2024 03:10:10", "01.05.2024 14:10:10", "02.05.2024 19:10:10", "01.01.2025 06:10:10", "02.01.2025 16:10:10", "01.02.2025 04:10:10", "01.02.2025 15:10:10", "01.03.2025 18:10:10", "01.03.2025 13:10:10", "02.03.2025 11:10:10", "09.04.2025 06:10:10", "10.04.2025 03:10:10", "01.05.2025 14:10:10", "02.05.2025 19:10:10"]
+        let entries = ["01.01.2023 06:10:10", "20.01.2023 16:10:10", "05.03.2023 03:10:10", "10.03.2023 06:10:10", "17.05.2023 08:11:10", "21.05.2023 02:10:10", "07.09.2023 13:10:12", "23.09.2023 20:10:10", "31.12.2023 22:10:10", "01.01.2024 06:10:10", "02.01.2024 16:10:10", "01.02.2024 04:10:10", "01.02.2024 15:10:10", "01.03.2024 18:10:10", "01.03.2024 13:10:10", "02.03.2024 11:10:10", "09.04.2024 06:10:10", "10.04.2024 03:10:10", "01.05.2024 14:10:10", "02.05.2024 19:10:10", "01.01.2025 06:10:10", "01.01.2025 08:10:10", "01.01.2025 10:10:10", "02.01.2025 16:10:10", "01.02.2025 04:10:10", "01.02.2025 15:10:10", "01.03.2025 18:10:10", "01.03.2025 13:10:10", "02.03.2025 11:10:10", "09.04.2025 06:10:10", "10.04.2025 03:10:10", "01.05.2025 14:10:10", "02.05.2025 19:10:10"]
 
         // let entries = ["01.01.2023 06:10:10", "20.01.2023 16:10:10", "20.01.2023 18:10:10"]
 
@@ -53,6 +53,19 @@ final class LogEntryViewModel: ObservableObject {
             }
         }
     }
+    
+    func fetchLogEntriesFromDay(from: UUID) async -> [WatchLogBookEntry] {
+        let result = await databaseService.fetchLogEntriesFromDay(from: from)
+        switch result {
+        case let .success(logBookEntries):
+            return logBookEntries
+        case let .failure(error):
+            errorMessage = String(format: NSLocalizedString("error_fetching_logBookEntry", comment: "Displayed when fetching logBookEntry fails"), error.localizedDescription)
+        }
+        return []
+    }
+    
+    
 
     func instanciateLogBook() async {
         let result = await databaseService.instanciateLogBook()
@@ -86,15 +99,15 @@ final class LogEntryViewModel: ObservableObject {
         }
     }
 
-    func fetchLogEntryMod(LogEntryUUID: UUID) async -> WatchLogBookEntry? {
-        let result = await databaseService.fetchLogBookEntryMod(with: LogEntryUUID)
+    func fetchLogEntryMod(LogEntryUUID: UUID) async -> WatchLogEntry {
+        let result = await databaseService.fetchLogBookEntry(with: LogEntryUUID)
         switch result {
         case let .success(logBookEntry):
             return logBookEntry
         case let .failure(error):
             errorMessage = String(format: NSLocalizedString("error_fetching_logBookEntry", comment: "Displayed when fetching logBookEntry fails"), error.localizedDescription)
+            return WatchLogEntry()
         }
-        return nil
     }
 
     func isLogBookEntryExisting(from uuid: UUID) async -> Bool {
