@@ -12,11 +12,11 @@ import SwiftUI
 
 struct LogBookEntryView: View {
     @Binding public var logBookEntryUUID: UUID
-
+    @Binding public var displayedLogEntryUUID: UUID
     @EnvironmentObject var viewModel: LogEntryViewModel
 
     @Environment(\.appStyles) var appStyles
-    @Environment(DisplayedLogEntryID.self) var displayedLogEntryUUID
+    //@Environment(DisplayedLogEntryID.self) var displayedLogEntryUUID
     @Environment(BlurSetting.self) var blurSetting
 
     // @Environment(\.dismiss) var dismiss
@@ -80,7 +80,7 @@ struct LogBookEntryView: View {
         }
         .task {
             watchLogEntry = await viewModel.fetchLogEntryMod(LogEntryUUID: logBookEntryUUID)
-            displayedLogEntryUUID.id = watchLogEntry.uuid
+            displayedLogEntryUUID = watchLogEntry.uuid
             glowingColorSet = getGlowColorSet(logEntry: watchLogEntry)
         }
         .onDisappear {
@@ -93,7 +93,7 @@ struct LogBookEntryView: View {
             { _, newValue in
                 Task {
                     watchLogEntry = await viewModel.fetchLogEntryMod(LogEntryUUID: logBookEntryUUID)
-                    displayedLogEntryUUID.id = watchLogEntry.uuid
+                    displayedLogEntryUUID = watchLogEntry.uuid
                     glowingColorSet = getGlowColorSet(logEntry: watchLogEntry)
                 }
             }
@@ -244,7 +244,7 @@ extension LogBookEntryView {
                 "Erstellen", role: .destructive,
                 action: {
                     newEntry(LogEntry: &viewModel.watchLogEntry, drawing: &drawing)
-                    displayedLogEntryUUID.id = watchLogEntry.uuid
+                    displayedLogEntryUUID = watchLogEntry.uuid
                     blurSetting.isBlur = false
                 })
             cancelAlertButton()
@@ -275,8 +275,8 @@ extension LogBookEntryView {
             watchLogEntry.isNewEntryLog = false
             await viewModel.saveLogEntry(LogEntry: watchLogEntry)
             watchLogEntry.isNewEntryLog = false
-            displayedLogEntryUUID.id = watchLogEntry.uuid
-            logBookEntryUUID = displayedLogEntryUUID.id
+            displayedLogEntryUUID = watchLogEntry.uuid
+            logBookEntryUUID = displayedLogEntryUUID
             blurSetting.isBlur = false
         }
     }
@@ -285,12 +285,13 @@ extension LogBookEntryView {
 #Preview {
     // @Previewable @State var existingLogBookEntry = WatchLogBookEntry()
     @Previewable @State var existingLogBookEntry = UUID()
+    @Previewable @State var displayedLogEntry = UUID()
     @Previewable @State var isNewEntry = false
 
     let databaseService = DatabaseService()
     let viewModel = LogEntryViewModel(dataBaseService: databaseService)
 
-    LogBookEntryView(logBookEntryUUID: $existingLogBookEntry)
+    LogBookEntryView(logBookEntryUUID: $existingLogBookEntry, displayedLogEntryUUID: $displayedLogEntry)
         .environmentObject(viewModel)
         .environment(BlurSetting())
         .environment(\.appStyles, StylesLogEntry.shared)

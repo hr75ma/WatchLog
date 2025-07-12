@@ -55,19 +55,18 @@ struct ContentView: View {
     @State var showProgression: Bool = false
     @State var showToolbarItem: Bool = true
 
-    @State var isMarked: Bool = true
+    @State var dayOfLog: UUID = UUID()
 
-    @State var dayOfLog:UUID = UUID()
-    
-    
+    @State var logEntryUUIDContainer: LogEntryUUIDContainer = LogEntryUUIDContainer()
+
     let newLogEntryTip = NavigationTipNewLogEntry()
     let refreshListTip = NavigationTipRefresh()
     let listTip = NavigationTipList()
 
     var body: some View {
         NavigationSplitView(columnVisibility: $columnVisibility) {
-                  Text(logBookEntryUUID.uuidString)
-                  Text("currentuuid: \(displayedLogEntryUUID.id.uuidString)")
+            Text(logEntryUUIDContainer.logEntryUUID.uuidString)
+            Text("displayedLogEntryUUID: \(displayedLogEntryUUID.id.uuidString)")
 
             if showProgression {
                 ProgressionView()
@@ -123,8 +122,8 @@ struct ContentView: View {
             .scrollContentBackground(.hidden)
             // .background(Color.black.edgesIgnoringSafeArea(.all))
         } detail: {
-          //LogBookEntryView(logBookEntryUUID: $logBookEntryUUID)
-           ScrollViewDispatcher(logBookEntryUUID: $logBookEntryUUID, logBookDayUUID: $dayOfLog)
+            // LogBookEntryView(logBookEntryUUID: $logBookEntryUUID)
+            ScrollViewDispatcher(logEntryUUIDContainer: $logEntryUUIDContainer)
         }
         .navigationSplitViewStyles(appStyles)
         .blurring(blurSetting: blurSetting)
@@ -260,10 +259,9 @@ extension ContentView {
         DisclosureGroup(DateManipulation.getWeekDay(from: day.LogDate)) {
             ForEach(day.logEntriesSorted) { entry in
                 Button(action: {
-                    logBookEntryUUID = entry.uuid
+                    logEntryUUIDContainer = .init(logEntryUUID: entry.uuid, logDayUUID: day.uuid)
                     displayedLogEntryUUID.id = logBookEntryUUID
-                    
-                    dayOfLog = day.uuid
+
                 }) {
                     VStack(alignment: .leading) {
                         Text(DateManipulation.getTime(from: entry.LogDate))
