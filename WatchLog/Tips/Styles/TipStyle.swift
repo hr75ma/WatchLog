@@ -47,16 +47,15 @@ struct TipStylerTest: TipViewStyle {
 
 struct TipStyler: TipViewStyle {
     func makeBody(configuration: Configuration) -> some View {
-            if let title = configuration.title {
-                title
-                    .bold()
-                    .font(.headline)
-                    .textCase(.uppercase)
-            }
-            if let message = configuration.message {
-                message
-                    .foregroundStyle(.secondary)
-            }
-       
+        if let title = configuration.title {
+            title
+                .bold()
+                .font(.headline)
+                .textCase(.uppercase)
+        }
+        if let message = configuration.message {
+            message
+                .foregroundStyle(.secondary)
+        }
     }
 }

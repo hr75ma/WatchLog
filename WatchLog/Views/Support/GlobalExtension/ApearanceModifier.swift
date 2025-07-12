@@ -41,7 +41,6 @@ public struct AppSetting {
     }
 }
 
-
 public final class AppSettings: ObservableObject {
     @MainActor public static let shared = AppSettings()
 

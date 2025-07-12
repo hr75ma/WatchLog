@@ -42,54 +42,38 @@ extension CallerDataView {
     private var phoneSubSection: some View {
         HStack(alignment: .center, spacing: 0) {
             Text("Telefon")
-                .sectionTextLabel()
+                .textLabel(textLabelLevel: TextLabelLevel.standard)
 
-            LimitedIndicatorTextField(config: .init(limit:20, tint: .watchLogFont, autoResizes: true, ), hint: "", value: $logEntry.CallerNumber, isLocked: logEntry.isLocked)
-                .autocorrectionDisabled()
+            LimitedIndicatorTextField(config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.standard, limit: 20, tint: .watchLogFont, autoResizes: true), hint: "", text: $logEntry.CallerNumber, isLocked: logEntry.isLocked)
                 .textFieldCheckOnNumbers(text: $logEntry.CallerNumber)
                 .textContentType(.telephoneNumber)
                 .keyboardType(.numberPad)
-//            TextField("", text: $logEntry.CallerNumber)
-//                .sectionTextField(
-//                    text: $logEntry.CallerNumber, isLocked: logEntry.isLocked,
-//                    numberOfCharacters: 20, appStyles: appStyles
-//                )
-//                .textFieldCheckOnNumbers(text: $logEntry.CallerNumber)
-//                .textContentType(.telephoneNumber)
-//                .keyboardType(.numberPad)
         }
     }
 
     private var nameSubSection: some View {
         HStack(alignment: .center, spacing: 0) {
             Text("Name")
-                .sectionTextLabel()
+                .textLabel(textLabelLevel: TextLabelLevel.standard)
 
-            TextField("", text: $logEntry.CallerName)
-                .sectionTextField(
-                    text: $logEntry.CallerName, isLocked: logEntry.isLocked, numberOfCharacters: 50,
-                    appStyles: appStyles)
+            LimitedIndicatorTextField(config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.standard, limit: 50, tint: .watchLogFont, autoResizes: true), hint: "", text: $logEntry.CallerName, isLocked: logEntry.isLocked)
         }
     }
 
     private var adressSubSection: some View {
         HStack(alignment: .top, spacing: 0) {
             Text("Adresse")
-                .sectionTextLabel()
+                .textLabel(textLabelLevel: TextLabelLevel.standard)
                 .frame(alignment: .topLeading)
 
-            TextField("", text: $logEntry.CallerAdress, axis: .vertical)
-                .sectionTextFieldMultiline(
-                    text: $logEntry.CallerAdress, isLocked: logEntry.isLocked,
-                    numberOfCharacters: 500, appStyles: appStyles
-                )
+            LimitedIndicatorTextField(config: .init(textfieldType: TextFieldType.multiLine, textfieldLevel: TextFieldLevel.standard, limit: 200, tint: .watchLogFont, autoResizes: true), hint: "", text: $logEntry.CallerAdress, isLocked: logEntry.isLocked)
         }
     }
 
     private var dobSubSection: some View {
         HStack(alignment: .top, spacing: 0) {
             Text("DOB")
-                .sectionTextLabel()
+                .textLabel(textLabelLevel: TextLabelLevel.standard)
 
             HStack(alignment: .top, spacing: 0) {
                 HStack(alignment: .top, spacing: 0) {

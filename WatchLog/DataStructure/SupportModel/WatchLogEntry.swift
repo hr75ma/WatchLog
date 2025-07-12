@@ -11,33 +11,32 @@ import SwiftUI
 
 @Observable
 class WatchLogEntry {
+    var uuid: UUID
 
-  var uuid: UUID
+    var isNewEntryLog = true
 
-  var isNewEntryLog = true
+    var EntryTime: Date
 
-  var EntryTime: Date
-
-  var CallerName: String = ""
-  var CallerNumber: String = ""
-  var CallerAdress: String = ""
+    var CallerName: String = ""
+    var CallerNumber: String = ""
+    var CallerAdress: String = ""
     var CallerDOB: Date?
 //    var CallerDOB: Date? {
 //        didSet {
-//            
+//
 //            if CallerDOB != nil {
-//                
+//
 //                let testDateComponent = Calendar.current.dateComponents([.minute, .second, .nanosecond], from: self.CallerDOB!)
 //                var currentDateComponent = Calendar.current.dateComponents(
 //                    [.year, .month, .day, .hour, .minute, .second, .nanosecond], from: Date())
-//                
+//
 //                currentDateComponent.hour = testDateComponent.hour
 //                currentDateComponent.minute = testDateComponent.minute
 //                currentDateComponent.second = testDateComponent.second
 //                currentDateComponent.nanosecond = testDateComponent.nanosecond
-//                
+//
 //                let currentDate = Calendar.current.date(from: currentDateComponent)!
-//                
+//
 //                if currentDate < self.CallerDOB! {
 //                    self.CallerDOB = nil
 //                }
@@ -45,82 +44,78 @@ class WatchLogEntry {
 //        }
 //    }
 
-  var CallIn = CallInType.CallInTypeShort.EMERGENCY
+    var CallIn = CallInType.CallInTypeShort.EMERGENCY
 
-  var processTypeDetails: WatchLogProcessTypeDetails = WatchLogProcessTypeDetails()
+    var processTypeDetails: WatchLogProcessTypeDetails = WatchLogProcessTypeDetails()
 
-  var isLocked: Bool = false
+    var isLocked: Bool = false
 
-  //var drawingData: Data = Data()
+    // var drawingData: Data = Data()
 
-  var pkDrawingData: PKDrawing = PKDrawing()
+    var pkDrawingData: PKDrawing = PKDrawing()
 
-  init() {
-    EntryTime = Date.now
-    uuid = UUID()
-    //drawingData = Data()
-    pkDrawingData = PKDrawing()
-  }
+    init() {
+        EntryTime = Date.now
+        uuid = UUID()
+        // drawingData = Data()
+        pkDrawingData = PKDrawing()
+    }
 
-  init(uudi: UUID) {
-    EntryTime = Date.now
-    uuid = uudi
-    //drawingData = Data()
-    pkDrawingData = PKDrawing()
-  }
+    init(uudi: UUID) {
+        EntryTime = Date.now
+        uuid = uudi
+        // drawingData = Data()
+        pkDrawingData = PKDrawing()
+    }
 
-  init(watchLookBookEntry: WatchLogBookEntry) {
+    init(watchLookBookEntry: WatchLogBookEntry) {
+        uuid = watchLookBookEntry.uuid
 
-    uuid = watchLookBookEntry.uuid
+        EntryTime = watchLookBookEntry.LogDate
 
-    EntryTime = watchLookBookEntry.LogDate
+        CallerName = watchLookBookEntry.CallerName
+        CallerNumber = watchLookBookEntry.CallerNumber
+        CallerAdress = watchLookBookEntry.CallerAdress
+        CallerDOB = watchLookBookEntry.CallerDOB
 
-    CallerName = watchLookBookEntry.CallerName
-    CallerNumber = watchLookBookEntry.CallerNumber
-    CallerAdress = watchLookBookEntry.CallerAdress
-    CallerDOB = watchLookBookEntry.CallerDOB
+        CallIn = watchLookBookEntry.CallIn
 
-      CallIn = watchLookBookEntry.CallIn
+        processTypeDetails = WatchLogProcessTypeDetails(
+            processTypeDetails: watchLookBookEntry.processDetails!)
 
-    processTypeDetails = WatchLogProcessTypeDetails(
-    processTypeDetails: watchLookBookEntry.processDetails!)
+        isLocked = watchLookBookEntry.isLocked
 
-    isLocked = watchLookBookEntry.isLocked
+        // drawingData = WatchLookBookEntry.drawingData
+        pkDrawingData = watchLookBookEntry.drawing
 
-    //drawingData = WatchLookBookEntry.drawingData
-    pkDrawingData = watchLookBookEntry.drawing
+        isNewEntryLog = false
+    }
 
-    isNewEntryLog = false
+    fileprivate func initialValues() {
+        EntryTime = Date.now
+        uuid = UUID()
+        clear()
+        processTypeDetails = WatchLogProcessTypeDetails()
+    }
 
-  }
+    public func clear() {
+        CallerName = ""
+        CallerNumber = ""
+        CallerAdress = ""
+        CallerDOB = nil
 
-  fileprivate func initialValues() {
-    EntryTime = Date.now
-    uuid = UUID()
-    clear()
-    processTypeDetails = WatchLogProcessTypeDetails()
-  }
+        CallIn = .EMERGENCY
 
-  public func clear() {
-    CallerName = ""
-    CallerNumber = ""
-    CallerAdress = ""
-    CallerDOB = nil
+        isLocked = false
+        isNewEntryLog = false
 
-      CallIn = .EMERGENCY
+        // processTypeDetails = WatchLogProcessTypeDetails()
 
-    isLocked = false
-    isNewEntryLog = false
+        // drawingData = Data()
+        pkDrawingData = PKDrawing()
+    }
 
-    // processTypeDetails = WatchLogProcessTypeDetails()
-
-    //drawingData = Data()
-    pkDrawingData = PKDrawing()
-  }
-
-  public func new() {
-
-    initialValues()
-  }
-
+    public func new() {
+        initialValues()
+    }
 }

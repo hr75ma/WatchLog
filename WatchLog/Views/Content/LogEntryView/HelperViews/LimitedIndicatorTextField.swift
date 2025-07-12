@@ -8,84 +8,83 @@
 import SwiftUI
 
 struct LimitedIndicatorTextField: View {
-    //Configuration
+    // Configuration
     var config: Config
     var hint: String
-    @Binding var value: String
+    @Binding var text: String
     let isLocked: Bool
-    
+
     @Environment(\.appStyles) var appStyles
-    
-   // view properties
+
+    // view properties
     @FocusState private var isKeyboardShowing: Bool
     var body: some View {
-       // VStack(alignment: config.progressConfig.alignment, spacing: 12) {
+        // VStack(alignment: config.progressConfig.alignment, spacing: 12) {
         ZStack(alignment: .trailing) {
-            TextField(hint, text: $value, axis: .vertical)
-                .sectionTextFieldIndicator(
-                                    text: $value, isLocked: isLocked, appStyles: appStyles
-                                )
-                .focused($isKeyboardShowing)
-                .onChange(of: value, initial: true) { oldValue, newValue in
-                    guard !config.allowsExcessTyping else { return }
-                    value = String(value.prefix(config.limit))
-                    
+            TextField(hint, text: $text, axis: .vertical)
+                .if(config.textfieldLevel == TextFieldLevel.standard) { view in
+                    view.textFieldIndicator(text: $text, isLocked: isLocked, textfieldType: config.textfieldType, appStyles: appStyles)
                 }
-            
+                .if(config.textfieldLevel == TextFieldLevel.sub) { view in
+                    view.subTextFieldIndicator(text: $text, isLocked: isLocked, textfieldType: config.textfieldType, appStyles: appStyles)
+                }
+
+                .focused($isKeyboardShowing)
+                .onChange(of: text, initial: true) { _, _ in
+                    guard !config.allowsExcessTyping else { return }
+                    text = String(text.prefix(config.limit))
+                }
+
 //            //progress bar - text indicator
             HStack(alignment: .top, spacing: 0) {
-                if config.progressConfig.showsRing && !isLocked {
+                if config.progressConfig.showsRing && !isLocked && !text.isEmpty {
                     ZStack {
                         Circle()
                             .stroke(.ultraThinMaterial, lineWidth: 4)
-                        
+
                         Circle()
                             .trim(from: 0, to: progress)
                             .stroke(progressColor.gradient, lineWidth: 4)
-                            .rotationEffect(.init(degrees:-90))
-                            .animation(.linear(duration: 0.25), value: progressColor)
+                            .rotationEffect(.init(degrees: -90))
+                            .animation(.easeInOut(duration: 0.15), value: progressColor)
+                            .animation(.easeInOut(duration: 0.15), value: progress)
                     }
                     .frame(width: 23, height: 23)
                 }
-                
+
                 if config.progressConfig.showsText {
-                    Text("\(value.count)/\(config.limit)")
+                    Text("\(text.count)/\(config.limit)")
                         .foregroundStyle(progressColor.gradient)
                 }
             }
             .offset(x: -14)
-            .animation(.easeOut(duration: 1), value: isLocked)
+            .animation(.easeInOut(duration: 0.5), value: isLocked)
+            .animation(.easeInOut(duration: 0.5), value: !text.isEmpty)
         }
     }
-    
+
     var progress: CGFloat {
-        return max(min(CGFloat(value.count) / CGFloat(config.limit), 1), 0)
+        return max(min(CGFloat(text.count) / CGFloat(config.limit), 1), 0)
     }
-    
+
     var progressColor: Color {
         return withAnimation { progress < 0.6 ? config.tint : progress == 1.0 ? .red : .orange }
     }
-        
-        //textfield config
-        struct Config {
-            var limit: Int
-            var tint: Color = .blue
-            var autoResizes: Bool = false
-            var allowsExcessTyping: Bool = false
-            var progressConfig: ProgressConfig = .init()
-            var borderConfig: BorderConfig = .init()
-        }
 
-        struct ProgressConfig {
-            var showsRing: Bool = true
-            var showsText: Bool = false
-            var alignment: HorizontalAlignment = .trailing
-        }
+    // textfield config
+    struct Config {
+        var textfieldType: TextFieldType
+        var textfieldLevel: TextFieldLevel
+        var limit: Int
+        var tint: Color = .blue
+        var autoResizes: Bool = false
+        var allowsExcessTyping: Bool = false
+        var progressConfig: ProgressConfig = .init()
+    }
 
-        struct BorderConfig {
-            var show: Bool = true
-            var radius: CGFloat = 12
-            var width: CGFloat = 0.8
-        }
+    struct ProgressConfig {
+        var showsRing: Bool = true
+        var showsText: Bool = false
+        var alignment: HorizontalAlignment = .trailing
+    }
 }
-

@@ -8,20 +8,17 @@
 import SwiftUI
 
 struct ProcessTypeSubDAUFView: View {
-    
     @Bindable var logEntry: WatchLogEntry
     @Environment(\.appStyles) var appStyles
-    
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 5) {
             HStack(alignment: .center, spacing: 0) {
                 Text("Kennzeichen")
-                    .subSectionTextLabel()
-                   
-                TextField("", text: $logEntry.processTypeDetails.AccientLicensePlate01)
-                    .subSectionTextField(text: $logEntry.processTypeDetails.AccientLicensePlate01, isLocked: logEntry.isLocked, numberOfCharacters: 10, appStyles: appStyles)
-                    .padding(EdgeInsets(top: 0, leading: 5, bottom: 0, trailing: 0))
+                    .textLabel(textLabelLevel: TextLabelLevel.sub)
+
+                LimitedIndicatorTextField(config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.sub, limit: 10, tint: .watchLogFont, autoResizes: true), hint: "", text: $logEntry.processTypeDetails.AccientLicensePlate01, isLocked: logEntry.isLocked)
+                // .padding(EdgeInsets(top: 0, leading: 5, bottom: 0, trailing: 0))
             }
         }
         .standardEventSubViewPadding()

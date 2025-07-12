@@ -11,71 +11,64 @@ import SwiftUI
 
 @Observable
 class WatchLogProcessTypeDetails {
-    
     var uuid: UUID
-    
+
     var processTypeShort: ProcessType.ProcessTypeShort = ProcessType.ProcessTypeShort.UNKNOWN
-    
-    //var AccientInjured: Bool = false
+
+    // var AccientInjured: Bool = false
     var AccientHitAndRun: Bool = false
     var AccientLicensePlate01: String = ""
     var AccientLicensePlate02: String = ""
     var AlcoholConsumed: Bool = false
-    //var isAccient: Bool = false
-    
+    // var isAccient: Bool = false
+
     var isInjured: Bool = false
-    
+
     var isAnimaleLiving: Bool = false
-    
+
     init() {
         uuid = UUID()
-        
+
         processTypeShort = ProcessType.ProcessTypeShort.UNKNOWN
-        
-        //AccientInjured = false
+
+        // AccientInjured = false
         AccientHitAndRun = false
         AccientLicensePlate01 = ""
         AccientLicensePlate02 = ""
         AlcoholConsumed = false
-        
+
         isInjured = false
-        
+
         isAnimaleLiving = false
     }
-    
+
     init(processTypeDetails: WatchLogBookProcessTypeDetails) {
-        
         uuid = processTypeDetails.uuid
-        
+
         processTypeShort = processTypeDetails.processTypeShort
-        
-        //AccientInjured = false
+
+        // AccientInjured = false
         AccientHitAndRun = processTypeDetails.AccientHitAndRun
         AccientLicensePlate01 = processTypeDetails.AccientLicensePlate01
         AccientLicensePlate02 = processTypeDetails.AccientLicensePlate02
         AlcoholConsumed = processTypeDetails.AlcoholConsumed
-        
+
         isInjured = processTypeDetails.isInjured
-        
+
         isAnimaleLiving = processTypeDetails.isInjured
     }
-    
+
     func clear() {
         processTypeShort = ProcessType.ProcessTypeShort.UNKNOWN
-        
-        //AccientInjured = false
+
+        // AccientInjured = false
         AccientHitAndRun = false
         AccientLicensePlate01 = ""
         AccientLicensePlate02 = ""
         AlcoholConsumed = false
-        
+
         isInjured = false
-        
+
         isAnimaleLiving = false
     }
-    
-    
-    
-    
-    
 }

@@ -11,22 +11,21 @@ import TipKit
 struct SplashView: View {
     @State var showSplashContent: Bool = true
     @Environment(\.dismiss) var dismiss
-    
+
     var body: some View {
-        
         HStack {
             if self.showSplashContent {
                 SplashContent()
             } else {
                 ContentView()
                     .task {
-                        //try? Tips.resetDatastore()
+                        // try? Tips.resetDatastore()
                         try? Tips.configure([
                             .displayFrequency(.immediate),
-                            .datastoreLocation(.applicationDefault)
+                            .datastoreLocation(.applicationDefault),
                         ])
-                        
-                        //try? Tips.showAllTipsForTesting()
+
+                        // try? Tips.showAllTipsForTesting()
                     }
             }
         }
@@ -37,7 +36,6 @@ struct SplashView: View {
                 }
             }
         }
-        
     }
 }
 

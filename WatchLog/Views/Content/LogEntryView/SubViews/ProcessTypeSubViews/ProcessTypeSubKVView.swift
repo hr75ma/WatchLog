@@ -8,18 +8,16 @@
 import SwiftUI
 
 struct ProcessTypeSubKVView: View {
-    
     @Bindable var logEntry: WatchLogEntry
     @Environment(\.appStyles) var appStyles
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 5) {
             HStack(alignment: .center, spacing: 0) {
-                
                 HStack(alignment: .center, spacing: 0) {
                     Text("Verletzte")
-                        .subSectionTextLabel()
-                    
+                        .textLabel(textLabelLevel: TextLabelLevel.sub)
+
                     ToggleView(toggleValue: $logEntry.processTypeDetails.isInjured, isLocked: logEntry.isLocked, toggleType: .sub)
                     Spacer()
                 }
