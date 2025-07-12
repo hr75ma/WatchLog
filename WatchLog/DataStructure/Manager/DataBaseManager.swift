@@ -27,6 +27,7 @@ protocol DataBaseManagerProtocol {
     
     
     func fetchLogEntriesFromDay(from: UUID) -> Result<[WatchLogBookEntry], Error>
+    func fetchLogBookDay(from: UUID) -> Result<WatchLogBookDay?, Error>
 }
 
 extension DataBaseManager: DataBaseManagerProtocol {}
@@ -49,7 +50,7 @@ final class DataBaseManager {
         do {
             // preview
             let config = ModelConfiguration(isStoredInMemoryOnly: true)
-            modelContainer = try ModelContainer(for: WatchLogBook.self, configurations: config)
+            modelContainer = try ModelContainer(for: WatchLogBook.self, WatchLogBookYear.self, WatchLogBookMonth.self, WatchLogBookDay.self, WatchLogBookEntry.self, configurations: config)
 
             // self.modelContainer = try ModelContainer(for: WatchLogBook.self)
             modelContext = modelContainer.mainContext
@@ -260,6 +261,18 @@ final class DataBaseManager {
         } catch {
             return .failure(error)
         }
+    }
+    
+    func fetchLogBookDay(from: UUID) -> Result<WatchLogBookDay?, Error> {
+        var logDay: WatchLogBookDay?
+        let fetchDiscriptor = FetchDescriptor<WatchLogBookDay>(
+            predicate: #Predicate { $0.uuid == from })
+        do {
+            logDay = try modelContext.fetch(fetchDiscriptor).first
+        } catch {
+            print("fetch WatchLogBookDay failed")
+        }
+        return .success(logDay)
     }
 
     func fetchEntries() -> Result<[WatchLogBookEntry], any Error> {
