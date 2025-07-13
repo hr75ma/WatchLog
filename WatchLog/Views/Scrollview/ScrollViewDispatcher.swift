@@ -15,7 +15,7 @@ struct ScrollViewDispatcher: View {
     @EnvironmentObject var viewModel: LogEntryViewModel
     @Environment(DisplayedLogEntryID.self) var displayedLogEntryUUID
 
-    @State private var logBookEntriesForDay: [WatchLogBookEntry] = []
+   // @State private var logBookEntriesForDay: [WatchLogBookEntry] = []
     @State private var displayedLogEntry: UUID = UUID()
     @State private var logEntryUUID: UUID = UUID()
 
@@ -26,13 +26,13 @@ struct ScrollViewDispatcher: View {
     var body: some View {
             ScrollView(.horizontal) {
                 HStack {
-                    ForEach(logBookEntriesForDay.indices, id: \.self) { index in
-                        LogBookEntryView(logBookEntryUUID: $logBookEntriesForDay[index].uuid, displayedLogEntryUUID: $testDisplax) // $displayedLogEntry)
-                            .id(logBookEntriesForDay[index].uuid)
+                    ForEach(logEntryUUIDContainer.logEntryBookDay.logEntriesSorted.indices, id: \.self) { index in
+                        LogBookEntryView(logBookEntryUUID: $logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].uuid, displayedLogEntryUUID: $testDisplax) // $displayedLogEntry)
+                            .id(logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].uuid)
                             .onScrollVisibilityChange(threshold: 1) { scrolled in
                                 if scrolled {
-                                    print("index \(index) - \(logBookEntriesForDay[index].uuid.uuidString)")
-                                    logEntryUUID = logBookEntriesForDay[index].uuid
+                                    print("index \(index) - \(logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].uuid.uuidString)")
+                                    logEntryUUID = logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].uuid
                                 }
                             }
                             .containerRelativeFrame(.horizontal, count: 1, spacing: 0)
@@ -47,13 +47,8 @@ struct ScrollViewDispatcher: View {
             }
             .scrollPosition(id: $scrollPos, anchor: .top)
             .scrollTargetBehavior(.viewAligned)
-            .task {
-//                await logBookEntriesForDay = viewModel.fetchLogEntriesFromDay(from: logEntryUUIDContainer.logDayUUID)
-//                print("task running")
-            }
             .onAppear {
-                Task {
-                    logBookEntriesForDay = logEntryUUIDContainer.logEntryBookDay.logEntriesSorted
+                Task { @MainActor in
                     print("onappear scroll\(logEntryUUIDContainer.logEntryUUID)")
                     withAnimation {
                         print("onappear \(logEntryUUIDContainer.logEntryUUID)")
@@ -62,16 +57,17 @@ struct ScrollViewDispatcher: View {
                 }
             }
             .onChange(of: logEntryUUID) {
-                print("displayedLogEntryUUID: \(displayedLogEntryUUID.id.uuidString)")
-                print("gelieferte entryUUID: \(logEntryUUIDContainer.logEntryUUID.uuidString)")
-                displayedLogEntryUUID.id = logEntryUUID
-                logEntryUUIDContainer.logEntryUUID = logEntryUUID
+                Task { @MainActor in
+                    print("displayedLogEntryUUID: \(displayedLogEntryUUID.id.uuidString)")
+                    print("gelieferte entryUUID: \(logEntryUUIDContainer.logEntryUUID.uuidString)")
+                    displayedLogEntryUUID.id = logEntryUUID
+                    logEntryUUIDContainer.logEntryUUID = logEntryUUID
+                }
             }
             .onChange(of: logEntryUUIDContainer) { oldValue, newValue in
                 Task { @MainActor in
                     print("gelieferte entryUUID: \(newValue.logEntryUUID.uuidString)")
                     if oldValue.logEntryBookDay.uuid != newValue.logEntryBookDay.uuid {
-                        logBookEntriesForDay = newValue.logEntryBookDay.logEntriesSorted
                         logEntryUUID = newValue.logEntryUUID
                         //try? await Task.sleep(for: .milliseconds(20))
                         print("onChange new Day: \(newValue.logEntryUUID)")

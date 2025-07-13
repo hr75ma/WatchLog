@@ -142,10 +142,10 @@ struct ContentView: View {
         .appearanceUpdate()
     }
 
-    private func generateNewLogEntryAfterExistingDeleted(existingEntryID: UUID) {
+    private func generateNewLogEntryAfterExistingDeleted(displayedUUID: UUID) {
         Task {
-            let isCurrentUuuidExisting = await viewModel.isLogBookEntryExisting(from: existingEntryID)
-            if !isCurrentUuuidExisting {
+            let isExisting = await viewModel.isLogBookEntryExisting(from: displayedUUID)
+            if !isExisting {
                 addNewLogEntry()
             }
         }
@@ -171,15 +171,22 @@ struct ContentView: View {
                 await viewModel.deleteLogYear(watchLogBookYear: toDeleteItem as! WatchLogBookYear)
             }
         }
-        generateNewLogEntryAfterExistingDeleted(existingEntryID: displayedLogEntryUUID.id)
+        generateNewLogEntryAfterExistingDeleted(displayedUUID: displayedLogEntryUUID.id)
     }
 
     private func addNewLogEntry() {
+        
         Task {
+            var tempUUID: UUID?
             let logBookDay = await viewModel.fetchLogBookDayOrEmptyDay(from: .now)
-            let watchLogBookEntry = WatchLogBookEntry()
-            logBookDay?.addLogEntry(watchLogBookEntry)
-            logEntryUUIDContainer = .init(logEntryUUID: watchLogBookEntry.uuid, logBookDay: logBookDay!)
+            if (logBookDay!.watchLogBookEntries!.isEmpty) {
+                let watchLogBookEntry = WatchLogBookEntry()
+                logBookDay!.addLogEntry(watchLogBookEntry)
+                tempUUID = watchLogBookEntry.uuid
+            } else {
+                tempUUID = logBookDay!.logEntriesSorted[0].uuid
+            }
+            logEntryUUIDContainer = .init(logEntryUUID: tempUUID!, logBookDay: logBookDay!)
             //displayedLogEntryUUID.id = logEntryUUIDContainer.logEntryUUID
         }
         
