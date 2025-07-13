@@ -28,6 +28,7 @@ protocol DataBaseManagerProtocol {
     
     func fetchLogEntriesFromDay(from: UUID) -> Result<[WatchLogBookEntry], Error>
     func fetchLogBookDay(from: UUID) -> Result<WatchLogBookDay?, Error>
+    func fetchLogBookDayFromDate(from: Date) -> Result<WatchLogBookDay?, Error>
 }
 
 extension DataBaseManager: DataBaseManagerProtocol {}
@@ -304,6 +305,48 @@ final class DataBaseManager {
         return .success(daysLogEntries)
         
         
+    }
+    
+    func fetchLogBookDayFromDate(from: Date) -> Result<WatchLogBookDay?, Error> {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .full
+        formatter.timeStyle = .full
+        formatter.timeZone = TimeZone(abbreviation: "UTC")
+
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy.MM.dd"
+
+        var DateComponent = Calendar.current.dateComponents(
+            [.year, .month, .day, ], from: from)
+        var FillerDate = Calendar.current.date(from: DateComponent)
+        
+        var tempDateComponent = Calendar.current.dateComponents(
+            [.year, .month, .day, ], from: from)
+        tempDateComponent.hour = 23
+        tempDateComponent.minute = 59
+        tempDateComponent.second = 59
+        tempDateComponent.nanosecond = 59
+        let predecessorDate = Calendar.current.date(from: tempDateComponent)
+
+        tempDateComponent = Calendar.current.dateComponents(
+            [.year, .month, .day, ], from: from)
+        tempDateComponent.hour = 00
+        tempDateComponent.minute = 00
+        tempDateComponent.second = 00
+        tempDateComponent.nanosecond = 00
+        let successorDate = Calendar.current.date(from: tempDateComponent)
+        
+        
+        var logDayEntry: WatchLogBookDay?
+        let fetchDiscriptor = FetchDescriptor<WatchLogBookDay>(
+            predicate: #Predicate { $0.LogDate > predecessorDate! && $0.LogDate < successorDate! })
+
+        do {
+            logDayEntry = try modelContext.fetch(fetchDiscriptor).first
+        } catch {
+            print("fetch WatchLogDay failed")
+        }
+        return .success(logDayEntry)
     }
 
     func fetchDaysFromLogBookEntry(logEntry: WatchLogBookEntry) -> Result<[WatchLogBookEntry], Error> {

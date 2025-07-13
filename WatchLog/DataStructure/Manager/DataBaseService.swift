@@ -34,6 +34,7 @@ protocol DatabaseServiceProtocol {
     
     func fetchLogEntriesFromDay(from: UUID) async -> Result<[WatchLogBookEntry], Error>
     func fetchLogDay(from: UUID) async -> Result<WatchLogBookDay?, any Error>
+    func fetchDayFromDate(from: Date) async -> Result<WatchLogBookDay?, Error>
 }
 
 @Observable
@@ -71,6 +72,16 @@ class DatabaseService: DatabaseServiceProtocol {
 
     func fetchDaysFromLogBookEntry(logEntry: WatchLogBookEntry) async -> Result<[WatchLogBookEntry], Error> {
         let fetchResult = dataSource.fetchDaysFromLogBookEntry(logEntry: logEntry)
+        switch fetchResult {
+        case let .success(result):
+            return .success(result)
+        case let .failure(error):
+            return .failure(error)
+        }
+    }
+    
+    func fetchDayFromDate(from: Date) async -> Result<WatchLogBookDay?, Error> {
+        let fetchResult = dataSource.fetchLogBookDayFromDate(from: from)
         switch fetchResult {
         case let .success(result):
             return .success(result)

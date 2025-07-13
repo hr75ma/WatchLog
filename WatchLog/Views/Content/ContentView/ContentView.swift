@@ -175,9 +175,17 @@ struct ContentView: View {
     }
 
     private func addNewLogEntry() {
-        logEntryUUIDContainer = .init()
-        logEntryUUIDContainer.logEntryUUID = UUID()
-        displayedLogEntryUUID.id = logEntryUUIDContainer.logEntryUUID
+        Task {
+            let logBookDay = await viewModel.fetchLogBookDayOrEmptyDay(from: .now)
+            let watchLogBookEntry = WatchLogBookEntry()
+            logBookDay?.addLogEntry(watchLogBookEntry)
+            logEntryUUIDContainer = .init(logEntryUUID: watchLogBookEntry.uuid, logBookDay: logBookDay!)
+            //displayedLogEntryUUID.id = logEntryUUIDContainer.logEntryUUID
+        }
+        
+        
+        
+        
     }
 }
 
@@ -259,25 +267,28 @@ extension ContentView {
     private func DisclosureGroupLogEntries(day: WatchLogBookDay) -> some View {
         DisclosureGroup(DateManipulation.getWeekDay(from: day.LogDate)) {
             ForEach(day.logEntriesSorted) { entry in
-                Button(action: {
-                    logEntryUUIDContainer = .init(logEntryUUID: entry.uuid, logBookDay: day)
-                    displayedLogEntryUUID.id = logEntryUUIDContainer.logEntryUUID
-
-                }) {
-                    VStack(alignment: .leading) {
-                        Text(DateManipulation.getTime(from: entry.LogDate))
-                            .navigationTreeButtonLabelStyle(isSeletecedItem: entry.uuid == displayedLogEntryUUID.id)
-
-                        if entry.processDetails != nil {
-                            Text(ProcessType.processTypes[entry.processDetails!.processTypeShort]!)
-                                .navigationTreeButtonSubLabelStyle(isSeletecedItem: entry.uuid == displayedLogEntryUUID.id)
+                
+                
+                    Button(action: {
+                        logEntryUUIDContainer = .init(logEntryUUID: entry.uuid, logBookDay: day)
+                        displayedLogEntryUUID.id = logEntryUUIDContainer.logEntryUUID
+                        
+                    }) {
+                        VStack(alignment: .leading) {
+                            Text(DateManipulation.getTime(from: entry.LogDate))
+                                .navigationTreeButtonLabelStyle(isSeletecedItem: entry.uuid == displayedLogEntryUUID.id)
+                            
+                            if entry.processDetails != nil {
+                                Text(ProcessType.processTypes[entry.processDetails!.processTypeShort]!)
+                                    .navigationTreeButtonSubLabelStyle(isSeletecedItem: entry.uuid == displayedLogEntryUUID.id)
+                            }
                         }
                     }
-                }
-                .listRowBackground(
-                    Rectangle()
-                        .selectedRowBackgroundAnimation(isSelectedRow: entry.uuid == displayedLogEntryUUID.id, colorScheme: colorScheme, appStyles: appStyles)
-                )
+                    .listRowBackground(
+                        Rectangle()
+                            .selectedRowBackgroundAnimation(isSelectedRow: entry.uuid == displayedLogEntryUUID.id, colorScheme: colorScheme, appStyles: appStyles)
+                    )
+                
             }
             .onDelete(perform: { indexSet in
                 indexSet.sorted(by: >).forEach { i in

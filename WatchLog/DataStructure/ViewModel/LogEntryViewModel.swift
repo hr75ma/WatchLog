@@ -128,6 +128,23 @@ final class LogEntryViewModel: ObservableObject {
                 return false
             }
         }
+    
+    func fetchLogBookDayOrEmptyDay(from: Date) async -> WatchLogBookDay? {
+        let result = await databaseService.fetchDayFromDate(from: from)
+        switch result {
+        case let .success(logBookDay):
+            if logBookDay != nil {
+                return logBookDay
+            } else {
+                return WatchLogBookDay()
+            }
+            
+        case let .failure(error):
+            errorMessage = String(format: NSLocalizedString("error_fetching_logBookEntry", comment: "Displayed when fetching logBookEntry fails"), error.localizedDescription)
+            return nil
+        }
+    }
+        
         
         func deleteLogEntry(LogEntry: WatchLogEntry) async {
             let result = await databaseService.removeWatchLogBookEntry(LogEntry: LogEntry)

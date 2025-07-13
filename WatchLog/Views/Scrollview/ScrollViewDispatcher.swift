@@ -37,7 +37,8 @@ struct ScrollViewDispatcher: View {
                                     //displayedLogEntryUUID.id = logBookEntriesForDay[index].uuid
                                     logEntryUUID = logBookEntriesForDay[index].uuid
                                 }
-                            }
+
+                                }
                             .containerRelativeFrame(.horizontal, count: 1, spacing: 0)
 //                            .scrollTransition { content, phase in
 //                                content
@@ -56,10 +57,10 @@ struct ScrollViewDispatcher: View {
             .onAppear {
                 Task {
                     logBookEntriesForDay = logEntryUUIDContainer.logEntryBookDay.logEntriesSorted
-                    withAnimation {
+                   // withAnimation {
                                             print("onappear scroll\(logEntryUUIDContainer.logEntryUUID)")
                                             proxy.scrollTo(logEntryUUIDContainer.logEntryUUID, anchor: .top)
-                                        }
+                                       // }
 //                    await logBookEntriesForDay = viewModel.fetchLogEntriesFromDay(from: logEntryUUIDContainer.logDayUUID)
 //                    withAnimation {
 //                        print("onappear \(logEntryUUIDContainer.logEntryUUID)")
@@ -70,31 +71,35 @@ struct ScrollViewDispatcher: View {
             .onChange(of: logEntryUUID) {
                 
                 print("displayedLogEntryUUID: \(displayedLogEntryUUID.id.uuidString)")
+                print("gelieferte entryUUID: \(logEntryUUIDContainer.logEntryUUID.uuidString)")
                 displayedLogEntryUUID.id = logEntryUUID
                 logEntryUUIDContainer.logEntryUUID = logEntryUUID
                 
             }
             .onChange(of: logEntryUUIDContainer) { oldValue, newValue in
-                Task {
+                Task { @MainActor in
+                    print("gelieferte entryUUID: \(newValue.logEntryUUID.uuidString)")
                     if oldValue.logEntryBookDay.uuid != newValue.logEntryBookDay.uuid {
                         
                         logBookEntriesForDay = newValue.logEntryBookDay.logEntriesSorted
                         //displayedLogEntryUUID.id = newValue.logEntryUUID
-                        //logEntryUUID = newValue.logEntryUUID
-                        withAnimation {
-                            print("onChange new Day: \(newValue.logEntryUUID)")
-                            proxy.scrollTo(newValue.logEntryUUID, anchor: .top)
-                        }
+                        logEntryUUID = newValue.logEntryUUID
+                        //  withAnimation {
+                        try? await Task.sleep(for: .milliseconds(20))
+                        print("onChange new Day: \(newValue.logEntryUUID)")
+                        proxy.scrollTo(newValue.logEntryUUID, anchor: .top)
+                        //}
                         
                     } else {
                         //displayedLogEntryUUID.id = logEntryUUIDContainer.logEntryUUID
                         //logEntryUUID = newValue.logEntryUUID
-                        withAnimation {
-                            print("onChange same Day: \(newValue.logEntryUUID)")
-                            proxy.scrollTo(newValue.logEntryUUID, anchor: .top)
-                        }
-                    }
+                        //  withAnimation {
+                        try? await Task.sleep(for: .milliseconds(20))
+                        print("onChange same Day: \(newValue.logEntryUUID)")
+                        proxy.scrollTo(newValue.logEntryUUID, anchor: .top)
+                  // }
                 }
+            }
             }
         }
     }

@@ -18,6 +18,7 @@ struct LogBookEntryView: View {
     @Environment(\.appStyles) var appStyles
     //@Environment(DisplayedLogEntryID.self) var displayedLogEntryUUID
     @Environment(BlurSetting.self) var blurSetting
+    @Environment(\.dismiss) var dismiss
 
     // @Environment(\.dismiss) var dismiss
     @Environment(\.scenePhase) var scenePhase
@@ -76,7 +77,7 @@ struct LogBookEntryView: View {
         }
         .onAppear {
             isAnimating = true
-            print("onappear")
+           // print("onappear")
         }
         .task {
             watchLogEntry = await viewModel.fetchLogEntryMod(LogEntryUUID: logBookEntryUUID)
@@ -84,9 +85,9 @@ struct LogBookEntryView: View {
             glowingColorSet = getGlowColorSet(logEntry: watchLogEntry)
         }
         .onDisappear {
-            print("diappear")
+            print("dismiss")
             // isAnimating = false
-            // dismiss()
+            dismiss()
         }
         .onChange(
             of: logBookEntryUUID,

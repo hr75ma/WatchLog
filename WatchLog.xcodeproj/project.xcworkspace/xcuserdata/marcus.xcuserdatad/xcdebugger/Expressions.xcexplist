@@ -111,6 +111,14 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "closure #1 in closure #5 in closure #1 in ScrollViewDispatcher.body.getter:ScrollViewDispatcher.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "logBookEntriesForDay">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "closure #1 in ScrollViewDispatcher.body.getter:ScrollViewDispatcher.swift">
          <PersistentStrings>
             <PersistentString
@@ -142,6 +150,9 @@
                value = "logBookEntry.uuid">
             </PersistentString>
          </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in ContentView.addNewLogEntry():ContentView.swift">
       </ContextState>
       <ContextState
          contextName = "closure #3 in closure #3 in closure #1 in closure #1 in CallerDataView.body.getter:CallerDataView.swift">
