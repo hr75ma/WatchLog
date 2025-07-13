@@ -70,7 +70,6 @@ struct ScrollViewDispatcher: View {
                         
                         withAnimation {
                             print("logBookDayUUID \(logEntryUUIDContainer.logDayUUID)")
-                            displayedLogEntryUUID.id = logEntryUUIDContainer.logEntryUUID
                             proxy.scrollTo(logEntryUUIDContainer.logEntryUUID, anchor: .top)
                         }
                     }
