@@ -47,6 +47,7 @@ struct ScrollViewDispatcher: View {
             }
             .scrollPosition(id: $scrollPos, anchor: .top)
             .scrollTargetBehavior(.viewAligned)
+            //.scrollDisabled(logEntryUUIDContainer.logEntryBookDay.watchLogBookEntries!.count == 1)
             .onAppear {
                 Task { @MainActor in
                     print("onappear scroll\(logEntryUUIDContainer.logEntryUUID)")
@@ -64,6 +65,13 @@ struct ScrollViewDispatcher: View {
                     logEntryUUIDContainer.logEntryUUID = logEntryUUID
                 }
             }
+            .onChange(of: logEntryUUIDContainer.logEntryBookDay.watchLogBookEntries) { oldValue, newValue in
+                print("changed logEntryUUIDContainer.logEntryBookDay.watchLogBookEntries")
+                if !logEntryUUIDContainer.logEntryBookDay.watchLogBookEntries!.isEmpty {
+                    scrollPos = logEntryUUIDContainer.logEntryBookDay.logEntriesSorted.first!.uuid
+                }
+                
+            }
             .onChange(of: logEntryUUIDContainer) { oldValue, newValue in
                 Task { @MainActor in
                     print("gelieferte entryUUID: \(newValue.logEntryUUID.uuidString)")
@@ -72,13 +80,15 @@ struct ScrollViewDispatcher: View {
                         //try? await Task.sleep(for: .milliseconds(20))
                         print("onChange new Day: \(newValue.logEntryUUID)")
                         withAnimation {
-                            scrollPos = logEntryUUIDContainer.logEntryUUID
+                                scrollPos = logEntryUUIDContainer.logEntryUUID
                         }
                     } else {
                         //try? await Task.sleep(for: .milliseconds(20))
                         print("onChange same Day: \(newValue.logEntryUUID)")
                         withAnimation {
-                            scrollPos = logEntryUUIDContainer.logEntryUUID
+                            
+                                scrollPos = logEntryUUIDContainer.logEntryUUID
+                            
                         }
                     }
                 }

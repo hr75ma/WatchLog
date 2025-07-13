@@ -38,42 +38,42 @@ import TipKit
 
 struct ContentView: View {
     @State private var columnVisibility = NavigationSplitViewVisibility.doubleColumn
-
+    
     @EnvironmentObject var viewModel: LogEntryViewModel
     @Environment(\.appStyles) var appStyles
     @Environment(DisplayedLogEntryID.self) var displayedLogEntryUUID
     @Environment(BlurSetting.self) var blurSetting
     @Environment(\.scenePhase) var scenePhase
     @Environment(\.colorScheme) var colorScheme
-
+    
     // @Environment(\.dismiss) var dismiss
-
+    
     //@State private var logBookEntryUUID: UUID = UUID()
-
+    
     @State var alertNew: Bool = false
     @State var showSettingSheet: Bool = false
     @State var showProgression: Bool = false
     @State var showToolbarItem: Bool = true
-
+    
     @State var dayOfLog: UUID = UUID()
-
+    
     @State var logEntryUUIDContainer: LogEntryUUIDContainer = LogEntryUUIDContainer()
-
+    
     let newLogEntryTip = NavigationTipNewLogEntry()
     let refreshListTip = NavigationTipRefresh()
     let listTip = NavigationTipList()
-
+    
     var body: some View {
         NavigationSplitView(columnVisibility: $columnVisibility) {
             Text(logEntryUUIDContainer.logEntryUUID.uuidString)
             Text("displayedLogEntryUUID: \(displayedLogEntryUUID.id.uuidString)")
-
+            
             if showProgression {
                 ProgressionView()
             }
-
+            
             List(viewModel.WatchLogBooks, id: \.uuid) { book in
-
+                
                 buildLogBookNavigationTree(book: book)
             }
             .listStyleGeneral()
@@ -141,7 +141,7 @@ struct ContentView: View {
         }
         .appearanceUpdate()
     }
-
+    
     private func generateNewLogEntryAfterExistingDeleted(displayedUUID: UUID) {
         Task {
             let isExisting = await viewModel.isLogBookEntryExisting(from: displayedUUID)
@@ -150,7 +150,7 @@ struct ContentView: View {
             }
         }
     }
-
+    
     private func delete<T>(deleteType: DeleteTypes, toDeleteItem: T) {
         switch deleteType {
         case .logEntry:
@@ -173,26 +173,16 @@ struct ContentView: View {
         }
         generateNewLogEntryAfterExistingDeleted(displayedUUID: displayedLogEntryUUID.id)
     }
-
+    
     private func addNewLogEntry() {
         
         Task {
-            var tempUUID: UUID?
             let logBookDay = await viewModel.fetchLogBookDayOrEmptyDay(from: .now)
-            if (logBookDay!.watchLogBookEntries!.isEmpty) {
-                let watchLogBookEntry = WatchLogBookEntry()
-                logBookDay!.addLogEntry(watchLogBookEntry)
-                tempUUID = watchLogBookEntry.uuid
-            } else {
-                tempUUID = logBookDay!.logEntriesSorted[0].uuid
-            }
-            logEntryUUIDContainer = .init(logEntryUUID: tempUUID!, logBookDay: logBookDay!)
+            let watchLogBookEntry = WatchLogBookEntry()
+            logBookDay!.addLogEntry(watchLogBookEntry)
+            logEntryUUIDContainer = .init(logEntryUUID: watchLogBookEntry.uuid, logBookDay: logBookDay!)
             //displayedLogEntryUUID.id = logEntryUUIDContainer.logEntryUUID
         }
-        
-        
-        
-        
     }
 }
 

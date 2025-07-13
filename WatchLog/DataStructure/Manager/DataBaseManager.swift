@@ -50,7 +50,7 @@ final class DataBaseManager {
     private init() {
         do {
             // preview
-            let config = ModelConfiguration(isStoredInMemoryOnly: true)
+            let config = ModelConfiguration(isStoredInMemoryOnly: false)
             modelContainer = try ModelContainer(for: WatchLogBook.self, WatchLogBookYear.self, WatchLogBookMonth.self, WatchLogBookDay.self, WatchLogBookEntry.self, configurations: config)
 
             // self.modelContainer = try ModelContainer(for: WatchLogBook.self)
@@ -318,28 +318,37 @@ final class DataBaseManager {
 
         var DateComponent = Calendar.current.dateComponents(
             [.year, .month, .day, ], from: from)
+        DateComponent.hour = 10
+        DateComponent.minute = 0
+        DateComponent.second = 0
+        DateComponent.nanosecond = 0
         var FillerDate = Calendar.current.date(from: DateComponent)
-        
-        var tempDateComponent = Calendar.current.dateComponents(
-            [.year, .month, .day, ], from: from)
-        tempDateComponent.hour = 23
-        tempDateComponent.minute = 59
-        tempDateComponent.second = 59
-        tempDateComponent.nanosecond = 59
-        let predecessorDate = Calendar.current.date(from: tempDateComponent)
-
-        tempDateComponent = Calendar.current.dateComponents(
-            [.year, .month, .day, ], from: from)
-        tempDateComponent.hour = 00
-        tempDateComponent.minute = 00
-        tempDateComponent.second = 00
-        tempDateComponent.nanosecond = 00
-        let successorDate = Calendar.current.date(from: tempDateComponent)
-        
+//
+//
+//        var FillerDate = Calendar.current.date(from: DateComponent)
+//        
+//        var tempDateComponent = Calendar.current.dateComponents(
+//            [.year, .month, .day, ], from: from)
+//        tempDateComponent.hour = 23
+//        tempDateComponent.minute = 59
+//        tempDateComponent.second = 59
+//        tempDateComponent.nanosecond = 59
+//        let predecessorDate = Calendar.current.date(from: tempDateComponent)
+//
+//        tempDateComponent = Calendar.current.dateComponents(
+//            [.year, .month, .day, ], from: from)
+//        tempDateComponent.hour = 00
+//        tempDateComponent.minute = 00
+//        tempDateComponent.second = 00
+//        tempDateComponent.nanosecond = 00
+//        let successorDate = Calendar.current.date(from: tempDateComponent)
+//        
         
         var logDayEntry: WatchLogBookDay?
+//        let fetchDiscriptor = FetchDescriptor<WatchLogBookDay>(
+//            predicate: #Predicate { $0.LogDate > predecessorDate! && $0.LogDate < successorDate! })
         let fetchDiscriptor = FetchDescriptor<WatchLogBookDay>(
-            predicate: #Predicate { $0.LogDate > predecessorDate! && $0.LogDate < successorDate! })
+            predicate: #Predicate { $0.LogDate == FillerDate! })
 
         do {
             logDayEntry = try modelContext.fetch(fetchDiscriptor).first
