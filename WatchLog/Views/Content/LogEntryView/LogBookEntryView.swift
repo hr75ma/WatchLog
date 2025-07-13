@@ -58,10 +58,10 @@ struct LogBookEntryView: View {
 
                     ProcessTypeSelectionView(logEntry: watchLogEntry)
 
-                    NoteView(
-                        logEntry: watchLogEntry, drawing: $watchLogEntry.pkDrawingData,
-                        toolPickerShows: $toolPickerShows
-                    )
+//                    NoteView(
+//                        logEntry: watchLogEntry, drawing: $watchLogEntry.pkDrawingData,
+//                        toolPickerShows: $toolPickerShows
+//                    )
                 }
                 .standardViewBackground()
                 .frame(

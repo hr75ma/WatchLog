@@ -260,7 +260,7 @@ extension ContentView {
         DisclosureGroup(DateManipulation.getWeekDay(from: day.LogDate)) {
             ForEach(day.logEntriesSorted) { entry in
                 Button(action: {
-                    logEntryUUIDContainer = .init(logEntryUUID: entry.uuid, logDayUUID: day.uuid)
+                    logEntryUUIDContainer = .init(logEntryUUID: entry.uuid, logBookDay: day)
                     displayedLogEntryUUID.id = logEntryUUIDContainer.logEntryUUID
 
                 }) {
