@@ -13,6 +13,7 @@ enum MenuType: Int, CaseIterable {
     case delete
     case clear
     case edit
+    case back
 }
 
 struct NavigationMenuLabelView: View {
@@ -35,6 +36,9 @@ struct NavigationMenuLabelView: View {
                 .navigationMenuDestructiveModifier()
         case .edit:
             Label("Log editieren", systemImage: appStyles.saveImageActive)
+                .navigationMenuUndestructiveModifier()
+        case .back:
+            Label("Zurück", systemImage: appStyles.backImageActive)
                 .navigationMenuUndestructiveModifier()
         }
     }

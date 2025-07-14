@@ -100,4 +100,5 @@ final class StylesLogEntry: Sendable {
     let saveImageActive: String = "square.and.arrow.down"
     let newImageActive: String = "plus"
     let deleteImageActive: String = "trash"
+    let backImageActive: String = "arrowshape.turn.up.backward.circle"
 }

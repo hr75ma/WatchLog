@@ -12,28 +12,18 @@ import SwiftUI
 
 struct LogBookEntryView: View {
     @Binding public var logBookEntryUUID: UUID
-    @Binding public var isShowingOnly: Bool
+    @Binding public var isEditing: Bool
     @State private var watchLogEntry: WatchLogEntry = .init()
-    // @Binding public var displayedWatchLogEntry : WatchLogEntry
-    // @Binding public var displayedLogEntryUUID: UUID
+    
     @EnvironmentObject var viewModel: LogEntryViewModel
-
     @Environment(\.appStyles) var appStyles
     @Environment(DisplayedLogEntryID.self) var displayedLogEntryUUID
     @Environment(BlurSetting.self) var blurSetting
     @Environment(\.dismiss) var dismiss
-
-    // @Environment(\.dismiss) var dismiss
     @Environment(\.scenePhase) var scenePhase
-
-    @State var isVisible = false
 
     @State var toolPickerShows = true
     @State var drawing = PKDrawing()
-
-    @State var alertDelete = false
-    @State var alertNew = false
-    @State var alertClear = false
 
     @State var fromBackground: Bool = false
 
@@ -54,7 +44,7 @@ struct LogBookEntryView: View {
                 VStack(alignment: .leading, spacing: 0) {
                     LogTimeView(logTime: watchLogEntry.EntryTime)
 
-                    LockEditingView(logEntry: watchLogEntry, isShowingOnly: $isShowingOnly)
+                    LockEditingView(logEntry: watchLogEntry, isEditing: $isEditing)
 
                     CallInView(logEntry: watchLogEntry)
 
@@ -97,6 +87,7 @@ struct LogBookEntryView: View {
         .onDisappear {
             print("dismiss")
             // isAnimating = false
+            
             dismiss()
         }
         .onChange(
@@ -137,12 +128,6 @@ struct LogBookEntryView: View {
             }
         }
         .standardScrollViewPadding()
-        .toolbar {
-                           ToolbarItem(placement: .topBarLeading) {
-                               Text("Eintrag")
-                                   .navigationTitleModifier()
-                           }
-                       }
     }
 
     private func getGlowColorSet(logEntry: WatchLogEntry) -> [Color] {
@@ -227,12 +212,12 @@ struct IsVisible: ViewModifier {
 #Preview {
     // @Previewable @State var existingLogBookEntry = WatchLogBookEntry()
     @Previewable @State var existingLogBookEntry = UUID()
-    @Previewable @State var isShowingOnly = true
+    @Previewable @State var isEditing = true
 
     let databaseService = DatabaseService()
     let viewModel = LogEntryViewModel(dataBaseService: databaseService)
 
-    LogBookEntryView(logBookEntryUUID: $existingLogBookEntry, isShowingOnly: $isShowingOnly)
+    LogBookEntryView(logBookEntryUUID: $existingLogBookEntry, isEditing: $isEditing)
         .environmentObject(viewModel)
         .environment(BlurSetting())
         .environment(\.appStyles, StylesLogEntry.shared)

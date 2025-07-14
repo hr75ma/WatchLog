@@ -9,7 +9,7 @@ import SwiftUI
 
 struct LockEditingView: View {
     @Bindable var logEntry: WatchLogEntry
-    @Binding var isShowingOnly: Bool
+    @Binding var isEditing: Bool
 
     @Environment(\.appStyles) var appStyles
 
@@ -36,6 +36,6 @@ extension LockEditingView {
                 .disabled(logEntry.isNewEntryLog)
             Spacer()
         }
-        .disabled(isShowingOnly)
+        .disabled(!isEditing)
     }
 }

@@ -197,7 +197,7 @@
 //    }
 //}
 //
-//extension LogBookEntryView {
+//extension LogBookEntryView2 {
 //    private var glowingBorderEffect: some View {
 //        ZStack {
 //            RoundedRectangle(cornerRadius: appStyles.standardCornerRadius, style: .continuous)
