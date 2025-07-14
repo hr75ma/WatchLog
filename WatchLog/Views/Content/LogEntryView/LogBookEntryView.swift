@@ -71,23 +71,17 @@ struct LogBookEntryView: View {
         .onAppear {
             Task {
                 print("onappear - \(logBookEntryUUID.uuidString)")
-                isAnimating = true
-                //                displayedWatchLogEntry = await viewModel.fetchLogEntryMod(LogEntryUUID: logBookEntryUUID)
-                //                //displayedLogEntryUUID = watchLogEntry.uuid
-                //                glowingColorSet = getGlowColorSet(logEntry: displayedWatchLogEntry)
                 watchLogEntry = await viewModel.fetchLogEntryMod(LogEntryUUID: logBookEntryUUID)
                 glowingColorSet = getGlowColorSet(logEntry: watchLogEntry)
+                
             }
         }
-        //            .task {
-        //                displayedWatchLogEntry = await viewModel.fetchLogEntryMod(LogEntryUUID: logBookEntryUUID)
-        //                //displayedLogEntryUUID = watchLogEntry.uuid
-        //                glowingColorSet = getGlowColorSet(logEntry: displayedWatchLogEntry)
-        //            }
+                    .task {
+                        watchLogEntry = await viewModel.fetchLogEntryMod(LogEntryUUID: logBookEntryUUID)
+                        glowingColorSet = getGlowColorSet(logEntry: watchLogEntry)
+                    }
         .onDisappear {
             print("dismiss")
-            // isAnimating = false
-            
             dismiss()
         }
         .onChange(
@@ -97,6 +91,7 @@ struct LogBookEntryView: View {
                     watchLogEntry = await viewModel.fetchLogEntryMod(LogEntryUUID: logBookEntryUUID)
                     // displayedLogEntryUUID = watchLogEntry.uuid
                     glowingColorSet = getGlowColorSet(logEntry: watchLogEntry)
+                    
                 }
             }
         )
@@ -209,19 +204,20 @@ struct IsVisible: ViewModifier {
     }
 }
 
-#Preview {
-    // @Previewable @State var existingLogBookEntry = WatchLogBookEntry()
-    @Previewable @State var existingLogBookEntry = UUID()
-    @Previewable @State var isEditing = true
-
-    let databaseService = DatabaseService()
-    let viewModel = LogEntryViewModel(dataBaseService: databaseService)
-
-    LogBookEntryView(logBookEntryUUID: $existingLogBookEntry, isEditing: $isEditing)
-        .environmentObject(viewModel)
-        .environment(BlurSetting())
-        .environment(\.appStyles, StylesLogEntry.shared)
-        // .environment(\.displayedLogEntryUUID, DisplayedLogEntryID())
-        .environment(DisplayedLogEntryID())
-        .environmentObject(AppSettings.shared)
-}
+//#Preview {
+//    // @Previewable @State var existingLogBookEntry = WatchLogBookEntry()
+//    @Previewable @State var existingLogBookEntry = UUID()
+//    @Previewable @State var isEditing = true
+//    @Previewable @State var watchLogEntry: WatchLogEntry = WatchLogEntry()
+//
+//    let databaseService = DatabaseService()
+//    let viewModel = LogEntryViewModel(dataBaseService: databaseService)
+//
+//    LogBookEntryView(logBookEntryUUID: $existingLogBookEntry, isEditing: $isEditing, watchLogEntry: $watchLogEntry)
+//        .environmentObject(viewModel)
+//        .environment(BlurSetting())
+//        .environment(\.appStyles, StylesLogEntry.shared)
+//        // .environment(\.displayedLogEntryUUID, DisplayedLogEntryID())
+//        .environment(DisplayedLogEntryID())
+//        .environmentObject(AppSettings.shared)
+//}

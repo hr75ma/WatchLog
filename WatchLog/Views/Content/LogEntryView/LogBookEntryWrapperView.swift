@@ -11,7 +11,7 @@ struct LogBookEntryWrapperView: View {
 
     @Binding public var logBookEntryUUID: UUID
     @Binding public var isEditing: Bool
-    @State private var watchLogEntry: WatchLogEntry = .init()
+    @Binding var watchLogEntry: WatchLogEntry
     @EnvironmentObject var viewModel: LogEntryViewModel
 
     @Environment(\.appStyles) var appStyles
@@ -28,11 +28,12 @@ struct LogBookEntryWrapperView: View {
     
     var body: some View {
         LogBookEntryView(
-            logBookEntryUUID: $logBookEntryUUID, isEditing: $isEditing)
+        //    logBookEntryUUID: $logBookEntryUUID, isEditing: $isEditing, watchLogEntry: $watchLogEntry)
+        logBookEntryUUID: $logBookEntryUUID, isEditing: $isEditing)
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
                 Button {
-                    //saveEntry()
+                    
                     blurSetting.isBlur = false
                     dismiss()
                 } label: {
@@ -54,11 +55,22 @@ struct LogBookEntryWrapperView: View {
 
 extension LogBookEntryWrapperView {
     
+    private func saveEntry() {
+            Task {
+                blurSetting.isBlur = true
+                watchLogEntry.isLocked = true
+                watchLogEntry.isNewEntryLog = false
+                await viewModel.saveLogEntry(LogEntry: watchLogEntry)
+                watchLogEntry.isNewEntryLog = false
+                blurSetting.isBlur = false
+            }
+        }
+    
     var MenuButton: some View {
         Menu {
             if !watchLogEntry.isLocked {
                 Button {
-                    //saveEntry()
+                    saveEntry()
                     blurSetting.isBlur = false
                     dismiss()
                 } label: {
@@ -101,20 +113,20 @@ extension LogBookEntryWrapperView {
 }
 
 
-
-#Preview {
-    // @Previewable @State var existingLogBookEntry = WatchLogBookEntry()
-    @Previewable @State var existingLogBookEntry = UUID()
-    @Previewable @State var isEditing = true
-
-    let databaseService = DatabaseService()
-    let viewModel = LogEntryViewModel(dataBaseService: databaseService)
-
-    LogBookEntryWrapperView(logBookEntryUUID: $existingLogBookEntry, isEditing: $isEditing)
-        .environmentObject(viewModel)
-        .environment(BlurSetting())
-        .environment(\.appStyles, StylesLogEntry.shared)
-        // .environment(\.displayedLogEntryUUID, DisplayedLogEntryID())
-        .environment(DisplayedLogEntryID())
-        .environmentObject(AppSettings.shared)
-}
+//#Preview {
+//    // @Previewable @State var existingLogBookEntry = WatchLogBookEntry()
+//    @Previewable @State var existingLogBookEntry = UUID()
+//    @Previewable @State var isEditing = true
+//    @Previewable @State var watchLogEntry: WatchLogEntry = WatchLogEntry()
+//
+//    let databaseService = DatabaseService()
+//    let viewModel = LogEntryViewModel(dataBaseService: databaseService)
+//
+//    LogBookEntryWrapperView(logBookEntryUUID: $existingLogBookEntry, isEditing: $isEditing, watchLogEntry: $watchLogEntry)
+//        .environmentObject(viewModel)
+//        .environment(BlurSetting())
+//        .environment(\.appStyles, StylesLogEntry.shared)
+//        // .environment(\.displayedLogEntryUUID, DisplayedLogEntryID())
+//        .environment(DisplayedLogEntryID())
+//        .environmentObject(AppSettings.shared)
+//}

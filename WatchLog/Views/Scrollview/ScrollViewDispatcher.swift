@@ -26,13 +26,19 @@ struct ScrollViewDispatcher: View {
     @State private var isEditing: Bool = false
     @State private var showSheet: Bool = false
     @State private var isActive = true
-
+    @State private var watchLogEntry: WatchLogEntry = .init()
+    
+    @State private var watchLogBookEntry: WatchLogBookEntry = .init()
+    @State private var watchLogBookDay: WatchLogBookDay?
+    
+   
     @State private var scrollPos: UUID?
 
     var body: some View {
         ScrollView(.horizontal) {
             HStack {
                 ForEach(logEntryUUIDContainer.logEntryBookDay.logEntriesSorted.indices, id: \.self) { index in
+                  //  LogBookEntryView(logBookEntryUUID: $logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].uuid, isEditing: $isEditing, watchLogEntry: $watchLogEntry)
                     LogBookEntryView(logBookEntryUUID: $logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].uuid, isEditing: $isEditing)
                         .id(logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].uuid)
                         .onScrollVisibilityChange(threshold: 1) { scrolled in
@@ -40,6 +46,7 @@ struct ScrollViewDispatcher: View {
                                 print("index \(index) - \(logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].uuid.uuidString)")
                                 logEntryUUID = logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].uuid
                                 numberOfEntry = index + 1
+                                watchLogBookEntry = logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index]
                             }
                         }
                         .containerRelativeFrame(.horizontal, count: 1, spacing: 0)
@@ -55,12 +62,18 @@ struct ScrollViewDispatcher: View {
         .scrollPosition(id: $scrollPos, anchor: .top)
         .scrollTargetBehavior(.viewAligned)
 
+        .onChange(of: watchLogBookEntry.CallerNumber) { _, _ in
+            print("content changes")
+        }
         .onAppear {
             Task { @MainActor in
                 print("onappear scroll\(logEntryUUIDContainer.logEntryUUID)")
+                watchLogBookDay = await viewModel.fetchLogEntryDay(from: logEntryUUIDContainer.logEntryBookDay.uuid)
                 withAnimation {
                     print("onappear \(logEntryUUIDContainer.logEntryUUID)")
+                    
                     scrollPos = logEntryUUIDContainer.logEntryUUID
+                    
                 }
             }
         }
@@ -70,10 +83,12 @@ struct ScrollViewDispatcher: View {
                 print("gelieferte entryUUID: \(logEntryUUIDContainer.logEntryUUID.uuidString)")
                 displayedLogEntryUUID.id = logEntryUUID
                 logEntryUUIDContainer.logEntryUUID = logEntryUUID
+                watchLogBookDay = await viewModel.fetchLogEntryDay(from: logEntryUUIDContainer.logEntryBookDay.uuid)
             }
         }
         .onChange(of: logEntryUUIDContainer.logEntryBookDay.watchLogBookEntries) { _, _ in
-            print("changed logEntryUUIDContainer.logEntryBookDay.watchLogBookEntries")
+            print("changed in scroll logEntryUUIDContainer.logEntryBookDay.watchLogBookEntries")
+            watchLogBookDay = await viewModel.fetchLogEntryDay(from: logEntryUUIDContainer.logEntryBookDay.uuid)
             if !logEntryUUIDContainer.logEntryBookDay.watchLogBookEntries!.isEmpty {
                 scrollPos = logEntryUUIDContainer.logEntryBookDay.logEntriesSorted.first!.uuid
             }
@@ -83,13 +98,11 @@ struct ScrollViewDispatcher: View {
                 print("gelieferte entryUUID: \(newValue.logEntryUUID.uuidString)")
                 if oldValue.logEntryBookDay.uuid != newValue.logEntryBookDay.uuid {
                     logEntryUUID = newValue.logEntryUUID
-                    // try? await Task.sleep(for: .milliseconds(20))
                     print("onChange new Day: \(newValue.logEntryUUID)")
                     withAnimation {
                         scrollPos = logEntryUUIDContainer.logEntryUUID
                     }
                 } else {
-                    // try? await Task.sleep(for: .milliseconds(20))
                     print("onChange same Day: \(newValue.logEntryUUID)")
                     withAnimation {
                         scrollPos = logEntryUUIDContainer.logEntryUUID
@@ -110,9 +123,16 @@ struct ScrollViewDispatcher: View {
                 MenuButton
             }
         }
+        .onChange(of: showSheet) { oldValue, newValue in
+            if newValue == false {
+                Task {
+                }
+            }
+        }
         .fullScreenCover(isPresented: $showSheet) {
             NavigationStack {
-                LogBookEntryWrapperView(logBookEntryUUID: $logEntryUUIDContainer.logEntryUUID, isEditing: $showSheet)
+                LogBookEntryWrapperView(logBookEntryUUID: $logEntryUUIDContainer.logEntryUUID, isEditing: $showSheet, watchLogEntry: $watchLogEntry)
+                //LogBookEntryView(logBookEntryUUID: $logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].uuid, isEditing: $isEditing)
             }
         }
     }
