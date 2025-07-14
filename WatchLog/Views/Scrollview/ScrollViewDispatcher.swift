@@ -8,18 +8,24 @@
 import SwiftUI
 
 struct ScrollViewDispatcher: View {
-    // @Binding public var logBookEntryUUID: UUID
-    // @Binding public var logBookDayUUID: UUID
     @Binding public var logEntryUUIDContainer: LogEntryUUIDContainer
 
     @EnvironmentObject var viewModel: LogEntryViewModel
     @Environment(DisplayedLogEntryID.self) var displayedLogEntryUUID
+    @Environment(\.appStyles) var appStyles
+    @Environment(BlurSetting.self) var blurSetting
 
-   // @State private var logBookEntriesForDay: [WatchLogBookEntry] = []
-    @State private var displayedLogEntry: UUID = UUID()
+
     @State private var logEntryUUID: UUID = UUID()
 
-    @State private var testDisplax: UUID = UUID()
+    @State var alertDelete = false
+    @State var alertNew = false
+    @State var alertClear = false
+    
+    @State var numberOfEntry: Int = 0
+    
+    
+    
     
     @State private var scrollPos: UUID?
 
@@ -27,12 +33,13 @@ struct ScrollViewDispatcher: View {
             ScrollView(.horizontal) {
                 HStack {
                     ForEach(logEntryUUIDContainer.logEntryBookDay.logEntriesSorted.indices, id: \.self) { index in
-                        LogBookEntryView(logBookEntryUUID: $logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].uuid, displayedLogEntryUUID: $testDisplax) // $displayedLogEntry)
+                        LogBookEntryView(logBookEntryUUID: $logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].uuid)
                             .id(logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].uuid)
                             .onScrollVisibilityChange(threshold: 1) { scrolled in
                                 if scrolled {
                                     print("index \(index) - \(logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].uuid.uuidString)")
                                     logEntryUUID = logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].uuid
+                                    numberOfEntry = index+1
                                 }
                             }
                             .containerRelativeFrame(.horizontal, count: 1, spacing: 0)
@@ -93,5 +100,100 @@ struct ScrollViewDispatcher: View {
                     }
                 }
             }
+//            .toolbar {
+//                ToolbarItem(placement: .topBarLeading) {
+//                    Text("Eintrag \(numberOfEntry) von \(logEntryUUIDContainer.logEntryBookDay.watchLogBookEntries!.count)")
+//                        .navigationTitleModifier()
+//                }
+//
+//                ToolbarItemGroup(placement: .primaryAction) {
+//                   MenuButton
+//                }
+//            }
+            // .navigationBarBackground()
     }
+}
+
+extension ScrollViewDispatcher {
+    
+    var MenuButton: some View {
+        Menu {
+            Button {
+                blurSetting.isBlur = true
+                alertNew.toggle()
+            } label: {
+                NavigationMenuLabelView(menuItemType: MenuType.new)
+            }
+            
+//            if !displayedWatchLogEntry.isLocked {
+                Button {
+                    saveEntry()
+                    blurSetting.isBlur = false
+                } label: {
+                    NavigationMenuLabelView(menuItemType: MenuType.save)
+//                }
+                
+                Divider()
+                
+                Button(role: .destructive) {
+                    blurSetting.isBlur = true
+                    // alertClear.toggle()
+                } label: {
+                    NavigationMenuLabelView(menuItemType: MenuType.clear)
+                }
+                
+                Button(role: .destructive) {
+                    blurSetting.isBlur = true
+                    //alertDelete.toggle()
+                } label: {
+                    NavigationMenuLabelView(menuItemType: MenuType.delete)
+                }
+            }
+        } label: {
+            NavigationToolbarItemImage(toolbarItemType: .menu, appStyles: appStyles)
+        }
+        .alert("Neues Log erstellen?", isPresented: $alertNew) {
+            Button(
+                "Erstellen", role: .destructive,
+                action: {
+                    newEntry()
+                    //displayedLogEntryUUID = watchLogEntry.uuid
+                    
+                })
+            cancelAlertButton()
+        }
+    }
+    
+    private func newEntry() {
+        Task {
+            blurSetting.isBlur = false
+            let logBookDay = await viewModel.fetchLogBookDayOrEmptyDay(from: .now)
+            let watchLogBookEntry = WatchLogBookEntry()
+            logBookDay!.addLogEntry(watchLogBookEntry)
+            logEntryUUIDContainer = .init(logEntryUUID: watchLogBookEntry.uuid, logBookDay: logBookDay!)
+            //displayedLogEntryUUID.id = logEntryUUIDContainer.logEntryUUID
+         }
+    }
+    
+    fileprivate func cancelAlertButton() -> Button<Text> {
+        return Button(
+            "Abbrechen", role: .cancel,
+            action: {
+                blurSetting.isBlur = false
+            })
+    }
+    
+    private func saveEntry() {
+        Task {
+            blurSetting.isBlur = true
+//            displayedWatchLogEntry.isLocked = true
+//            displayedWatchLogEntry.isNewEntryLog = false
+//            await viewModel.saveLogEntry(LogEntry: displayedWatchLogEntry)
+//            displayedWatchLogEntry.isNewEntryLog = false
+//            //displayedLogEntryUUID = watchLogEntry.uuid
+//            //logBookEntryUUID = displayedLogEntryUUID
+           blurSetting.isBlur = false
+        }
+    }
+     
 }

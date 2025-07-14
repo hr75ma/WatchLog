@@ -303,7 +303,13 @@
          contextName = "closure #1 in closure #1 in closure #1 in ScrollViewDispatcher.body.getter:ScrollViewDispatcher.swift">
          <PersistentStrings>
             <PersistentString
+               value = "logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].LogDate">
+            </PersistentString>
+            <PersistentString
                value = "logBookEntriesforDay">
+            </PersistentString>
+            <PersistentString
+               value = "logEntryUUIDContainer.logEntryBookDay.logEntriesSorted">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -422,6 +428,14 @@
          <PersistentStrings>
             <PersistentString
                value = "testOnSelectedEntry(entryID: entry.uuid, testID: displayedLogEntryUUID.id)">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #3 in LogBookEntryView.body.getter:LogBookEntryView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "logBookEntryUUID">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

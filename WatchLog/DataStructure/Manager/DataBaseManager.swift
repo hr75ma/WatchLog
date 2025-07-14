@@ -50,7 +50,7 @@ final class DataBaseManager {
     private init() {
         do {
             // preview
-            let config = ModelConfiguration(isStoredInMemoryOnly: false)
+            let config = ModelConfiguration(isStoredInMemoryOnly: true)
             modelContainer = try ModelContainer(for: WatchLogBook.self, WatchLogBookYear.self, WatchLogBookMonth.self, WatchLogBookDay.self, WatchLogBookEntry.self, configurations: config)
 
             // self.modelContainer = try ModelContainer(for: WatchLogBook.self)
