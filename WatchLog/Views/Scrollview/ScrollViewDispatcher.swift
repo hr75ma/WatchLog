@@ -24,7 +24,9 @@ struct ScrollViewDispatcher: View {
     
     @State var numberOfEntry: Int = 0
     
-    
+    @State private var isShowingOnly: Bool = true
+    @State private var showSheet: Bool = false
+    @State private var isActive = true
     
     
     @State private var scrollPos: UUID?
@@ -33,7 +35,7 @@ struct ScrollViewDispatcher: View {
             ScrollView(.horizontal) {
                 HStack {
                     ForEach(logEntryUUIDContainer.logEntryBookDay.logEntriesSorted.indices, id: \.self) { index in
-                        LogBookEntryView(logBookEntryUUID: $logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].uuid)
+                        LogBookEntryView(logBookEntryUUID: $logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].uuid, isShowingOnly: $isShowingOnly)
                             .id(logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].uuid)
                             .onScrollVisibilityChange(threshold: 1) { scrolled in
                                 if scrolled {
@@ -100,16 +102,23 @@ struct ScrollViewDispatcher: View {
                     }
                 }
             }
-//            .toolbar {
-//                ToolbarItem(placement: .topBarLeading) {
-//                    Text("Eintrag \(numberOfEntry) von \(logEntryUUIDContainer.logEntryBookDay.watchLogBookEntries!.count)")
-//                        .navigationTitleModifier()
-//                }
-//
-//                ToolbarItemGroup(placement: .primaryAction) {
-//                   MenuButton
-//                }
-//            }
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Text("Eintrag \(numberOfEntry) von \(logEntryUUIDContainer.logEntryBookDay.watchLogBookEntries!.count)")
+                        .navigationTitleModifier()
+                }
+
+                ToolbarItemGroup(placement: .primaryAction) {
+                   MenuButton
+                }
+            }
+            .fullScreenCover(isPresented: $showSheet) {
+//                isShowingOnly = false
+                NavigationStack {
+                    LogBookEntryView(logBookEntryUUID: $logEntryUUIDContainer.logEntryUUID, isShowingOnly: $isShowingOnly)
+              }
+            }
+            
             // .navigationBarBackground()
     }
 }
@@ -127,11 +136,26 @@ extension ScrollViewDispatcher {
             
 //            if !displayedWatchLogEntry.isLocked {
                 Button {
-                    saveEntry()
+                    showSheet = true
                     blurSetting.isBlur = false
                 } label: {
-                    NavigationMenuLabelView(menuItemType: MenuType.save)
-//                }
+                    NavigationMenuLabelView(menuItemType: MenuType.edit)
+                }
+            
+            Button {
+                NavigationStack {
+                    NavigationLink(
+                        destination: LogBookEntryView(logBookEntryUUID: $logEntryUUIDContainer.logEntryUUID, isShowingOnly: $isShowingOnly),
+                        isActive: $isActive
+                    ) {
+                        EmptyView() // Hidden NavigationLink
+                    }
+                }
+                blurSetting.isBlur = false
+            } label: {
+                NavigationMenuLabelView(menuItemType: MenuType.edit)
+            }
+
                 
                 Divider()
                 
@@ -148,7 +172,7 @@ extension ScrollViewDispatcher {
                 } label: {
                     NavigationMenuLabelView(menuItemType: MenuType.delete)
                 }
-            }
+            
         } label: {
             NavigationToolbarItemImage(toolbarItemType: .menu, appStyles: appStyles)
         }
@@ -156,7 +180,7 @@ extension ScrollViewDispatcher {
             Button(
                 "Erstellen", role: .destructive,
                 action: {
-                    newEntry()
+                    //newEntry()
                     //displayedLogEntryUUID = watchLogEntry.uuid
                     
                 })
@@ -167,10 +191,11 @@ extension ScrollViewDispatcher {
     private func newEntry() {
         Task {
             blurSetting.isBlur = false
-            let logBookDay = await viewModel.fetchLogBookDayOrEmptyDay(from: .now)
-            let watchLogBookEntry = WatchLogBookEntry()
-            logBookDay!.addLogEntry(watchLogBookEntry)
-            logEntryUUIDContainer = .init(logEntryUUID: watchLogBookEntry.uuid, logBookDay: logBookDay!)
+//            let logBookDay = await viewModel.fetchLogBookDayOrEmptyDay(from: .now)
+//            let watchLogBookEntry = WatchLogBookEntry()
+//            logBookDay!.addLogEntry(watchLogBookEntry)
+//            logEntryUUIDContainer = .init(logEntryUUID: watchLogBookEntry.uuid, logBookDay: logBookDay!)
+              
             //displayedLogEntryUUID.id = logEntryUUIDContainer.logEntryUUID
          }
     }
@@ -183,9 +208,16 @@ extension ScrollViewDispatcher {
             })
     }
     
-    private func saveEntry() {
+    private func editEntry() {
         Task {
             blurSetting.isBlur = true
+              isShowingOnly = false
+              NavigationView {
+                  LogBookEntryView(logBookEntryUUID: $logEntryUUIDContainer.logEntryUUID, isShowingOnly: $isShowingOnly)
+            }
+            
+            
+            
 //            displayedWatchLogEntry.isLocked = true
 //            displayedWatchLogEntry.isNewEntryLog = false
 //            await viewModel.saveLogEntry(LogEntry: displayedWatchLogEntry)
