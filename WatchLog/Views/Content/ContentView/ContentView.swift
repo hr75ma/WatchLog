@@ -143,22 +143,18 @@ struct ContentView: View {
         .appearanceUpdate()
     }
     
-    private func testOnDeleteShownEntry(displayedUUID: UUID) {
+    private func testOnDeleteDisplayedEntry(displayedUUID: UUID) {
         Task {
             let isExisting = await viewModel.isLogBookEntryExisting(from: displayedUUID)
             if !isExisting {
-                manageWhatIsShowing()
+                //manageWhatIsShowing()
+                logEntryUUIDContainer = .init(logEntryUUID: UUID(), logBookDay: WatchLogBookDay())
             }
         }
     }
     
     private func delete<T>(deleteType: DeleteTypes, toDeleteItem: T) {
         switch deleteType {
-        case .logEntry:
-            Task {
-                await viewModel.deleteLogEntry(
-                    LogEntry: WatchLogEntry(watchLookBookEntry: toDeleteItem as! WatchLogBookEntry))
-            }
         case .day:
             Task {
                 await viewModel.deleteLogDay(watchLogBookDay: toDeleteItem as! WatchLogBookDay)
@@ -171,8 +167,10 @@ struct ContentView: View {
             Task {
                 await viewModel.deleteLogYear(watchLogBookYear: toDeleteItem as! WatchLogBookYear)
             }
+        default:
+            break
         }
-        testOnDeleteShownEntry(displayedUUID: displayedLogEntryUUID.id)
+        testOnDeleteDisplayedEntry(displayedUUID: displayedLogEntryUUID.id)
     }
     
     private func manageWhatIsShowing() {

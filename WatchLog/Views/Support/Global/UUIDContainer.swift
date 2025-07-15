@@ -32,6 +32,11 @@ final class LogEntryUUIDContainer:  Equatable, Identifiable {
         self.logEntryBookDay = logBookDay
     }
     
+//    func setToNil() {
+//        self.logEntryUUID = nil
+//        self.logEntryBookDay = nil
+//    }
+    
     static func == (lhs: LogEntryUUIDContainer, rhs: LogEntryUUIDContainer) -> Bool {
         return lhs.logEntryUUID == rhs.logEntryUUID && lhs.logEntryBookDay.uuid == rhs.logEntryBookDay.uuid && lhs.logEntryBookDay.watchLogBookEntries == rhs.logEntryBookDay.watchLogBookEntries
     }

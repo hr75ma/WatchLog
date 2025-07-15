@@ -37,32 +37,34 @@ struct ScrollViewDispatcher: View {
     @State private var scrollPos: UUID?
 
     var body: some View {
-        ScrollView(.horizontal) {
-            HStack {
-                ForEach(logEntryUUIDContainer.logEntryBookDay.logEntriesSorted.indices, id: \.self) { index in
-                   LogBookEntryView(logBookEntryUUID: $logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].uuid, isEditing: $isEditing)
-                        .id(logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].uuid)
-                        .onScrollVisibilityChange(threshold: 1) { scrolled in
-                            if scrolled {
-                                print("index \(index) - \(logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].uuid.uuidString)")
-                                logEntryUUID = logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].uuid
-                                numberOfEntry = index + 1
-                           }
-                        }
-                        .containerRelativeFrame(.horizontal, count: 1, spacing: 0)
-                        .scrollTransition { content, phase in
-                            content
-                                .opacity(phase.isIdentity ? 1.0 : 0.3)
-                                .scaleEffect(x: 1, y: phase.isIdentity ? 1.0 : 0.9)
-                        }
+        
+       // HStack {
+            ScrollView(.horizontal) {
+                HStack {
+                    ForEach(logEntryUUIDContainer.logEntryBookDay.logEntriesSorted.indices, id: \.self) { index in
+                        LogBookEntryView(logBookEntryUUID: $logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].uuid, isEditing: $isEditing)
+                            .id(logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].uuid)
+                            .onScrollVisibilityChange(threshold: 1) { scrolled in
+                                if scrolled {
+                                    print("index \(index) - \(logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].uuid.uuidString)")
+                                    logEntryUUID = logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].uuid
+                                    numberOfEntry = index + 1
+                                }
+                            }
+                            .containerRelativeFrame(.horizontal, count: 1, spacing: 0)
+                            .scrollTransition { content, phase in
+                                content
+                                    .opacity(phase.isIdentity ? 1.0 : 0.3)
+                                    .scaleEffect(x: 1, y: phase.isIdentity ? 1.0 : 0.9)
+                            }
+                    }
+                    .id(refreshID)
                 }
-                .id(refreshID)
-                
+                .scrollTargetLayout()
             }
-            .scrollTargetLayout()
-        }
-        .scrollPosition(id: $scrollPos, anchor: .top)
-        .scrollTargetBehavior(.viewAligned)
+            .scrollPosition(id: $scrollPos, anchor: .top)
+            .scrollTargetBehavior(.viewAligned)
+    //    }
         .onAppear {
             Task { @MainActor in
                 print("onappear scroll\(logEntryUUIDContainer.logEntryUUID)")
@@ -80,12 +82,12 @@ struct ScrollViewDispatcher: View {
                 logEntryUUIDContainer.logEntryUUID = logEntryUUID
             }
         }
-        .onChange(of: logEntryUUIDContainer.logEntryBookDay.watchLogBookEntries) { _, _ in
-            Task { @MainActor in
-                print("changed in scroll logEntryUUIDContainer.logEntryBookDay.watchLogBookEntries")
-
-            }
-        }
+//        .onChange(of: logEntryUUIDContainer.logEntryBookDay.watchLogBookEntries) { _, _ in
+//            Task { @MainActor in
+//                print("changed in scroll logEntryUUIDContainer.logEntryBookDay.watchLogBookEntries")
+//
+//            }
+//        }
         .onChange(of: logEntryUUIDContainer) { oldValue, newValue in
             Task { @MainActor in
                 print("gelieferte entryUUID: \(newValue.logEntryUUID.uuidString)")
