@@ -21,6 +21,7 @@ struct LogBookEntryView: View {
     @Environment(BlurSetting.self) var blurSetting
     @Environment(\.dismiss) var dismiss
     @Environment(\.scenePhase) var scenePhase
+    @Environment(RemoteContainerLogEntryViewModel.self) var remoteSignal
     
 
     @State var toolPickerShows = true
@@ -99,6 +100,17 @@ struct LogBookEntryView: View {
             if newValue {
                 saveEntry()
             }
+        }
+        .onChange(of: remoteSignal.signale) { oldValue, newValue in
+            switch newValue {
+            case .save:
+                print("remote signal save received")
+                saveEntry()
+                remoteSignal.signale = .undefined
+            default:
+                break
+            }
+            
         }
         .onChange(of: watchLogEntry.isNewEntryLog) { _, _ in
             glowingColorSet = getGlowColorSet(logEntry: watchLogEntry)

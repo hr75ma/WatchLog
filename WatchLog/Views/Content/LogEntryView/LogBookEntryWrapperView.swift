@@ -18,6 +18,7 @@ struct LogBookEntryWrapperView: View {
     @Environment(DisplayedLogEntryID.self) var displayedLogEntryUUID
     @Environment(BlurSetting.self) var blurSetting
     @Environment(\.dismiss) var dismiss
+    @Environment(RemoteContainerLogEntryViewModel.self) var remoteSignal
 
     
     
@@ -42,8 +43,6 @@ struct LogBookEntryWrapperView: View {
                 
                 Text("Eintrag")
                     .navigationTitleModifier()
-                
-                
             }
             
             ToolbarItem(placement: .primaryAction) {
@@ -55,24 +54,13 @@ struct LogBookEntryWrapperView: View {
 
 extension LogBookEntryWrapperView {
     
-    private func saveEntry() {
-            Task {
-                blurSetting.isBlur = true
-                watchLogEntry.isLocked = true
-                watchLogEntry.isNewEntryLog = false
-                await viewModel.saveLogEntry(LogEntry: watchLogEntry)
-                watchLogEntry.isNewEntryLog = false
-                blurSetting.isBlur = false
-            }
-        }
-    
     var MenuButton: some View {
         Menu {
             if !watchLogEntry.isLocked {
                 Button {
-                    saveEntry()
+                    //saveEntry()
+                    remoteSignal.signale = .save
                     blurSetting.isBlur = false
-                    dismiss()
                 } label: {
                     NavigationMenuLabelView(menuItemType: MenuType.save)
                 }
