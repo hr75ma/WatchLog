@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 @Observable
-class LogEntryUUIDContainer: Equatable, Identifiable {
+final class LogEntryUUIDContainer:  Equatable, Identifiable {
     public var id: UUID
     public var logEntryUUID: UUID
     public var logEntryBookDay: WatchLogBookDay

@@ -56,6 +56,46 @@ final class LogEntryViewModel: ObservableObject {
         }
     }
     
+    //eintrag löschen und anzuzeigende UUID zurückgeben
+    func calculateShownAndDeleteLogEntry(logEntryUUID: UUID, logEntryDayUUI: UUID) async -> LogEntryUUIDContainer {
+        var toDisplayEntryUUID: UUID = UUID()
+        var day: WatchLogBookDay?
+        
+        day = await fetchLogEntryDay(from: logEntryDayUUI)
+            
+            if day != nil {
+                
+                if day!.watchLogBookEntries!.count > 2 {
+                    var index = day!.logEntriesSorted.firstIndex(where: { $0.uuid == logEntryUUID })
+                    index = index == 0 ? 1 : index! - 1
+                    toDisplayEntryUUID = day!.logEntriesSorted[index!].uuid
+                } else {
+                    toDisplayEntryUUID = day!.logEntriesSorted[0].uuid
+                }
+                await deleteLogEntry(logEntryUUID: logEntryUUID)
+            }
+            return LogEntryUUIDContainer(logEntryUUID: toDisplayEntryUUID, logBookDay: day!)
+}
+    
+    func isDeletedEntryInDisplayedDay(logEntryUUID: UUID, logEntryDayUUI: UUID) async -> Bool {
+        
+        var day: WatchLogBookDay?
+        
+        day = await fetchLogEntryDay(from: logEntryDayUUI)
+        if day != nil {
+            
+            if day!.watchLogBookEntries!.contains(where: { $0.uuid == logEntryUUID }) {
+                return true
+            }
+        }
+        return false
+        }
+        
+
+    
+    
+    
+    
     func fetchLogEntriesFromDay(from: UUID) async -> [WatchLogBookEntry] {
         let result = await databaseService.fetchLogEntriesFromDay(from: from)
         switch result {
@@ -162,7 +202,7 @@ final class LogEntryViewModel: ObservableObject {
         
         
         func deleteLogEntry(LogEntry: WatchLogEntry) async {
-            let result = await databaseService.removeWatchLogBookEntry(LogEntry: LogEntry)
+            let result = await databaseService.removeWatchLogBookEntry(logEntry: LogEntry)
             switch result {
             case .success():
                 errorMessage = ""
@@ -171,6 +211,17 @@ final class LogEntryViewModel: ObservableObject {
                 errorMessage = String(format: NSLocalizedString("error_delete_logBookEntry", comment: "Displayed when saving logBookEntry fails"), error.localizedDescription)
             }
         }
+    
+    func deleteLogEntry(logEntryUUID: UUID) async {
+        let result = await databaseService.removeWatchLogBookEntry(logEntryUUID: logEntryUUID)
+        switch result {
+        case .success():
+            errorMessage = ""
+            
+        case let .failure(error):
+            errorMessage = String(format: NSLocalizedString("error_delete_logBookEntry", comment: "Displayed when saving logBookEntry fails"), error.localizedDescription)
+        }
+    }
         
         func deleteLogDay(watchLogBookDay: WatchLogBookDay) async {
             let result = await databaseService.removeWatchLogBookDay(watchLogBookDay: watchLogBookDay)

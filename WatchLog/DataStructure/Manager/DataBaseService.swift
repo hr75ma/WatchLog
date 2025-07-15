@@ -23,7 +23,8 @@ protocol DatabaseServiceProtocol {
     func fetchLogBook() async -> Result<[WatchLogBook], any Error>
     func fetchDaysFromLogBookEntry(logEntry: WatchLogBookEntry) async -> Result<[WatchLogBookEntry], Error>
 
-    func removeWatchLogBookEntry(LogEntry: WatchLogEntry) async -> Result<Void, Error>
+    func removeWatchLogBookEntry(logEntry: WatchLogEntry) async -> Result<Void, Error>
+    func removeWatchLogBookEntry(logEntryUUID: UUID) async -> Result<Void, Error>
     func removeWatchLogBookDay(watchLogBookDay: WatchLogBookDay) async -> Result<Void, Error>
     func removeWatchLogBookMonth(watchLogBookMonth: WatchLogBookMonth) async -> Result<Void, Error>
     func removeWatchLogBookYear(watchLogBookYear: WatchLogBookYear) async -> Result<Void, Error>
@@ -90,8 +91,12 @@ class DatabaseService: DatabaseServiceProtocol {
         }
     }
 
-    func removeWatchLogBookEntry(LogEntry: WatchLogEntry) async -> Result<Void, Error> {
-        let deleteResult = dataSource.removeLogBookEntry(with: LogEntry.uuid)
+    func removeWatchLogBookEntry(logEntry: WatchLogEntry) async -> Result<Void, Error> {
+        return await removeWatchLogBookEntry(logEntryUUID: logEntry.uuid)
+    }
+    
+    func removeWatchLogBookEntry(logEntryUUID: UUID) async -> Result<Void, Error> {
+        let deleteResult = dataSource.removeLogBookEntry(with: logEntryUUID)
         switch deleteResult {
         case .success:
             return .success(())

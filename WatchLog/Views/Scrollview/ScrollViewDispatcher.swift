@@ -40,7 +40,6 @@ struct ScrollViewDispatcher: View {
         ScrollView(.horizontal) {
             HStack {
                 ForEach(logEntryUUIDContainer.logEntryBookDay.logEntriesSorted.indices, id: \.self) { index in
-                  //  LogBookEntryView(logBookEntryUUID: $logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].uuid, isEditing: $isEditing, watchLogEntry: $watchLogEntry)
                    LogBookEntryView(logBookEntryUUID: $logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].uuid, isEditing: $isEditing)
                         .id(logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].uuid)
                         .onScrollVisibilityChange(threshold: 1) { scrolled in
@@ -48,7 +47,6 @@ struct ScrollViewDispatcher: View {
                                 print("index \(index) - \(logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].uuid.uuidString)")
                                 logEntryUUID = logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].uuid
                                 numberOfEntry = index + 1
-                                //watchLogBookEntry = logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index]
                            }
                         }
                         .containerRelativeFrame(.horizontal, count: 1, spacing: 0)
@@ -65,23 +63,12 @@ struct ScrollViewDispatcher: View {
         }
         .scrollPosition(id: $scrollPos, anchor: .top)
         .scrollTargetBehavior(.viewAligned)
-
-//        .onChange(of: watchLogBookEntry.saveMarker) { _, _ in
-//            print("content changes")
-//            Task { @MainActor in
-//                //logEntryUUIDContainer.logEntryBookDay.watchLogBookEntries = await viewModel.fetchLogEntryDayMod(from: logEntryUUIDContainer.logEntryBookDay.uuid).logEntriesSorted
-//                refreshID = UUID()
-//            }
-//        }
         .onAppear {
             Task { @MainActor in
                 print("onappear scroll\(logEntryUUIDContainer.logEntryUUID)")
-                //logEntryUUIDContainer.logEntryBookDay = await viewModel.fetchLogEntryDayMod(from: logEntryUUIDContainer.logEntryBookDay.uuid)
                 withAnimation {
                     print("onappear \(logEntryUUIDContainer.logEntryUUID)")
-                    
                     scrollPos = logEntryUUIDContainer.logEntryUUID
-                    
                 }
             }
         }
@@ -91,16 +78,12 @@ struct ScrollViewDispatcher: View {
                 print("gelieferte entryUUID: \(logEntryUUIDContainer.logEntryUUID.uuidString)")
                 displayedLogEntryUUID.id = logEntryUUID
                 logEntryUUIDContainer.logEntryUUID = logEntryUUID
-                //logEntryUUIDContainer.logEntryBookDay = await viewModel.fetchLogEntryDayMod(from: logEntryUUIDContainer.logEntryBookDay.uuid)
             }
         }
         .onChange(of: logEntryUUIDContainer.logEntryBookDay.watchLogBookEntries) { _, _ in
             Task { @MainActor in
                 print("changed in scroll logEntryUUIDContainer.logEntryBookDay.watchLogBookEntries")
-                //logEntryUUIDContainer.logEntryBookDay = await viewModel.fetchLogEntryDayMod(from: logEntryUUIDContainer.logEntryBookDay.uuid)
-                if !logEntryUUIDContainer.logEntryBookDay.watchLogBookEntries!.isEmpty {
-                    scrollPos = logEntryUUIDContainer.logEntryBookDay.logEntriesSorted.first!.uuid
-                }
+
             }
         }
         .onChange(of: logEntryUUIDContainer) { oldValue, newValue in
@@ -108,7 +91,6 @@ struct ScrollViewDispatcher: View {
                 print("gelieferte entryUUID: \(newValue.logEntryUUID.uuidString)")
                 if oldValue.logEntryBookDay.uuid != newValue.logEntryBookDay.uuid {
                     logEntryUUID = newValue.logEntryUUID
-                    //logEntryUUIDContainer.logEntryBookDay = await viewModel.fetchLogEntryDayMod(from: logEntryUUIDContainer.logEntryBookDay.uuid)
                     print("onChange new Day: \(newValue.logEntryUUID)")
                     withAnimation {
                         scrollPos = logEntryUUIDContainer.logEntryUUID

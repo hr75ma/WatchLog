@@ -123,7 +123,7 @@ struct ContentView: View {
             .scrollContentBackground(.hidden)
             // .background(Color.black.edgesIgnoringSafeArea(.all))
         } detail: {
-            // LogBookEntryView(logBookEntryUUID: $logBookEntryUUID)
+
             ScrollViewDispatcher(logEntryUUIDContainer: $logEntryUUIDContainer)
         }
         .navigationSplitViewStyles(appStyles)
@@ -143,11 +143,11 @@ struct ContentView: View {
         .appearanceUpdate()
     }
     
-    private func generateNewLogEntryAfterExistingDeleted(displayedUUID: UUID) {
+    private func testOnDeleteShownEntry(displayedUUID: UUID) {
         Task {
             let isExisting = await viewModel.isLogBookEntryExisting(from: displayedUUID)
             if !isExisting {
-                addNewLogEntry()
+                manageWhatIsShowing()
             }
         }
     }
@@ -172,7 +172,18 @@ struct ContentView: View {
                 await viewModel.deleteLogYear(watchLogBookYear: toDeleteItem as! WatchLogBookYear)
             }
         }
-        generateNewLogEntryAfterExistingDeleted(displayedUUID: displayedLogEntryUUID.id)
+        testOnDeleteShownEntry(displayedUUID: displayedLogEntryUUID.id)
+    }
+    
+    private func manageWhatIsShowing() {
+        
+        Task {
+            let logBookDay = await viewModel.fetchLogBookDayOrEmptyDay(from: .now)
+            let watchLogBookEntry = WatchLogBookEntry()
+            logBookDay!.addLogEntry(watchLogBookEntry)
+            logEntryUUIDContainer = .init(logEntryUUID: watchLogBookEntry.uuid, logBookDay: logBookDay!)
+            //displayedLogEntryUUID.id = logEntryUUIDContainer.logEntryUUID
+        }
     }
     
     private func addNewLogEntry() {
@@ -290,8 +301,16 @@ extension ContentView {
             }
             .onDelete(perform: { indexSet in
                 indexSet.sorted(by: >).forEach { i in
-                    let LogEntry = day.watchLogBookEntries![i]
-                    delete(deleteType: .logEntry, toDeleteItem: LogEntry)
+                    let logEntry = day.watchLogBookEntries![i]
+                    //delete(deleteType: .logEntry, toDeleteItem: logEntry)
+                    Task {
+                        
+                        if await viewModel.isDeletedEntryInDisplayedDay(logEntryUUID: displayedLogEntryUUID.id, logEntryDayUUI: day.uuid) {
+                            logEntryUUIDContainer = await viewModel.calculateShownAndDeleteLogEntry(logEntryUUID: logEntry.uuid, logEntryDayUUI: day.uuid)
+                        } else {
+                            await viewModel.deleteLogEntry(logEntryUUID: logEntry.uuid)
+                        }
+                    }
                 }
             })
         }
