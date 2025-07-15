@@ -118,6 +118,10 @@ struct ScrollViewDispatcher: View {
                         scrollPos = logEntryUUIDContainer.logEntryUUID
                     }
                 }
+                if newValue.logEntryBookDay.watchLogBookEntries!.isEmpty {
+                    numberOfEntry = 0
+                    
+                }
             }
         }
         .onChange(of: isEditing) { _, _ in
@@ -133,7 +137,7 @@ struct ScrollViewDispatcher: View {
                 MenuButton
             }
         }
-        .toolbarVisibility(.visible, for: .navigationBar)
+        .toolbarVisibility(numberOfEntry == 0 ? Visibility.hidden : Visibility.visible , for: .navigationBar)
         .toolbarBackgroundVisibility(.visible, for: .navigationBar)
         .toolbarBackground(.visible, for: .navigationBar)
         .onChange(of: showSheet) { oldValue, newValue in
@@ -161,27 +165,28 @@ extension ScrollViewDispatcher {
             } label: {
                 NavigationMenuLabelView(menuItemType: MenuType.new)
             }
-
-//            if !displayedWatchLogEntry.isLocked {
+            
+    if numberOfEntry > 0 {
             Button {
                 showSheet = true
                 blurSetting.isBlur = false
             } label: {
                 NavigationMenuLabelView(menuItemType: MenuType.edit)
             }
-
+            
             Divider()
-
+            
             Button(role: .destructive) {
                 blurSetting.isBlur = true
                 alertDelete.toggle()
             } label: {
                 NavigationMenuLabelView(menuItemType: MenuType.delete)
             }
-
-        } label: {
-            NavigationToolbarItemImage(toolbarItemType: .menu, appStyles: appStyles)
         }
+            } label: {
+                NavigationToolbarItemImage(toolbarItemType: .menu, appStyles: appStyles)
+            }
+        
         .alert("Neues Log erstellen?", isPresented: $alertNew) {
             Button(
                 "Erstellen", role: .destructive,
