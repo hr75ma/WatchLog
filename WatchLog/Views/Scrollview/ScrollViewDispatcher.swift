@@ -29,7 +29,9 @@ struct ScrollViewDispatcher: View {
     @State private var watchLogEntry: WatchLogEntry = .init()
     
     @State private var watchLogBookEntry: WatchLogBookEntry = .init()
-    @State private var watchLogBookDay: WatchLogBookDay?
+    @State private var watchLogBookDay: WatchLogBookDay = .init()
+    
+    @State private var refreshID: UUID = UUID()
     
    
     @State private var scrollPos: UUID?
@@ -39,15 +41,15 @@ struct ScrollViewDispatcher: View {
             HStack {
                 ForEach(logEntryUUIDContainer.logEntryBookDay.logEntriesSorted.indices, id: \.self) { index in
                   //  LogBookEntryView(logBookEntryUUID: $logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].uuid, isEditing: $isEditing, watchLogEntry: $watchLogEntry)
-                    LogBookEntryView(logBookEntryUUID: $logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].uuid, isEditing: $isEditing)
+                   LogBookEntryView(logBookEntryUUID: $logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].uuid, isEditing: $isEditing)
                         .id(logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].uuid)
                         .onScrollVisibilityChange(threshold: 1) { scrolled in
                             if scrolled {
                                 print("index \(index) - \(logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].uuid.uuidString)")
                                 logEntryUUID = logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].uuid
                                 numberOfEntry = index + 1
-                                watchLogBookEntry = logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index]
-                            }
+                                //watchLogBookEntry = logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index]
+                           }
                         }
                         .containerRelativeFrame(.horizontal, count: 1, spacing: 0)
                         .scrollTransition { content, phase in
@@ -56,19 +58,25 @@ struct ScrollViewDispatcher: View {
                                 .scaleEffect(x: 1, y: phase.isIdentity ? 1.0 : 0.9)
                         }
                 }
+                .id(refreshID)
+                
             }
             .scrollTargetLayout()
         }
         .scrollPosition(id: $scrollPos, anchor: .top)
         .scrollTargetBehavior(.viewAligned)
 
-        .onChange(of: watchLogBookEntry.CallerNumber) { _, _ in
-            print("content changes")
-        }
+//        .onChange(of: watchLogBookEntry.saveMarker) { _, _ in
+//            print("content changes")
+//            Task { @MainActor in
+//                //logEntryUUIDContainer.logEntryBookDay.watchLogBookEntries = await viewModel.fetchLogEntryDayMod(from: logEntryUUIDContainer.logEntryBookDay.uuid).logEntriesSorted
+//                refreshID = UUID()
+//            }
+//        }
         .onAppear {
             Task { @MainActor in
                 print("onappear scroll\(logEntryUUIDContainer.logEntryUUID)")
-                watchLogBookDay = await viewModel.fetchLogEntryDay(from: logEntryUUIDContainer.logEntryBookDay.uuid)
+                //logEntryUUIDContainer.logEntryBookDay = await viewModel.fetchLogEntryDayMod(from: logEntryUUIDContainer.logEntryBookDay.uuid)
                 withAnimation {
                     print("onappear \(logEntryUUIDContainer.logEntryUUID)")
                     
@@ -83,14 +91,16 @@ struct ScrollViewDispatcher: View {
                 print("gelieferte entryUUID: \(logEntryUUIDContainer.logEntryUUID.uuidString)")
                 displayedLogEntryUUID.id = logEntryUUID
                 logEntryUUIDContainer.logEntryUUID = logEntryUUID
-                watchLogBookDay = await viewModel.fetchLogEntryDay(from: logEntryUUIDContainer.logEntryBookDay.uuid)
+                //logEntryUUIDContainer.logEntryBookDay = await viewModel.fetchLogEntryDayMod(from: logEntryUUIDContainer.logEntryBookDay.uuid)
             }
         }
         .onChange(of: logEntryUUIDContainer.logEntryBookDay.watchLogBookEntries) { _, _ in
-            print("changed in scroll logEntryUUIDContainer.logEntryBookDay.watchLogBookEntries")
-            watchLogBookDay = await viewModel.fetchLogEntryDay(from: logEntryUUIDContainer.logEntryBookDay.uuid)
-            if !logEntryUUIDContainer.logEntryBookDay.watchLogBookEntries!.isEmpty {
-                scrollPos = logEntryUUIDContainer.logEntryBookDay.logEntriesSorted.first!.uuid
+            Task { @MainActor in
+                print("changed in scroll logEntryUUIDContainer.logEntryBookDay.watchLogBookEntries")
+                //logEntryUUIDContainer.logEntryBookDay = await viewModel.fetchLogEntryDayMod(from: logEntryUUIDContainer.logEntryBookDay.uuid)
+                if !logEntryUUIDContainer.logEntryBookDay.watchLogBookEntries!.isEmpty {
+                    scrollPos = logEntryUUIDContainer.logEntryBookDay.logEntriesSorted.first!.uuid
+                }
             }
         }
         .onChange(of: logEntryUUIDContainer) { oldValue, newValue in
@@ -98,6 +108,7 @@ struct ScrollViewDispatcher: View {
                 print("gelieferte entryUUID: \(newValue.logEntryUUID.uuidString)")
                 if oldValue.logEntryBookDay.uuid != newValue.logEntryBookDay.uuid {
                     logEntryUUID = newValue.logEntryUUID
+                    //logEntryUUIDContainer.logEntryBookDay = await viewModel.fetchLogEntryDayMod(from: logEntryUUIDContainer.logEntryBookDay.uuid)
                     print("onChange new Day: \(newValue.logEntryUUID)")
                     withAnimation {
                         scrollPos = logEntryUUIDContainer.logEntryUUID
@@ -126,6 +137,8 @@ struct ScrollViewDispatcher: View {
         .onChange(of: showSheet) { oldValue, newValue in
             if newValue == false {
                 Task {
+                    print("back from editing")
+                    refreshID = UUID()
                 }
             }
         }

@@ -75,6 +75,19 @@ final class LogEntryViewModel: ObservableObject {
         }
         return nil
     }
+    
+    func fetchLogEntryDayMod(from: UUID) async -> WatchLogBookDay {
+        let result = await databaseService.fetchLogDay(from: from)
+        switch result {
+        case let .success(logBookDay):
+             if logBookDay == nil
+                    { return WatchLogBookDay()}
+            else { return logBookDay! }
+        case let .failure(error):
+            errorMessage = String(format: NSLocalizedString("error_fetching_logBookEntry", comment: "Displayed when fetching logBookEntry fails"), error.localizedDescription)
+        }
+        return WatchLogBookDay()
+    }
         
         func instanciateLogBook() async {
             let result = await databaseService.instanciateLogBook()

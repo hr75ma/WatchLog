@@ -33,6 +33,6 @@ class LogEntryUUIDContainer: Equatable, Identifiable {
     }
     
     static func == (lhs: LogEntryUUIDContainer, rhs: LogEntryUUIDContainer) -> Bool {
-        return lhs.logEntryUUID == rhs.logEntryUUID && lhs.logEntryBookDay.uuid == rhs.logEntryBookDay.uuid
+        return lhs.logEntryUUID == rhs.logEntryUUID && lhs.logEntryBookDay.uuid == rhs.logEntryBookDay.uuid && lhs.logEntryBookDay.watchLogBookEntries == rhs.logEntryBookDay.watchLogBookEntries
     }
 }

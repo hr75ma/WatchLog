@@ -22,6 +22,8 @@ class WatchLogBookEntry: Identifiable, Hashable {
     // var processDetails: WatchLogBookProcessTypeDetails
 
     var LogDate: Date
+    
+    var saveMarker: UUID?
 
     var CallerName: String = ""
     var CallerNumber: String = ""
@@ -51,6 +53,10 @@ class WatchLogBookEntry: Identifiable, Hashable {
             drawingData = newValue.dataRepresentation()
         }
     }
+    
+//    static func == (lhs: WatchLogBookEntry, rhs: WatchLogBookEntry) -> Bool {
+//        return lhs.saveMarker == rhs.saveMarker
+//    }
 
     init(LogEntry: WatchLogEntry, day: WatchLogBookDay) {
         uuid = LogEntry.uuid
@@ -185,6 +191,7 @@ class WatchLogBookEntry: Identifiable, Hashable {
     func update(LogEntry: WatchLogEntry) {
         uuid = LogEntry.uuid
         LogDate = LogEntry.EntryTime
+        
 
         CallerName = LogEntry.CallerName
         CallerNumber = LogEntry.CallerNumber

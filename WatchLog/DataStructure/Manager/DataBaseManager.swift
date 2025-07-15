@@ -489,6 +489,7 @@ final class DataBaseManager {
 
         if logEntry != nil {
             logEntry!.update(LogEntry: LogEntry)
+            logEntry!.saveMarker = UUID()
             try? modelContext.save()
         } else {
             let entryTime = LogEntry.EntryTime
@@ -600,6 +601,7 @@ final class DataBaseManager {
             }
 
             let log = WatchLogBookEntry(LogEntry: LogEntry, day: logDayEntry!)
+            log.saveMarker = UUID()
 
             modelContext.insert(log)
             // logDayEntry?.watchLogBookEntries?.append(log)
