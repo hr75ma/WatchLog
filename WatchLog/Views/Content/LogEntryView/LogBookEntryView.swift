@@ -21,10 +21,10 @@ struct LogBookEntryView: View {
     @Environment(BlurSetting.self) var blurSetting
     @Environment(\.dismiss) var dismiss
     @Environment(\.scenePhase) var scenePhase
+    
 
     @State var toolPickerShows = true
-    @State var drawing = PKDrawing()
-
+    
     @State var fromBackground: Bool = false
 
     @State private var isAnimating = false
@@ -53,9 +53,7 @@ struct LogBookEntryView: View {
                     ProcessTypeSelectionView(logEntry: watchLogEntry)
 
                     NoteView(
-                        logEntry: watchLogEntry, drawing: $watchLogEntry.pkDrawingData,
-                        toolPickerShows: $toolPickerShows
-                    )
+                        logEntry: watchLogEntry, toolPickerShows: $toolPickerShows)
                 }
                 .standardViewBackground()
                 .frame(
@@ -72,15 +70,17 @@ struct LogBookEntryView: View {
             Task {
                 print("onappear - \(logBookEntryUUID.uuidString)")
                 watchLogEntry = await viewModel.fetchLogEntryMod(LogEntryUUID: logBookEntryUUID)
+                watchLogEntry.isLocked = isEditing ? false : true
                 glowingColorSet = getGlowColorSet(logEntry: watchLogEntry)
             }
         }
         .task {
             watchLogEntry = await viewModel.fetchLogEntryMod(LogEntryUUID: logBookEntryUUID)
+            watchLogEntry.isLocked = isEditing ? false : true
             glowingColorSet = getGlowColorSet(logEntry: watchLogEntry)
         }
         .onDisappear {
-            print("dismiss")
+            print("dismiss LogBookEntryView")
             dismiss()
         }
         .onChange(
@@ -88,6 +88,7 @@ struct LogBookEntryView: View {
             { _, _ in
                 Task {
                     watchLogEntry = await viewModel.fetchLogEntryMod(LogEntryUUID: logBookEntryUUID)
+                    watchLogEntry.isLocked = isEditing ? false : true
                     // displayedLogEntryUUID = watchLogEntry.uuid
                     glowingColorSet = getGlowColorSet(logEntry: watchLogEntry)
                 }

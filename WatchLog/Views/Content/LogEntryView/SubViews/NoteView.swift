@@ -9,8 +9,6 @@ import SwiftUI
 
 struct NoteView: View {
     @Bindable var logEntry: WatchLogEntry
-    // @Binding var DrawData: Data
-    @Binding var drawing: PKDrawing
     @Binding var toolPickerShows: Bool
     @State var savedDrawing: PKDrawing?
 
@@ -30,7 +28,7 @@ struct NoteView: View {
             .standardSubViewPadding()
 
             HStack(alignment: .top, spacing: 0) {
-                CanvasView(canvas: $canvasview, drawing: $drawing, readOnly: $logEntry.isLocked)
+                CanvasView(canvas: $canvasview, drawing: $logEntry.pkDrawingData, readOnly: $logEntry.isLocked)
             }
             .canvasBorder(isLocked: logEntry.isLocked)
             .animation(.easeInOut(duration: 1), value: logEntry.isLocked)
