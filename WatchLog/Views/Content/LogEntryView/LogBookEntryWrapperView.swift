@@ -56,7 +56,7 @@ extension LogBookEntryWrapperView {
     
     var MenuButton: some View {
         Menu {
-            if !watchLogEntry.isLocked {
+            //if !watchLogEntry.isLocked {
                 Button {
                     //saveEntry()
                     remoteSignal.signale = .save
@@ -73,7 +73,7 @@ extension LogBookEntryWrapperView {
                 } label: {
                     NavigationMenuLabelView(menuItemType: MenuType.delete)
                 }
-            }
+           // }
         } label: {
             NavigationToolbarItemImage(toolbarItemType: .menu, appStyles: appStyles)
         }
