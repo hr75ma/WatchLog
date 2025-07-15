@@ -163,7 +163,6 @@ extension ScrollViewDispatcher {
 
 //            if !displayedWatchLogEntry.isLocked {
             Button {
-                
                 showSheet = true
                 blurSetting.isBlur = false
             } label: {

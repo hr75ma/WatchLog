@@ -14,7 +14,7 @@ struct LogBookEntryView: View {
     @Binding public var logBookEntryUUID: UUID
     @Binding public var isEditing: Bool
     @State private var watchLogEntry: WatchLogEntry = .init()
-    
+
     @EnvironmentObject var viewModel: LogEntryViewModel
     @Environment(\.appStyles) var appStyles
     @Environment(DisplayedLogEntryID.self) var displayedLogEntryUUID
@@ -73,13 +73,12 @@ struct LogBookEntryView: View {
                 print("onappear - \(logBookEntryUUID.uuidString)")
                 watchLogEntry = await viewModel.fetchLogEntryMod(LogEntryUUID: logBookEntryUUID)
                 glowingColorSet = getGlowColorSet(logEntry: watchLogEntry)
-                
             }
         }
-                    .task {
-                        watchLogEntry = await viewModel.fetchLogEntryMod(LogEntryUUID: logBookEntryUUID)
-                        glowingColorSet = getGlowColorSet(logEntry: watchLogEntry)
-                    }
+        .task {
+            watchLogEntry = await viewModel.fetchLogEntryMod(LogEntryUUID: logBookEntryUUID)
+            glowingColorSet = getGlowColorSet(logEntry: watchLogEntry)
+        }
         .onDisappear {
             print("dismiss")
             dismiss()
@@ -91,7 +90,6 @@ struct LogBookEntryView: View {
                     watchLogEntry = await viewModel.fetchLogEntryMod(LogEntryUUID: logBookEntryUUID)
                     // displayedLogEntryUUID = watchLogEntry.uuid
                     glowingColorSet = getGlowColorSet(logEntry: watchLogEntry)
-                    
                 }
             }
         )
@@ -204,7 +202,7 @@ struct IsVisible: ViewModifier {
     }
 }
 
-//#Preview {
+// #Preview {
 //    // @Previewable @State var existingLogBookEntry = WatchLogBookEntry()
 //    @Previewable @State var existingLogBookEntry = UUID()
 //    @Previewable @State var isEditing = true
@@ -220,4 +218,4 @@ struct IsVisible: ViewModifier {
 //        // .environment(\.displayedLogEntryUUID, DisplayedLogEntryID())
 //        .environment(DisplayedLogEntryID())
 //        .environmentObject(AppSettings.shared)
-//}
+// }
