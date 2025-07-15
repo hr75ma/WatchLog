@@ -120,6 +120,7 @@ struct ContentView: View {
                 await viewModel.fetchLogBook()
             }
             .listStyle(.sidebar)
+            .navigationSplitViewStyle(.balanced)
             .scrollContentBackground(.hidden)
             // .background(Color.black.edgesIgnoringSafeArea(.all))
         } detail: {
@@ -300,7 +301,6 @@ extension ContentView {
             .onDelete(perform: { indexSet in
                 indexSet.sorted(by: >).forEach { i in
                     let logEntry = day.watchLogBookEntries![i]
-                    //delete(deleteType: .logEntry, toDeleteItem: logEntry)
                     Task {
                         
                         if await viewModel.isDeletedEntryInDisplayedDay(logEntryUUID: displayedLogEntryUUID.id, logEntryDayUUI: day.uuid) {

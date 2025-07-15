@@ -37,34 +37,49 @@ struct ScrollViewDispatcher: View {
     @State private var scrollPos: UUID?
 
     var body: some View {
-        
-       // HStack {
+        HStack {
             ScrollView(.horizontal) {
-                HStack {
-                    ForEach(logEntryUUIDContainer.logEntryBookDay.logEntriesSorted.indices, id: \.self) { index in
-                        LogBookEntryView(logBookEntryUUID: $logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].uuid, isEditing: $isEditing)
-                            .id(logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].uuid)
-                            .onScrollVisibilityChange(threshold: 1) { scrolled in
-                                if scrolled {
-                                    print("index \(index) - \(logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].uuid.uuidString)")
-                                    logEntryUUID = logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].uuid
-                                    numberOfEntry = index + 1
+                HStack(alignment: .center, spacing: 0) {
+                    
+                    if logEntryUUIDContainer.logEntryBookDay.watchLogBookEntries!.isEmpty {
+                        HStack(alignment: .center, spacing: 0) {
+                            Image(.placeholder)
+                                .resizable()
+                                .scaledToFit()
+                                .padding(0)
+                            Spacer()
+                        }
+                    } else {
+                        
+                        ForEach(logEntryUUIDContainer.logEntryBookDay.logEntriesSorted.indices, id: \.self) { index in
+                            LogBookEntryView(logBookEntryUUID: $logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].uuid, isEditing: $isEditing)
+                                .id(logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].uuid)
+                                .onScrollVisibilityChange(threshold: 1) { scrolled in
+                                    if scrolled {
+                                        print("index \(index) - \(logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].uuid.uuidString)")
+                                        logEntryUUID = logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].uuid
+                                        numberOfEntry = index + 1
+                                    }
                                 }
-                            }
-                            .containerRelativeFrame(.horizontal, count: 1, spacing: 0)
-                            .scrollTransition { content, phase in
-                                content
-                                    .opacity(phase.isIdentity ? 1.0 : 0.3)
-                                    .scaleEffect(x: 1, y: phase.isIdentity ? 1.0 : 0.9)
-                            }
+                                .containerRelativeFrame(.horizontal, count: 1, spacing: 0)
+                                .scrollTransition { content, phase in
+                                    content
+                                        .opacity(phase.isIdentity ? 1.0 : 0.3)
+                                        .scaleEffect(x: 1, y: phase.isIdentity ? 1.0 : 0.9)
+                                }
+                        }
+                        .id(refreshID)
                     }
-                    .id(refreshID)
                 }
-                .scrollTargetLayout()
             }
+            .scrollTargetLayout()
             .scrollPosition(id: $scrollPos, anchor: .top)
             .scrollTargetBehavior(.viewAligned)
-    //    }
+        }
+        .frame(
+            maxWidth: .infinity,
+            maxHeight: .infinity
+        )
         .onAppear {
             Task { @MainActor in
                 print("onappear scroll\(logEntryUUIDContainer.logEntryUUID)")
@@ -118,6 +133,9 @@ struct ScrollViewDispatcher: View {
                 MenuButton
             }
         }
+        .toolbarVisibility(.visible, for: .navigationBar)
+        .toolbarBackgroundVisibility(.visible, for: .navigationBar)
+        .toolbarBackground(.visible, for: .navigationBar)
         .onChange(of: showSheet) { oldValue, newValue in
             if newValue == false {
                 Task {
@@ -129,7 +147,6 @@ struct ScrollViewDispatcher: View {
         .fullScreenCover(isPresented: $showSheet) {
             NavigationStack {
                 LogBookEntryWrapperView(logBookEntryUUID: $logEntryUUIDContainer.logEntryUUID, isEditing: $showSheet, watchLogEntry: $watchLogEntry)
-                //LogBookEntryView(logBookEntryUUID: $logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].uuid, isEditing: $isEditing)
             }
         }
     }
@@ -157,7 +174,7 @@ extension ScrollViewDispatcher {
 
             Button(role: .destructive) {
                 blurSetting.isBlur = true
-                // alertDelete.toggle()
+                alertDelete.toggle()
             } label: {
                 NavigationMenuLabelView(menuItemType: MenuType.delete)
             }
@@ -175,6 +192,24 @@ extension ScrollViewDispatcher {
                 })
             cancelAlertButton()
         }
+        .alert("Log Löschen?", isPresented: $alertDelete) {
+                    Button(
+                        "Löschen", role: .destructive,
+                        action: {
+                            
+                            Task {
+                                
+                                if await viewModel.isDeletedEntryInDisplayedDay(logEntryUUID: displayedLogEntryUUID.id, logEntryDayUUI: logEntryUUIDContainer.logEntryBookDay.uuid) {
+                                    logEntryUUIDContainer = await viewModel.calculateShownAndDeleteLogEntry(logEntryUUID: logEntryUUID, logEntryDayUUI: logEntryUUIDContainer.logEntryBookDay.uuid)
+                                } else {
+                                    await viewModel.deleteLogEntry(logEntryUUID: logEntryUUID)
+                                }
+                                blurSetting.isBlur = false
+                            }
+                            
+                        })
+                    cancelAlertButton()
+                }
     }
 
     private func newEntry() {

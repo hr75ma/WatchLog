@@ -27,7 +27,7 @@ struct LogBookEntryView: View {
     @State var fromBackground: Bool = false
 
     @State private var isAnimating = false
-    @State private var glowingColorSet: [Color] = [.blue, .yellow, .red]
+    @State private var glowingColorSet: [Color] = [.clear, .clear, .clear]
 
     var body: some View {
         //                Text(Date.now, format: .dateTime.hour().minute().second())
