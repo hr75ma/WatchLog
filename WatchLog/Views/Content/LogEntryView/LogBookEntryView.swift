@@ -21,11 +21,9 @@ struct LogBookEntryView: View {
     @Environment(BlurSetting.self) var blurSetting
     @Environment(\.dismiss) var dismiss
     @Environment(\.scenePhase) var scenePhase
-    @Environment(RemoteContainerLogEntryViewModel.self) var remoteSignal
-    
 
     @State var toolPickerShows = true
-    
+
     @State var fromBackground: Bool = false
 
     @State private var isAnimating = false
@@ -53,10 +51,10 @@ struct LogBookEntryView: View {
 
                     ProcessTypeSelectionView(logEntry: watchLogEntry)
 
-                                                                  NoteView(
-                                                                      logEntry: watchLogEntry, drawing: $watchLogEntry.pkDrawingData,
-                                                                      toolPickerShows: $toolPickerShows
-                                                                  )
+                    NoteView(
+                        logEntry: watchLogEntry, drawing: $watchLogEntry.pkDrawingData,
+                        toolPickerShows: $toolPickerShows
+                    )
                 }
                 .standardViewBackground()
                 .frame(
@@ -103,16 +101,20 @@ struct LogBookEntryView: View {
                 saveEntry()
             }
         }
-        .onChange(of: remoteSignal.signale) { oldValue, newValue in
+        .onChange(of: viewModel.remoteSignalContainer.signale) { _, newValue in
             switch newValue {
             case .save:
                 print("remote signal save received")
                 saveEntry()
-                remoteSignal.signale = .undefined
+                viewModel.remoteSignalContainer.signale = .undefined
+            case .delete:
+                print("remote signal delete received")
+                deleteEntry()
+                viewModel.remoteSignalContainer.signale = .undefined
+                dismiss()
             default:
                 break
             }
-            
         }
         .onChange(of: watchLogEntry.isNewEntryLog) { _, _ in
             glowingColorSet = getGlowColorSet(logEntry: watchLogEntry)
@@ -175,6 +177,13 @@ extension LogBookEntryView {
         .onAppear {
             isAnimating = true
         }
+    }
+    
+    private func deleteEntry() {
+        Task {
+            await viewModel.deleteLogEntry(LogEntry: watchLogEntry)
+                blurSetting.isBlur = false
+            }
     }
 
     private func saveEntry() {

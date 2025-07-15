@@ -18,10 +18,7 @@ struct LogBookEntryWrapperView: View {
     @Environment(DisplayedLogEntryID.self) var displayedLogEntryUUID
     @Environment(BlurSetting.self) var blurSetting
     @Environment(\.dismiss) var dismiss
-    @Environment(RemoteContainerLogEntryViewModel.self) var remoteSignal
 
-    
-    
     @State var alertDelete = false
     @State var alertNew = false
     @State var alertClear = false
@@ -49,6 +46,7 @@ struct LogBookEntryWrapperView: View {
                 MenuButton
             }
         }
+        .blurring(blurSetting: blurSetting)
     }
 }
 
@@ -58,8 +56,7 @@ extension LogBookEntryWrapperView {
         Menu {
             //if !watchLogEntry.isLocked {
                 Button {
-                    //saveEntry()
-                    remoteSignal.signale = .save
+                    viewModel.remoteSignalContainer.signale = .save
                     blurSetting.isBlur = false
                 } label: {
                     NavigationMenuLabelView(menuItemType: MenuType.save)
@@ -73,7 +70,7 @@ extension LogBookEntryWrapperView {
                 } label: {
                     NavigationMenuLabelView(menuItemType: MenuType.delete)
                 }
-           // }
+            
         } label: {
             NavigationToolbarItemImage(toolbarItemType: .menu, appStyles: appStyles)
         }
@@ -81,7 +78,9 @@ extension LogBookEntryWrapperView {
             Button(
                 "Löschen", role: .destructive,
                 action: {
-                    
+                    viewModel.remoteSignalContainer.signale = .delete
+                    blurSetting.isBlur = false
+                    dismiss()
                 })
             cancelAlertButton()
         }

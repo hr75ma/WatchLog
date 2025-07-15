@@ -23,11 +23,13 @@ final class LogEntryViewModel: ObservableObject {
     @Published var LogBookEntryYears: [WatchLogBookYear] = []
     @Published var LogBookEntries: [WatchLogBookEntry] = []
     @Published var WatchLogBooks: [WatchLogBook] = []
+    @Published var remoteSignalContainer: RemoteContainerLogEntryViewModel = RemoteContainerLogEntryViewModel()
     
     private let databaseService: DatabaseServiceProtocol
     
     init(dataBaseService: DatabaseServiceProtocol) {
         databaseService = dataBaseService
+        remoteSignalContainer = RemoteContainerLogEntryViewModel()
         
         Task {
             await self.instanciateLogBook()
@@ -111,15 +113,15 @@ final class LogEntryViewModel: ObservableObject {
             return []
         }
         
-        func fetchLogEntry(LogEntryUUID: UUID) async {
-            let result = await databaseService.fetchLogBookEntry(with: LogEntryUUID)
-            switch result {
-            case let .success(logBookEntry):
-                watchLogEntry = logBookEntry
-            case let .failure(error):
-                errorMessage = String(format: NSLocalizedString("error_fetching_logBookEntry", comment: "Displayed when fetching logBookEntry fails"), error.localizedDescription)
-            }
-        }
+//        func fetchLogEntry(LogEntryUUID: UUID) async {
+//            let result = await databaseService.fetchLogBookEntry(with: LogEntryUUID)
+//            switch result {
+//            case let .success(logBookEntry):
+//                watchLogEntry = logBookEntry
+//            case let .failure(error):
+//                errorMessage = String(format: NSLocalizedString("error_fetching_logBookEntry", comment: "Displayed when fetching logBookEntry fails"), error.localizedDescription)
+//            }
+//        }
         
         func fetchLogEntryMod(LogEntryUUID: UUID) async -> WatchLogEntry {
             let result = await databaseService.fetchLogBookEntry(with: LogEntryUUID)

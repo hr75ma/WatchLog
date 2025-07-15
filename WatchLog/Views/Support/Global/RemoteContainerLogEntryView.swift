@@ -9,6 +9,7 @@ import SwiftUI
 
 enum RemoteSignal: CaseIterable, Codable {
     case save
+    case delete
     case undefined
 }
 
