@@ -75,6 +75,11 @@ struct ScrollViewDispatcher: View {
             .scrollTargetLayout()
             .scrollPosition(id: $scrollPos, anchor: .top)
             .scrollTargetBehavior(.viewAligned)
+            .onTapGesture {
+                if numberOfEntry > 0 {
+                    showSheet = true
+                }
+            }
         }
         .frame(
             maxWidth: .infinity,
