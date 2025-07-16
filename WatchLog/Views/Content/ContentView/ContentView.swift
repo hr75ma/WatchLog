@@ -188,14 +188,6 @@ struct ContentView: View {
         }
         testOnDeleteDisplayedEntry(displayedUUID: displayedLogEntryUUID.id)
     }
-
-    private func addNewLogEntry() {
-        Task {
-            let logBookDay = await viewModel.fetchLogBookDayOrEmptyDay(from: .now)
-            logEntryUUIDContainer = .init(logEntryUUID: WatchLogEntry().uuid, logBookDay: logBookDay!)
-            // displayedLogEntryUUID.id = logEntryUUIDContainer.logEntryUUID
-        }
-    }
 }
 
 extension ContentView {

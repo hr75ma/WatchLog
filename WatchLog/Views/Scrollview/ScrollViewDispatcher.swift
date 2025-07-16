@@ -27,20 +27,18 @@ struct ScrollViewDispatcher: View {
     @State private var showSheet: Bool = false
     @State private var isActive = true
     @State private var watchLogEntry: WatchLogEntry = .init()
-    
+
     @State private var watchLogBookEntry: WatchLogBookEntry = .init()
     @State private var watchLogBookDay: WatchLogBookDay = .init()
-    
+
     @State private var refreshID: UUID = UUID()
-    
-   
+
     @State private var scrollPos: UUID?
 
     var body: some View {
         HStack {
             ScrollView(.horizontal) {
                 HStack(alignment: .center, spacing: 0) {
-                    
                     if logEntryUUIDContainer.logEntryBookDay.watchLogBookEntries!.isEmpty {
                         VStack(alignment: .center, spacing: 0) {
                             Image(.placeholder)
@@ -51,7 +49,6 @@ struct ScrollViewDispatcher: View {
                         }
                         .containerRelativeFrame(.horizontal, count: 1, spacing: 0)
                     } else {
-                        
                         ForEach(logEntryUUIDContainer.logEntryBookDay.logEntriesSorted.indices, id: \.self) { index in
                             LogBookEntryShowWrapperView(logBookEntryUUID: $logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].uuid, isEditing: $isEditing)
                                 .id(logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].uuid)
@@ -65,7 +62,7 @@ struct ScrollViewDispatcher: View {
                                 .containerRelativeFrame(.horizontal, count: 1, spacing: 0)
                                 .scrollTransition { content, phase in
                                     content
-                                        .opacity(phase.isIdentity ? 1.0 : 0.3)
+                                        .opacity(phase.isIdentity ? 1.0 : 0.2)
                                         .scaleEffect(x: 1, y: phase.isIdentity ? 1.0 : 0.9)
                                 }
                         }
@@ -91,11 +88,17 @@ struct ScrollViewDispatcher: View {
                 print("onappear scroll\(logEntryUUIDContainer.logEntryUUID)")
                 withAnimation {
                     print("onappear \(logEntryUUIDContainer.logEntryUUID)")
+                    Task {
+                        let logBookDay = await viewModel.fetchLogBookDay(from: .now)
+                        if logBookDay != nil && !logBookDay!.watchLogBookEntries!.isEmpty {
+                            logEntryUUIDContainer = .init(logEntryUUID: logBookDay!.logEntriesSorted.last!.uuid, logBookDay: logBookDay!)
+                        }
+                    }
                     scrollPos = logEntryUUIDContainer.logEntryUUID
                 }
             }
         }
-        .onChange(of: logEntryUUID) {  //fürs scrolling
+        .onChange(of: logEntryUUID) { // fürs scrolling
             Task { @MainActor in
                 print("displayedLogEntryUUID: \(displayedLogEntryUUID.id.uuidString)")
                 print("gelieferte entryUUID: \(logEntryUUIDContainer.logEntryUUID.uuidString)")
@@ -103,12 +106,19 @@ struct ScrollViewDispatcher: View {
                 logEntryUUIDContainer.logEntryUUID = logEntryUUID
             }
         }
-//        .onChange(of: logEntryUUIDContainer.logEntryBookDay.watchLogBookEntries) { _, _ in
-//            Task { @MainActor in
-//                print("changed in scroll logEntryUUIDContainer.logEntryBookDay.watchLogBookEntries")
-//
-//            }
-//        }
+        .onChange(of: logEntryUUIDContainer.logEntryBookDay.watchLogBookEntries) { _, newValue in
+            if newValue!.count == 0 {
+                Task {
+                    let logBookDay = await viewModel.fetchLogBookDay(from: .now)
+                    if logBookDay != nil && !logBookDay!.watchLogBookEntries!.isEmpty {
+                        logEntryUUIDContainer = .init(logEntryUUID: logBookDay!.logEntriesSorted.last!.uuid, logBookDay: logBookDay!)
+                        scrollPos = logEntryUUIDContainer.logEntryUUID
+                    }
+                }
+                
+            }
+        }
+
         .onChange(of: logEntryUUIDContainer) { oldValue, newValue in
             Task { @MainActor in
                 print("gelieferte entryUUID: \(newValue.logEntryUUID.uuidString)")
@@ -126,7 +136,6 @@ struct ScrollViewDispatcher: View {
                 }
                 if newValue.logEntryBookDay.watchLogBookEntries!.isEmpty {
                     numberOfEntry = 0
-                    
                 }
             }
         }
@@ -137,18 +146,18 @@ struct ScrollViewDispatcher: View {
             ToolbarItem(placement: .topBarLeading) {
                 Text("Eintrag \(numberOfEntry) von \(logEntryUUIDContainer.logEntryBookDay.watchLogBookEntries!.count)")
                     .navigationTitleModifier()
-                    .isHidden(numberOfEntry == 0 , remove: true)
+                    .isHidden(numberOfEntry == 0, remove: true)
             }
 
             ToolbarItemGroup(placement: .primaryAction) {
                 MenuButton
-                    .isHidden(numberOfEntry == 0 , remove: true)
+                    .isHidden(numberOfEntry == 0, remove: true)
             }
         }
-        .toolbarVisibility(.visible , for: .navigationBar)
+        .toolbarVisibility(.visible, for: .navigationBar)
         .toolbarBackgroundVisibility(.visible, for: .navigationBar)
         .toolbarBackground(.visible, for: .navigationBar)
-        .onChange(of: showSheet) { oldValue, newValue in
+        .onChange(of: showSheet) { _, newValue in
             if newValue == false {
                 Task {
                     print("back from editing")
@@ -167,45 +176,42 @@ struct ScrollViewDispatcher: View {
 extension ScrollViewDispatcher {
     var MenuButton: some View {
         Menu {
-            
-    if numberOfEntry > 0 {
-            Button {
-                showSheet = true
-                blurSetting.isBlur = false
-            } label: {
-                NavigationMenuLabelView(menuItemType: MenuType.edit)
-            }
-            
-            Divider()
-            
-            Button(role: .destructive) {
-                blurSetting.isBlur = true
-                alertDelete.toggle()
-            } label: {
-                NavigationMenuLabelView(menuItemType: MenuType.delete)
-            }
-        }
-            } label: {
-                NavigationToolbarItemImage(toolbarItemType: .menu, appStyles: appStyles)
-            }
-        .alert("Log Löschen?", isPresented: $alertDelete) {
-                    Button(
-                        "Löschen", role: .destructive,
-                        action: {
-                            
-                            Task {
-                                
-                                if await viewModel.isDeletedEntryInDisplayedDay(logEntryUUID: displayedLogEntryUUID.id, logEntryDayUUI: logEntryUUIDContainer.logEntryBookDay.uuid) {
-                                    logEntryUUIDContainer = await viewModel.calculateShownAndDeleteLogEntry(logEntryUUID: logEntryUUID, logEntryDayUUI: logEntryUUIDContainer.logEntryBookDay.uuid)
-                                } else {
-                                    await viewModel.deleteLogEntry(logEntryUUID: logEntryUUID)
-                                }
-                                blurSetting.isBlur = false
-                            }
-                            
-                        })
-                    cancelAlertButton()
+            if numberOfEntry > 0 {
+                Button {
+                    showSheet = true
+                    blurSetting.isBlur = false
+                } label: {
+                    NavigationMenuLabelView(menuItemType: MenuType.edit)
                 }
+
+                Divider()
+
+                Button(role: .destructive) {
+                    blurSetting.isBlur = true
+                    alertDelete.toggle()
+                } label: {
+                    NavigationMenuLabelView(menuItemType: MenuType.delete)
+                }
+            }
+        } label: {
+            NavigationToolbarItemImage(toolbarItemType: .menu, appStyles: appStyles)
+        }
+        .alert("Log Löschen?", isPresented: $alertDelete) {
+            Button(
+                "Löschen", role: .destructive,
+                action: {
+                    Task {
+                        if await viewModel.isDeletedEntryInDisplayedDay(logEntryUUID: displayedLogEntryUUID.id, logEntryDayUUI: logEntryUUIDContainer.logEntryBookDay.uuid) {
+                            logEntryUUIDContainer = await viewModel.calculateShownAndDeleteLogEntry(logEntryUUID: logEntryUUID, logEntryDayUUI: logEntryUUIDContainer.logEntryBookDay.uuid)
+                        } else {
+                            await viewModel.deleteLogEntry(logEntryUUID: logEntryUUID)
+                        }
+                        blurSetting.isBlur = false
+                    }
+
+                })
+            cancelAlertButton()
+        }
     }
 
     private func newEntry() {
