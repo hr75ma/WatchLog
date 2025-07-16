@@ -52,7 +52,7 @@ struct ScrollViewDispatcher: View {
                         ForEach(logEntryUUIDContainer.logEntryBookDay.logEntriesSorted.indices, id: \.self) { index in
                             LogBookEntryShowWrapperView(logBookEntryUUID: $logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].uuid, isEditing: $isEditing)
                                 .id(logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].uuid)
-                                .onScrollVisibilityChange(threshold: 1) { scrolled in
+                                .onScrollVisibilityChange(threshold: 0.5) { scrolled in
                                     if scrolled {
                                         print("index \(index) - \(logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].uuid.uuidString)")
                                         logEntryUUID = logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].uuid
@@ -156,7 +156,7 @@ struct ScrollViewDispatcher: View {
         }
         .toolbarVisibility(.visible, for: .navigationBar)
         .toolbarBackgroundVisibility(.visible, for: .navigationBar)
-        .toolbarBackground(.visible, for: .navigationBar)
+        .toolbarBackground(.ultraThinMaterial, for: .navigationBar)
         .onChange(of: showSheet) { _, newValue in
             if newValue == false {
                 Task {

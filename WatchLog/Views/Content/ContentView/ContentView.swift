@@ -84,20 +84,6 @@ struct ContentView: View {
                     await viewModel.fetchLogBook()
                 }
             })
-            .toolbar {
-                if showToolbarItem {
-                    ToolbarItemGroup(placement: .topBarTrailing) {
-                        toolBarItemNewButton
-                        toolBarItemSettings
-                    }
-                    ToolbarItem(placement: .principal) {
-                        VStack {
-                            Text("Wachbuch")
-                                .navigationTitleModifier()
-                        }
-                    }
-                }
-            }
             .fullScreenCover(isPresented: $showNewEntrySheet) {
                 NavigationStack {
                     LogBookEntryEditWrapperView(logBookEntryUUID: $newEntryUUID, isEditing: $showNewEntrySheet)
@@ -136,8 +122,22 @@ struct ContentView: View {
                 await viewModel.fetchLogBook()
             }
             .listStyle(.sidebar)
-            .navigationSplitViewStyle(.balanced)
+            //.navigationSplitViewStyle(.balanced)
             .scrollContentBackground(.hidden)
+            .toolbar {
+                if showToolbarItem {
+                    ToolbarItemGroup(placement: .topBarTrailing) {
+                        toolBarItemNewButton
+                        toolBarItemSettings
+                    }
+                    ToolbarItem(placement: .principal) {
+                        VStack {
+                            Text("Wachbuch")
+                                .navigationTitleModifier()
+                        }
+                    }
+                }
+            }
             // .background(Color.black.edgesIgnoringSafeArea(.all))
         } detail: {
             ScrollViewDispatcher(logEntryUUIDContainer: $logEntryUUIDContainer)
