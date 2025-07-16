@@ -155,7 +155,7 @@ struct ScrollViewDispatcher: View {
         }
         .fullScreenCover(isPresented: $showSheet) {
             NavigationStack {
-                LogBookEntryWrapperView(logBookEntryUUID: $logEntryUUIDContainer.logEntryUUID, isEditing: $showSheet, watchLogEntry: $watchLogEntry)
+                LogBookEntryEditWrapperView(logBookEntryUUID: $logEntryUUIDContainer.logEntryUUID, isEditing: $showSheet, watchLogEntry: $watchLogEntry)
             }
         }
     }

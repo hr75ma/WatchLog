@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct LogBookEntryWrapperView: View {
+struct LogBookEntryEditWrapperView: View {
 
     @Binding public var logBookEntryUUID: UUID
     @Binding public var isEditing: Bool
@@ -25,9 +25,7 @@ struct LogBookEntryWrapperView: View {
 
     
     var body: some View {
-        LogBookEntryView(
-        //    logBookEntryUUID: $logBookEntryUUID, isEditing: $isEditing, watchLogEntry: $watchLogEntry)
-        logBookEntryUUID: $logBookEntryUUID, isEditing: $isEditing)
+        LogBookEntryView(logBookEntryUUID: $logBookEntryUUID, isEditing: $isEditing)
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
                 Button {
@@ -50,7 +48,7 @@ struct LogBookEntryWrapperView: View {
     }
 }
 
-extension LogBookEntryWrapperView {
+extension LogBookEntryEditWrapperView {
     
     var MenuButton: some View {
         Menu {

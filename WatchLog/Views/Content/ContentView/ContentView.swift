@@ -233,14 +233,15 @@ extension ContentView {
         ForEach(book.logYearsSorted) { year in
             DisclorsureGroupYear(year: year)
         }
-        .onDelete(perform: { indexSet in
-            indexSet.sorted(by: >).forEach { i in
-                let LogEntry = book.logYearsSorted[i]
-                delete(deleteType: .year, toDeleteItem: LogEntry)
-            }
-        })
+        .onDelete(perform: {
+              indexSet in
+                indexSet.sorted(by: >).forEach { i in
+                    let LogEntry = book.logYearsSorted[i]
+                    delete(deleteType: .year, toDeleteItem: LogEntry)
+                }
+            })
     }
-
+    
     private func DisclorsureGroupYear(year: WatchLogBookYear) -> some View {
         DisclosureGroup(DateManipulation.getYear(from: year.LogDate)) {
             ForEach(year.logMonthSorted) { month in

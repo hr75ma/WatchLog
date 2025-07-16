@@ -98,18 +98,28 @@ struct LogBookEntryView: View {
         .onChange(of: watchLogEntry.isLocked) { _, newValue in
             glowingColorSet = getGlowColorSet(logEntry: watchLogEntry)
             if newValue {
+                print("save")
                 saveEntry()
             }
         }
+
         .onChange(of: viewModel.remoteSignalContainer.signale) { _, newValue in
             switch newValue {
             case .save:
-                print("remote signal save received")
-                saveEntry()
+                glowingColorSet = getGlowColorSet(logEntry: watchLogEntry)
+                //print("remote signal save received")
+                if watchLogEntry.uuid == displayedLogEntryUUID.id  {
+                    print("remote signal save received")
+                    watchLogEntry.isLocked = true
+                    //saveEntry()
+                }
                 viewModel.remoteSignalContainer.signale = .undefined
+                    
             case .delete:
                 print("remote signal delete received")
-                deleteEntry()
+                if watchLogEntry.uuid == displayedLogEntryUUID.id  {
+                   deleteEntry()
+                }
                 viewModel.remoteSignalContainer.signale = .undefined
                 dismiss()
             default:
@@ -191,6 +201,7 @@ extension LogBookEntryView {
             blurSetting.isBlur = true
             watchLogEntry.isLocked = true
             watchLogEntry.isNewEntryLog = false
+            //print(watchLogEntry.CallerNumber)
             await viewModel.saveLogEntry(LogEntry: watchLogEntry)
             watchLogEntry.isNewEntryLog = false
             // displayedLogEntryUUID = watchLogEntry.uuid
