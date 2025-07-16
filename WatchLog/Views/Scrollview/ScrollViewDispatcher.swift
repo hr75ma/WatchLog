@@ -42,13 +42,14 @@ struct ScrollViewDispatcher: View {
                 HStack(alignment: .center, spacing: 0) {
                     
                     if logEntryUUIDContainer.logEntryBookDay.watchLogBookEntries!.isEmpty {
-                        HStack(alignment: .center, spacing: 0) {
+                        VStack(alignment: .center, spacing: 0) {
                             Image(.placeholder)
                                 .resizable()
                                 .scaledToFit()
                                 .padding(0)
                             Spacer()
                         }
+                        .containerRelativeFrame(.horizontal, count: 1, spacing: 0)
                     } else {
                         
                         ForEach(logEntryUUIDContainer.logEntryBookDay.logEntriesSorted.indices, id: \.self) { index in

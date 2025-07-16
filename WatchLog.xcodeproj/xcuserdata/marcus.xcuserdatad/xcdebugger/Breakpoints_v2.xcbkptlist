@@ -14,8 +14,8 @@
             filePath = "WatchLog/Views/Scrollview/ScrollViewDispatcher.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "108"
-            endingLineNumber = "108"
+            startingLineNumber = "109"
+            endingLineNumber = "109"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
@@ -46,8 +46,8 @@
             filePath = "WatchLog/Views/Scrollview/ScrollViewDispatcher.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "99"
-            endingLineNumber = "99"
+            startingLineNumber = "100"
+            endingLineNumber = "100"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
@@ -62,8 +62,8 @@
             filePath = "WatchLog/Views/Scrollview/ScrollViewDispatcher.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "113"
-            endingLineNumber = "113"
+            startingLineNumber = "114"
+            endingLineNumber = "114"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
@@ -130,36 +130,6 @@
             endingLineNumber = "196"
             landmarkName = "saveEntry()"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "B338744C-8DD8-483D-A94D-C4858E4DBB35 - a4c8aec4484e95eb"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "WatchLog.LogBookEntryView.deleteEntry() -&gt; ()"
-                  moduleName = "WatchLog.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/marcus/Xcode1/Coding/myProjects/WatchLog/WatchLog/Views/Content/LogEntryView/LogBookEntryView.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "196"
-                  endingLineNumber = "196">
-               </Location>
-               <Location
-                  uuid = "B338744C-8DD8-483D-A94D-C4858E4DBB35 - 7883b27c02477669"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(1) suspend resume partial function for closure #1 () async -&gt; () in WatchLog.LogBookEntryView.saveEntry() -&gt; ()"
-                  moduleName = "WatchLog.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/marcus/Xcode1/Coding/myProjects/WatchLog/WatchLog/Views/Content/LogEntryView/LogBookEntryView.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "196"
-                  endingLineNumber = "196">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
