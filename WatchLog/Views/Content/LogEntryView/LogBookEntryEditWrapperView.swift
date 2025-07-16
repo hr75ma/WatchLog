@@ -25,7 +25,16 @@ struct LogBookEntryEditWrapperView: View {
 
     
     var body: some View {
-        LogBookEntryView(logBookEntryUUID: $logBookEntryUUID, isEditing: $isEditing)
+        HStack {
+            LogBookEntryView(watchLogEntry: $watchLogEntry, isEditing: $isEditing)
+        }
+        .onAppear{
+            Task {
+                print("onappear Edit - \(logBookEntryUUID.uuidString)")
+                watchLogEntry = await viewModel.fetchLogEntryMod(LogEntryUUID: logBookEntryUUID)
+                watchLogEntry.isLocked = isEditing ? false : true
+            }
+        }
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
                 Button {
@@ -54,7 +63,7 @@ extension LogBookEntryEditWrapperView {
         Menu {
             //if !watchLogEntry.isLocked {
                 Button {
-                    viewModel.remoteSignalContainer.signale = .save
+                    watchLogEntry.remoteSignalContainer.signale = .save
                     blurSetting.isBlur = false
                 } label: {
                     NavigationMenuLabelView(menuItemType: MenuType.save)
@@ -76,7 +85,7 @@ extension LogBookEntryEditWrapperView {
             Button(
                 "Löschen", role: .destructive,
                 action: {
-                    viewModel.remoteSignalContainer.signale = .delete
+                    watchLogEntry.remoteSignalContainer.signale = .delete
                     blurSetting.isBlur = false
                     dismiss()
                 })

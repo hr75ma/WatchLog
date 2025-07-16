@@ -12,6 +12,8 @@ import SwiftUI
 @Observable
 class WatchLogEntry {
     var uuid: UUID
+    
+    var remoteSignalContainer: RemoteContainerLogEntryViewModel = RemoteContainerLogEntryViewModel()
 
     var isNewEntryLog = true
 
@@ -21,7 +23,6 @@ class WatchLogEntry {
     var CallerNumber: String = ""
     var CallerAdress: String = ""
     var CallerDOB: Date?
-
 
     var CallIn = CallInType.CallInTypeShort.EMERGENCY
 
@@ -48,6 +49,8 @@ class WatchLogEntry {
     }
 
     init(watchLookBookEntry: WatchLogBookEntry) {
+        remoteSignalContainer = RemoteContainerLogEntryViewModel()
+        
         uuid = watchLookBookEntry.uuid
 
         EntryTime = watchLookBookEntry.LogDate

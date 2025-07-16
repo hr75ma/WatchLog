@@ -11,9 +11,11 @@ import SwiftData
 import SwiftUI
 
 struct LogBookEntryView: View {
-    @Binding public var logBookEntryUUID: UUID
+    //@Binding public var logBookEntryUUID: UUID
+    @Binding public var watchLogEntry: WatchLogEntry 
     @Binding public var isEditing: Bool
-    @State private var watchLogEntry: WatchLogEntry = .init()
+    //@State private var watchLogEntry: WatchLogEntry = .init()
+    
 
     @EnvironmentObject var viewModel: LogEntryViewModel
     @Environment(\.appStyles) var appStyles
@@ -69,32 +71,32 @@ struct LogBookEntryView: View {
         }
         .onAppear {
             Task {
-                print("onappear - \(logBookEntryUUID.uuidString)")
-                watchLogEntry = await viewModel.fetchLogEntryMod(LogEntryUUID: logBookEntryUUID)
+                //print("onappear - \(logBookEntryUUID.uuidString)")
+                //watchLogEntry = await viewModel.fetchLogEntryMod(LogEntryUUID: logBookEntryUUID)
                 watchLogEntry.isLocked = isEditing ? false : true
                 glowingColorSet = getGlowColorSet(logEntry: watchLogEntry)
             }
         }
         .task {
-            watchLogEntry = await viewModel.fetchLogEntryMod(LogEntryUUID: logBookEntryUUID)
+            //watchLogEntry = await viewModel.fetchLogEntryMod(LogEntryUUID: logBookEntryUUID)
             watchLogEntry.isLocked = isEditing ? false : true
             glowingColorSet = getGlowColorSet(logEntry: watchLogEntry)
         }
         .onDisappear {
             print("dismiss LogBookEntryView")
-            dismiss()
+ //           dismiss()
         }
-        .onChange(
-            of: logBookEntryUUID,
-            { _, _ in
-                Task {
-                    watchLogEntry = await viewModel.fetchLogEntryMod(LogEntryUUID: logBookEntryUUID)
-                    watchLogEntry.isLocked = isEditing ? false : true
-                    // displayedLogEntryUUID = watchLogEntry.uuid
-                    glowingColorSet = getGlowColorSet(logEntry: watchLogEntry)
-                }
-            }
-        )
+//        .onChange(
+//            of: logBookEntryUUID,
+//            { _, _ in
+//                Task {
+//                    watchLogEntry = await viewModel.fetchLogEntryMod(LogEntryUUID: logBookEntryUUID)
+//                    watchLogEntry.isLocked = isEditing ? false : true
+//                    // displayedLogEntryUUID = watchLogEntry.uuid
+//                    glowingColorSet = getGlowColorSet(logEntry: watchLogEntry)
+//                }
+//            }
+//        )
         .onChange(of: watchLogEntry.isLocked) { _, newValue in
             glowingColorSet = getGlowColorSet(logEntry: watchLogEntry)
             if newValue {
@@ -103,24 +105,17 @@ struct LogBookEntryView: View {
             }
         }
 
-        .onChange(of: viewModel.remoteSignalContainer.signale) { _, newValue in
+        .onChange(of: watchLogEntry.remoteSignalContainer.signale) { _, newValue in
             switch newValue {
             case .save:
-                glowingColorSet = getGlowColorSet(logEntry: watchLogEntry)
-                //print("remote signal save received")
-                if watchLogEntry.uuid == displayedLogEntryUUID.id  {
-                    print("remote signal save received")
+                print("remote signal save received")
                     watchLogEntry.isLocked = true
-                    //saveEntry()
-                }
-                viewModel.remoteSignalContainer.signale = .undefined
                     
             case .delete:
                 print("remote signal delete received")
                 if watchLogEntry.uuid == displayedLogEntryUUID.id  {
                    deleteEntry()
                 }
-                viewModel.remoteSignalContainer.signale = .undefined
                 dismiss()
             default:
                 break

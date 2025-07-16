@@ -24,13 +24,13 @@ final class LogEntryViewModel: ObservableObject {
     @Published var LogBookEntryYears: [WatchLogBookYear] = []
     @Published var LogBookEntries: [WatchLogBookEntry] = []
     @Published var WatchLogBooks: [WatchLogBook] = []
-    @Published var remoteSignalContainer: RemoteContainerLogEntryViewModel = RemoteContainerLogEntryViewModel()
+    
     
     private let databaseService: DatabaseServiceProtocol
     
     init(dataBaseService: DatabaseServiceProtocol) {
         databaseService = dataBaseService
-        remoteSignalContainer = RemoteContainerLogEntryViewModel()
+        
         
         Task {
             await self.instanciateLogBook()
