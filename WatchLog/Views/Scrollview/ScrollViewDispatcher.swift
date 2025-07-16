@@ -95,7 +95,7 @@ struct ScrollViewDispatcher: View {
                 }
             }
         }
-        .onChange(of: logEntryUUID) {
+        .onChange(of: logEntryUUID) {  //fürs scrolling
             Task { @MainActor in
                 print("displayedLogEntryUUID: \(displayedLogEntryUUID.id.uuidString)")
                 print("gelieferte entryUUID: \(logEntryUUIDContainer.logEntryUUID.uuidString)")
@@ -158,7 +158,7 @@ struct ScrollViewDispatcher: View {
         }
         .fullScreenCover(isPresented: $showSheet) {
             NavigationStack {
-                LogBookEntryEditWrapperView(logBookEntryUUID: $logEntryUUIDContainer.logEntryUUID, isEditing: $showSheet, watchLogEntry: $watchLogEntry)
+                LogBookEntryEditWrapperView(logBookEntryUUID: $logEntryUUIDContainer.logEntryUUID, isEditing: $showSheet)
             }
         }
     }
@@ -167,12 +167,6 @@ struct ScrollViewDispatcher: View {
 extension ScrollViewDispatcher {
     var MenuButton: some View {
         Menu {
-            Button {
-                blurSetting.isBlur = true
-                alertNew.toggle()
-            } label: {
-                NavigationMenuLabelView(menuItemType: MenuType.new)
-            }
             
     if numberOfEntry > 0 {
             Button {
@@ -194,17 +188,6 @@ extension ScrollViewDispatcher {
             } label: {
                 NavigationToolbarItemImage(toolbarItemType: .menu, appStyles: appStyles)
             }
-        
-        .alert("Neues Log erstellen?", isPresented: $alertNew) {
-            Button(
-                "Erstellen", role: .destructive,
-                action: {
-                    // newEntry()
-                    // displayedLogEntryUUID = watchLogEntry.uuid
-
-                })
-            cancelAlertButton()
-        }
         .alert("Log Löschen?", isPresented: $alertDelete) {
                     Button(
                         "Löschen", role: .destructive,

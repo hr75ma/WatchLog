@@ -143,16 +143,16 @@ final class LogEntryViewModel: ObservableObject {
             }
         }
         
-        func fetchDaysOfLogEntry(logEntry: WatchLogBookEntry) async -> [WatchLogBookEntry] {
-            let result = await databaseService.fetchDaysFromLogBookEntry(logEntry: logEntry)
-            switch result {
-            case let .success(logBookEntries):
-                return logBookEntries
-            case let .failure(error):
-                errorMessage = String(format: NSLocalizedString("error_fetching_logBookEntry", comment: "Displayed when fetching logBookEntry fails"), error.localizedDescription)
-            }
-            return []
-        }
+//        func fetchDaysOfLogEntry(logEntry: WatchLogBookEntry) async -> [WatchLogBookEntry] {
+//            let result = await databaseService.fetchDaysFromLogBookEntry(logEntry: logEntry)
+//            switch result {
+//            case let .success(logBookEntries):
+//                return logBookEntries
+//            case let .failure(error):
+//                errorMessage = String(format: NSLocalizedString("error_fetching_logBookEntry", comment: "Displayed when fetching logBookEntry fails"), error.localizedDescription)
+//            }
+//            return []
+//        }
         
 //        func fetchLogEntry(LogEntryUUID: UUID) async {
 //            let result = await databaseService.fetchLogBookEntry(with: LogEntryUUID)
@@ -163,6 +163,18 @@ final class LogEntryViewModel: ObservableObject {
 //                errorMessage = String(format: NSLocalizedString("error_fetching_logBookEntry", comment: "Displayed when fetching logBookEntry fails"), error.localizedDescription)
 //            }
 //        }
+    
+    
+    func fetchLogBookEntry(from: UUID) async -> WatchLogBookEntry? {
+        let result = await databaseService.fetchLogBookEntryWithNil(with: from)
+        switch result {
+        case let .success(logBookEntry):
+            return logBookEntry
+        case let .failure(error):
+            errorMessage = String(format: NSLocalizedString("error_fetching_logBookEntry", comment: "Displayed when fetching logBookEntry fails"), error.localizedDescription)
+            return nil
+        }
+    }
         
         func fetchLogEntryMod(LogEntryUUID: UUID) async -> WatchLogEntry {
             let result = await databaseService.fetchLogBookEntry(with: LogEntryUUID)

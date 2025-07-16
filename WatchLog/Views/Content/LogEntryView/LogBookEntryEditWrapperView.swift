@@ -11,7 +11,7 @@ struct LogBookEntryEditWrapperView: View {
 
     @Binding public var logBookEntryUUID: UUID
     @Binding public var isEditing: Bool
-    @Binding var watchLogEntry: WatchLogEntry
+    @State private var watchLogEntry: WatchLogEntry = .init()
     @EnvironmentObject var viewModel: LogEntryViewModel
 
     @Environment(\.appStyles) var appStyles
@@ -33,12 +33,12 @@ struct LogBookEntryEditWrapperView: View {
                 print("onappear Edit - \(logBookEntryUUID.uuidString)")
                 watchLogEntry = await viewModel.fetchLogEntryMod(LogEntryUUID: logBookEntryUUID)
                 watchLogEntry.isLocked = isEditing ? false : true
+                blurSetting.isBlur = false
             }
         }
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
                 Button {
-                    
                     blurSetting.isBlur = false
                     dismiss()
                 } label: {
@@ -61,14 +61,14 @@ extension LogBookEntryEditWrapperView {
     
     var MenuButton: some View {
         Menu {
-            //if !watchLogEntry.isLocked {
+            if !watchLogEntry.isLocked {
                 Button {
                     watchLogEntry.remoteSignalContainer.signale = .save
                     blurSetting.isBlur = false
                 } label: {
                     NavigationMenuLabelView(menuItemType: MenuType.save)
                 }
-
+            }
                 Divider()
 
                 Button(role: .destructive) {

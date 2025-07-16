@@ -83,7 +83,7 @@ struct LogBookEntryView: View {
             glowingColorSet = getGlowColorSet(logEntry: watchLogEntry)
         }
         .onDisappear {
-            print("dismiss LogBookEntryView")
+            print("dismiss LogBookEntryView \(watchLogEntry.uuid.uuidString)")
  //           dismiss()
         }
 //        .onChange(

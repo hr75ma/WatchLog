@@ -16,6 +16,7 @@ protocol DatabaseServiceProtocol {
 
     func fetchLogBookEntry(with EntryUUID: UUID) async -> Result<WatchLogEntry, Error>
     func fetchLogBookEntryMod(with EntryUUID: UUID) async -> Result<WatchLogBookEntry, Error>
+    func fetchLogBookEntryWithNil(with EntryUUID: UUID) async -> Result<WatchLogBookEntry?, Error>
 
     func fetchLogBookYears() async -> Result<[WatchLogBookYear], Error>
     func fetchLogBookEntries() async -> Result<[WatchLogBookEntry], Error>
@@ -158,6 +159,20 @@ class DatabaseService: DatabaseServiceProtocol {
             return .failure(error)
         }
     }
+    
+    func fetchLogBookEntryWithNil(with EntryUUID: UUID) async -> Result<WatchLogBookEntry?, Error> {
+        let fetchResult = dataSource.fetchLogBookEntry(with: EntryUUID)
+        switch fetchResult {
+        case let .success(entry):
+            if !entry.isEmpty {
+                return .success(entry.first!)
+            }
+            return .success(nil)
+        case let .failure(error):
+            return .failure(error)
+        }
+    }
+
 
     func fetchLogBookEntryMod(with EntryUUID: UUID) async -> Result<WatchLogBookEntry, Error> {
         var watchLogBookEntry: WatchLogBookEntry = WatchLogBookEntry(uuid: EntryUUID)

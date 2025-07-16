@@ -72,6 +72,7 @@ extension CallInView {
                 logEntry.CallIn = selectedCallIn
                 selectedCallInHelper = selectedCallIn
                 selectedCallInAsString = CallInType.callInTypes[logEntry.CallIn]!
+                //print(selectedCallInAsString)
             }
         }
         .onChange(of: logEntry.uuid) {
