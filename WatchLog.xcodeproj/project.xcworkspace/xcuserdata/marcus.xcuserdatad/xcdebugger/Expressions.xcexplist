@@ -17,7 +17,7 @@
          contextName = "closure #1 in closure #1 in closure #1 in LogBookEntryView.body.getter:LogBookEntryView.swift">
          <PersistentStrings>
             <PersistentString
-               value = "geometry.size.height">
+               value = "geometry.size.width">
             </PersistentString>
             <PersistentString
                value = "viewModel.watchLogEntry">
@@ -29,7 +29,10 @@
                value = "logBookEntryUUID">
             </PersistentString>
             <PersistentString
-               value = "geometry.size.width">
+               value = "watchLogEntry.EntryTime">
+            </PersistentString>
+            <PersistentString
+               value = "geometry.size.height">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -182,22 +185,22 @@
          contextName = "closure #1 in closure #1 in ContentView.DisclosureGroupLogEntries(day:):ContentView.swift">
          <PersistentStrings>
             <PersistentString
-               value = "newValue">
+               value = "day.logEntriesSorted">
             </PersistentString>
             <PersistentString
-               value = "entry.uuid">
+               value = "day">
             </PersistentString>
             <PersistentString
                value = "displayedLogEntryUUID.id">
             </PersistentString>
             <PersistentString
+               value = "entry.uuid">
+            </PersistentString>
+            <PersistentString
+               value = "newValue">
+            </PersistentString>
+            <PersistentString
                value = "logBookEntry.uuid">
-            </PersistentString>
-            <PersistentString
-               value = "day.logEntriesSorted">
-            </PersistentString>
-            <PersistentString
-               value = "day">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -319,13 +322,13 @@
          contextName = "closure #1 in closure #1 in closure #1 in ScrollViewDispatcher.body.getter:ScrollViewDispatcher.swift">
          <PersistentStrings>
             <PersistentString
-               value = "logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].LogDate">
+               value = "logEntryUUIDContainer.logEntryBookDay.logEntriesSorted">
             </PersistentString>
             <PersistentString
                value = "logBookEntriesforDay">
             </PersistentString>
             <PersistentString
-               value = "logEntryUUIDContainer.logEntryBookDay.logEntriesSorted">
+               value = "logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].LogDate">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
