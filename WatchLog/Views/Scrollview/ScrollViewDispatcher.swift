@@ -137,13 +137,15 @@ struct ScrollViewDispatcher: View {
             ToolbarItem(placement: .topBarLeading) {
                 Text("Eintrag \(numberOfEntry) von \(logEntryUUIDContainer.logEntryBookDay.watchLogBookEntries!.count)")
                     .navigationTitleModifier()
+                    .isHidden(numberOfEntry == 0 , remove: true)
             }
 
             ToolbarItemGroup(placement: .primaryAction) {
                 MenuButton
+                    .isHidden(numberOfEntry == 0 , remove: true)
             }
         }
-        .toolbarVisibility(numberOfEntry == 0 ? Visibility.hidden : Visibility.visible , for: .navigationBar)
+        .toolbarVisibility(.visible , for: .navigationBar)
         .toolbarBackgroundVisibility(.visible, for: .navigationBar)
         .toolbarBackground(.visible, for: .navigationBar)
         .onChange(of: showSheet) { oldValue, newValue in
