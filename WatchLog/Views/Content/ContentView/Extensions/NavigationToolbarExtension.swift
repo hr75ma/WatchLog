@@ -12,6 +12,7 @@ enum NavigationToolbarItemType: CaseIterable, Codable {
     case addEntry
     case settings
     case menu
+    case back
 }
 
 @ViewBuilder func NavigationToolbarItemImage(
@@ -24,6 +25,8 @@ enum NavigationToolbarItemType: CaseIterable, Codable {
         NavigationToolbarSettingsImage(appStyles: appStyles)
     case .menu:
         NavigationToolbarMenuImage(appStyles: appStyles)
+    case .back:
+        NavigationToolbarBackImage(appStyles: appStyles)
     }
 }
 
@@ -32,7 +35,7 @@ struct NavigationToolbarAddEntryImage: View {
 
     var body: some View {
         Image(systemName: appStyles.navigationAddImage)
-            .navigationToolBarSymbolModifier(appStyles: appStyles)
+            .navigationToolBarSymbolModifier(colorationType: .monochrome, appStyles: appStyles)
     }
 }
 
@@ -41,7 +44,7 @@ struct NavigationToolbarSettingsImage: View {
 
     var body: some View {
         Image(systemName: appStyles.navigationSettingImage)
-            .navigationToolBarSymbolModifier(appStyles: appStyles)
+            .navigationToolBarSymbolModifier(colorationType: .monochrome, appStyles: appStyles)
     }
 }
 
@@ -50,7 +53,16 @@ struct NavigationToolbarMenuImage: View {
 
     var body: some View {
         Image(systemName: appStyles.navigationMenuImage)
-            .navigationToolBarSymbolModifier(appStyles: appStyles)
+            .navigationToolBarSymbolModifier(colorationType: .palette, appStyles: appStyles)
+    }
+}
+
+struct NavigationToolbarBackImage: View {
+    let appStyles: StylesLogEntry
+
+    var body: some View {
+        Image(systemName: appStyles.navigationBackImage)
+            .navigationToolBarSymbolModifier(colorationType: .palette, appStyles: appStyles)
     }
 }
 

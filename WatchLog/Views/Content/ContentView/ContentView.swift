@@ -200,7 +200,6 @@ extension ContentView {
     private var toolBarItemNewButton: some View {
         Button(action: {
             alertNew.toggle()
-            // Task { await NavigationTipNewLogEntry.setNavigationNewLogEvent.donate() }
             blurSetting.isBlur = true
         }) {
             NavigationToolbarItemImage(toolbarItemType: .addEntry, appStyles: appStyles)

@@ -13,17 +13,21 @@ enum MenuType: Int, CaseIterable {
     case delete
     case clear
     case edit
-    case back
+}
+
+enum ImageColorationType: Int, CaseIterable {
+    case monochrome
+    case palette
 }
 
 struct NavigationMenuLabelView: View {
     let menuItemType: MenuType
     @Environment(\.appStyles) var appStyles
-
+    
     var body: some View {
         switch menuItemType {
         case .new:
-            Label("Neues Log", systemImage: appStyles.newImageActive)
+            Label("Neues Log", systemImage: appStyles.navigationAddImage)
                 .navigationMenuUndestructiveModifier()
         case .save:
             Label("Log Speichern", systemImage: appStyles.saveImageActive)
@@ -36,9 +40,6 @@ struct NavigationMenuLabelView: View {
                 .navigationMenuDestructiveModifier()
         case .edit:
             Label("Log editieren", systemImage: appStyles.saveImageActive)
-                .navigationMenuUndestructiveModifier()
-        case .back:
-            Label("Zurück", systemImage: appStyles.backImageActive)
                 .navigationMenuUndestructiveModifier()
         }
     }
@@ -81,15 +82,21 @@ extension Label {
 }
 
 extension Image {
-    func navigationToolBarSymbolModifier(appStyles: StylesLogEntry) -> some View {
+    @MainActor func navigationToolBarSymbolModifier(colorationType: ImageColorationType, appStyles: StylesLogEntry) -> some View {
         symbolRenderingMode(.palette)
             .resizable()
             .scaledToFit()
             .frame(width: appStyles.navigationItemImageSize, height: appStyles.navigationItemImageSize, alignment: .center)
-            .foregroundStyle(
-                // .watchLogNavigationTreeAddEntryImagePrimary, .watchLogNavigationTreeAddEntryImageSecondary
-                .watchLogToolBarContextColorActivePrimary, .watchLogToolbarContextColorActiveSecondary
-            )
+            .if(colorationType == .monochrome) { view in
+                view
+                    .foregroundStyle(
+                        .watchLogToolbarColorPrimary, .watchLogToolbarColorPrimary)
+            }
+            .if(colorationType == .palette) { view in
+                view
+                    .foregroundStyle(
+                        .watchLogToolbarColorAccent, .watchLogToolbarColorPrimary)
+            }
             .symbolEffect(.scale)
             .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(appStyles.navigationItemAnimationDuration))
     }

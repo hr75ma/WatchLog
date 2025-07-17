@@ -42,7 +42,7 @@ struct LogBookEntryEditWrapperView: View {
                     blurSetting.isBlur = false
                     dismiss()
                 } label: {
-                    NavigationMenuLabelView(menuItemType: MenuType.back)
+                    NavigationToolbarItemImage(toolbarItemType: .back, appStyles: appStyles)
                 }
                 
                 Text("Eintrag")

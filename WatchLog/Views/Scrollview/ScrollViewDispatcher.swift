@@ -81,13 +81,10 @@ struct ScrollViewDispatcher: View {
                     showSheet = true
                 }
             }
-            
             .frame(
                 maxWidth: .infinity,
                 maxHeight: .infinity
             )
-            
-            
             .onAppear {
                 Task { @MainActor in
                     print("onappear scroll\(logEntryUUIDContainer.logEntryUUID)")
@@ -146,19 +143,6 @@ struct ScrollViewDispatcher: View {
             .onChange(of: isEditing) { _, _ in
                 print("isShowingOnly changed to \(isEditing)")
             }
-            .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    Text("Eintrag \(numberOfEntry) von \(logEntryUUIDContainer.logEntryBookDay.watchLogBookEntries!.count)")
-                        .navigationTitleModifier()
-                        .isHidden(numberOfEntry == 0, remove: true)
-                }
-                
-                ToolbarItemGroup(placement: .primaryAction) {
-                    MenuButton
-                        .isHidden(numberOfEntry == 0, remove: true)
-                }
-            }
-            .toolbarModifier()
             .onChange(of: showSheet) { _, newValue in
                 if newValue == false {
                     Task {
@@ -172,6 +156,20 @@ struct ScrollViewDispatcher: View {
                     LogBookEntryEditWrapperView(logBookEntryUUID: $logEntryUUIDContainer.logEntryUUID, isEditing: $showSheet)
                 }
             }
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Text("Eintrag \(numberOfEntry) von \(logEntryUUIDContainer.logEntryBookDay.watchLogBookEntries!.count)")
+                        .navigationTitleModifier()
+                        .isHidden(numberOfEntry == 0, remove: true)
+                }
+                
+                ToolbarItemGroup(placement: .primaryAction) {
+                    MenuButton
+                        .isHidden(numberOfEntry == 0, remove: true)
+                }
+            }
+            .toolbarModifier()
+
         
     }
 }

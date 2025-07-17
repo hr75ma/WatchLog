@@ -51,14 +51,15 @@ final class StylesLogEntry: Sendable {
     // navigation view section
     let toolbarBackgroundOpacity: Double = 0.1
     let toolbarBackgroundMaterial: Material = .ultraThinMaterial
-    let navigationAddImage: String = "plus.circle"
-    let navigationSettingImage: String = "gear.circle"
+    let navigationAddImage: String = "plus"
+    let navigationSettingImage: String = "gear"
     let navigationMenuImage: String = "ellipsis.circle"
+    let navigationBackImage: String = "arrowshape.turn.up.backward.circle"
     let navigationItemImageSize: CGFloat = 25
-    let navigationItemAnimationDuration: Double = 2
+    let navigationItemAnimationDuration: Double = 1
 
     let navigationTitleFont: String = "digital-7"
-    let navigationTitleFontSize: CGFloat = 30
+    let navigationTitleFontSize: CGFloat = 28
 
     let navigationRowAnimationDuration: Double = 0.75
     let navigationRowGradientOpacityStart: Double = 0.5
@@ -100,7 +101,5 @@ final class StylesLogEntry: Sendable {
     // ToolbarItem
     let eraserImageActive: String = "eraser"
     let saveImageActive: String = "square.and.arrow.down"
-    let newImageActive: String = "plus"
     let deleteImageActive: String = "trash"
-    let backImageActive: String = "arrowshape.turn.up.backward.circle"
 }
