@@ -79,11 +79,30 @@ struct ContentView: View {
                 buildLogBookNavigationTree(book: book)
             }
             .listStyleGeneral()
+            //.safeAreaInsetForToolbar()
+            .listStyle(.sidebar)
+            .scrollContentBackground(.hidden)
+            .toolbar {
+                if showToolbarItem {
+                    ToolbarItemGroup(placement: .topBarTrailing) {
+                        toolBarItemNewButton
+                        toolBarItemSettings
+                    }
+                    ToolbarItem(placement: .automatic) {
+                        VStack {
+                            Text("Wachbuch")
+                                .navigationTitleModifier()
+                        }
+                    }
+                }
+            }
+            .toolbarModifier()            // .background(Color.black.edgesIgnoringSafeArea(.all))
             .refreshable(action: {
                 Task {
                     await viewModel.fetchLogBook()
                 }
             })
+
             .fullScreenCover(isPresented: $showNewEntrySheet) {
                 NavigationStack {
                     LogBookEntryEditWrapperView(logBookEntryUUID: $newEntryUUID, isEditing: $showNewEntrySheet)
@@ -121,23 +140,9 @@ struct ContentView: View {
             .task {
                 await viewModel.fetchLogBook()
             }
-            .listStyle(.sidebar)
-            //.navigationSplitViewStyle(.balanced)
-            .scrollContentBackground(.hidden)
-            .toolbar {
-                if showToolbarItem {
-                    ToolbarItemGroup(placement: .topBarTrailing) {
-                        toolBarItemNewButton
-                        toolBarItemSettings
-                    }
-                    ToolbarItem(placement: .principal) {
-                        VStack {
-                            Text("Wachbuch")
-                                .navigationTitleModifier()
-                        }
-                    }
-                }
-            }
+
+            // .navigationSplitViewStyle(.balanced)
+
             // .background(Color.black.edgesIgnoringSafeArea(.all))
         } detail: {
             ScrollViewDispatcher(logEntryUUIDContainer: $logEntryUUIDContainer)
@@ -157,6 +162,7 @@ struct ContentView: View {
             }
         }
         .appearanceUpdate()
+        .navigationBarTitleDisplayMode(.inline)
     }
 
     private func testOnDeleteDisplayedEntry(displayedUUID: UUID) {

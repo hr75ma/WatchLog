@@ -49,6 +49,8 @@ final class StylesLogEntry: Sendable {
     let clearButtonSize: CGFloat = 20
 
     // navigation view section
+    let toolbarBackgroundOpacity: Double = 0.1
+    let toolbarBackgroundMaterial: Material = .ultraThinMaterial
     let navigationAddImage: String = "plus.circle"
     let navigationSettingImage: String = "gear.circle"
     let navigationMenuImage: String = "ellipsis.circle"

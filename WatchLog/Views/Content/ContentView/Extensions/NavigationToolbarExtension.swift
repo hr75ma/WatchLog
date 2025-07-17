@@ -53,3 +53,38 @@ struct NavigationToolbarMenuImage: View {
             .navigationToolBarSymbolModifier(appStyles: appStyles)
     }
 }
+
+private struct ToolbarModifier: ViewModifier {
+    @Environment(\.appStyles) var appStyles
+
+    func body(content: Content) -> some View {
+        content
+            .toolbarVisibility(.visible, for: .navigationBar)
+            .toolbarBackgroundVisibility(.visible, for: .navigationBar)
+            .toolbarBackground(appStyles.toolbarBackgroundMaterial, for: .navigationBar)
+            .toolbarBackground(.watchLogToolbar.opacity(appStyles.toolbarBackgroundOpacity), for: .navigationBar)
+    }
+}
+
+private struct SafeAreaInsetForToolbar: ViewModifier {
+    @Environment(\.appStyles) var appStyles
+
+    func body(content: Content) -> some View {
+        content
+            .safeAreaInset(edge: .top) {
+                Color.clear.frame(height: 10) // Adjust height as needed
+            }
+    }
+}
+
+extension View {
+    public func toolbarModifier() -> some View {
+        modifier(ToolbarModifier())
+    }
+    
+    public func safeAreaInsetForToolbar() -> some View {
+        modifier(SafeAreaInsetForToolbar())
+    }
+}
+
+

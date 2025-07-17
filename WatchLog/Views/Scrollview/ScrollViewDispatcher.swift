@@ -36,7 +36,9 @@ struct ScrollViewDispatcher: View {
     @State private var scrollPos: UUID?
 
     var body: some View {
-        HStack {
+       
+            
+            
             ScrollView(.horizontal) {
                 HStack(alignment: .center, spacing: 0) {
                     if logEntryUUIDContainer.logEntryBookDay.watchLogBookEntries!.isEmpty {
@@ -70,6 +72,7 @@ struct ScrollViewDispatcher: View {
                     }
                 }
             }
+            .safeAreaInsetForToolbar()
             .scrollTargetLayout()
             .scrollPosition(id: $scrollPos, anchor: .top)
             .scrollTargetBehavior(.viewAligned)
@@ -78,98 +81,98 @@ struct ScrollViewDispatcher: View {
                     showSheet = true
                 }
             }
-        }
-        .frame(
-            maxWidth: .infinity,
-            maxHeight: .infinity
-        )
-        .onAppear {
-            Task { @MainActor in
-                print("onappear scroll\(logEntryUUIDContainer.logEntryUUID)")
-                withAnimation {
-                    print("onappear \(logEntryUUIDContainer.logEntryUUID)")
+            
+            .frame(
+                maxWidth: .infinity,
+                maxHeight: .infinity
+            )
+            
+            
+            .onAppear {
+                Task { @MainActor in
+                    print("onappear scroll\(logEntryUUIDContainer.logEntryUUID)")
+                    withAnimation {
+                        print("onappear \(logEntryUUIDContainer.logEntryUUID)")
+                        Task {
+                            let logBookDay = await viewModel.fetchLogBookDay(from: .now)
+                            if logBookDay != nil && !logBookDay!.watchLogBookEntries!.isEmpty {
+                                logEntryUUIDContainer = .init(logEntryUUID: logBookDay!.logEntriesSorted.last!.uuid, logBookDay: logBookDay!)
+                            }
+                        }
+                        scrollPos = logEntryUUIDContainer.logEntryUUID
+                    }
+                }
+            }
+            .onChange(of: logEntryUUID) { // fürs scrolling
+                Task { @MainActor in
+                    print("displayedLogEntryUUID: \(displayedLogEntryUUID.id.uuidString)")
+                    print("gelieferte entryUUID: \(logEntryUUIDContainer.logEntryUUID.uuidString)")
+                    displayedLogEntryUUID.id = logEntryUUID
+                    logEntryUUIDContainer.logEntryUUID = logEntryUUID
+                }
+            }
+            .onChange(of: logEntryUUIDContainer.logEntryBookDay.watchLogBookEntries) { _, newValue in
+                if newValue!.count == 0 {
                     Task {
                         let logBookDay = await viewModel.fetchLogBookDay(from: .now)
                         if logBookDay != nil && !logBookDay!.watchLogBookEntries!.isEmpty {
                             logEntryUUIDContainer = .init(logEntryUUID: logBookDay!.logEntriesSorted.last!.uuid, logBookDay: logBookDay!)
+                            scrollPos = logEntryUUIDContainer.logEntryUUID
                         }
                     }
-                    scrollPos = logEntryUUIDContainer.logEntryUUID
                 }
             }
-        }
-        .onChange(of: logEntryUUID) { // fürs scrolling
-            Task { @MainActor in
-                print("displayedLogEntryUUID: \(displayedLogEntryUUID.id.uuidString)")
-                print("gelieferte entryUUID: \(logEntryUUIDContainer.logEntryUUID.uuidString)")
-                displayedLogEntryUUID.id = logEntryUUID
-                logEntryUUIDContainer.logEntryUUID = logEntryUUID
-            }
-        }
-        .onChange(of: logEntryUUIDContainer.logEntryBookDay.watchLogBookEntries) { _, newValue in
-            if newValue!.count == 0 {
-                Task {
-                    let logBookDay = await viewModel.fetchLogBookDay(from: .now)
-                    if logBookDay != nil && !logBookDay!.watchLogBookEntries!.isEmpty {
-                        logEntryUUIDContainer = .init(logEntryUUID: logBookDay!.logEntriesSorted.last!.uuid, logBookDay: logBookDay!)
-                        scrollPos = logEntryUUIDContainer.logEntryUUID
+            
+            .onChange(of: logEntryUUIDContainer) { oldValue, newValue in
+                Task { @MainActor in
+                    print("gelieferte entryUUID: \(newValue.logEntryUUID.uuidString)")
+                    if oldValue.logEntryBookDay.uuid != newValue.logEntryBookDay.uuid {
+                        logEntryUUID = newValue.logEntryUUID
+                        print("onChange new Day: \(newValue.logEntryUUID)")
+                        withAnimation {
+                            scrollPos = logEntryUUIDContainer.logEntryUUID
+                        }
+                    } else {
+                        print("onChange same Day: \(newValue.logEntryUUID)")
+                        withAnimation {
+                            scrollPos = logEntryUUIDContainer.logEntryUUID
+                        }
                     }
+                    if newValue.logEntryBookDay.watchLogBookEntries!.isEmpty {
+                        numberOfEntry = 0
+                    }
+                }
+            }
+            .onChange(of: isEditing) { _, _ in
+                print("isShowingOnly changed to \(isEditing)")
+            }
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Text("Eintrag \(numberOfEntry) von \(logEntryUUIDContainer.logEntryBookDay.watchLogBookEntries!.count)")
+                        .navigationTitleModifier()
+                        .isHidden(numberOfEntry == 0, remove: true)
                 }
                 
+                ToolbarItemGroup(placement: .primaryAction) {
+                    MenuButton
+                        .isHidden(numberOfEntry == 0, remove: true)
+                }
             }
-        }
-
-        .onChange(of: logEntryUUIDContainer) { oldValue, newValue in
-            Task { @MainActor in
-                print("gelieferte entryUUID: \(newValue.logEntryUUID.uuidString)")
-                if oldValue.logEntryBookDay.uuid != newValue.logEntryBookDay.uuid {
-                    logEntryUUID = newValue.logEntryUUID
-                    print("onChange new Day: \(newValue.logEntryUUID)")
-                    withAnimation {
-                        scrollPos = logEntryUUIDContainer.logEntryUUID
-                    }
-                } else {
-                    print("onChange same Day: \(newValue.logEntryUUID)")
-                    withAnimation {
-                        scrollPos = logEntryUUIDContainer.logEntryUUID
+            .toolbarModifier()
+            .onChange(of: showSheet) { _, newValue in
+                if newValue == false {
+                    Task {
+                        print("back from editing")
+                        refreshID = UUID()
                     }
                 }
-                if newValue.logEntryBookDay.watchLogBookEntries!.isEmpty {
-                    numberOfEntry = 0
+            }
+            .fullScreenCover(isPresented: $showSheet) {
+                NavigationStack {
+                    LogBookEntryEditWrapperView(logBookEntryUUID: $logEntryUUIDContainer.logEntryUUID, isEditing: $showSheet)
                 }
             }
-        }
-        .onChange(of: isEditing) { _, _ in
-            print("isShowingOnly changed to \(isEditing)")
-        }
-        .toolbar {
-            ToolbarItem(placement: .topBarLeading) {
-                Text("Eintrag \(numberOfEntry) von \(logEntryUUIDContainer.logEntryBookDay.watchLogBookEntries!.count)")
-                    .navigationTitleModifier()
-                    .isHidden(numberOfEntry == 0, remove: true)
-            }
-
-            ToolbarItemGroup(placement: .primaryAction) {
-                MenuButton
-                    .isHidden(numberOfEntry == 0, remove: true)
-            }
-        }
-        .toolbarVisibility(.visible, for: .navigationBar)
-        .toolbarBackgroundVisibility(.visible, for: .navigationBar)
-        .toolbarBackground(.ultraThinMaterial, for: .navigationBar)
-        .onChange(of: showSheet) { _, newValue in
-            if newValue == false {
-                Task {
-                    print("back from editing")
-                    refreshID = UUID()
-                }
-            }
-        }
-        .fullScreenCover(isPresented: $showSheet) {
-            NavigationStack {
-                LogBookEntryEditWrapperView(logBookEntryUUID: $logEntryUUIDContainer.logEntryUUID, isEditing: $showSheet)
-            }
-        }
+        
     }
 }
 
