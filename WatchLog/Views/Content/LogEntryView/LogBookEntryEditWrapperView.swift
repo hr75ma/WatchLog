@@ -22,19 +22,41 @@ struct LogBookEntryEditWrapperView: View {
     @State var alertDelete = false
     @State var alertNew = false
     @State var alertClear = false
+    
+    @State var scale = 0.0
+        @State var opacity = 0.0
+    @State var oset = 0.0
 
     
     var body: some View {
-        HStack {
-            LogBookEntryView(watchLogEntry: $watchLogEntry, isEditing: $isEditing)
-        }
+       // GeometryReader { proxy in
+            
+            HStack {
+                LogBookEntryView(watchLogEntry: $watchLogEntry, isEditing: $isEditing)
+                
+                
+                
+                
+            }
+       // }
+        //.offset(y: oset)
+        .scaleEffect(scale)
+        .opacity(opacity)
+        
+        //.animation(Animation.easeInOut(duration: 2))
         .safeAreaInsetForToolbar()
         .onAppear{
             Task {
+                
                 print("onappear Edit - \(logBookEntryUUID.uuidString)")
                 watchLogEntry = await viewModel.fetchLogEntryMod(LogEntryUUID: logBookEntryUUID)
                 watchLogEntry.isLocked = isEditing ? false : true
                 blurSetting.isBlur = false
+                withAnimation(.smooth(duration: 1)) {
+                               scale = 1.0
+                               opacity = 1.0
+                    oset = -500
+                            }
             }
         }
         .toolbar {

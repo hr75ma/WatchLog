@@ -119,11 +119,15 @@ struct ContentView: View {
                 // dismiss()
             }
             .onChange(of: showNewEntrySheet) { oldValue, newValue in
-                if oldValue == true && newValue == false {
-                    Task {
-                        let isExisting = await viewModel.fetchLogBookEntry(from: newEntryUUID)
-                        if isExisting != nil {
-                            logEntryUUIDContainer = .init(logEntryUUID: isExisting!.uuid, logBookDay: isExisting!.watchLogBookDay!)
+                
+                withAnimation {
+                    
+                    if oldValue == true && newValue == false {
+                        Task {
+                            let isExisting = await viewModel.fetchLogBookEntry(from: newEntryUUID)
+                            if isExisting != nil {
+                                logEntryUUIDContainer = .init(logEntryUUID: isExisting!.uuid, logBookDay: isExisting!.watchLogBookDay!)
+                            }
                         }
                     }
                 }
