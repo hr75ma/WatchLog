@@ -65,27 +65,29 @@ struct LogBookEntryEditWrapperView: View {
 extension LogBookEntryEditWrapperView {
     
     var MenuButton: some View {
-        Menu {
-            if !watchLogEntry.isLocked {
-                Button {
-                    watchLogEntry.remoteSignalContainer.signale = .save
-                    blurSetting.isBlur = false
-                } label: {
-                    NavigationMenuLabelView(menuItemType: MenuType.save)
-                }
+            Menu {
+                
+                    if !watchLogEntry.isLocked {
+                        Button {
+                            watchLogEntry.remoteSignalContainer.signale = .save
+                            blurSetting.isBlur = false
+                        } label: {
+                            NavigationMenuLabelView(menuItemType: MenuType.save)
+                        }
+                    }
+                    Divider()
+                    
+                    Button(role: .destructive) {
+                        blurSetting.isBlur = true
+                        alertDelete.toggle()
+                    } label: {
+                        NavigationMenuLabelView(menuItemType: MenuType.delete)
+                    }
             }
-                Divider()
-
-                Button(role: .destructive) {
-                    blurSetting.isBlur = true
-                    alertDelete.toggle()
-                } label: {
-                    NavigationMenuLabelView(menuItemType: MenuType.delete)
-                }
+            label: {
+                NavigationToolbarItemImage(toolbarItemType: .menu, appStyles: appStyles)
+            }
             
-        } label: {
-            NavigationToolbarItemImage(toolbarItemType: .menu, appStyles: appStyles)
-        }
         .alert("Log Löschen?", isPresented: $alertDelete) {
             Button(
                 "Löschen", role: .destructive,

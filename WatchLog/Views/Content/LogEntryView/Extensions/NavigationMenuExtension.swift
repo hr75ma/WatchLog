@@ -13,6 +13,7 @@ enum MenuType: Int, CaseIterable {
     case delete
     case clear
     case edit
+    case section
 }
 
 enum ImageColorationType: Int, CaseIterable {
@@ -30,15 +31,18 @@ struct NavigationMenuLabelView: View {
             Label("Neues Log", systemImage: appStyles.navigationAddImage)
                 .navigationMenuUndestructiveModifier()
         case .save:
-            Label("Log Speichern", systemImage: appStyles.saveImageActive)
+            Label("Speichern", systemImage: appStyles.saveImageActive)
                 .navigationMenuUndestructiveModifier()
         case .delete:
-            Label("Log Löschen", systemImage: appStyles.deleteImageActive)
+            Label("Löschen", systemImage: appStyles.deleteImageActive)
                 .navigationMenuDestructiveModifier()
         case .clear:
             Label("Log leeren", systemImage: appStyles.eraserImageActive)
                 .navigationMenuDestructiveModifier()
         case .edit:
+            Label("Log editieren", systemImage: appStyles.saveImageActive)
+                .navigationMenuUndestructiveModifier()
+        case .section:
             Label("Log editieren", systemImage: appStyles.saveImageActive)
                 .navigationMenuUndestructiveModifier()
         }
@@ -99,4 +103,13 @@ extension Image {
             }
             .symbolEffect(.pulse.wholeSymbol, options: .nonRepeating)
     }
+}
+
+struct globalMenuStyle: MenuStyle {
+    @Environment(\.appStyles) var appStyles
+    
+    func makeBody(configuration: Configuration) -> some View {
+            Menu(configuration)
+                .background(.red)
+        }
 }
