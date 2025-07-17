@@ -88,11 +88,11 @@ struct ContentView: View {
                         toolBarItemNewButton
                         toolBarItemSettings
                     }
-                    ToolbarItem(placement: .automatic) {
-                        VStack {
+                    ToolbarItem(placement: .topBarLeading) {
+                       
                             Text("Wachbuch")
                                 .navigationTitleModifier()
-                        }
+                       
                     }
                 }
             }
@@ -199,8 +199,10 @@ struct ContentView: View {
 extension ContentView {
     private var toolBarItemNewButton: some View {
         Button(action: {
-            alertNew.toggle()
+            //alertNew.toggle()
             blurSetting.isBlur = true
+            newEntryUUID = UUID()
+            showNewEntrySheet = true
         }) {
             NavigationToolbarItemImage(toolbarItemType: .addEntry, appStyles: appStyles)
         }
@@ -312,81 +314,3 @@ extension ContentView {
         .disclosureGroupStyleDay(appStyles)
     }
 }
-
-// extension DisclosureTestView {
-//  public func testOnEqualUUID(logEntryUUID: UUID, displayedLogEntryUUID: UUID) -> Bool {
-//    if logEntryUUID == displayedLogEntryUUID {
-//      //isSelection = true
-//
-//      return true
-//    }
-//    //isSelection = false
-//
-//    return false
-//  }
-// }
-
-// struct DisclosureTestView: View {
-//  @State var day: WatchLogBookDay
-//  @Environment(DisplayedLogEntryID.self) var displayedLogEntryUUID
-//  @Binding var logBookEntryUUID: UUID
-//
-//  @State var isSelection: Bool = false
-//  @State var isSelectedRow: WatchLogBookEntry? = nil
-//
-//  @Environment(\.appStyles) var appStyles
-//  @Environment(\.colorScheme) var colorScheme
-//
-//  var body: some View {
-//
-//    DisclosureGroup(DateManipulation.getWeekDay(from: day.LogDate)) {
-//      ForEach(day.logEntriesSorted) { entry in
-//        Button(action: {
-//          logBookEntryUUID = entry.uuid
-//          displayedLogEntryUUID.id = logBookEntryUUID
-//
-//        }) {
-//          VStack(alignment: .leading) {
-//            Text(DateManipulation.getTime(from: entry.LogDate))
-//              .navigationTreeLinkLabelStyle(
-//                isSeletecedItem: testOnEqualUUID(
-//                  logEntryUUID: entry.uuid, displayedLogEntryUUID: displayedLogEntryUUID.id))
-//            if entry.processDetails != nil {
-//              Text(ProcessType.processTypes[entry.processDetails!.processTypeShort]!)
-//                .navigationTreeLinkSubLabelStyle(
-//                  isSeletecedItem: entry.uuid == displayedLogEntryUUID.id)
-//            }
-//          }
-//          .onChange(
-//            of: testOnEqualUUID(
-//              logEntryUUID: entry.uuid, displayedLogEntryUUID: displayedLogEntryUUID.id)
-//          ) { oldValue, newValue in
-//              print("--->onchange:")
-//              print("entryuuid: \(entry.LogDate)")
-//              print("entryuuid: \(entry.uuid)")
-//              print("displayedLogEntryUUID: \(displayedLogEntryUUID.id)")
-//              print("isSelectedRow: \(isSelectedRow?.uuid)")
-//
-//            withAnimation {
-//               // isSelectedRow = isSelectedRow == entry && isSelectedRow?.id == displayedLogEntryUUID.id ? nil : entry
-//                isSelectedRow = isSelectedRow == entry && entry.uuid == displayedLogEntryUUID.id ? nil : entry
-//               print("isSelectedRow: \(isSelectedRow?.uuid)")
-//                print("")
-//            }
-//          }
-//
-//        }
-//        .listRowBackground(
-//          RoundedRectangle(cornerRadius: 0)
-//            //.backgroundRow(isSelectedRow: isSelectedRow == entry, colorScheme: colorScheme)
-//            //.backgroundRow(isSelectedRow: isSelectedRow == entry, colorScheme: colorScheme)
-//            .backgroundRow(isSelectedRow: entry.uuid == displayedLogEntryUUID.id, colorScheme: colorScheme)
-//            //.animation(.easeInOut(duration: 1), value: isSelectedRow)
-//        )
-//      }
-//
-//    }
-//    .disclosureGroupStyleDay(appStyles)
-//
-//  }
-// }

@@ -97,7 +97,6 @@ extension Image {
                     .foregroundStyle(
                         .watchLogToolbarColorAccent, .watchLogToolbarColorPrimary)
             }
-            .symbolEffect(.scale)
-            .symbolEffect(.breathe.pulse.wholeSymbol, options: .nonRepeating.speed(appStyles.navigationItemAnimationDuration))
+            .symbolEffect(.pulse.wholeSymbol, options: .nonRepeating)
     }
 }

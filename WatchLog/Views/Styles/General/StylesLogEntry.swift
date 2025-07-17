@@ -56,12 +56,16 @@ final class StylesLogEntry: Sendable {
     let navigationMenuImage: String = "ellipsis.circle"
     let navigationBackImage: String = "arrowshape.turn.up.backward.circle"
     let navigationItemImageSize: CGFloat = 25
-    let navigationItemAnimationDuration: Double = 1
+    
+    
+    
+    //let navigationTreeItemAnimationDuration: Double = 0.5
+    let navigationRowAnimationDuration: Double = 0.5
 
     let navigationTitleFont: String = "digital-7"
     let navigationTitleFontSize: CGFloat = 28
 
-    let navigationRowAnimationDuration: Double = 0.75
+    
     let navigationRowGradientOpacityStart: Double = 0.5
     let navigationRowGradientOpacityEnd: Double = 1
 

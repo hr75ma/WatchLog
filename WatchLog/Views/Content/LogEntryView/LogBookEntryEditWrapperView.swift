@@ -28,6 +28,7 @@ struct LogBookEntryEditWrapperView: View {
         HStack {
             LogBookEntryView(watchLogEntry: $watchLogEntry, isEditing: $isEditing)
         }
+        .safeAreaInsetForToolbar()
         .onAppear{
             Task {
                 print("onappear Edit - \(logBookEntryUUID.uuidString)")
@@ -44,15 +45,19 @@ struct LogBookEntryEditWrapperView: View {
                 } label: {
                     NavigationToolbarItemImage(toolbarItemType: .back, appStyles: appStyles)
                 }
-                
-                Text("Eintrag")
+            }
+            
+            ToolbarItem(placement: .topBarLeading) {
+                Text("Eintrag bearbeiten")
                     .navigationTitleModifier()
             }
+            
             
             ToolbarItem(placement: .primaryAction) {
                 MenuButton
             }
         }
+        .toolbarModifier() 
         .blurring(blurSetting: blurSetting)
     }
 }
