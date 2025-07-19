@@ -73,7 +73,7 @@ extension CallInView {
             
             if !viewIsReadOnly {
                 
-                withAnimation(.easeInOut(duration: 1)) {
+                withAnimation(.smooth(duration: 1)) {
                     selectedCallIn = logEntry.CallIn
                     selectedCallInHelper = selectedCallIn
                     tempLocked = logEntry.isLocked
@@ -89,7 +89,7 @@ extension CallInView {
         .onChange(of: selectedCallIn) { _, _ in
             if !viewIsReadOnly {
                 
-                withAnimation(.easeInOut(duration: 1)) {
+                withAnimation(.smooth(duration: 1)) {
                     logEntry.CallIn = selectedCallIn
                     selectedCallInHelper = selectedCallIn
                     selectedCallInAsString = CallInType.callInTypes[logEntry.CallIn]!
@@ -107,7 +107,7 @@ extension CallInView {
             
             if !viewIsReadOnly {
                 
-                withAnimation(.easeInOut(duration: 1)) {
+                withAnimation(.smooth(duration: 1)) {
                     selectedCallIn = logEntry.CallIn
                     selectedCallInHelper = selectedCallIn
                 }
@@ -122,7 +122,7 @@ extension CallInView {
             
             if !viewIsReadOnly {
                 
-                withAnimation(.easeInOut(duration: 1)) {
+                withAnimation(.smooth(duration: 1)) {
                     tempLocked = logEntry.isLocked
                     selectedCallInHelper = selectedCallIn
                     selectedCallInAsString = CallInType.callInTypes[logEntry.CallIn]!
