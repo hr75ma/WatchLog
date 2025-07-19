@@ -10,15 +10,13 @@ import SwiftUI
 struct CallInView: View {
     @Bindable var logEntry: WatchLogEntry
     let viewIsReadOnly: Bool
-    
+
     @Environment(\.appStyles) var appStyles
 
     @State private var selectedCallIn: CallInType.CallInTypeShort = CallInType.CallInTypeShort
         .EMERGENCY
     @State private var selectedCallInHelper: CallInType.CallInTypeShort = CallInType.CallInTypeShort
         .EMERGENCY
-    @State private var selectedCallInAsString: String = CallInType.callInTypes[
-        CallInType.CallInTypeShort.EMERGENCY]!
     @State private var tempLocked: Bool = false
     @Namespace private var namespace
 
@@ -44,97 +42,66 @@ extension CallInView {
 
             VStack(alignment: .leading, spacing: 0) {
                 HStack(alignment: .top, spacing: 0) {
-                    if tempLocked {
-                        Text(selectedCallInAsString)
-                            .sectionSimulatedTextFieldSingleLine(
-                                isLocked: logEntry.isLocked
-                            )
-                            .if(!viewIsReadOnly) { anima in
-                                    anima
-                                    .matchedGeometryEffect(id: "lockedEvent", in: namespace)
-                            }
-                            
-                            .isHidden(!tempLocked, remove: true)
-                        Spacer()
+                    if viewIsReadOnly {
+                        ReadOnlyContent()
+                    } else {
+                        EditableContent()
                     }
-
-                    customSegmentedPickerView(preselectedIndex: $selectedCallIn, appStyles: appStyles)
-                        .if(!viewIsReadOnly) { anima in
-                            anima
-                                .matchedGeometryEffect(id: "lockedEvent", in: namespace)
-                        }
-                        .isHidden(tempLocked, remove: true)
                 }
                 .frame(maxWidth: .infinity)
-                .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
             }
         }
         .onAppear {
-            
             if !viewIsReadOnly {
-                
                 withAnimation(.smooth(duration: 1)) {
                     selectedCallIn = logEntry.CallIn
                     selectedCallInHelper = selectedCallIn
                     tempLocked = logEntry.isLocked
                 }
-            } else {
-                
-                    selectedCallIn = logEntry.CallIn
-                    selectedCallInHelper = selectedCallIn
-                    tempLocked = logEntry.isLocked
-
             }
         }
-        .onChange(of: selectedCallIn) { _, _ in
+        .onChange(of: logEntry.CallIn) { _, _ in
             if !viewIsReadOnly {
-                
                 withAnimation(.smooth(duration: 1)) {
-                    logEntry.CallIn = selectedCallIn
-                    selectedCallInHelper = selectedCallIn
-                    selectedCallInAsString = CallInType.callInTypes[logEntry.CallIn]!
+                    selectedCallInHelper = logEntry.CallIn
                 }
-            } else {
-                
-                logEntry.CallIn = selectedCallIn
-                selectedCallInHelper = selectedCallIn
-                selectedCallInAsString = CallInType.callInTypes[logEntry.CallIn]!
-
-            }
-        }
-        .onChange(of: logEntry.uuid) {
-            _, _ in
-            
-            if !viewIsReadOnly {
-                
-                withAnimation(.smooth(duration: 1)) {
-                    selectedCallIn = logEntry.CallIn
-                    selectedCallInHelper = selectedCallIn
-                }
-            } else {
-                
-                selectedCallIn = logEntry.CallIn
-                selectedCallInHelper = selectedCallIn
-
             }
         }
         .onChange(of: logEntry.isLocked) {
-            
             if !viewIsReadOnly {
-                
                 withAnimation(.smooth(duration: 1)) {
                     tempLocked = logEntry.isLocked
-                    selectedCallInHelper = selectedCallIn
-                    selectedCallInAsString = CallInType.callInTypes[logEntry.CallIn]!
+                    selectedCallInHelper = logEntry.CallIn
                 }
-            } else {
-                
-                tempLocked = logEntry.isLocked
-                selectedCallInHelper = selectedCallIn
-                selectedCallInAsString = CallInType.callInTypes[logEntry.CallIn]!
-
             }
         }
-        .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+    }
+
+    private func ReadOnlyContent() -> some View {
+        HStack(alignment: .center, spacing: 0) {
+            Text(CallInType.callInTypes[logEntry.CallIn]!)
+                .sectionSimulatedTextFieldSingleLine(
+                    isLocked: logEntry.isLocked
+                )
+            Spacer()
+        }
+    }
+
+    private func EditableContent() -> some View {
+        HStack(alignment: .center, spacing: 0) {
+            if tempLocked {
+                Text(CallInType.callInTypes[logEntry.CallIn]!)
+                    .sectionSimulatedTextFieldSingleLine(
+                        isLocked: logEntry.isLocked
+                    )
+                    .matchedGeometryEffect(id: "lockedEvent", in: namespace)
+                    .isHidden(!tempLocked, remove: true)
+                Spacer()
+            }
+
+            customSegmentedPickerView(preselectedIndex: $logEntry.CallIn, appStyles: appStyles)
+                .matchedGeometryEffect(id: "lockedEvent", in: namespace)
+                .isHidden(tempLocked, remove: true)
+        }
     }
 }
