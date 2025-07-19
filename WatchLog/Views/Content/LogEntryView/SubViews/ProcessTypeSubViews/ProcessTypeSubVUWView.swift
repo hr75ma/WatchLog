@@ -25,7 +25,7 @@ struct ProcessTypeSubVUWView: View {
                 Text("Tier lebt")
                     .textLabel(textLabelLevel: TextLabelLevel.sub)
 
-                ToggleView(toggleValue: $logEntry.processTypeDetails.isInjured, isLocked: logEntry.isLocked, toggleType: .sub)
+                ToggleView(toggleValue: $logEntry.processTypeDetails.isInjured, isLocked: logEntry.isLocked, removeAnimation: viewIsReadOnly, toggleType: .sub)
                     .disabled(logEntry.isLocked)
                 Spacer()
             }

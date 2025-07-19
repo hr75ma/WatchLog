@@ -27,10 +27,6 @@ struct toggleStyleLockImage: ToggleStyle {
                     ? .watchLogIsLockedImageSecondary : .watchLogIsUnLockedImageSecondary
             )
 
-            // .animation(.easeInOut(duration: 1), value: configuration.isOn)
-            // .scaleEffect(x: isLocked ? -1:1, y: 1).transaction { transaction in
-            //     transaction.animation = nil
-            // }
             .symbolEffectsRemoved(removeAnimation)
             .symbolEffect(.rotate.clockwise.byLayer, options: .nonRepeating, isActive: configuration.isOn)
             .symbolEffect(
@@ -38,7 +34,8 @@ struct toggleStyleLockImage: ToggleStyle {
             )
             .padding(EdgeInsets(top: 4, leading: 4, bottom: 4, trailing: 4))
         }
-        .animation(.easeInOut(duration: 1), value: isLocked)
+        .disableAnimations(disableAnimation: removeAnimation)
+        .animation(.smooth(duration: 1), value: isLocked)
         .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
         .frame(height: appStyles.labelFontSize, alignment: .center)
         .onTapGesture {
@@ -49,6 +46,7 @@ struct toggleStyleLockImage: ToggleStyle {
 
 struct standardToggleStyleImage: ToggleStyle {
     var isLocked: Bool = false
+    let removeAnimation: Bool
     @Environment(\.appStyles) var appStyles
 
     func makeBody(configuration: standardToggleStyleImage.Configuration) -> some View {
@@ -67,7 +65,7 @@ struct standardToggleStyleImage: ToggleStyle {
                 configuration.isOn
                     ? .watchLogStandardToggleIsActiveSecondary : .watchLogStandardToggleIsUnactiveSecondary
             )
-            // .animation(.easeInOut(duration: 1), value: configuration.isOn)
+            .symbolEffectsRemoved(removeAnimation)
             .symbolEffect(
                 .breathe.pulse.wholeSymbol, options: .nonRepeating.speed(6), isActive: configuration.isOn
             )
@@ -77,6 +75,7 @@ struct standardToggleStyleImage: ToggleStyle {
             .symbolEffect(.scale)
             .padding(EdgeInsets(top: 4, leading: 4, bottom: 4, trailing: 4))
         }
+        .disableAnimations(disableAnimation: removeAnimation)
         .animation(.easeInOut(duration: 1), value: isLocked)
         .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
         .labelsHidden()

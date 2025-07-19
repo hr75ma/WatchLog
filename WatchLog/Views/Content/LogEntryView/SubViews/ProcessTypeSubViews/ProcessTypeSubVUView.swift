@@ -33,8 +33,7 @@ struct ProcessTypeSubVUView: View {
                     .textLabel(textLabelLevel: TextLabelLevel.sub)
 
                 ToggleView(
-                    toggleValue: $logEntry.processTypeDetails.isInjured, isLocked: logEntry.isLocked,
-                    toggleType: .sub)
+                    toggleValue: $logEntry.processTypeDetails.isInjured, isLocked: logEntry.isLocked, removeAnimation: viewIsReadOnly, toggleType: .sub)
 
                 Spacer()
 
@@ -42,8 +41,7 @@ struct ProcessTypeSubVUView: View {
                     .textLabel(textLabelLevel: TextLabelLevel.sub)
 
                 ToggleView(
-                    toggleValue: $logEntry.processTypeDetails.AccientHitAndRun, isLocked: logEntry.isLocked,
-                    toggleType: .sub)
+                    toggleValue: $logEntry.processTypeDetails.AccientHitAndRun, isLocked: logEntry.isLocked, removeAnimation: viewIsReadOnly, toggleType: .sub)
 
                 Spacer()
 
@@ -51,8 +49,7 @@ struct ProcessTypeSubVUView: View {
                     .textLabel(textLabelLevel: TextLabelLevel.sub)
 
                 ToggleView(
-                    toggleValue: $logEntry.processTypeDetails.AlcoholConsumed, isLocked: logEntry.isLocked,
-                    toggleType: .sub)
+                    toggleValue: $logEntry.processTypeDetails.AlcoholConsumed, isLocked: logEntry.isLocked, removeAnimation: viewIsReadOnly, toggleType: .sub)
             }
         }
         .standardEventSubViewPadding()

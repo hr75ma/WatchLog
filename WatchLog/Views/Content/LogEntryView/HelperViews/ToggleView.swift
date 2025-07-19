@@ -15,6 +15,7 @@ enum ToogleType: Int, CaseIterable {
 struct ToggleView: View {
     @Binding var toggleValue: Bool
     let isLocked: Bool
+    let removeAnimation: Bool
     let toggleType: ToogleType
     @Environment(\.appStyles) var appStyles
 
@@ -24,8 +25,7 @@ struct ToggleView: View {
             Toggle("", isOn: $toggleValue)
                 .labelsHidden()
                 .toggleStyle(
-                    standardToggleStyleImage(isLocked: isLocked)
-                )
+                    standardToggleStyleImage(isLocked: isLocked,  removeAnimation: removeAnimation))
                 .frame(height: appStyles.labelFontSize)
                 .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
 
@@ -33,8 +33,7 @@ struct ToggleView: View {
             Toggle("", isOn: $toggleValue)
                 .labelsHidden()
                 .toggleStyle(
-                    standardToggleStyleImage(isLocked: isLocked)
-                )
+                    standardToggleStyleImage(isLocked: isLocked, removeAnimation: removeAnimation))
                 .frame(height: appStyles.textFieldSubHeight, alignment: .center)
                 .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
         }

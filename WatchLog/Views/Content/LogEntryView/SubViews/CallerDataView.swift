@@ -146,7 +146,7 @@ extension CallerDataView {
             HStack(alignment: .top, spacing: 0) {
                 HStack(alignment: .top, spacing: 0) {
                     ToggleView(
-                        toggleValue: self.$withBirthday, isLocked: logEntry.isLocked, toggleType: .standard
+                        toggleValue: self.$withBirthday, isLocked: logEntry.isLocked, removeAnimation: viewIsReadOnly, toggleType: .standard
                     )
                     .isHidden(tempLocked, remove: true)
 

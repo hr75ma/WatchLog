@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ProcessTypeSubKVView: View {
     @Bindable var logEntry: WatchLogEntry
+    let viewIsReadOnly: Bool
     @Environment(\.appStyles) var appStyles
 
     var body: some View {
@@ -18,7 +19,7 @@ struct ProcessTypeSubKVView: View {
                     Text("Verletzte")
                         .textLabel(textLabelLevel: TextLabelLevel.sub)
 
-                    ToggleView(toggleValue: $logEntry.processTypeDetails.isInjured, isLocked: logEntry.isLocked, toggleType: .sub)
+                    ToggleView(toggleValue: $logEntry.processTypeDetails.isInjured, isLocked: logEntry.isLocked, removeAnimation: viewIsReadOnly, toggleType: .sub)
                     Spacer()
                 }
             }
