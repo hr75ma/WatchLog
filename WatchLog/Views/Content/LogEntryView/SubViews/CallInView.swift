@@ -9,12 +9,12 @@ import SwiftUI
 
 struct CallInView: View {
     @Bindable var logEntry: WatchLogEntry
+    
     let viewIsReadOnly: Bool
 
     @Environment(\.appStyles) var appStyles
 
-    @State private var selectedCallIn: CallInType.CallInTypeShort = CallInType.CallInTypeShort
-        .EMERGENCY
+    //@State private var selectedCallIn: CallInType.CallInTypeShort = CallInType.CallInTypeShort.EMERGENCY
     @State private var selectedCallInHelper: CallInType.CallInTypeShort = CallInType.CallInTypeShort
         .EMERGENCY
     @State private var tempLocked: Bool = false
@@ -54,8 +54,7 @@ extension CallInView {
         .onAppear {
             if !viewIsReadOnly {
                 withAnimation(.smooth(duration: 1)) {
-                    selectedCallIn = logEntry.CallIn
-                    selectedCallInHelper = selectedCallIn
+                    selectedCallInHelper = logEntry.CallIn
                     tempLocked = logEntry.isLocked
                 }
             }
