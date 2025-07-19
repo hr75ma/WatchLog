@@ -10,8 +10,7 @@ import UIKit
 struct CallerDataView: View {
     @Bindable var logEntry: WatchLogEntry
     let viewIsReadOnly: Bool
-    
-    
+
     @Environment(\.appStyles) var appStyles
     @Environment(\.colorScheme) var colorScheme
 
@@ -79,15 +78,11 @@ extension CallerDataView {
                 .textLabel(textLabelLevel: TextLabelLevel.standard)
 
             HStack(alignment: .top, spacing: 0) {
-                
                 if viewIsReadOnly {
-                    
                     ReadOnlyContent()
-                    
+
                 } else {
-                    
                     EditableContent()
- 
                 }
             }
             .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
@@ -133,7 +128,6 @@ extension CallerDataView {
 }
 
 extension CallerDataView {
-    
     private func ReadOnlyContent() -> some View {
         HStack(alignment: .center, spacing: 0) {
             if tempLocked {
@@ -146,18 +140,16 @@ extension CallerDataView {
             }
         }
     }
-    
+
     private func EditableContent() -> some View {
         HStack(alignment: .top, spacing: 0) {
             HStack(alignment: .top, spacing: 0) {
-                
                 HStack(alignment: .top, spacing: 0) {
-                    
                     ToggleView(
                         toggleValue: self.$withBirthday, isLocked: logEntry.isLocked, toggleType: .standard
                     )
                     .isHidden(tempLocked, remove: true)
-                    
+
                     DatePicker("", selection: $logEntry.CallerDOB ?? Date(), in: ...Date(), displayedComponents: [.date])
                         .datePickerWheelStyle()
                         .matchedGeometryEffect(id: "lockedEvent", in: namespace)
@@ -165,7 +157,7 @@ extension CallerDataView {
                 }
                 .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
             }
-            
+
             if tempLocked {
                 Text(DateManipulation.getFormatedDateFromDOB(from: logEntry.CallerDOB))
                     .sectionSimulatedTextFieldSingleLine(
@@ -185,7 +177,6 @@ public func ?? <T: Sendable>(lhs: Binding<T?>, rhs: T) -> Binding<T> {
         set: { lhs.wrappedValue = $0 }
     )
 }
-
 
 //            Toggle("", isOn: $withBirthday)
 //              .labelsHidden()
