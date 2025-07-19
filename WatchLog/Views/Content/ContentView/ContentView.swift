@@ -105,7 +105,7 @@ struct ContentView: View {
 
             .fullScreenCover(isPresented: $showNewEntrySheet) {
                 NavigationStack {
-                    LogBookEntryEditWrapperView(logBookEntryUUID: $newEntryUUID, isEditing: $showNewEntrySheet)
+                    LogBookEntryEditWrapperView(logBookEntryUUID: $newEntryUUID)
                 }
             }
             .sheet(isPresented: $showSettingSheet) {
@@ -131,6 +131,7 @@ struct ContentView: View {
                         }
                     }
                 }
+
             }
             .onAppear {
                 refreshProgressionBehavior(appStyles)

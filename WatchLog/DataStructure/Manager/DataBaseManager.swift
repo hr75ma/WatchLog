@@ -607,7 +607,7 @@ final class DataBaseManager {
             // logDayEntry?.watchLogBookEntries?.append(log)
             logDayEntry?.addLogEntry(log)
             try? modelContext.save()
-            print(">>> Log saveving \(log.uuid)")
+            //print(">>> Log saveving \(log.uuid)")
         }
 
         return .success(())

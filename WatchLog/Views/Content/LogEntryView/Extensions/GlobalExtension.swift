@@ -123,7 +123,7 @@ struct TextFormatterStyle: ViewModifier {
         content
             .font(Font.custom(appStyles.logTimeFont, size: appStyles.logTimeFontSize))
             .foregroundStyle(.watchLogFont)
-            .contentTransition(.numericText())
+            //.contentTransition(.numericText())
     }
 }
 

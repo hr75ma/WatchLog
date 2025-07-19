@@ -18,7 +18,7 @@ import SwiftUI
 struct LogBookEntryShowWrapperView: View {
 
     @Binding public var logBookEntryUUID: UUID
-    @Binding public var isEditing: Bool
+    let viewIsReadOnly: Bool = true
     
     @State private var watchLogEntry: WatchLogEntry = .init()
     
@@ -31,7 +31,7 @@ struct LogBookEntryShowWrapperView: View {
     var body: some View {
         
         HStack {
-            LogBookEntryView(watchLogEntry: $watchLogEntry, isEditing: $isEditing)
+            LogBookEntryView(watchLogEntry: $watchLogEntry,viewIsReadOnly: viewIsReadOnly)
         }
         .onAppear{
             Task {

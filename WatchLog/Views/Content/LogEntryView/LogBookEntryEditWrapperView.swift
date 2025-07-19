@@ -10,7 +10,6 @@ import SwiftUI
 struct LogBookEntryEditWrapperView: View {
 
     @Binding public var logBookEntryUUID: UUID
-    @Binding public var isEditing: Bool
     @State private var watchLogEntry: WatchLogEntry = .init()
     @EnvironmentObject var viewModel: LogEntryViewModel
 
@@ -26,22 +25,23 @@ struct LogBookEntryEditWrapperView: View {
     @State var scale = 0.0
         @State var opacity = 0.0
     @State var oset = 0.0
+    
+    let viewIsReadOnly: Bool = false
 
     
     var body: some View {
        // GeometryReader { proxy in
             
             HStack {
-                LogBookEntryView(watchLogEntry: $watchLogEntry, isEditing: $isEditing)
-                
-                
-                
-                
+                LogBookEntryView(watchLogEntry: $watchLogEntry,viewIsReadOnly: viewIsReadOnly)
+
             }
+            
+
        // }
         //.offset(y: oset)
-        .scaleEffect(scale)
-        .opacity(opacity)
+        //.scaleEffect(scale)
+       // .opacity(opacity)
         
         //.animation(Animation.easeInOut(duration: 2))
         .safeAreaInsetForToolbar()
@@ -50,7 +50,7 @@ struct LogBookEntryEditWrapperView: View {
                 
                 print("onappear Edit - \(logBookEntryUUID.uuidString)")
                 watchLogEntry = await viewModel.fetchLogEntryMod(LogEntryUUID: logBookEntryUUID)
-                watchLogEntry.isLocked = isEditing ? false : true
+                watchLogEntry.isLocked = viewIsReadOnly ? true : false
                 blurSetting.isBlur = false
                 withAnimation(.smooth(duration: 1)) {
                                scale = 1.0

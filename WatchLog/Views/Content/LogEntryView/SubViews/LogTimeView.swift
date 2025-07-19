@@ -9,7 +9,7 @@ import SwiftUI
 
 struct LogTimeView: View {
     var logTime: Date
-
+    let viewIsReadOnly: Bool
     @State var time: Date = .now
     @Environment(\.appStyles) var appStyles
 
@@ -17,7 +17,6 @@ struct LogTimeView: View {
 
     var body: some View {
         logTimeSection
-            .animation(.default, value: logTime)
             .timeSectionPadding()
             .standardBottomBorder()
     }

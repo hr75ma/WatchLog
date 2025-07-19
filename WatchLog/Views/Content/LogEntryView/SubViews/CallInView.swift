@@ -9,6 +9,8 @@ import SwiftUI
 
 struct CallInView: View {
     @Bindable var logEntry: WatchLogEntry
+    let viewIsReadOnly: Bool
+    
     @Environment(\.appStyles) var appStyles
 
     @State private var selectedCallIn: CallInType.CallInTypeShort = CallInType.CallInTypeShort
@@ -47,13 +49,20 @@ extension CallInView {
                             .sectionSimulatedTextFieldSingleLine(
                                 isLocked: logEntry.isLocked
                             )
-                            .matchedGeometryEffect(id: "lockedEvent", in: namespace)
+                            .if(!viewIsReadOnly) { anima in
+                                    anima
+                                    .matchedGeometryEffect(id: "lockedEvent", in: namespace)
+                            }
+                            
                             .isHidden(!tempLocked, remove: true)
                         Spacer()
                     }
 
                     customSegmentedPickerView(preselectedIndex: $selectedCallIn, appStyles: appStyles)
-                        .matchedGeometryEffect(id: "lockedEvent", in: namespace)
+                        .if(!viewIsReadOnly) { anima in
+                            anima
+                                .matchedGeometryEffect(id: "lockedEvent", in: namespace)
+                        }
                         .isHidden(tempLocked, remove: true)
                 }
                 .frame(maxWidth: .infinity)
@@ -61,32 +70,69 @@ extension CallInView {
             }
         }
         .onAppear {
-            withAnimation(.easeInOut(duration: 1)) {
-                selectedCallIn = logEntry.CallIn
-                selectedCallInHelper = selectedCallIn
-                tempLocked = logEntry.isLocked
+            
+            if !viewIsReadOnly {
+                
+                withAnimation(.easeInOut(duration: 1)) {
+                    selectedCallIn = logEntry.CallIn
+                    selectedCallInHelper = selectedCallIn
+                    tempLocked = logEntry.isLocked
+                }
+            } else {
+                
+                    selectedCallIn = logEntry.CallIn
+                    selectedCallInHelper = selectedCallIn
+                    tempLocked = logEntry.isLocked
+
             }
         }
         .onChange(of: selectedCallIn) { _, _ in
-            withAnimation(.easeInOut(duration: 1)) {
+            if !viewIsReadOnly {
+                
+                withAnimation(.easeInOut(duration: 1)) {
+                    logEntry.CallIn = selectedCallIn
+                    selectedCallInHelper = selectedCallIn
+                    selectedCallInAsString = CallInType.callInTypes[logEntry.CallIn]!
+                }
+            } else {
+                
                 logEntry.CallIn = selectedCallIn
                 selectedCallInHelper = selectedCallIn
                 selectedCallInAsString = CallInType.callInTypes[logEntry.CallIn]!
-                //print(selectedCallInAsString)
+
             }
         }
         .onChange(of: logEntry.uuid) {
             _, _ in
-            withAnimation(.easeInOut(duration: 1)) {
+            
+            if !viewIsReadOnly {
+                
+                withAnimation(.easeInOut(duration: 1)) {
+                    selectedCallIn = logEntry.CallIn
+                    selectedCallInHelper = selectedCallIn
+                }
+            } else {
+                
                 selectedCallIn = logEntry.CallIn
                 selectedCallInHelper = selectedCallIn
+
             }
         }
         .onChange(of: logEntry.isLocked) {
-            withAnimation(.easeInOut(duration: 1)) {
+            
+            if !viewIsReadOnly {
+                
+                withAnimation(.easeInOut(duration: 1)) {
+                    tempLocked = logEntry.isLocked
+                    selectedCallInHelper = selectedCallIn
+                    selectedCallInAsString = CallInType.callInTypes[logEntry.CallIn]!
+                }
+            } else {
+                
                 tempLocked = logEntry.isLocked
                 selectedCallInHelper = selectedCallIn
                 selectedCallInAsString = CallInType.callInTypes[logEntry.CallIn]!
+
             }
         }
         .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))

@@ -12,8 +12,9 @@ import SwiftUI
 
 struct LogBookEntryView: View {
     //@Binding public var logBookEntryUUID: UUID
-    @Binding public var watchLogEntry: WatchLogEntry 
-    @Binding public var isEditing: Bool
+    @Binding public var watchLogEntry: WatchLogEntry
+    public var viewIsReadOnly: Bool
+    //@Binding public var isEditing: Bool
     //@State private var watchLogEntry: WatchLogEntry = .init()
     
 
@@ -36,18 +37,18 @@ struct LogBookEntryView: View {
         //                   Text(logBookEntryUUID.uuidString)
         //               Text("currentuuid: \(displayedLogEntryUUID.id.uuidString)")
         //              Text("currentuuid: \(viewModel.watchLogEntry.uuid.uuidString)")
-
         ScrollView {
             ZStack {
                 glowingBorderEffect
                     .isHidden(fromBackground, remove: true)
 
                 VStack(alignment: .leading, spacing: 0) {
-                    LogTimeView(logTime: watchLogEntry.EntryTime)
+                    LogTimeView(logTime: watchLogEntry.EntryTime, viewIsReadOnly: viewIsReadOnly)
 
-                    LockEditingView(logEntry: watchLogEntry, isEditing: $isEditing)
 
-                    CallInView(logEntry: watchLogEntry)
+                    LockEditingView(logEntry: watchLogEntry, viewIsReadOnly: viewIsReadOnly)
+
+                    CallInView(logEntry: watchLogEntry, viewIsReadOnly: viewIsReadOnly)
 
                     CallerDataView(logEntry: watchLogEntry)
 
@@ -58,6 +59,7 @@ struct LogBookEntryView: View {
                         toolPickerShows: $toolPickerShows
                     )
                 }
+
                 .standardViewBackground()
                 .frame(
                     maxWidth: .infinity,
@@ -73,13 +75,13 @@ struct LogBookEntryView: View {
             Task {
                 //print("onappear - \(logBookEntryUUID.uuidString)")
                 //watchLogEntry = await viewModel.fetchLogEntryMod(LogEntryUUID: logBookEntryUUID)
-                watchLogEntry.isLocked = isEditing ? false : true
+                watchLogEntry.isLocked = viewIsReadOnly ? true : false
                 glowingColorSet = getGlowColorSet(logEntry: watchLogEntry)
             }
         }
         .task {
             //watchLogEntry = await viewModel.fetchLogEntryMod(LogEntryUUID: logBookEntryUUID)
-            watchLogEntry.isLocked = isEditing ? false : true
+            watchLogEntry.isLocked = viewIsReadOnly ? true : false
             glowingColorSet = getGlowColorSet(logEntry: watchLogEntry)
         }
         .onDisappear {

@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct toggleStyleLockImage: ToggleStyle {
-    var isLocked: Bool = false
+    var isLocked: Bool
+    let removeAnimation: Bool
     @Environment(\.appStyles) var appStyles
 
     func makeBody(configuration: toggleStyleLockImage.Configuration) -> some View {
@@ -30,6 +31,7 @@ struct toggleStyleLockImage: ToggleStyle {
             // .scaleEffect(x: isLocked ? -1:1, y: 1).transaction { transaction in
             //     transaction.animation = nil
             // }
+            .symbolEffectsRemoved(removeAnimation)
             .symbolEffect(.rotate.clockwise.byLayer, options: .nonRepeating, isActive: configuration.isOn)
             .symbolEffect(
                 .rotate.clockwise.byLayer, options: .nonRepeating, isActive: !configuration.isOn

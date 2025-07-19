@@ -25,7 +25,6 @@ struct ScrollViewDispatcher: View {
 
     @State var numberOfEntry: Int = 0
 
-    @State private var isEditing: Bool = false
     @State private var showSheet: Bool = false
     @State private var isActive = true
     @State private var watchLogEntry: WatchLogEntry = .init()
@@ -53,7 +52,7 @@ struct ScrollViewDispatcher: View {
                     .containerRelativeFrame(.horizontal, count: 1, spacing: 0)
                 } else {
                     ForEach(logEntryUUIDContainer.logEntryBookDay.logEntriesSorted.indices, id: \.self) { index in
-                        LogBookEntryShowWrapperView(logBookEntryUUID: $logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].uuid, isEditing: $isEditing)
+                        LogBookEntryShowWrapperView(logBookEntryUUID: $logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].uuid)
                             .id(logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].uuid)
                             .onScrollVisibilityChange(threshold: 0.5) { scrolled in
                                 if scrolled {
@@ -168,9 +167,6 @@ struct ScrollViewDispatcher: View {
                 }
             }
         }
-        .onChange(of: isEditing) { _, _ in
-            print("isShowingOnly changed to \(isEditing)")
-        }
         .onChange(of: showSheet) { _, newValue in
             if newValue == false {
                 Task {
@@ -181,7 +177,7 @@ struct ScrollViewDispatcher: View {
         }
         .fullScreenCover(isPresented: $showSheet) {
             NavigationStack {
-                LogBookEntryEditWrapperView(logBookEntryUUID: $logEntryUUIDContainer.logEntryUUID, isEditing: $showSheet)
+                LogBookEntryEditWrapperView(logBookEntryUUID: $logEntryUUIDContainer.logEntryUUID)
             }
         }
         .toolbar {
