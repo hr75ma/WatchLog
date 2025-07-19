@@ -15,6 +15,8 @@ import SwiftUI
 
 struct ProcessTypeSelectionView: View {
     @Bindable var logEntry: WatchLogEntry
+    let viewIsReadOnly: Bool
+    
     @Environment(\.appStyles) var appStyles
 
     @State private var selectedProcess: ProcessType.ProcessTypeShort = ProcessType.ProcessTypeShort
@@ -127,11 +129,11 @@ extension ProcessTypeSelectionView {
         HStack {
             switch selectedProcessHelper {
             case ProcessType.ProcessTypeShort.VU:
-                ProcessTypeSubVUView(logEntry: logEntry)
+                ProcessTypeSubVUView(logEntry: logEntry, viewIsReadOnly: viewIsReadOnly)
                     .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
                     .isHidden(ProcessType.ProcessTypeShort.VU != selectedProcessHelper, remove: true)
             case .VUW:
-                ProcessTypeSubVUWView(logEntry: logEntry)
+                ProcessTypeSubVUWView(logEntry: logEntry, viewIsReadOnly: viewIsReadOnly)
                     .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
                     .isHidden(ProcessType.ProcessTypeShort.VUW != selectedProcessHelper, remove: true)
             case .KV:
@@ -139,15 +141,15 @@ extension ProcessTypeSelectionView {
                     .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
                     .isHidden(ProcessType.ProcessTypeShort.KV != selectedProcessHelper, remove: true)
             case .DAUF:
-                ProcessTypeSubDAUFView(logEntry: logEntry)
+                ProcessTypeSubDAUFView(logEntry: logEntry, viewIsReadOnly: viewIsReadOnly)
                     .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
                     .isHidden(ProcessType.ProcessTypeShort.DAUF != selectedProcessHelper, remove: true)
             case .TRUNK:
-                ProcessTypeSubTRUNKView(logEntry: logEntry)
+                ProcessTypeSubTRUNKView(logEntry: logEntry, viewIsReadOnly: viewIsReadOnly)
                     .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
                     .isHidden(ProcessType.ProcessTypeShort.TRUNK != selectedProcessHelper, remove: true)
             case .VKKO:
-                ProcessTypeSubVKKOView(logEntry: logEntry)
+                ProcessTypeSubVKKOView(logEntry: logEntry, viewIsReadOnly: viewIsReadOnly)
                     .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
                     .isHidden(ProcessType.ProcessTypeShort.VKKO != selectedProcessHelper, remove: true)
             default:

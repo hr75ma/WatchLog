@@ -9,7 +9,6 @@ import SwiftUI
 
 struct CallInView: View {
     @Bindable var logEntry: WatchLogEntry
-    
     let viewIsReadOnly: Bool
 
     @Environment(\.appStyles) var appStyles

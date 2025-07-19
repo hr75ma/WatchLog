@@ -50,9 +50,9 @@ struct LogBookEntryView: View {
 
                     CallInView(logEntry: watchLogEntry, viewIsReadOnly: viewIsReadOnly)
 
-                    CallerDataView(logEntry: watchLogEntry)
-
-                    ProcessTypeSelectionView(logEntry: watchLogEntry)
+                    CallerDataView(logEntry: watchLogEntry, viewIsReadOnly: viewIsReadOnly)
+                    
+                    ProcessTypeSelectionView(logEntry: watchLogEntry, viewIsReadOnly: viewIsReadOnly)
 
                     NoteView(
                         logEntry: watchLogEntry, drawing: $watchLogEntry.pkDrawingData,

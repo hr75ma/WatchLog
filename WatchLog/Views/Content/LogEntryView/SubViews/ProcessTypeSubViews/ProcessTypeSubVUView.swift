@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ProcessTypeSubVUView: View {
     @Bindable var logEntry: WatchLogEntry
+    let viewIsReadOnly: Bool
     @Environment(\.appStyles) var appStyles
 
     var body: some View {
@@ -17,14 +18,14 @@ struct ProcessTypeSubVUView: View {
                 Text("Kennzeichen ON01")
                     .textLabel(textLabelLevel: TextLabelLevel.subWithWidth, textLebelWidth: 215)
 
-                LimitedIndicatorTextField(config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.sub, limit: 10, tint: .watchLogFont, autoResizes: true), hint: "", text: $logEntry.processTypeDetails.AccientLicensePlate01, isLocked: logEntry.isLocked)
+                LimitedIndicatorTextField(config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.sub, limit: 10, tint: .watchLogFont, autoResizes: true), hint: "", text: $logEntry.processTypeDetails.AccientLicensePlate01, isLocked: logEntry.isLocked, disableAnimation: viewIsReadOnly)
             }
 
             HStack(alignment: .center, spacing: 0) {
                 Text("Kennzeichen ON02")
                     .textLabel(textLabelLevel: TextLabelLevel.subWithWidth, textLebelWidth: 215)
 
-                LimitedIndicatorTextField(config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.sub, limit: 10, tint: .watchLogFont, autoResizes: true), hint: "", text: $logEntry.processTypeDetails.AccientLicensePlate02, isLocked: logEntry.isLocked)
+                LimitedIndicatorTextField(config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.sub, limit: 10, tint: .watchLogFont, autoResizes: true), hint: "", text: $logEntry.processTypeDetails.AccientLicensePlate02, isLocked: logEntry.isLocked, disableAnimation: viewIsReadOnly)
             }
 
             HStack(alignment: .center, spacing: 0) {

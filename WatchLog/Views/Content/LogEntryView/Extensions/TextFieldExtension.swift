@@ -107,19 +107,19 @@ fileprivate struct InnerPaddingModifier: ViewModifier {
 
 extension View {
     func textFieldIndicator(
-        text: Binding<String>, isLocked: Bool, textfieldType: TextFieldType, appStyles: StylesLogEntry
+        text: Binding<String>, isLocked: Bool, disableAnimation: Bool, textfieldType: TextFieldType, appStyles: StylesLogEntry
     ) -> some View {
         modifier(
             TextFieldIndicator(
-                text: text, isLocked: isLocked, textfieldType: textfieldType, textFieldHeight: appStyles.textFieldHeight, font: Font.title))
+                text: text, isLocked: isLocked, disableAnimation: disableAnimation, textfieldType: textfieldType, textFieldHeight: appStyles.textFieldHeight, font: Font.title))
     }
 
     func subTextFieldIndicator(
-        text: Binding<String>, isLocked: Bool, textfieldType: TextFieldType, appStyles: StylesLogEntry
+        text: Binding<String>, isLocked: Bool, disableAnimation: Bool, textfieldType: TextFieldType, appStyles: StylesLogEntry
     ) -> some View {
         modifier(
             TextFieldIndicator(
-                text: text, isLocked: isLocked,
+                text: text, isLocked: isLocked, disableAnimation: disableAnimation,
                 textfieldType: textfieldType, textFieldHeight: appStyles.textFieldSubHeight, font: Font.title2))
     }
 }
@@ -127,6 +127,7 @@ extension View {
 struct TextFieldIndicator: ViewModifier {
     @Binding var text: String
     let isLocked: Bool
+    let disableAnimation: Bool
     let textfieldType: TextFieldType
     let textFieldHeight: CGFloat
     let font: Font
@@ -155,7 +156,8 @@ struct TextFieldIndicator: ViewModifier {
             )
             .autocorrectionDisabled(true)
             .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
-            .animation(.easeInOut(duration: 1), value: isLocked)
+            .disableAnimations(disableAnimation: disableAnimation)
+            .animation(.smooth(duration: 1), value: isLocked)
             .disabled(isLocked)
     }
 }

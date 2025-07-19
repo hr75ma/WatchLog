@@ -11,8 +11,10 @@ struct LimitedIndicatorTextField: View {
     // Configuration
     var config: Config
     var hint: String
+    
     @Binding var text: String
     let isLocked: Bool
+    let disableAnimation: Bool
 
     @Environment(\.appStyles) var appStyles
 
@@ -23,10 +25,11 @@ struct LimitedIndicatorTextField: View {
         ZStack(alignment: .trailing) {
             TextField(hint, text: $text, axis: .vertical)
                 .if(config.textfieldLevel == TextFieldLevel.standard) { view in
-                    view.textFieldIndicator(text: $text, isLocked: isLocked, textfieldType: config.textfieldType, appStyles: appStyles)
+                    view.textFieldIndicator(text: $text, isLocked: isLocked, disableAnimation: disableAnimation, textfieldType: config.textfieldType, appStyles: appStyles)
+                        
                 }
                 .if(config.textfieldLevel == TextFieldLevel.sub) { view in
-                    view.subTextFieldIndicator(text: $text, isLocked: isLocked, textfieldType: config.textfieldType, appStyles: appStyles)
+                    view.subTextFieldIndicator(text: $text, isLocked: isLocked, disableAnimation: disableAnimation, textfieldType: config.textfieldType, appStyles: appStyles)
                 }
 
                 .focused($isKeyboardShowing)

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct CallInType {
+class CallInType {
     enum CallInTypeShort: CaseIterable, Codable {
         case EMERGENCY
         case REGULAR
