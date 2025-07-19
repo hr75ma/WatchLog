@@ -55,6 +55,8 @@ struct ContentView: View {
     @State var showProgression: Bool = false
     @State var showNewEntrySheet: Bool = false
     @State var showToolbarItem: Bool = true
+    
+    @State var scale = 0.0
 
     @State var dayOfLog: UUID = UUID()
 
@@ -106,6 +108,8 @@ struct ContentView: View {
             .fullScreenCover(isPresented: $showNewEntrySheet) {
                 NavigationStack {
                     LogBookEntryEditWrapperView(logBookEntryUUID: $newEntryUUID)
+                       
+                        
                 }
             }
             .sheet(isPresented: $showSettingSheet) {
@@ -120,7 +124,8 @@ struct ContentView: View {
             }
             .onChange(of: showNewEntrySheet) { oldValue, newValue in
                 
-                withAnimation {
+                
+                                   
                     
                     if oldValue == true && newValue == false {
                         Task {
@@ -129,10 +134,9 @@ struct ContentView: View {
                                 logEntryUUIDContainer = .init(logEntryUUID: isExisting!.uuid, logBookDay: isExisting!.watchLogBookDay!)
                             }
                         }
-                    }
+                
+                 }
                 }
-
-            }
             .onAppear {
                 refreshProgressionBehavior(appStyles)
                 Task {

@@ -7,8 +7,6 @@
 
 import SwiftUI
 
-
-
 struct ScrollViewDispatcher: View {
     @Binding public var logEntryUUIDContainer: LogEntryUUIDContainer
 
@@ -35,10 +33,15 @@ struct ScrollViewDispatcher: View {
     @State private var refreshID: UUID = UUID()
 
     @State private var scrollPos: UUID?
-    
-   let rotation: Angle = .degrees(25)
+
+    @State var showProgression: Bool = false
+
+    let rotation: Angle = .degrees(25)
 
     var body: some View {
+        if showProgression {
+            ProgressionView()
+        }
         ScrollView(.horizontal) {
             HStack(alignment: .center, spacing: 0) {
                 if logEntryUUIDContainer.logEntryBookDay.watchLogBookEntries!.isEmpty {
@@ -51,51 +54,25 @@ struct ScrollViewDispatcher: View {
                     }
                     .containerRelativeFrame(.horizontal, count: 1, spacing: 0)
                 } else {
-                    ForEach(logEntryUUIDContainer.logEntryBookDay.logEntriesSorted.indices, id: \.self) { index in
-                        LogBookEntryShowWrapperView(logBookEntryUUID: $logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].uuid)
-                            .id(logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].uuid)
-                            .onScrollVisibilityChange(threshold: 0.5) { scrolled in
-                                if scrolled {
-                                    print("index \(index) - \(logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].uuid.uuidString)")
-                                    logEntryUUID = logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].uuid
-                                    numberOfEntry = index + 1
-                                }
-                            }
-                            .containerRelativeFrame(.horizontal, count: 1, spacing: 0)
-//                            .visualEffect { content, proxy in
-//                              
-//                               content
-//                                    .rotation3DEffect(
-//                                        .init(degrees: rotation(for: proxy)),
-//                                        axis: (x: 0, y: 1, z: 0),
-//                                        anchor: .center )
-//                            }
 
+                        ForEach(logEntryUUIDContainer.logEntryBookDay.logEntriesSorted.indices, id: \.self) { index in
+                            LogBookEntryShowWrapperView(logBookEntryUUID: $logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].uuid)
+                                .id(logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].uuid)
+                                .onScrollVisibilityChange(threshold: 0.5) { scrolled in
+                                    if scrolled {
+                                        print("index \(index) - \(logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].uuid.uuidString)")
+                                        logEntryUUID = logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].uuid
+                                        numberOfEntry = index + 1
+                                    }
+                                }
+                                .containerRelativeFrame(.horizontal, count: 1, spacing: 0)
                                 .scrollTransition { content, phase in
                                     content
                                         .opacity(phase.isIdentity ? 1.0 : 0.2)
                                         .scaleEffect(x: 1, y: phase.isIdentity ? 1.0 : 0.9)
                                 }
-//                            .visualEffect { content, proxy in
-//                                let frame = proxy.frame(in: .scrollView)
-//                                let scrollViewWidth = proxy.bounds(of: .scrollView)?.width ?? 100                                // the center X of the screen
-//                                let centerXScreen = scrollViewWidth / 2
-////
-////                                // the distance from the center of the screen to the center of the frame
-//                                let distanceX = abs(centerXScreen - frame.midX)
-////
-////                                // the scale factor
-//                                let scale = 1.0 - (distanceX / centerXScreen) / 10
-//                                let op = 1.0 - (distanceX / centerXScreen)
-//                                let distanceFromCenter = abs(distanceX / 2 - frame.midX)
-//                               // print(scale)
-//                                return content
-//                                    .rotation3DEffect(.degrees(-proxy.frame(in: .scrollView).minX) / 40, axis: (x: 0, y: 1, z: 0))
-////                                    .scaleEffect(scale)
-////                                    //.blur(radius: distanceFromCenter/100)
-//                            }
-                    }
-                    .id(refreshID)
+                        }
+                        .id(refreshID)
                 }
             }
             .scrollTargetLayout()
@@ -116,12 +93,14 @@ struct ScrollViewDispatcher: View {
             Task { @MainActor in
                 print("onappear scroll\(logEntryUUIDContainer.logEntryUUID)")
                 withAnimation {
+                    showProgression = true
                     print("onappear \(logEntryUUIDContainer.logEntryUUID)")
                     Task {
                         let logBookDay = await viewModel.fetchLogBookDay(from: .now)
                         if logBookDay != nil && !logBookDay!.watchLogBookEntries!.isEmpty {
                             logEntryUUIDContainer = .init(logEntryUUID: logBookDay!.logEntriesSorted.last!.uuid, logBookDay: logBookDay!)
                         }
+                        showProgression = false
                     }
                     scrollPos = logEntryUUIDContainer.logEntryUUID
                 }
@@ -197,21 +176,17 @@ struct ScrollViewDispatcher: View {
 }
 
 extension ScrollViewDispatcher {
-    
-
-    
-    nonisolated private func rotation(for proxy: GeometryProxy) -> CGFloat {
+    private nonisolated func rotation(for proxy: GeometryProxy) -> CGFloat {
         let scrollViewWidth = proxy.bounds(of: .scrollView(axis: .horizontal))?.width ?? 0
         let midX = proxy.frame(in: .scrollView(axis: .horizontal)).midX
         let progresss = midX / scrollViewWidth
         let fixProgress = max(min(progresss, 1), 0)
-        
+
         let degree = fixProgress * (rotation.degrees * 2)
-        
+
         return Double(rotation.degrees - degree)
     }
-    
-    
+
     func opacityAmount(for proxy: GeometryProxy) -> Double {
         let scrollViewWidth = proxy.bounds(of: .scrollView)?.width ?? 100
         let ourCenter = proxy.frame(in: .scrollView).midX

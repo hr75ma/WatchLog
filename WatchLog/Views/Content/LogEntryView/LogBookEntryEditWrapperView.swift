@@ -36,22 +36,18 @@ struct LogBookEntryEditWrapperView: View {
                 LogBookEntryView(watchLogEntry: $watchLogEntry,viewIsReadOnly: viewIsReadOnly)
 
             }
-        .scaleEffect(scale)
-        .opacity(opacity)
+        //.scaleEffect(scale)
+        //.opacity(opacity)
         
-        //.animation(Animation.easeInOut(duration: 2))
+//.animation(Animation.easeInOut(duration: 1), value: opacity)
         .safeAreaInsetForToolbar()
         .onAppear{
             Task {
-                
                 print("onappear Edit - \(logBookEntryUUID.uuidString)")
                 watchLogEntry = await viewModel.fetchLogEntryMod(LogEntryUUID: logBookEntryUUID)
                 watchLogEntry.isLocked = viewIsReadOnly ? true : false
                 blurSetting.isBlur = false
-                withAnimation(.smooth(duration: 1)) {
-                               scale = 1.0
-                               opacity = 1.0
-                            }
+               
             }
         }
         .toolbar {
