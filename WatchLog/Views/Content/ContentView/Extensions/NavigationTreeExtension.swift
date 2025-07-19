@@ -69,7 +69,7 @@ extension DisclosureGroup {
 extension Rectangle {
     func selectedRowBackgroundAnimation(isSelectedRow: Bool, colorScheme: ColorScheme, appStyles: StylesLogEntry) -> some View {
         fill(isSelectedRow ? colorScheme == .dark ? LinearGradient(colors: [Color.watchLogNavigationTreeSelectedRow.opacity(appStyles.navigationRowGradientOpacityStart), Color.watchLogNavigationTreeSelectedRow.opacity(appStyles.navigationRowGradientOpacityEnd)], startPoint: .leading, endPoint: .trailing) : LinearGradient(colors: [Color.watchLogNavigationTreeSelectedRow.opacity(appStyles.navigationRowGradientOpacityEnd), Color.watchLogNavigationTreeSelectedRow.opacity(appStyles.navigationRowGradientOpacityStart)], startPoint: .leading, endPoint: .trailing) : colorScheme == .dark ? LinearGradient(colors: [Color.watchLogNavigationTreeRow.opacity(appStyles.navigationRowGradientOpacityStart), Color.watchLogNavigationTreeRow.opacity(appStyles.navigationRowGradientOpacityEnd)], startPoint: .leading, endPoint: .trailing) : LinearGradient(colors: [Color.watchLogNavigationTreeRow.opacity(appStyles.navigationRowGradientOpacityEnd), Color.watchLogNavigationTreeRow.opacity(appStyles.navigationRowGradientOpacityStart)], startPoint: .leading, endPoint: .trailing))
-            .animation(.easeInOut(duration: appStyles.navigationRowAnimationDuration), value: isSelectedRow)
+            .animation(.smooth(duration: appStyles.navigationRowAnimationDuration), value: isSelectedRow)
     }
 }
 
@@ -85,7 +85,7 @@ struct NavigationTreeButtonLabelStyle: ViewModifier {
             .fontWeight(.semibold)
             .fontWidth(.standard)
             .fontDesign(.rounded)
-            .animation(.easeInOut(duration: appStyles.navigationRowAnimationDuration), value: isSeletecedItem)
+            .animation(.smooth(duration: appStyles.navigationRowAnimationDuration), value: isSeletecedItem)
             //.animation(.easeInOut(duration: appStyles.navigationTreeItemAnimationDuration).speed(5), value: isSeletecedItem)
     }
 }
@@ -102,7 +102,7 @@ struct NavigationTreeButtonSubLabelStyle: ViewModifier {
             .fontWeight(.semibold)
             .fontWidth(.standard)
             .fontDesign(.rounded)
-            .animation(.easeInOut(duration: appStyles.navigationRowAnimationDuration), value: isSeletecedItem)
+            .animation(.smooth(duration: appStyles.navigationRowAnimationDuration), value: isSeletecedItem)
     }
 }
 

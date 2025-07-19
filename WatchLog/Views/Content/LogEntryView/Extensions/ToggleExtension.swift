@@ -76,7 +76,7 @@ struct standardToggleStyleImage: ToggleStyle {
             .padding(EdgeInsets(top: 4, leading: 4, bottom: 4, trailing: 4))
         }
         .disableAnimations(disableAnimation: removeAnimation)
-        .animation(.easeInOut(duration: 1), value: isLocked)
+        .animation(.smooth(duration: 1), value: isLocked)
         .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
         .labelsHidden()
         .onTapGesture {
@@ -104,7 +104,7 @@ struct toggleStyleAnimationImage: ToggleStyle {
                 .scaledToFit()
 
                 .foregroundStyle(configuration.isOn ? isLocked ? isLockedColor : isOnColorPrimary : isOffColorPrimary, configuration.isOn ? isOnColorSecondary : isOffColorSecondary)
-                .animation(.easeInOut(duration: 1), value: configuration.isOn)
+                .animation(.smooth(duration: 1), value: configuration.isOn)
 
                 .symbolEffect(.rotate.clockwise.byLayer, options: .nonRepeating, isActive: configuration.isOn)
                 .symbolEffect(.rotate.counterClockwise.byLayer, options: .nonRepeating, isActive: !configuration.isOn)
@@ -114,7 +114,6 @@ struct toggleStyleAnimationImage: ToggleStyle {
                 .symbolEffect(.scale)
                 .padding(EdgeInsets(top: 4, leading: 4, bottom: 4, trailing: 4))
         }
-        // .animation(.easeInOut(duration: 4),  value: isLocked)
         .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
 
         .onTapGesture {

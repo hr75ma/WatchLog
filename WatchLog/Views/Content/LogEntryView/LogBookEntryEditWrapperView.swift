@@ -36,12 +36,8 @@ struct LogBookEntryEditWrapperView: View {
                 LogBookEntryView(watchLogEntry: $watchLogEntry,viewIsReadOnly: viewIsReadOnly)
 
             }
-            
-
-       // }
-        //.offset(y: oset)
-        //.scaleEffect(scale)
-       // .opacity(opacity)
+        .scaleEffect(scale)
+        .opacity(opacity)
         
         //.animation(Animation.easeInOut(duration: 2))
         .safeAreaInsetForToolbar()
@@ -55,7 +51,6 @@ struct LogBookEntryEditWrapperView: View {
                 withAnimation(.smooth(duration: 1)) {
                                scale = 1.0
                                opacity = 1.0
-                    oset = -500
                             }
             }
         }

@@ -49,8 +49,8 @@ struct LimitedIndicatorTextField: View {
                             .trim(from: 0, to: progress)
                             .stroke(progressColor.gradient, lineWidth: 4)
                             .rotationEffect(.init(degrees: -90))
-                            .animation(.easeInOut(duration: 0.15), value: progressColor)
-                            .animation(.easeInOut(duration: 0.15), value: progress)
+                            .animation(.smooth(duration: 0.15), value: progressColor)
+                            .animation(.smooth(duration: 0.15), value: progress)
                     }
                     .frame(width: 23, height: 23)
                 }
@@ -61,8 +61,8 @@ struct LimitedIndicatorTextField: View {
                 }
             }
             .offset(x: -14)
-            .animation(.easeInOut(duration: 0.5), value: isLocked)
-            .animation(.easeInOut(duration: 0.5), value: !text.isEmpty)
+            .animation(.smooth(duration: 0.5), value: isLocked)
+            .animation(.smooth(duration: 0.5), value: !text.isEmpty)
         }
     }
 

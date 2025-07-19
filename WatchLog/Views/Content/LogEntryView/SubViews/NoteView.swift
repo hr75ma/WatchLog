@@ -12,6 +12,7 @@ struct NoteView: View {
     @Binding var drawing: PKDrawing
     @Binding var toolPickerShows: Bool
     @State var savedDrawing: PKDrawing?
+    let viewIsReadOnly: Bool
 
     @State var canvasview: PKCanvasView = PKCanvasView()
 
@@ -32,7 +33,8 @@ struct NoteView: View {
                 CanvasView(canvas: $canvasview, drawing: $drawing, readOnly: $logEntry.isLocked)
             }
             .canvasBorder(isLocked: logEntry.isLocked)
-            .animation(.easeInOut(duration: 1), value: logEntry.isLocked)
+            .disableAnimations(disableAnimation: viewIsReadOnly)
+            .animation(.smooth(duration: 1), value: logEntry.isLocked)
         }
         .containerRelativeFrame([.vertical], alignment: .topLeading)
         // .disabled(logEntry.isLocked)

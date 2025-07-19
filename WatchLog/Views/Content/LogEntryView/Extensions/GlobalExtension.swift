@@ -113,7 +113,7 @@ extension View {
 
     func blurring(blurSetting: BlurSetting) -> some View {
         blur(radius: blurSetting.isBlur ? blurSetting.blurRadius : 0)
-            .animation(.linear(duration: blurSetting.animationDuration), value: blurSetting.isBlur)
+            .animation(.smooth(duration: blurSetting.animationDuration), value: blurSetting.isBlur)
     }
 }
 

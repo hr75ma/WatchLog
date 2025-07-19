@@ -56,7 +56,7 @@ struct LogBookEntryView: View {
 
                     NoteView(
                         logEntry: watchLogEntry, drawing: $watchLogEntry.pkDrawingData,
-                        toolPickerShows: $toolPickerShows
+                        toolPickerShows: $toolPickerShows, viewIsReadOnly: viewIsReadOnly
                     )
                 }
 
