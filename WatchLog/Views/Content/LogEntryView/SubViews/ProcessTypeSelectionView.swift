@@ -42,16 +42,27 @@ struct ProcessTypeSelectionView: View {
                     }
                     .frame(maxWidth: .infinity)
                 }
-                .onAppear {
-                    if !viewIsReadOnly {
-                        withAnimation(.smooth(duration: 1)) {
+                .task {
+                    
+                    
+                    if viewIsReadOnly {
                             selectedProcessHelper = logEntry.processTypeDetails.processTypeShort
-                            tempLocked = logEntry.isLocked
-                        }
+                        
+                    } else {
+                        
+                            withAnimation(.smooth(duration: 1)) {
+                                selectedProcessHelper = logEntry.processTypeDetails.processTypeShort
+                                tempLocked = logEntry.isLocked
+                            }
+                    
                     }
                 }
                 .onChange(of: logEntry.processTypeDetails.processTypeShort) { _, newValue in
-                    if !viewIsReadOnly {
+                    if viewIsReadOnly {
+                            selectedProcessHelper = logEntry.processTypeDetails.processTypeShort
+                        
+                    } else
+                     {
                         withAnimation(.smooth(duration: 1)) {
                             selectedProcessHelper = logEntry.processTypeDetails.processTypeShort
                             if newValue != logEntry.processTypeDetails.processTypeShort {
