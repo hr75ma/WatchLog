@@ -40,7 +40,8 @@ struct ScrollViewDispatcher: View {
 
     var body: some View {
         if showProgression {
-            ProgressionView()
+                ProgressionView()
+
         }
         ScrollView(.horizontal) {
             HStack(alignment: .center, spacing: 0) {
@@ -91,25 +92,24 @@ struct ScrollViewDispatcher: View {
         )
         .onAppear {
             Task { @MainActor in
+                
                 print("onappear scroll\(logEntryUUIDContainer.logEntryUUID)")
                 withAnimation {
-                    showProgression = true
-                    print("onappear \(logEntryUUIDContainer.logEntryUUID)")
                     Task {
                         let logBookDay = await viewModel.fetchLogBookDay(from: .now)
                         if logBookDay != nil && !logBookDay!.watchLogBookEntries!.isEmpty {
                             logEntryUUIDContainer = .init(logEntryUUID: logBookDay!.logEntriesSorted.last!.uuid, logBookDay: logBookDay!)
                         }
-                        showProgression = false
                     }
                     scrollPos = logEntryUUIDContainer.logEntryUUID
                 }
+                
             }
         }
         .onChange(of: logEntryUUID) { // fürs scrolling
             Task { @MainActor in
-                print("displayedLogEntryUUID: \(displayedLogEntryUUID.id.uuidString)")
-                print("gelieferte entryUUID: \(logEntryUUIDContainer.logEntryUUID.uuidString)")
+                print("change logEntry displayedLogEntryUUID: \(displayedLogEntryUUID.id.uuidString)")
+                print("change logEntry gelieferte entryUUID: \(logEntryUUIDContainer.logEntryUUID.uuidString)")
                 displayedLogEntryUUID.id = logEntryUUID
                 logEntryUUIDContainer.logEntryUUID = logEntryUUID
             }
@@ -127,8 +127,10 @@ struct ScrollViewDispatcher: View {
         }
 
         .onChange(of: logEntryUUIDContainer) { oldValue, newValue in
+            
             Task { @MainActor in
-                print("gelieferte entryUUID: \(newValue.logEntryUUID.uuidString)")
+
+                print("change Container gelieferte entryUUID: \(newValue.logEntryUUID.uuidString)")
                 if oldValue.logEntryBookDay.uuid != newValue.logEntryBookDay.uuid {
                     logEntryUUID = newValue.logEntryUUID
                     print("onChange new Day: \(newValue.logEntryUUID)")
@@ -144,6 +146,7 @@ struct ScrollViewDispatcher: View {
                 if newValue.logEntryBookDay.watchLogBookEntries!.isEmpty {
                     numberOfEntry = 0
                 }
+
             }
         }
         .onChange(of: showSheet) { _, newValue in

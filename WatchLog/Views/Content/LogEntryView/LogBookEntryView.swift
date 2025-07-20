@@ -80,7 +80,7 @@ struct LogBookEntryView: View {
 //            }
 //        }
         .task {
-            print("onappear task - \(watchLogEntry.uuid.uuidString)")
+           // print("onappear task - \(watchLogEntry.uuid.uuidString)")
             //watchLogEntry = await viewModel.fetchLogEntryMod(LogEntryUUID: logBookEntryUUID)
             //watchLogEntry.isLocked = viewIsReadOnly ? true : false
             glowingColorSet = getGlowColorSet(logEntry: watchLogEntry)

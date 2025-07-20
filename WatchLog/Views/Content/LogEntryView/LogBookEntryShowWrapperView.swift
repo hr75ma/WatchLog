@@ -42,7 +42,7 @@ struct LogBookEntryShowWrapperView: View {
 //        }
         .task {
             
-                print("onappear Show - \(logBookEntryUUID.uuidString)")
+               // print("onappear Show - \(logBookEntryUUID.uuidString)")
                 watchLogEntry = await viewModel.fetchLogEntryMod(LogEntryUUID: logBookEntryUUID)
                 watchLogEntry.isLocked = true
           
