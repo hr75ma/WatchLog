@@ -28,10 +28,9 @@ struct toggleStyleLockImage: ToggleStyle {
             )
 
             .symbolEffectsRemoved(removeAnimation)
-            .symbolEffect(.rotate.clockwise.byLayer, options: .nonRepeating, isActive: configuration.isOn)
-            .symbolEffect(
-                .rotate.clockwise.byLayer, options: .nonRepeating, isActive: !configuration.isOn
-            )
+            .symbolEffect(.rotate.clockwise.byLayer, options: .nonRepeating, value: configuration.isOn)
+      
+                
             .padding(EdgeInsets(top: 4, leading: 4, bottom: 4, trailing: 4))
         }
         .disableAnimations(disableAnimation: removeAnimation)
@@ -68,9 +67,6 @@ struct standardToggleStyleImage: ToggleStyle {
             .symbolEffectsRemoved(removeAnimation)
             .symbolEffect(
                 .breathe.pulse.wholeSymbol, options: .nonRepeating.speed(6), isActive: configuration.isOn
-            )
-            .symbolEffect(
-                .breathe.pulse.wholeSymbol, options: .nonRepeating.speed(6), isActive: !configuration.isOn
             )
             .symbolEffect(.scale)
             .padding(EdgeInsets(top: 4, leading: 4, bottom: 4, trailing: 4))
