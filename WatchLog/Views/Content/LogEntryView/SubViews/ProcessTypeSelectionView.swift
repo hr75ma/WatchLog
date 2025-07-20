@@ -43,10 +43,7 @@ struct ProcessTypeSelectionView: View {
                     .frame(maxWidth: .infinity)
                 }
                 .onAppear {
-                    if viewIsReadOnly {
-                        selectedProcessHelper = logEntry.processTypeDetails.processTypeShort
-                        tempLocked = logEntry.isLocked
-                    } else {
+                    if !viewIsReadOnly {
                         withAnimation(.smooth(duration: 1)) {
                             selectedProcessHelper = logEntry.processTypeDetails.processTypeShort
                             tempLocked = logEntry.isLocked
@@ -54,17 +51,7 @@ struct ProcessTypeSelectionView: View {
                     }
                 }
                 .onChange(of: logEntry.processTypeDetails.processTypeShort) { _, newValue in
-                    if viewIsReadOnly {
-                        
-                        selectedProcessHelper = logEntry.processTypeDetails.processTypeShort
-                        if newValue != logEntry.processTypeDetails.processTypeShort {
-                            logEntry.processTypeDetails.clear()
-                            logEntry.processTypeDetails.processTypeShort = newValue
-                        }
-                        
-                    } else {
-                    
-                        
+                    if !viewIsReadOnly {
                         withAnimation(.smooth(duration: 1)) {
                             selectedProcessHelper = logEntry.processTypeDetails.processTypeShort
                             if newValue != logEntry.processTypeDetails.processTypeShort {
@@ -75,7 +62,6 @@ struct ProcessTypeSelectionView: View {
                     }
                 }
                 .onChange(of: logEntry.isLocked) {
-                    
                     if !viewIsReadOnly {
                         
                         withAnimation(.smooth(duration: 1)) {
@@ -106,7 +92,7 @@ extension ProcessTypeSelectionView {
             }
         }
         .frame(maxWidth: .infinity)
-        .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+        //.padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
     }
 
     private var processSubViews: some View {

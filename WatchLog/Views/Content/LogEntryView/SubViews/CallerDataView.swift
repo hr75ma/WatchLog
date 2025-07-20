@@ -91,15 +91,15 @@ extension CallerDataView {
                     tempLocked = logEntry.isLocked
                 }
             }
-            .onChange(of: logEntry.uuid) {
-                withAnimation(.smooth(duration: 1)) {
-                    if logEntry.CallerDOB == nil {
-                        withBirthday = false
-                    } else {
-                        withBirthday = true
-                    }
-                }
-            }
+//            .onChange(of: logEntry.uuid) {
+//                withAnimation(.smooth(duration: 1)) {
+//                    if logEntry.CallerDOB == nil {
+//                        withBirthday = false
+//                    } else {
+//                        withBirthday = true
+//                    }
+//                }
+//            }
             .onChange(of: withBirthday) { _, _ in
                 withAnimation(.smooth(duration: 1)) {
                     if !withBirthday {
@@ -123,7 +123,7 @@ extension CallerDataView {
                 }
             }
         }
-        .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+        //.padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
     }
 }
 
@@ -155,7 +155,6 @@ extension CallerDataView {
                         .matchedGeometryEffect(id: "lockedEvent", in: namespace)
                         .isHidden(!with || tempLocked, remove: true)
                 }
-                .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
             }
 
             if tempLocked {

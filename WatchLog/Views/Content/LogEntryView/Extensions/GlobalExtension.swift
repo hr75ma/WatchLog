@@ -52,6 +52,10 @@ extension View {
     func standardScrollViewPadding() -> some View {
         padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
     }
+    
+    func zeroViewPadding() -> some View {
+        padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+    }
 
     func standardLogEntryViewPadding() -> some View {
         padding(EdgeInsets(top: 30, leading: 30, bottom: 30, trailing: 30))
