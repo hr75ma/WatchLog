@@ -11,11 +11,9 @@ import SwiftData
 import SwiftUI
 
 struct LogBookEntryView: View {
-    //@Binding public var logBookEntryUUID: UUID
     @Binding public var watchLogEntry: WatchLogEntry
     public var viewIsReadOnly: Bool
-    //@Binding public var isEditing: Bool
-    //@State private var watchLogEntry: WatchLogEntry = .init()
+
     
 
     @EnvironmentObject var viewModel: LogEntryViewModel

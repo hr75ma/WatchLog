@@ -51,10 +51,13 @@ final class DataBaseManager {
         do {
             // preview
             let config = ModelConfiguration(isStoredInMemoryOnly: true)
+            
             modelContainer = try ModelContainer(for: WatchLogBook.self, WatchLogBookYear.self, WatchLogBookMonth.self, WatchLogBookDay.self, WatchLogBookEntry.self, configurations: config)
-
+            
             // self.modelContainer = try ModelContainer(for: WatchLogBook.self)
             modelContext = modelContainer.mainContext
+            modelContext.autosaveEnabled = false
+            
         } catch {
             fatalError("Failed to initialize ModelContainer: \(error.localizedDescription)")
         }

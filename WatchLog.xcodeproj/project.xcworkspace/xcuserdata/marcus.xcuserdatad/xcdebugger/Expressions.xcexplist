@@ -126,6 +126,9 @@
          contextName = "closure #1 in LogBookEntryShowWrapperView.body.getter:LogBookEntryShowWrapperView.swift">
          <PersistentStrings>
             <PersistentString
+               value = "logBookEntryUUID">
+            </PersistentString>
+            <PersistentString
                value = "watchLogEntry">
             </PersistentString>
          </PersistentStrings>
@@ -287,6 +290,20 @@
             </PersistentString>
             <PersistentString
                value = "with">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "LogBookEntryView.init(watchLogEntry:viewIsReadOnly:):LogBookEntryView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "watchLogEntry">
+            </PersistentString>
+            <PersistentString
+               value = "self.watchLogEntry">
+            </PersistentString>
+            <PersistentString
+               value = "test">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -478,6 +495,14 @@
             </PersistentString>
             <PersistentString
                value = "toolPickerShows">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "WatchLogBookEntry.init(LogEntry:):WatchLogBookEntry.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "LogEntry.EntryTime">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
