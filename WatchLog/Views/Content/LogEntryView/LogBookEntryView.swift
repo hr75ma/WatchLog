@@ -71,17 +71,18 @@ struct LogBookEntryView: View {
             }
             .standardLogEntryViewPadding()
         }
-        .onAppear {
-            Task {
-                //print("onappear - \(logBookEntryUUID.uuidString)")
-                //watchLogEntry = await viewModel.fetchLogEntryMod(LogEntryUUID: logBookEntryUUID)
-                watchLogEntry.isLocked = viewIsReadOnly ? true : false
-                glowingColorSet = getGlowColorSet(logEntry: watchLogEntry)
-            }
-        }
+//        .onAppear {
+//            Task {
+//                print("onappear - \(watchLogEntry.uuid.uuidString)")
+//                //watchLogEntry = await viewModel.fetchLogEntryMod(LogEntryUUID: logBookEntryUUID)
+//                watchLogEntry.isLocked = viewIsReadOnly ? true : false
+//                glowingColorSet = getGlowColorSet(logEntry: watchLogEntry)
+//            }
+//        }
         .task {
+            print("onappear task - \(watchLogEntry.uuid.uuidString)")
             //watchLogEntry = await viewModel.fetchLogEntryMod(LogEntryUUID: logBookEntryUUID)
-            watchLogEntry.isLocked = viewIsReadOnly ? true : false
+            //watchLogEntry.isLocked = viewIsReadOnly ? true : false
             glowingColorSet = getGlowColorSet(logEntry: watchLogEntry)
         }
         .onDisappear {

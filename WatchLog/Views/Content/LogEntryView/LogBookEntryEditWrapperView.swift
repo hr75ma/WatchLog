@@ -36,10 +36,6 @@ struct LogBookEntryEditWrapperView: View {
                 LogBookEntryView(watchLogEntry: $watchLogEntry,viewIsReadOnly: viewIsReadOnly)
 
             }
-        //.scaleEffect(scale)
-        //.opacity(opacity)
-        
-//.animation(Animation.easeInOut(duration: 1), value: opacity)
         .safeAreaInsetForToolbar()
         .onAppear{
             Task {

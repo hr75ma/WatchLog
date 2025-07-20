@@ -31,14 +31,21 @@ struct LogBookEntryShowWrapperView: View {
     var body: some View {
         
         HStack {
-            LogBookEntryView(watchLogEntry: $watchLogEntry,viewIsReadOnly: viewIsReadOnly)
+            LogBookEntryView(watchLogEntry: $watchLogEntry, viewIsReadOnly: viewIsReadOnly)
         }
-        .onAppear{
-            Task {
+//        .onAppear{
+//            Task {
+//                print("onappear Show - \(logBookEntryUUID.uuidString)")
+//                watchLogEntry = await viewModel.fetchLogEntryMod(LogEntryUUID: logBookEntryUUID)
+//                watchLogEntry.isLocked = true
+//            }
+//        }
+        .task {
+            
                 print("onappear Show - \(logBookEntryUUID.uuidString)")
                 watchLogEntry = await viewModel.fetchLogEntryMod(LogEntryUUID: logBookEntryUUID)
                 watchLogEntry.isLocked = true
-            }
+          
         }
     }
 }

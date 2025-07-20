@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct toggleStyleLockImage: ToggleStyle {
-    var isLocked: Bool
+    let isLocked: Bool
     let removeAnimation: Bool
     @Environment(\.appStyles) var appStyles
 
@@ -45,7 +45,7 @@ struct toggleStyleLockImage: ToggleStyle {
 }
 
 struct standardToggleStyleImage: ToggleStyle {
-    var isLocked: Bool = false
+    let isLocked: Bool
     let removeAnimation: Bool
     @Environment(\.appStyles) var appStyles
 
