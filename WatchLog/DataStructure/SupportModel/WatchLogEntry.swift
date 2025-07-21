@@ -11,7 +11,7 @@ import SwiftUI
 
 @Observable
 class WatchLogEntry {
-    var uuid: UUID
+    var id: UUID
     
     var remoteSignalContainer: RemoteContainerLogEntryViewModel = RemoteContainerLogEntryViewModel()
 
@@ -34,14 +34,14 @@ class WatchLogEntry {
 
     init() {
         logDate = Date.now
-        uuid = UUID()
+        id = UUID()
         // drawingData = Data()
         pkDrawingData = PKDrawing()
     }
 
     init(uudi: UUID) {
         logDate = Date.now
-        uuid = uudi
+        id = uudi
         // drawingData = Data()
         pkDrawingData = PKDrawing()
     }
@@ -49,7 +49,7 @@ class WatchLogEntry {
     init(watchLookBookEntry: WatchLogBookEntry) {
         remoteSignalContainer = RemoteContainerLogEntryViewModel()
         
-        uuid = watchLookBookEntry.uuid
+        id = watchLookBookEntry.id
 
         logDate = watchLookBookEntry.logDate
 
@@ -72,7 +72,7 @@ class WatchLogEntry {
 
     fileprivate func initialValues() {
         logDate = Date.now
-        uuid = UUID()
+        id = UUID()
         clear()
         processTypeDetails = WatchLogProcessTypeDetails()
     }

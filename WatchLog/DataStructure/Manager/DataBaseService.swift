@@ -93,7 +93,7 @@ class DatabaseService: DatabaseServiceProtocol {
     }
 
     func removeWatchLogBookEntry(logEntry: WatchLogEntry) async -> Result<Void, Error> {
-        return await removeWatchLogBookEntry(logEntryUUID: logEntry.uuid)
+        return await removeWatchLogBookEntry(logEntryUUID: logEntry.id)
     }
     
     func removeWatchLogBookEntry(logEntryUUID: UUID) async -> Result<Void, Error> {
@@ -107,7 +107,7 @@ class DatabaseService: DatabaseServiceProtocol {
     }
 
     func removeWatchLogBookDay(watchLogBookDay: WatchLogBookDay) async -> Result<Void, Error> {
-        let deleteResult = dataSource.removeLogBookDay(with: watchLogBookDay.uuid)
+        let deleteResult = dataSource.removeLogBookDay(with: watchLogBookDay.id)
         switch deleteResult {
         case .success:
             return .success(())
@@ -117,7 +117,7 @@ class DatabaseService: DatabaseServiceProtocol {
     }
 
     func removeWatchLogBookMonth(watchLogBookMonth: WatchLogBookMonth) async -> Result<Void, Error> {
-        let deleteResult = dataSource.removeLogBookMonth(with: watchLogBookMonth.uuid)
+        let deleteResult = dataSource.removeLogBookMonth(with: watchLogBookMonth.id)
         switch deleteResult {
         case .success:
             return .success(())
@@ -127,7 +127,7 @@ class DatabaseService: DatabaseServiceProtocol {
     }
 
     func removeWatchLogBookYear(watchLogBookYear: WatchLogBookYear) async -> Result<Void, Error> {
-        let deleteResult = dataSource.removeLogBookYear(with: watchLogBookYear.uuid)
+        let deleteResult = dataSource.removeLogBookYear(with: watchLogBookYear.id)
         switch deleteResult {
         case .success:
             return .success(())

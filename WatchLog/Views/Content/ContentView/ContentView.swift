@@ -18,7 +18,7 @@ import TipKit
     let viewModel = LogEntryViewModel(dataBaseService: databaseService)
 
     var pre: PreviewData = PreviewData()
-    pre.setPreviewDate(viewModel: viewModel)
+    //pre.setPreviewDate(viewModel: viewModel)
 
     return ContentView()
         .environmentObject(viewModel)
@@ -83,7 +83,7 @@ struct ContentView: View {
                 ProgressionView()
             }
 
-            List(viewModel.WatchLogBooks, id: \.uuid) { book in
+            List(viewModel.WatchLogBooks, id: \.id) { book in
 
                 buildLogBookNavigationTree(book: book)
             }
@@ -138,7 +138,7 @@ struct ContentView: View {
                         Task {
                             let isExisting = await viewModel.fetchLogBookEntry(from: newEntryUUID)
                             if isExisting != nil {
-                                logEntryUUIDContainer = .init(logEntryUUID: isExisting!.uuid, logBookDay: isExisting!.watchLogBookDay!)
+                                logEntryUUIDContainer = .init(logEntryUUID: isExisting!.id, logBookDay: isExisting!.watchLogBookDay!)
                             }
                         }
                 
@@ -295,34 +295,34 @@ extension ContentView {
             ForEach(day.logEntriesSorted) { entry in
 
                 Button(action: {
-                    logEntryUUIDContainer = .init(logEntryUUID: entry.uuid, logBookDay: day)
+                    logEntryUUIDContainer = .init(logEntryUUID: entry.id, logBookDay: day)
                     displayedLogEntryUUID.id = logEntryUUIDContainer.logEntryUUID
 
                 }) {
                     VStack(alignment: .leading) {
                         Text(DateManipulation.getTime(from: entry.logDate))
-                            .navigationTreeButtonLabelStyle(isSeletecedItem: entry.uuid == displayedLogEntryUUID.id)
+                            .navigationTreeButtonLabelStyle(isSeletecedItem: entry.id == displayedLogEntryUUID.id)
 
                         if entry.processDetails != nil {
                             Text(ProcessType.processTypes[entry.processDetails!.processTypeShort]!)
-                                .navigationTreeButtonSubLabelStyle(isSeletecedItem: entry.uuid == displayedLogEntryUUID.id)
+                                .navigationTreeButtonSubLabelStyle(isSeletecedItem: entry.id == displayedLogEntryUUID.id)
                         }
                     }
                 }
                 .listRowBackground(
                     Rectangle()
-                        .selectedRowBackgroundAnimation(isSelectedRow: entry.uuid == displayedLogEntryUUID.id, colorScheme: colorScheme, appStyles: appStyles)
+                        .selectedRowBackgroundAnimation(isSelectedRow: entry.id == displayedLogEntryUUID.id, colorScheme: colorScheme, appStyles: appStyles)
                 )
             }
             .onDelete(perform: { indexSet in
                 indexSet.sorted(by: >).forEach { i in
                     let logEntry = day.watchLogBookEntries![i]
                     Task {
-                        if await viewModel.isDeletedEntryInDisplayedDay(logEntryUUID: displayedLogEntryUUID.id, logEntryDayUUI: day.uuid) {
-                            logEntryUUIDContainer = await viewModel.calculateShownAndDeleteLogEntry(logEntryUUID: logEntry.uuid, logEntryDayUUI: day.uuid)
+                        if await viewModel.isDeletedEntryInDisplayedDay(logEntryUUID: displayedLogEntryUUID.id, logEntryDayUUI: day.id) {
+                            logEntryUUIDContainer = await viewModel.calculateShownAndDeleteLogEntry(logEntryUUID: logEntry.id, logEntryDayUUI: day.id)
                             displayedLogEntryUUID.id = logEntryUUIDContainer.logEntryUUID
                         } else {
-                            await viewModel.deleteLogEntry(logEntryUUID: logEntry.uuid)
+                            await viewModel.deleteLogEntry(logEntryUUID: logEntry.id)
                         }
                     }
                 }

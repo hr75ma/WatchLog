@@ -11,9 +11,9 @@ import SwiftUI
 
 @Model
 class WatchLogBookEntry: Identifiable, Hashable {
-    #Unique<WatchLogBookEntry>([\.uuid, \.logDate])
+    #Unique<WatchLogBookEntry>([\.id])
 
-    @Attribute(.unique) var uuid: UUID
+    @Attribute(.unique) var id: UUID
 
     @Relationship(deleteRule: .nullify, inverse: \WatchLogBookDay.watchLogBookEntries) var watchLogBookDay: WatchLogBookDay?
 
@@ -48,7 +48,7 @@ class WatchLogBookEntry: Identifiable, Hashable {
         }
 
     init(LogEntry: WatchLogEntry, day: WatchLogBookDay) {
-        uuid = LogEntry.uuid
+        id = LogEntry.id
         logDate = LogEntry.logDate
 
         callerName = LogEntry.callerName
@@ -68,7 +68,7 @@ class WatchLogBookEntry: Identifiable, Hashable {
     }
 
     init(LogEntry: WatchLogEntry) {
-        uuid = LogEntry.uuid
+        id = LogEntry.id
         logDate = LogEntry.logDate
 
         callerName = LogEntry.callerName
@@ -88,7 +88,7 @@ class WatchLogBookEntry: Identifiable, Hashable {
     }
 
     init() {
-        uuid = UUID()
+        id = UUID()
         logDate = .now
 
         callerName = ""
@@ -110,7 +110,7 @@ class WatchLogBookEntry: Identifiable, Hashable {
     }
 
     init(uuid: UUID) {
-        self.uuid = uuid
+        self.id = uuid
         logDate = .now
 
         callerName = ""
@@ -133,7 +133,7 @@ class WatchLogBookEntry: Identifiable, Hashable {
     }
 
     func clear() {
-        uuid = uuid
+        id = id
         logDate = .now
 
         callerName = ""
@@ -155,7 +155,7 @@ class WatchLogBookEntry: Identifiable, Hashable {
     }
 
     func update(LogEntry: WatchLogEntry) {
-        uuid = LogEntry.uuid
+        id = LogEntry.id
         logDate = LogEntry.logDate
         
 

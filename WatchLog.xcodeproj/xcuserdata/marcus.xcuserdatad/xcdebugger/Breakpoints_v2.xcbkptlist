@@ -14,40 +14,10 @@
             filePath = "WatchLog/DataStructure/ViewModel/LogEntryViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "65"
-            endingLineNumber = "65"
+            startingLineNumber = "108"
+            endingLineNumber = "108"
             landmarkName = "calculateShownAndDeleteLogEntry(logEntryUUID:logEntryDayUUI:)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "99346B36-AC5C-491D-A350-AA3952DB823D - 264bd4a6798e0b1d"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(1) suspend resume partial function for WatchLog.LogEntryViewModel.calculateShownAndDeleteLogEntry(logEntryUUID: Foundation.UUID, logEntryDayUUI: Foundation.UUID) async -&gt; WatchLog.LogEntryUUIDContainer"
-                  moduleName = "WatchLog.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/marcus/Xcode1/Coding/myProjects/WatchLog/WatchLog/DataStructure/ViewModel/LogEntryViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "65"
-                  endingLineNumber = "65">
-               </Location>
-               <Location
-                  uuid = "99346B36-AC5C-491D-A350-AA3952DB823D - eab05f2a74f1f713"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(3) suspend resume partial function for WatchLog.LogEntryViewModel.calculateShownAndDeleteLogEntry(logEntryUUID: Foundation.UUID, logEntryDayUUI: Foundation.UUID) async -&gt; WatchLog.LogEntryUUIDContainer"
-                  moduleName = "WatchLog.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/marcus/Xcode1/Coding/myProjects/WatchLog/WatchLog/DataStructure/ViewModel/LogEntryViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "65"
-                  endingLineNumber = "65">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -60,8 +30,8 @@
             filePath = "WatchLog/DataStructure/ViewModel/LogEntryViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "69"
-            endingLineNumber = "69"
+            startingLineNumber = "112"
+            endingLineNumber = "112"
             landmarkName = "calculateShownAndDeleteLogEntry(logEntryUUID:logEntryDayUUI:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -140,8 +110,8 @@
             filePath = "WatchLog/DataStructure/ViewModel/LogEntryViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "201"
-            endingLineNumber = "201"
+            startingLineNumber = "244"
+            endingLineNumber = "244"
             landmarkName = "fetchLogBookDayOrEmptyDay(from:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -156,40 +126,10 @@
             filePath = "WatchLog/DataStructure/ViewModel/LogEntryViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "203"
-            endingLineNumber = "203"
+            startingLineNumber = "246"
+            endingLineNumber = "246"
             landmarkName = "fetchLogBookDayOrEmptyDay(from:)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "0ABB7DAB-A634-49EC-AB7E-B418B338EC87 - dd3ece4abbde8fb6"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(3) suspend resume partial function for WatchLog.LogEntryViewModel.fetchLogBookDayOrEmptyDay(from: Foundation.Date) async -&gt; Swift.Optional&lt;WatchLog.WatchLogBookDay&gt;"
-                  moduleName = "WatchLog.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/marcus/Xcode1/Coding/myProjects/WatchLog/WatchLog/DataStructure/ViewModel/LogEntryViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "203"
-                  endingLineNumber = "203">
-               </Location>
-               <Location
-                  uuid = "0ABB7DAB-A634-49EC-AB7E-B418B338EC87 - dd3ece4abbde8fb6"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(3) suspend resume partial function for WatchLog.LogEntryViewModel.fetchLogBookDayOrEmptyDay(from: Foundation.Date) async -&gt; Swift.Optional&lt;WatchLog.WatchLogBookDay&gt;"
-                  moduleName = "WatchLog.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/marcus/Xcode1/Coding/myProjects/WatchLog/WatchLog/DataStructure/ViewModel/LogEntryViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "203"
-                  endingLineNumber = "203">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy

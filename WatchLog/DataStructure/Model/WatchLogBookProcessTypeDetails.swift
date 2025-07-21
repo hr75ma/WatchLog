@@ -11,9 +11,9 @@ import SwiftUI
 
 @Model
 class WatchLogBookProcessTypeDetails: Identifiable, Hashable {
-    #Unique<WatchLogBookProcessTypeDetails>([\.uuid])
+    #Unique<WatchLogBookProcessTypeDetails>([\.id])
 
-    @Attribute(.unique) var uuid: UUID
+    @Attribute(.unique) var id: UUID
 
     @Relationship(deleteRule: .nullify, inverse: \WatchLogBookEntry.processDetails) var watchLogBookEntry: WatchLogBookEntry?
 
@@ -30,7 +30,7 @@ class WatchLogBookProcessTypeDetails: Identifiable, Hashable {
     var isAnimaleLiving: Bool = false
 
     init() {
-        uuid = UUID()
+        id = UUID()
 
         processTypeShort = ProcessType.ProcessTypeShort.UNKNOWN
 
@@ -46,7 +46,7 @@ class WatchLogBookProcessTypeDetails: Identifiable, Hashable {
     }
 
     init(watchLogProcessTypeDetails: WatchLogProcessTypeDetails) {
-        uuid = watchLogProcessTypeDetails.uuid
+        id = watchLogProcessTypeDetails.uuid
 
         processTypeShort = watchLogProcessTypeDetails.processTypeShort
 

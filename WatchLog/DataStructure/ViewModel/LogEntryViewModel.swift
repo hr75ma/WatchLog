@@ -36,16 +36,17 @@ final class LogEntryViewModel: ObservableObject {
             await self.instanciateLogBook()
         }
         
-        generateLogBookEntry()
+        //generateLogBookEntry()
+        generateAutomaticMockDatas()
     }
     
     func generateLogBookEntry() {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd.MM.yyyy HH:mm:ss"
         
-        let entries = ["01.01.2023 02:10:10", "01.01.2023 04:10:10", "01.01.2023 06:10:10", "01.01.2023 08:10:10", "01.01.2023 12:10:10", "01.01.2023 13:10:10", "01.01.2023 15:10:10", "01.01.2023 19:10:10", "01.01.2023 20:10:10", "20.01.2023 16:10:10", "05.03.2023 03:10:10", "10.03.2023 06:10:10", "17.05.2023 08:11:10", "21.05.2023 02:10:10", "07.09.2023 13:10:12", "23.09.2023 20:10:10", "31.12.2023 22:10:10", "01.01.2023 02:10:10", "01.01.2023 04:10:10", "01.01.2023 06:10:10", "01.01.2023 08:10:10", "01.01.2023 12:10:10", "01.01.2023 13:10:10", "01.01.2023 15:10:10", "01.01.2023 19:10:10", "01.01.2023 20:10:10", "20.01.2023 16:10:10", "05.03.2023 03:10:10", "10.03.2023 06:10:10", "17.05.2023 08:11:10", "21.05.2023 02:10:10", "07.09.2023 13:10:12", "23.09.2023 20:10:10", "31.12.2023 22:10:10", "01.01.2024 06:10:10", "02.01.2024 16:10:10", "01.02.2024 04:10:10", "01.02.2024 15:10:10", "01.03.2024 18:10:10", "01.03.2024 13:10:10", "02.03.2024 11:10:10", "09.04.2024 06:10:10", "10.04.2024 03:10:10", "01.05.2024 14:10:10", "02.05.2024 19:10:10", "01.01.2025 06:10:10", "01.01.2025 08:10:10", "01.01.2025 10:10:10", "02.01.2025 16:10:10", "01.02.2025 04:10:10", "01.02.2025 15:10:10", "01.03.2025 18:10:10", "01.03.2025 13:10:10", "02.03.2025 11:10:10", "09.04.2025 06:10:10", "10.04.2025 03:10:10", "01.05.2025 14:10:10", "02.05.2025 19:10:10", "16.07.2025 10:10:10", "16.07.2025 14:10:10"]
+        let entries = ["01.01.2023 15:10:10", "01.01.2023 19:10:10", "01.01.2023 20:10:10", "20.01.2023 16:10:10", "05.03.2023 03:10:10", "10.03.2023 06:10:10", "17.05.2023 08:11:10", "21.05.2023 02:10:10", "07.09.2023 13:10:12", "23.09.2023 20:10:10", "31.12.2023 22:10:10", "01.01.2024 06:10:10", "02.01.2024 16:10:10", "01.02.2024 04:10:10", "01.02.2024 15:10:10", "01.03.2024 18:10:10", "01.03.2024 13:10:10", "02.03.2024 11:10:10", "09.04.2024 06:10:10", "10.04.2024 03:10:10", "01.05.2024 14:10:10", "02.05.2024 19:10:10", "01.01.2025 06:10:10", "01.01.2025 08:10:10", "01.01.2025 10:10:10", "02.01.2025 16:10:10", "01.02.2025 04:10:10", "01.02.2025 15:10:10", "01.03.2025 18:10:10", "01.03.2025 13:10:10", "02.03.2025 11:10:10", "09.04.2025 06:10:10", "10.04.2025 03:10:10", "01.05.2025 14:10:10", "02.05.2025 19:10:10", "16.07.2025 10:10:10", "16.07.2025 14:10:10"]
         
-        // let entries = ["01.01.2023 06:10:10", "20.01.2023 16:10:10", "20.01.2023 18:10:10"]
+
         
         Task {
             for dat in entries {
@@ -53,6 +54,48 @@ final class LogEntryViewModel: ObservableObject {
                 entryObject.logDate = dateFormatter.date(from: dat)!
                 entryObject.isLocked = true
                 await saveLogEntry(LogEntry: entryObject)
+            }
+        }
+    }
+    
+    func generateAutomaticMockDatas() {
+        var logEntry: WatchLogEntry?
+        
+        var dateComponent = DateComponents()
+        dateComponent.year = 1975
+        dateComponent.month = 8
+        dateComponent.day = 2
+        dateComponent.hour = 10
+        dateComponent.minute = 0
+        dateComponent.second = 0
+        dateComponent.nanosecond = 0
+        var fillerDate = Calendar.current.date(from: dateComponent)
+
+        
+        Task {
+            for year in 2023...2025 {
+                dateComponent.year = year
+                for month in 1...3 {
+                    dateComponent.month = month
+                    for day in 1...3 {
+                        dateComponent.day = day
+                        for hour in 11...13 {
+                            dateComponent.hour = hour
+                            for minute in 10...12 {
+                                dateComponent.minute = minute
+                                for second in 10...12 {
+                                    dateComponent.second = second
+                                    fillerDate = Calendar.current.date(from: dateComponent)
+                                    logEntry = WatchLogEntry()
+                                    logEntry!.logDate = fillerDate!
+                                    logEntry!.isLocked = true
+                                    await saveLogEntry(LogEntry: logEntry!)
+                                    print("\(year)-\(month)-\(day) \(hour):\(minute):\(second)")
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     }
@@ -67,11 +110,11 @@ final class LogEntryViewModel: ObservableObject {
             if day != nil {
                 
                 if day!.watchLogBookEntries!.count > 2 {
-                    var index = day!.logEntriesSorted.firstIndex(where: { $0.uuid == logEntryUUID })
+                    var index = day!.logEntriesSorted.firstIndex(where: { $0.id == logEntryUUID })
                     index = index == 0 ? 1 : index! - 1
-                    toDisplayEntryUUID = day!.logEntriesSorted[index!].uuid
+                    toDisplayEntryUUID = day!.logEntriesSorted[index!].id
                 } else {
-                    toDisplayEntryUUID = day!.watchLogBookEntries!.count == 1 ? day!.watchLogBookEntries![0].uuid : day!.logEntriesSorted[1].uuid
+                    toDisplayEntryUUID = day!.watchLogBookEntries!.count == 1 ? day!.watchLogBookEntries![0].id : day!.logEntriesSorted[1].id
                 }
                 await deleteLogEntry(logEntryUUID: logEntryUUID)
             }
@@ -85,7 +128,7 @@ final class LogEntryViewModel: ObservableObject {
         day = await fetchLogEntryDay(from: logEntryDayUUI)
         if day != nil {
             
-            if day!.watchLogBookEntries!.contains(where: { $0.uuid == logEntryUUID }) {
+            if day!.watchLogBookEntries!.contains(where: { $0.id == logEntryUUID }) {
                 return true
             }
         }

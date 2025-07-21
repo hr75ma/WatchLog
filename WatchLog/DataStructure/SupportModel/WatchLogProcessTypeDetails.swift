@@ -43,7 +43,7 @@ class WatchLogProcessTypeDetails {
     }
 
     init(processTypeDetails: WatchLogBookProcessTypeDetails) {
-        uuid = processTypeDetails.uuid
+        uuid = processTypeDetails.id
 
         processTypeShort = processTypeDetails.processTypeShort
 

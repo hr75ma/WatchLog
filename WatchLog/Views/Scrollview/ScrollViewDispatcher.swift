@@ -58,11 +58,11 @@ struct ScrollViewDispatcher: View {
 
                         ForEach(logEntryUUIDContainer.logEntryBookDay.logEntriesSorted.indices, id: \.self) { index in
                             LogBookEntryShowWrapperView(watchLogEntry: logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].getWatchLogEntry())
-                                .id(logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].uuid)
+                                .id(logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].id)
                                 .onScrollVisibilityChange(threshold: 0.5) { scrolled in
                                     if scrolled {
-                                        print("index \(index) - \(logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].uuid.uuidString)")
-                                        logEntryUUID = logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].uuid
+                                        print("index \(index) - \(logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].id.uuidString)")
+                                        logEntryUUID = logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].id
                                         numberOfEntry = index + 1
                                     }
                                 }
@@ -98,7 +98,7 @@ struct ScrollViewDispatcher: View {
                     Task {
                         let logBookDay = await viewModel.fetchLogBookDay(from: .now)
                         if logBookDay != nil && !logBookDay!.watchLogBookEntries!.isEmpty {
-                            logEntryUUIDContainer = .init(logEntryUUID: logBookDay!.logEntriesSorted.last!.uuid, logBookDay: logBookDay!)
+                            logEntryUUIDContainer = .init(logEntryUUID: logBookDay!.logEntriesSorted.last!.id, logBookDay: logBookDay!)
                         }
                     }
                     scrollPos = logEntryUUIDContainer.logEntryUUID
@@ -119,7 +119,7 @@ struct ScrollViewDispatcher: View {
                 Task {
                     let logBookDay = await viewModel.fetchLogBookDay(from: .now)
                     if logBookDay != nil && !logBookDay!.watchLogBookEntries!.isEmpty {
-                        logEntryUUIDContainer = .init(logEntryUUID: logBookDay!.logEntriesSorted.last!.uuid, logBookDay: logBookDay!)
+                        logEntryUUIDContainer = .init(logEntryUUID: logBookDay!.logEntriesSorted.last!.id, logBookDay: logBookDay!)
                         scrollPos = logEntryUUIDContainer.logEntryUUID
                     }
                 }
@@ -131,7 +131,7 @@ struct ScrollViewDispatcher: View {
             Task { @MainActor in
 
                 print("change Container gelieferte entryUUID: \(newValue.logEntryUUID.uuidString)")
-                if oldValue.logEntryBookDay.uuid != newValue.logEntryBookDay.uuid {
+                if oldValue.logEntryBookDay.id != newValue.logEntryBookDay.id {
                     logEntryUUID = newValue.logEntryUUID
                     print("onChange new Day: \(newValue.logEntryUUID)")
                     withAnimation {
@@ -224,8 +224,8 @@ extension ScrollViewDispatcher {
                 "Löschen", role: .destructive,
                 action: {
                     Task {
-                        if await viewModel.isDeletedEntryInDisplayedDay(logEntryUUID: displayedLogEntryUUID.id, logEntryDayUUI: logEntryUUIDContainer.logEntryBookDay.uuid) {
-                            logEntryUUIDContainer = await viewModel.calculateShownAndDeleteLogEntry(logEntryUUID: logEntryUUID, logEntryDayUUI: logEntryUUIDContainer.logEntryBookDay.uuid)
+                        if await viewModel.isDeletedEntryInDisplayedDay(logEntryUUID: displayedLogEntryUUID.id, logEntryDayUUI: logEntryUUIDContainer.logEntryBookDay.id) {
+                            logEntryUUIDContainer = await viewModel.calculateShownAndDeleteLogEntry(logEntryUUID: logEntryUUID, logEntryDayUUI: logEntryUUIDContainer.logEntryBookDay.id)
                             displayedLogEntryUUID.id = logEntryUUIDContainer.logEntryUUID
                         } else {
                             await viewModel.deleteLogEntry(logEntryUUID: logEntryUUID)

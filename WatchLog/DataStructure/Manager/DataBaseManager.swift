@@ -65,7 +65,7 @@ final class DataBaseManager {
 
     private func fetchLogBookYear(with EntryUUID: UUID) -> [WatchLogBookYear] {
         let fetchDiscriptor = FetchDescriptor<WatchLogBookYear>(
-            predicate: #Predicate { $0.uuid == EntryUUID })
+            predicate: #Predicate { $0.id == EntryUUID })
         do {
             let fetchedEntries = try? modelContext.fetch(fetchDiscriptor)
             return fetchedEntries!
@@ -74,7 +74,7 @@ final class DataBaseManager {
 
     private func fetchLogBookMonth(with EntryUUID: UUID) -> [WatchLogBookMonth] {
         let fetchDiscriptor = FetchDescriptor<WatchLogBookMonth>(
-            predicate: #Predicate { $0.uuid == EntryUUID })
+            predicate: #Predicate { $0.id == EntryUUID })
         do {
             let fetchedEntries = try? modelContext.fetch(fetchDiscriptor)
             return fetchedEntries!
@@ -83,7 +83,7 @@ final class DataBaseManager {
 
     private func fetchLogBookDay(with EntryUUID: UUID) -> [WatchLogBookDay] {
         let fetchDiscriptor = FetchDescriptor<WatchLogBookDay>(
-            predicate: #Predicate { $0.uuid == EntryUUID })
+            predicate: #Predicate { $0.id == EntryUUID })
         do {
             let fetchedEntries = try? modelContext.fetch(fetchDiscriptor)
             return fetchedEntries!
@@ -92,7 +92,7 @@ final class DataBaseManager {
 
     private func fetchLogBook(with EntryUUID: UUID) -> [WatchLogBook] {
         let fetchDiscriptor = FetchDescriptor<WatchLogBook>(
-            predicate: #Predicate { $0.uuid == EntryUUID })
+            predicate: #Predicate { $0.id == EntryUUID })
         do {
             let fetchedEntries = try? modelContext.fetch(fetchDiscriptor)
             return fetchedEntries!
@@ -145,7 +145,7 @@ final class DataBaseManager {
         try? modelContext.save()
 
         // check if year has zero entries --> can be deleted
-        let fetchYearResult = fetchLogBookYear(with: logMonth.watchLogBookYear!.uuid)
+        let fetchYearResult = fetchLogBookYear(with: logMonth.watchLogBookYear!.id)
         logYear = fetchYearResult.first!
         if logYear.watchLogBookMonths!.isEmpty {
             modelContext.delete(logYear)
@@ -170,14 +170,14 @@ final class DataBaseManager {
         try? modelContext.save()
 
         // check if month has zero entries --> can be deleted
-        let fetchMonthResult = fetchLogBookMonth(with: logDay.watchLogBookMonth!.uuid)
+        let fetchMonthResult = fetchLogBookMonth(with: logDay.watchLogBookMonth!.id)
         logMonth = fetchMonthResult.first!
         if logMonth.watchLogBookDays!.isEmpty {
             modelContext.delete(logMonth)
             try? modelContext.save()
 
             // check if year has zero entries --> can be deleted
-            let fetchYearResult = fetchLogBookYear(with: logMonth.watchLogBookYear!.uuid)
+            let fetchYearResult = fetchLogBookYear(with: logMonth.watchLogBookYear!.id)
             logYear = fetchYearResult.first!
             if logYear.watchLogBookMonths!.isEmpty {
                 modelContext.delete(logYear)
@@ -205,21 +205,21 @@ final class DataBaseManager {
                 try? modelContext.save()
 
                 // check if day has zero entries --> can be deleted
-                let fetchDayResult = fetchLogBookDay(with: logEntry.watchLogBookDay!.uuid)
+                let fetchDayResult = fetchLogBookDay(with: logEntry.watchLogBookDay!.id)
                 logDay = fetchDayResult.first!
                 if logDay.watchLogBookEntries!.isEmpty {
                     modelContext.delete(logDay)
                     try? modelContext.save()
 
                     // check if month has zero entries --> can be deleted
-                    let fetchMonthResult = fetchLogBookMonth(with: logDay.watchLogBookMonth!.uuid)
+                    let fetchMonthResult = fetchLogBookMonth(with: logDay.watchLogBookMonth!.id)
                     logMonth = fetchMonthResult.first!
                     if logMonth.watchLogBookDays!.isEmpty {
                         modelContext.delete(logMonth)
                         try? modelContext.save()
 
                         // check if year has zero entries --> can be deleted
-                        let fetchYearResult = fetchLogBookYear(with: logMonth.watchLogBookYear!.uuid)
+                        let fetchYearResult = fetchLogBookYear(with: logMonth.watchLogBookYear!.id)
                         logYear = fetchYearResult.first!
                         if logYear.watchLogBookMonths!.isEmpty {
                             modelContext.delete(logYear)
@@ -238,7 +238,7 @@ final class DataBaseManager {
 
     func fetchLogBookEntry(with EntryUUID: UUID) -> Result<[WatchLogBookEntry], Error> {
         let fetchDiscriptor = FetchDescriptor<WatchLogBookEntry>(
-            predicate: #Predicate { $0.uuid == EntryUUID })
+            predicate: #Predicate { $0.id == EntryUUID })
         do {
             let fetchedEntry = try modelContext.fetch(fetchDiscriptor)
             return .success(fetchedEntry)
@@ -270,7 +270,7 @@ final class DataBaseManager {
     func fetchLogBookDay(from: UUID) -> Result<WatchLogBookDay?, Error> {
         var logDay: WatchLogBookDay?
         let fetchDiscriptor = FetchDescriptor<WatchLogBookDay>(
-            predicate: #Predicate { $0.uuid == from })
+            predicate: #Predicate { $0.id == from })
         do {
             logDay = try modelContext.fetch(fetchDiscriptor).first
         } catch {
@@ -294,7 +294,7 @@ final class DataBaseManager {
         
         var logDay: WatchLogBookDay?
         let fetchDiscriptor = FetchDescriptor<WatchLogBookDay>(
-            predicate: #Predicate { $0.uuid == from })
+            predicate: #Predicate { $0.id == from })
         do {
             logDay = try modelContext.fetch(fetchDiscriptor).first
         } catch {
@@ -480,10 +480,10 @@ final class DataBaseManager {
         testdateFormatter.dateFormat = "dd.MM.yyyy HH:mm"
         dateFormatter.string(from: Date())
 
-        let LogEntryUUID: UUID = LogEntry.uuid
+        let LogEntryUUID: UUID = LogEntry.id
         var logEntry: WatchLogBookEntry?
         let fetchDiscriptor = FetchDescriptor<WatchLogBookEntry>(
-            predicate: #Predicate { $0.uuid == LogEntryUUID })
+            predicate: #Predicate { $0.id == LogEntryUUID })
         do {
             logEntry = try modelContext.fetch(fetchDiscriptor).first
         } catch {

@@ -93,7 +93,7 @@ struct LogBookEntryView: View {
             glowingColorSet = getGlowColorSet(logEntry: watchLogEntry)
         }
         .onDisappear {
-            print("dismiss LogBookEntryView \(watchLogEntry.uuid.uuidString)")
+            print("dismiss LogBookEntryView \(watchLogEntry.id.uuidString)")
  //           dismiss()
         }
 //        .onChange(
@@ -123,7 +123,7 @@ struct LogBookEntryView: View {
                     
             case .delete:
                 print("remote signal delete received")
-                if watchLogEntry.uuid == displayedLogEntryUUID.id  {
+                if watchLogEntry.id == displayedLogEntryUUID.id  {
                    deleteEntry()
                 }
                 dismiss()
