@@ -57,7 +57,7 @@ struct ScrollViewDispatcher: View {
                 } else {
 
                         ForEach(logEntryUUIDContainer.logEntryBookDay.logEntriesSorted.indices, id: \.self) { index in
-                            LogBookEntryShowWrapperView(logBookEntryUUID: $logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].uuid)
+                            LogBookEntryShowWrapperView(watchLogEntry: logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].getWatchLogEntry())
                                 .id(logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].uuid)
                                 .onScrollVisibilityChange(threshold: 0.5) { scrolled in
                                     if scrolled {

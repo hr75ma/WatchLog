@@ -54,9 +54,10 @@ class WatchLogBookEntry: Identifiable, Hashable {
         }
     }
     
-//    static func == (lhs: WatchLogBookEntry, rhs: WatchLogBookEntry) -> Bool {
-//        return lhs.saveMarker == rhs.saveMarker
-//    }
+        func getWatchLogEntry() -> WatchLogEntry {
+            return WatchLogEntry(watchLookBookEntry: self)
+    
+        }
 
     init(LogEntry: WatchLogEntry, day: WatchLogBookDay) {
         uuid = LogEntry.uuid

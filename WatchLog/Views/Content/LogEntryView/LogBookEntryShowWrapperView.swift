@@ -16,11 +16,11 @@
 import SwiftUI
 
 struct LogBookEntryShowWrapperView: View {
-
-    @Binding public var logBookEntryUUID: UUID
+    @State public var watchLogEntry: WatchLogEntry
+    //@Binding public var logBookEntryUUID: UUID
     let viewIsReadOnly: Bool = true
     
-    @State private var watchLogEntry: WatchLogEntry = .init()
+    //@State private var watchLogEntry: WatchLogEntry = .init()
     
     @EnvironmentObject var viewModel: LogEntryViewModel
 
@@ -43,8 +43,8 @@ struct LogBookEntryShowWrapperView: View {
         .task {
             
                // print("onappear Show - \(logBookEntryUUID.uuidString)")
-                watchLogEntry = await viewModel.fetchLogEntryMod(LogEntryUUID: logBookEntryUUID)
-                watchLogEntry.isLocked = true
+//                watchLogEntry = await viewModel.fetchLogEntryMod(LogEntryUUID: logBookEntryUUID)
+//                watchLogEntry.isLocked = true
           
         }
     }

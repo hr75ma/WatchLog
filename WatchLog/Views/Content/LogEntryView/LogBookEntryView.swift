@@ -29,18 +29,25 @@ struct LogBookEntryView: View {
 
     @State private var isAnimating = false
     @State private var glowingColorSet: [Color] = [.clear, .clear, .clear]
+    
+    @State var showProgression: Bool = false
 
     var body: some View {
         //                Text(Date.now, format: .dateTime.hour().minute().second())
-        //                   Text(logBookEntryUUID.uuidString)
-        //               Text("currentuuid: \(displayedLogEntryUUID.id.uuidString)")
-        //              Text("currentuuid: \(viewModel.watchLogEntry.uuid.uuidString)")
+        
+        
         ScrollView {
+            
             ZStack {
                 glowingBorderEffect
                     .isHidden(fromBackground, remove: true)
 
+                
+                
                 VStack(alignment: .leading, spacing: 0) {
+                    Text(watchLogEntry.uuid.uuidString)
+                                   Text("currentuuid: \(displayedLogEntryUUID.id.uuidString)")
+                    
                     LogTimeView(logTime: watchLogEntry.EntryTime, viewIsReadOnly: viewIsReadOnly)
 
 
@@ -194,15 +201,18 @@ extension LogBookEntryView {
 
     private func saveEntry() {
         Task {
-            blurSetting.isBlur = true
+            showProgression = true
+            //blurSetting.isBlur = true
             watchLogEntry.isLocked = true
             watchLogEntry.isNewEntryLog = false
             //print(watchLogEntry.CallerNumber)
             await viewModel.saveLogEntry(LogEntry: watchLogEntry)
+            try? await Task.sleep(nanoseconds: 4000_000_000)
             watchLogEntry.isNewEntryLog = false
             // displayedLogEntryUUID = watchLogEntry.uuid
             // logBookEntryUUID = displayedLogEntryUUID
             blurSetting.isBlur = false
+            showProgression = false
         }
     }
 }
