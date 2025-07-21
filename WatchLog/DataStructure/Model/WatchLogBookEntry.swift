@@ -61,14 +61,14 @@ class WatchLogBookEntry: Identifiable, Hashable {
 
     init(LogEntry: WatchLogEntry, day: WatchLogBookDay) {
         uuid = LogEntry.uuid
-        LogDate = LogEntry.EntryTime
+        LogDate = LogEntry.logDate
 
-        CallerName = LogEntry.CallerName
-        CallerNumber = LogEntry.CallerNumber
-        CallerAdress = LogEntry.CallerAdress
-        CallerDOB = LogEntry.CallerDOB
+        CallerName = LogEntry.callerName
+        CallerNumber = LogEntry.callerNumber
+        CallerAdress = LogEntry.callerAdress
+        CallerDOB = LogEntry.callerDOB
 
-        CallIn = LogEntry.CallIn
+        CallIn = LogEntry.callIn
 
         isLocked = LogEntry.isLocked
 
@@ -81,14 +81,14 @@ class WatchLogBookEntry: Identifiable, Hashable {
 
     init(LogEntry: WatchLogEntry) {
         uuid = LogEntry.uuid
-        LogDate = LogEntry.EntryTime
+        LogDate = LogEntry.logDate
 
-        CallerName = LogEntry.CallerName
-        CallerNumber = LogEntry.CallerNumber
-        CallerAdress = LogEntry.CallerAdress
-        CallerDOB = LogEntry.CallerDOB
+        CallerName = LogEntry.callerName
+        CallerNumber = LogEntry.callerNumber
+        CallerAdress = LogEntry.callerAdress
+        CallerDOB = LogEntry.callerDOB
 
-        CallIn = LogEntry.CallIn
+        CallIn = LogEntry.callIn
 
         isLocked = LogEntry.isLocked
 
@@ -191,15 +191,15 @@ class WatchLogBookEntry: Identifiable, Hashable {
 
     func update(LogEntry: WatchLogEntry) {
         uuid = LogEntry.uuid
-        LogDate = LogEntry.EntryTime
+        LogDate = LogEntry.logDate
         
 
-        CallerName = LogEntry.CallerName
-        CallerNumber = LogEntry.CallerNumber
-        CallerAdress = LogEntry.CallerAdress
-        CallerDOB = LogEntry.CallerDOB
+        CallerName = LogEntry.callerName
+        CallerNumber = LogEntry.callerNumber
+        CallerAdress = LogEntry.callerAdress
+        CallerDOB = LogEntry.callerDOB
 
-        CallIn = LogEntry.CallIn
+        CallIn = LogEntry.callIn
 
         processDetails!.AccientHitAndRun = LogEntry.processTypeDetails.AccientHitAndRun
         processDetails!.AccientLicensePlate01 = LogEntry.processTypeDetails.AccientLicensePlate01

@@ -17,14 +17,14 @@ class WatchLogEntry {
 
     var isNewEntryLog = true
 
-    var EntryTime: Date
+    var logDate: Date
 
-    var CallerName: String = ""
-    var CallerNumber: String = ""
-    var CallerAdress: String = ""
-    var CallerDOB: Date?
+    var callerName: String = ""
+    var callerNumber: String = ""
+    var callerAdress: String = ""
+    var callerDOB: Date?
 
-    var CallIn = CallInType.CallInTypeShort.EMERGENCY
+    var callIn = CallInType.CallInTypeShort.EMERGENCY
 
     var processTypeDetails: WatchLogProcessTypeDetails = WatchLogProcessTypeDetails()
 
@@ -35,14 +35,14 @@ class WatchLogEntry {
     var pkDrawingData: PKDrawing = PKDrawing()
 
     init() {
-        EntryTime = Date.now
+        logDate = Date.now
         uuid = UUID()
         // drawingData = Data()
         pkDrawingData = PKDrawing()
     }
 
     init(uudi: UUID) {
-        EntryTime = Date.now
+        logDate = Date.now
         uuid = uudi
         // drawingData = Data()
         pkDrawingData = PKDrawing()
@@ -53,14 +53,14 @@ class WatchLogEntry {
         
         uuid = watchLookBookEntry.uuid
 
-        EntryTime = watchLookBookEntry.LogDate
+        logDate = watchLookBookEntry.LogDate
 
-        CallerName = watchLookBookEntry.CallerName
-        CallerNumber = watchLookBookEntry.CallerNumber
-        CallerAdress = watchLookBookEntry.CallerAdress
-        CallerDOB = watchLookBookEntry.CallerDOB
+        callerName = watchLookBookEntry.CallerName
+        callerNumber = watchLookBookEntry.CallerNumber
+        callerAdress = watchLookBookEntry.CallerAdress
+        callerDOB = watchLookBookEntry.CallerDOB
 
-        CallIn = watchLookBookEntry.CallIn
+        callIn = watchLookBookEntry.CallIn
 
         processTypeDetails = WatchLogProcessTypeDetails(
             processTypeDetails: watchLookBookEntry.processDetails!)
@@ -74,19 +74,19 @@ class WatchLogEntry {
     }
 
     fileprivate func initialValues() {
-        EntryTime = Date.now
+        logDate = Date.now
         uuid = UUID()
         clear()
         processTypeDetails = WatchLogProcessTypeDetails()
     }
 
     public func clear() {
-        CallerName = ""
-        CallerNumber = ""
-        CallerAdress = ""
-        CallerDOB = nil
+        callerName = ""
+        callerNumber = ""
+        callerAdress = ""
+        callerDOB = nil
 
-        CallIn = .EMERGENCY
+        callIn = .EMERGENCY
 
         isLocked = false
         isNewEntryLog = false

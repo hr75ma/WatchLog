@@ -46,8 +46,8 @@ extension CallerDataView {
             Text("Telefon")
                 .textLabel(textLabelLevel: TextLabelLevel.standard)
 
-            LimitedIndicatorTextField(config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.standard, limit: 20, tint: .watchLogFont, autoResizes: true), hint: "", text: $logEntry.CallerNumber, isLocked: logEntry.isLocked, disableAnimation: viewIsReadOnly)
-                .textFieldCheckOnNumbers(text: $logEntry.CallerNumber)
+            LimitedIndicatorTextField(config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.standard, limit: 20, tint: .watchLogFont, autoResizes: true), hint: "", text: $logEntry.callerNumber, isLocked: logEntry.isLocked, disableAnimation: viewIsReadOnly)
+                .textFieldCheckOnNumbers(text: $logEntry.callerNumber)
                 .textContentType(.telephoneNumber)
                 .keyboardType(.numberPad)
         }
@@ -58,7 +58,7 @@ extension CallerDataView {
             Text("Name")
                 .textLabel(textLabelLevel: TextLabelLevel.standard)
 
-            LimitedIndicatorTextField(config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.standard, limit: 50, tint: .watchLogFont, autoResizes: true), hint: "", text: $logEntry.CallerName, isLocked: logEntry.isLocked, disableAnimation: viewIsReadOnly)
+            LimitedIndicatorTextField(config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.standard, limit: 50, tint: .watchLogFont, autoResizes: true), hint: "", text: $logEntry.callerName, isLocked: logEntry.isLocked, disableAnimation: viewIsReadOnly)
         }
     }
 
@@ -68,7 +68,7 @@ extension CallerDataView {
                 .textLabel(textLabelLevel: TextLabelLevel.standard)
                 .frame(alignment: .topLeading)
 
-            LimitedIndicatorTextField(config: .init(textfieldType: TextFieldType.multiLine, textfieldLevel: TextFieldLevel.standard, limit: 200, tint: .watchLogFont, autoResizes: true), hint: "", text: $logEntry.CallerAdress, isLocked: logEntry.isLocked, disableAnimation: viewIsReadOnly)
+            LimitedIndicatorTextField(config: .init(textfieldType: TextFieldType.multiLine, textfieldLevel: TextFieldLevel.standard, limit: 200, tint: .watchLogFont, autoResizes: true), hint: "", text: $logEntry.callerAdress, isLocked: logEntry.isLocked, disableAnimation: viewIsReadOnly)
         }
     }
 
@@ -103,7 +103,7 @@ extension CallerDataView {
             .onChange(of: withBirthday) { _, _ in
                 withAnimation(.smooth(duration: 1)) {
                     if !withBirthday {
-                        logEntry.CallerDOB = nil
+                        logEntry.callerDOB = nil
                         with = withBirthday
                     } else {
                         with = withBirthday
@@ -112,7 +112,7 @@ extension CallerDataView {
             }
             .onAppear {
                 withAnimation(.smooth(duration: 1)) {
-                    if logEntry.CallerDOB == nil {
+                    if logEntry.callerDOB == nil {
                         withBirthday = false
                         with = withBirthday
                     } else {
@@ -131,11 +131,11 @@ extension CallerDataView {
     private func ReadOnlyContent() -> some View {
         HStack(alignment: .center, spacing: 0) {
             if tempLocked {
-                Text(DateManipulation.getFormatedDateFromDOB(from: logEntry.CallerDOB))
+                Text(DateManipulation.getFormatedDateFromDOB(from: logEntry.callerDOB))
                     .sectionSimulatedTextFieldSingleLine(
                         isLocked: logEntry.isLocked
                     )
-                    .isHidden(logEntry.CallerDOB == nil || !tempLocked, remove: true)
+                    .isHidden(logEntry.callerDOB == nil || !tempLocked, remove: true)
                 Spacer()
             }
         }
@@ -150,7 +150,7 @@ extension CallerDataView {
                     )
                     .isHidden(tempLocked, remove: true)
 
-                    DatePicker("", selection: $logEntry.CallerDOB ?? Date(), in: ...Date(), displayedComponents: [.date])
+                    DatePicker("", selection: $logEntry.callerDOB ?? Date(), in: ...Date(), displayedComponents: [.date])
                         .datePickerWheelStyle()
                         .matchedGeometryEffect(id: "lockedEvent", in: namespace)
                         .isHidden(!with || tempLocked, remove: true)
@@ -158,12 +158,12 @@ extension CallerDataView {
             }
 
             if tempLocked {
-                Text(DateManipulation.getFormatedDateFromDOB(from: logEntry.CallerDOB))
+                Text(DateManipulation.getFormatedDateFromDOB(from: logEntry.callerDOB))
                     .sectionSimulatedTextFieldSingleLine(
                         isLocked: logEntry.isLocked
                     )
                     .matchedGeometryEffect(id: "lockedEvent", in: namespace)
-                    .isHidden(logEntry.CallerDOB == nil || !tempLocked, remove: true)
+                    .isHidden(logEntry.callerDOB == nil || !tempLocked, remove: true)
                 Spacer()
             }
         }

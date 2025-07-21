@@ -495,7 +495,7 @@ final class DataBaseManager {
             logEntry!.saveMarker = UUID()
             try? modelContext.save()
         } else {
-            let entryTime = LogEntry.EntryTime
+            let entryTime = LogEntry.logDate
             // print(dateFormatter.string(from: entryTime))
 
             var DateComponent = DateComponents()

@@ -45,10 +45,12 @@ struct LogBookEntryView: View {
                 
                 
                 VStack(alignment: .leading, spacing: 0) {
-                    Text(watchLogEntry.uuid.uuidString)
-                                   Text("currentuuid: \(displayedLogEntryUUID.id.uuidString)")
+//                    VStack {
+//                        Text(watchLogEntry.uuid.uuidString)
+//                        Text("currentuuid: \(displayedLogEntryUUID.id.uuidString)")
+//                    }
                     
-                    LogTimeView(logTime: watchLogEntry.EntryTime, viewIsReadOnly: viewIsReadOnly)
+                    LogTimeView(logTime: watchLogEntry.logDate, viewIsReadOnly: viewIsReadOnly)
 
 
                     LockEditingView(logEntry: watchLogEntry, viewIsReadOnly: viewIsReadOnly)

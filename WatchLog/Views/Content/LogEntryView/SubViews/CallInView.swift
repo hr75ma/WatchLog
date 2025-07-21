@@ -53,15 +53,15 @@ extension CallInView {
         .onAppear {
             if !viewIsReadOnly {
                 withAnimation(.smooth(duration: 1)) {
-                    selectedCallInHelper = logEntry.CallIn
+                    selectedCallInHelper = logEntry.callIn
                     tempLocked = logEntry.isLocked
                 }
             }
         }
-        .onChange(of: logEntry.CallIn) { _, _ in
+        .onChange(of: logEntry.callIn) { _, _ in
             if !viewIsReadOnly {
                 withAnimation(.smooth(duration: 1)) {
-                    selectedCallInHelper = logEntry.CallIn
+                    selectedCallInHelper = logEntry.callIn
                 }
             }
         }
@@ -69,7 +69,7 @@ extension CallInView {
             if !viewIsReadOnly {
                 withAnimation(.smooth(duration: 1)) {
                     tempLocked = logEntry.isLocked
-                    selectedCallInHelper = logEntry.CallIn
+                    selectedCallInHelper = logEntry.callIn
                 }
             }
         }
@@ -77,7 +77,7 @@ extension CallInView {
 
     private func ReadOnlyContent() -> some View {
         HStack(alignment: .center, spacing: 0) {
-            Text(CallInType.callInTypes[logEntry.CallIn]!)
+            Text(CallInType.callInTypes[logEntry.callIn]!)
                 .sectionSimulatedTextFieldSingleLine(
                     isLocked: logEntry.isLocked
                 )
@@ -88,7 +88,7 @@ extension CallInView {
     private func EditableContent() -> some View {
         HStack(alignment: .center, spacing: 0) {
             if tempLocked {
-                Text(CallInType.callInTypes[logEntry.CallIn]!)
+                Text(CallInType.callInTypes[logEntry.callIn]!)
                     .sectionSimulatedTextFieldSingleLine(
                         isLocked: logEntry.isLocked
                     )
@@ -97,7 +97,7 @@ extension CallInView {
                 Spacer()
             }
 
-            customSegmentedPickerView(preselectedIndex: $logEntry.CallIn, appStyles: appStyles)
+            customSegmentedPickerView(preselectedIndex: $logEntry.callIn, appStyles: appStyles)
                 .matchedGeometryEffect(id: "lockedEvent", in: namespace)
                 .isHidden(tempLocked, remove: true)
         }

@@ -69,9 +69,16 @@ struct ContentView: View {
 
     var body: some View {
         NavigationSplitView(columnVisibility: $columnVisibility) {
-            Text(logEntryUUIDContainer.logEntryUUID.uuidString)
-            Text("displayedLogEntryUUID: \(displayedLogEntryUUID.id.uuidString)")
+            
+            
+//            VStack {
+//                Text(logEntryUUIDContainer.logEntryUUID.uuidString)
+//                
+//                Text("displayedLogEntryUUID: \(displayedLogEntryUUID.id.uuidString)")
+//            }
 
+                
+                
             if showProgression {
                 ProgressionView()
             }

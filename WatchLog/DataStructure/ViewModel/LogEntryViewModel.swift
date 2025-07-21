@@ -50,7 +50,7 @@ final class LogEntryViewModel: ObservableObject {
         Task {
             for dat in entries {
                 let entryObject = WatchLogEntry()
-                entryObject.EntryTime = dateFormatter.date(from: dat)!
+                entryObject.logDate = dateFormatter.date(from: dat)!
                 entryObject.isLocked = true
                 await saveLogEntry(LogEntry: entryObject)
             }
