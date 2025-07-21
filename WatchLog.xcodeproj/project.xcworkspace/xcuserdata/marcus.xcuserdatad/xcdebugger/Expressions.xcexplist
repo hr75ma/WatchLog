@@ -22,10 +22,10 @@
          contextName = "LogBookEntryShowWrapperView.init(logBookEntryUUID:isEditing:watchLogBookEntry:):LogBookEntryShowWrapperView.swift">
          <PersistentStrings>
             <PersistentString
-               value = "watchLogBookEntry.LogDate">
+               value = "watchLogEntry">
             </PersistentString>
             <PersistentString
-               value = "watchLogEntry">
+               value = "watchLogBookEntry.LogDate">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -64,6 +64,17 @@
          <PersistentStrings>
             <PersistentString
                value = "logBookEntryUUID">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in closure #1 in closure #2 in closure #1 in ContentView.DisclosureGroupLogEntries(day:):ContentView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "displayedLogEntryUUID.id">
+            </PersistentString>
+            <PersistentString
+               value = "logEntry.uuid">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -218,17 +229,6 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "closure #2 in closure #1 in closure #1 in DisclosureTestView.body.getter:ContentView.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "displayedLogEntryUUID.id">
-            </PersistentString>
-            <PersistentString
-               value = "entry.uuid">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
          contextName = "closure #2 in closure #1 in closure #1 in ProcessTypeSelectionView.body.getter:ProcessTypeSelectionView.swift">
          <PersistentStrings>
             <PersistentString
@@ -236,6 +236,17 @@
             </PersistentString>
             <PersistentString
                value = "logEntry.processTypeDetails.processTypeShort">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #2 in closure #1 in closure #1 in DisclosureTestView.body.getter:ContentView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "displayedLogEntryUUID.id">
+            </PersistentString>
+            <PersistentString
+               value = "entry.uuid">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -283,6 +294,20 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "LogBookEntryView.init(watchLogEntry:viewIsReadOnly:):LogBookEntryView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "test">
+            </PersistentString>
+            <PersistentString
+               value = "self.watchLogEntry">
+            </PersistentString>
+            <PersistentString
+               value = "watchLogEntry">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "closure #1 in closure #1 in closure #3 in closure #1 in closure #1 in CallerDataView.body.getter:CallerDataView.swift">
          <PersistentStrings>
             <PersistentString
@@ -290,20 +315,6 @@
             </PersistentString>
             <PersistentString
                value = "with">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "LogBookEntryView.init(watchLogEntry:viewIsReadOnly:):LogBookEntryView.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "watchLogEntry">
-            </PersistentString>
-            <PersistentString
-               value = "self.watchLogEntry">
-            </PersistentString>
-            <PersistentString
-               value = "test">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -357,13 +368,21 @@
          contextName = "closure #1 in closure #1 in closure #1 in ScrollViewDispatcher.body.getter:ScrollViewDispatcher.swift">
          <PersistentStrings>
             <PersistentString
-               value = "logEntryUUIDContainer.logEntryBookDay.logEntriesSorted">
+               value = "logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].LogDate">
             </PersistentString>
             <PersistentString
                value = "logBookEntriesforDay">
             </PersistentString>
             <PersistentString
-               value = "logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].LogDate">
+               value = "logEntryUUIDContainer.logEntryBookDay.logEntriesSorted">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "LogEntryViewModel.calculateShownAndDeleteLogEntry(logEntryUUID:logEntryDayUUI:):LogEntryViewModel.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "day!.watchLogBookEntries">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -379,22 +398,22 @@
          contextName = "closure #1 in closure #1 in ContentView.DisclosureGroupLogEntries(day:):ContentView.swift">
          <PersistentStrings>
             <PersistentString
-               value = "day.logEntriesSorted">
+               value = "newValue">
             </PersistentString>
             <PersistentString
-               value = "logBookEntry.uuid">
+               value = "entry.uuid">
             </PersistentString>
             <PersistentString
                value = "displayedLogEntryUUID.id">
             </PersistentString>
             <PersistentString
+               value = "logBookEntry.uuid">
+            </PersistentString>
+            <PersistentString
+               value = "day.logEntriesSorted">
+            </PersistentString>
+            <PersistentString
                value = "day">
-            </PersistentString>
-            <PersistentString
-               value = "newValue">
-            </PersistentString>
-            <PersistentString
-               value = "entry.uuid">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -488,6 +507,14 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "WatchLogBookEntry.init(LogEntry:):WatchLogBookEntry.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "LogEntry.EntryTime">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "closure #2 in closure #1 in NoteView.body.getter:NoteView.swift">
          <PersistentStrings>
             <PersistentString
@@ -499,10 +526,10 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "WatchLogBookEntry.init(LogEntry:):WatchLogBookEntry.swift">
+         contextName = "closure #1 in closure #1 in closure #1 in closure #1 in ProcessTypeSelectionView.body.getter:ProcessTypeSelectionView.swift">
          <PersistentStrings>
             <PersistentString
-               value = "LogEntry.EntryTime">
+               value = "logEntry.processTypeDetails.processTypeShort">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -511,14 +538,6 @@
          <PersistentStrings>
             <PersistentString
                value = "logBookEntriesForDay">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "closure #1 in closure #1 in closure #1 in closure #1 in ProcessTypeSelectionView.body.getter:ProcessTypeSelectionView.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "logEntry.processTypeDetails.processTypeShort">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -612,10 +631,10 @@
                value = "logBookEntryUUID">
             </PersistentString>
             <PersistentString
-               value = "geometry.size.width">
+               value = "geometry.size.height">
             </PersistentString>
             <PersistentString
-               value = "geometry.size.height">
+               value = "geometry.size.width">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

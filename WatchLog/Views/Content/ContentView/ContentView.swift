@@ -313,6 +313,7 @@ extension ContentView {
                     Task {
                         if await viewModel.isDeletedEntryInDisplayedDay(logEntryUUID: displayedLogEntryUUID.id, logEntryDayUUI: day.uuid) {
                             logEntryUUIDContainer = await viewModel.calculateShownAndDeleteLogEntry(logEntryUUID: logEntry.uuid, logEntryDayUUI: day.uuid)
+                            displayedLogEntryUUID.id = logEntryUUIDContainer.logEntryUUID
                         } else {
                             await viewModel.deleteLogEntry(logEntryUUID: logEntry.uuid)
                         }

@@ -71,7 +71,7 @@ final class LogEntryViewModel: ObservableObject {
                     index = index == 0 ? 1 : index! - 1
                     toDisplayEntryUUID = day!.logEntriesSorted[index!].uuid
                 } else {
-                    toDisplayEntryUUID = day!.logEntriesSorted[0].uuid
+                    toDisplayEntryUUID = day!.watchLogBookEntries!.count == 1 ? day!.watchLogBookEntries![0].uuid : day!.logEntriesSorted[1].uuid
                 }
                 await deleteLogEntry(logEntryUUID: logEntryUUID)
             }
