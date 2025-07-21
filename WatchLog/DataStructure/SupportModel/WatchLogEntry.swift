@@ -30,8 +30,6 @@ class WatchLogEntry {
 
     var isLocked: Bool = true
 
-    // var drawingData: Data = Data()
-
     var pkDrawingData: PKDrawing = PKDrawing()
 
     init() {
@@ -67,7 +65,6 @@ class WatchLogEntry {
 
         isLocked = watchLookBookEntry.isLocked
 
-        // drawingData = WatchLookBookEntry.drawingData
         pkDrawingData = watchLookBookEntry.drawing
 
         isNewEntryLog = false
@@ -91,9 +88,6 @@ class WatchLogEntry {
         isLocked = false
         isNewEntryLog = false
 
-        // processTypeDetails = WatchLogProcessTypeDetails()
-
-        // drawingData = Data()
         pkDrawingData = PKDrawing()
     }
 

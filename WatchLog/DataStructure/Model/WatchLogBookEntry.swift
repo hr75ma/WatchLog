@@ -28,14 +28,6 @@ class WatchLogBookEntry: Identifiable, Hashable {
 
     var callIn: CallInType.CallInTypeShort = CallInType.CallInTypeShort.EMERGENCY
 
-    // var AccientInjured: Bool = false
-    var accientHitAndRun: Bool = false
-    var accientLicensePlate01: String = ""
-    var accientLicensePlate02: String = ""
-    // var isAccient: Bool = false
-
-    var isInjured: Bool = false
-
     var isLocked: Bool = false
     var processTypeShort: ProcessType.ProcessTypeShort = ProcessType.ProcessTypeShort.UNKNOWN
 
@@ -106,14 +98,6 @@ class WatchLogBookEntry: Identifiable, Hashable {
 
         callIn = .EMERGENCY
 
-        // isAccient = false
-        // AccientInjured = false
-        accientHitAndRun = false
-        accientLicensePlate01 = ""
-        accientLicensePlate02 = ""
-
-        isInjured = false
-
         processTypeShort = ProcessType.ProcessTypeShort.UNKNOWN
 
         isLocked = false
@@ -136,13 +120,6 @@ class WatchLogBookEntry: Identifiable, Hashable {
 
         callIn = .EMERGENCY
 
-        // isAccient = false
-        // AccientInjured = false
-        accientHitAndRun = false
-        accientLicensePlate01 = ""
-        accientLicensePlate02 = ""
-
-        isInjured = false
 
         processTypeShort = ProcessType.ProcessTypeShort.UNKNOWN
 
@@ -165,14 +142,6 @@ class WatchLogBookEntry: Identifiable, Hashable {
         callerDOB = nil
 
         callIn = .EMERGENCY
-
-        // isAccient = false
-        // AccientInjured = false
-        accientHitAndRun = false
-        accientLicensePlate01 = ""
-        accientLicensePlate02 = ""
-
-        isInjured = false
 
         processTypeShort = ProcessType.ProcessTypeShort.UNKNOWN
 
