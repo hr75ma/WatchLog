@@ -351,7 +351,7 @@ final class DataBaseManager {
 //        let fetchDiscriptor = FetchDescriptor<WatchLogBookDay>(
 //            predicate: #Predicate { $0.LogDate > predecessorDate! && $0.LogDate < successorDate! })
         let fetchDiscriptor = FetchDescriptor<WatchLogBookDay>(
-            predicate: #Predicate { $0.LogDate == FillerDate! })
+            predicate: #Predicate { $0.logDate == FillerDate! })
 
         do {
             logDayEntry = try modelContext.fetch(fetchDiscriptor).first
@@ -413,7 +413,7 @@ final class DataBaseManager {
 
         var logYearEntry: WatchLogBookYear?
         let fetchDiscriptor = FetchDescriptor<WatchLogBookYear>(
-            predicate: #Predicate { $0.LogDate > predecessorDate! && $0.LogDate < successorDate! })
+            predicate: #Predicate { $0.logDate > predecessorDate! && $0.logDate < successorDate! })
 
         do {
             logYearEntry = try modelContext.fetch(fetchDiscriptor).first
@@ -428,7 +428,7 @@ final class DataBaseManager {
 
             if !logYearEntry!.watchLogBookMonths!.isEmpty {
                 let filteredMonthArray = logYearEntry!.watchLogBookMonths!.filter {
-                    Calendar.current.isDate($0.LogDate, equalTo: FillerDate!, toGranularity: .month)
+                    Calendar.current.isDate($0.logDate, equalTo: FillerDate!, toGranularity: .month)
                 }
                 if !filteredMonthArray.isEmpty {
                     logMonthEntry = filteredMonthArray[0]
@@ -440,7 +440,7 @@ final class DataBaseManager {
 
                 if logMonthEntry != nil && !logMonthEntry!.watchLogBookDays!.isEmpty {
                     let filteredDayArray = logMonthEntry!.watchLogBookDays!.filter {
-                        Calendar.current.isDate($0.LogDate, equalTo: FillerDate!, toGranularity: .day)
+                        Calendar.current.isDate($0.logDate, equalTo: FillerDate!, toGranularity: .day)
                     }
 
                     if !filteredDayArray.isEmpty {
@@ -539,7 +539,7 @@ final class DataBaseManager {
 
             var logYearEntry: WatchLogBookYear?
             let fetchDiscriptor = FetchDescriptor<WatchLogBookYear>(
-                predicate: #Predicate { $0.LogDate > predecessorDate! && $0.LogDate < successorDate! })
+                predicate: #Predicate { $0.logDate > predecessorDate! && $0.logDate < successorDate! })
 
             do {
                 logYearEntry = try modelContext.fetch(fetchDiscriptor).first
@@ -567,7 +567,7 @@ final class DataBaseManager {
                 try? modelContext.save()
             } else {
                 let filteredMonthArray = logYearEntry!.watchLogBookMonths!.filter {
-                    Calendar.current.isDate($0.LogDate, equalTo: FillerDate!, toGranularity: .month)
+                    Calendar.current.isDate($0.logDate, equalTo: FillerDate!, toGranularity: .month)
                 }
                 if filteredMonthArray.isEmpty {
                     logMonthEntry = WatchLogBookMonth(LogDate: FillerDate!, year: logYearEntry!)
@@ -591,7 +591,7 @@ final class DataBaseManager {
                 try? modelContext.save()
             } else {
                 let filteredDayArray = logMonthEntry!.watchLogBookDays!.filter {
-                    Calendar.current.isDate($0.LogDate, equalTo: FillerDate!, toGranularity: .day)
+                    Calendar.current.isDate($0.logDate, equalTo: FillerDate!, toGranularity: .day)
                 }
                 if filteredDayArray.isEmpty {
                     logDayEntry = WatchLogBookDay(LogDate: FillerDate!, month: logMonthEntry!)

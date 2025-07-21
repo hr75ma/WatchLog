@@ -26,7 +26,7 @@ class WatchLogBook: Identifiable, Hashable {
 
     var logYearsSorted: [WatchLogBookYear] {
         get {
-            watchLogBookYears?.sorted(by: { $0.LogDate > $1.LogDate }) ?? []
+            watchLogBookYears?.sorted(by: { $0.logDate > $1.logDate }) ?? []
         }
         set {
             watchLogBookYears = newValue

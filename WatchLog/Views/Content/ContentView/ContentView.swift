@@ -260,7 +260,7 @@ extension ContentView {
     }
 
     private func DisclorsureGroupYear(year: WatchLogBookYear) -> some View {
-        DisclosureGroup(DateManipulation.getYear(from: year.LogDate)) {
+        DisclosureGroup(DateManipulation.getYear(from: year.logDate)) {
             ForEach(year.logMonthSorted) { month in
                 DisclosureGroupLogMonth(month: month)
             }
@@ -275,7 +275,7 @@ extension ContentView {
     }
 
     private func DisclosureGroupLogMonth(month: WatchLogBookMonth) -> some View {
-        DisclosureGroup(DateManipulation.getMonth(from: month.LogDate)) {
+        DisclosureGroup(DateManipulation.getMonth(from: month.logDate)) {
             ForEach(month.logDaysSorted) { day in
                 DisclosureGroupLogEntries(day: day)
                 // DisclosureTestView(day: day, logBookEntryUUID: $logBookEntryUUID)
@@ -291,7 +291,7 @@ extension ContentView {
     }
 
     private func DisclosureGroupLogEntries(day: WatchLogBookDay) -> some View {
-        DisclosureGroup(DateManipulation.getWeekDay(from: day.LogDate)) {
+        DisclosureGroup(DateManipulation.getWeekDay(from: day.logDate)) {
             ForEach(day.logEntriesSorted) { entry in
 
                 Button(action: {

@@ -166,13 +166,13 @@ class WatchLogBookEntry: Identifiable, Hashable {
 
         callIn = LogEntry.callIn
 
-        processDetails!.AccientHitAndRun = LogEntry.processTypeDetails.AccientHitAndRun
-        processDetails!.AccientLicensePlate01 = LogEntry.processTypeDetails.AccientLicensePlate01
-        processDetails!.AccientLicensePlate02 = LogEntry.processTypeDetails.AccientLicensePlate02
+        processDetails!.accientHitAndRun = LogEntry.processTypeDetails.AccientHitAndRun
+        processDetails!.accientLicensePlate01 = LogEntry.processTypeDetails.AccientLicensePlate01
+        processDetails!.accientLicensePlate02 = LogEntry.processTypeDetails.AccientLicensePlate02
         processDetails!.isAnimaleLiving = LogEntry.processTypeDetails.isAnimaleLiving
         processDetails!.isInjured = LogEntry.processTypeDetails.isInjured
         processDetails!.processTypeShort = LogEntry.processTypeDetails.processTypeShort
-        processDetails!.AlcoholConsumed = LogEntry.processTypeDetails.AlcoholConsumed
+        processDetails!.alcoholConsumed = LogEntry.processTypeDetails.AlcoholConsumed
 
         isLocked = true
 

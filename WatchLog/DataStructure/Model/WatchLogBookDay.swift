@@ -10,8 +10,8 @@ import SwiftUI
 
 @Model
 class WatchLogBookDay: Identifiable, Hashable {
-    #Unique<WatchLogBookDay>([\.uuid, \.LogDate])
-    var LogDate: Date
+    #Unique<WatchLogBookDay>([\.uuid, \.logDate])
+    var logDate: Date
 
     @Attribute(.unique) var uuid: UUID
 
@@ -20,13 +20,13 @@ class WatchLogBookDay: Identifiable, Hashable {
     @Relationship(deleteRule: .nullify, inverse: \WatchLogBookMonth.watchLogBookDays) var watchLogBookMonth: WatchLogBookMonth?
 
     init(LogDate: Date, month: WatchLogBookMonth) {
-        self.LogDate = LogDate
+        self.logDate = LogDate
         uuid = UUID()
         watchLogBookMonth = month
     }
 
     init() {
-        LogDate = .now
+        logDate = .now
         uuid = UUID()
         watchLogBookMonth = WatchLogBookMonth()
     }

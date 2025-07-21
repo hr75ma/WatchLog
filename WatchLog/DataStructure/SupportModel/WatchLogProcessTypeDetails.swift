@@ -48,10 +48,10 @@ class WatchLogProcessTypeDetails {
         processTypeShort = processTypeDetails.processTypeShort
 
         // AccientInjured = false
-        AccientHitAndRun = processTypeDetails.AccientHitAndRun
-        AccientLicensePlate01 = processTypeDetails.AccientLicensePlate01
-        AccientLicensePlate02 = processTypeDetails.AccientLicensePlate02
-        AlcoholConsumed = processTypeDetails.AlcoholConsumed
+        AccientHitAndRun = processTypeDetails.accientHitAndRun
+        AccientLicensePlate01 = processTypeDetails.accientLicensePlate01
+        AccientLicensePlate02 = processTypeDetails.accientLicensePlate02
+        AlcoholConsumed = processTypeDetails.alcoholConsumed
 
         isInjured = processTypeDetails.isInjured
 
