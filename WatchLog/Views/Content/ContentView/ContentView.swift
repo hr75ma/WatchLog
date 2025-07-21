@@ -136,7 +136,7 @@ struct ContentView: View {
                     
                     if oldValue == true && newValue == false {
                         Task {
-                            let isExisting = await viewModel.fetchLogBookEntry(from: newEntryUUID)
+                            let isExisting = await viewModel.fetchLogBookEntry(entryID: newEntryUUID)
                             if isExisting != nil {
                                 logEntryUUIDContainer = .init(logEntryUUID: isExisting!.id, logBookDay: isExisting!.watchLogBookDay!)
                             }
