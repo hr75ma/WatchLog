@@ -58,8 +58,10 @@ struct LogBookEntryEditWrapperView: View {
             }
             
             ToolbarItem(placement: .topBarLeading) {
-                Text("Eintrag bearbeiten")
+                Text(watchLogEntry.isLocked ? "Eintrag Ansicht (gesperrt)" :"Eintrag bearbeiten")
                     .navigationTitleModifier()
+                    .contentTransition(.numericText())
+                    .animation(.smooth(duration: 1), value: watchLogEntry.isLocked)
             }
             
             

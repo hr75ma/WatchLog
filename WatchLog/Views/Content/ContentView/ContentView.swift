@@ -61,7 +61,7 @@ struct ContentView: View {
     @State var dayOfLog: UUID = UUID()
 
     @State var logEntryUUIDContainer: LogEntryUUIDContainer = LogEntryUUIDContainer()
-    @State var newEntryUUID: UUID = UUID()
+    //@State var newEntryUUID: UUID = UUID()
     
     @State var newEntry:WatchLogEntry = WatchLogEntry()
 
@@ -132,13 +132,9 @@ struct ContentView: View {
                 // dismiss()
             }
             .onChange(of: showNewEntrySheet) { oldValue, newValue in
-                
-                
-                                   
-                    
                     if oldValue == true && newValue == false {
                         Task {
-                            let isExisting = await viewModel.fetchLogBookEntry(entryID: newEntryUUID)
+                            let isExisting = await viewModel.fetchLogBookEntry(entryID: newEntry.id)
                             if isExisting != nil {
                                 logEntryUUIDContainer = .init(logEntryUUID: isExisting!.id, logBookDay: isExisting!.watchLogBookDay!)
                             }
@@ -218,8 +214,7 @@ extension ContentView {
     private var toolBarItemNewButton: some View {
         Button(action: {
             //alertNew.toggle()
-            blurSetting.isBlur = true
-            newEntryUUID = UUID()
+            newEntry = WatchLogEntry()
             showNewEntrySheet = true
         }) {
             NavigationToolbarItemImage(toolbarItemType: .addEntry, appStyles: appStyles)

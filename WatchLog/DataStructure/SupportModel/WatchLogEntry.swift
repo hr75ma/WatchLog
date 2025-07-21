@@ -28,7 +28,7 @@ class WatchLogEntry {
 
     var processTypeDetails: WatchLogProcessTypeDetails = WatchLogProcessTypeDetails()
 
-    var isLocked: Bool = true
+    var isLocked: Bool = false
 
     var pkDrawingData: PKDrawing = PKDrawing()
 
