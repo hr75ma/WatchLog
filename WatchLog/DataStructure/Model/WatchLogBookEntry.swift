@@ -11,7 +11,7 @@ import SwiftUI
 
 @Model
 class WatchLogBookEntry: Identifiable, Hashable {
-    #Unique<WatchLogBookEntry>([\.uuid, \.LogDate])
+    #Unique<WatchLogBookEntry>([\.uuid, \.logDate])
 
     @Attribute(.unique) var uuid: UUID
 
@@ -19,23 +19,19 @@ class WatchLogBookEntry: Identifiable, Hashable {
 
     @Relationship(deleteRule: .cascade) var processDetails: WatchLogBookProcessTypeDetails?
 
-    // var processDetails: WatchLogBookProcessTypeDetails
-
-    var LogDate: Date
+    var logDate: Date
     
-    var saveMarker: UUID?
+    var callerName: String = ""
+    var callerNumber: String = ""
+    var callerAdress: String = ""
+    var callerDOB: Date?
 
-    var CallerName: String = ""
-    var CallerNumber: String = ""
-    var CallerAdress: String = ""
-    var CallerDOB: Date?
-
-    var CallIn: CallInType.CallInTypeShort = CallInType.CallInTypeShort.EMERGENCY
+    var callIn: CallInType.CallInTypeShort = CallInType.CallInTypeShort.EMERGENCY
 
     // var AccientInjured: Bool = false
-    var AccientHitAndRun: Bool = false
-    var AccientLicensePlate01: String = ""
-    var AccientLicensePlate02: String = ""
+    var accientHitAndRun: Bool = false
+    var accientLicensePlate01: String = ""
+    var accientLicensePlate02: String = ""
     // var isAccient: Bool = false
 
     var isInjured: Bool = false
@@ -61,14 +57,14 @@ class WatchLogBookEntry: Identifiable, Hashable {
 
     init(LogEntry: WatchLogEntry, day: WatchLogBookDay) {
         uuid = LogEntry.uuid
-        LogDate = LogEntry.logDate
+        logDate = LogEntry.logDate
 
-        CallerName = LogEntry.callerName
-        CallerNumber = LogEntry.callerNumber
-        CallerAdress = LogEntry.callerAdress
-        CallerDOB = LogEntry.callerDOB
+        callerName = LogEntry.callerName
+        callerNumber = LogEntry.callerNumber
+        callerAdress = LogEntry.callerAdress
+        callerDOB = LogEntry.callerDOB
 
-        CallIn = LogEntry.callIn
+        callIn = LogEntry.callIn
 
         isLocked = LogEntry.isLocked
 
@@ -81,14 +77,14 @@ class WatchLogBookEntry: Identifiable, Hashable {
 
     init(LogEntry: WatchLogEntry) {
         uuid = LogEntry.uuid
-        LogDate = LogEntry.logDate
+        logDate = LogEntry.logDate
 
-        CallerName = LogEntry.callerName
-        CallerNumber = LogEntry.callerNumber
-        CallerAdress = LogEntry.callerAdress
-        CallerDOB = LogEntry.callerDOB
+        callerName = LogEntry.callerName
+        callerNumber = LogEntry.callerNumber
+        callerAdress = LogEntry.callerAdress
+        callerDOB = LogEntry.callerDOB
 
-        CallIn = LogEntry.callIn
+        callIn = LogEntry.callIn
 
         isLocked = LogEntry.isLocked
 
@@ -101,20 +97,20 @@ class WatchLogBookEntry: Identifiable, Hashable {
 
     init() {
         uuid = UUID()
-        LogDate = .now
+        logDate = .now
 
-        CallerName = ""
-        CallerNumber = ""
-        CallerAdress = ""
-        CallerDOB = nil
+        callerName = ""
+        callerNumber = ""
+        callerAdress = ""
+        callerDOB = nil
 
-        CallIn = .EMERGENCY
+        callIn = .EMERGENCY
 
         // isAccient = false
         // AccientInjured = false
-        AccientHitAndRun = false
-        AccientLicensePlate01 = ""
-        AccientLicensePlate02 = ""
+        accientHitAndRun = false
+        accientLicensePlate01 = ""
+        accientLicensePlate02 = ""
 
         isInjured = false
 
@@ -131,20 +127,20 @@ class WatchLogBookEntry: Identifiable, Hashable {
 
     init(uuid: UUID) {
         self.uuid = uuid
-        LogDate = .now
+        logDate = .now
 
-        CallerName = ""
-        CallerNumber = ""
-        CallerAdress = ""
-        CallerDOB = nil
+        callerName = ""
+        callerNumber = ""
+        callerAdress = ""
+        callerDOB = nil
 
-        CallIn = .EMERGENCY
+        callIn = .EMERGENCY
 
         // isAccient = false
         // AccientInjured = false
-        AccientHitAndRun = false
-        AccientLicensePlate01 = ""
-        AccientLicensePlate02 = ""
+        accientHitAndRun = false
+        accientLicensePlate01 = ""
+        accientLicensePlate02 = ""
 
         isInjured = false
 
@@ -161,20 +157,20 @@ class WatchLogBookEntry: Identifiable, Hashable {
 
     func clear() {
         uuid = uuid
-        LogDate = .now
+        logDate = .now
 
-        CallerName = ""
-        CallerNumber = ""
-        CallerAdress = ""
-        CallerDOB = nil
+        callerName = ""
+        callerNumber = ""
+        callerAdress = ""
+        callerDOB = nil
 
-        CallIn = .EMERGENCY
+        callIn = .EMERGENCY
 
         // isAccient = false
         // AccientInjured = false
-        AccientHitAndRun = false
-        AccientLicensePlate01 = ""
-        AccientLicensePlate02 = ""
+        accientHitAndRun = false
+        accientLicensePlate01 = ""
+        accientLicensePlate02 = ""
 
         isInjured = false
 
@@ -191,15 +187,15 @@ class WatchLogBookEntry: Identifiable, Hashable {
 
     func update(LogEntry: WatchLogEntry) {
         uuid = LogEntry.uuid
-        LogDate = LogEntry.logDate
+        logDate = LogEntry.logDate
         
 
-        CallerName = LogEntry.callerName
-        CallerNumber = LogEntry.callerNumber
-        CallerAdress = LogEntry.callerAdress
-        CallerDOB = LogEntry.callerDOB
+        callerName = LogEntry.callerName
+        callerNumber = LogEntry.callerNumber
+        callerAdress = LogEntry.callerAdress
+        callerDOB = LogEntry.callerDOB
 
-        CallIn = LogEntry.callIn
+        callIn = LogEntry.callIn
 
         processDetails!.AccientHitAndRun = LogEntry.processTypeDetails.AccientHitAndRun
         processDetails!.AccientLicensePlate01 = LogEntry.processTypeDetails.AccientLicensePlate01

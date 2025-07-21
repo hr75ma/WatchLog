@@ -53,14 +53,14 @@ class WatchLogEntry {
         
         uuid = watchLookBookEntry.uuid
 
-        logDate = watchLookBookEntry.LogDate
+        logDate = watchLookBookEntry.logDate
 
-        callerName = watchLookBookEntry.CallerName
-        callerNumber = watchLookBookEntry.CallerNumber
-        callerAdress = watchLookBookEntry.CallerAdress
-        callerDOB = watchLookBookEntry.CallerDOB
+        callerName = watchLookBookEntry.callerName
+        callerNumber = watchLookBookEntry.callerNumber
+        callerAdress = watchLookBookEntry.callerAdress
+        callerDOB = watchLookBookEntry.callerDOB
 
-        callIn = watchLookBookEntry.CallIn
+        callIn = watchLookBookEntry.callIn
 
         processTypeDetails = WatchLogProcessTypeDetails(
             processTypeDetails: watchLookBookEntry.processDetails!)

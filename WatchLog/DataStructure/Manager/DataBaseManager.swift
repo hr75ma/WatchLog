@@ -388,7 +388,7 @@ final class DataBaseManager {
         dateFormatter.string(from: Date())
 
         var tempDateComponent = DateComponents()
-        tempDateComponent.year = Calendar.current.component(.year, from: logEntry.LogDate) - 1
+        tempDateComponent.year = Calendar.current.component(.year, from: logEntry.logDate) - 1
         tempDateComponent.month = 12
         tempDateComponent.day = 31
         tempDateComponent.hour = 23
@@ -397,7 +397,7 @@ final class DataBaseManager {
         tempDateComponent.nanosecond = 59
         let predecessorDate = Calendar.current.date(from: tempDateComponent)
 
-        tempDateComponent.year = Calendar.current.component(.year, from: logEntry.LogDate) + 1
+        tempDateComponent.year = Calendar.current.component(.year, from: logEntry.logDate) + 1
         tempDateComponent.month = 01
         tempDateComponent.day = 01
         tempDateComponent.hour = 00
@@ -408,7 +408,7 @@ final class DataBaseManager {
 
         DateComponent = Calendar.current.dateComponents(
             [.year, .month, .day, .hour, .minute, .second, .nanosecond], from: FillerDate!)
-        DateComponent.year = Calendar.current.component(.year, from: logEntry.LogDate)
+        DateComponent.year = Calendar.current.component(.year, from: logEntry.logDate)
         FillerDate = Calendar.current.date(from: DateComponent)
 
         var logYearEntry: WatchLogBookYear?
@@ -422,7 +422,7 @@ final class DataBaseManager {
         }
 
         if logYearEntry != nil {
-            let MonthFromDate = Calendar.current.component(.month, from: logEntry.LogDate)
+            let MonthFromDate = Calendar.current.component(.month, from: logEntry.logDate)
             DateComponent.month = MonthFromDate
             FillerDate = Calendar.current.date(from: DateComponent)
 
@@ -434,7 +434,7 @@ final class DataBaseManager {
                     logMonthEntry = filteredMonthArray[0]
                 }
 
-                let DayFromDate = Calendar.current.component(.day, from: logEntry.LogDate)
+                let DayFromDate = Calendar.current.component(.day, from: logEntry.logDate)
                 DateComponent.day = DayFromDate
                 FillerDate = Calendar.current.date(from: DateComponent)
 
@@ -492,7 +492,6 @@ final class DataBaseManager {
 
         if logEntry != nil {
             logEntry!.update(LogEntry: LogEntry)
-            logEntry!.saveMarker = UUID()
             try? modelContext.save()
         } else {
             let entryTime = LogEntry.logDate
@@ -604,7 +603,6 @@ final class DataBaseManager {
             }
 
             let log = WatchLogBookEntry(LogEntry: LogEntry, day: logDayEntry!)
-            log.saveMarker = UUID()
 
             modelContext.insert(log)
             // logDayEntry?.watchLogBookEntries?.append(log)

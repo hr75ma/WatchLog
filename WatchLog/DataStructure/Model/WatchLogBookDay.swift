@@ -33,7 +33,7 @@ class WatchLogBookDay: Identifiable, Hashable {
 
     var logEntriesSorted: [WatchLogBookEntry] {
         get {
-            watchLogBookEntries?.sorted(by: { $0.LogDate < $1.LogDate }) ?? []
+            watchLogBookEntries?.sorted(by: { $0.logDate < $1.logDate }) ?? []
         }
         set {
             watchLogBookEntries = newValue
@@ -42,6 +42,6 @@ class WatchLogBookDay: Identifiable, Hashable {
 
     func addLogEntry(_ entry: WatchLogBookEntry) {
         watchLogBookEntries?.append(entry)
-        watchLogBookEntries?.sort { $0.LogDate < $1.LogDate }
+        watchLogBookEntries?.sort { $0.logDate < $1.logDate }
     }
 }

@@ -300,7 +300,7 @@ extension ContentView {
 
                 }) {
                     VStack(alignment: .leading) {
-                        Text(DateManipulation.getTime(from: entry.LogDate))
+                        Text(DateManipulation.getTime(from: entry.logDate))
                             .navigationTreeButtonLabelStyle(isSeletecedItem: entry.uuid == displayedLogEntryUUID.id)
 
                         if entry.processDetails != nil {
