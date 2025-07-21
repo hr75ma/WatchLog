@@ -68,17 +68,17 @@ final class LogEntryViewModel: ObservableObject {
         var fillerDate = Calendar.current.date(from: dateComponent)
 
         Task {
-            for year in 2023 ... 2025 {
+            for year in 2025 ... 2025 {
                 dateComponent.year = year
-                for month in 1 ... 2 {
+                for month in 1 ... 1 {
                     dateComponent.month = month
-                    for day in 1 ... 3 {
+                    for day in 1 ... 2{
                         dateComponent.day = day
                         for hour in 11 ... 12 {
                             dateComponent.hour = hour
-                            for minute in 10 ... 12 {
+                            for minute in 10 ... 11 {
                                 dateComponent.minute = minute
-                                for second in 10 ... 12 {
+                                for second in 10 ... 11 {
                                     dateComponent.second = second
                                     fillerDate = Calendar.current.date(from: dateComponent)
                                     logEntry = WatchLogEntry()

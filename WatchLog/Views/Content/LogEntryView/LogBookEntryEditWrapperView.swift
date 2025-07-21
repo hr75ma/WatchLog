@@ -9,8 +9,9 @@ import SwiftUI
 
 struct LogBookEntryEditWrapperView: View {
 
-    @Binding public var logBookEntryUUID: UUID
-    @State private var watchLogEntry: WatchLogEntry = .init()
+    //@Binding public var logBookEntryUUID: UUID
+    @State public var watchLogEntry: WatchLogEntry
+    //@State private var watchLogEntry: WatchLogEntry = .init()
     @EnvironmentObject var viewModel: LogEntryViewModel
 
     @Environment(\.appStyles) var appStyles
@@ -39,10 +40,10 @@ struct LogBookEntryEditWrapperView: View {
         .safeAreaInsetForToolbar()
         .onAppear{
             Task {
-                print("onappear Edit - \(logBookEntryUUID.uuidString)")
-                watchLogEntry = await viewModel.fetchLogEntryMod(LogEntryUUID: logBookEntryUUID)
-                watchLogEntry.isLocked = viewIsReadOnly ? true : false
-                blurSetting.isBlur = false
+               // print("onappear Edit - \(logBookEntryUUID.uuidString)")
+//                watchLogEntry = await viewModel.fetchLogEntryMod(LogEntryUUID: logBookEntryUUID)
+//                watchLogEntry.isLocked = viewIsReadOnly ? true : false
+//                blurSetting.isBlur = false
                
             }
         }

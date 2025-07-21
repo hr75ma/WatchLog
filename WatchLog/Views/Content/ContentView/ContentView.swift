@@ -62,6 +62,8 @@ struct ContentView: View {
 
     @State var logEntryUUIDContainer: LogEntryUUIDContainer = LogEntryUUIDContainer()
     @State var newEntryUUID: UUID = UUID()
+    
+    @State var newEntry:WatchLogEntry = WatchLogEntry()
 
     let newLogEntryTip = NavigationTipNewLogEntry()
     let refreshListTip = NavigationTipRefresh()
@@ -114,8 +116,8 @@ struct ContentView: View {
 
             .fullScreenCover(isPresented: $showNewEntrySheet) {
                 NavigationStack {
-                    LogBookEntryEditWrapperView(logBookEntryUUID: $newEntryUUID)
-                       
+                    //LogBookEntryEditWrapperView(logBookEntryUUID: $newEntryUUID)
+                    LogBookEntryEditWrapperView(watchLogEntry: newEntry)
                         
                 }
             }
@@ -221,20 +223,6 @@ extension ContentView {
             showNewEntrySheet = true
         }) {
             NavigationToolbarItemImage(toolbarItemType: .addEntry, appStyles: appStyles)
-        }
-        .alert("Neues Log erstellen?", isPresented: $alertNew) {
-            Button(
-                "Erstellen", role: .destructive,
-                action: {
-                    blurSetting.isBlur = true
-                    newEntryUUID = UUID()
-                    showNewEntrySheet = true
-                })
-            Button(
-                "Abbrechen", role: .cancel,
-                action: {
-                    blurSetting.isBlur = false
-                })
         }
     }
 

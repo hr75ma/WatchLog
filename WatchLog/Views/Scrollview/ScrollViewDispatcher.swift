@@ -83,7 +83,7 @@ struct ScrollViewDispatcher: View {
         .scrollTargetBehavior(.viewAligned)
         .onTapGesture {
             if numberOfEntry > 0 {
-                showSheet = true
+                loadLogEntry(logEntryID: logEntryUUIDContainer.logEntryUUID)
             }
         }
         .frame(
@@ -159,7 +159,8 @@ struct ScrollViewDispatcher: View {
         }
         .fullScreenCover(isPresented: $showSheet) {
             NavigationStack {
-                LogBookEntryEditWrapperView(logBookEntryUUID: $logEntryUUIDContainer.logEntryUUID)
+                    LogBookEntryEditWrapperView(watchLogEntry: watchLogEntry)
+                    //LogBookEntryEditWrapperView(logBookEntryUUID: logEntryUUIDContainer.logEntryUUID)
             }
         }
         .toolbar {
@@ -190,18 +191,12 @@ extension ScrollViewDispatcher {
         return Double(rotation.degrees - degree)
     }
 
-    func opacityAmount(for proxy: GeometryProxy) -> Double {
-        let scrollViewWidth = proxy.bounds(of: .scrollView)?.width ?? 100
-        let ourCenter = proxy.frame(in: .scrollView).midX
-        let distanceFromCenter = abs(scrollViewWidth / 2 - ourCenter)
-        return Double(distanceFromCenter) / 100
-    }
-
     var MenuButton: some View {
         Menu {
             if numberOfEntry > 0 {
                 Button {
-                    showSheet = true
+                    loadLogEntry(logEntryID: logEntryUUIDContainer.logEntryUUID)
+                    
                     blurSetting.isBlur = false
                 } label: {
                     NavigationMenuLabelView(menuItemType: MenuType.edit)
@@ -248,6 +243,14 @@ extension ScrollViewDispatcher {
 
             // displayedLogEntryUUID.id = logEntryUUIDContainer.logEntryUUID
         }
+    }
+    
+    fileprivate func loadLogEntry(logEntryID: UUID) {
+        Task {
+            watchLogEntry = await viewModel.fetchLogEntryMod(LogEntryUUID: logEntryID)
+            showSheet = true
+        }
+
     }
 
     fileprivate func cancelAlertButton() -> Button<Text> {

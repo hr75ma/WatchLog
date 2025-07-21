@@ -87,22 +87,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "169C1783-D71D-4180-8D4A-9B79ECCC9BC9"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WatchLog/Views/Content/ContentView/ContentView.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "225"
-            endingLineNumber = "225"
-            landmarkName = "toolBarItemNewButton"
-            landmarkType = "24">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "D10CF4BF-002F-4CB1-A4A2-7EA3A5BEFCAF"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -110,8 +94,8 @@
             filePath = "WatchLog/Views/Content/ContentView/ContentView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "126"
-            endingLineNumber = "126"
+            startingLineNumber = "128"
+            endingLineNumber = "128"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
@@ -126,8 +110,8 @@
             filePath = "WatchLog/Views/Content/LogEntryView/LogBookEntryEditWrapperView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "43"
-            endingLineNumber = "43"
+            startingLineNumber = "44"
+            endingLineNumber = "44"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
@@ -240,6 +224,36 @@
             endingLineNumber = "80"
             landmarkName = "init(LogEntry:)"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "35096407-7EF0-40DA-B10E-ED3608F580D0 - e31bec77674dda8e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "WatchLog.WatchLogBookEntry.init(LogEntry: WatchLog.WatchLogEntry) -&gt; WatchLog.WatchLogBookEntry"
+                  moduleName = "WatchLog.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/marcus/Xcode1/Coding/myProjects/WatchLog/WatchLog/DataStructure/Model/WatchLogBookEntry.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "81"
+                  endingLineNumber = "81">
+               </Location>
+               <Location
+                  uuid = "35096407-7EF0-40DA-B10E-ED3608F580D0 - e31bec77674dda8e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "WatchLog.WatchLogBookEntry.init(LogEntry: WatchLog.WatchLogEntry) -&gt; WatchLog.WatchLogBookEntry"
+                  moduleName = "WatchLog.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/marcus/Xcode1/Coding/myProjects/WatchLog/WatchLog/DataStructure/Model/WatchLogBookEntry.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "81"
+                  endingLineNumber = "81">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -252,10 +266,56 @@
             filePath = "WatchLog/Views/Content/ContentView/ContentView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "321"
-            endingLineNumber = "321"
+            startingLineNumber = "309"
+            endingLineNumber = "309"
             landmarkName = "DisclosureGroupLogEntries(day:)"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "C2C1E580-2D4B-408A-85F7-E0F8FDCEA14C"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WatchLog/Views/Scrollview/ScrollViewDispatcher.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "250"
+            endingLineNumber = "250"
+            landmarkName = "loadLogEntry(logEntryID:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "C2C1E580-2D4B-408A-85F7-E0F8FDCEA14C - b4e2725231c79eb8"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for closure #1 () async -&gt; () in WatchLog.ScrollViewDispatcher.loadLogEntry(logEntryID: Foundation.UUID) -&gt; ()"
+                  moduleName = "WatchLog.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/marcus/Xcode1/Coding/myProjects/WatchLog/WatchLog/Views/Scrollview/ScrollViewDispatcher.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "250"
+                  endingLineNumber = "250">
+               </Location>
+               <Location
+                  uuid = "C2C1E580-2D4B-408A-85F7-E0F8FDCEA14C - dfcb96907bb8daa6"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for closure #1 () async -&gt; () in WatchLog.ScrollViewDispatcher.loadLogEntry(logEntryID: Foundation.UUID) -&gt; ()"
+                  moduleName = "WatchLog.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/marcus/Xcode1/Coding/myProjects/WatchLog/WatchLog/Views/Scrollview/ScrollViewDispatcher.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "250"
+                  endingLineNumber = "250">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
