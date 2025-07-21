@@ -226,6 +226,7 @@ extension ScrollViewDispatcher {
                     Task {
                         if await viewModel.isDeletedEntryInDisplayedDay(logEntryUUID: displayedLogEntryUUID.id, logEntryDayUUI: logEntryUUIDContainer.logEntryBookDay.uuid) {
                             logEntryUUIDContainer = await viewModel.calculateShownAndDeleteLogEntry(logEntryUUID: logEntryUUID, logEntryDayUUI: logEntryUUIDContainer.logEntryBookDay.uuid)
+                            displayedLogEntryUUID.id = logEntryUUIDContainer.logEntryUUID
                         } else {
                             await viewModel.deleteLogEntry(logEntryUUID: logEntryUUID)
                         }
