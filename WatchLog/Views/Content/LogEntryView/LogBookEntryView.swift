@@ -163,29 +163,6 @@ struct LogBookEntryView: View {
 
 extension LogBookEntryView {
     
-    struct AlertView: View {
-        var body: some View {
-            ZStack {
-                RoundedRectangle(cornerRadius: 6)
-                    .foregroundColor(.blue)
-                VStack {
-                    HStack {
-                        ProgressView()
-                        Text("Processing...")
-                    }
-                    Button(action: {
-                        // action
-                    }, label: {
-                        Text("Cancel")
-                    })
-                    .foregroundColor(.black)
-                }
-            }
-        }
-    }
-    
-    
-    
     private var glowingBorderEffect: some View {
         ZStack {
             RoundedRectangle(cornerRadius: appStyles.standardCornerRadius, style: .continuous)
@@ -221,7 +198,7 @@ extension LogBookEntryView {
     private func saveEntry() {
         Task {
             showProgression = true
-            //blurSetting.isBlur = true
+            blurSetting.isBlur = true
             watchLogEntry.isLocked = true
             watchLogEntry.isNewEntryLog = false
             //print(watchLogEntry.CallerNumber)
