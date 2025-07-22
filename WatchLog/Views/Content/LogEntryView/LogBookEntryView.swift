@@ -14,8 +14,6 @@ struct LogBookEntryView: View {
     @Binding public var watchLogEntry: WatchLogEntry
     public var viewIsReadOnly: Bool
 
-    
-
     @EnvironmentObject var viewModel: LogEntryViewModel
     @Environment(\.appStyles) var appStyles
     @Environment(DisplayedLogEntryID.self) var displayedLogEntryUUID
@@ -78,18 +76,7 @@ struct LogBookEntryView: View {
             }
             .standardLogEntryViewPadding()
         }
-//        .onAppear {
-//            Task {
-//                print("onappear - \(watchLogEntry.uuid.uuidString)")
-//                //watchLogEntry = await viewModel.fetchLogEntryMod(LogEntryUUID: logBookEntryUUID)
-//                watchLogEntry.isLocked = viewIsReadOnly ? true : false
-//                glowingColorSet = getGlowColorSet(logEntry: watchLogEntry)
-//            }
-//        }
         .task {
-           // print("onappear task - \(watchLogEntry.uuid.uuidString)")
-            //watchLogEntry = await viewModel.fetchLogEntryMod(LogEntryUUID: logBookEntryUUID)
-            //watchLogEntry.isLocked = viewIsReadOnly ? true : false
             glowingColorSet = getGlowColorSet(logEntry: watchLogEntry)
         }
         .onDisappear {
@@ -152,6 +139,12 @@ struct LogBookEntryView: View {
                 break
             }
         }
+        .alert("Speichere", isPresented: $showProgression) {
+            HStack(spacing: 16) {
+                    Text("Processing...")
+                        .font(.headline)
+                }
+        }
         .standardScrollViewPadding()
     }
 
@@ -169,6 +162,30 @@ struct LogBookEntryView: View {
 }
 
 extension LogBookEntryView {
+    
+    struct AlertView: View {
+        var body: some View {
+            ZStack {
+                RoundedRectangle(cornerRadius: 6)
+                    .foregroundColor(.blue)
+                VStack {
+                    HStack {
+                        ProgressView()
+                        Text("Processing...")
+                    }
+                    Button(action: {
+                        // action
+                    }, label: {
+                        Text("Cancel")
+                    })
+                    .foregroundColor(.black)
+                }
+            }
+        }
+    }
+    
+    
+    
     private var glowingBorderEffect: some View {
         ZStack {
             RoundedRectangle(cornerRadius: appStyles.standardCornerRadius, style: .continuous)
