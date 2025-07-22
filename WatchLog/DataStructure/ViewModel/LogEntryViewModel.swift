@@ -34,8 +34,8 @@ final class LogEntryViewModel: ObservableObject {
             await self.instanciateLogBook()
         }
 
-        // generateLogBookEntry()
-        generateAutomaticMockDatas()
+        generateLogBookEntry()
+        //generateAutomaticMockDatas()
     }
 
     func generateLogBookEntry() {

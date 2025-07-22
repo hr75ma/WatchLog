@@ -38,15 +38,6 @@ struct LogBookEntryEditWrapperView: View {
 
             }
         .safeAreaInsetForToolbar()
-        .onAppear{
-            Task {
-               // print("onappear Edit - \(logBookEntryUUID.uuidString)")
-//                watchLogEntry = await viewModel.fetchLogEntryMod(LogEntryUUID: logBookEntryUUID)
-//                watchLogEntry.isLocked = viewIsReadOnly ? true : false
-//                blurSetting.isBlur = false
-               
-            }
-        }
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
                 Button {

@@ -33,20 +33,6 @@ struct LogBookEntryShowWrapperView: View {
         HStack {
             LogBookEntryView(watchLogEntry: $watchLogEntry, viewIsReadOnly: viewIsReadOnly)
         }
-//        .onAppear{
-//            Task {
-//                print("onappear Show - \(logBookEntryUUID.uuidString)")
-//                watchLogEntry = await viewModel.fetchLogEntryMod(LogEntryUUID: logBookEntryUUID)
-//                watchLogEntry.isLocked = true
-//            }
-//        }
-        .task {
-            
-               // print("onappear Show - \(logBookEntryUUID.uuidString)")
-//                watchLogEntry = await viewModel.fetchLogEntryMod(LogEntryUUID: logBookEntryUUID)
-//                watchLogEntry.isLocked = true
-          
-        }
     }
 }
 
