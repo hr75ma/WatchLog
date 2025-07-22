@@ -14,8 +14,8 @@
             filePath = "WatchLog/DataStructure/ViewModel/LogEntryViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "108"
-            endingLineNumber = "108"
+            startingLineNumber = "96"
+            endingLineNumber = "96"
             landmarkName = "calculateShownAndDeleteLogEntry(logEntryUUID:logEntryDayUUI:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -30,8 +30,8 @@
             filePath = "WatchLog/DataStructure/ViewModel/LogEntryViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "112"
-            endingLineNumber = "112"
+            startingLineNumber = "100"
+            endingLineNumber = "100"
             landmarkName = "calculateShownAndDeleteLogEntry(logEntryUUID:logEntryDayUUI:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -204,8 +204,8 @@
             filePath = "WatchLog/Views/Content/ContentView/ContentView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "304"
-            endingLineNumber = "304"
+            startingLineNumber = "309"
+            endingLineNumber = "309"
             landmarkName = "DisclosureGroupLogEntries(day:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -252,8 +252,8 @@
             filePath = "WatchLog/Views/Content/ContentView/ContentView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "120"
-            endingLineNumber = "120"
+            startingLineNumber = "124"
+            endingLineNumber = "124"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
@@ -268,8 +268,8 @@
             filePath = "WatchLog/Views/Content/ContentView/ContentView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "137"
-            endingLineNumber = "137"
+            startingLineNumber = "141"
+            endingLineNumber = "141"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
@@ -284,8 +284,8 @@
             filePath = "WatchLog/Views/Content/ContentView/ContentView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "217"
-            endingLineNumber = "217"
+            startingLineNumber = "222"
+            endingLineNumber = "222"
             landmarkName = "toolBarItemNewButton"
             landmarkType = "24">
          </BreakpointContent>

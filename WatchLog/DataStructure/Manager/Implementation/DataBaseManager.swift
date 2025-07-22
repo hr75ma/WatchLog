@@ -8,37 +8,6 @@
 import SwiftData
 import SwiftUI
 
-protocol DataBaseManagerProtocol {
-    func saveLogBookEntry(LogEntry: WatchLogEntry) -> Result<Void, Error>
-    func fetchLogBookEntry(with EntryUUID: UUID) -> Result<[WatchLogBookEntry], Error>
-    func fetchYears() -> Result<[WatchLogBookYear], Error>
-    func fetchEntries() -> Result<[WatchLogBookEntry], Error>
-    func fetchLogBook() -> Result<[WatchLogBook], Error>
-
-    func removeLogBookEntry(with EntryUUID: UUID) -> Result<Void, Error>
-
-    func fetchDaysFromLogBookEntry(logEntry: WatchLogBookEntry) -> Result<[WatchLogBookEntry], Error>
-
-    func removeLogBookDay(with EntryUUID: UUID) -> Result<Void, Error>
-    func removeLogBookMonth(with EntryUUID: UUID) -> Result<Void, Error>
-    func removeLogBookYear(with EntryUUID: UUID) -> Result<Void, Error>
-
-    func instanciateLogBook() -> Result<WatchLogBook, Error>
-    
-    
-    func fetchLogEntriesFromDay(from: UUID) -> Result<[WatchLogBookEntry], Error>
-    func fetchLogBookDay(from: UUID) -> Result<WatchLogBookDay?, Error>
-    func fetchLogBookDayFromDate(from: Date) -> Result<WatchLogBookDay?, Error>
-}
-
-extension DataBaseManager: DataBaseManagerProtocol {}
-
-enum DataBaseError: Error {
-    case fetchFailed
-    case saveFailed
-    case deleteFailed
-}
-
 final class DataBaseManager {
     private let modelContainer: ModelContainer
     private let modelContext: ModelContext
@@ -118,11 +87,11 @@ final class DataBaseManager {
     }
 
     // fehler abfragen einbauen
-    func removeLogBookYear(with EntryUUID: UUID) -> Result<Void, Error> {
+    func removeLogBookYear(logYearID: UUID) -> Result<Void, Error> {
         var logYear = WatchLogBookYear()
         var logBook = WatchLogBook()
 
-        let fetchYearResult = fetchLogBookYear(with: EntryUUID)
+        let fetchYearResult = fetchLogBookYear(with: logYearID)
         logYear = fetchYearResult.first!
 
         // remove year
@@ -133,11 +102,11 @@ final class DataBaseManager {
     }
 
     //    //fehler abfragen einbauen
-    func removeLogBookMonth(with EntryUUID: UUID) -> Result<Void, Error> {
+    func removeLogBookMonth(logMonthID: UUID) -> Result<Void, Error> {
         var logMonth = WatchLogBookMonth()
         var logYear = WatchLogBookYear()
 
-        let fetchMonthResult = fetchLogBookMonth(with: EntryUUID)
+        let fetchMonthResult = fetchLogBookMonth(with: logMonthID)
         logMonth = fetchMonthResult.first!
 
         // remove month
@@ -157,12 +126,12 @@ final class DataBaseManager {
     }
 
     //    //fehler abfragen einbauen
-    func removeLogBookDay(with EntryUUID: UUID) -> Result<Void, Error> {
+    func removeLogBookDay(logDayID: UUID) -> Result<Void, Error> {
         var logDay = WatchLogBookDay()
         var logMonth = WatchLogBookMonth()
         var logYear = WatchLogBookYear()
 
-        let fetchDayResult = fetchLogBookDay(with: EntryUUID)
+        let fetchDayResult = fetchLogBookDay(with: logDayID)
         logDay = fetchDayResult.first!
 
         // remove day
@@ -189,13 +158,13 @@ final class DataBaseManager {
     }
 
     //
-    func removeLogBookEntry(with EntryUUID: UUID) -> Result<Void, Error> {
+    func removeLogBookEntry(logEntryID EntryUUID: UUID) -> Result<Void, Error> {
         var logEntry = WatchLogBookEntry()
         var logDay = WatchLogBookDay()
         var logMonth = WatchLogBookMonth()
         var logYear = WatchLogBookYear()
 
-        let fetchResult = fetchLogBookEntry(with: EntryUUID)
+        let fetchResult = fetchLogBookEntry(logEntryID: EntryUUID)
         switch fetchResult {
         case let .success(entry):
             if !entry.isEmpty {
@@ -236,9 +205,9 @@ final class DataBaseManager {
         return .success(())
     }
 
-    func fetchLogBookEntry(with EntryUUID: UUID) -> Result<[WatchLogBookEntry], Error> {
+    func fetchLogBookEntry(logEntryID: UUID) -> Result<[WatchLogBookEntry], Error> {
         let fetchDiscriptor = FetchDescriptor<WatchLogBookEntry>(
-            predicate: #Predicate { $0.id == EntryUUID })
+            predicate: #Predicate { $0.id == logEntryID })
         do {
             let fetchedEntry = try modelContext.fetch(fetchDiscriptor)
             return .success(fetchedEntry)
@@ -267,10 +236,10 @@ final class DataBaseManager {
         }
     }
     
-    func fetchLogBookDay(from: UUID) -> Result<WatchLogBookDay?, Error> {
+    func fetchLogBookDay(logDayID: UUID) -> Result<WatchLogBookDay?, Error> {
         var logDay: WatchLogBookDay?
         let fetchDiscriptor = FetchDescriptor<WatchLogBookDay>(
-            predicate: #Predicate { $0.id == from })
+            predicate: #Predicate { $0.id == logDayID })
         do {
             logDay = try modelContext.fetch(fetchDiscriptor).first
         } catch {
@@ -289,26 +258,6 @@ final class DataBaseManager {
         }
     }
     
-    func fetchLogEntriesFromDay(from: UUID) -> Result<[WatchLogBookEntry], Error> {
-        var daysLogEntries: [WatchLogBookEntry] = []
-        
-        var logDay: WatchLogBookDay?
-        let fetchDiscriptor = FetchDescriptor<WatchLogBookDay>(
-            predicate: #Predicate { $0.id == from })
-        do {
-            logDay = try modelContext.fetch(fetchDiscriptor).first
-        } catch {
-            print("fetch WatchLogBookDay failed")
-        }
-
-        if logDay != nil {
-            daysLogEntries = logDay!.logEntriesSorted
-        }
-        
-        return .success(daysLogEntries)
-        
-        
-    }
     
     func fetchLogBookDayFromDate(from: Date) -> Result<WatchLogBookDay?, Error> {
         let formatter = DateFormatter()
@@ -454,7 +403,7 @@ final class DataBaseManager {
         return .success(daysLogEntries)
     }
 
-    func saveLogBookEntry(LogEntry: WatchLogEntry) -> Result<Void, Error> {
+    func saveLogBookEntry(watchLogEntry: WatchLogEntry) -> Result<Void, Error> {
         let formatter = DateFormatter()
         formatter.dateStyle = .full
         formatter.timeStyle = .full
@@ -480,7 +429,7 @@ final class DataBaseManager {
         testdateFormatter.dateFormat = "dd.MM.yyyy HH:mm"
         dateFormatter.string(from: Date())
 
-        let LogEntryUUID: UUID = LogEntry.id
+        let LogEntryUUID: UUID = watchLogEntry.id
         var logEntry: WatchLogBookEntry?
         let fetchDiscriptor = FetchDescriptor<WatchLogBookEntry>(
             predicate: #Predicate { $0.id == LogEntryUUID })
@@ -491,10 +440,10 @@ final class DataBaseManager {
         }
 
         if logEntry != nil {
-            logEntry!.update(LogEntry: LogEntry)
+            logEntry!.update(LogEntry: watchLogEntry)
             try? modelContext.save()
         } else {
-            let entryTime = LogEntry.logDate
+            let entryTime = watchLogEntry.logDate
             // print(dateFormatter.string(from: entryTime))
 
             var DateComponent = DateComponents()
@@ -602,7 +551,7 @@ final class DataBaseManager {
                 }
             }
 
-            let log = WatchLogBookEntry(LogEntry: LogEntry, day: logDayEntry!)
+            let log = WatchLogBookEntry(LogEntry: watchLogEntry, day: logDayEntry!)
 
             modelContext.insert(log)
             // logDayEntry?.watchLogBookEntries?.append(log)

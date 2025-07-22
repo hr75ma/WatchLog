@@ -7,22 +7,10 @@
 import Combine
 import SwiftUI
 
-enum DeleteTypes: CaseIterable, Codable {
-    // case logEntry
-    case day
-    case month
-    case year
-    case undefined
-
-    static let deleteType: DeleteTypes = .undefined
-}
 
 @MainActor
-final class LogEntryViewModel: ObservableObject {
-    @Published var watchLogEntry: WatchLogEntry = WatchLogEntry()
+final class LogEntryViewModel: LogEntryViewModelProtocol, ObservableObject {
     @Published var errorMessage: String? = nil
-    @Published var LogBookEntryYears: [WatchLogBookYear] = []
-    @Published var LogBookEntries: [WatchLogBookEntry] = []
     @Published var WatchLogBooks: [WatchLogBook] = []
 
     private let databaseService: DatabaseServiceProtocol
@@ -38,7 +26,7 @@ final class LogEntryViewModel: ObservableObject {
         //generateAutomaticMockDatas()
     }
 
-    func generateLogBookEntry() {
+    func generateLogBookEntry() -> Void {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd.MM.yyyy HH:mm:ss"
 
@@ -49,12 +37,12 @@ final class LogEntryViewModel: ObservableObject {
                 let entryObject = WatchLogEntry()
                 entryObject.logDate = dateFormatter.date(from: dat)!
                 entryObject.isLocked = true
-                await saveLogEntry(LogEntry: entryObject)
+                await saveLogEntry(watchLogEntry: entryObject)
             }
         }
     }
 
-    func generateAutomaticMockDatas() {
+    func generateAutomaticMockDatas() -> Void {
         var logEntry: WatchLogEntry?
 
         var dateComponent = DateComponents()
@@ -84,7 +72,7 @@ final class LogEntryViewModel: ObservableObject {
                                     logEntry = WatchLogEntry()
                                     logEntry!.logDate = fillerDate!
                                     logEntry!.isLocked = true
-                                    await saveLogEntry(LogEntry: logEntry!)
+                                    await saveLogEntry(watchLogEntry: logEntry!)
                                     print("\(year)-\(month)-\(day) \(hour):\(minute):\(second)")
                                 }
                             }
@@ -96,39 +84,39 @@ final class LogEntryViewModel: ObservableObject {
     }
 
     // eintrag löschen und anzuzeigende UUID zurückgeben
-    func calculateShownAndDeleteLogEntry(logEntryUUID: UUID, logEntryDayUUI: UUID) async -> LogEntryUUIDContainer {
+    func calculateShownAndDeleteLogEntry(logEntryID: UUID, logDayID: UUID) async -> LogEntryUUIDContainer {
         var toDisplayEntryUUID: UUID = UUID()
         var day: WatchLogBookDay?
 
-        day = await fetchLogBookDay(day: logEntryDayUUI)
+        day = await fetchLogBookDay(logDayID: logDayID)
 
         if day != nil {
             if day!.watchLogBookEntries!.count > 2 {
-                var index = day!.logEntriesSorted.firstIndex(where: { $0.id == logEntryUUID })
+                var index = day!.logEntriesSorted.firstIndex(where: { $0.id == logEntryID })
                 index = index == 0 ? 1 : index! - 1
                 toDisplayEntryUUID = day!.logEntriesSorted[index!].id
             } else {
                 toDisplayEntryUUID = day!.watchLogBookEntries!.count == 1 ? day!.watchLogBookEntries![0].id : day!.logEntriesSorted[1].id
             }
-            await deleteLogEntry(logEntryUUID: logEntryUUID)
+            await deleteLogEntry(logEntryID: logEntryID)
         }
         return LogEntryUUIDContainer(logEntryUUID: toDisplayEntryUUID, logBookDay: day!)
     }
 
-    func isDeletedEntryInDisplayedDay(logEntryUUID: UUID, logEntryDayUUI: UUID) async -> Bool {
+    func isDeletedEntryInDisplayedDay(logEntryID: UUID, logDayID: UUID) async -> Bool {
         var day: WatchLogBookDay?
 
-        day = await fetchLogBookDay(day: logEntryDayUUI)
+        day = await fetchLogBookDay(logDayID: logDayID)
         if day != nil {
-            if day!.watchLogBookEntries!.contains(where: { $0.id == logEntryUUID }) {
+            if day!.watchLogBookEntries!.contains(where: { $0.id == logEntryID }) {
                 return true
             }
         }
         return false
     }
 
-    func fetchLogBookDay(day: UUID) async -> WatchLogBookDay? {
-        let result = await databaseService.fetchLogDay(from: day)
+    func fetchLogBookDay(logDayID: UUID) async -> WatchLogBookDay? {
+        let result = await databaseService.fetchLogDay(logDayID: logDayID)
         switch result {
         case let .success(logBookDay):
             return logBookDay
@@ -138,7 +126,7 @@ final class LogEntryViewModel: ObservableObject {
         return nil
     }
 
-    func instanciateLogBook() async {
+    func instanciateLogBook() async -> Void {
         let result = await databaseService.instanciateLogBook()
         switch result {
         case .success():
@@ -149,8 +137,8 @@ final class LogEntryViewModel: ObservableObject {
         }
     }
 
-    func fetchLogBookEntry(entryID: UUID) async -> WatchLogBookEntry? {
-        let result = await databaseService.fetchLogBookEntryWithNil(with: entryID)
+    func fetchLogBookEntry(logEntryID: UUID) async -> WatchLogBookEntry? {
+        let result = await databaseService.fetchLogBookEntryWithNil(logEntryID: logEntryID)
         switch result {
         case let .success(logBookEntry):
             return logBookEntry
@@ -160,8 +148,8 @@ final class LogEntryViewModel: ObservableObject {
         }
     }
 
-    func fetchLogEntryMod(LogEntryUUID: UUID) async -> WatchLogEntry {
-        let result = await databaseService.fetchLogBookEntry(with: LogEntryUUID)
+    func fetchLogEntryMod(logEntryID: UUID) async -> WatchLogEntry {
+        let result = await databaseService.fetchLogBookEntry(logEntryID: logEntryID)
         switch result {
         case let .success(logBookEntry):
             return logBookEntry
@@ -171,8 +159,8 @@ final class LogEntryViewModel: ObservableObject {
         }
     }
 
-    func isLogBookEntryExisting(from uuid: UUID) async -> Bool {
-        let result = await databaseService.existsWatchLogBookEntry(uuid: uuid)
+    func isLogBookEntryExisting(logEntryID uuid: UUID) async -> Bool {
+        let result = await databaseService.existsWatchLogBookEntry(logEntryID: uuid)
         switch result {
         case let .success(exsistLogEntry):
             return exsistLogEntry
@@ -192,8 +180,8 @@ final class LogEntryViewModel: ObservableObject {
         }
     }
 
-    func deleteLogEntry(LogEntry: WatchLogEntry) async {
-        let result = await databaseService.removeWatchLogBookEntry(logEntry: LogEntry)
+    func deleteLogEntry(WatchLogEntry: WatchLogEntry) async -> Void {
+        let result = await databaseService.removeWatchLogBookEntry(watchLogEntry: WatchLogEntry)
         switch result {
         case .success():
             errorMessage = ""
@@ -203,8 +191,8 @@ final class LogEntryViewModel: ObservableObject {
         }
     }
 
-    func deleteLogEntry(logEntryUUID: UUID) async {
-        let result = await databaseService.removeWatchLogBookEntry(logEntryUUID: logEntryUUID)
+    func deleteLogEntry(logEntryID: UUID) async -> Void {
+        let result = await databaseService.removeWatchLogBookEntry(logEntryID: logEntryID)
         switch result {
         case .success():
             errorMessage = ""
@@ -214,7 +202,7 @@ final class LogEntryViewModel: ObservableObject {
         }
     }
 
-    func deleteLogDay(watchLogBookDay: WatchLogBookDay) async {
+    func deleteLogDay(watchLogBookDay: WatchLogBookDay) async -> Void {
         let result = await databaseService.removeWatchLogBookDay(watchLogBookDay: watchLogBookDay)
         switch result {
         case .success():
@@ -225,7 +213,7 @@ final class LogEntryViewModel: ObservableObject {
         }
     }
 
-    func deleteLogMonth(watchLogBookMonth: WatchLogBookMonth) async {
+    func deleteLogMonth(watchLogBookMonth: WatchLogBookMonth) async -> Void {
         let result = await databaseService.removeWatchLogBookMonth(watchLogBookMonth: watchLogBookMonth)
         switch result {
         case .success():
@@ -236,7 +224,7 @@ final class LogEntryViewModel: ObservableObject {
         }
     }
 
-    func deleteLogYear(watchLogBookYear: WatchLogBookYear) async {
+    func deleteLogYear(watchLogBookYear: WatchLogBookYear) async -> Void {
         let result = await databaseService.removeWatchLogBookYear(watchLogBookYear: watchLogBookYear)
         switch result {
         case .success():
@@ -247,8 +235,8 @@ final class LogEntryViewModel: ObservableObject {
         }
     }
 
-    func saveLogEntry(LogEntry: WatchLogEntry) async {
-        let result = await databaseService.saveWatchLogBookEntry(LogEntry: LogEntry)
+    func saveLogEntry(watchLogEntry: WatchLogEntry) async -> Void {
+        let result = await databaseService.saveWatchLogBookEntry(watchLogEntry: watchLogEntry)
         switch result {
         case .success():
             errorMessage = ""
@@ -258,7 +246,7 @@ final class LogEntryViewModel: ObservableObject {
         }
     }
 
-    func fetchLogBook() async {
+    func fetchLogBook() async -> Void {
         let result = await databaseService.fetchLogBook()
         switch result {
         case let .success(logBook):

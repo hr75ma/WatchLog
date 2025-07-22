@@ -188,7 +188,7 @@ extension LogBookEntryView {
     
     private func deleteEntry() {
         Task {
-            await viewModel.deleteLogEntry(LogEntry: watchLogEntry)
+            await viewModel.deleteLogEntry(WatchLogEntry: watchLogEntry)
                 blurSetting.isBlur = false
             }
     }
@@ -199,7 +199,7 @@ extension LogBookEntryView {
             blurSetting.isBlur = true
             watchLogEntry.isLocked = true
             watchLogEntry.isNewEntryLog = false
-            await viewModel.saveLogEntry(LogEntry: watchLogEntry)
+            await viewModel.saveLogEntry(watchLogEntry: watchLogEntry)
            // try? await Task.sleep(nanoseconds: 4000_000_000)
             watchLogEntry.isNewEntryLog = false
             blurSetting.isBlur = false

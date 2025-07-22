@@ -10,35 +10,8 @@ import Foundation
 import SwiftData
 import SwiftUI
 
+
 @MainActor
-protocol DatabaseServiceProtocol {
-    func saveWatchLogBookEntry(LogEntry: WatchLogEntry) async -> Result<Void, Error>
-
-    func fetchLogBookEntry(with EntryUUID: UUID) async -> Result<WatchLogEntry, Error>
-    func fetchLogBookEntryMod(with EntryUUID: UUID) async -> Result<WatchLogBookEntry, Error>
-    func fetchLogBookEntryWithNil(with EntryUUID: UUID) async -> Result<WatchLogBookEntry?, Error>
-
-    func fetchLogBookYears() async -> Result<[WatchLogBookYear], Error>
-    func fetchLogBookEntries() async -> Result<[WatchLogBookEntry], Error>
-
-    func fetchLogBook() async -> Result<[WatchLogBook], any Error>
-    func fetchDaysFromLogBookEntry(logEntry: WatchLogBookEntry) async -> Result<[WatchLogBookEntry], Error>
-
-    func removeWatchLogBookEntry(logEntry: WatchLogEntry) async -> Result<Void, Error>
-    func removeWatchLogBookEntry(logEntryUUID: UUID) async -> Result<Void, Error>
-    func removeWatchLogBookDay(watchLogBookDay: WatchLogBookDay) async -> Result<Void, Error>
-    func removeWatchLogBookMonth(watchLogBookMonth: WatchLogBookMonth) async -> Result<Void, Error>
-    func removeWatchLogBookYear(watchLogBookYear: WatchLogBookYear) async -> Result<Void, Error>
-
-    func existsWatchLogBookEntry(uuid: UUID) async -> Result<Bool, Error>
-
-    func instanciateLogBook() async -> Result<Void, Error>
-    
-    func fetchLogEntriesFromDay(from: UUID) async -> Result<[WatchLogBookEntry], Error>
-    func fetchLogDay(from: UUID) async -> Result<WatchLogBookDay?, any Error>
-    func fetchDayFromDate(from: Date) async -> Result<WatchLogBookDay?, Error>
-}
-
 @Observable
 class DatabaseService: DatabaseServiceProtocol {
     @ObservationIgnored
@@ -49,8 +22,8 @@ class DatabaseService: DatabaseServiceProtocol {
         self.dataSource = dataSource
     }
 
-    func existsWatchLogBookEntry(uuid: UUID) async -> Result<Bool, Error> {
-        let fetchResult = dataSource.fetchLogBookEntry(with: uuid)
+    func existsWatchLogBookEntry(logEntryID: UUID) async -> Result<Bool, Error> {
+        let fetchResult = dataSource.fetchLogBookEntry(logEntryID: logEntryID)
         switch fetchResult {
         case let .success(entry):
             if entry.isEmpty {
@@ -72,15 +45,6 @@ class DatabaseService: DatabaseServiceProtocol {
         }
     }
 
-    func fetchDaysFromLogBookEntry(logEntry: WatchLogBookEntry) async -> Result<[WatchLogBookEntry], Error> {
-        let fetchResult = dataSource.fetchDaysFromLogBookEntry(logEntry: logEntry)
-        switch fetchResult {
-        case let .success(result):
-            return .success(result)
-        case let .failure(error):
-            return .failure(error)
-        }
-    }
     
     func fetchDayFromDate(from: Date) async -> Result<WatchLogBookDay?, Error> {
         let fetchResult = dataSource.fetchLogBookDayFromDate(from: from)
@@ -92,12 +56,12 @@ class DatabaseService: DatabaseServiceProtocol {
         }
     }
 
-    func removeWatchLogBookEntry(logEntry: WatchLogEntry) async -> Result<Void, Error> {
-        return await removeWatchLogBookEntry(logEntryUUID: logEntry.id)
+    func removeWatchLogBookEntry(watchLogEntry: WatchLogEntry) async -> Result<Void, Error> {
+        return await removeWatchLogBookEntry(logEntryID: watchLogEntry.id)
     }
     
-    func removeWatchLogBookEntry(logEntryUUID: UUID) async -> Result<Void, Error> {
-        let deleteResult = dataSource.removeLogBookEntry(with: logEntryUUID)
+    func removeWatchLogBookEntry(logEntryID: UUID) async -> Result<Void, Error> {
+        let deleteResult = dataSource.removeLogBookEntry(logEntryID: logEntryID)
         switch deleteResult {
         case .success:
             return .success(())
@@ -107,7 +71,7 @@ class DatabaseService: DatabaseServiceProtocol {
     }
 
     func removeWatchLogBookDay(watchLogBookDay: WatchLogBookDay) async -> Result<Void, Error> {
-        let deleteResult = dataSource.removeLogBookDay(with: watchLogBookDay.id)
+        let deleteResult = dataSource.removeLogBookDay(logDayID: watchLogBookDay.id)
         switch deleteResult {
         case .success:
             return .success(())
@@ -117,7 +81,7 @@ class DatabaseService: DatabaseServiceProtocol {
     }
 
     func removeWatchLogBookMonth(watchLogBookMonth: WatchLogBookMonth) async -> Result<Void, Error> {
-        let deleteResult = dataSource.removeLogBookMonth(with: watchLogBookMonth.id)
+        let deleteResult = dataSource.removeLogBookMonth(logMonthID: watchLogBookMonth.id)
         switch deleteResult {
         case .success:
             return .success(())
@@ -127,7 +91,7 @@ class DatabaseService: DatabaseServiceProtocol {
     }
 
     func removeWatchLogBookYear(watchLogBookYear: WatchLogBookYear) async -> Result<Void, Error> {
-        let deleteResult = dataSource.removeLogBookYear(with: watchLogBookYear.id)
+        let deleteResult = dataSource.removeLogBookYear(logYearID: watchLogBookYear.id)
         switch deleteResult {
         case .success:
             return .success(())
@@ -136,8 +100,8 @@ class DatabaseService: DatabaseServiceProtocol {
         }
     }
 
-    func saveWatchLogBookEntry(LogEntry: WatchLogEntry) async -> Result<Void, Error> {
-        let saveResult = dataSource.saveLogBookEntry(LogEntry: LogEntry)
+    func saveWatchLogBookEntry(watchLogEntry: WatchLogEntry) async -> Result<Void, Error> {
+        let saveResult = dataSource.saveLogBookEntry(watchLogEntry: watchLogEntry)
         switch saveResult {
         case .success:
             return .success(())
@@ -146,9 +110,9 @@ class DatabaseService: DatabaseServiceProtocol {
         }
     }
 
-    func fetchLogBookEntry(with EntryUUID: UUID) async -> Result<WatchLogEntry, Error> {
-        var watchLogEntry: WatchLogEntry = WatchLogEntry(uudi: EntryUUID)
-        let fetchResult = dataSource.fetchLogBookEntry(with: EntryUUID)
+    func fetchLogBookEntry(logEntryID: UUID) async -> Result<WatchLogEntry, Error> {
+        var watchLogEntry: WatchLogEntry = WatchLogEntry(uudi: logEntryID)
+        let fetchResult = dataSource.fetchLogBookEntry(logEntryID: logEntryID)
         switch fetchResult {
         case let .success(entry):
             if !entry.isEmpty {
@@ -160,8 +124,8 @@ class DatabaseService: DatabaseServiceProtocol {
         }
     }
     
-    func fetchLogBookEntryWithNil(with EntryUUID: UUID) async -> Result<WatchLogBookEntry?, Error> {
-        let fetchResult = dataSource.fetchLogBookEntry(with: EntryUUID)
+    func fetchLogBookEntryWithNil(logEntryID: UUID) async -> Result<WatchLogBookEntry?, Error> {
+        let fetchResult = dataSource.fetchLogBookEntry(logEntryID: logEntryID)
         switch fetchResult {
         case let .success(entry):
             if !entry.isEmpty {
@@ -174,9 +138,9 @@ class DatabaseService: DatabaseServiceProtocol {
     }
 
 
-    func fetchLogBookEntryMod(with EntryUUID: UUID) async -> Result<WatchLogBookEntry, Error> {
-        var watchLogBookEntry: WatchLogBookEntry = WatchLogBookEntry(uuid: EntryUUID)
-        let fetchResult = dataSource.fetchLogBookEntry(with: EntryUUID)
+    func fetchLogBookEntryMod(logEntryID: UUID) async -> Result<WatchLogBookEntry, Error> {
+        var watchLogBookEntry: WatchLogBookEntry = WatchLogBookEntry(uuid: logEntryID)
+        let fetchResult = dataSource.fetchLogBookEntry(logEntryID: logEntryID)
         switch fetchResult {
         case let .success(entry):
             if !entry.isEmpty {
@@ -188,17 +152,6 @@ class DatabaseService: DatabaseServiceProtocol {
         }
     }
     
-    func fetchLogEntriesFromDay(from: UUID) async -> Result<[WatchLogBookEntry], Error> {
-        var logBookEntries: [WatchLogBookEntry] = []
-        let fetchResult = dataSource.fetchLogEntriesFromDay(from: from)
-        switch fetchResult {
-        case let .success(entries):
-            logBookEntries = entries
-            return .success(logBookEntries)
-        case let .failure(error):
-            return .failure(error)
-        }
-    }
 
     func fetchLogBookYears() async -> Result<[WatchLogBookYear], any Error> {
         let fetchResult = dataSource.fetchYears()
@@ -220,8 +173,8 @@ class DatabaseService: DatabaseServiceProtocol {
         }
     }
     
-    func fetchLogDay(from: UUID) async -> Result<WatchLogBookDay?, any Error> {
-        let fetchResult = dataSource.fetchLogBookDay(from: from)
+    func fetchLogDay(logDayID: UUID) async -> Result<WatchLogBookDay?, any Error> {
+        let fetchResult = dataSource.fetchLogBookDay(logDayID: logDayID)
         switch fetchResult {
         case let .success(entry):
             if entry != nil {

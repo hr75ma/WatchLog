@@ -64,6 +64,8 @@ struct ContentView: View {
     //@State var newEntryUUID: UUID = UUID()
     
     @State var newEntry:WatchLogEntry = WatchLogEntry()
+    
+    @State var logBook = WatchLogBook()
 
     let newLogEntryTip = NavigationTipNewLogEntry()
     let refreshListTip = NavigationTipRefresh()
@@ -86,6 +88,7 @@ struct ContentView: View {
             }
 
             List(viewModel.WatchLogBooks, id: \.id) { book in
+            
 
                 buildLogBookNavigationTree(book: book)
             }
@@ -111,6 +114,7 @@ struct ContentView: View {
             .refreshable(action: {
                 Task {
                     await viewModel.fetchLogBook()
+                   
                 }
             })
 
@@ -134,7 +138,7 @@ struct ContentView: View {
             .onChange(of: showNewEntrySheet) { oldValue, newValue in
                     if oldValue == true && newValue == false {
                         Task {
-                            let isExisting = await viewModel.fetchLogBookEntry(entryID: newEntry.id)
+                            let isExisting = await viewModel.fetchLogBookEntry(logEntryID: newEntry.id)
                             if isExisting != nil {
                                 logEntryUUIDContainer = .init(logEntryUUID: isExisting!.id, logBookDay: isExisting!.watchLogBookDay!)
                             }
@@ -153,6 +157,7 @@ struct ContentView: View {
             }
             .task {
                 await viewModel.fetchLogBook()
+                
             }
 
             // .navigationSplitViewStyle(.balanced)
@@ -181,7 +186,7 @@ struct ContentView: View {
 
     private func testOnDeleteDisplayedEntry(displayedUUID: UUID) {
         Task {
-            let isExisting = await viewModel.isLogBookEntryExisting(from: displayedUUID)
+            let isExisting = await viewModel.isLogBookEntryExisting(logEntryID: displayedUUID)
             if !isExisting {
                 // manageWhatIsShowing()
                 logEntryUUIDContainer = .init(logEntryUUID: UUID(), logBookDay: WatchLogBookDay())
@@ -301,11 +306,11 @@ extension ContentView {
                 indexSet.sorted(by: >).forEach { i in
                     let logEntry = day.watchLogBookEntries![i]
                     Task {
-                        if await viewModel.isDeletedEntryInDisplayedDay(logEntryUUID: displayedLogEntryUUID.id, logEntryDayUUI: day.id) {
-                            logEntryUUIDContainer = await viewModel.calculateShownAndDeleteLogEntry(logEntryUUID: logEntry.id, logEntryDayUUI: day.id)
+                        if await viewModel.isDeletedEntryInDisplayedDay(logEntryID: displayedLogEntryUUID.id, logDayID: day.id) {
+                            logEntryUUIDContainer = await viewModel.calculateShownAndDeleteLogEntry(logEntryID: logEntry.id, logDayID: day.id)
                             displayedLogEntryUUID.id = logEntryUUIDContainer.logEntryUUID
                         } else {
-                            await viewModel.deleteLogEntry(logEntryUUID: logEntry.id)
+                            await viewModel.deleteLogEntry(logEntryID: logEntry.id)
                         }
                     }
                 }

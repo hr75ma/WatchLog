@@ -24,7 +24,7 @@ struct PreviewData {
                 let entryObject = WatchLogEntry()
                 entryObject.logDate = dateFormatter.date(from: dat)!
                 entryObject.isLocked = true
-                await viewModel.saveLogEntry(LogEntry: entryObject)
+                await viewModel.saveLogEntry(watchLogEntry: entryObject)
             }
         }
     }

@@ -207,11 +207,11 @@ extension ScrollViewDispatcher {
                 "Löschen", role: .destructive,
                 action: {
                     Task {
-                        if await viewModel.isDeletedEntryInDisplayedDay(logEntryUUID: displayedLogEntryUUID.id, logEntryDayUUI: logEntryUUIDContainer.logEntryBookDay.id) {
-                            logEntryUUIDContainer = await viewModel.calculateShownAndDeleteLogEntry(logEntryUUID: logEntryUUID, logEntryDayUUI: logEntryUUIDContainer.logEntryBookDay.id)
+                        if await viewModel.isDeletedEntryInDisplayedDay(logEntryID: displayedLogEntryUUID.id, logDayID: logEntryUUIDContainer.logEntryBookDay.id) {
+                            logEntryUUIDContainer = await viewModel.calculateShownAndDeleteLogEntry(logEntryID: logEntryUUID, logDayID: logEntryUUIDContainer.logEntryBookDay.id)
                             displayedLogEntryUUID.id = logEntryUUIDContainer.logEntryUUID
                         } else {
-                            await viewModel.deleteLogEntry(logEntryUUID: logEntryUUID)
+                            await viewModel.deleteLogEntry(logEntryID: logEntryUUID)
                         }
                         blurSetting.isBlur = false
                     }
@@ -235,7 +235,7 @@ extension ScrollViewDispatcher {
     
     fileprivate func loadLogEntry(logEntryID: UUID) {
         Task {
-            watchLogEntry = await viewModel.fetchLogEntryMod(LogEntryUUID: logEntryID)
+            watchLogEntry = await viewModel.fetchLogEntryMod(logEntryID: logEntryID)
             showSheet = true
         }
 
