@@ -56,9 +56,6 @@ class DatabaseService: DatabaseServiceProtocol {
         }
     }
 
-    func removeWatchLogBookEntry(watchLogEntry: WatchLogEntry) async -> Result<Void, Error> {
-        return await removeWatchLogBookEntry(logEntryID: watchLogEntry.id)
-    }
     
     func removeWatchLogBookEntry(logEntryID: UUID) async -> Result<Void, Error> {
         let deleteResult = dataSource.removeLogBookEntry(logEntryID: logEntryID)
@@ -109,22 +106,8 @@ class DatabaseService: DatabaseServiceProtocol {
             return .failure(error)
         }
     }
-
-    func fetchLogBookEntry(logEntryID: UUID) async -> Result<WatchLogEntry, Error> {
-        var watchLogEntry: WatchLogEntry = WatchLogEntry(uudi: logEntryID)
-        let fetchResult = dataSource.fetchLogBookEntry(logEntryID: logEntryID)
-        switch fetchResult {
-        case let .success(entry):
-            if !entry.isEmpty {
-                watchLogEntry = .init(watchLookBookEntry: entry.first!)
-            }
-            return .success(watchLogEntry)
-        case let .failure(error):
-            return .failure(error)
-        }
-    }
     
-    func fetchLogBookEntryWithNil(logEntryID: UUID) async -> Result<WatchLogBookEntry?, Error> {
+    func fetchLogBookEntry(logEntryID: UUID) async -> Result<WatchLogBookEntry?, Error> {
         let fetchResult = dataSource.fetchLogBookEntry(logEntryID: logEntryID)
         switch fetchResult {
         case let .success(entry):

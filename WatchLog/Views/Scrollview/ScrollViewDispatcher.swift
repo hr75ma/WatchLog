@@ -54,9 +54,9 @@ struct ScrollViewDispatcher: View {
                     .containerRelativeFrame(.horizontal, count: 1, spacing: 0)
                 } else {
 
-                        ForEach(logEntryUUIDContainer.logEntryBookDay.logEntriesSorted.indices, id: \.self) { index in
+                    ForEach(logEntryUUIDContainer.logEntryBookDay.logEntriesSorted.indices, id: \.self) { index in
                             LogBookEntryShowWrapperView(watchLogEntry: logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].getWatchLogEntry())
-                                .id(logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].id)
+                                
                                 .onScrollVisibilityChange(threshold: 0.5) { scrolled in
                                     if scrolled {
                                         print("index \(index) - \(logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].id.uuidString)")
@@ -64,6 +64,7 @@ struct ScrollViewDispatcher: View {
                                         numberOfEntry = index + 1
                                     }
                                 }
+                                .id(logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].id)
                                 .containerRelativeFrame(.horizontal, count: 1, spacing: 0)
                                 .scrollTransition { content, phase in
                                     content
@@ -74,8 +75,9 @@ struct ScrollViewDispatcher: View {
                         .id(refreshID)
                 }
             }
-            .scrollTargetLayout()
+            
         }
+        .scrollTargetLayout()
         .safeAreaInsetForToolbar()
         .scrollPosition(id: $scrollPos, anchor: .top)
         .scrollTargetBehavior(.viewAligned)
@@ -119,6 +121,7 @@ struct ScrollViewDispatcher: View {
                     if logBookDay != nil && !logBookDay!.watchLogBookEntries!.isEmpty {
                         logEntryUUIDContainer = .init(logEntryUUID: logBookDay!.logEntriesSorted.last!.id, logBookDay: logBookDay!)
                         scrollPos = logEntryUUIDContainer.logEntryUUID
+                        print("scrollpos aus änderung Tage \(scrollPos)")
                     }
                 }
             }
@@ -134,11 +137,13 @@ struct ScrollViewDispatcher: View {
                     print("onChange new Day: \(newValue.logEntryUUID)")
                     withAnimation {
                         scrollPos = logEntryUUIDContainer.logEntryUUID
+                        print("scrollpos aus onChange new Da \(scrollPos)")
                     }
                 } else {
                     print("onChange same Day: \(newValue.logEntryUUID)")
                     withAnimation {
                         scrollPos = logEntryUUIDContainer.logEntryUUID
+                        print("scrollpos aus change onChange same Day \(scrollPos)")
                     }
                 }
                 if newValue.logEntryBookDay.watchLogBookEntries!.isEmpty {
@@ -193,7 +198,7 @@ extension ScrollViewDispatcher {
                 Divider()
 
                 Button(role: .destructive) {
-                    blurSetting.isBlur = true
+                    //blurSetting.isBlur = true
                     alertDelete.toggle()
                 } label: {
                     NavigationMenuLabelView(menuItemType: MenuType.delete)
@@ -208,31 +213,18 @@ extension ScrollViewDispatcher {
                 action: {
                     Task {
                         if await viewModel.isDeletedEntryInDisplayedDay(logEntryID: displayedLogEntryUUID.id, logDayID: logEntryUUIDContainer.logEntryBookDay.id) {
-                            logEntryUUIDContainer = await viewModel.calculateShownAndDeleteLogEntry(logEntryID: logEntryUUID, logDayID: logEntryUUIDContainer.logEntryBookDay.id)
+                            logEntryUUIDContainer = await viewModel.calculateShownAndDeleteLogEntry(logEntryID: displayedLogEntryUUID.id, logDayID: logEntryUUIDContainer.logEntryBookDay.id)
                             displayedLogEntryUUID.id = logEntryUUIDContainer.logEntryUUID
                         } else {
                             await viewModel.deleteLogEntry(logEntryID: logEntryUUID)
                         }
-                        blurSetting.isBlur = false
+                        //blurSetting.isBlur = false
                     }
 
                 })
             cancelAlertButton()
         }
     }
-
-    private func newEntry() {
-        Task {
-            blurSetting.isBlur = false
-//            let logBookDay = await viewModel.fetchLogBookDayOrEmptyDay(from: .now)
-//            let watchLogBookEntry = WatchLogBookEntry()
-//            logBookDay!.addLogEntry(watchLogBookEntry)
-//            logEntryUUIDContainer = .init(logEntryUUID: watchLogBookEntry.uuid, logBookDay: logBookDay!)
-
-            // displayedLogEntryUUID.id = logEntryUUIDContainer.logEntryUUID
-        }
-    }
-    
     fileprivate func loadLogEntry(logEntryID: UUID) {
         Task {
             watchLogEntry = await viewModel.fetchLogEntryMod(logEntryID: logEntryID)

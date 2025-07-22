@@ -38,7 +38,6 @@ protocol LogEntryViewModelProtocol {
     func fetchLogBookDay(from: Date) async -> WatchLogBookDay?
     func fetchLogBook() async -> Void
     
-    func deleteLogEntry(WatchLogEntry: WatchLogEntry) async -> Void
     func deleteLogEntry(logEntryID: UUID) async -> Void
     func deleteLogDay(watchLogBookDay: WatchLogBookDay) async -> Void
     func deleteLogMonth(watchLogBookMonth: WatchLogBookMonth) async -> Void

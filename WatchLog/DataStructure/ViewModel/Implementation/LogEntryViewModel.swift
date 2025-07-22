@@ -30,7 +30,7 @@ final class LogEntryViewModel: LogEntryViewModelProtocol, ObservableObject {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd.MM.yyyy HH:mm:ss"
 
-        let entries = ["01.01.2023 15:10:10", "01.01.2023 19:10:10", "01.01.2023 20:10:10", "20.01.2023 16:10:10", "05.03.2023 03:10:10", "10.03.2023 06:10:10", "17.05.2023 08:11:10", "21.05.2023 02:10:10", "07.09.2023 13:10:12", "23.09.2023 20:10:10", "31.12.2023 22:10:10", "01.01.2024 06:10:10", "02.01.2024 16:10:10", "01.02.2024 04:10:10", "01.02.2024 15:10:10", "01.03.2024 18:10:10", "01.03.2024 13:10:10", "02.03.2024 11:10:10", "09.04.2024 06:10:10", "10.04.2024 03:10:10", "01.05.2024 14:10:10", "02.05.2024 19:10:10", "01.01.2025 06:10:10", "01.01.2025 08:10:10", "01.01.2025 10:10:10", "02.01.2025 16:10:10", "01.02.2025 04:10:10", "01.02.2025 15:10:10", "01.03.2025 18:10:10", "01.03.2025 13:10:10", "02.03.2025 11:10:10", "09.04.2025 06:10:10", "10.04.2025 03:10:10", "01.05.2025 14:10:10", "02.05.2025 19:10:10", "16.07.2025 10:10:10", "16.07.2025 14:10:10"]
+        let entries = ["01.01.2023 15:10:10", "01.01.2023 19:10:10", "01.01.2023 20:10:10", "20.01.2023 16:10:10", "05.03.2023 03:10:10", "10.03.2023 06:10:10", "10.03.2023 08:10:10", "10.03.2023 10:10:10", "10.03.2023 12:10:10", "17.05.2023 08:11:10", "21.05.2023 02:10:10", "07.09.2023 13:10:12", "23.09.2023 20:10:10", "31.12.2023 22:10:10", "01.01.2024 06:10:10", "02.01.2024 16:10:10", "01.02.2024 04:10:10", "01.02.2024 15:10:10", "01.03.2024 18:10:10", "01.03.2024 13:10:10", "02.03.2024 11:10:10", "09.04.2024 06:10:10", "10.04.2024 03:10:10", "01.05.2024 14:10:10", "02.05.2024 19:10:10", "01.01.2025 06:10:10", "01.01.2025 08:10:10", "01.01.2025 10:10:10", "02.01.2025 16:10:10", "01.02.2025 04:10:10", "01.02.2025 15:10:10", "01.03.2025 18:10:10", "01.03.2025 13:10:10", "02.03.2025 11:10:10", "09.04.2025 06:10:10", "10.04.2025 03:10:10", "01.05.2025 14:10:10", "02.05.2025 19:10:10", "16.07.2025 10:10:10", "16.07.2025 14:10:10"]
 
         Task {
             for dat in entries {
@@ -138,7 +138,7 @@ final class LogEntryViewModel: LogEntryViewModelProtocol, ObservableObject {
     }
 
     func fetchLogBookEntry(logEntryID: UUID) async -> WatchLogBookEntry? {
-        let result = await databaseService.fetchLogBookEntryWithNil(logEntryID: logEntryID)
+        let result = await databaseService.fetchLogBookEntry(logEntryID: logEntryID)
         switch result {
         case let .success(logBookEntry):
             return logBookEntry
@@ -149,15 +149,32 @@ final class LogEntryViewModel: LogEntryViewModelProtocol, ObservableObject {
     }
 
     func fetchLogEntryMod(logEntryID: UUID) async -> WatchLogEntry {
+        var watchLogEntry: WatchLogEntry = WatchLogEntry(uudi: logEntryID)
         let result = await databaseService.fetchLogBookEntry(logEntryID: logEntryID)
+        
         switch result {
-        case let .success(logBookEntry):
-            return logBookEntry
-        case let .failure(error):
+            case let .success(entry):
+            if entry != nil {
+                watchLogEntry = .init(watchLookBookEntry: entry!)
+             }
+                return watchLogEntry
+            case let .failure(error):
             errorMessage = String(format: NSLocalizedString("error_fetching_logBookEntry", comment: "Displayed when fetching logBookEntry fails"), error.localizedDescription)
-            return WatchLogEntry()
+                        
+                return WatchLogEntry()
         }
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
     func isLogBookEntryExisting(logEntryID uuid: UUID) async -> Bool {
         let result = await databaseService.existsWatchLogBookEntry(logEntryID: uuid)
@@ -177,17 +194,6 @@ final class LogEntryViewModel: LogEntryViewModelProtocol, ObservableObject {
         case let .failure(error):
             errorMessage = String(format: NSLocalizedString("error_fetching_logBookEntry", comment: "Displayed when fetching logBookEntry fails"), error.localizedDescription)
             return nil
-        }
-    }
-
-    func deleteLogEntry(WatchLogEntry: WatchLogEntry) async -> Void {
-        let result = await databaseService.removeWatchLogBookEntry(watchLogEntry: WatchLogEntry)
-        switch result {
-        case .success():
-            errorMessage = ""
-
-        case let .failure(error):
-            errorMessage = String(format: NSLocalizedString("error_delete_logBookEntry", comment: "Displayed when saving logBookEntry fails"), error.localizedDescription)
         }
     }
 

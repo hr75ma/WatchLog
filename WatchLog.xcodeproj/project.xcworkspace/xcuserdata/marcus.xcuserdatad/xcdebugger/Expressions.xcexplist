@@ -76,6 +76,9 @@
             <PersistentString
                value = "logEntry.uuid">
             </PersistentString>
+            <PersistentString
+               value = "logEntryUUIDContainer.logEntryUUID">
+            </PersistentString>
          </PersistentStrings>
       </ContextState>
       <ContextState
@@ -267,6 +270,17 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "closure #1 in closure #1 in closure #3 in ScrollViewDispatcher.MenuButton.getter:ScrollViewDispatcher.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "displayedLogEntryUUID.id">
+            </PersistentString>
+            <PersistentString
+               value = "logEntryUUID">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "closure #3 in closure #3 in closure #1 in closure #1 in CallerDataView.body.getter:CallerDataView.swift">
          <PersistentStrings>
             <PersistentString
@@ -409,27 +423,19 @@
                value = "day.logEntriesSorted">
             </PersistentString>
             <PersistentString
-               value = "day">
+               value = "entry.uuid">
             </PersistentString>
             <PersistentString
                value = "displayedLogEntryUUID.id">
             </PersistentString>
             <PersistentString
-               value = "entry.uuid">
+               value = "logBookEntry.uuid">
             </PersistentString>
             <PersistentString
                value = "newValue">
             </PersistentString>
             <PersistentString
-               value = "logBookEntry.uuid">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "WatchLogEntry.init(watchLookBookEntry:):WatchLogEntry.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "EntryTime">
+               value = "day">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -438,6 +444,14 @@
          <PersistentStrings>
             <PersistentString
                value = "newEntry.isLocked">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "WatchLogEntry.init(watchLookBookEntry:):WatchLogEntry.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "EntryTime">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

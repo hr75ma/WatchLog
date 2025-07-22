@@ -42,7 +42,7 @@ struct LogBookEntryView: View {
 
                 VStack(alignment: .leading, spacing: 0) {
 //                    VStack {
-//                        Text(watchLogEntry.uuid.uuidString)
+//                        Text(watchLogEntry.id.uuidString)
 //                        Text("currentuuid: \(displayedLogEntryUUID.id.uuidString)")
 //                    }
                     
@@ -188,7 +188,7 @@ extension LogBookEntryView {
     
     private func deleteEntry() {
         Task {
-            await viewModel.deleteLogEntry(WatchLogEntry: watchLogEntry)
+            await viewModel.deleteLogEntry(logEntryID: watchLogEntry.id)
                 blurSetting.isBlur = false
             }
     }
