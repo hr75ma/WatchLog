@@ -40,8 +40,6 @@ struct LogBookEntryView: View {
                 glowingBorderEffect
                     .isHidden(fromBackground, remove: true)
 
-                
-                
                 VStack(alignment: .leading, spacing: 0) {
 //                    VStack {
 //                        Text(watchLogEntry.uuid.uuidString)
@@ -201,12 +199,9 @@ extension LogBookEntryView {
             blurSetting.isBlur = true
             watchLogEntry.isLocked = true
             watchLogEntry.isNewEntryLog = false
-            //print(watchLogEntry.CallerNumber)
             await viewModel.saveLogEntry(LogEntry: watchLogEntry)
-            try? await Task.sleep(nanoseconds: 4000_000_000)
+           // try? await Task.sleep(nanoseconds: 4000_000_000)
             watchLogEntry.isNewEntryLog = false
-            // displayedLogEntryUUID = watchLogEntry.uuid
-            // logBookEntryUUID = displayedLogEntryUUID
             blurSetting.isBlur = false
             showProgression = false
         }
