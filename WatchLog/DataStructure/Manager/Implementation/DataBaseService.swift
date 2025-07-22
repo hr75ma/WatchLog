@@ -137,22 +137,6 @@ class DatabaseService: DatabaseServiceProtocol {
         }
     }
 
-
-    func fetchLogBookEntryMod(logEntryID: UUID) async -> Result<WatchLogBookEntry, Error> {
-        var watchLogBookEntry: WatchLogBookEntry = WatchLogBookEntry(uuid: logEntryID)
-        let fetchResult = dataSource.fetchLogBookEntry(logEntryID: logEntryID)
-        switch fetchResult {
-        case let .success(entry):
-            if !entry.isEmpty {
-                watchLogBookEntry = entry.first!
-            }
-            return .success(watchLogBookEntry)
-        case let .failure(error):
-            return .failure(error)
-        }
-    }
-    
-
     func fetchLogBookYears() async -> Result<[WatchLogBookYear], any Error> {
         let fetchResult = dataSource.fetchYears()
         switch fetchResult {
@@ -181,16 +165,6 @@ class DatabaseService: DatabaseServiceProtocol {
                 return .success(entry!)
             }
             return .success(nil)
-        case let .failure(error):
-            return .failure(error)
-        }
-    }
-
-    func fetchLogBookEntries() async -> Result<[WatchLogBookEntry], any Error> {
-        let fetchResult = dataSource.fetchEntries()
-        switch fetchResult {
-        case let .success(entries):
-            return .success(entries)
         case let .failure(error):
             return .failure(error)
         }

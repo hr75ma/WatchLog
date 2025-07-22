@@ -15,11 +15,9 @@ protocol DatabaseServiceProtocol {
     func saveWatchLogBookEntry(watchLogEntry: WatchLogEntry) async -> Result<Void, Error>
 
     func fetchLogBookEntry(logEntryID: UUID) async -> Result<WatchLogEntry, Error>
-    func fetchLogBookEntryMod(logEntryID: UUID) async -> Result<WatchLogBookEntry, Error>
     func fetchLogBookEntryWithNil(logEntryID: UUID) async -> Result<WatchLogBookEntry?, Error>
 
     func fetchLogBookYears() async -> Result<[WatchLogBookYear], Error>
-    func fetchLogBookEntries() async -> Result<[WatchLogBookEntry], Error>
     func fetchLogBook() async -> Result<[WatchLogBook], any Error>
 
     func fetchLogDay(logDayID: UUID) async -> Result<WatchLogBookDay?, any Error>
