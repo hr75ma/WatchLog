@@ -36,8 +36,6 @@ struct ScrollViewDispatcher: View {
 
     @State var showProgression: Bool = false
 
-    let rotation: Angle = .degrees(25)
-
     var body: some View {
         if showProgression {
                 ProgressionView()
@@ -180,16 +178,6 @@ struct ScrollViewDispatcher: View {
 }
 
 extension ScrollViewDispatcher {
-    private nonisolated func rotation(for proxy: GeometryProxy) -> CGFloat {
-        let scrollViewWidth = proxy.bounds(of: .scrollView(axis: .horizontal))?.width ?? 0
-        let midX = proxy.frame(in: .scrollView(axis: .horizontal)).midX
-        let progresss = midX / scrollViewWidth
-        let fixProgress = max(min(progresss, 1), 0)
-
-        let degree = fixProgress * (rotation.degrees * 2)
-
-        return Double(rotation.degrees - degree)
-    }
 
     var MenuButton: some View {
         Menu {
