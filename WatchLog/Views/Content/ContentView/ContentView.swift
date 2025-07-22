@@ -75,11 +75,11 @@ struct ContentView: View {
         NavigationSplitView(columnVisibility: $columnVisibility) {
             
             
-            VStack {
-                Text(logEntryUUIDContainer.logEntryUUID.uuidString)
-                
-                Text("displayedLogEntryUUID: \(displayedLogEntryUUID.id.uuidString)")
-            }
+//            VStack {
+//                Text(logEntryUUIDContainer.logEntryUUID.uuidString)
+//                
+//                Text("displayedLogEntryUUID: \(displayedLogEntryUUID.id.uuidString)")
+//            }
 
                 
                 
