@@ -17,21 +17,20 @@ enum DataBaseError: Error {
 
 protocol DataBaseManagerProtocol {
     
+    func instanciateLogBook() -> Result<WatchLogBook, Error>
+    
     func fetchLogBook() -> Result<[WatchLogBook], Error>
     func fetchYears() -> Result<[WatchLogBookYear], Error>
     func fetchLogBookDay(logDayID: UUID) -> Result<WatchLogBookDay?, Error>
     func fetchLogBookDayFromDate(from: Date) -> Result<WatchLogBookDay?, Error>
     func fetchLogBookEntry(logEntryID: UUID) -> Result<[WatchLogBookEntry], Error>
     
+    func saveLogBookEntry(watchLogEntry: WatchLogEntry) -> Result<Void, Error>
     
     func removeLogBookEntry(logEntryID: UUID) -> Result<Void, Error>
     func removeLogBookDay(logDayID: UUID) -> Result<Void, Error>
     func removeLogBookMonth(logMonthID: UUID) -> Result<Void, Error>
     func removeLogBookYear(logYearID: UUID) -> Result<Void, Error>
-    
-    func saveLogBookEntry(watchLogEntry: WatchLogEntry) -> Result<Void, Error>
-
-    func instanciateLogBook() -> Result<WatchLogBook, Error>
 }
 
 extension DataBaseManager: DataBaseManagerProtocol {}

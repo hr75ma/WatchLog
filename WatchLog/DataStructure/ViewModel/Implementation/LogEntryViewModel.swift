@@ -209,7 +209,7 @@ final class LogEntryViewModel: LogEntryViewModelProtocol, ObservableObject {
     }
 
     func deleteLogDay(watchLogBookDay: WatchLogBookDay) async -> Void {
-        let result = await databaseService.removeWatchLogBookDay(watchLogBookDay: watchLogBookDay)
+        let result = await databaseService.removeWatchLogBookDay(logDayID: watchLogBookDay.id)
         switch result {
         case .success():
             errorMessage = ""
@@ -220,7 +220,7 @@ final class LogEntryViewModel: LogEntryViewModelProtocol, ObservableObject {
     }
 
     func deleteLogMonth(watchLogBookMonth: WatchLogBookMonth) async -> Void {
-        let result = await databaseService.removeWatchLogBookMonth(watchLogBookMonth: watchLogBookMonth)
+        let result = await databaseService.removeWatchLogBookMonth(logMonthID: watchLogBookMonth.id)
         switch result {
         case .success():
             errorMessage = ""
@@ -231,7 +231,7 @@ final class LogEntryViewModel: LogEntryViewModelProtocol, ObservableObject {
     }
 
     func deleteLogYear(watchLogBookYear: WatchLogBookYear) async -> Void {
-        let result = await databaseService.removeWatchLogBookYear(watchLogBookYear: watchLogBookYear)
+        let result = await databaseService.removeWatchLogBookYear(logYearID: watchLogBookYear.id)
         switch result {
         case .success():
             errorMessage = ""

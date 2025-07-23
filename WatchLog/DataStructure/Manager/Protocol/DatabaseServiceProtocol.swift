@@ -12,7 +12,9 @@ import SwiftUI
 
 @MainActor
 protocol DatabaseServiceProtocol {
-    func saveWatchLogBookEntry(watchLogEntry: WatchLogEntry) async -> Result<Void, Error>
+    func existsWatchLogBookEntry(logEntryID: UUID) async -> Result<Bool, Error>
+
+    func instanciateLogBook() async -> Result<Void, Error>
 
     func fetchLogBookEntry(logEntryID: UUID) async -> Result<WatchLogBookEntry?, Error>
 
@@ -21,13 +23,13 @@ protocol DatabaseServiceProtocol {
 
     func fetchLogDay(logDayID: UUID) async -> Result<WatchLogBookDay?, any Error>
     func fetchDayFromDate(from: Date) async -> Result<WatchLogBookDay?, Error>
+    
+    func saveWatchLogBookEntry(watchLogEntry: WatchLogEntry) async -> Result<Void, Error>
 
     func removeWatchLogBookEntry(logEntryID: UUID) async -> Result<Void, Error>
-    func removeWatchLogBookDay(watchLogBookDay: WatchLogBookDay) async -> Result<Void, Error>
-    func removeWatchLogBookMonth(watchLogBookMonth: WatchLogBookMonth) async -> Result<Void, Error>
-    func removeWatchLogBookYear(watchLogBookYear: WatchLogBookYear) async -> Result<Void, Error>
+    func removeWatchLogBookDay(logDayID: UUID) async -> Result<Void, Error>
+    func removeWatchLogBookMonth(logMonthID: UUID) async -> Result<Void, Error>
+    func removeWatchLogBookYear(logYearID: UUID) async -> Result<Void, Error>
 
-    func existsWatchLogBookEntry(logEntryID: UUID) async -> Result<Bool, Error>
-
-    func instanciateLogBook() async -> Result<Void, Error>
+   
 }

@@ -198,7 +198,7 @@ extension ScrollViewDispatcher {
                 Divider()
 
                 Button(role: .destructive) {
-                    //blurSetting.isBlur = true
+                   // blurSetting.isBlur = true
                     alertDelete.toggle()
                 } label: {
                     NavigationMenuLabelView(menuItemType: MenuType.delete)
@@ -212,13 +212,14 @@ extension ScrollViewDispatcher {
                 "Löschen", role: .destructive,
                 action: {
                     Task {
+                        //blurSetting.isBlur = false
                         if await viewModel.isDeletedEntryInDisplayedDay(logEntryID: displayedLogEntryUUID.id, logDayID: logEntryUUIDContainer.logEntryBookDay.id) {
                             logEntryUUIDContainer = await viewModel.calculateShownAndDeleteLogEntry(logEntryID: displayedLogEntryUUID.id, logDayID: logEntryUUIDContainer.logEntryBookDay.id)
                             displayedLogEntryUUID.id = logEntryUUIDContainer.logEntryUUID
                         } else {
                             await viewModel.deleteLogEntry(logEntryID: logEntryUUID)
                         }
-                        //blurSetting.isBlur = false
+                        
                     }
 
                 })
