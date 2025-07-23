@@ -89,7 +89,6 @@ final class DataBaseManager {
     // fehler abfragen einbauen
     func removeLogBookYear(logYearID: UUID) -> Result<Void, Error> {
         var logYear = WatchLogBookYear()
-        var logBook = WatchLogBook()
 
         let fetchYearResult = fetchLogBookYear(with: logYearID)
         logYear = fetchYearResult.first!
