@@ -55,7 +55,7 @@ final class StylesLogEntry: Sendable {
     let navigationSettingImage: String = "gear"
     let navigationMenuImage: String = "ellipsis.circle"
     let navigationBackImage: String = "arrowshape.turn.up.backward.circle"
-    let navigationItemImageSize: CGFloat = 25
+    let navigationItemImageSize: CGFloat = 28
     
     
     
