@@ -18,7 +18,7 @@ import TipKit
     let viewModel = LogEntryViewModel(dataBaseService: databaseService)
 
     var pre: PreviewData = PreviewData()
-    //pre.setPreviewDate(viewModel: viewModel)
+    // pre.setPreviewDate(viewModel: viewModel)
 
     return ContentView()
         .environmentObject(viewModel)
@@ -55,16 +55,16 @@ struct ContentView: View {
     @State var showProgression: Bool = false
     @State var showNewEntrySheet: Bool = false
     @State var showToolbarItem: Bool = true
-    
+
     @State var scale = 0.0
 
     @State var dayOfLog: UUID = UUID()
 
     @State var logEntryUUIDContainer: LogEntryUUIDContainer = LogEntryUUIDContainer()
-    //@State var newEntryUUID: UUID = UUID()
-    
-    @State var newEntry:WatchLogEntry = WatchLogEntry()
-    
+    // @State var newEntryUUID: UUID = UUID()
+
+    @State var newEntry: WatchLogEntry = WatchLogEntry()
+
     @State var logBook = WatchLogBook()
 
     let newLogEntryTip = NavigationTipNewLogEntry()
@@ -73,27 +73,22 @@ struct ContentView: View {
 
     var body: some View {
         NavigationSplitView(columnVisibility: $columnVisibility) {
-            
-            
 //            VStack {
 //                Text(logEntryUUIDContainer.logEntryUUID.uuidString)
-//                
+//
 //                Text("displayedLogEntryUUID: \(displayedLogEntryUUID.id.uuidString)")
 //            }
 
-                
-                
             if showProgression {
                 ProgressionView()
             }
 
             List(viewModel.WatchLogBooks, id: \.id) { book in
-            
 
                 buildLogBookNavigationTree(book: book)
             }
             .listStyleGeneral()
-            //.safeAreaInsetForToolbar()
+            // .safeAreaInsetForToolbar()
             .listStyle(.sidebar)
             .scrollContentBackground(.hidden)
             .toolbar {
@@ -103,26 +98,23 @@ struct ContentView: View {
                         toolBarItemSettings
                     }
                     ToolbarItem(placement: .topBarLeading) {
-                       
-                            Text("Wachbuch")
-                                .navigationTitleModifier()
-                       
+                        Text("Wachbuch")
+                            .navigationTitleModifier()
                     }
                 }
             }
-            .toolbarModifier()            // .background(Color.black.edgesIgnoringSafeArea(.all))
+            .toolbarModifier() // .background(Color.black.edgesIgnoringSafeArea(.all))
             .refreshable(action: {
                 Task {
                     await viewModel.fetchLogBook()
-                   
                 }
             })
 
             .fullScreenCover(isPresented: $showNewEntrySheet) {
                 NavigationStack {
-                    //LogBookEntryEditWrapperView(logBookEntryUUID: $newEntryUUID)
+                    // LogBookEntryEditWrapperView(logBookEntryUUID: $newEntryUUID)
                     LogBookEntryEditWrapperView(watchLogEntry: newEntry)
-                        
+                        .transition(.move(edge: .bottom))
                 }
             }
             .sheet(isPresented: $showSettingSheet) {
@@ -136,28 +128,25 @@ struct ContentView: View {
                 // dismiss()
             }
             .onChange(of: showNewEntrySheet) { oldValue, newValue in
-                    if oldValue == true && newValue == false {
-                        Task {
-                            let isExisting = await viewModel.fetchLogBookEntry(logEntryID: newEntry.id)
-                            if isExisting != nil {
-                                logEntryUUIDContainer = .init(logEntryUUID: isExisting!.id, logBookDay: isExisting!.watchLogBookDay!)
-                            }
+                if oldValue == true && newValue == false {
+                    Task {
+                        let isExisting = await viewModel.fetchLogBookEntry(logEntryID: newEntry.id)
+                        if isExisting != nil {
+                            logEntryUUIDContainer = .init(logEntryUUID: isExisting!.id, logBookDay: isExisting!.watchLogBookDay!)
                         }
-                
-                 }
+                    }
                 }
+            }
             .onAppear {
                 refreshProgressionBehavior(appStyles)
                 Task {
                     showProgression = true
                     await viewModel.fetchLogBook()
-                    // try? await Task.sleep(nanoseconds: 2 * 1000000000)
                     showProgression = false
                 }
             }
             .task {
                 await viewModel.fetchLogBook()
-                
             }
 
             // .navigationSplitViewStyle(.balanced)
@@ -218,7 +207,7 @@ struct ContentView: View {
 extension ContentView {
     private var toolBarItemNewButton: some View {
         Button(action: {
-            //alertNew.toggle()
+            // alertNew.toggle()
             newEntry = WatchLogEntry()
             showNewEntrySheet = true
         }) {

@@ -8,10 +8,7 @@
 import SwiftUI
 
 struct LogBookEntryEditWrapperView: View {
-
-    //@Binding public var logBookEntryUUID: UUID
     @State public var watchLogEntry: WatchLogEntry
-    //@State private var watchLogEntry: WatchLogEntry = .init()
     @EnvironmentObject var viewModel: LogEntryViewModel
 
     @Environment(\.appStyles) var appStyles
@@ -20,23 +17,12 @@ struct LogBookEntryEditWrapperView: View {
     @Environment(\.dismiss) var dismiss
 
     @State var alertDelete = false
-    @State var alertNew = false
-    @State var alertClear = false
-    
-    @State var scale = 0.0
-        @State var opacity = 0.0
-    @State var oset = 0.0
-    
     let viewIsReadOnly: Bool = false
 
-    
     var body: some View {
-       // GeometryReader { proxy in
-            
-            HStack {
-                LogBookEntryView(watchLogEntry: $watchLogEntry,viewIsReadOnly: viewIsReadOnly)
-
-            }
+        HStack {
+            LogBookEntryView(watchLogEntry: $watchLogEntry, viewIsReadOnly: viewIsReadOnly)
+        }
         .safeAreaInsetForToolbar()
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
@@ -47,50 +33,46 @@ struct LogBookEntryEditWrapperView: View {
                     NavigationToolbarItemImage(toolbarItemType: .back, appStyles: appStyles)
                 }
             }
-            
+
             ToolbarItem(placement: .topBarLeading) {
-                Text(watchLogEntry.isLocked ? "Eintrag Ansicht (gesperrt)" :"Eintrag bearbeiten")
+                Text(watchLogEntry.isLocked ? "Eintrag Ansicht (gesperrt)" : "Eintrag bearbeiten")
                     .navigationTitleModifier()
                     .contentTransition(.numericText())
                     .animation(.smooth(duration: 1), value: watchLogEntry.isLocked)
             }
-            
-            
             ToolbarItem(placement: .primaryAction) {
                 MenuButton
             }
         }
-        .toolbarModifier() 
+        .toolbarModifier()
         .blurring(blurSetting: blurSetting)
     }
 }
 
 extension LogBookEntryEditWrapperView {
-    
     var MenuButton: some View {
-            Menu {
-                
-                    if !watchLogEntry.isLocked {
-                        Button {
-                            watchLogEntry.remoteSignalContainer.signale = .save
-                            blurSetting.isBlur = false
-                        } label: {
-                            NavigationMenuLabelView(menuItemType: MenuType.save)
-                        }
-                    }
-                    Divider()
-                    
-                    Button(role: .destructive) {
-                        blurSetting.isBlur = true
-                        alertDelete.toggle()
-                    } label: {
-                        NavigationMenuLabelView(menuItemType: MenuType.delete)
-                    }
+        Menu {
+            if !watchLogEntry.isLocked {
+                Button {
+                    watchLogEntry.remoteSignalContainer.signale = .save
+                    blurSetting.isBlur = false
+                } label: {
+                    NavigationMenuLabelView(menuItemType: MenuType.save)
+                }
             }
+            Divider()
+
+            Button(role: .destructive) {
+                blurSetting.isBlur = true
+                alertDelete.toggle()
+            } label: {
+                NavigationMenuLabelView(menuItemType: MenuType.delete)
+            }
+        }
             label: {
-                NavigationToolbarItemImage(toolbarItemType: .menu, appStyles: appStyles)
-            }
-            
+            NavigationToolbarItemImage(toolbarItemType: .menu, appStyles: appStyles)
+        }
+
         .alert("Log Löschen?", isPresented: $alertDelete) {
             Button(
                 "Löschen", role: .destructive,
@@ -101,9 +83,8 @@ extension LogBookEntryEditWrapperView {
                 })
             cancelAlertButton()
         }
-        
     }
-    
+
     private func cancelAlertButton() -> Button<Text> {
         return Button(
             "Abbrechen", role: .cancel,
@@ -111,13 +92,9 @@ extension LogBookEntryEditWrapperView {
                 blurSetting.isBlur = false
             })
     }
-
-    
-    
 }
 
-
-//#Preview {
+// #Preview {
 //    // @Previewable @State var existingLogBookEntry = WatchLogBookEntry()
 //    @Previewable @State var existingLogBookEntry = UUID()
 //    @Previewable @State var isEditing = true
@@ -133,4 +110,4 @@ extension LogBookEntryEditWrapperView {
 //        // .environment(\.displayedLogEntryUUID, DisplayedLogEntryID())
 //        .environment(DisplayedLogEntryID())
 //        .environmentObject(AppSettings.shared)
-//}
+// }
