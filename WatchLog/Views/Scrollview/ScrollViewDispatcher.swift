@@ -39,8 +39,8 @@ struct ScrollViewDispatcher: View {
     var body: some View {
         if showProgression {
                 ProgressionView()
-
         }
+        
         ScrollView(.horizontal) {
             HStack(alignment: .center, spacing: 0) {
                 if logEntryUUIDContainer.logEntryBookDay.watchLogBookEntries!.isEmpty {
