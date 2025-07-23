@@ -102,7 +102,7 @@ struct CanvasBorder: ViewModifier {
             .overlay(
                 RoundedRectangle(cornerRadius: 20, style: .continuous)
                     .stroke(
-                        isLocked ? .watchLogLocked : .watchLogFrameBorder, lineWidth: 2)
+                        isLocked ? .watchLogLocked : .watchLogFrameBorder, lineWidth: appStyles.canvasBorderLineWidth)
             )
             .padding(EdgeInsets(top: 5, leading: 10, bottom: 10, trailing: 10))
     }

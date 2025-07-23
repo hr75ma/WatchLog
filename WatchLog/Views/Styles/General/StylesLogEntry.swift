@@ -101,6 +101,8 @@ final class StylesLogEntry: Sendable {
     let canvasSize: CGFloat = 2000
     let canvasMinimumZoomScale: CGFloat = 0.25
     let canvasMaximumZoomScale: CGFloat = 10
+    let canvasBorderLineWidth: CGFloat = 2
+    
 
     // ToolbarItem
     let eraserImageActive: String = "eraser"
