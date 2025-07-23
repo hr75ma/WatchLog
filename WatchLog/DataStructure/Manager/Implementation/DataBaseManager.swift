@@ -32,36 +32,36 @@ final class DataBaseManager {
         }
     }
 
-    private func fetchLogBookYear(with EntryUUID: UUID) -> [WatchLogBookYear] {
+    private func fetchLogBookYear(from logYearID: UUID) -> [WatchLogBookYear] {
         let fetchDiscriptor = FetchDescriptor<WatchLogBookYear>(
-            predicate: #Predicate { $0.id == EntryUUID })
+            predicate: #Predicate { $0.id == logYearID })
         do {
             let fetchedEntries = try? modelContext.fetch(fetchDiscriptor)
             return fetchedEntries!
         }
     }
 
-    private func fetchLogBookMonth(with EntryUUID: UUID) -> [WatchLogBookMonth] {
+    private func fetchLogBookMonth(from logMonthID: UUID) -> [WatchLogBookMonth] {
         let fetchDiscriptor = FetchDescriptor<WatchLogBookMonth>(
-            predicate: #Predicate { $0.id == EntryUUID })
+            predicate: #Predicate { $0.id == logMonthID })
         do {
             let fetchedEntries = try? modelContext.fetch(fetchDiscriptor)
             return fetchedEntries!
         }
     }
 
-    private func fetchLogBookDay(with EntryUUID: UUID) -> [WatchLogBookDay] {
+    private func fetchLogBookDay(from logDayID: UUID) -> [WatchLogBookDay] {
         let fetchDiscriptor = FetchDescriptor<WatchLogBookDay>(
-            predicate: #Predicate { $0.id == EntryUUID })
+            predicate: #Predicate { $0.id == logDayID })
         do {
             let fetchedEntries = try? modelContext.fetch(fetchDiscriptor)
             return fetchedEntries!
         }
     }
 
-    private func fetchLogBook(with EntryUUID: UUID) -> [WatchLogBook] {
+    private func fetchLogBook(from logBookID: UUID) -> [WatchLogBook] {
         let fetchDiscriptor = FetchDescriptor<WatchLogBook>(
-            predicate: #Predicate { $0.id == EntryUUID })
+            predicate: #Predicate { $0.id == logBookID })
         do {
             let fetchedEntries = try? modelContext.fetch(fetchDiscriptor)
             return fetchedEntries!
@@ -90,7 +90,7 @@ final class DataBaseManager {
     func removeLogBookYear(logYearID: UUID) -> Result<Void, Error> {
         var logYear = WatchLogBookYear()
 
-        let fetchYearResult = fetchLogBookYear(with: logYearID)
+        let fetchYearResult = fetchLogBookYear(from: logYearID)
         logYear = fetchYearResult.first!
 
         // remove year
@@ -105,7 +105,7 @@ final class DataBaseManager {
         var logMonth = WatchLogBookMonth()
         var logYear = WatchLogBookYear()
 
-        let fetchMonthResult = fetchLogBookMonth(with: logMonthID)
+        let fetchMonthResult = fetchLogBookMonth(from: logMonthID)
         logMonth = fetchMonthResult.first!
 
         // remove month
@@ -113,7 +113,7 @@ final class DataBaseManager {
         try? modelContext.save()
 
         // check if year has zero entries --> can be deleted
-        let fetchYearResult = fetchLogBookYear(with: logMonth.watchLogBookYear!.id)
+        let fetchYearResult = fetchLogBookYear(from: logMonth.watchLogBookYear!.id)
         logYear = fetchYearResult.first!
         if logYear.watchLogBookMonths!.isEmpty {
             modelContext.delete(logYear)
@@ -130,7 +130,7 @@ final class DataBaseManager {
         var logMonth = WatchLogBookMonth()
         var logYear = WatchLogBookYear()
 
-        let fetchDayResult = fetchLogBookDay(with: logDayID)
+        let fetchDayResult = fetchLogBookDay(from: logDayID)
         logDay = fetchDayResult.first!
 
         // remove day
@@ -138,14 +138,14 @@ final class DataBaseManager {
         try? modelContext.save()
 
         // check if month has zero entries --> can be deleted
-        let fetchMonthResult = fetchLogBookMonth(with: logDay.watchLogBookMonth!.id)
+        let fetchMonthResult = fetchLogBookMonth(from: logDay.watchLogBookMonth!.id)
         logMonth = fetchMonthResult.first!
         if logMonth.watchLogBookDays!.isEmpty {
             modelContext.delete(logMonth)
             try? modelContext.save()
 
             // check if year has zero entries --> can be deleted
-            let fetchYearResult = fetchLogBookYear(with: logMonth.watchLogBookYear!.id)
+            let fetchYearResult = fetchLogBookYear(from: logMonth.watchLogBookYear!.id)
             logYear = fetchYearResult.first!
             if logYear.watchLogBookMonths!.isEmpty {
                 modelContext.delete(logYear)
@@ -173,21 +173,21 @@ final class DataBaseManager {
                 try? modelContext.save()
 
                 // check if day has zero entries --> can be deleted
-                let fetchDayResult = fetchLogBookDay(with: logEntry.watchLogBookDay!.id)
+                let fetchDayResult = fetchLogBookDay(from: logEntry.watchLogBookDay!.id)
                 logDay = fetchDayResult.first!
                 if logDay.watchLogBookEntries!.isEmpty {
                     modelContext.delete(logDay)
                     try? modelContext.save()
 
                     // check if month has zero entries --> can be deleted
-                    let fetchMonthResult = fetchLogBookMonth(with: logDay.watchLogBookMonth!.id)
+                    let fetchMonthResult = fetchLogBookMonth(from: logDay.watchLogBookMonth!.id)
                     logMonth = fetchMonthResult.first!
                     if logMonth.watchLogBookDays!.isEmpty {
                         modelContext.delete(logMonth)
                         try? modelContext.save()
 
                         // check if year has zero entries --> can be deleted
-                        let fetchYearResult = fetchLogBookYear(with: logMonth.watchLogBookYear!.id)
+                        let fetchYearResult = fetchLogBookYear(from: logMonth.watchLogBookYear!.id)
                         logYear = fetchYearResult.first!
                         if logYear.watchLogBookMonths!.isEmpty {
                             modelContext.delete(logYear)
