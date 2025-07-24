@@ -9,6 +9,7 @@ import SwiftUI
 
 struct LogBookEntryEditWrapperView: View {
     @State public var watchLogEntry: WatchLogEntry
+    @Binding public var logEntryUUIDContainerForExpand: LogEntryUUIDContainer
     @EnvironmentObject var viewModel: LogEntryViewModel
 
     @Environment(\.appStyles) var appStyles
@@ -22,6 +23,20 @@ struct LogBookEntryEditWrapperView: View {
     var body: some View {
         HStack {
             LogBookEntryView(watchLogEntry: $watchLogEntry, viewIsReadOnly: viewIsReadOnly)
+        }
+        .onDisappear() {
+            Task {
+                let testEntry = await viewModel.fetchLogBookEntry(logEntryID: watchLogEntry.id)
+                if testEntry != nil {
+                    logEntryUUIDContainerForExpand.logEntryUUID = testEntry!.id
+                    logEntryUUIDContainerForExpand.logEntryBookDay = testEntry!.watchLogBookDay!
+                    logEntryUUIDContainerForExpand.logEntryBookMonthID = testEntry!.watchLogBookDay!.watchLogBookMonth!.id
+                    logEntryUUIDContainerForExpand.logEntryBookYearID = testEntry!.watchLogBookDay!.watchLogBookMonth!.watchLogBookYear!.id
+                }
+                
+            }
+            
+            
         }
         .safeAreaInsetForToolbar()
         .toolbar {

@@ -200,7 +200,7 @@ extension LogBookEntryView {
             watchLogEntry.isLocked = true
             watchLogEntry.isNewEntryLog = false
             await viewModel.saveLogEntry(watchLogEntry: watchLogEntry)
-           // try? await Task.sleep(nanoseconds: 4000_000_000)
+            // try? await Task.sleep(nanoseconds: 4000_000_000)
             watchLogEntry.isNewEntryLog = false
             blurSetting.isBlur = false
             showProgression = false

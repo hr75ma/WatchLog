@@ -66,6 +66,8 @@ struct ContentView: View {
     @State var newEntry: WatchLogEntry = WatchLogEntry()
 
     @State var logBook = WatchLogBook()
+    
+    @State var logEntryUUIDContainerForExpand: LogEntryUUIDContainer = LogEntryUUIDContainer()
 
     let newLogEntryTip = NavigationTipNewLogEntry()
     let refreshListTip = NavigationTipRefresh()
@@ -73,11 +75,11 @@ struct ContentView: View {
 
     var body: some View {
         NavigationSplitView(columnVisibility: $columnVisibility) {
-//            VStack {
-//                Text(logEntryUUIDContainer.logEntryUUID.uuidString)
-//
-//                Text("displayedLogEntryUUID: \(displayedLogEntryUUID.id.uuidString)")
-//            }
+            //            VStack {
+            //                Text(logEntryUUIDContainer.logEntryUUID.uuidString)
+            //
+            //                Text("displayedLogEntryUUID: \(displayedLogEntryUUID.id.uuidString)")
+            //            }
 
             if showProgression {
                 ProgressionView()
@@ -112,8 +114,8 @@ struct ContentView: View {
 
             .fullScreenCover(isPresented: $showNewEntrySheet) {
                 NavigationStack {
-                    // LogBookEntryEditWrapperView(logBookEntryUUID: $newEntryUUID)
-                    LogBookEntryEditWrapperView(watchLogEntry: newEntry)
+                     //LogBookEntryEditWrapperView(logBookEntryUUID: $newEntryUUID)
+                    LogBookEntryEditWrapperView(watchLogEntry: newEntry, logEntryUUIDContainerForExpand: $logEntryUUIDContainerForExpand)
                         .transition(.move(edge: .bottom))
                 }
             }
@@ -204,8 +206,191 @@ struct ContentView: View {
     }
 }
 
+struct DisclorsureGroupYearView: View {
+    @State var year: WatchLogBookYear
+    @Binding var logEntryUUIDContainer: LogEntryUUIDContainer
+    @Binding var logEntryUUIDContainerForExpand: LogEntryUUIDContainer
+    
+    @State var isExpanded: Bool = false
+    
+    @Environment(\.appStyles) var appStyles
+    @EnvironmentObject var viewModel: LogEntryViewModel
+    @Environment(DisplayedLogEntryID.self) var displayedLogEntryUUID
+
+    var body: some View {
+        DisclosureGroup(DateManipulation.getYear(from: year.logDate), isExpanded: $isExpanded) {
+            ForEach(year.logMonthSorted) { month in
+                DisclorsureGroupMonthView(month: month, logEntryUUIDContainer: $logEntryUUIDContainer, logEntryUUIDContainerForExpand: $logEntryUUIDContainerForExpand)
+            }
+            .onDelete(perform: { indexSet in
+                indexSet.sorted(by: >).forEach { i in
+                    let LogEntry = year.watchLogBookMonths![i]
+                    delete(deleteType: .month, toDeleteItem: LogEntry)
+                }
+            })
+        }
+        .disclosureGroupStyleYearModifier()
+        .onChange(of: logEntryUUIDContainerForExpand.logEntryBookYearID)
+        {
+            isExpanded = year.id == logEntryUUIDContainerForExpand.logEntryBookYearID
+        }
+        .task
+        {
+            isExpanded = year.id == logEntryUUIDContainerForExpand.logEntryBookYearID
+        }
+    }
+
+    private func delete<T>(deleteType: DeleteTypes, toDeleteItem: T) {
+        switch deleteType {
+        case .day:
+            Task {
+                await viewModel.deleteLogDay(watchLogBookDay: toDeleteItem as! WatchLogBookDay)
+            }
+        case .month:
+            Task {
+                await viewModel.deleteLogMonth(watchLogBookMonth: toDeleteItem as! WatchLogBookMonth)
+            }
+        case .year:
+            Task {
+                await viewModel.deleteLogYear(watchLogBookYear: toDeleteItem as! WatchLogBookYear)
+            }
+        default:
+            break
+        }
+        testOnDeleteDisplayedEntry(displayedUUID: displayedLogEntryUUID.id)
+    }
+
+    private func testOnDeleteDisplayedEntry(displayedUUID: UUID) {
+        Task {
+            let isExisting = await viewModel.isLogBookEntryExisting(logEntryID: displayedUUID)
+            if !isExisting {
+                // manageWhatIsShowing()
+                logEntryUUIDContainer = .init(logEntryUUID: UUID(), logBookDay: WatchLogBookDay())
+            }
+        }
+    }
+}
+
+struct DisclorsureGroupMonthView: View {
+    @State var month: WatchLogBookMonth
+    @Binding var logEntryUUIDContainer: LogEntryUUIDContainer
+    @Binding var logEntryUUIDContainerForExpand: LogEntryUUIDContainer
+    @Environment(\.appStyles) var appStyles
+    @EnvironmentObject var viewModel: LogEntryViewModel
+    @Environment(DisplayedLogEntryID.self) var displayedLogEntryUUID
+    
+    @State var isExpanded: Bool = false
+
+    var body: some View {
+        DisclosureGroup(DateManipulation.getMonth(from: month.logDate), isExpanded: $isExpanded) {
+            ForEach(month.logDaysSorted) { day in
+                DisclosureGroupLogEntriesView(day: day, logEntryUUIDContainer: $logEntryUUIDContainer, logEntryUUIDContainerForExpand: $logEntryUUIDContainerForExpand)
+            }
+            .onDelete(perform: { indexSet in
+                indexSet.sorted(by: >).forEach { i in
+                    let LogEntry = month.watchLogBookDays![i]
+                    delete(deleteType: .day, toDeleteItem: LogEntry)
+                }
+            })
+        }
+        .disclosureGroupStyleMonth(appStyles)
+        .task
+        {
+            print("month")
+            isExpanded = month.id == logEntryUUIDContainerForExpand.logEntryBookMonthID
+        }
+    }
+
+    private func delete<T>(deleteType: DeleteTypes, toDeleteItem: T) {
+        switch deleteType {
+        case .day:
+            Task {
+                await viewModel.deleteLogDay(watchLogBookDay: toDeleteItem as! WatchLogBookDay)
+            }
+        case .month:
+            Task {
+                await viewModel.deleteLogMonth(watchLogBookMonth: toDeleteItem as! WatchLogBookMonth)
+            }
+        case .year:
+            Task {
+                await viewModel.deleteLogYear(watchLogBookYear: toDeleteItem as! WatchLogBookYear)
+            }
+        default:
+            break
+        }
+        testOnDeleteDisplayedEntry(displayedUUID: displayedLogEntryUUID.id)
+    }
+
+    private func testOnDeleteDisplayedEntry(displayedUUID: UUID) {
+        Task {
+            let isExisting = await viewModel.isLogBookEntryExisting(logEntryID: displayedUUID)
+            if !isExisting {
+                // manageWhatIsShowing()
+                logEntryUUIDContainer = .init(logEntryUUID: UUID(), logBookDay: WatchLogBookDay())
+            }
+        }
+    }
+}
+
+struct DisclosureGroupLogEntriesView: View {
+    @State var day: WatchLogBookDay
+    @Binding var logEntryUUIDContainer: LogEntryUUIDContainer
+    @Binding var logEntryUUIDContainerForExpand: LogEntryUUIDContainer
+    @EnvironmentObject var viewModel: LogEntryViewModel
+    @Environment(\.appStyles) var appStyles
+    @Environment(DisplayedLogEntryID.self) var displayedLogEntryUUID
+    @Environment(\.colorScheme) var colorScheme
+    
+    @State var isExpanded: Bool = false
+
+    var body: some View {
+        DisclosureGroup(DateManipulation.getWeekDay(from: day.logDate), isExpanded: $isExpanded) {
+            ForEach(day.logEntriesSorted) { entry in
+
+                Button(action: {
+                    logEntryUUIDContainer = .init(logEntryUUID: entry.id, logBookDay: day)
+                    displayedLogEntryUUID.id = logEntryUUIDContainer.logEntryUUID
+
+                }) {
+                    VStack(alignment: .leading) {
+                        Text(DateManipulation.getTime(from: entry.logDate))
+                            .navigationTreeButtonLabelStyle(isSeletecedItem: entry.id == displayedLogEntryUUID.id)
+
+                        if entry.processDetails != nil {
+                            Text(ProcessType.processTypes[entry.processDetails!.processTypeShort]!)
+                                .navigationTreeButtonSubLabelStyle(isSeletecedItem: entry.id == displayedLogEntryUUID.id)
+                        }
+                    }
+                }
+                .listRowBackground(
+                    Rectangle()
+                        .selectedRowBackgroundAnimation(isSelectedRow: entry.id == displayedLogEntryUUID.id, colorScheme: colorScheme, appStyles: appStyles)
+                )
+            }
+            .onDelete(perform: { indexSet in
+                indexSet.sorted(by: >).forEach { i in
+                    let logEntry = day.watchLogBookEntries![i]
+                    Task {
+                        if await viewModel.isDeletedEntryInDisplayedDay(logEntryID: displayedLogEntryUUID.id, logDayID: day.id) {
+                            logEntryUUIDContainer = await viewModel.calculateShownAndDeleteLogEntry(logEntryID: logEntry.id, logDayID: day.id)
+                            displayedLogEntryUUID.id = logEntryUUIDContainer.logEntryUUID
+                        } else {
+                            await viewModel.deleteLogEntry(logEntryID: logEntry.id)
+                        }
+                    }
+                }
+            })
+        }
+        .disclosureGroupStyleDay(appStyles)
+        .task
+        {
+            isExpanded = day.id == logEntryUUIDContainerForExpand.logEntryBookDay.id
+        }
+    }
+}
+
 extension ContentView {
-    private var toolBarItemNewButton: some View {
+    fileprivate var toolBarItemNewButton: some View {
         Button(action: {
             // alertNew.toggle()
             newEntry = WatchLogEntry()
@@ -215,7 +400,7 @@ extension ContentView {
         }
     }
 
-    private var toolBarItemSettings: some View {
+    fileprivate var toolBarItemSettings: some View {
         Button(action: {
             showSettingSheet = true
         }) {
@@ -223,9 +408,10 @@ extension ContentView {
         }
     }
 
-    private func buildLogBookNavigationTree(book: WatchLogBook) -> some View {
+    fileprivate func buildLogBookNavigationTree(book: WatchLogBook) -> some View {
         ForEach(book.logYearsSorted) { year in
-            DisclorsureGroupYear(year: year)
+            //DisclorsureGroupYear(year: year)
+            DisclorsureGroupYearView(year: year, logEntryUUIDContainer: $logEntryUUIDContainer, logEntryUUIDContainerForExpand: $logEntryUUIDContainerForExpand)
         }
         .onDelete(perform: {
             indexSet in
@@ -236,7 +422,7 @@ extension ContentView {
         })
     }
 
-    private func DisclorsureGroupYear(year: WatchLogBookYear) -> some View {
+    fileprivate func DisclorsureGroupYear(year: WatchLogBookYear) -> some View {
         DisclosureGroup(DateManipulation.getYear(from: year.logDate)) {
             ForEach(year.logMonthSorted) { month in
                 DisclosureGroupLogMonth(month: month)
@@ -251,7 +437,7 @@ extension ContentView {
         .disclosureGroupStyleYearModifier()
     }
 
-    private func DisclosureGroupLogMonth(month: WatchLogBookMonth) -> some View {
+    fileprivate func DisclosureGroupLogMonth(month: WatchLogBookMonth) -> some View {
         DisclosureGroup(DateManipulation.getMonth(from: month.logDate)) {
             ForEach(month.logDaysSorted) { day in
                 DisclosureGroupLogEntries(day: day)
@@ -267,7 +453,7 @@ extension ContentView {
         .disclosureGroupStyleMonth(appStyles)
     }
 
-    private func DisclosureGroupLogEntries(day: WatchLogBookDay) -> some View {
+    fileprivate func DisclosureGroupLogEntries(day: WatchLogBookDay) -> some View {
         DisclosureGroup(DateManipulation.getWeekDay(from: day.logDate)) {
             ForEach(day.logEntriesSorted) { entry in
 

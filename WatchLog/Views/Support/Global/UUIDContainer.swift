@@ -13,6 +13,8 @@ final class LogEntryUUIDContainer:  Equatable, Identifiable {
     public var id: UUID
     public var logEntryUUID: UUID
     public var logEntryBookDay: WatchLogBookDay
+    public var logEntryBookMonthID: UUID?
+    public var logEntryBookYearID: UUID?
     
     init(id: UUID) {
         self.id = id
@@ -30,6 +32,8 @@ final class LogEntryUUIDContainer:  Equatable, Identifiable {
         self.id = UUID()
         self.logEntryUUID = logEntryUUID
         self.logEntryBookDay = logBookDay
+        self.logEntryBookMonthID = logBookDay.watchLogBookMonth?.id
+        self.logEntryBookYearID = logBookDay.watchLogBookMonth?.watchLogBookYear?.id
     }
     
 //    func setToNil() {

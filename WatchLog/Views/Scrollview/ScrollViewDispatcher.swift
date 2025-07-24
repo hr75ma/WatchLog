@@ -35,6 +35,8 @@ struct ScrollViewDispatcher: View {
     @State private var scrollPos: UUID?
 
     @State var showProgression: Bool = false
+    
+    @State var logEntryUUIDContainerForExpand: LogEntryUUIDContainer = LogEntryUUIDContainer()
 
     var body: some View {
         if showProgression {
@@ -162,7 +164,7 @@ struct ScrollViewDispatcher: View {
         }
         .fullScreenCover(isPresented: $showSheet) {
             NavigationStack {
-                    LogBookEntryEditWrapperView(watchLogEntry: watchLogEntry)
+                LogBookEntryEditWrapperView(watchLogEntry: watchLogEntry, logEntryUUIDContainerForExpand: $logEntryUUIDContainerForExpand)
             }
         }
         .toolbar {
