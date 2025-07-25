@@ -9,7 +9,7 @@ import SwiftUI
 
 struct LogBookEntryEditWrapperView: View {
     @State public var watchLogEntry: WatchLogEntry
-    @Binding public var logEntryUUIDContainerForExpand: LogEntryUUIDContainer
+    @Binding public var expandContainer: ExpandContainer
     @EnvironmentObject var viewModel: LogEntryViewModel
 
     @Environment(\.appStyles) var appStyles
@@ -28,10 +28,7 @@ struct LogBookEntryEditWrapperView: View {
             Task {
                 let testEntry = await viewModel.fetchLogBookEntry(logEntryID: watchLogEntry.id)
                 if testEntry != nil {
-                    logEntryUUIDContainerForExpand.logEntryUUID = testEntry!.id
-                    logEntryUUIDContainerForExpand.logEntryBookDay = testEntry!.watchLogBookDay!
-                    logEntryUUIDContainerForExpand.logEntryBookMonthID = testEntry!.watchLogBookDay!.watchLogBookMonth!.id
-                    logEntryUUIDContainerForExpand.logEntryBookYearID = testEntry!.watchLogBookDay!.watchLogBookMonth!.watchLogBookYear!.id
+                    expandContainer  = .init(watchLogBookEntry: testEntry!)
                 }
                 
             }
