@@ -62,7 +62,8 @@ struct NavigationTitleModifier: ViewModifier {
     @Environment(\.appStyles) var appStyles
     func body(content: Content) -> some View {
         content
-            .font(Font.custom(appStyles.navigationTitleFont, size: appStyles.navigationTitleFontSize))
+            //.font(Font.custom(appStyles.navigationTitleFont, size: appStyles.navigationTitleFontSize))
+            .font(.system(size: appStyles.navigationTitleFontSize, weight: .light, design: .rounded))
             .foregroundStyle(.watchLogFont)
             .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
     }
