@@ -75,6 +75,7 @@ struct LogBookEntryView: View {
             .standardLogEntryViewPadding()
         }
         .scrollIndicators(.never)
+        .scrollDismissesKeyboard(.immediately)
         .task {
             glowingColorSet = getGlowColorSet(logEntry: watchLogEntry)
         }
