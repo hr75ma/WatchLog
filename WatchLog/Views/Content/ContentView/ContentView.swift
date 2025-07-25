@@ -294,6 +294,10 @@ struct DisclorsureGroupMonthView: View {
             })
         }
         .disclosureGroupStyleMonth(appStyles)
+        .onChange(of: expandContainer.entryID)
+        {
+            isExpanded = month.id == expandContainer.monthID
+        }
         .task
         {
             print("month")
@@ -383,6 +387,10 @@ struct DisclosureGroupLogEntriesView: View {
             })
         }
         .disclosureGroupStyleDay(appStyles)
+        .onChange(of: expandContainer.entryID)
+        {
+            isExpanded = day.id == expandContainer.dayID
+        }
         .task
         {
             isExpanded = day.id == expandContainer.dayID
