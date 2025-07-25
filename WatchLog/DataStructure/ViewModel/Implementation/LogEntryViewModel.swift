@@ -82,6 +82,43 @@ final class LogEntryViewModel: LogEntryViewModelProtocol, ObservableObject {
             }
         }
     }
+    
+    public func delete<T>(deleteType: DeleteTypes, toDeleteItem: T, displayedUUID: UUID, logEntryUUIDContainer: LogEntryUUIDContainer)  async -> LogEntryUUIDContainer {
+        var tempContainer = logEntryUUIDContainer
+        
+        Task {
+            switch deleteType {
+            case .day:
+                
+                    await self.deleteLogDay(watchLogBookDay: toDeleteItem as! WatchLogBookDay)
+                
+            case .month:
+                
+                    await self.deleteLogMonth(watchLogBookMonth: toDeleteItem as! WatchLogBookMonth)
+                
+            case .year:
+                
+                    await self.deleteLogYear(watchLogBookYear: toDeleteItem as! WatchLogBookYear)
+                
+            default:
+                break
+            }
+            tempContainer = await testOnDeleteDisplayedEntry(displayedUUID: displayedUUID, logEntryUUIDContainer: logEntryUUIDContainer)
+        }
+        return tempContainer
+    }
+    
+    private func testOnDeleteDisplayedEntry(displayedUUID: UUID, logEntryUUIDContainer: LogEntryUUIDContainer) async -> LogEntryUUIDContainer {
+        
+            let isExisting = await self.isLogBookEntryExisting(logEntryID: displayedUUID)
+            if !isExisting {
+                // manageWhatIsShowing()
+                return .init(logEntryUUID: UUID(), logBookDay: WatchLogBookDay())
+            }
+            return logEntryUUIDContainer
+    }
+    
+    
 
     // eintrag löschen und anzuzeigende UUID zurückgeben
     func calculateShownAndDeleteLogEntry(logEntryID: UUID, logDayID: UUID) async -> LogEntryUUIDContainer {

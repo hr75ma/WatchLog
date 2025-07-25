@@ -149,10 +149,6 @@ struct ContentView: View {
             .task {
                 await viewModel.fetchLogBook()
             }
-
-            // .navigationSplitViewStyle(.balanced)
-
-            // .background(Color.black.edgesIgnoringSafeArea(.all))
         } detail: {
             ScrollViewDispatcher(logEntryUUIDContainer: $logEntryUUIDContainer)
         }
@@ -172,36 +168,6 @@ struct ContentView: View {
         }
         .appearanceUpdate()
         .navigationBarTitleDisplayMode(.inline)
-    }
-
-    private func testOnDeleteDisplayedEntry(displayedUUID: UUID) {
-        Task {
-            let isExisting = await viewModel.isLogBookEntryExisting(logEntryID: displayedUUID)
-            if !isExisting {
-                // manageWhatIsShowing()
-                logEntryUUIDContainer = .init(logEntryUUID: UUID(), logBookDay: WatchLogBookDay())
-            }
-        }
-    }
-
-    private func delete<T>(deleteType: DeleteTypes, toDeleteItem: T) {
-        switch deleteType {
-        case .day:
-            Task {
-                await viewModel.deleteLogDay(watchLogBookDay: toDeleteItem as! WatchLogBookDay)
-            }
-        case .month:
-            Task {
-                await viewModel.deleteLogMonth(watchLogBookMonth: toDeleteItem as! WatchLogBookMonth)
-            }
-        case .year:
-            Task {
-                await viewModel.deleteLogYear(watchLogBookYear: toDeleteItem as! WatchLogBookYear)
-            }
-        default:
-            break
-        }
-        testOnDeleteDisplayedEntry(displayedUUID: displayedLogEntryUUID.id)
     }
 }
 
@@ -223,8 +189,9 @@ struct DisclosureGroupYearView: View {
             }
             .onDelete(perform: { indexSet in
                 indexSet.sorted(by: >).forEach { i in
-                    let LogEntry = year.watchLogBookMonths![i]
-                    delete(deleteType: .month, toDeleteItem: LogEntry)
+                    Task {
+                        logEntryUUIDContainer = await viewModel.delete(deleteType: .month, toDeleteItem: year.watchLogBookMonths![i], displayedUUID: displayedLogEntryUUID.id, logEntryUUIDContainer: logEntryUUIDContainer)
+                    }
                 }
             })
         }
@@ -240,36 +207,6 @@ struct DisclosureGroupYearView: View {
         {
             withAnimation(.smooth) {
                 isExpanded = year.id == expandContainer.yearID
-            }
-        }
-    }
-
-    private func delete<T>(deleteType: DeleteTypes, toDeleteItem: T) {
-        switch deleteType {
-        case .day:
-            Task {
-                await viewModel.deleteLogDay(watchLogBookDay: toDeleteItem as! WatchLogBookDay)
-            }
-        case .month:
-            Task {
-                await viewModel.deleteLogMonth(watchLogBookMonth: toDeleteItem as! WatchLogBookMonth)
-            }
-        case .year:
-            Task {
-                await viewModel.deleteLogYear(watchLogBookYear: toDeleteItem as! WatchLogBookYear)
-            }
-        default:
-            break
-        }
-        testOnDeleteDisplayedEntry(displayedUUID: displayedLogEntryUUID.id)
-    }
-
-    private func testOnDeleteDisplayedEntry(displayedUUID: UUID) {
-        Task {
-            let isExisting = await viewModel.isLogBookEntryExisting(logEntryID: displayedUUID)
-            if !isExisting {
-                // manageWhatIsShowing()
-                logEntryUUIDContainer = .init(logEntryUUID: UUID(), logBookDay: WatchLogBookDay())
             }
         }
     }
@@ -293,8 +230,9 @@ struct DisclosureGroupMonthView: View {
             }
             .onDelete(perform: { indexSet in
                 indexSet.sorted(by: >).forEach { i in
-                    let LogEntry = month.watchLogBookDays![i]
-                    delete(deleteType: .day, toDeleteItem: LogEntry)
+                    Task {
+                        logEntryUUIDContainer = await viewModel.delete(deleteType: .day, toDeleteItem: month.watchLogBookDays![i], displayedUUID: displayedLogEntryUUID.id, logEntryUUIDContainer: logEntryUUIDContainer)
+                    }
                 }
             })
         }
@@ -309,36 +247,6 @@ struct DisclosureGroupMonthView: View {
         {
             withAnimation(.smooth) {
                 isExpanded = month.id == expandContainer.monthID
-            }
-        }
-    }
-
-    private func delete<T>(deleteType: DeleteTypes, toDeleteItem: T) {
-        switch deleteType {
-        case .day:
-            Task {
-                await viewModel.deleteLogDay(watchLogBookDay: toDeleteItem as! WatchLogBookDay)
-            }
-        case .month:
-            Task {
-                await viewModel.deleteLogMonth(watchLogBookMonth: toDeleteItem as! WatchLogBookMonth)
-            }
-        case .year:
-            Task {
-                await viewModel.deleteLogYear(watchLogBookYear: toDeleteItem as! WatchLogBookYear)
-            }
-        default:
-            break
-        }
-        testOnDeleteDisplayedEntry(displayedUUID: displayedLogEntryUUID.id)
-    }
-
-    private func testOnDeleteDisplayedEntry(displayedUUID: UUID) {
-        Task {
-            let isExisting = await viewModel.isLogBookEntryExisting(logEntryID: displayedUUID)
-            if !isExisting {
-                // manageWhatIsShowing()
-                logEntryUUIDContainer = .init(logEntryUUID: UUID(), logBookDay: WatchLogBookDay())
             }
         }
     }
@@ -410,6 +318,7 @@ struct DisclosureGroupLogEntriesView: View {
     }
 }
 
+
 extension ContentView {
     fileprivate var toolBarItemNewButton: some View {
         Button(action: {
@@ -436,8 +345,9 @@ extension ContentView {
         .onDelete(perform: {
             indexSet in
             indexSet.sorted(by: >).forEach { i in
-                let LogEntry = book.logYearsSorted[i]
-                delete(deleteType: .year, toDeleteItem: LogEntry)
+                Task {
+                    logEntryUUIDContainer = await viewModel.delete(deleteType: .year, toDeleteItem: book.logYearsSorted[i], displayedUUID: displayedLogEntryUUID.id, logEntryUUIDContainer: logEntryUUIDContainer)
+                }
             }
         })
     }

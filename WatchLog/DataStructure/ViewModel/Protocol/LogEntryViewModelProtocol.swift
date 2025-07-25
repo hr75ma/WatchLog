@@ -45,7 +45,7 @@ protocol LogEntryViewModelProtocol {
     
     func saveLogEntry(watchLogEntry: WatchLogEntry) async -> Void
     
-    
+    func delete<T>(deleteType: DeleteTypes, toDeleteItem: T, displayedUUID: UUID, logEntryUUIDContainer: LogEntryUUIDContainer)  async -> LogEntryUUIDContainer
     
     func generateLogBookEntry() -> Void
     func generateAutomaticMockDatas() -> Void
