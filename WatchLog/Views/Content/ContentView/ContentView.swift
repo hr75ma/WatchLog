@@ -231,11 +231,16 @@ struct DisclorsureGroupYearView: View {
         .disclosureGroupStyleYearModifier()
         .onChange(of: expandContainer.entryID)
         {
-            isExpanded = year.id == expandContainer.yearID
+            withAnimation(.smooth) {
+                isExpanded = year.id == expandContainer.yearID
+            }
+            
         }
         .task
         {
-            isExpanded = year.id == expandContainer.yearID
+            withAnimation(.smooth) {
+                isExpanded = year.id == expandContainer.yearID
+            }
         }
     }
 
@@ -296,12 +301,15 @@ struct DisclorsureGroupMonthView: View {
         .disclosureGroupStyleMonth(appStyles)
         .onChange(of: expandContainer.entryID)
         {
-            isExpanded = month.id == expandContainer.monthID
+            withAnimation(.smooth) {
+                isExpanded = month.id == expandContainer.monthID
+            }
         }
         .task
         {
-            print("month")
-            isExpanded = month.id == expandContainer.monthID
+            withAnimation(.smooth) {
+                isExpanded = month.id == expandContainer.monthID
+            }
         }
     }
 
@@ -389,11 +397,15 @@ struct DisclosureGroupLogEntriesView: View {
         .disclosureGroupStyleDay(appStyles)
         .onChange(of: expandContainer.entryID)
         {
-            isExpanded = day.id == expandContainer.dayID
+            withAnimation(.smooth) {
+                isExpanded = day.id == expandContainer.dayID
+            }
         }
         .task
         {
-            isExpanded = day.id == expandContainer.dayID
+            withAnimation(.smooth) {
+                isExpanded = day.id == expandContainer.dayID
+            }
         }
     }
 }
