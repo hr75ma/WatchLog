@@ -17,26 +17,48 @@ struct LimitedIndicatorTextField: View {
     let disableAnimation: Bool
 
     @Environment(\.appStyles) var appStyles
+//    @Environment(\.focus) var focusFromEnvironment
+//    @FocusState var focus: FocusedTextfield?
 
     // view properties
     @FocusState private var isKeyboardShowing: Bool
     var body: some View {
         // VStack(alignment: config.progressConfig.alignment, spacing: 12) {
         ZStack(alignment: .trailing) {
-            TextField(hint, text: $text, axis: .vertical)
-                .if(config.textfieldLevel == TextFieldLevel.standard) { view in
-                    view.textFieldIndicator(text: $text, isLocked: isLocked, disableAnimation: disableAnimation, textfieldType: config.textfieldType, appStyles: appStyles)
+            //TextField(hint, text: $text, axis: .vertical)
+            if config.textfieldType == .singleLine {
+                TextField(hint, text: $text)
+                    .if(config.textfieldLevel == TextFieldLevel.standard) { view in
+                        view.textFieldIndicator(text: $text, isLocked: isLocked, disableAnimation: disableAnimation, textfieldType: config.textfieldType, appStyles: appStyles)
                         
+                    }
+                    .if(config.textfieldLevel == TextFieldLevel.sub) { view in
+                        view.subTextFieldIndicator(text: $text, isLocked: isLocked, disableAnimation: disableAnimation, textfieldType: config.textfieldType, appStyles: appStyles)
+                    }
+                    .focused($isKeyboardShowing)
+                    .onChange(of: text, initial: true) { _, _ in
+                        guard !config.allowsExcessTyping else { return }
+                        text = String(text.prefix(config.limit))
+                    }
+            } else {
+                if config.textfieldType == .multiLine {
+                    TextField(hint, text: $text, axis: .vertical)
+                        .if(config.textfieldLevel == TextFieldLevel.standard) { view in
+                            view.textFieldIndicator(text: $text, isLocked: isLocked, disableAnimation: disableAnimation, textfieldType: config.textfieldType, appStyles: appStyles)
+                            
+                        }
+                        .if(config.textfieldLevel == TextFieldLevel.sub) { view in
+                            view.subTextFieldIndicator(text: $text, isLocked: isLocked, disableAnimation: disableAnimation, textfieldType: config.textfieldType, appStyles: appStyles)
+                        }
+                        .focused($isKeyboardShowing)
+                        .onChange(of: text, initial: true) { _, _ in
+                            guard !config.allowsExcessTyping else { return }
+                            text = String(text.prefix(config.limit))
+                        }
                 }
-                .if(config.textfieldLevel == TextFieldLevel.sub) { view in
-                    view.subTextFieldIndicator(text: $text, isLocked: isLocked, disableAnimation: disableAnimation, textfieldType: config.textfieldType, appStyles: appStyles)
-                }
+            }
 
-                .focused($isKeyboardShowing)
-                .onChange(of: text, initial: true) { _, _ in
-                    guard !config.allowsExcessTyping else { return }
-                    text = String(text.prefix(config.limit))
-                }
+                
 
 //            //progress bar - text indicator
             HStack(alignment: .top, spacing: 0) {
