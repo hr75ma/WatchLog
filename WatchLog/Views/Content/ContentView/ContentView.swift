@@ -66,7 +66,7 @@ struct ContentView: View {
     @State var newEntry: WatchLogEntry = WatchLogEntry()
 
     @State var logBook = WatchLogBook()
-    
+
     @State var expandContainer: ExpandContainer = ExpandContainer()
 
     let newLogEntryTip = NavigationTipNewLogEntry()
@@ -86,7 +86,6 @@ struct ContentView: View {
             }
 
             List(viewModel.WatchLogBooks, id: \.id) { book in
-
                 buildLogBookNavigationTree(book: book)
             }
             .listStyleGeneral()
@@ -175,9 +174,9 @@ struct DisclosureGroupYearView: View {
     @State var year: WatchLogBookYear
     @Binding var logEntryUUIDContainer: LogEntryUUIDContainer
     @Binding var expandContainer: ExpandContainer
-    
+
     @State var isExpanded: Bool = false
-    
+
     @Environment(\.appStyles) var appStyles
     @EnvironmentObject var viewModel: LogEntryViewModel
     @Environment(DisplayedLogEntryID.self) var displayedLogEntryUUID
@@ -196,15 +195,12 @@ struct DisclosureGroupYearView: View {
             })
         }
         .disclosureGroupStyleYearModifier()
-        .onChange(of: expandContainer.entryID)
-        {
+        .onChange(of: expandContainer.entryID) {
             withAnimation(.smooth) {
                 isExpanded = year.id == expandContainer.yearID
             }
-            
         }
-        .task
-        {
+        .task {
             withAnimation(.smooth) {
                 isExpanded = year.id == expandContainer.yearID
             }
@@ -216,11 +212,11 @@ struct DisclosureGroupMonthView: View {
     @State var month: WatchLogBookMonth
     @Binding var logEntryUUIDContainer: LogEntryUUIDContainer
     @Binding var expandContainer: ExpandContainer
-    
+
     @Environment(\.appStyles) var appStyles
     @EnvironmentObject var viewModel: LogEntryViewModel
     @Environment(DisplayedLogEntryID.self) var displayedLogEntryUUID
-    
+
     @State var isExpanded: Bool = false
 
     var body: some View {
@@ -237,14 +233,12 @@ struct DisclosureGroupMonthView: View {
             })
         }
         .disclosureGroupStyleMonth(appStyles)
-        .onChange(of: expandContainer.entryID)
-        {
+        .onChange(of: expandContainer.entryID) {
             withAnimation(.smooth) {
                 isExpanded = month.id == expandContainer.monthID
             }
         }
-        .task
-        {
+        .task {
             withAnimation(.smooth) {
                 isExpanded = month.id == expandContainer.monthID
             }
@@ -256,12 +250,12 @@ struct DisclosureGroupLogEntriesView: View {
     @State var day: WatchLogBookDay
     @Binding var logEntryUUIDContainer: LogEntryUUIDContainer
     @Binding var expandContainer: ExpandContainer
-    
+
     @EnvironmentObject var viewModel: LogEntryViewModel
     @Environment(\.appStyles) var appStyles
     @Environment(DisplayedLogEntryID.self) var displayedLogEntryUUID
     @Environment(\.colorScheme) var colorScheme
-    
+
     @State var isExpanded: Bool = false
 
     var body: some View {
@@ -303,21 +297,18 @@ struct DisclosureGroupLogEntriesView: View {
             })
         }
         .disclosureGroupStyleDay(appStyles)
-        .onChange(of: expandContainer.entryID)
-        {
+        .onChange(of: expandContainer.entryID) {
             withAnimation(.smooth) {
                 isExpanded = day.id == expandContainer.dayID
             }
         }
-        .task
-        {
+        .task {
             withAnimation(.smooth) {
                 isExpanded = day.id == expandContainer.dayID
             }
         }
     }
 }
-
 
 extension ContentView {
     fileprivate var toolBarItemNewButton: some View {
@@ -340,7 +331,7 @@ extension ContentView {
 
     fileprivate func buildLogBookNavigationTree(book: WatchLogBook) -> some View {
         ForEach(book.logYearsSorted) { year in
-            DisclosureGroupYearView(year: year, logEntryUUIDContainer: $logEntryUUIDContainer,expandContainer: $expandContainer)
+            DisclosureGroupYearView(year: year, logEntryUUIDContainer: $logEntryUUIDContainer, expandContainer: $expandContainer)
         }
         .onDelete(perform: {
             indexSet in

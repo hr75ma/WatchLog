@@ -18,6 +18,8 @@ struct LogBookEntryEditWrapperView: View {
     @Environment(\.dismiss) var dismiss
 
     @State var alertDelete = false
+    @State var hapticTrigger: Bool = false
+    
     let viewIsReadOnly: Bool = false
 
     var body: some View {
@@ -68,6 +70,7 @@ extension LogBookEntryEditWrapperView {
                 Button {
                     watchLogEntry.remoteSignalContainer.signale = .save
                     blurSetting.isBlur = false
+                    hapticTrigger.toggle()
                 } label: {
                     NavigationMenuLabelView(menuItemType: MenuType.save)
                 }
