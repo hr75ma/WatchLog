@@ -11,26 +11,23 @@ struct LimitedIndicatorTextField: View {
     // Configuration
     var config: Config
     var hint: String
-    
+
     @Binding var text: String
     let isLocked: Bool
     let disableAnimation: Bool
 
     @Environment(\.appStyles) var appStyles
-//    @Environment(\.focus) var focusFromEnvironment
-//    @FocusState var focus: FocusedTextfield?
 
     // view properties
     @FocusState private var isKeyboardShowing: Bool
     var body: some View {
         // VStack(alignment: config.progressConfig.alignment, spacing: 12) {
         ZStack(alignment: .trailing) {
-            //TextField(hint, text: $text, axis: .vertical)
+            // TextField(hint, text: $text, axis: .vertical)
             if config.textfieldType == .singleLine {
                 TextField(hint, text: $text)
                     .if(config.textfieldLevel == TextFieldLevel.standard) { view in
                         view.textFieldIndicator(text: $text, isLocked: isLocked, disableAnimation: disableAnimation, textfieldType: config.textfieldType, appStyles: appStyles)
-                        
                     }
                     .if(config.textfieldLevel == TextFieldLevel.sub) { view in
                         view.subTextFieldIndicator(text: $text, isLocked: isLocked, disableAnimation: disableAnimation, textfieldType: config.textfieldType, appStyles: appStyles)
@@ -45,20 +42,22 @@ struct LimitedIndicatorTextField: View {
                     TextField(hint, text: $text, axis: .vertical)
                         .if(config.textfieldLevel == TextFieldLevel.standard) { view in
                             view.textFieldIndicator(text: $text, isLocked: isLocked, disableAnimation: disableAnimation, textfieldType: config.textfieldType, appStyles: appStyles)
-                            
                         }
                         .if(config.textfieldLevel == TextFieldLevel.sub) { view in
                             view.subTextFieldIndicator(text: $text, isLocked: isLocked, disableAnimation: disableAnimation, textfieldType: config.textfieldType, appStyles: appStyles)
                         }
                         .focused($isKeyboardShowing)
-                        .onChange(of: text, initial: true) { _, _ in
+                        .onChange(of: text, initial: true) { _, newValue in
                             guard !config.allowsExcessTyping else { return }
+                            guard let newValueLastChar = newValue.last else { return }
+                            if newValueLastChar == "\n" {
+                                print("submit")
+                                isKeyboardShowing = false
+                            }
                             text = String(text.prefix(config.limit))
                         }
                 }
             }
-
-                
 
 //            //progress bar - text indicator
             HStack(alignment: .top, spacing: 0) {
