@@ -102,6 +102,11 @@ struct ScrollViewDispatcher: View {
                         let logBookDay = await viewModel.fetchLogBookDay(from: .now)
                         if logBookDay != nil && !logBookDay!.watchLogBookEntries!.isEmpty {
                             logEntryUUIDContainer = .init(logEntryUUID: logBookDay!.logEntriesSorted.last!.id, logBookDay: logBookDay!)
+                            expandContainer = .init()
+                            expandContainer.entryID = logBookDay!.logEntriesSorted.last!.id
+                            expandContainer.dayID = logBookDay!.id
+                            expandContainer.monthID = logBookDay!.watchLogBookMonth!.id
+                            expandContainer.yearID = logBookDay!.watchLogBookMonth!.watchLogBookYear!.id
                         }
                     }
                     scrollPos = logEntryUUIDContainer.logEntryUUID
