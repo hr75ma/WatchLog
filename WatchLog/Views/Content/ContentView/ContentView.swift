@@ -205,7 +205,7 @@ struct ContentView: View {
     }
 }
 
-struct DisclorsureGroupYearView: View {
+struct DisclosureGroupYearView: View {
     @State var year: WatchLogBookYear
     @Binding var logEntryUUIDContainer: LogEntryUUIDContainer
     @Binding var expandContainer: ExpandContainer
@@ -219,7 +219,7 @@ struct DisclorsureGroupYearView: View {
     var body: some View {
         DisclosureGroup(DateManipulation.getYear(from: year.logDate), isExpanded: $isExpanded) {
             ForEach(year.logMonthSorted) { month in
-                DisclorsureGroupMonthView(month: month, logEntryUUIDContainer: $logEntryUUIDContainer, expandContainer: $expandContainer)
+                DisclosureGroupMonthView(month: month, logEntryUUIDContainer: $logEntryUUIDContainer, expandContainer: $expandContainer)
             }
             .onDelete(perform: { indexSet in
                 indexSet.sorted(by: >).forEach { i in
@@ -275,7 +275,7 @@ struct DisclorsureGroupYearView: View {
     }
 }
 
-struct DisclorsureGroupMonthView: View {
+struct DisclosureGroupMonthView: View {
     @State var month: WatchLogBookMonth
     @Binding var logEntryUUIDContainer: LogEntryUUIDContainer
     @Binding var expandContainer: ExpandContainer
@@ -431,7 +431,7 @@ extension ContentView {
 
     fileprivate func buildLogBookNavigationTree(book: WatchLogBook) -> some View {
         ForEach(book.logYearsSorted) { year in
-            DisclorsureGroupYearView(year: year, logEntryUUIDContainer: $logEntryUUIDContainer,expandContainer: $expandContainer)
+            DisclosureGroupYearView(year: year, logEntryUUIDContainer: $logEntryUUIDContainer,expandContainer: $expandContainer)
         }
         .onDelete(perform: {
             indexSet in
