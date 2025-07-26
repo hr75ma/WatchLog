@@ -56,13 +56,8 @@ struct ContentView: View {
     @State var showNewEntrySheet: Bool = false
     @State var showToolbarItem: Bool = true
 
-    @State var scale = 0.0
-
-    @State var dayOfLog: UUID = UUID()
-
+    
     @State var logEntryUUIDContainer: LogEntryUUIDContainer = LogEntryUUIDContainer()
-    // @State var newEntryUUID: UUID = UUID()
-
     @State var newEntry: WatchLogEntry = WatchLogEntry()
 
     @State var logBook = WatchLogBook()
@@ -92,6 +87,7 @@ struct ContentView: View {
             // .safeAreaInsetForToolbar()
             .listStyle(.sidebar)
             .scrollContentBackground(.hidden)
+            .background(.watchLogViewGeneralBackground)
             .toolbar {
                 if showToolbarItem {
                     ToolbarItemGroup(placement: .topBarTrailing) {
@@ -112,10 +108,10 @@ struct ContentView: View {
             })
 
             .fullScreenCover(isPresented: $showNewEntrySheet) {
-                NavigationStack {
-                    LogBookEntryEditWrapperView(watchLogEntry: newEntry, expandContainer: $expandContainer)
-                        .transition(.move(edge: .bottom))
-                }
+                    NavigationStack {
+                        LogBookEntryEditWrapperView(watchLogEntry: newEntry, expandContainer: $expandContainer)
+                    }
+                    .fullScreenCoverModifier()
             }
             .sheet(isPresented: $showSettingSheet) {
                 SettingView()

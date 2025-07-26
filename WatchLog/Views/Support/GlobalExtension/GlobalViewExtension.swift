@@ -26,6 +26,27 @@ extension View {
 }
 
 
+struct FullScreenCoverModifier: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .presentationBackground(.watchLogViewGeneralBackground)
+            .transition(.move(edge: .bottom))
+    }
+}
+
+extension View {
+
+
+    func fullScreenCoverModifier() -> some View {
+        modifier(FullScreenCoverModifier())
+    }
+}
+
+
+
+
+
 extension View {
     // .if Condition
     // - Parameters:

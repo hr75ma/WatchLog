@@ -54,6 +54,7 @@ struct ScrollViewDispatcher: View {
                             .padding(0)
                         Spacer()
                     }
+                    
                     .containerRelativeFrame(.horizontal, count: 1, spacing: 0)
                 } else {
 
@@ -80,6 +81,7 @@ struct ScrollViewDispatcher: View {
                         .id(refreshID)
                 }
             }
+            .background(.watchLogViewGeneralBackground)
             
         }
         .scrollTargetLayout()
@@ -174,6 +176,7 @@ struct ScrollViewDispatcher: View {
             NavigationStack {
                 LogBookEntryEditWrapperView(watchLogEntry: watchLogEntry, expandContainer: $expandContainer)
             }
+            .fullScreenCoverModifier()
         }
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {

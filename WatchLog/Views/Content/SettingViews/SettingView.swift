@@ -24,7 +24,7 @@ struct SettingView: View {
                 .foregroundStyle(.watchLogFont)
                 .contentTransition(.numericText())
 
-            Text("Version 1.1 (Beta)")
+            Text("Version 1.2 (Beta)")
                 .font(.title)
                 .foregroundStyle(.watchLogFont)
                 .contentTransition(.numericText())
