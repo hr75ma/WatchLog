@@ -61,6 +61,7 @@ struct LogBookEntryView: View {
                         logEntry: watchLogEntry, drawing: $watchLogEntry.pkDrawingData,
                         toolPickerShows: $toolPickerShows, viewIsReadOnly: viewIsReadOnly
                     )
+                    Spacer()
                 }
 
                 .standardViewBackground()

@@ -71,8 +71,9 @@ struct ScrollViewDispatcher: View {
                                 .containerRelativeFrame(.horizontal, count: 1, spacing: 0)
                                 .scrollTransition { content, phase in
                                     content
-                                        //.opacity(phase.isIdentity ? 1.0 : 0.2)
-                                        .scaleEffect(x: 1, y: phase.isIdentity ? 1.0 : 0.9)
+                                        .opacity(phase.isIdentity ? 1.0 : 0.2)
+                                        //.scaleEffect(x: 1, y: phase.isIdentity ? 1.0 : 0.9)
+                                        .offset(y: phase.isIdentity ? 0 : 40)
                                         
                                 }
                         }
