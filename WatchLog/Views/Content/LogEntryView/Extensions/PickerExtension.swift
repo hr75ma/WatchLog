@@ -61,7 +61,7 @@ private struct DatePickerModifier: ViewModifier {
         content
             .labelsHidden() // Hides the default label
             .colorMultiply(.watchLogFont)
-            .background(.watchLogViewBackground)
+            .background(.watchLogViewPickerBackground)
             .font(.largeTitle)
             .fontWeight(.semibold)
             .fontWidth(.standard)

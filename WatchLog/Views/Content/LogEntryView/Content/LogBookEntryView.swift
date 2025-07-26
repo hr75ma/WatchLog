@@ -61,19 +61,22 @@ struct LogBookEntryView: View {
                         logEntry: watchLogEntry, drawing: $watchLogEntry.pkDrawingData,
                         toolPickerShows: $toolPickerShows, viewIsReadOnly: viewIsReadOnly
                     )
+                    Spacer()
                 }
-
                 .standardViewBackground()
                 .frame(
                     maxWidth: .infinity,
                     maxHeight: .infinity,
                     alignment: .topLeading
                 )
-                .cornerRadius(appStyles.standardCornerRadius)
+                .clipShape(.rect(cornerRadius: appStyles.standardCornerRadius))
                 .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
             }
             .standardLogEntryViewPadding()
         }
+        .scrollIndicators(.never)
+        .background(.clear)
+        //.scrollDismissesKeyboard(.immediately)
         .task {
             glowingColorSet = getGlowColorSet(logEntry: watchLogEntry)
         }
@@ -234,20 +237,20 @@ struct IsVisible: ViewModifier {
     }
 }
 
-// #Preview {
-//    // @Previewable @State var existingLogBookEntry = WatchLogBookEntry()
-//    @Previewable @State var existingLogBookEntry = UUID()
-//    @Previewable @State var isEditing = true
-//    @Previewable @State var watchLogEntry: WatchLogEntry = WatchLogEntry()
-//
-//    let databaseService = DatabaseService()
-//    let viewModel = LogEntryViewModel(dataBaseService: databaseService)
-//
-//    LogBookEntryView(logBookEntryUUID: $existingLogBookEntry, isEditing: $isEditing, watchLogEntry: $watchLogEntry)
-//        .environmentObject(viewModel)
-//        .environment(BlurSetting())
-//        .environment(\.appStyles, StylesLogEntry.shared)
-//        // .environment(\.displayedLogEntryUUID, DisplayedLogEntryID())
-//        .environment(DisplayedLogEntryID())
-//        .environmentObject(AppSettings.shared)
-// }
+ #Preview {
+    // @Previewable @State var existingLogBookEntry = WatchLogBookEntry()
+    @Previewable @State var existingLogBookEntry = UUID()
+    @Previewable @State var viewIsReadOnly = true
+    @Previewable @State var watchLogEntry: WatchLogEntry = WatchLogEntry()
+
+    let databaseService = DatabaseService()
+    let viewModel = LogEntryViewModel(dataBaseService: databaseService)
+
+     LogBookEntryView(watchLogEntry: $watchLogEntry, viewIsReadOnly: viewIsReadOnly)
+        .environmentObject(viewModel)
+        .environment(BlurSetting())
+        .environment(\.appStyles, StylesLogEntry.shared)
+        // .environment(\.displayedLogEntryUUID, DisplayedLogEntryID())
+        .environment(DisplayedLogEntryID())
+        .environmentObject(AppSettings.shared)
+ }

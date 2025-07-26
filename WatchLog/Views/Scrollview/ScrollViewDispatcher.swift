@@ -54,6 +54,7 @@ struct ScrollViewDispatcher: View {
                             .padding(0)
                         Spacer()
                     }
+                    
                     .containerRelativeFrame(.horizontal, count: 1, spacing: 0)
                 } else {
 
@@ -72,12 +73,15 @@ struct ScrollViewDispatcher: View {
                                 .scrollTransition { content, phase in
                                     content
                                         .opacity(phase.isIdentity ? 1.0 : 0.2)
-                                        .scaleEffect(x: 1, y: phase.isIdentity ? 1.0 : 0.9)
+                                        //.scaleEffect(x: 1, y: phase.isIdentity ? 1.0 : 0.9)
+                                        .offset(y: phase.isIdentity ? 0 : 40)
+                                        
                                 }
                         }
                         .id(refreshID)
                 }
             }
+            .background(.watchLogViewGeneralBackground)
             
         }
         .scrollTargetLayout()
@@ -172,6 +176,7 @@ struct ScrollViewDispatcher: View {
             NavigationStack {
                 LogBookEntryEditWrapperView(watchLogEntry: watchLogEntry, expandContainer: $expandContainer)
             }
+            .fullScreenCoverModifier()
         }
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {

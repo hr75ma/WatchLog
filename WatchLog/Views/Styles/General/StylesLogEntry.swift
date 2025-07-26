@@ -55,15 +55,15 @@ final class StylesLogEntry: Sendable {
     let navigationSettingImage: String = "gear"
     let navigationMenuImage: String = "ellipsis.circle"
     let navigationBackImage: String = "arrowshape.turn.up.backward.circle"
-    let navigationItemImageSize: CGFloat = 28
+    let navigationItemImageSize: CGFloat = 25
     
     
     
     //let navigationTreeItemAnimationDuration: Double = 0.5
     let navigationRowAnimationDuration: Double = 0.5
 
-    let navigationTitleFont: String = "digital-7"
-    let navigationTitleFontSize: CGFloat = 28
+    //let navigationTitleFont: String = "digital-7"
+    let navigationTitleFontSize: CGFloat = 25
 
     
     let navigationRowGradientOpacityStart: Double = 0.5

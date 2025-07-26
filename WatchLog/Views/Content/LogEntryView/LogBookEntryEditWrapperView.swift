@@ -18,12 +18,16 @@ struct LogBookEntryEditWrapperView: View {
     @Environment(\.dismiss) var dismiss
 
     @State var alertDelete = false
+    @State var hapticTrigger: Bool = false
+    
     let viewIsReadOnly: Bool = false
 
     var body: some View {
         HStack {
             LogBookEntryView(watchLogEntry: $watchLogEntry, viewIsReadOnly: viewIsReadOnly)
         }
+        .background(.clear)
+        .safeAreaInsetForToolbar()
         .onDisappear() {
             Task {
                 let testEntry = await viewModel.fetchLogBookEntry(logEntryID: watchLogEntry.id)
@@ -35,7 +39,6 @@ struct LogBookEntryEditWrapperView: View {
             
             
         }
-        .safeAreaInsetForToolbar()
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
                 Button {
@@ -68,6 +71,7 @@ extension LogBookEntryEditWrapperView {
                 Button {
                     watchLogEntry.remoteSignalContainer.signale = .save
                     blurSetting.isBlur = false
+                    hapticTrigger.toggle()
                 } label: {
                     NavigationMenuLabelView(menuItemType: MenuType.save)
                 }
@@ -106,20 +110,19 @@ extension LogBookEntryEditWrapperView {
     }
 }
 
-// #Preview {
-//    // @Previewable @State var existingLogBookEntry = WatchLogBookEntry()
-//    @Previewable @State var existingLogBookEntry = UUID()
-//    @Previewable @State var isEditing = true
-//    @Previewable @State var watchLogEntry: WatchLogEntry = WatchLogEntry()
-//
-//    let databaseService = DatabaseService()
-//    let viewModel = LogEntryViewModel(dataBaseService: databaseService)
-//
-//    LogBookEntryWrapperView(logBookEntryUUID: $existingLogBookEntry, isEditing: $isEditing, watchLogEntry: $watchLogEntry)
-//        .environmentObject(viewModel)
-//        .environment(BlurSetting())
-//        .environment(\.appStyles, StylesLogEntry.shared)
-//        // .environment(\.displayedLogEntryUUID, DisplayedLogEntryID())
-//        .environment(DisplayedLogEntryID())
-//        .environmentObject(AppSettings.shared)
-// }
+ #Preview {
+    // @Previewable @State var existingLogBookEntry = WatchLogBookEntry()
+    @Previewable @State var existingLogBookEntry = UUID()
+    @Previewable @State var expandContainer: ExpandContainer = ExpandContainer()
+    @Previewable @State var watchLogEntry: WatchLogEntry = WatchLogEntry()
+
+    let databaseService = DatabaseService()
+    let viewModel = LogEntryViewModel(dataBaseService: databaseService)
+
+     LogBookEntryEditWrapperView(watchLogEntry: watchLogEntry, expandContainer: $expandContainer)
+         .environmentObject(viewModel)
+         .environment(BlurSetting())
+         .environment(\.appStyles, StylesLogEntry.shared)
+         .environment(DisplayedLogEntryID())
+         .environmentObject(AppSettings.shared)
+ }

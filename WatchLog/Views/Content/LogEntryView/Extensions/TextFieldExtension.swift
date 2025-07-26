@@ -147,7 +147,7 @@ struct TextFieldIndicator: ViewModifier {
             }
             .if(textfieldType == TextFieldType.multiLine) { view in
                 view.lineLimit(4, reservesSpace: true)
-                    .fixedSize(horizontal: false, vertical: false)
+                    .fixedSize(horizontal: false, vertical: true)
             }
             .foregroundStyle(.watchLogFont)
             .background(

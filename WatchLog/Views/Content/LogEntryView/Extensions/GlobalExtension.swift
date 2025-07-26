@@ -88,7 +88,7 @@ struct StandardBottomBorder: ViewModifier {
                     .foregroundColor(.watchLogFrameBorder), // Border color
                 alignment: .bottom
             )
-            .cornerRadius(10)
+            .clipShape(.rect(cornerRadius: 10))
             .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
     }
 }
@@ -98,7 +98,7 @@ struct CanvasBorder: ViewModifier {
     @Environment(\.appStyles) var appStyles
     func body(content: Content) -> some View {
         content
-            .cornerRadius(20)
+            .clipShape(.rect(cornerRadius: 20))
             .overlay(
                 RoundedRectangle(cornerRadius: 20, style: .continuous)
                     .stroke(
