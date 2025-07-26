@@ -22,9 +22,9 @@ struct toggleStyleLockImage: ToggleStyle {
             .scaledToFit()
             .foregroundStyle(
                 configuration.isOn
-                    ? .watchLogIsLockedImagePrimary : .watchLogIsUnLockedImagePrimaryBlue,
+                    ? .watchLogIsLockedImagePrimary : .watchLogIsUnLockedImagePrimary,
                 configuration.isOn
-                    ? .watchLogIsLockedImageSecondary : .watchLogIsUnLockedImageSecondaryBlue
+                    ? .watchLogIsLockedImageSecondary : .watchLogIsUnLockedImageSecondary
             )
 
             .symbolEffectsRemoved(removeAnimation)
