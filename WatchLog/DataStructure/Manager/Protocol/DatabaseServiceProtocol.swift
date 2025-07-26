@@ -14,7 +14,10 @@ import SwiftUI
 protocol DatabaseServiceProtocol {
     func existsWatchLogBookEntry(logEntryID: UUID) async -> Result<Bool, Error>
 
-    func instanciateLogBook() async -> Result<Void, Error>
+    func instanciateLogBook() async -> Result<Bool, Error>
+    
+    //nur fürs testen
+    func deleteLogBook() async -> Void
 
     func fetchLogBookEntry(logEntryID: UUID) async -> Result<WatchLogBookEntry?, Error>
 

@@ -14,6 +14,7 @@ enum ColorMode: Sendable, CaseIterable, Codable {
 
 struct SettingView: View {
     @Environment(\.appStyles) var appStyles
+    @EnvironmentObject var viewModel: LogEntryViewModel
 
     @AppStorage("currentAppearance") private var appearanceSelection: AppSetting.Appearance = .dark
 
@@ -46,6 +47,16 @@ struct SettingView: View {
             }
             .pickerStyle(SegmentedPickerStyle())
             .frame(width: 400, height: 30)
+            .padding(EdgeInsets(top: 0, leading: 0, bottom:50, trailing: 0))
+            Button {
+                Task {
+                    await viewModel.deleteLogBook()
+                }
+            } label: {
+                Text("Datenbank löschen")
+                    .font(.title3)
+                    .foregroundStyle(.watchLogFont)
+            }
         }
         .appearanceUpdate()
     }

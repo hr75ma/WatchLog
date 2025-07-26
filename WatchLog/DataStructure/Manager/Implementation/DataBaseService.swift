@@ -35,14 +35,18 @@ class DatabaseService: DatabaseServiceProtocol {
         }
     }
 
-    func instanciateLogBook() async -> Result<Void, Error> {
+    func instanciateLogBook() async -> Result<Bool, Error> {
         let logBookResult = dataSource.instanciateLogBook()
         switch logBookResult {
-        case .success:
-            return .success(())
+        case let .success(isNewLogBook):
+            return .success(isNewLogBook)
         case let .failure(error):
             return .failure(error)
         }
+    }
+    
+    func deleteLogBook() async -> Void {
+        let logBookResult = dataSource.deleteLogBook()
     }
 
     

@@ -19,9 +19,9 @@ final class DataBaseManager {
     private init() {
         do {
             // preview
-            let config = ModelConfiguration(isStoredInMemoryOnly: true)
+            let config = ModelConfiguration(isStoredInMemoryOnly: false)
             
-            modelContainer = try ModelContainer(for: WatchLogBook.self, WatchLogBookYear.self, WatchLogBookMonth.self, WatchLogBookDay.self, WatchLogBookEntry.self, configurations: config)
+            modelContainer = try ModelContainer(for: WatchLogBook.self, WatchLogBookYear.self, WatchLogBookMonth.self, WatchLogBookDay.self, WatchLogBookEntry.self, WatchLogBookProcessTypeDetails.self, configurations: config)
             
             // self.modelContainer = try ModelContainer(for: WatchLogBook.self)
             modelContext = modelContainer.mainContext
@@ -68,7 +68,7 @@ final class DataBaseManager {
         }
     }
 
-    func instanciateLogBook() -> Result<WatchLogBook, Error> {
+    func instanciateLogBook() -> Result<Bool, Error> {
         var logWatchBook: WatchLogBook?
         let fetchLogBookDiscriptor = FetchDescriptor<WatchLogBook>()
 
@@ -82,8 +82,26 @@ final class DataBaseManager {
             logWatchBook = WatchLogBook()
             modelContext.insert(logWatchBook!)
             try? modelContext.save()
+            return .success(true)
         }
-        return .success(logWatchBook!)
+        return .success(false)
+    }
+    
+    
+    func deleteLogBook() -> Void {
+        var logWatchBook: WatchLogBook?
+        let fetchLogBookDiscriptor = FetchDescriptor<WatchLogBook>()
+
+        do {
+            logWatchBook = try modelContext.fetch(fetchLogBookDiscriptor).first
+        } catch {
+            print("fetch WatchLogBook failed")
+        }
+
+        if logWatchBook != nil {
+            modelContext.delete(logWatchBook!)
+            try? modelContext.save()
+        }
     }
 
     // fehler abfragen einbauen

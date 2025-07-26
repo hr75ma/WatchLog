@@ -27,7 +27,10 @@ protocol LogEntryViewModelProtocol {
     
     func calculateShownAndDeleteLogEntry(logEntryID: UUID, logDayID: UUID) async -> LogEntryUUIDContainer
     
-    func instanciateLogBook() async -> Void
+    func instanciateLogBook() async -> Bool
+    
+    //nur fürs testen
+    func deleteLogBook() async -> Void
     
     func isDeletedEntryInDisplayedDay(logEntryID: UUID, logDayID: UUID) async -> Bool
     func isLogBookEntryExisting(logEntryID uuid: UUID) async -> Bool
