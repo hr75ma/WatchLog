@@ -78,7 +78,7 @@ extension CallerDataView {
 
     private var dobSubSection: some View {
         VStack(alignment: .leading, spacing: 0) {
-            Text("DOB")
+            Text("Geburtstag")
                 .textLabel(textLabelLevel: TextLabelLevel.standard)
 
             HStack(alignment: .top, spacing: 0) {

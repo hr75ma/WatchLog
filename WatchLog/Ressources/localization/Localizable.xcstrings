@@ -144,16 +144,6 @@
         }
       }
     },
-    "DOB" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "DOB"
-          }
-        }
-      }
-    },
     "Einbruch" : {
       "localizations" : {
         "en" : {
@@ -285,6 +275,16 @@
         }
       }
     },
+    "Geburtstag" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Birthday"
+          }
+        }
+      }
+    },
     "Gefahrenstelle" : {
       "localizations" : {
         "en" : {
@@ -336,6 +336,7 @@
       }
     },
     "Kennzeichen" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
