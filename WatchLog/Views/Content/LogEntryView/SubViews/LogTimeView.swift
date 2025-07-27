@@ -12,6 +12,7 @@ struct LogTimeView: View {
     let viewIsReadOnly: Bool
     @State var time: Date = .now
     @Environment(\.appStyles) var appStyles
+        
 
     let locale = Locale.current
 
@@ -25,13 +26,14 @@ struct LogTimeView: View {
 extension LogTimeView {
     private var logTimeSection: some View {
         HStack(alignment: .center) {
+            Text(Locale.current.identifier)
             Text(logTime.formatted(.dateTime.locale(Locale.current).weekday(.wide)))
                 .logTimeStyleAndAnimation()
             Spacer()
-            Text(logTime.formatted(.dateTime.day(.twoDigits).month(.twoDigits).year()))
+            Text(logTime.formatted(.dateTime.locale(Locale.current).day(.twoDigits).month(.twoDigits).year()))
                 .logTimeStyleAndAnimation()
             Spacer()
-            Text(logTime.formatted(.dateTime.hour().minute().second()))
+            Text(logTime.formatted(.dateTime.locale(Locale.current).hour().minute().second()))
                 .logTimeStyleAndAnimation()
         }
     }

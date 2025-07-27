@@ -9,10 +9,10 @@ import Foundation
 import SwiftUI
 
 struct customSegmentedPickerView: View {
-    @Binding var preselectedIndex: CallInType.CallInTypeShort
+    @Binding var preselectedIndex: InComingCallType
     let appStyles: StylesLogEntry
 
-    init(preselectedIndex: Binding<CallInType.CallInTypeShort>, appStyles: StylesLogEntry) {
+    init(preselectedIndex: Binding<InComingCallType>, appStyles: StylesLogEntry) {
         _preselectedIndex = preselectedIndex
         self.appStyles = appStyles
 
@@ -25,19 +25,18 @@ struct customSegmentedPickerView: View {
 
         UISegmentedControl.appearance().setContentHuggingPriority(.defaultLow, for: .vertical)
     }
+    
+    var sortedIncommingCalls: [InComingCallType] {
+        InComingCallType.allCases.sorted { lhs, rhs in
+            NSLocalizedString(lhs.rawValue, comment: "") < NSLocalizedString(rhs.rawValue, comment: "")
+        }
+    }
 
     var body: some View {
         Picker("", selection: $preselectedIndex) {
-            ForEach(
-                Array(
-                    CallInType.callInTypes.sorted { first, second -> Bool in
-                        first.value < second.value
-                    }), id: \.key
-            ) { _, value in
-
-                // callInItem(value: value, key: key, isLocked: false, isSelected: true).tag(key)
-                Text(value)
-                    // .fixedSize(horizontal: true, vertical: true)
+            ForEach(sortedIncommingCalls, id:\.self) { callIn in
+             
+                Text(callIn.localized)
                     .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
             }
         }

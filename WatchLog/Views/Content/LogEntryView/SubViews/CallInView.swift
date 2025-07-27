@@ -14,8 +14,7 @@ struct CallInView: View {
     @Environment(\.appStyles) var appStyles
 
     //@State private var selectedCallIn: CallInType.CallInTypeShort = CallInType.CallInTypeShort.EMERGENCY
-    @State private var selectedCallInHelper: CallInType.CallInTypeShort = CallInType.CallInTypeShort
-        .EMERGENCY
+    @State private var selectedCallInHelper: InComingCallType = InComingCallType.emergency
     @State private var tempLocked: Bool = false
     @Namespace private var namespace
 
@@ -77,7 +76,7 @@ extension CallInView {
 
     private func ReadOnlyContent() -> some View {
         HStack(alignment: .center, spacing: 0) {
-            Text(CallInType.callInTypes[logEntry.callIn]!)
+            Text(logEntry.callIn.localized)
                 .sectionSimulatedTextFieldSingleLine(
                     isLocked: logEntry.isLocked
                 )
@@ -88,7 +87,7 @@ extension CallInView {
     private func EditableContent() -> some View {
         HStack(alignment: .center, spacing: 0) {
             if tempLocked {
-                Text(CallInType.callInTypes[logEntry.callIn]!)
+                Text(logEntry.callIn.localized)
                     .sectionSimulatedTextFieldSingleLine(
                         isLocked: logEntry.isLocked
                     )

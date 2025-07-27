@@ -26,14 +26,17 @@ import TipKit
         .environment(\.appStyles, StylesLogEntry.shared)
         .environment(DisplayedLogEntryID())
         .environmentObject(AppSettings.shared)
-        .task {
-            // try? Tips.resetDatastore()
-            try? Tips.configure([
-                // .displayFrequency(.immediate)
-                .datastoreLocation(.applicationDefault),
-            ])
+        //.environment(\.locale, .init(identifier: "us_EN"))
+//.environment(\.locale, .init(identifier: "de"))
+        
+//        .task {
+//            // try? Tips.resetDatastore()
+//            try? Tips.configure([
+//                // .displayFrequency(.immediate)
+//                .datastoreLocation(.applicationDefault),
+//            ])
             // try? Tips.showAllTipsForTesting()
-        }
+        //}
 }
 
 struct ContentView: View {

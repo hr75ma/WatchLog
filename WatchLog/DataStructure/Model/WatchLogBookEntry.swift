@@ -26,7 +26,8 @@ class WatchLogBookEntry: Identifiable, Hashable {
     var callerAdress: String = ""
     var callerDOB: Date?
 
-    var callIn: CallInType.CallInTypeShort = CallInType.CallInTypeShort.EMERGENCY
+    
+    var callIn: InComingCallType = InComingCallType.emergency
 
     var isLocked: Bool = false
     var processTypeShort: ProcessType.ProcessTypeShort = ProcessType.ProcessTypeShort.UNKNOWN
@@ -96,7 +97,7 @@ class WatchLogBookEntry: Identifiable, Hashable {
         callerAdress = ""
         callerDOB = nil
 
-        callIn = .EMERGENCY
+        callIn = .emergency
 
         processTypeShort = ProcessType.ProcessTypeShort.UNKNOWN
 
@@ -118,7 +119,7 @@ class WatchLogBookEntry: Identifiable, Hashable {
         callerAdress = ""
         callerDOB = nil
 
-        callIn = .EMERGENCY
+        callIn = .emergency
 
 
         processTypeShort = ProcessType.ProcessTypeShort.UNKNOWN
@@ -141,7 +142,7 @@ class WatchLogBookEntry: Identifiable, Hashable {
         callerAdress = ""
         callerDOB = nil
 
-        callIn = .EMERGENCY
+        callIn = .emergency
 
         processTypeShort = ProcessType.ProcessTypeShort.UNKNOWN
 
