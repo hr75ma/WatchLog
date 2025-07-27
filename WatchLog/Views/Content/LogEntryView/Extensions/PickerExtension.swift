@@ -26,7 +26,7 @@ struct customSegmentedPickerView: View {
         UISegmentedControl.appearance().setContentHuggingPriority(.defaultLow, for: .vertical)
     }
     
-    var sortedIncommingCalls: [InComingCallType] {
+    var sortedIncomingCalls: [InComingCallType] {
         InComingCallType.allCases.sorted { lhs, rhs in
             NSLocalizedString(lhs.rawValue, comment: "") < NSLocalizedString(rhs.rawValue, comment: "")
         }
@@ -34,7 +34,7 @@ struct customSegmentedPickerView: View {
 
     var body: some View {
         Picker("", selection: $preselectedIndex) {
-            ForEach(sortedIncommingCalls, id:\.self) { callIn in
+            ForEach(sortedIncomingCalls, id:\.self) { callIn in
              
                 Text(callIn.localized)
                     .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
