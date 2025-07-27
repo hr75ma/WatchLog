@@ -237,20 +237,38 @@ struct IsVisible: ViewModifier {
     }
 }
 
- #Preview {
+ #Preview("Deutsch") {
     // @Previewable @State var existingLogBookEntry = WatchLogBookEntry()
     @Previewable @State var existingLogBookEntry = UUID()
-    @Previewable @State var viewIsReadOnly = true
+    @Previewable @State var viewIsReadOnly = false
     @Previewable @State var watchLogEntry: WatchLogEntry = WatchLogEntry()
 
     let databaseService = DatabaseService()
     let viewModel = LogEntryViewModel(dataBaseService: databaseService)
 
      LogBookEntryView(watchLogEntry: $watchLogEntry, viewIsReadOnly: viewIsReadOnly)
+         .environment(\.locale, .init(identifier: "de"))
         .environmentObject(viewModel)
         .environment(BlurSetting())
         .environment(\.appStyles, StylesLogEntry.shared)
-        // .environment(\.displayedLogEntryUUID, DisplayedLogEntryID())
         .environment(DisplayedLogEntryID())
         .environmentObject(AppSettings.shared)
  }
+
+#Preview("Englisch") {
+   // @Previewable @State var existingLogBookEntry = WatchLogBookEntry()
+   @Previewable @State var existingLogBookEntry = UUID()
+   @Previewable @State var viewIsReadOnly = true
+   @Previewable @State var watchLogEntry: WatchLogEntry = WatchLogEntry()
+
+   let databaseService = DatabaseService()
+   let viewModel = LogEntryViewModel(dataBaseService: databaseService)
+
+    LogBookEntryView(watchLogEntry: $watchLogEntry, viewIsReadOnly: viewIsReadOnly)
+        .environment(\.locale, .init(identifier: "en"))
+       .environmentObject(viewModel)
+       .environment(BlurSetting())
+       .environment(\.appStyles, StylesLogEntry.shared)
+       .environment(DisplayedLogEntryID())
+       .environmentObject(AppSettings.shared)
+}

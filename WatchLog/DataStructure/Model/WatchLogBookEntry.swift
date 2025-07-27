@@ -26,11 +26,11 @@ class WatchLogBookEntry: Identifiable, Hashable {
     var callerAdress: String = ""
     var callerDOB: Date?
 
-    var callIn: CallInType.CallInTypeShort = CallInType.CallInTypeShort.EMERGENCY
+    
+    var callIn: InComingCallType = InComingCallType.emergency
 
     var isLocked: Bool = false
-    var processTypeShort: ProcessType.ProcessTypeShort = ProcessType.ProcessTypeShort.UNKNOWN
-
+    
     private var drawingData: Data = Data()
     var drawing: PKDrawing {
         get {
@@ -96,9 +96,7 @@ class WatchLogBookEntry: Identifiable, Hashable {
         callerAdress = ""
         callerDOB = nil
 
-        callIn = .EMERGENCY
-
-        processTypeShort = ProcessType.ProcessTypeShort.UNKNOWN
+        callIn = .emergency
 
         isLocked = false
 
@@ -118,10 +116,7 @@ class WatchLogBookEntry: Identifiable, Hashable {
         callerAdress = ""
         callerDOB = nil
 
-        callIn = .EMERGENCY
-
-
-        processTypeShort = ProcessType.ProcessTypeShort.UNKNOWN
+        callIn = .emergency
 
         isLocked = false
 
@@ -141,9 +136,9 @@ class WatchLogBookEntry: Identifiable, Hashable {
         callerAdress = ""
         callerDOB = nil
 
-        callIn = .EMERGENCY
+        callIn = .emergency
 
-        processTypeShort = ProcessType.ProcessTypeShort.UNKNOWN
+        //processTypeShort = ProcessType.ProcessTypeShort.UNKNOWN
 
         isLocked = false
 

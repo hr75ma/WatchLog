@@ -17,7 +17,10 @@ enum DataBaseError: Error {
 
 protocol DataBaseManagerProtocol {
     
-    func instanciateLogBook() -> Result<WatchLogBook, Error>
+    func instanciateLogBook() -> Result<Bool, Error>
+    
+    //nur fürs testen
+    func deleteLogBook() -> Void
     
     func fetchLogBook() -> Result<[WatchLogBook], Error>
     func fetchYears() -> Result<[WatchLogBookYear], Error>

@@ -19,10 +19,14 @@ final class LogEntryViewModel: LogEntryViewModelProtocol, ObservableObject {
         databaseService = dataBaseService
 
         Task {
-            await self.instanciateLogBook()
+//            await self.instanciateLogBook()
+           let isNewLogBook = await self.instanciateLogBook()
+            if isNewLogBook {
+                generateLogBookEntry()
+            }
         }
 
-        generateLogBookEntry()
+        //generateLogBookEntry()
         //generateAutomaticMockDatas()
     }
 
@@ -163,15 +167,19 @@ final class LogEntryViewModel: LogEntryViewModelProtocol, ObservableObject {
         return nil
     }
 
-    func instanciateLogBook() async -> Void {
+    func instanciateLogBook() async -> Bool {
         let result = await databaseService.instanciateLogBook()
         switch result {
-        case .success():
-            errorMessage = ""
-
+        case let .success(isNewLogBook):
+            return isNewLogBook
         case let .failure(error):
             errorMessage = String(format: NSLocalizedString("error_instanciate_logBook", comment: "Displayed when build a instance of WatchLogBook fails"), error.localizedDescription)
         }
+        return false
+    }
+    
+    func deleteLogBook() async -> Void {
+        await databaseService.deleteLogBook()
     }
 
     func fetchLogBookEntry(logEntryID: UUID) async -> WatchLogBookEntry? {

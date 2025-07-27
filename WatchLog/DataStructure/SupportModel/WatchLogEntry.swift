@@ -24,7 +24,7 @@ class WatchLogEntry {
     var callerAdress: String = ""
     var callerDOB: Date?
 
-    var callIn = CallInType.CallInTypeShort.EMERGENCY
+    var callIn: InComingCallType = InComingCallType.emergency
 
     var processTypeDetails: WatchLogProcessTypeDetails = WatchLogProcessTypeDetails()
 
@@ -83,7 +83,7 @@ class WatchLogEntry {
         callerAdress = ""
         callerDOB = nil
 
-        callIn = .EMERGENCY
+        callIn = .emergency
 
         isLocked = false
         isNewEntryLog = false

@@ -8,11 +8,37 @@
 import Foundation
 import SwiftUI
 
+struct customProcessingTypePickerView: View {
+    @Binding var preselectedIndex: ProcessingType
+    let appStyles: StylesLogEntry
+    
+    var sortedProcessingTypes: [ProcessingType] {
+        ProcessingType.allCases.sorted { lhs, rhs in
+            NSLocalizedString(lhs.rawValue, comment: "") < NSLocalizedString(rhs.rawValue, comment: "")
+        }
+    }
+
+    var body: some View {
+        Picker("", selection: $preselectedIndex) {
+            ForEach(sortedProcessingTypes, id:\.self) { processType in
+             
+                Text(processType.localized)
+                .pickerTextModifier()
+            }
+        }
+        .processPickerWheelStyle()
+    }
+}
+
+
+
+
+
 struct customSegmentedPickerView: View {
-    @Binding var preselectedIndex: CallInType.CallInTypeShort
+    @Binding var preselectedIndex: InComingCallType
     let appStyles: StylesLogEntry
 
-    init(preselectedIndex: Binding<CallInType.CallInTypeShort>, appStyles: StylesLogEntry) {
+    init(preselectedIndex: Binding<InComingCallType>, appStyles: StylesLogEntry) {
         _preselectedIndex = preselectedIndex
         self.appStyles = appStyles
 
@@ -25,19 +51,18 @@ struct customSegmentedPickerView: View {
 
         UISegmentedControl.appearance().setContentHuggingPriority(.defaultLow, for: .vertical)
     }
+    
+    var sortedIncomingCalls: [InComingCallType] {
+        InComingCallType.allCases.sorted { lhs, rhs in
+            NSLocalizedString(lhs.rawValue, comment: "") < NSLocalizedString(rhs.rawValue, comment: "")
+        }
+    }
 
     var body: some View {
         Picker("", selection: $preselectedIndex) {
-            ForEach(
-                Array(
-                    CallInType.callInTypes.sorted { first, second -> Bool in
-                        first.value < second.value
-                    }), id: \.key
-            ) { _, value in
-
-                // callInItem(value: value, key: key, isLocked: false, isSelected: true).tag(key)
-                Text(value)
-                    // .fixedSize(horizontal: true, vertical: true)
+            ForEach(sortedIncomingCalls, id:\.self) { callIn in
+             
+                Text(callIn.localized)
                     .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
             }
         }
