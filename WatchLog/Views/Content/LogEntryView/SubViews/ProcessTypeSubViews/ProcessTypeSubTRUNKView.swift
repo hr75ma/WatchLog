@@ -14,15 +14,22 @@ struct ProcessTypeSubTRUNKView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 5) {
-            HStack(alignment: .center, spacing: 0) {
-                Text("Kennzeichen")
-                    .textLabel(textLabelLevel: TextLabelLevel.sub)
 
-                LimitedIndicatorTextField(config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.sub, limit: 10, tint: .watchLogFont, autoResizes: true), hint: "", text: $logEntry.processTypeDetails.AccientLicensePlate01, isLocked: logEntry.isLocked, disableAnimation: viewIsReadOnly)
-
-                Spacer()
-            }
+            
+            licencePlate01
         }
         .standardEventSubViewPadding()
+    }
+}
+
+extension ProcessTypeSubTRUNKView {
+    
+    private var licencePlate01: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            Text("Kennzeichen ON01")
+                .textLabel(textLabelLevel: TextLabelLevel.subWithWidth, textLebelWidth: 215)
+            
+            LimitedIndicatorTextField(config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.sub, limit: 10, tint: .watchLogFont, autoResizes: true), hint: "", text: $logEntry.processTypeDetails.AccientLicensePlate01, isLocked: logEntry.isLocked, disableAnimation: viewIsReadOnly)
+        }
     }
 }

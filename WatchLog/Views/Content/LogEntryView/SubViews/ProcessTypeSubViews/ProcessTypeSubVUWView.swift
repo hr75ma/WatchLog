@@ -14,22 +14,38 @@ struct ProcessTypeSubVUWView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 5) {
-            HStack(alignment: .center, spacing: 0) {
-                Text("Kennzeichen")
-                    .textLabel(textLabelLevel: TextLabelLevel.sub)
+            
+            licencePlate01
 
-                LimitedIndicatorTextField(config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.sub, limit: 10, tint: .watchLogFont, autoResizes: true), hint: "", text: $logEntry.processTypeDetails.AccientLicensePlate01, isLocked: logEntry.isLocked, disableAnimation: viewIsReadOnly)
-            }
-
-            HStack(alignment: .center, spacing: 0) {
-                Text("Tier am Leben")
-                    .textLabel(textLabelLevel: TextLabelLevel.sub)
-
-                ToggleView(toggleValue: $logEntry.processTypeDetails.isInjured, isLocked: logEntry.isLocked, removeAnimation: viewIsReadOnly, toggleType: .sub)
-                    .disabled(logEntry.isLocked)
-                Spacer()
-            }
+            animalToggle
         }
         .standardEventSubViewPadding()
     }
+}
+
+extension ProcessTypeSubVUWView {
+    
+    private var licencePlate01: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            Text("Kennzeichen ON01")
+                .textLabel(textLabelLevel: TextLabelLevel.subWithWidth, textLebelWidth: 215)
+
+            LimitedIndicatorTextField(config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.sub, limit: 10, tint: .watchLogFont, autoResizes: true), hint: "", text: $logEntry.processTypeDetails.AccientLicensePlate01, isLocked: logEntry.isLocked, disableAnimation: viewIsReadOnly)
+        }
+    }
+    
+    private var animalToggle: some View {
+       HStack(alignment: .center, spacing: 0) {
+            Text("Tier am Leben")
+                .textLabel(textLabelLevel: TextLabelLevel.sub)
+
+            ToggleView(toggleValue: $logEntry.processTypeDetails.isInjured, isLocked: logEntry.isLocked, removeAnimation: viewIsReadOnly, toggleType: .sub)
+                .disabled(logEntry.isLocked)
+            Spacer()
+        }
+    }
+    
+    
+    
+    
 }
