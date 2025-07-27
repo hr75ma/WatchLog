@@ -6,6 +6,148 @@
 //
 // import OrderedCollections
 import SwiftUI
+import Foundation
+
+enum ProcessingType: String, CaseIterable, Identifiable, Codable {
+    case UNKNOWN = "Sonstiges"
+    case VU = "Verkehrsunfall"
+    case VUW = "Wildunfall"
+    case RUHE = "Ruhestörung"
+    case STRE = "Streitigkeiten"
+    case TIER = "Tier"
+    case ALDI = "Diebstahl"
+    case VERD = "Verdacht"
+    case GESB = "GESB"
+    case TRUNK = "316"
+    case ALAR = "Alarm"
+    case BETR = "Betrug"
+    case BRAN = "Brand"
+    case ED = "Einbruch"
+    case CCB = "Call-Center-Betrug"
+    case GEFV = "Gefahrenstelle"
+    case DAUF = "Diebstahl an KfZ"
+    case KV = "Körperverletzung"
+    case LADI = "Ladendiebstahl"
+    case VKKO = "Verkehrskontrolle"
+    case RAND = "Randalierer"
+    case SABA = "Sachbeschädigung"
+    case VERM = "Vermisste"
+    case SUIV = "Suizidversuch"
+    case TES = "Todesermittlung"
+    
+    var localized: LocalizedStringKey {
+        LocalizedStringKey(self.rawValue)
+    }
+    
+    var id: ProcessingType {self}
+}
+
+
+enum EventTyping: String, CaseIterable, Identifiable, Codable {
+    case UNKNOWN
+    case VU
+    case VUW
+    case RUHE
+    case STRE
+    case TIER
+    case ALDI
+    case VERD
+    case GESB
+    case TRUNK
+    case ALAR
+    case BETR
+    case BRAN
+    case ED
+    case CCB
+    case GEFV
+    case DAUF
+    case KV
+    case LADI
+    case VKKO
+    case RAND
+    case VERM
+    case TES
+    
+    var localized: LocalizedStringKey {
+        
+        switch self {
+        case .UNKNOWN:
+            "Sonstiges"
+        case .VU:
+            "Verkehrsunfall"
+        case .VUW:
+            "Wildunfall"
+        case .RUHE:
+            "Ruhestörung"
+        case .STRE:
+            "Streitigkeiten"
+        case .TIER:
+            "Tiereinsatz"
+        case .ALDI:
+            "Diebstahl"
+        case .VERD:
+            "Verdacht"
+        case .GESB:
+            "GESB"
+        case .TRUNK:
+            "316"
+        case .ALAR:
+            "Alarm"
+        case .BETR:
+            "Betrug"
+        case .BRAN:
+            "Brand"
+        case .ED:
+            "Einbruch"
+        case .CCB:
+            "Call-Center-Betrug"
+        case .GEFV:
+            "Gefahrenstelle"
+        case .DAUF:
+            "Diebstahl an KfZ"
+        case .KV:
+            "Körperverletzung"
+        case .LADI:
+            "Ladendiebstahl"
+        case .VKKO:
+            "Verkehrskontrolle"
+        case .RAND:
+            "Randalierer"
+        case .VERM:
+            "Vermisstenfall"
+        case .TES:
+            "Todesermittlung"
+        }
+    }
+    
+    var id: EventTyping {self}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 struct ProcessType {
     enum ProcessTypeShort: Codable {
