@@ -17,7 +17,7 @@ class WatchLogBookProcessTypeDetails: Identifiable, Hashable {
 
     @Relationship(deleteRule: .nullify, inverse: \WatchLogBookEntry.processDetails) var watchLogBookEntry: WatchLogBookEntry?
 
-    var processTypeShort: ProcessType.ProcessTypeShort = ProcessType.ProcessTypeShort.UNKNOWN
+    var processTypeShort: ProcessingType = ProcessingType.UNKNOWN
 
     // var AccientInjured: Bool = false
     var accientHitAndRun: Bool = false
@@ -32,7 +32,7 @@ class WatchLogBookProcessTypeDetails: Identifiable, Hashable {
     init() {
         id = UUID()
 
-        processTypeShort = ProcessType.ProcessTypeShort.UNKNOWN
+        processTypeShort = ProcessingType.UNKNOWN
 
         // var AccientInjured: Bool = false
         accientHitAndRun = false

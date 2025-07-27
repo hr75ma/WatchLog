@@ -18,7 +18,14 @@
       }
     },
     "316" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "316"
+          }
+        }
+      }
     },
     "Abbrechen" : {
       "localizations" : {
@@ -41,7 +48,14 @@
       }
     },
     "Alarm" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alarm"
+          }
+        }
+      }
     },
     "Alkohol/BtM" : {
       "localizations" : {
@@ -54,7 +68,7 @@
       }
     },
     "Amtsleitung" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -65,16 +79,37 @@
       }
     },
     "Betrug" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fraud"
+          }
+        }
+      }
     },
     "Brand" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fire"
+          }
+        }
+      }
     },
     "by HL" : {
 
     },
     "Call-Center-Betrug" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CCB"
+          }
+        }
+      }
     },
     "Dark" : {
 
@@ -90,10 +125,24 @@
       }
     },
     "Diebstahl" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Theft"
+          }
+        }
+      }
     },
     "Diebstahl an KfZ" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Car Theft"
+          }
+        }
+      }
     },
     "DOB" : {
       "localizations" : {
@@ -106,7 +155,14 @@
       }
     },
     "Einbruch" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Burglary"
+          }
+        }
+      }
     },
     "Eingang" : {
       "localizations" : {
@@ -219,7 +275,7 @@
       }
     },
     "Funk" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -230,10 +286,24 @@
       }
     },
     "Gefahrenstelle" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hazard location"
+          }
+        }
+      }
     },
     "GESB" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "GESB"
+          }
+        }
+      }
     },
     "Gesperrt" : {
       "localizations" : {
@@ -296,7 +366,14 @@
       }
     },
     "Körperverletzung" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Assault"
+          }
+        }
+      }
     },
     "Lade Logs..." : {
       "localizations" : {
@@ -309,7 +386,14 @@
       }
     },
     "Ladendiebstahl" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Shoplifting"
+          }
+        }
+      }
     },
     "Light" : {
 
@@ -405,7 +489,7 @@
       }
     },
     "Notruf" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -426,10 +510,34 @@
       }
     },
     "Randalierer" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vandals"
+          }
+        }
+      }
     },
     "Ruhestörung" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Disturbance of peace"
+          }
+        }
+      }
+    },
+    "Sachbeschädigung" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Damage to property"
+          }
+        }
+      }
     },
     "Select Appearance" : {
       "localizations" : {
@@ -442,7 +550,14 @@
       }
     },
     "Sonstiges" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Misc"
+          }
+        }
+      }
     },
     "Speichere" : {
       "localizations" : {
@@ -465,7 +580,24 @@
       }
     },
     "Streitigkeiten" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Disputes"
+          }
+        }
+      }
+    },
+    "Suizidversuch" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Suicide"
+          }
+        }
+      }
     },
     "System" : {
       "localizations" : {
@@ -487,58 +619,88 @@
         }
       }
     },
-    "Tier lebt" : {
+    "Tier am Leben" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tier am Leben"
-          }
-        },
         "en" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Animal alive"
           }
         }
       }
     },
     "Tiereinsatz" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Animal"
+          }
+        }
+      }
     },
     "Todesermittlung" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Death investigations"
+          }
+        }
+      }
     },
     "Über das" : {
 
     },
     "Verdacht" : {
-
-    },
-    "Verkehrskontrolle" : {
-
-    },
-    "Verkehrsunfall" : {
-
-    },
-    "Verletzte" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Verletzungen"
-          }
-        },
         "en" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
+            "value" : "Suspicion"
+          }
+        }
+      }
+    },
+    "Verkehrskontrolle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Traffic control"
+          }
+        }
+      }
+    },
+    "Verkehrsunfall" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Traffic accident"
+          }
+        }
+      }
+    },
+    "Verletztungen" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
             "value" : "Injuries"
           }
         }
       }
     },
     "Vermisstenfall" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Missing person case"
+          }
+        }
+      }
     },
     "Version 1.2 (Beta)" : {
 
@@ -574,7 +736,14 @@
       }
     },
     "Wildunfall" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wild accident"
+          }
+        }
+      }
     },
     "wird ein neuer Wachbucheintrag erstellt." : {
 

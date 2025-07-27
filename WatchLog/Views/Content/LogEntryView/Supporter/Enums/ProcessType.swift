@@ -14,7 +14,7 @@ enum ProcessingType: String, CaseIterable, Identifiable, Codable {
     case VUW = "Wildunfall"
     case RUHE = "Ruhestörung"
     case STRE = "Streitigkeiten"
-    case TIER = "Tier"
+    case TIER = "Tiereinsatz"
     case ALDI = "Diebstahl"
     case VERD = "Verdacht"
     case GESB = "GESB"
@@ -31,7 +31,7 @@ enum ProcessingType: String, CaseIterable, Identifiable, Codable {
     case VKKO = "Verkehrskontrolle"
     case RAND = "Randalierer"
     case SABA = "Sachbeschädigung"
-    case VERM = "Vermisste"
+    case VERM = "Vermisstenfall"
     case SUIV = "Suizidversuch"
     case TES = "Todesermittlung"
     
@@ -67,6 +67,8 @@ enum EventTyping: String, CaseIterable, Identifiable, Codable {
     case RAND
     case VERM
     case TES
+    case SABA
+    case SUIV
     
     var localized: LocalizedStringKey {
         
@@ -113,10 +115,15 @@ enum EventTyping: String, CaseIterable, Identifiable, Codable {
             "Verkehrskontrolle"
         case .RAND:
             "Randalierer"
+        case .SABA:
+            "Sachbeschädigung"
         case .VERM:
             "Vermisstenfall"
+        case .SUIV:
+            "Suizidversuch"
         case .TES:
             "Todesermittlung"
+        
         }
     }
     

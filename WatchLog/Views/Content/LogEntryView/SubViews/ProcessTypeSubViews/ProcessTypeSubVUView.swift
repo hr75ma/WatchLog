@@ -29,7 +29,7 @@ struct ProcessTypeSubVUView: View {
             }
 
             HStack(alignment: .center, spacing: 0) {
-                Text("Verletzte")
+                Text("Verletztungen")
                     .textLabel(textLabelLevel: TextLabelLevel.sub)
 
                 ToggleView(

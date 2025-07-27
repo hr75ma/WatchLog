@@ -271,7 +271,7 @@ struct DisclosureGroupLogEntriesView: View {
                             .navigationTreeButtonLabelStyle(isSeletecedItem: entry.id == displayedLogEntryUUID.id)
 
                         if entry.processDetails != nil {
-                            Text(ProcessType.processTypes[entry.processDetails!.processTypeShort]!)
+                            Text(entry.processDetails!.processTypeShort.localized)
                                 .navigationTreeButtonSubLabelStyle(isSeletecedItem: entry.id == displayedLogEntryUUID.id)
                         }
                     }

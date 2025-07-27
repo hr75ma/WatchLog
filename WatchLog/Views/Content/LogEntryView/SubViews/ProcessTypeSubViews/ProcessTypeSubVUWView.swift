@@ -22,7 +22,7 @@ struct ProcessTypeSubVUWView: View {
             }
 
             HStack(alignment: .center, spacing: 0) {
-                Text("Tier lebt")
+                Text("Tier am Leben")
                     .textLabel(textLabelLevel: TextLabelLevel.sub)
 
                 ToggleView(toggleValue: $logEntry.processTypeDetails.isInjured, isLocked: logEntry.isLocked, removeAnimation: viewIsReadOnly, toggleType: .sub)

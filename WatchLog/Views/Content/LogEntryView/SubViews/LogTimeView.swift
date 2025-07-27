@@ -26,7 +26,6 @@ struct LogTimeView: View {
 extension LogTimeView {
     private var logTimeSection: some View {
         HStack(alignment: .center) {
-            Text(Locale.current.identifier)
             Text(logTime.formatted(.dateTime.locale(Locale.current).weekday(.wide)))
                 .logTimeStyleAndAnimation()
             Spacer()

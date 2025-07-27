@@ -8,6 +8,32 @@
 import Foundation
 import SwiftUI
 
+struct customProcessingTypePickerView: View {
+    @Binding var preselectedIndex: ProcessingType
+    let appStyles: StylesLogEntry
+    
+    var sortedProcessingTypes: [ProcessingType] {
+        ProcessingType.allCases.sorted { lhs, rhs in
+            NSLocalizedString(lhs.rawValue, comment: "") < NSLocalizedString(rhs.rawValue, comment: "")
+        }
+    }
+
+    var body: some View {
+        Picker("", selection: $preselectedIndex) {
+            ForEach(sortedProcessingTypes, id:\.self) { processType in
+             
+                Text(processType.localized)
+                .pickerTextModifier()
+            }
+        }
+        .processPickerWheelStyle()
+    }
+}
+
+
+
+
+
 struct customSegmentedPickerView: View {
     @Binding var preselectedIndex: InComingCallType
     let appStyles: StylesLogEntry

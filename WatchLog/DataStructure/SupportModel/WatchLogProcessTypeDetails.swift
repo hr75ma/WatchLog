@@ -13,7 +13,7 @@ import SwiftUI
 class WatchLogProcessTypeDetails {
     var uuid: UUID
 
-    var processTypeShort: ProcessType.ProcessTypeShort = ProcessType.ProcessTypeShort.UNKNOWN
+    var processTypeShort: ProcessingType = ProcessingType.UNKNOWN
 
     // var AccientInjured: Bool = false
     var AccientHitAndRun: Bool = false
@@ -29,7 +29,7 @@ class WatchLogProcessTypeDetails {
     init() {
         uuid = UUID()
 
-        processTypeShort = ProcessType.ProcessTypeShort.UNKNOWN
+        processTypeShort = ProcessingType.UNKNOWN
 
         // AccientInjured = false
         AccientHitAndRun = false
@@ -59,7 +59,7 @@ class WatchLogProcessTypeDetails {
     }
 
     func clear() {
-        processTypeShort = ProcessType.ProcessTypeShort.UNKNOWN
+        processTypeShort = ProcessingType.UNKNOWN
 
         // AccientInjured = false
         AccientHitAndRun = false
