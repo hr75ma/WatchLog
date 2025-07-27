@@ -24,7 +24,7 @@ struct NoteView: View {
                     SectionImageView(sectionType: SectionImageType.note)
                     
                     Text("Notiz")
-                        .textLabel(textLabelLevel: TextLabelLevel.standard)
+                        .textLabel(textLabelLevel: TextLabelLevel.section)
                     Spacer()
                 }
 

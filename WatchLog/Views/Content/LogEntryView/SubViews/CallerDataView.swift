@@ -25,13 +25,17 @@ struct CallerDataView: View {
             SectionImageView(sectionType: SectionImageType.callerData)
 
             VStack(alignment: .leading, spacing: 5) {
-                phoneSubSection
-
-                nameSubSection
-
-                dobSubSection
-
-                adressSubSection
+               
+                Form {
+                    phoneSubSection
+                 
+                    nameSubSection
+                    
+                    dobSubSection
+                    
+                    adressSubSection
+                }
+                .formStyle(.columns)
             }
         }
         .disabled(logEntry.isLocked)
@@ -42,7 +46,7 @@ struct CallerDataView: View {
 
 extension CallerDataView {
     private var phoneSubSection: some View {
-        HStack(alignment: .center, spacing: 0) {
+        VStack(alignment: .leading, spacing: 0) {
             Text("Telefon")
                 .textLabel(textLabelLevel: TextLabelLevel.standard)
 
@@ -54,7 +58,7 @@ extension CallerDataView {
     }
 
     private var nameSubSection: some View {
-        HStack(alignment: .center, spacing: 0) {
+        VStack(alignment: .leading, spacing: 0) {
             Text("Name")
                 .textLabel(textLabelLevel: TextLabelLevel.standard)
 
@@ -63,7 +67,7 @@ extension CallerDataView {
     }
 
     private var adressSubSection: some View {
-        HStack(alignment: .top, spacing: 0) {
+        VStack(alignment: .leading, spacing: 0) {
             Text("Adresse")
                 .textLabel(textLabelLevel: TextLabelLevel.standard)
                 .frame(alignment: .topLeading)
@@ -73,7 +77,7 @@ extension CallerDataView {
     }
 
     private var dobSubSection: some View {
-        HStack(alignment: .top, spacing: 0) {
+        VStack(alignment: .leading, spacing: 0) {
             Text("DOB")
                 .textLabel(textLabelLevel: TextLabelLevel.standard)
 
@@ -91,15 +95,6 @@ extension CallerDataView {
                     tempLocked = logEntry.isLocked
                 }
             }
-//            .onChange(of: logEntry.uuid) {
-//                withAnimation(.smooth(duration: 1)) {
-//                    if logEntry.CallerDOB == nil {
-//                        withBirthday = false
-//                    } else {
-//                        withBirthday = true
-//                    }
-//                }
-//            }
             .onChange(of: withBirthday) { _, _ in
                 withAnimation(.smooth(duration: 1)) {
                     if !withBirthday {
@@ -123,7 +118,6 @@ extension CallerDataView {
                 }
             }
         }
-        //.padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
     }
 }
 

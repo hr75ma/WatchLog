@@ -8,6 +8,7 @@
 import SwiftUI
 
 enum TextLabelLevel: CaseIterable, Codable {
+    case section
     case standard
     case sub
     case subWithWidth
@@ -35,10 +36,17 @@ private struct TextLabelModifier: ViewModifier {
     @Environment(\.appStyles) var appStyles
     func body(content: Content) -> some View {
         content
-            .if(textLabelLevel == TextLabelLevel.standard) { view in
+            .if(textLabelLevel == TextLabelLevel.section) { view in
                 view
                     .font(Font.custom(appStyles.labelFont, size: appStyles.labelFontSize))
-                    .frame(width: 120, height: appStyles.labelFontSize, alignment: .topLeading)
+                    .frame(height: appStyles.labelFontSize, alignment: .topLeading)
+                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 5, trailing: 0))
+            }
+            .if(textLabelLevel == TextLabelLevel.standard) { view in
+                view
+                    .font(Font.custom(appStyles.labelFont, size: appStyles.labelFontSizeStandard))
+                    .frame(height: appStyles.labelFontSizeStandard, alignment: .topLeading)
+                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 5, trailing: 0))
             }
             .if(textLabelLevel == TextLabelLevel.sub) { view in
                 view
