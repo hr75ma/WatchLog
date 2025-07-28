@@ -76,7 +76,9 @@ extension CallerDataView {
         }
     }
 
-    private var dobSubSection: some View {
+    
+    
+    var dobSubSection: some View {
         VStack(alignment: .leading, spacing: 0) {
             Text("Geburtstag")
                 .textLabel(textLabelLevel: TextLabelLevel.standard)
@@ -106,18 +108,26 @@ extension CallerDataView {
                 }
             }
             .onAppear {
-                withAnimation(.smooth(duration: 1)) {
-                    if logEntry.callerDOB == nil {
-                        withBirthday = false
-                        with = withBirthday
-                    } else {
-                        withBirthday = true
-                        with = withBirthday
+                if viewIsReadOnly {
+                    switchBirthday()
+                } else {
+                    withAnimation(.smooth(duration: 1)) {
+                        switchBirthday()
                     }
-                    tempLocked = logEntry.isLocked
                 }
             }
         }
+    }
+    
+    private func switchBirthday() {
+        if logEntry.callerDOB == nil {
+            withBirthday = false
+            with = withBirthday
+        } else {
+            withBirthday = true
+            with = withBirthday
+        }
+        tempLocked = logEntry.isLocked
     }
 }
 
