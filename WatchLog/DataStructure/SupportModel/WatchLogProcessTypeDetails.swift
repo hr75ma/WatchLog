@@ -55,7 +55,7 @@ class WatchLogProcessTypeDetails {
 
         isInjured = processTypeDetails.isInjured
 
-        isAnimaleLiving = processTypeDetails.isInjured
+        isAnimaleLiving = processTypeDetails.isAnimaleLiving
     }
 
     func clear() {

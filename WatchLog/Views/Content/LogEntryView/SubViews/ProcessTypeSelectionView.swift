@@ -55,14 +55,14 @@ struct ProcessTypeSelectionView: View {
                         }
                     }
                 }
-                .onChange(of: logEntry.processTypeDetails.processTypeShort) { _, newValue in
+                .onChange(of: logEntry.processTypeDetails.processTypeShort) { oldValue, newValue in
                     if viewIsReadOnly {
                         selectedProcessHelper = logEntry.processTypeDetails.processTypeShort
 
                     } else {
                         withAnimation(.smooth(duration: 1)) {
                             selectedProcessHelper = logEntry.processTypeDetails.processTypeShort
-                            if newValue != logEntry.processTypeDetails.processTypeShort {
+                            if oldValue != logEntry.processTypeDetails.processTypeShort {
                                 logEntry.processTypeDetails.clear()
                                 logEntry.processTypeDetails.processTypeShort = newValue
                             }

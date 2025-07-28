@@ -39,7 +39,7 @@ extension ProcessTypeSubVUWView {
             Text("Tier am Leben")
                 .textLabel(textLabelLevel: TextLabelLevel.sub)
 
-            ToggleView(toggleValue: $logEntry.processTypeDetails.isInjured, isLocked: logEntry.isLocked, removeAnimation: viewIsReadOnly, toggleType: .sub)
+           ToggleView(toggleValue: $logEntry.processTypeDetails.isAnimaleLiving, isLocked: logEntry.isLocked, removeAnimation: viewIsReadOnly, toggleType: .sub)
                 .disabled(logEntry.isLocked)
             Spacer()
         }
