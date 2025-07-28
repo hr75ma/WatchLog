@@ -38,6 +38,7 @@
       }
     },
     "Adresse" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -347,6 +348,7 @@
       }
     },
     "Kennzeichen ON01" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -357,6 +359,7 @@
       }
     },
     "Kennzeichen ON02" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -450,6 +453,7 @@
       }
     },
     "Name" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -611,6 +615,7 @@
       }
     },
     "Telefon" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {

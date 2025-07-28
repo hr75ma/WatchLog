@@ -113,6 +113,14 @@ extension View {
             TextFieldIndicator(
                 text: text, isLocked: isLocked, disableAnimation: disableAnimation, textfieldType: textfieldType, textFieldHeight: appStyles.textFieldHeight, font: Font.title))
     }
+    
+    func textFieldIndicatorFloating(
+        text: Binding<String>, isLocked: Bool, disableAnimation: Bool, textfieldType: TextFieldType, appStyles: StylesLogEntry
+    ) -> some View {
+        modifier(
+            TextFieldIndicatorFloating(
+                text: text, isLocked: isLocked, disableAnimation: disableAnimation, textfieldType: textfieldType, textFieldHeight: appStyles.textFieldHeight, font: Font.title))
+    }
 
     func subTextFieldIndicator(
         text: Binding<String>, isLocked: Bool, disableAnimation: Bool, textfieldType: TextFieldType, appStyles: StylesLogEntry
@@ -122,9 +130,56 @@ extension View {
                 text: text, isLocked: isLocked, disableAnimation: disableAnimation,
                 textfieldType: textfieldType, textFieldHeight: appStyles.textFieldSubHeight, font: Font.title2))
     }
+    
+    func subTextFieldIndicatorFloating(
+        text: Binding<String>, isLocked: Bool, disableAnimation: Bool, textfieldType: TextFieldType, appStyles: StylesLogEntry
+    ) -> some View {
+        modifier(
+            TextFieldIndicatorFloating(
+                text: text, isLocked: isLocked, disableAnimation: disableAnimation,
+                textfieldType: textfieldType, textFieldHeight: appStyles.textFieldSubHeight, font: Font.title2))
+    }
 }
 
 struct TextFieldIndicator: ViewModifier {
+    @Binding var text: String
+    let isLocked: Bool
+    let disableAnimation: Bool
+    let textfieldType: TextFieldType
+    let textFieldHeight: CGFloat
+    let font: Font
+    @Environment(\.appStyles) var appStyles
+
+    func body(content: Content) -> some View {
+        content
+            .textFieldButtonClearButton(text: $text, isLocked: isLocked)
+            .font(font)
+            .fontWeight(.regular)
+            .fontWidth(.standard)
+            .fontDesign(.rounded)
+            .if(textfieldType == TextFieldType.singleLine) { view in
+                view.lineLimit(1)
+                    .frame(height: textFieldHeight)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            .if(textfieldType == TextFieldType.multiLine) { view in
+                view.lineLimit(4, reservesSpace: true)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            .foregroundStyle(.watchLogFont)
+            .background(
+                isLocked
+                    ? .watchLogTextfieldBackgoundLocked : .watchLogTextfieldBackgroundUnlocked
+            )
+            .autocorrectionDisabled(true)
+            .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+            .disableAnimations(disableAnimation: disableAnimation)
+            .animation(.smooth(duration: 1), value: isLocked)
+            .disabled(isLocked)
+    }
+}
+
+struct TextFieldIndicatorFloating: ViewModifier {
     @Binding var text: String
     let isLocked: Bool
     let disableAnimation: Bool
@@ -150,10 +205,11 @@ struct TextFieldIndicator: ViewModifier {
                     .fixedSize(horizontal: false, vertical: true)
             }
             .foregroundStyle(.watchLogFont)
-            .background(
-                isLocked
-                    ? .watchLogTextfieldBackgoundLocked : .watchLogTextfieldBackgroundUnlocked
-            )
+//            .background(
+//                isLocked
+//                    ? .watchLogTextfieldBackgoundLocked : .watchLogTextfieldBackgroundUnlocked
+//            )
+            .background(Color.clear)
             .autocorrectionDisabled(true)
             .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
             .disableAnimations(disableAnimation: disableAnimation)
@@ -161,6 +217,11 @@ struct TextFieldIndicator: ViewModifier {
             .disabled(isLocked)
     }
 }
+
+
+
+
+
 
 // ---------------------------------------------------------------------------------------------
 

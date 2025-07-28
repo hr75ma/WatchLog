@@ -29,11 +29,15 @@ struct CallerDataView: View {
                 Form {
                     phoneSubSection
                  
-                    nameSubSection
+                    //nameSubSection
+                    
+                    nameSubSectionFloating
+                    
+                    adressSubSection
                     
                     dobSubSection
                     
-                    adressSubSection
+                    
                 }
                 .formStyle(.columns)
             }
@@ -47,33 +51,29 @@ struct CallerDataView: View {
 extension CallerDataView {
     private var phoneSubSection: some View {
         VStack(alignment: .leading, spacing: 0) {
-            Text("Telefon")
-                .textLabel(textLabelLevel: TextLabelLevel.standard)
-
-            LimitedIndicatorTextField(config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.standard, limit: 20, tint: .watchLogFont, autoResizes: true), hint: "", text: $logEntry.callerNumber, isLocked: logEntry.isLocked, disableAnimation: viewIsReadOnly)
+            
+            FloatingBorderLabelTextField("Telefon", textfieldContent: $logEntry.callerNumber, isLocked: logEntry.isLocked, disableAnimation: viewIsReadOnly, config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.standard, limit: 20, tint: .watchLogFont, autoResizes: true))
                 .textFieldCheckOnNumbers(text: $logEntry.callerNumber)
                 .textContentType(.telephoneNumber)
                 .keyboardType(.numberPad)
         }
+        .padding(EdgeInsets(top: 10, leading: 0, bottom: 0, trailing: 0))
     }
-
-    private var nameSubSection: some View {
+    
+    private var nameSubSectionFloating: some View {
         VStack(alignment: .leading, spacing: 0) {
-            Text("Name")
-                .textLabel(textLabelLevel: TextLabelLevel.standard)
-
-            LimitedIndicatorTextField(config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.standard, limit: 50, tint: .watchLogFont, autoResizes: true), hint: "", text: $logEntry.callerName, isLocked: logEntry.isLocked, disableAnimation: viewIsReadOnly)
+            
+            FloatingBorderLabelTextField("Name", textfieldContent: $logEntry.callerName, isLocked: logEntry.isLocked, disableAnimation: viewIsReadOnly, config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.standard, limit: 50, tint: .watchLogFont, autoResizes: true))
         }
+        .padding(EdgeInsets(top: 10, leading: 0, bottom: 0, trailing: 0))
     }
 
     private var adressSubSection: some View {
         VStack(alignment: .leading, spacing: 0) {
-            Text("Adresse")
-                .textLabel(textLabelLevel: TextLabelLevel.standard)
-                .frame(alignment: .topLeading)
-
-            LimitedIndicatorTextField(config: .init(textfieldType: TextFieldType.multiLine, textfieldLevel: TextFieldLevel.standard, limit: 200, tint: .watchLogFont, autoResizes: true), hint: "", text: $logEntry.callerAdress, isLocked: logEntry.isLocked, disableAnimation: viewIsReadOnly)
+            
+            FloatingBorderLabelTextField("Adresse", textfieldContent: $logEntry.callerAdress, isLocked: logEntry.isLocked, disableAnimation: viewIsReadOnly, config: .init(textfieldType: TextFieldType.multiLine, textfieldLevel: TextFieldLevel.standard, limit: 200, tint: .watchLogFont, autoResizes: true))
         }
+        .padding(EdgeInsets(top: 10, leading: 0, bottom: 0, trailing: 0))
     }
 
     
@@ -173,6 +173,8 @@ extension CallerDataView {
         }
     }
 }
+
+
 
 public func ?? <T: Sendable>(lhs: Binding<T?>, rhs: T) -> Binding<T> {
     Binding(

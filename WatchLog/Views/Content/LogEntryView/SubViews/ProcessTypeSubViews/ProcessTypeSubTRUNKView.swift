@@ -14,8 +14,6 @@ struct ProcessTypeSubTRUNKView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 5) {
-
-            
             licencePlate01
         }
         .standardEventSubViewPadding()
@@ -23,13 +21,10 @@ struct ProcessTypeSubTRUNKView: View {
 }
 
 extension ProcessTypeSubTRUNKView {
-    
     private var licencePlate01: some View {
         VStack(alignment: .leading, spacing: 0) {
-            Text("Kennzeichen ON01")
-                .textLabel(textLabelLevel: TextLabelLevel.subWithWidth, textLebelWidth: 215)
-            
-            LimitedIndicatorTextField(config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.sub, limit: 10, tint: .watchLogFont, autoResizes: true), hint: "", text: $logEntry.processTypeDetails.AccientLicensePlate01, isLocked: logEntry.isLocked, disableAnimation: viewIsReadOnly)
+            FloatingBorderLabelTextField("Kennzeichen", textfieldContent: $logEntry.processTypeDetails.AccientLicensePlate01, isLocked: logEntry.isLocked, disableAnimation: viewIsReadOnly, config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.sub, limit: 10, tint: .watchLogFont, autoResizes: true))
         }
+        .padding(EdgeInsets(top: 10, leading: 0, bottom: 0, trailing: 0))
     }
 }

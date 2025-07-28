@@ -29,14 +29,13 @@ struct toggleStyleLockImage: ToggleStyle {
 
             .symbolEffectsRemoved(removeAnimation)
             .symbolEffect(.rotate.clockwise.byLayer, options: .nonRepeating, value: configuration.isOn)
-      
                 
             .padding(EdgeInsets(top: 4, leading: 4, bottom: 4, trailing: 4))
         }
         .disableAnimations(disableAnimation: removeAnimation)
         .animation(.smooth(duration: 1), value: isLocked)
         .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-        .frame(height: appStyles.labelFontSize, alignment: .center)
+        //.frame(height: appStyles.sectionLabelFontSize, alignment: .center)
         .onTapGesture {
             configuration.$isOn.wrappedValue.toggle()
         }

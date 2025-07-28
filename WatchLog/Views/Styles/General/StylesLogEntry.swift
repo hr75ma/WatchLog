@@ -31,12 +31,13 @@ final class StylesLogEntry: Sendable {
     let standardToggleIsUnactiveImage: String = "rectangle"
     let standardToggleSize: CGFloat = 35
 
-    let labelFont: String = "digital-7"
-    // let labelFont: String = "digital display tfb"
-    let labelFontSize: CGFloat = 35
-    let labelFontSizeStandard: CGFloat = 28
-    let labelFontSizeSub: CGFloat = 30
-
+    let sectionLabelFont: String = "digital-7"
+    let sectionLabelFontSize: CGFloat = 35
+    
+    let labelFontSize: CGFloat = 25
+    let labelFontSizeSub: CGFloat = 25
+    
+    
     let glowingColorSetLocked: [Color] = [.watchLogGlowing1, .watchLogGlowing2, .watchLogGlowing1]
     let glowingColorSetNew: [Color] = [.watchLogGlowing3, .watchLogGlowing2, .watchLogGlowing3]
     let glowingColorSetEditing: [Color] = [.watchLogGlowing2, .watchLogGlowing4, .watchLogGlowing2]
