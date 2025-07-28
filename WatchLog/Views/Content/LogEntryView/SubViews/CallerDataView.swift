@@ -80,8 +80,11 @@ extension CallerDataView {
     
     var dobSubSection: some View {
         VStack(alignment: .leading, spacing: 0) {
-            Text("Geburtstag")
-                .textLabel(textLabelLevel: TextLabelLevel.standard)
+            
+            if !viewIsReadOnly && !logEntry.isLocked {
+                    Text("Geburtstag")
+                        .textLabel(textLabelLevel: TextLabelLevel.standard)
+            }
 
             HStack(alignment: .top, spacing: 0) {
                 if viewIsReadOnly {
@@ -135,12 +138,19 @@ extension CallerDataView {
     private func ReadOnlyContent() -> some View {
         HStack(alignment: .center, spacing: 0) {
             if tempLocked {
-                Text(DateManipulation.getFormatedDateFromDOB(from: logEntry.callerDOB))
-                    .sectionSimulatedTextFieldSingleLine(
-                        isLocked: logEntry.isLocked
-                    )
-                    .isHidden(logEntry.callerDOB == nil || !tempLocked, remove: true)
-                Spacer()
+                
+                VStack(alignment: .leading, spacing: 0) {
+                    FloatingBorderLabelSimulatedTextField("Geburstag", textfieldContent: DateManipulation.getFormatedDateFromDOB(from: logEntry.callerDOB), isLocked: logEntry.isLocked, disableAnimation: viewIsReadOnly, config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.standard, limit: 50, tint: .watchLogFont, autoResizes: true))
+                        .isHidden(logEntry.callerDOB == nil || !tempLocked, remove: true)
+                        
+                }
+                .padding(EdgeInsets(top: 15, leading: 0, bottom: 0, trailing: 0))
+//                Text(DateManipulation.getFormatedDateFromDOB(from: logEntry.callerDOB))
+//                    .sectionSimulatedTextFieldSingleLine(
+//                        isLocked: logEntry.isLocked
+//                    )
+//                    .isHidden(logEntry.callerDOB == nil || !tempLocked, remove: true)
+               // Spacer()
             }
         }
     }
@@ -162,13 +172,12 @@ extension CallerDataView {
             }
 
             if tempLocked {
-                Text(DateManipulation.getFormatedDateFromDOB(from: logEntry.callerDOB))
-                    .sectionSimulatedTextFieldSingleLine(
-                        isLocked: logEntry.isLocked
-                    )
-                    .matchedGeometryEffect(id: "lockedEvent", in: namespace)
-                    .isHidden(logEntry.callerDOB == nil || !tempLocked, remove: true)
-                Spacer()
+                VStack(alignment: .leading, spacing: 0) {
+                    FloatingBorderLabelSimulatedTextField("Geburstag", textfieldContent: DateManipulation.getFormatedDateFromDOB(from: logEntry.callerDOB), isLocked: logEntry.isLocked, disableAnimation: viewIsReadOnly, config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.standard, limit: 50, tint: .watchLogFont, autoResizes: true))
+                        .matchedGeometryEffect(id: "lockedEvent", in: namespace)
+                        .isHidden(logEntry.callerDOB == nil || !tempLocked, remove: true)
+                }
+                    .padding(EdgeInsets(top: 15, leading: 0, bottom: 0, trailing: 0))
             }
         }
     }

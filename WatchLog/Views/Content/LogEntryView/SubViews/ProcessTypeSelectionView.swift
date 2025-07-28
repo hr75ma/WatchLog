@@ -139,20 +139,22 @@ extension ProcessTypeSelectionView {
 extension ProcessTypeSelectionView {
     private func ReadOnlyContent() -> some View {
         HStack(alignment: .center, spacing: 0) {
-            Text(logEntry.processTypeDetails.processTypeShort.localized)
-                .sectionSimulatedTextFieldSingleLine(isLocked: logEntry.isLocked)
-            Spacer()
+//            Text(logEntry.processTypeDetails.processTypeShort.localized)
+//                .sectionSimulatedTextFieldSingleLine(isLocked: logEntry.isLocked)
+//            Spacer()
+            FloatingBorderLabelSimulatedTextField("", textfieldContent: logEntry.processTypeDetails.processTypeShort.localized.stringKey!, isLocked: logEntry.isLocked, disableAnimation: viewIsReadOnly, config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.standard, limit: 50, tint: .watchLogFont, autoResizes: true))
         }
     }
 
     private func EditableContent() -> some View {
         HStack(alignment: .center, spacing: 0) {
             if tempLocked {
-                Text(logEntry.processTypeDetails.processTypeShort.localized)
-                    .sectionSimulatedTextFieldSingleLine(isLocked: logEntry.isLocked)
-                    .matchedGeometryEffect(id: "lockedEvent", in: namespace)
-                    .isHidden(!tempLocked, remove: true)
-                Spacer()
+//                Text(logEntry.processTypeDetails.processTypeShort.localized)
+//                    .sectionSimulatedTextFieldSingleLine(isLocked: logEntry.isLocked)
+//                    .matchedGeometryEffect(id: "lockedEvent", in: namespace)
+//                    .isHidden(!tempLocked, remove: true)
+//                Spacer()
+                FloatingBorderLabelSimulatedTextField("", textfieldContent: logEntry.processTypeDetails.processTypeShort.localized.stringKey!, isLocked: logEntry.isLocked, disableAnimation: viewIsReadOnly, config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.standard, limit: 50, tint: .watchLogFont, autoResizes: true))
             }
 
             customProcessingTypePickerView(preselectedIndex: $logEntry.processTypeDetails.processTypeShort, appStyles: appStyles)
