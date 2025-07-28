@@ -16,7 +16,7 @@ import SwiftUI
 struct ProcessTypeSelectionView: View {
     @Bindable var logEntry: WatchLogEntry
     let viewIsReadOnly: Bool
-    
+
     @Environment(\.appStyles) var appStyles
 
     @State private var selectedProcessHelper: ProcessingType = ProcessingType.UNKNOWN
@@ -30,40 +30,39 @@ struct ProcessTypeSelectionView: View {
             SectionImageView(sectionType: .event)
 
             VStack {
-                HStack(alignment: .top, spacing: 0) {
-                    Text("Ereignis")
-                        .textLabel(textLabelLevel: TextLabelLevel.standard)
-                        .frame(alignment: .topLeading)
-
+                Form {
                     VStack(alignment: .leading, spacing: 0) {
-                        processSelectionView
+                        Text("Ereignis")
+                            .textLabel(textLabelLevel: TextLabelLevel.section)
+                            .frame(alignment: .topLeading)
+
+                        VStack(alignment: .leading, spacing: 0) {
+                            processSelectionView
+                        }
+                        .frame(maxWidth: .infinity)
                     }
-                    .frame(maxWidth: .infinity)
                 }
+                .formStyle(.columns)
+
                 .task {
-                    
-                    
                     if viewIsReadOnly {
-                            selectedProcessHelper = logEntry.processTypeDetails.processTypeShort
-                        
+                        selectedProcessHelper = logEntry.processTypeDetails.processTypeShort
+
                     } else {
-                        
-                            withAnimation(.smooth(duration: 1)) {
-                                selectedProcessHelper = logEntry.processTypeDetails.processTypeShort
-                                tempLocked = logEntry.isLocked
-                            }
-                    
-                    }
-                }
-                .onChange(of: logEntry.processTypeDetails.processTypeShort) { _, newValue in
-                    if viewIsReadOnly {
-                            selectedProcessHelper = logEntry.processTypeDetails.processTypeShort
-                        
-                    } else
-                     {
                         withAnimation(.smooth(duration: 1)) {
                             selectedProcessHelper = logEntry.processTypeDetails.processTypeShort
-                            if newValue != logEntry.processTypeDetails.processTypeShort {
+                            tempLocked = logEntry.isLocked
+                        }
+                    }
+                }
+                .onChange(of: logEntry.processTypeDetails.processTypeShort) { oldValue, newValue in
+                    if viewIsReadOnly {
+                        selectedProcessHelper = logEntry.processTypeDetails.processTypeShort
+
+                    } else {
+                        withAnimation(.smooth(duration: 1)) {
+                            selectedProcessHelper = logEntry.processTypeDetails.processTypeShort
+                            if oldValue != logEntry.processTypeDetails.processTypeShort {
                                 logEntry.processTypeDetails.clear()
                                 logEntry.processTypeDetails.processTypeShort = newValue
                             }
@@ -72,7 +71,6 @@ struct ProcessTypeSelectionView: View {
                 }
                 .onChange(of: logEntry.isLocked) {
                     if !viewIsReadOnly {
-                        
                         withAnimation(.smooth(duration: 1)) {
                             tempLocked = logEntry.isLocked
                             selectedProcessHelper = logEntry.processTypeDetails.processTypeShort
@@ -93,7 +91,6 @@ struct ProcessTypeSelectionView: View {
 extension ProcessTypeSelectionView {
     private var processSelectionView: some View {
         HStack(alignment: .top, spacing: 0) {
-            
             if viewIsReadOnly {
                 ReadOnlyContent()
             } else {
@@ -101,7 +98,7 @@ extension ProcessTypeSelectionView {
             }
         }
         .frame(maxWidth: .infinity)
-        //.padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+        // .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
     }
 
     private var processSubViews: some View {
@@ -140,13 +137,11 @@ extension ProcessTypeSelectionView {
 }
 
 extension ProcessTypeSelectionView {
-    
     private func ReadOnlyContent() -> some View {
         HStack(alignment: .center, spacing: 0) {
-            
             Text(logEntry.processTypeDetails.processTypeShort.localized)
-                    .sectionSimulatedTextFieldSingleLine(isLocked: logEntry.isLocked)
-                Spacer()
+                .sectionSimulatedTextFieldSingleLine(isLocked: logEntry.isLocked)
+            Spacer()
         }
     }
 
@@ -160,12 +155,9 @@ extension ProcessTypeSelectionView {
                 Spacer()
             }
 
-                customProcessingTypePickerView(preselectedIndex: $logEntry.processTypeDetails.processTypeShort, appStyles: appStyles)
-                        .matchedGeometryEffect(id: "lockedEvent", in: namespace)
-            .isHidden(tempLocked, remove: true)
-            
-            
-            
+            customProcessingTypePickerView(preselectedIndex: $logEntry.processTypeDetails.processTypeShort, appStyles: appStyles)
+                .matchedGeometryEffect(id: "lockedEvent", in: namespace)
+                .isHidden(tempLocked, remove: true)
         }
     }
 }

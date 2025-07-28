@@ -23,7 +23,11 @@ struct CallInView: View {
             SectionImageView(sectionType: SectionImageType.callIn)
 
             VStack(alignment: .leading, spacing: 5) {
-                callInSection
+                
+                Form {
+                    callInSection
+                }
+            .formStyle(.columns)
             }
         }
         .disabled(logEntry.isLocked)
@@ -34,9 +38,9 @@ struct CallInView: View {
 
 extension CallInView {
     private var callInSection: some View {
-        HStack(alignment: .center, spacing: 0) {
+        VStack(alignment: .leading, spacing: 0) {
             Text("Eingang")
-                .textLabel(textLabelLevel: TextLabelLevel.standard)
+                .textLabel(textLabelLevel: TextLabelLevel.section)
 
             VStack(alignment: .leading, spacing: 0) {
                 HStack(alignment: .top, spacing: 0) {

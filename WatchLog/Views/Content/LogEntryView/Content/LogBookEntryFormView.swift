@@ -10,7 +10,7 @@ import PencilKit
 import SwiftData
 import SwiftUI
 
-struct LogBookEntryView: View {
+struct LogBookEntryFormView: View {
     @Binding public var watchLogEntry: WatchLogEntry
     public var viewIsReadOnly: Bool
 
@@ -37,6 +37,10 @@ struct LogBookEntryView: View {
         
         
         ScrollView {
+            
+            
+            
+            
             
             ZStack {
                 glowingBorderEffect
@@ -163,7 +167,7 @@ struct LogBookEntryView: View {
     }
 }
 
-extension LogBookEntryView {
+extension LogBookEntryFormView {
     
     private var glowingBorderEffect: some View {
         ZStack {
@@ -223,7 +227,7 @@ extension LogBookEntryView {
     let databaseService = DatabaseService()
     let viewModel = LogEntryViewModel(dataBaseService: databaseService)
 
-     LogBookEntryView(watchLogEntry: $watchLogEntry, viewIsReadOnly: viewIsReadOnly)
+     LogBookEntryFormView(watchLogEntry: $watchLogEntry, viewIsReadOnly: viewIsReadOnly)
          .environment(\.locale, .init(identifier: "de"))
         .environmentObject(viewModel)
         .environment(BlurSetting())
@@ -241,7 +245,7 @@ extension LogBookEntryView {
    let databaseService = DatabaseService()
    let viewModel = LogEntryViewModel(dataBaseService: databaseService)
 
-    LogBookEntryView(watchLogEntry: $watchLogEntry, viewIsReadOnly: viewIsReadOnly)
+    LogBookEntryFormView(watchLogEntry: $watchLogEntry, viewIsReadOnly: viewIsReadOnly)
         .environment(\.locale, .init(identifier: "en"))
        .environmentObject(viewModel)
        .environment(BlurSetting())

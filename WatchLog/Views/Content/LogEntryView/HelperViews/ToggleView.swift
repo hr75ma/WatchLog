@@ -26,7 +26,7 @@ struct ToggleView: View {
                 .labelsHidden()
                 .toggleStyle(
                     standardToggleStyleImage(isLocked: isLocked,  removeAnimation: removeAnimation))
-                .frame(height: appStyles.labelFontSize)
+                .frame(height: appStyles.standardToggleSize)
                 .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
 
         case .sub:

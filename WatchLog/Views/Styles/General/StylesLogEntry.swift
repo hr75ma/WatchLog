@@ -29,10 +29,12 @@ final class StylesLogEntry: Sendable {
     // standard toggle
     let standardToggleIsActiveImage: String = "checkmark.rectangle"
     let standardToggleIsUnactiveImage: String = "rectangle"
+    let standardToggleSize: CGFloat = 35
 
     let labelFont: String = "digital-7"
     // let labelFont: String = "digital display tfb"
     let labelFontSize: CGFloat = 35
+    let labelFontSizeStandard: CGFloat = 28
     let labelFontSizeSub: CGFloat = 30
 
     let glowingColorSetLocked: [Color] = [.watchLogGlowing1, .watchLogGlowing2, .watchLogGlowing1]

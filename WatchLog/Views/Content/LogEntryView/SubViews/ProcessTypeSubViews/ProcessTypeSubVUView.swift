@@ -14,45 +14,70 @@ struct ProcessTypeSubVUView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 5) {
-            HStack(alignment: .center, spacing: 0) {
-                Text("Kennzeichen ON01")
-                    .textLabel(textLabelLevel: TextLabelLevel.subWithWidth, textLebelWidth: 215)
+            
+            licencePlate01
 
-                LimitedIndicatorTextField(config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.sub, limit: 10, tint: .watchLogFont, autoResizes: true), hint: "", text: $logEntry.processTypeDetails.AccientLicensePlate01, isLocked: logEntry.isLocked, disableAnimation: viewIsReadOnly)
-            }
+            licencePlate02
 
-            HStack(alignment: .center, spacing: 0) {
-                Text("Kennzeichen ON02")
-                    .textLabel(textLabelLevel: TextLabelLevel.subWithWidth, textLebelWidth: 215)
-
-                LimitedIndicatorTextField(config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.sub, limit: 10, tint: .watchLogFont, autoResizes: true), hint: "", text: $logEntry.processTypeDetails.AccientLicensePlate02, isLocked: logEntry.isLocked, disableAnimation: viewIsReadOnly)
-            }
-
-            HStack(alignment: .center, spacing: 0) {
-                Text("Verletztungen")
-                    .textLabel(textLabelLevel: TextLabelLevel.sub)
-
-                ToggleView(
-                    toggleValue: $logEntry.processTypeDetails.isInjured, isLocked: logEntry.isLocked, removeAnimation: viewIsReadOnly, toggleType: .sub)
-
-                Spacer()
-
-                Text("Flucht")
-                    .textLabel(textLabelLevel: TextLabelLevel.sub)
-
-                ToggleView(
-                    toggleValue: $logEntry.processTypeDetails.AccientHitAndRun, isLocked: logEntry.isLocked, removeAnimation: viewIsReadOnly, toggleType: .sub)
-
-                Spacer()
-
-                Text("Alkohol/BtM")
-                    .textLabel(textLabelLevel: TextLabelLevel.sub)
-
-                ToggleView(
-                    toggleValue: $logEntry.processTypeDetails.AlcoholConsumed, isLocked: logEntry.isLocked, removeAnimation: viewIsReadOnly, toggleType: .sub)
-            }
+            miscToggle
         }
         .standardEventSubViewPadding()
         .disabled(logEntry.isLocked)
     }
+}
+
+extension ProcessTypeSubVUView {
+    
+    private var licencePlate01: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            Text("Kennzeichen ON01")
+                .textLabel(textLabelLevel: TextLabelLevel.subWithWidth, textLebelWidth: 215)
+
+            LimitedIndicatorTextField(config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.sub, limit: 10, tint: .watchLogFont, autoResizes: true), hint: "", text: $logEntry.processTypeDetails.AccientLicensePlate01, isLocked: logEntry.isLocked, disableAnimation: viewIsReadOnly)
+        }
+    }
+    
+    private var licencePlate02: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            Text("Kennzeichen ON02")
+                .textLabel(textLabelLevel: TextLabelLevel.subWithWidth, textLebelWidth: 215)
+
+            LimitedIndicatorTextField(config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.sub, limit: 10, tint: .watchLogFont, autoResizes: true), hint: "", text: $logEntry.processTypeDetails.AccientLicensePlate02, isLocked: logEntry.isLocked, disableAnimation: viewIsReadOnly)
+        }
+    }
+    
+    private var miscToggle: some View {
+        HStack(alignment: .center, spacing: 0) {
+            VStack {
+                Text("Verletztungen")
+                    .textLabel(textLabelLevel: TextLabelLevel.sub)
+                
+                ToggleView(
+                    toggleValue: $logEntry.processTypeDetails.isInjured, isLocked: logEntry.isLocked, removeAnimation: viewIsReadOnly, toggleType: .sub)
+            }
+            Spacer()
+
+            VStack {
+                Text("Flucht")
+                    .textLabel(textLabelLevel: TextLabelLevel.sub)
+                
+                ToggleView(
+                    toggleValue: $logEntry.processTypeDetails.AccientHitAndRun, isLocked: logEntry.isLocked, removeAnimation: viewIsReadOnly, toggleType: .sub)
+                
+            }
+            Spacer()
+
+            VStack {
+                Text("Alkohol/BtM")
+                    .textLabel(textLabelLevel: TextLabelLevel.sub)
+                
+                ToggleView(
+                    toggleValue: $logEntry.processTypeDetails.AlcoholConsumed, isLocked: logEntry.isLocked, removeAnimation: viewIsReadOnly, toggleType: .sub)
+            }
+        }
+            
+    }
+    
+    
+    
 }

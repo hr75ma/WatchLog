@@ -14,17 +14,25 @@ struct ProcessTypeSubKVView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 5) {
-            HStack(alignment: .center, spacing: 0) {
-                HStack(alignment: .center, spacing: 0) {
-                    Text("Verletztungen")
-                        .textLabel(textLabelLevel: TextLabelLevel.sub)
-
-                    ToggleView(toggleValue: $logEntry.processTypeDetails.isInjured, isLocked: logEntry.isLocked, removeAnimation: viewIsReadOnly, toggleType: .sub)
-                    Spacer()
-                }
-            }
+            
+            injueresToggle
+            
             .standardEventSubViewPadding()
             .disabled(logEntry.isLocked)
         }
     }
+}
+
+extension ProcessTypeSubKVView {
+ 
+    private var injueresToggle: some View {
+        HStack(alignment: .center, spacing: 0) {
+            Text("Verletztungen")
+                .textLabel(textLabelLevel: TextLabelLevel.sub)
+
+            ToggleView(toggleValue: $logEntry.processTypeDetails.isInjured, isLocked: logEntry.isLocked, removeAnimation: viewIsReadOnly, toggleType: .sub)
+             Spacer()
+         }
+    }
+    
 }
