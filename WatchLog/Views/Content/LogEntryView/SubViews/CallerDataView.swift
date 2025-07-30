@@ -54,7 +54,7 @@ extension CallerDataView {
             
             FloatingBorderLabelTextField("Telefon", textfieldContent: $logEntry.callerNumber, isLocked: logEntry.isLocked, disableAnimation: viewIsReadOnly, config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.standard, limit: 20, tint: .watchLogFont, autoResizes: true))
                 //.textFieldCheckOnNumbers(text: $logEntry.callerNumber)
-                .numericTextInputField(.decimal, text: $logEntry.callerNumber)
+                .numericTextInputField(text: $logEntry.callerNumber)
                 .textContentType(.telephoneNumber)
                 .keyboardType(.numberPad)
         }

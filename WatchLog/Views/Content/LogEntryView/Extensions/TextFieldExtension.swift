@@ -17,6 +17,11 @@ enum TextFieldLevel: CaseIterable, Codable {
     case sub
 }
 
+enum NumericTextInputMode: CaseIterable, Codable {
+    case number
+    case decimal
+}
+
 // globals
 extension View {
     fileprivate func textFieldButtonClearButton(text: Binding<String>, isLocked: Bool) -> some View {
@@ -28,10 +33,6 @@ extension View {
 
     fileprivate func textFieldLimitInputLength(text: Binding<String>, length: Int) -> some View {
         modifier(TextFieldLimitModifer(text: text, length: length))
-    }
-
-    func textFieldCheckOnNumbers(text: Binding<String>) -> some View {
-        modifier(TextFieldCheckOnNumbersModifier(text: text))
     }
 
     fileprivate func innerPadding() -> some View {
@@ -80,25 +81,9 @@ fileprivate struct TextFieldLimitModifer: ViewModifier {
     }
 }
 
-struct TextFieldCheckOnNumbersModifier: ViewModifier {
-    @Binding var text: String
 
-    func body(content: Content) -> some View {
-        content
-            .onChange(of: $text.wrappedValue) { old, new in
-                if !new.allSatisfy(\.isNumber) {
-                    text = old
-                }
-            }
-    }
-}
 
-enum NumericTextInputMode {
-    case number
-    case decimal
-}
-
-struct NumericTextInputFieldViewModifier: ViewModifier {
+fileprivate struct NumericTextInputFieldViewModifier: ViewModifier {
     @Binding var text: String
     let mode: NumericTextInputMode
 
@@ -120,12 +105,6 @@ struct NumericTextInputFieldViewModifier: ViewModifier {
     }
 }
 
-extension View {
-    func numericTextInputField(_ mode: NumericTextInputMode = .number, text: Binding<String>) -> some View {
-        modifier(NumericTextInputFieldViewModifier(text: text, mode: mode))
-    }
-}
-
 fileprivate struct InnerPaddingModifier: ViewModifier {
     func body(content: Content) -> some View {
         ZStack(alignment: .trailing) {
@@ -139,6 +118,10 @@ fileprivate struct InnerPaddingModifier: ViewModifier {
 // -----------------------------------------------------------
 
 extension View {
+    func numericTextInputField(_ mode: NumericTextInputMode = .number, text: Binding<String>) -> some View {
+        modifier(NumericTextInputFieldViewModifier(text: text, mode: mode))
+    }
+    
     func textFieldIndicator(
         text: Binding<String>, isLocked: Bool, disableAnimation: Bool, textfieldType: TextFieldType, appStyles: StylesLogEntry
     ) -> some View {
