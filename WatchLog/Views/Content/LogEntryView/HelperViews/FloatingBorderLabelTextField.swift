@@ -47,14 +47,14 @@ struct FloatingBorderLabelTextField: View {
             
             LimitedIndicatorTextFieldFloating(config: config, hint: "", text: $textfieldContent, isLocked: isLocked, disableAnimation: disableAnimation)
         }
-        .disableAnimations(disableAnimation: disableAnimation)
-        .animation(.smooth, value: self.textfieldContent)
         .padding(.horizontal)
         .padding(.vertical, 10)
         .background(
             RoundedRectangle(cornerRadius: 10)
                 .stroke(self.textfieldContent.isEmpty ? .watchLogFont.opacity(0.5) : .watchLogFont, lineWidth: 2)
         )
+        .disableAnimations(disableAnimation: disableAnimation)
+        .animation(.smooth, value: self.textfieldContent)
     }
 }
 
