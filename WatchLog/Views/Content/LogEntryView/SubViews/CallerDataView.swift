@@ -63,7 +63,7 @@ extension CallerDataView {
     private var nameSubSection: some View {
         VStack(alignment: .leading, spacing: 0) {
             
-            FloatingBorderLabelTextField("Name", textfieldContent: $logEntry.callerName, isLocked: logEntry.isLocked, disableAnimation: viewIsReadOnly, config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.standard, limit: 50, tint: .watchLogFont, autoResizes: true))
+            FloatingBorderLabelTextField("Name", textfieldContent: $logEntry.callerName, isLocked: logEntry.isLocked, disableAnimation: viewIsReadOnly, config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.standard, limit: 50, tint: .watchLogFont, autoResizes: true, textfieldAutoCapitalization: .words))
         }
         .padding(EdgeInsets(top: 10, leading: 0, bottom: 0, trailing: 0))
     }
@@ -71,7 +71,7 @@ extension CallerDataView {
     private var adressSubSection: some View {
         VStack(alignment: .leading, spacing: 0) {
             
-            FloatingBorderLabelTextField("Adresse", textfieldContent: $logEntry.callerAdress, isLocked: logEntry.isLocked, disableAnimation: viewIsReadOnly, config: .init(textfieldType: TextFieldType.multiLine, textfieldLevel: TextFieldLevel.standard, limit: 200, tint: .watchLogFont, autoResizes: true))
+            FloatingBorderLabelTextField("Adresse", textfieldContent: $logEntry.callerAdress, isLocked: logEntry.isLocked, disableAnimation: viewIsReadOnly, config: .init(textfieldType: TextFieldType.multiLine, textfieldLevel: TextFieldLevel.standard, limit: 200, tint: .watchLogFont, autoResizes: true, textfieldAutoCapitalization: .words))
         }
         .padding(EdgeInsets(top: 10, leading: 0, bottom: 0, trailing: 0))
     }

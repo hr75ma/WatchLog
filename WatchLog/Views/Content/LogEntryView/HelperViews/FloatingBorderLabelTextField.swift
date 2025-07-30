@@ -43,7 +43,6 @@ struct FloatingBorderLabelTextField: View {
                             .offset(y: self.textfieldContent.isEmpty ? 0 : -82)
                     }
                     .scaleEffect(self.textfieldContent.isEmpty ? 1 : 0.9, anchor: .topLeading)
-                    
             }
             
             LimitedIndicatorTextFieldFloating(config: config, hint: "", text: $textfieldContent, isLocked: isLocked, disableAnimation: disableAnimation)

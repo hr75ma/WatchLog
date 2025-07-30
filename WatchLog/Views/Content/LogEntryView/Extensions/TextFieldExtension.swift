@@ -131,11 +131,11 @@ extension View {
     }
 
     func textFieldIndicatorFloating(
-        text: Binding<String>, isLocked: Bool, disableAnimation: Bool, textfieldType: TextFieldType, appStyles: StylesLogEntry
+        text: Binding<String>, isLocked: Bool, disableAnimation: Bool, textfieldType: TextFieldType, appStyles: StylesLogEntry, autocapitalize: TextInputAutocapitalization = .never
     ) -> some View {
         modifier(
             TextFieldIndicatorFloating(
-                text: text, isLocked: isLocked, disableAnimation: disableAnimation, textfieldType: textfieldType, textFieldHeight: appStyles.textFieldHeight, font: Font.title))
+                text: text, isLocked: isLocked, disableAnimation: disableAnimation, textfieldType: textfieldType, textFieldHeight: appStyles.textFieldHeight, font: Font.title, autocapitalize: autocapitalize))
     }
 
     func subTextFieldIndicator(
@@ -148,12 +148,12 @@ extension View {
     }
 
     func subTextFieldIndicatorFloating(
-        text: Binding<String>, isLocked: Bool, disableAnimation: Bool, textfieldType: TextFieldType, appStyles: StylesLogEntry
+        text: Binding<String>, isLocked: Bool, disableAnimation: Bool, textfieldType: TextFieldType, appStyles: StylesLogEntry, autocapitalize: TextInputAutocapitalization = .never
     ) -> some View {
         modifier(
             TextFieldIndicatorFloating(
                 text: text, isLocked: isLocked, disableAnimation: disableAnimation,
-                textfieldType: textfieldType, textFieldHeight: appStyles.textFieldSubHeight, font: Font.title2))
+                textfieldType: textfieldType, textFieldHeight: appStyles.textFieldSubHeight, font: Font.title2, autocapitalize: autocapitalize))
     }
 }
 
@@ -202,6 +202,7 @@ struct TextFieldIndicatorFloating: ViewModifier {
     let textfieldType: TextFieldType
     let textFieldHeight: CGFloat
     let font: Font
+    let autocapitalize: TextInputAutocapitalization
     @Environment(\.appStyles) var appStyles
 
     func body(content: Content) -> some View {
@@ -227,6 +228,7 @@ struct TextFieldIndicatorFloating: ViewModifier {
 //            )
             .background(Color.clear)
             .autocorrectionDisabled(true)
+            .textInputAutocapitalization(autocapitalize)
             .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
             .disableAnimations(disableAnimation: disableAnimation)
             .animation(.smooth(duration: 1), value: isLocked)

@@ -107,6 +107,7 @@ struct Config {
     var autoResizes: Bool = false
     var allowsExcessTyping: Bool = false
     var progressConfig: ProgressConfig = .init()
+    var textfieldAutoCapitalization: TextInputAutocapitalization = .never
 }
 
 struct ProgressConfig {
@@ -137,10 +138,10 @@ struct LimitedIndicatorTextFieldFloating: View {
             if config.textfieldType == .singleLine {
                 TextField(hint, text: $text)
                     .if(config.textfieldLevel == TextFieldLevel.standard) { view in
-                        view.textFieldIndicatorFloating(text: $text, isLocked: isLocked, disableAnimation: disableAnimation, textfieldType: config.textfieldType, appStyles: appStyles)
+                        view.textFieldIndicatorFloating(text: $text, isLocked: isLocked, disableAnimation: disableAnimation, textfieldType: config.textfieldType, appStyles: appStyles, autocapitalize: config.textfieldAutoCapitalization)
                     }
                     .if(config.textfieldLevel == TextFieldLevel.sub) { view in
-                        view.subTextFieldIndicatorFloating(text: $text, isLocked: isLocked, disableAnimation: disableAnimation, textfieldType: config.textfieldType, appStyles: appStyles)
+                        view.subTextFieldIndicatorFloating(text: $text, isLocked: isLocked, disableAnimation: disableAnimation, textfieldType: config.textfieldType, appStyles: appStyles, autocapitalize: config.textfieldAutoCapitalization)
                     }
                     .focused($isKeyboardShowing)
                     .onChange(of: text, initial: true) { _, _ in
@@ -151,10 +152,10 @@ struct LimitedIndicatorTextFieldFloating: View {
                 if config.textfieldType == .multiLine {
                     TextField(hint, text: $text, axis: .vertical)
                         .if(config.textfieldLevel == TextFieldLevel.standard) { view in
-                            view.textFieldIndicatorFloating(text: $text, isLocked: isLocked, disableAnimation: disableAnimation, textfieldType: config.textfieldType, appStyles: appStyles)
+                            view.textFieldIndicatorFloating(text: $text, isLocked: isLocked, disableAnimation: disableAnimation, textfieldType: config.textfieldType, appStyles: appStyles, autocapitalize: config.textfieldAutoCapitalization)
                         }
                         .if(config.textfieldLevel == TextFieldLevel.sub) { view in
-                            view.subTextFieldIndicatorFloating(text: $text, isLocked: isLocked, disableAnimation: disableAnimation, textfieldType: config.textfieldType, appStyles: appStyles)
+                            view.subTextFieldIndicatorFloating(text: $text, isLocked: isLocked, disableAnimation: disableAnimation, textfieldType: config.textfieldType, appStyles: appStyles, autocapitalize: config.textfieldAutoCapitalization)
                         }
                         .focused($isKeyboardShowing)
                         .onChange(of: text, initial: true) { _, newValue in

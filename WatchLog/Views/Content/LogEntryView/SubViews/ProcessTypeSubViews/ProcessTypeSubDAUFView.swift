@@ -23,7 +23,7 @@ struct ProcessTypeSubDAUFView: View {
 extension ProcessTypeSubDAUFView {
     private var licencePlate01: some View {
         VStack(alignment: .leading, spacing: 0) {
-            FloatingBorderLabelTextField("Kennzeichen", textfieldContent: $logEntry.processTypeDetails.AccientLicensePlate01, isLocked: logEntry.isLocked, disableAnimation: viewIsReadOnly, config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.sub, limit: 10, tint: .watchLogFont, autoResizes: true))
+            FloatingBorderLabelTextField("Kennzeichen", textfieldContent: $logEntry.processTypeDetails.AccientLicensePlate01, isLocked: logEntry.isLocked, disableAnimation: viewIsReadOnly, config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.sub, limit: 15, tint: .watchLogFont, autoResizes: true, textfieldAutoCapitalization: .characters))
         }
         .padding(EdgeInsets(top: 10, leading: 0, bottom: 0, trailing: 0))
     }
