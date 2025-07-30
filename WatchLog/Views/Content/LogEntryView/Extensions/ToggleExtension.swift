@@ -76,8 +76,9 @@ struct standardToggleStyleImage: ToggleStyle {
             .padding(EdgeInsets(top: 4, leading: 4, bottom: 4, trailing: 4))
         }
         .disableAnimations(disableAnimation: disableAnimation)
-        .animation(.smooth(duration: 1), value: isLocked)
-        .animation(.smooth(duration: 1), value: isDimmend)
+        //.animation(.smooth, value: isLocked)
+        //.animation(.smooth, value: isDimmend)
+        .animation(.smooth, value: configuration.isOn)
         .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
         .labelsHidden()
         .onTapGesture {
