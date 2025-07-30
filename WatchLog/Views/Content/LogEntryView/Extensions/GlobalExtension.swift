@@ -24,13 +24,22 @@ extension View {
     // - Parameters:
     //   - hidden: whether to hide the view.
     //   - remove: whether you want to reclaim the space taken by the hidden view.
-    @ViewBuilder func isHidden(_ hidden: Bool, remove: Bool = true) -> some View {
-        if remove {
-            if !hidden {
-                self
+//    @ViewBuilder func isHidden(_ isHidden: Bool, remove: Bool = true) -> some View {
+//        if remove {
+//            if !isHidden {
+//                self
+//            }
+//        } else {
+//            opacity(isHidden ? 0 : 1)
+//        }
+//    }
+    @ViewBuilder func isHidden(_ isHidden: Bool, remove: Bool = true) -> some View {
+        if isHidden {
+            if !remove {
+                self.hidden()
             }
         } else {
-            opacity(hidden ? 0 : 1)
+            self
         }
     }
 }
@@ -50,6 +59,10 @@ extension View {
     }
 
     func standardScrollViewPadding() -> some View {
+        padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+    }
+    
+    func zeroViewPadding() -> some View {
         padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
     }
 
@@ -84,7 +97,7 @@ struct StandardBottomBorder: ViewModifier {
                     .foregroundColor(.watchLogFrameBorder), // Border color
                 alignment: .bottom
             )
-            .cornerRadius(10)
+            .clipShape(.rect(cornerRadius: 10))
             .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
     }
 }
@@ -94,11 +107,11 @@ struct CanvasBorder: ViewModifier {
     @Environment(\.appStyles) var appStyles
     func body(content: Content) -> some View {
         content
-            .cornerRadius(20)
+            .clipShape(.rect(cornerRadius: 20))
             .overlay(
                 RoundedRectangle(cornerRadius: 20, style: .continuous)
                     .stroke(
-                        isLocked ? .watchLogLocked : .watchLogFrameBorder, lineWidth: 1)
+                        isLocked ? .watchLogLocked : .watchLogFrameBorder, lineWidth: appStyles.canvasBorderLineWidth)
             )
             .padding(EdgeInsets(top: 5, leading: 10, bottom: 10, trailing: 10))
     }
@@ -113,7 +126,7 @@ extension View {
 
     func blurring(blurSetting: BlurSetting) -> some View {
         blur(radius: blurSetting.isBlur ? blurSetting.blurRadius : 0)
-            .animation(.linear(duration: blurSetting.animationDuration), value: blurSetting.isBlur)
+            .animation(.smooth(duration: blurSetting.animationDuration), value: blurSetting.isBlur)
     }
 }
 
@@ -123,7 +136,7 @@ struct TextFormatterStyle: ViewModifier {
         content
             .font(Font.custom(appStyles.logTimeFont, size: appStyles.logTimeFontSize))
             .foregroundStyle(.watchLogFont)
-            .contentTransition(.numericText())
+            //.contentTransition(.numericText())
     }
 }
 

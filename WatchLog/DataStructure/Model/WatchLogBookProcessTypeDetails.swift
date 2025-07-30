@@ -11,34 +11,34 @@ import SwiftUI
 
 @Model
 class WatchLogBookProcessTypeDetails: Identifiable, Hashable {
-    #Unique<WatchLogBookProcessTypeDetails>([\.uuid])
+    #Unique<WatchLogBookProcessTypeDetails>([\.id])
 
-    @Attribute(.unique) var uuid: UUID
+    @Attribute(.unique) var id: UUID
 
     @Relationship(deleteRule: .nullify, inverse: \WatchLogBookEntry.processDetails) var watchLogBookEntry: WatchLogBookEntry?
 
-    var processTypeShort: ProcessType.ProcessTypeShort = ProcessType.ProcessTypeShort.UNKNOWN
+    var processTypeShort: ProcessingType = ProcessingType.UNKNOWN
 
     // var AccientInjured: Bool = false
-    var AccientHitAndRun: Bool = false
-    var AccientLicensePlate01: String = ""
-    var AccientLicensePlate02: String = ""
-    var AlcoholConsumed: Bool = false
+    var accientHitAndRun: Bool = false
+    var accientLicensePlate01: String = ""
+    var accientLicensePlate02: String = ""
+    var alcoholConsumed: Bool = false
 
     var isInjured: Bool = false
 
     var isAnimaleLiving: Bool = false
 
     init() {
-        uuid = UUID()
+        id = UUID()
 
-        processTypeShort = ProcessType.ProcessTypeShort.UNKNOWN
+        processTypeShort = ProcessingType.UNKNOWN
 
         // var AccientInjured: Bool = false
-        AccientHitAndRun = false
-        AccientLicensePlate01 = ""
-        AccientLicensePlate02 = ""
-        AlcoholConsumed = false
+        accientHitAndRun = false
+        accientLicensePlate01 = ""
+        accientLicensePlate02 = ""
+        alcoholConsumed = false
 
         isInjured = false
 
@@ -46,15 +46,15 @@ class WatchLogBookProcessTypeDetails: Identifiable, Hashable {
     }
 
     init(watchLogProcessTypeDetails: WatchLogProcessTypeDetails) {
-        uuid = watchLogProcessTypeDetails.uuid
+        id = watchLogProcessTypeDetails.uuid
 
         processTypeShort = watchLogProcessTypeDetails.processTypeShort
 
         // var AccientInjured: Bool = false
-        AccientHitAndRun = watchLogProcessTypeDetails.AccientHitAndRun
-        AccientLicensePlate01 = watchLogProcessTypeDetails.AccientLicensePlate01
-        AccientLicensePlate02 = watchLogProcessTypeDetails.AccientLicensePlate02
-        AlcoholConsumed = watchLogProcessTypeDetails.AlcoholConsumed
+        accientHitAndRun = watchLogProcessTypeDetails.AccientHitAndRun
+        accientLicensePlate01 = watchLogProcessTypeDetails.AccientLicensePlate01
+        accientLicensePlate02 = watchLogProcessTypeDetails.AccientLicensePlate02
+        alcoholConsumed = watchLogProcessTypeDetails.AlcoholConsumed
 
         isInjured = watchLogProcessTypeDetails.isInjured
 

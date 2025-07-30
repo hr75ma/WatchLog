@@ -9,14 +9,12 @@ import SwiftUI
 
 struct CallInView: View {
     @Bindable var logEntry: WatchLogEntry
+    let viewIsReadOnly: Bool
+
     @Environment(\.appStyles) var appStyles
 
-    @State private var selectedCallIn: CallInType.CallInTypeShort = CallInType.CallInTypeShort
-        .EMERGENCY
-    @State private var selectedCallInHelper: CallInType.CallInTypeShort = CallInType.CallInTypeShort
-        .EMERGENCY
-    @State private var selectedCallInAsString: String = CallInType.callInTypes[
-        CallInType.CallInTypeShort.EMERGENCY]!
+    //@State private var selectedCallIn: CallInType.CallInTypeShort = CallInType.CallInTypeShort.EMERGENCY
+    @State private var selectedCallInHelper: InComingCallType = InComingCallType.emergency
     @State private var tempLocked: Bool = false
     @Namespace private var namespace
 
@@ -25,7 +23,11 @@ struct CallInView: View {
             SectionImageView(sectionType: SectionImageType.callIn)
 
             VStack(alignment: .leading, spacing: 5) {
-                callInSection
+                
+                Form {
+                    callInSection
+                }
+            .formStyle(.columns)
             }
         }
         .disabled(logEntry.isLocked)
@@ -36,58 +38,78 @@ struct CallInView: View {
 
 extension CallInView {
     private var callInSection: some View {
-        HStack(alignment: .center, spacing: 0) {
+        VStack(alignment: .leading, spacing: 0) {
             Text("Eingang")
-                .textLabel(textLabelLevel: TextLabelLevel.standard)
+                .textLabel(textLabelLevel: TextLabelLevel.section)
 
             VStack(alignment: .leading, spacing: 0) {
                 HStack(alignment: .top, spacing: 0) {
-                    if tempLocked {
-                        Text(selectedCallInAsString)
-                            .sectionSimulatedTextFieldSingleLine(
-                                isLocked: logEntry.isLocked
-                            )
-                            .matchedGeometryEffect(id: "lockedEvent", in: namespace)
-                            .isHidden(!tempLocked, remove: true)
-                        Spacer()
+                    if viewIsReadOnly {
+                        ReadOnlyContent()
+                    } else {
+                        EditableContent()
                     }
-
-                    customSegmentedPickerView(preselectedIndex: $selectedCallIn, appStyles: appStyles)
-                        .matchedGeometryEffect(id: "lockedEvent", in: namespace)
-                        .isHidden(tempLocked, remove: true)
                 }
                 .frame(maxWidth: .infinity)
-                .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
             }
         }
         .onAppear {
-            withAnimation(.easeInOut(duration: 1)) {
-                selectedCallIn = logEntry.CallIn
-                selectedCallInHelper = selectedCallIn
-                tempLocked = logEntry.isLocked
+            if !viewIsReadOnly {
+                withAnimation(.smooth(duration: 1)) {
+                    selectedCallInHelper = logEntry.callIn
+                    tempLocked = logEntry.isLocked
+                }
             }
         }
-        .onChange(of: selectedCallIn) { _, _ in
-            withAnimation(.easeInOut(duration: 1)) {
-                logEntry.CallIn = selectedCallIn
-                selectedCallInHelper = selectedCallIn
-                selectedCallInAsString = CallInType.callInTypes[logEntry.CallIn]!
-            }
-        }
-        .onChange(of: logEntry.uuid) {
-            _, _ in
-            withAnimation(.easeInOut(duration: 1)) {
-                selectedCallIn = logEntry.CallIn
-                selectedCallInHelper = selectedCallIn
+        .onChange(of: logEntry.callIn) { _, _ in
+            if !viewIsReadOnly {
+                withAnimation(.smooth(duration: 1)) {
+                    selectedCallInHelper = logEntry.callIn
+                }
             }
         }
         .onChange(of: logEntry.isLocked) {
-            withAnimation(.easeInOut(duration: 1)) {
-                tempLocked = logEntry.isLocked
-                selectedCallInHelper = selectedCallIn
-                selectedCallInAsString = CallInType.callInTypes[logEntry.CallIn]!
+            if !viewIsReadOnly {
+                withAnimation(.smooth(duration: 1)) {
+                    tempLocked = logEntry.isLocked
+                    selectedCallInHelper = logEntry.callIn
+                }
             }
         }
-        .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+    }
+
+    private func ReadOnlyContent() -> some View {
+        HStack(alignment: .center, spacing: 0) {
+            
+            FloatingBorderLabelSimulatedTextField("", textfieldContent: logEntry.callIn.localized.stringKey!, isLocked: logEntry.isLocked, disableAnimation: viewIsReadOnly, config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.standard, limit: 50, tint: .watchLogFont, autoResizes: true, withClearButton: false))
+            
+//            
+//            
+//            Text(logEntry.callIn.localized)
+//                .sectionSimulatedTextFieldSingleLine(
+//                    isLocked: logEntry.isLocked
+//                )
+//            Spacer()
+        }
+    }
+
+    private func EditableContent() -> some View {
+        HStack(alignment: .center, spacing: 0) {
+            if tempLocked {
+//                Text(logEntry.callIn.localized)
+//                    .sectionSimulatedTextFieldSingleLine(
+//                        isLocked: logEntry.isLocked
+//                    )
+                FloatingBorderLabelSimulatedTextField("", textfieldContent: logEntry.callIn.localized.stringKey!, isLocked: logEntry.isLocked, disableAnimation: viewIsReadOnly, config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.standard, limit: 50, tint: .watchLogFont, autoResizes: true, withClearButton: false))
+                    .matchedGeometryEffect(id: "lockedEvent", in: namespace)
+                    .isHidden(!tempLocked, remove: true)
+            //    Spacer()
+            }
+
+            customSegmentedPickerView(preselectedIndex: $logEntry.callIn, appStyles: appStyles)
+                .matchedGeometryEffect(id: "lockedEvent", in: namespace)
+                .isHidden(tempLocked, remove: true)
+        }
     }
 }
+

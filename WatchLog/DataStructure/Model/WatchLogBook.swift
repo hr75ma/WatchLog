@@ -11,22 +11,22 @@ import SwiftUI
 
 @Model
 class WatchLogBook: Identifiable, Hashable {
-    #Unique<WatchLogBook>([\.uuid])
-    @Attribute(.unique) var uuid: UUID
+    #Unique<WatchLogBook>([\.id])
+    @Attribute(.unique) var id: UUID
 
     @Relationship(deleteRule: .cascade) var watchLogBookYears: [WatchLogBookYear]? = []
 
     init(LogDate: Date) {
-        uuid = UUID()
+        id = UUID()
     }
 
     init() {
-        uuid = UUID()
+        id = UUID()
     }
 
     var logYearsSorted: [WatchLogBookYear] {
         get {
-            watchLogBookYears?.sorted(by: { $0.LogDate > $1.LogDate }) ?? []
+            watchLogBookYears?.sorted(by: { $0.logDate > $1.logDate }) ?? []
         }
         set {
             watchLogBookYears = newValue

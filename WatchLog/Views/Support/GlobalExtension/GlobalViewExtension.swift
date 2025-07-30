@@ -7,6 +7,46 @@
 
 import SwiftUI
 
+
+struct DisableAnimationsViewModifier: ViewModifier {
+    let disableAnimation: Bool
+    func body(content: Content) -> some View {
+        if disableAnimation {
+            content.transaction { $0.animation = nil }
+        } else {
+            content
+        }
+    }
+}
+
+extension View {
+    func disableAnimations(disableAnimation: Bool) -> some View {
+        modifier(DisableAnimationsViewModifier(disableAnimation: disableAnimation))
+    }
+}
+
+
+struct FullScreenCoverModifier: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .presentationBackground(.watchLogViewGeneralBackground)
+            .transition(.move(edge: .bottom))
+    }
+}
+
+extension View {
+
+
+    func fullScreenCoverModifier() -> some View {
+        modifier(FullScreenCoverModifier())
+    }
+}
+
+
+
+
+
 extension View {
     // .if Condition
     // - Parameters:

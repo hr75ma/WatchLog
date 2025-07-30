@@ -13,7 +13,7 @@ import SwiftUI
 class WatchLogProcessTypeDetails {
     var uuid: UUID
 
-    var processTypeShort: ProcessType.ProcessTypeShort = ProcessType.ProcessTypeShort.UNKNOWN
+    var processTypeShort: ProcessingType = ProcessingType.UNKNOWN
 
     // var AccientInjured: Bool = false
     var AccientHitAndRun: Bool = false
@@ -29,7 +29,7 @@ class WatchLogProcessTypeDetails {
     init() {
         uuid = UUID()
 
-        processTypeShort = ProcessType.ProcessTypeShort.UNKNOWN
+        processTypeShort = ProcessingType.UNKNOWN
 
         // AccientInjured = false
         AccientHitAndRun = false
@@ -43,23 +43,23 @@ class WatchLogProcessTypeDetails {
     }
 
     init(processTypeDetails: WatchLogBookProcessTypeDetails) {
-        uuid = processTypeDetails.uuid
+        uuid = processTypeDetails.id
 
         processTypeShort = processTypeDetails.processTypeShort
 
         // AccientInjured = false
-        AccientHitAndRun = processTypeDetails.AccientHitAndRun
-        AccientLicensePlate01 = processTypeDetails.AccientLicensePlate01
-        AccientLicensePlate02 = processTypeDetails.AccientLicensePlate02
-        AlcoholConsumed = processTypeDetails.AlcoholConsumed
+        AccientHitAndRun = processTypeDetails.accientHitAndRun
+        AccientLicensePlate01 = processTypeDetails.accientLicensePlate01
+        AccientLicensePlate02 = processTypeDetails.accientLicensePlate02
+        AlcoholConsumed = processTypeDetails.alcoholConsumed
 
         isInjured = processTypeDetails.isInjured
 
-        isAnimaleLiving = processTypeDetails.isInjured
+        isAnimaleLiving = processTypeDetails.isAnimaleLiving
     }
 
     func clear() {
-        processTypeShort = ProcessType.ProcessTypeShort.UNKNOWN
+        processTypeShort = ProcessingType.UNKNOWN
 
         // AccientInjured = false
         AccientHitAndRun = false

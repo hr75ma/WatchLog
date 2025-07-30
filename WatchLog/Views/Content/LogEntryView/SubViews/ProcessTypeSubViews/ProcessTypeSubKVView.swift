@@ -9,21 +9,30 @@ import SwiftUI
 
 struct ProcessTypeSubKVView: View {
     @Bindable var logEntry: WatchLogEntry
+    let viewIsReadOnly: Bool
     @Environment(\.appStyles) var appStyles
 
     var body: some View {
         VStack(alignment: .leading, spacing: 5) {
-            HStack(alignment: .center, spacing: 0) {
-                HStack(alignment: .center, spacing: 0) {
-                    Text("Verletzte")
-                        .textLabel(textLabelLevel: TextLabelLevel.sub)
-
-                    ToggleView(toggleValue: $logEntry.processTypeDetails.isInjured, isLocked: logEntry.isLocked, toggleType: .sub)
-                    Spacer()
-                }
-            }
+            
+            injueresToggle
+            
             .standardEventSubViewPadding()
             .disabled(logEntry.isLocked)
         }
     }
+}
+
+extension ProcessTypeSubKVView {
+ 
+    private var injueresToggle: some View {
+        HStack(alignment: .center, spacing: 0) {
+            Text("Verletztungen")
+                .textLabel(textLabelLevel: TextLabelLevel.sub, isDimmend: !logEntry.processTypeDetails.isInjured, disableAnimation: viewIsReadOnly)
+
+            ToggleView(toggleValue: $logEntry.processTypeDetails.isInjured, isLocked: logEntry.isLocked, isDimmend: !logEntry.processTypeDetails.isInjured, removeAnimation: viewIsReadOnly, toggleType: .sub)
+             Spacer()
+         }
+    }
+    
 }

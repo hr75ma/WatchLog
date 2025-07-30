@@ -17,10 +17,15 @@ enum TextFieldLevel: CaseIterable, Codable {
     case sub
 }
 
+enum NumericTextInputMode: CaseIterable, Codable {
+    case number
+    case decimal
+}
+
 // globals
 extension View {
-    fileprivate func textFieldButtonClearButton(text: Binding<String>, isLocked: Bool) -> some View {
-        modifier(TextFieldButtonClearButtonModifier(text: text, isLocked: isLocked))
+    fileprivate func textFieldButtonClearButton(text: Binding<String>, isLocked: Bool, isShowing: Bool = true) -> some View {
+        modifier(TextFieldButtonClearButtonModifier(text: text, isLocked: isLocked, isShowing: isShowing))
             .padding(.leading, 5)
             .padding(.trailing, 45)
             .padding(.vertical, 0)
@@ -28,10 +33,6 @@ extension View {
 
     fileprivate func textFieldLimitInputLength(text: Binding<String>, length: Int) -> some View {
         modifier(TextFieldLimitModifer(text: text, length: length))
-    }
-
-    func textFieldCheckOnNumbers(text: Binding<String>) -> some View {
-        modifier(TextFieldCheckOnNumbersModifier(text: text))
     }
 
     fileprivate func innerPadding() -> some View {
@@ -45,13 +46,14 @@ extension View {
 fileprivate struct TextFieldButtonClearButtonModifier: ViewModifier {
     @Binding var text: String
     let isLocked: Bool
+    let isShowing: Bool
     @Environment(\.appStyles) var appStyles
 
     func body(content: Content) -> some View {
         ZStack(alignment: .trailing) {
             content
 
-            if !text.isEmpty && !isLocked {
+            if !text.isEmpty && !isLocked && isShowing {
                 Button {
                     text = ""
                 } label: {
@@ -80,14 +82,25 @@ fileprivate struct TextFieldLimitModifer: ViewModifier {
     }
 }
 
-struct TextFieldCheckOnNumbersModifier: ViewModifier {
+
+
+fileprivate struct NumericTextInputFieldViewModifier: ViewModifier {
     @Binding var text: String
+    let mode: NumericTextInputMode
 
     func body(content: Content) -> some View {
         content
-            .onChange(of: $text.wrappedValue) { old, new in
-                if !new.allSatisfy(\.isNumber) {
-                    text = old
+            .keyboardType(mode == .number ? .numberPad : .decimalPad)
+            .onChange(of: text) { _, newValue in
+                let decimalSeparator = Locale.current.decimalSeparator ?? "."
+                let numbers = "1234567890\(mode == .decimal ? decimalSeparator : "")"
+                if newValue.components(separatedBy: decimalSeparator).count - 1 > 1 {
+                    text = String(newValue.dropLast())
+                } else {
+                    let filtered = newValue.filter { numbers.contains($0) }
+                    if filtered != newValue {
+                        text = filtered
+                    }
                 }
             }
     }
@@ -106,27 +119,49 @@ fileprivate struct InnerPaddingModifier: ViewModifier {
 // -----------------------------------------------------------
 
 extension View {
+    func numericTextInputField(_ mode: NumericTextInputMode = .number, text: Binding<String>) -> some View {
+        modifier(NumericTextInputFieldViewModifier(text: text, mode: mode))
+    }
+    
     func textFieldIndicator(
-        text: Binding<String>, isLocked: Bool, textfieldType: TextFieldType, appStyles: StylesLogEntry
+        text: Binding<String>, isLocked: Bool, disableAnimation: Bool, textfieldType: TextFieldType, appStyles: StylesLogEntry
     ) -> some View {
         modifier(
             TextFieldIndicator(
-                text: text, isLocked: isLocked, textfieldType: textfieldType, textFieldHeight: appStyles.textFieldHeight, font: Font.title))
+                text: text, isLocked: isLocked, disableAnimation: disableAnimation, textfieldType: textfieldType, textFieldHeight: appStyles.textFieldHeight, font: Font.title))
+    }
+
+    func textFieldIndicatorFloating(
+        text: Binding<String>, isLocked: Bool, disableAnimation: Bool, textfieldType: TextFieldType, appStyles: StylesLogEntry, autocapitalize: TextInputAutocapitalization = .never, withClearButton: Bool = true
+    ) -> some View {
+        modifier(
+            TextFieldIndicatorFloating(
+                text: text, isLocked: isLocked, disableAnimation: disableAnimation, textfieldType: textfieldType, textFieldHeight: appStyles.textFieldHeight, font: Font.title, autocapitalize: autocapitalize, withClearButton: withClearButton))
     }
 
     func subTextFieldIndicator(
-        text: Binding<String>, isLocked: Bool, textfieldType: TextFieldType, appStyles: StylesLogEntry
+        text: Binding<String>, isLocked: Bool, disableAnimation: Bool, textfieldType: TextFieldType, appStyles: StylesLogEntry
     ) -> some View {
         modifier(
             TextFieldIndicator(
-                text: text, isLocked: isLocked,
+                text: text, isLocked: isLocked, disableAnimation: disableAnimation,
                 textfieldType: textfieldType, textFieldHeight: appStyles.textFieldSubHeight, font: Font.title2))
+    }
+
+    func subTextFieldIndicatorFloating(
+        text: Binding<String>, isLocked: Bool, disableAnimation: Bool, textfieldType: TextFieldType, appStyles: StylesLogEntry, autocapitalize: TextInputAutocapitalization = .never, withClearButton: Bool = true
+    ) -> some View {
+        modifier(
+            TextFieldIndicatorFloating(
+                text: text, isLocked: isLocked, disableAnimation: disableAnimation,
+                textfieldType: textfieldType, textFieldHeight: appStyles.textFieldSubHeight, font: Font.title2, autocapitalize: autocapitalize, withClearButton: withClearButton))
     }
 }
 
 struct TextFieldIndicator: ViewModifier {
     @Binding var text: String
     let isLocked: Bool
+    let disableAnimation: Bool
     let textfieldType: TextFieldType
     let textFieldHeight: CGFloat
     let font: Font
@@ -135,6 +170,46 @@ struct TextFieldIndicator: ViewModifier {
     func body(content: Content) -> some View {
         content
             .textFieldButtonClearButton(text: $text, isLocked: isLocked)
+            .font(font)
+            .fontWeight(.regular)
+            .fontWidth(.standard)
+            .fontDesign(.rounded)
+            .if(textfieldType == TextFieldType.singleLine) { view in
+                view.lineLimit(1)
+                    .frame(height: textFieldHeight)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            .if(textfieldType == TextFieldType.multiLine) { view in
+                view.lineLimit(4, reservesSpace: true)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            .foregroundStyle(.watchLogFont)
+            .background(
+                isLocked
+                    ? .watchLogTextfieldBackgoundLocked : .watchLogTextfieldBackgroundUnlocked
+            )
+            .autocorrectionDisabled(true)
+            .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+            .disableAnimations(disableAnimation: disableAnimation)
+            .animation(.smooth(duration: 1), value: isLocked)
+            .disabled(isLocked)
+    }
+}
+
+struct TextFieldIndicatorFloating: ViewModifier {
+    @Binding var text: String
+    let isLocked: Bool
+    let disableAnimation: Bool
+    let textfieldType: TextFieldType
+    let textFieldHeight: CGFloat
+    let font: Font
+    let autocapitalize: TextInputAutocapitalization
+    let withClearButton: Bool
+    @Environment(\.appStyles) var appStyles
+
+    func body(content: Content) -> some View {
+        content
+            .textFieldButtonClearButton(text: $text, isLocked: isLocked, isShowing: withClearButton)
             .font(font)
             .fontWeight(.semibold)
             .fontWidth(.standard)
@@ -146,16 +221,20 @@ struct TextFieldIndicator: ViewModifier {
             }
             .if(textfieldType == TextFieldType.multiLine) { view in
                 view.lineLimit(4, reservesSpace: true)
-                    .fixedSize(horizontal: false, vertical: false)
+                    .fixedSize(horizontal: false, vertical: true)
             }
             .foregroundStyle(.watchLogFont)
-            .background(
-                isLocked
-                    ? .watchLogTextfieldBackgoundLocked : .watchLogTextfieldBackgroundUnlocked
-            )
+//            .background(
+//                isLocked
+//                    ? .watchLogTextfieldBackgoundLocked : .watchLogTextfieldBackgroundUnlocked
+//            )
+            .background(Color.clear)
             .autocorrectionDisabled(true)
+            .textInputAutocapitalization(autocapitalize)
             .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
-            .animation(.easeInOut(duration: 1), value: isLocked)
+            .disableAnimations(disableAnimation: disableAnimation)
+            .disableAnimations(disableAnimation: isLocked)
+            .animation(.smooth, value: isLocked)
             .disabled(isLocked)
     }
 }

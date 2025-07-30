@@ -11,36 +11,26 @@ import SwiftUI
 
 @Model
 class WatchLogBookEntry: Identifiable, Hashable {
-    #Unique<WatchLogBookEntry>([\.uuid, \.LogDate])
+    #Unique<WatchLogBookEntry>([\.id])
 
-    @Attribute(.unique) var uuid: UUID
+    @Attribute(.unique) var id: UUID
 
     @Relationship(deleteRule: .nullify, inverse: \WatchLogBookDay.watchLogBookEntries) var watchLogBookDay: WatchLogBookDay?
 
     @Relationship(deleteRule: .cascade) var processDetails: WatchLogBookProcessTypeDetails?
 
-    // var processDetails: WatchLogBookProcessTypeDetails
+    var logDate: Date
+    
+    var callerName: String = ""
+    var callerNumber: String = ""
+    var callerAdress: String = ""
+    var callerDOB: Date?
 
-    var LogDate: Date
-
-    var CallerName: String = ""
-    var CallerNumber: String = ""
-    var CallerAdress: String = ""
-    var CallerDOB: Date?
-
-    var CallIn: CallInType.CallInTypeShort = CallInType.CallInTypeShort.EMERGENCY
-
-    // var AccientInjured: Bool = false
-    var AccientHitAndRun: Bool = false
-    var AccientLicensePlate01: String = ""
-    var AccientLicensePlate02: String = ""
-    // var isAccient: Bool = false
-
-    var isInjured: Bool = false
+    
+    var callIn: InComingCallType = InComingCallType.emergency
 
     var isLocked: Bool = false
-    var processTypeShort: ProcessType.ProcessTypeShort = ProcessType.ProcessTypeShort.UNKNOWN
-
+    
     private var drawingData: Data = Data()
     var drawing: PKDrawing {
         get {
@@ -51,17 +41,22 @@ class WatchLogBookEntry: Identifiable, Hashable {
             drawingData = newValue.dataRepresentation()
         }
     }
+    
+        func getWatchLogEntry() -> WatchLogEntry {
+            return WatchLogEntry(watchLookBookEntry: self)
+    
+        }
 
     init(LogEntry: WatchLogEntry, day: WatchLogBookDay) {
-        uuid = LogEntry.uuid
-        LogDate = LogEntry.EntryTime
+        id = LogEntry.id
+        logDate = LogEntry.logDate
 
-        CallerName = LogEntry.CallerName
-        CallerNumber = LogEntry.CallerNumber
-        CallerAdress = LogEntry.CallerAdress
-        CallerDOB = LogEntry.CallerDOB
+        callerName = LogEntry.callerName
+        callerNumber = LogEntry.callerNumber
+        callerAdress = LogEntry.callerAdress
+        callerDOB = LogEntry.callerDOB
 
-        CallIn = LogEntry.CallIn
+        callIn = LogEntry.callIn
 
         isLocked = LogEntry.isLocked
 
@@ -73,15 +68,15 @@ class WatchLogBookEntry: Identifiable, Hashable {
     }
 
     init(LogEntry: WatchLogEntry) {
-        uuid = LogEntry.uuid
-        LogDate = LogEntry.EntryTime
+        id = LogEntry.id
+        logDate = LogEntry.logDate
 
-        CallerName = LogEntry.CallerName
-        CallerNumber = LogEntry.CallerNumber
-        CallerAdress = LogEntry.CallerAdress
-        CallerDOB = LogEntry.CallerDOB
+        callerName = LogEntry.callerName
+        callerNumber = LogEntry.callerNumber
+        callerAdress = LogEntry.callerAdress
+        callerDOB = LogEntry.callerDOB
 
-        CallIn = LogEntry.CallIn
+        callIn = LogEntry.callIn
 
         isLocked = LogEntry.isLocked
 
@@ -93,25 +88,15 @@ class WatchLogBookEntry: Identifiable, Hashable {
     }
 
     init() {
-        uuid = UUID()
-        LogDate = .now
+        id = UUID()
+        logDate = .now
 
-        CallerName = ""
-        CallerNumber = ""
-        CallerAdress = ""
-        CallerDOB = nil
+        callerName = ""
+        callerNumber = ""
+        callerAdress = ""
+        callerDOB = nil
 
-        CallIn = .EMERGENCY
-
-        // isAccient = false
-        // AccientInjured = false
-        AccientHitAndRun = false
-        AccientLicensePlate01 = ""
-        AccientLicensePlate02 = ""
-
-        isInjured = false
-
-        processTypeShort = ProcessType.ProcessTypeShort.UNKNOWN
+        callIn = .emergency
 
         isLocked = false
 
@@ -123,25 +108,15 @@ class WatchLogBookEntry: Identifiable, Hashable {
     }
 
     init(uuid: UUID) {
-        self.uuid = uuid
-        LogDate = .now
+        self.id = uuid
+        logDate = .now
 
-        CallerName = ""
-        CallerNumber = ""
-        CallerAdress = ""
-        CallerDOB = nil
+        callerName = ""
+        callerNumber = ""
+        callerAdress = ""
+        callerDOB = nil
 
-        CallIn = .EMERGENCY
-
-        // isAccient = false
-        // AccientInjured = false
-        AccientHitAndRun = false
-        AccientLicensePlate01 = ""
-        AccientLicensePlate02 = ""
-
-        isInjured = false
-
-        processTypeShort = ProcessType.ProcessTypeShort.UNKNOWN
+        callIn = .emergency
 
         isLocked = false
 
@@ -153,25 +128,17 @@ class WatchLogBookEntry: Identifiable, Hashable {
     }
 
     func clear() {
-        uuid = uuid
-        LogDate = .now
+        id = id
+        logDate = .now
 
-        CallerName = ""
-        CallerNumber = ""
-        CallerAdress = ""
-        CallerDOB = nil
+        callerName = ""
+        callerNumber = ""
+        callerAdress = ""
+        callerDOB = nil
 
-        CallIn = .EMERGENCY
+        callIn = .emergency
 
-        // isAccient = false
-        // AccientInjured = false
-        AccientHitAndRun = false
-        AccientLicensePlate01 = ""
-        AccientLicensePlate02 = ""
-
-        isInjured = false
-
-        processTypeShort = ProcessType.ProcessTypeShort.UNKNOWN
+        //processTypeShort = ProcessType.ProcessTypeShort.UNKNOWN
 
         isLocked = false
 
@@ -183,23 +150,24 @@ class WatchLogBookEntry: Identifiable, Hashable {
     }
 
     func update(LogEntry: WatchLogEntry) {
-        uuid = LogEntry.uuid
-        LogDate = LogEntry.EntryTime
+        id = LogEntry.id
+        logDate = LogEntry.logDate
+        
 
-        CallerName = LogEntry.CallerName
-        CallerNumber = LogEntry.CallerNumber
-        CallerAdress = LogEntry.CallerAdress
-        CallerDOB = LogEntry.CallerDOB
+        callerName = LogEntry.callerName
+        callerNumber = LogEntry.callerNumber
+        callerAdress = LogEntry.callerAdress
+        callerDOB = LogEntry.callerDOB
 
-        CallIn = LogEntry.CallIn
+        callIn = LogEntry.callIn
 
-        processDetails!.AccientHitAndRun = LogEntry.processTypeDetails.AccientHitAndRun
-        processDetails!.AccientLicensePlate01 = LogEntry.processTypeDetails.AccientLicensePlate01
-        processDetails!.AccientLicensePlate02 = LogEntry.processTypeDetails.AccientLicensePlate02
+        processDetails!.accientHitAndRun = LogEntry.processTypeDetails.AccientHitAndRun
+        processDetails!.accientLicensePlate01 = LogEntry.processTypeDetails.AccientLicensePlate01
+        processDetails!.accientLicensePlate02 = LogEntry.processTypeDetails.AccientLicensePlate02
         processDetails!.isAnimaleLiving = LogEntry.processTypeDetails.isAnimaleLiving
         processDetails!.isInjured = LogEntry.processTypeDetails.isInjured
         processDetails!.processTypeShort = LogEntry.processTypeDetails.processTypeShort
-        processDetails!.AlcoholConsumed = LogEntry.processTypeDetails.AlcoholConsumed
+        processDetails!.alcoholConsumed = LogEntry.processTypeDetails.AlcoholConsumed
 
         isLocked = true
 

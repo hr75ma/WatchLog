@@ -9,6 +9,8 @@ import UIKit
 
 struct CallerDataView: View {
     @Bindable var logEntry: WatchLogEntry
+    let viewIsReadOnly: Bool
+
     @Environment(\.appStyles) var appStyles
     @Environment(\.colorScheme) var colorScheme
 
@@ -23,13 +25,20 @@ struct CallerDataView: View {
             SectionImageView(sectionType: SectionImageType.callerData)
 
             VStack(alignment: .leading, spacing: 5) {
-                phoneSubSection
-
-                nameSubSection
-
-                dobSubSection
-
-                adressSubSection
+               
+                Form {
+                    phoneSubSection
+                 
+                    
+                    nameSubSection
+                    
+                    adressSubSection
+                    
+                    dobSubSection
+                    
+                    
+                }
+                .formStyle(.columns)
             }
         }
         .disabled(logEntry.isLocked)
@@ -40,103 +49,61 @@ struct CallerDataView: View {
 
 extension CallerDataView {
     private var phoneSubSection: some View {
-        HStack(alignment: .center, spacing: 0) {
-            Text("Telefon")
-                .textLabel(textLabelLevel: TextLabelLevel.standard)
-
-            LimitedIndicatorTextField(config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.standard, limit: 20, tint: .watchLogFont, autoResizes: true), hint: "", text: $logEntry.CallerNumber, isLocked: logEntry.isLocked)
-                .textFieldCheckOnNumbers(text: $logEntry.CallerNumber)
+        VStack(alignment: .leading, spacing: 0) {
+            
+            FloatingBorderLabelTextField("Telefon", textfieldContent: $logEntry.callerNumber, isLocked: logEntry.isLocked, disableAnimation: viewIsReadOnly, config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.standard, limit: 20, tint: .watchLogFont, autoResizes: true))
+                //.textFieldCheckOnNumbers(text: $logEntry.callerNumber)
+                .numericTextInputField(text: $logEntry.callerNumber)
                 .textContentType(.telephoneNumber)
                 .keyboardType(.numberPad)
         }
+        .padding(EdgeInsets(top: 10, leading: 0, bottom: 0, trailing: 0))
     }
-
+    
     private var nameSubSection: some View {
-        HStack(alignment: .center, spacing: 0) {
-            Text("Name")
-                .textLabel(textLabelLevel: TextLabelLevel.standard)
-
-            LimitedIndicatorTextField(config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.standard, limit: 50, tint: .watchLogFont, autoResizes: true), hint: "", text: $logEntry.CallerName, isLocked: logEntry.isLocked)
+        VStack(alignment: .leading, spacing: 0) {
+            
+            FloatingBorderLabelTextField("Name", textfieldContent: $logEntry.callerName, isLocked: logEntry.isLocked, disableAnimation: viewIsReadOnly, config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.standard, limit: 50, tint: .watchLogFont, autoResizes: true, textfieldAutoCapitalization: .words))
         }
+        .padding(EdgeInsets(top: 10, leading: 0, bottom: 0, trailing: 0))
     }
 
     private var adressSubSection: some View {
-        HStack(alignment: .top, spacing: 0) {
-            Text("Adresse")
-                .textLabel(textLabelLevel: TextLabelLevel.standard)
-                .frame(alignment: .topLeading)
-
-            LimitedIndicatorTextField(config: .init(textfieldType: TextFieldType.multiLine, textfieldLevel: TextFieldLevel.standard, limit: 200, tint: .watchLogFont, autoResizes: true), hint: "", text: $logEntry.CallerAdress, isLocked: logEntry.isLocked)
+        VStack(alignment: .leading, spacing: 0) {
+            
+            FloatingBorderLabelTextField("Adresse", textfieldContent: $logEntry.callerAdress, isLocked: logEntry.isLocked, disableAnimation: viewIsReadOnly, config: .init(textfieldType: TextFieldType.multiLine, textfieldLevel: TextFieldLevel.standard, limit: 200, tint: .watchLogFont, autoResizes: true, textfieldAutoCapitalization: .words))
         }
+        .padding(EdgeInsets(top: 10, leading: 0, bottom: 0, trailing: 0))
     }
 
-    private var dobSubSection: some View {
-        HStack(alignment: .top, spacing: 0) {
-            Text("DOB")
-                .textLabel(textLabelLevel: TextLabelLevel.standard)
+    
+    
+    var dobSubSection: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            
+//            if !viewIsReadOnly && !logEntry.isLocked {
+//                    Text("Geburtstag")
+//                        .textLabel(textLabelLevel: TextLabelLevel.standard)
+//            }
 
             HStack(alignment: .top, spacing: 0) {
-                HStack(alignment: .top, spacing: 0) {
-                    HStack(alignment: .top, spacing: 0) {
-                        ToggleView(
-                            toggleValue: self.$withBirthday, isLocked: logEntry.isLocked, toggleType: .standard
-                        )
-                        .isHidden(tempLocked, remove: true)
+                if viewIsReadOnly {
+                    ReadOnlyContent()
 
-                        //            Toggle("", isOn: $withBirthday)
-                        //              .labelsHidden()
-                        //              .toggleStyle(
-                        //                toggleStyleAnimationImage(
-                        //                  isOnImage: "inset.filled.circle.dashed",
-                        //                  isOffImage: "inset.filled.circle.dashed",
-                        //                  isOnColorPrimary: appStyles.GeneralToggleIsActivePrimary,
-                        //                  isOnColorSecondary: appStyles.GeneralToggleIsActiveSecondary,
-                        //                  isOffColorPrimary: Color.red,
-                        //                  isOffColorSecondary: appStyles.GeneralToggleIsUnactiveSecondary,
-                        //                  isLocked: logEntry.isLocked, isLockedColor: appStyles.ToogleIsLockedColor
-                        //                )
-                        //              )
-                        //              .frame(height: appStyles.TextFieldHeight)
-                        //              .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-                        //              .isHidden(tempLocked, remove: true)
-
-                        DatePicker("", selection: $logEntry.CallerDOB ?? Date(), in: ...Date(), displayedComponents: [.date])
-                            .datePickerWheelStyle()
-                            .matchedGeometryEffect(id: "lockedEvent", in: namespace)
-                            .isHidden(!with || tempLocked, remove: true)
-                    }
-                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-                }
-
-                if tempLocked {
-                    Text(DateManipulation.getFormatedDateFromDOB(from: logEntry.CallerDOB))
-                        .sectionSimulatedTextFieldSingleLine(
-                            isLocked: logEntry.isLocked
-                        )
-                        .matchedGeometryEffect(id: "lockedEvent", in: namespace)
-                        .isHidden(logEntry.CallerDOB == nil || !tempLocked, remove: true)
-                    Spacer()
+                } else {
+                    EditableContent()
                 }
             }
             .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
             .onChange(of: logEntry.isLocked) {
-                withAnimation(.easeInOut(duration: 1)) {
+                withAnimation(.smooth(duration: 1)) {
                     tempLocked = logEntry.isLocked
                 }
             }
-            .onChange(of: logEntry.uuid) {
-                withAnimation(.easeInOut(duration: 1)) {
-                    if logEntry.CallerDOB == nil {
-                        withBirthday = false
-                    } else {
-                        withBirthday = true
-                    }
-                }
-            }
             .onChange(of: withBirthday) { _, _ in
-                withAnimation(.easeInOut(duration: 1)) {
+                withAnimation(.smooth(duration: 1)) {
                     if !withBirthday {
-                        logEntry.CallerDOB = nil
+                        logEntry.callerDOB = nil
                         with = withBirthday
                     } else {
                         with = withBirthday
@@ -144,21 +111,78 @@ extension CallerDataView {
                 }
             }
             .onAppear {
-                withAnimation(.easeInOut(duration: 1)) {
-                    if logEntry.CallerDOB == nil {
-                        withBirthday = false
-                        with = withBirthday
-                    } else {
-                        withBirthday = true
-                        with = withBirthday
+                if viewIsReadOnly {
+                    switchBirthday()
+                } else {
+                    withAnimation(.smooth(duration: 1)) {
+                        switchBirthday()
                     }
-                    tempLocked = logEntry.isLocked
                 }
             }
         }
-        .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+    }
+    
+    private func switchBirthday() {
+        if logEntry.callerDOB == nil {
+            withBirthday = false
+            with = withBirthday
+        } else {
+            withBirthday = true
+            with = withBirthday
+        }
+        tempLocked = logEntry.isLocked
     }
 }
+
+extension CallerDataView {
+    private func ReadOnlyContent() -> some View {
+        HStack(alignment: .center, spacing: 0) {
+            if tempLocked {
+                
+                VStack(alignment: .leading, spacing: 0) {
+                    FloatingBorderLabelSimulatedTextField("Geburstag", textfieldContent: DateManipulation.getFormatedDateFromDOB(from: logEntry.callerDOB), isLocked: logEntry.isLocked, disableAnimation: viewIsReadOnly, config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.standard, limit: 50, tint: .watchLogFont, autoResizes: true, withClearButton: false))
+                        .isHidden(logEntry.callerDOB == nil || !tempLocked, remove: true)
+                        
+                }
+                .padding(EdgeInsets(top: 15, leading: 0, bottom: 0, trailing: 0))
+            }
+        }
+    }
+
+    private func EditableContent() -> some View {
+        HStack(alignment: .top, spacing: 0) {
+            VStack(alignment: .leading, spacing: 0) {
+
+                Text("Geburtsdatum")
+                    .textLabel(textLabelLevel: TextLabelLevel.standard, isDimmend: !self.withBirthday, disableAnimation: viewIsReadOnly)
+                    .isHidden(tempLocked, remove: true)
+                
+                HStack(alignment: .top, spacing: 0) {
+                    ToggleView(
+                        toggleValue: self.$withBirthday, isLocked: logEntry.isLocked, isDimmend: !withBirthday, removeAnimation: viewIsReadOnly, toggleType: .standard
+                    )
+                    .isHidden(tempLocked, remove: true)
+
+                    DatePicker("", selection: $logEntry.callerDOB ?? Date(), in: ...Date(), displayedComponents: [.date])
+                        .datePickerWheelStyle()
+                        .matchedGeometryEffect(id: "lockedEvent", in: namespace)
+                        .isHidden(!with || tempLocked, remove: true)
+                }
+            }
+
+            if tempLocked {
+                VStack(alignment: .leading, spacing: 0) {
+                    FloatingBorderLabelSimulatedTextField("Geburtsdatum", textfieldContent: DateManipulation.getFormatedDateFromDOB(from: logEntry.callerDOB), isLocked: logEntry.isLocked, disableAnimation: viewIsReadOnly, config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.standard, limit: 50, tint: .watchLogFont, autoResizes: true, withClearButton: false))
+                        .matchedGeometryEffect(id: "lockedEvent", in: namespace)
+                        .isHidden(logEntry.callerDOB == nil || !tempLocked, remove: true)
+                }
+                    .padding(EdgeInsets(top: 15, leading: 0, bottom: 0, trailing: 0))
+            }
+        }
+    }
+}
+
+
 
 public func ?? <T: Sendable>(lhs: Binding<T?>, rhs: T) -> Binding<T> {
     Binding(
@@ -166,3 +190,20 @@ public func ?? <T: Sendable>(lhs: Binding<T?>, rhs: T) -> Binding<T> {
         set: { lhs.wrappedValue = $0 }
     )
 }
+
+//            Toggle("", isOn: $withBirthday)
+//              .labelsHidden()
+//              .toggleStyle(
+//                toggleStyleAnimationImage(
+//                  isOnImage: "inset.filled.circle.dashed",
+//                  isOffImage: "inset.filled.circle.dashed",
+//                  isOnColorPrimary: appStyles.GeneralToggleIsActivePrimary,
+//                  isOnColorSecondary: appStyles.GeneralToggleIsActiveSecondary,
+//                  isOffColorPrimary: Color.red,
+//                  isOffColorSecondary: appStyles.GeneralToggleIsUnactiveSecondary,
+//                  isLocked: logEntry.isLocked, isLockedColor: appStyles.ToogleIsLockedColor
+//                )
+//              )
+//              .frame(height: appStyles.TextFieldHeight)
+//              .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+//              .isHidden(tempLocked, remove: true)

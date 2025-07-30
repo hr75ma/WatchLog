@@ -29,12 +29,15 @@ final class StylesLogEntry: Sendable {
     // standard toggle
     let standardToggleIsActiveImage: String = "checkmark.rectangle"
     let standardToggleIsUnactiveImage: String = "rectangle"
+    let standardToggleSize: CGFloat = 35
 
-    let labelFont: String = "digital-7"
-    // let labelFont: String = "digital display tfb"
-    let labelFontSize: CGFloat = 35
-    let labelFontSizeSub: CGFloat = 30
-
+    let sectionLabelFont: String = "digital-7"
+    let sectionLabelFontSize: CGFloat = 35
+    
+    let labelFontSize: CGFloat = 25
+    let labelFontSizeSub: CGFloat = 25
+    
+    
     let glowingColorSetLocked: [Color] = [.watchLogGlowing1, .watchLogGlowing2, .watchLogGlowing1]
     let glowingColorSetNew: [Color] = [.watchLogGlowing3, .watchLogGlowing2, .watchLogGlowing3]
     let glowingColorSetEditing: [Color] = [.watchLogGlowing2, .watchLogGlowing4, .watchLogGlowing2]
@@ -49,16 +52,23 @@ final class StylesLogEntry: Sendable {
     let clearButtonSize: CGFloat = 20
 
     // navigation view section
-    let navigationAddImage: String = "plus.circle"
-    let navigationSettingImage: String = "gear.circle"
+    let toolbarBackgroundOpacity: Double = 0.1
+    let toolbarBackgroundMaterial: Material = .ultraThinMaterial
+    let navigationAddImage: String = "plus"
+    let navigationSettingImage: String = "gear"
     let navigationMenuImage: String = "ellipsis.circle"
+    let navigationBackImage: String = "arrowshape.turn.up.backward.circle"
     let navigationItemImageSize: CGFloat = 25
-    let navigationItemAnimationDuration: Double = 2
+    
+    
+    
+    //let navigationTreeItemAnimationDuration: Double = 0.5
+    let navigationRowAnimationDuration: Double = 0.5
 
-    let navigationTitleFont: String = "digital-7"
-    let navigationTitleFontSize: CGFloat = 30
+    //let navigationTitleFont: String = "digital-7"
+    let navigationTitleFontSize: CGFloat = 25
 
-    let navigationRowAnimationDuration: Double = 0.75
+    
     let navigationRowGradientOpacityStart: Double = 0.5
     let navigationRowGradientOpacityEnd: Double = 1
 
@@ -94,10 +104,11 @@ final class StylesLogEntry: Sendable {
     let canvasSize: CGFloat = 2000
     let canvasMinimumZoomScale: CGFloat = 0.25
     let canvasMaximumZoomScale: CGFloat = 10
+    let canvasBorderLineWidth: CGFloat = 2
+    
 
     // ToolbarItem
     let eraserImageActive: String = "eraser"
     let saveImageActive: String = "square.and.arrow.down"
-    let newImageActive: String = "plus"
     let deleteImageActive: String = "trash"
 }

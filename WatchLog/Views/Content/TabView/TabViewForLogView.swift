@@ -42,10 +42,10 @@ struct TabViewForLogView: View {
         .tabViewStyle(.page)
         .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
         .onAppear() {
-            selectedTab = logBookEntry.uuid
+            selectedTab = logBookEntry.id
         }
-        .onChange(of: logBookEntry.uuid) {
-            selectedTab = logBookEntry.uuid
+        .onChange(of: logBookEntry.id) {
+            selectedTab = logBookEntry.id
         }
     }
     

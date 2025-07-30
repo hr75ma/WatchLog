@@ -9,6 +9,7 @@ import SwiftUI
 
 struct LockEditingView: View {
     @Bindable var logEntry: WatchLogEntry
+    public let viewIsReadOnly: Bool
 
     @Environment(\.appStyles) var appStyles
 
@@ -16,7 +17,7 @@ struct LockEditingView: View {
 
     var body: some View {
         lockSection
-            .frame(height: appStyles.labelFontSize, alignment: .center)
+            .frame(height: appStyles.sectionLabelFontSize, alignment: .center)
             .timeSectionPadding()
             .standardBottomBorder()
     }
@@ -27,13 +28,15 @@ extension LockEditingView {
         HStack(alignment: .center) {
             Text(logEntry.isLocked ? "Gesperrt" : "Entsperrt")
                 .labelStyle(isLocked: logEntry.isLocked)
-                .animation(.easeInOut(duration: 1), value: logEntry.isLocked)
+                .disableAnimations(disableAnimation: viewIsReadOnly)
+                .animation(.smooth(duration: 1), value: logEntry.isLocked)
 
             Toggle("", isOn: $logEntry.isLocked)
                 .labelsHidden()
-                .toggleStyle(toggleStyleLockImage(isLocked: logEntry.isLocked))
+                .toggleStyle(toggleStyleLockImage(isLocked: logEntry.isLocked, removeAnimation: viewIsReadOnly))
                 .disabled(logEntry.isNewEntryLog)
             Spacer()
         }
+        .disabled(viewIsReadOnly)
     }
 }

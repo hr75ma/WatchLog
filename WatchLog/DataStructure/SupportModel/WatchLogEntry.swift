@@ -11,107 +11,83 @@ import SwiftUI
 
 @Observable
 class WatchLogEntry {
-    var uuid: UUID
+    var id: UUID
+    
+    var remoteSignalContainer: RemoteContainerLogEntryViewModel = RemoteContainerLogEntryViewModel()
 
     var isNewEntryLog = true
 
-    var EntryTime: Date
+    var logDate: Date
 
-    var CallerName: String = ""
-    var CallerNumber: String = ""
-    var CallerAdress: String = ""
-    var CallerDOB: Date?
-//    var CallerDOB: Date? {
-//        didSet {
-//
-//            if CallerDOB != nil {
-//
-//                let testDateComponent = Calendar.current.dateComponents([.minute, .second, .nanosecond], from: self.CallerDOB!)
-//                var currentDateComponent = Calendar.current.dateComponents(
-//                    [.year, .month, .day, .hour, .minute, .second, .nanosecond], from: Date())
-//
-//                currentDateComponent.hour = testDateComponent.hour
-//                currentDateComponent.minute = testDateComponent.minute
-//                currentDateComponent.second = testDateComponent.second
-//                currentDateComponent.nanosecond = testDateComponent.nanosecond
-//
-//                let currentDate = Calendar.current.date(from: currentDateComponent)!
-//
-//                if currentDate < self.CallerDOB! {
-//                    self.CallerDOB = nil
-//                }
-//            }
-//        }
-//    }
+    var callerName: String = ""
+    var callerNumber: String = ""
+    var callerAdress: String = ""
+    var callerDOB: Date?
 
-    var CallIn = CallInType.CallInTypeShort.EMERGENCY
+    var callIn: InComingCallType = InComingCallType.emergency
 
     var processTypeDetails: WatchLogProcessTypeDetails = WatchLogProcessTypeDetails()
 
     var isLocked: Bool = false
 
-    // var drawingData: Data = Data()
-
     var pkDrawingData: PKDrawing = PKDrawing()
 
     init() {
-        EntryTime = Date.now
-        uuid = UUID()
+        logDate = Date.now
+        id = UUID()
         // drawingData = Data()
         pkDrawingData = PKDrawing()
     }
 
     init(uudi: UUID) {
-        EntryTime = Date.now
-        uuid = uudi
+        logDate = Date.now
+        id = uudi
         // drawingData = Data()
         pkDrawingData = PKDrawing()
     }
 
     init(watchLookBookEntry: WatchLogBookEntry) {
-        uuid = watchLookBookEntry.uuid
+        remoteSignalContainer = RemoteContainerLogEntryViewModel()
+        
+        id = watchLookBookEntry.id
 
-        EntryTime = watchLookBookEntry.LogDate
+        logDate = watchLookBookEntry.logDate
 
-        CallerName = watchLookBookEntry.CallerName
-        CallerNumber = watchLookBookEntry.CallerNumber
-        CallerAdress = watchLookBookEntry.CallerAdress
-        CallerDOB = watchLookBookEntry.CallerDOB
+        callerName = watchLookBookEntry.callerName
+        callerNumber = watchLookBookEntry.callerNumber
+        callerAdress = watchLookBookEntry.callerAdress
+        callerDOB = watchLookBookEntry.callerDOB
 
-        CallIn = watchLookBookEntry.CallIn
+        callIn = watchLookBookEntry.callIn
 
         processTypeDetails = WatchLogProcessTypeDetails(
             processTypeDetails: watchLookBookEntry.processDetails!)
 
         isLocked = watchLookBookEntry.isLocked
 
-        // drawingData = WatchLookBookEntry.drawingData
         pkDrawingData = watchLookBookEntry.drawing
 
         isNewEntryLog = false
     }
 
     fileprivate func initialValues() {
-        EntryTime = Date.now
-        uuid = UUID()
+        logDate = Date.now
+        id = UUID()
         clear()
         processTypeDetails = WatchLogProcessTypeDetails()
     }
 
     public func clear() {
-        CallerName = ""
-        CallerNumber = ""
-        CallerAdress = ""
-        CallerDOB = nil
+        callerName = ""
+        callerNumber = ""
+        callerAdress = ""
+        callerDOB = nil
 
-        CallIn = .EMERGENCY
+        callIn = .emergency
 
         isLocked = false
         isNewEntryLog = false
 
-        // processTypeDetails = WatchLogProcessTypeDetails()
-
-        // drawingData = Data()
         pkDrawingData = PKDrawing()
     }
 

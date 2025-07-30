@@ -10,30 +10,30 @@ import SwiftUI
 
 @Model
 class WatchLogBookDay: Identifiable, Hashable {
-    #Unique<WatchLogBookDay>([\.uuid, \.LogDate])
-    var LogDate: Date
+    #Unique<WatchLogBookDay>([\.id])
+    var logDate: Date
 
-    @Attribute(.unique) var uuid: UUID
+    @Attribute(.unique) var id: UUID
 
     @Relationship(deleteRule: .cascade) var watchLogBookEntries: [WatchLogBookEntry]? = []
 
     @Relationship(deleteRule: .nullify, inverse: \WatchLogBookMonth.watchLogBookDays) var watchLogBookMonth: WatchLogBookMonth?
 
     init(LogDate: Date, month: WatchLogBookMonth) {
-        self.LogDate = LogDate
-        uuid = UUID()
+        self.logDate = LogDate
+        id = UUID()
         watchLogBookMonth = month
     }
 
     init() {
-        LogDate = .now
-        uuid = UUID()
+        logDate = .now
+        id = UUID()
         watchLogBookMonth = WatchLogBookMonth()
     }
 
     var logEntriesSorted: [WatchLogBookEntry] {
         get {
-            watchLogBookEntries?.sorted(by: { $0.LogDate < $1.LogDate }) ?? []
+            watchLogBookEntries?.sorted(by: { $0.logDate < $1.logDate }) ?? []
         }
         set {
             watchLogBookEntries = newValue
@@ -42,6 +42,6 @@ class WatchLogBookDay: Identifiable, Hashable {
 
     func addLogEntry(_ entry: WatchLogBookEntry) {
         watchLogBookEntries?.append(entry)
-        watchLogBookEntries?.sort { $0.LogDate < $1.LogDate }
+        watchLogBookEntries?.sort { $0.logDate < $1.logDate }
     }
 }

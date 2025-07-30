@@ -8,6 +8,7 @@
 import SwiftUI
 
 enum TextLabelLevel: CaseIterable, Codable {
+    case section
     case standard
     case sub
     case subWithWidth
@@ -18,9 +19,9 @@ private struct LabelFormatterStyle: ViewModifier {
     @Environment(\.appStyles) var appStyles
     func body(content: Content) -> some View {
         content
-            .font(Font.custom(appStyles.labelFont, size: appStyles.labelFontSize))
+            .font(Font.custom(appStyles.sectionLabelFont, size: appStyles.sectionLabelFontSize))
             .foregroundStyle(isLocked ? .watchLogLocked : .watchLogFont)
-            .frame(width: 170, height: appStyles.labelFontSize, alignment: .leading)
+            .frame(width: 170, height: appStyles.sectionLabelFontSize, alignment: .leading)
             .lineLimit(1)
             .fixedSize(horizontal: true, vertical: true)
             .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 5))
@@ -30,28 +31,39 @@ private struct LabelFormatterStyle: ViewModifier {
 
 private struct TextLabelModifier: ViewModifier {
     let textLabelLevel: TextLabelLevel
-    let textLabelWidth: CGFloat?
+    let isDimmend: Bool
+    let disableAnimation: Bool
 
     @Environment(\.appStyles) var appStyles
     func body(content: Content) -> some View {
         content
+            .if(textLabelLevel == TextLabelLevel.section) { view in
+                view
+                    .font(Font.custom(appStyles.sectionLabelFont, size: appStyles.sectionLabelFontSize))
+                    .frame(height: appStyles.sectionLabelFontSize, alignment: .topLeading)
+                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 5, trailing: 0))
+            }
             .if(textLabelLevel == TextLabelLevel.standard) { view in
                 view
-                    .font(Font.custom(appStyles.labelFont, size: appStyles.labelFontSize))
-                    .frame(width: 120, height: appStyles.labelFontSize, alignment: .topLeading)
+                    .font(.system(size: appStyles.labelFontSize))
+                    .fontWeight(.regular)
+                    .fontWidth(.standard)
+                    .fontDesign(.rounded)
+                    .frame(height: appStyles.labelFontSize, alignment: .topLeading)
+                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 5, trailing: 0))
             }
             .if(textLabelLevel == TextLabelLevel.sub) { view in
                 view
-                    .font(Font.custom(appStyles.labelFont, size: appStyles.labelFontSizeSub))
+                    .font(.system(size: appStyles.labelFontSizeSub))
+                    .fontWeight(.regular)
+                    .fontWidth(.standard)
+                    .fontDesign(.rounded)
                     .frame(height: appStyles.labelFontSizeSub, alignment: .topLeading)
                     .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 5))
             }
-            .if(textLabelLevel == TextLabelLevel.subWithWidth) { view in
-                view
-                    .font(Font.custom(appStyles.labelFont, size: appStyles.labelFontSizeSub))
-                    .frame(width: textLabelWidth, height: appStyles.labelFontSizeSub, alignment: .topLeading)
-            }
-            .foregroundStyle(.watchLogFont)
+            .foregroundStyle(isDimmend ? .watchLogFont.opacity(0.5) : .watchLogFont.opacity(1))
+            .disableAnimations(disableAnimation: disableAnimation)
+            .animation(.smooth, value: isDimmend)
             .multilineTextAlignment(.leading)
             .lineLimit(1)
             .fixedSize(horizontal: true, vertical: true)
@@ -62,7 +74,8 @@ struct NavigationTitleModifier: ViewModifier {
     @Environment(\.appStyles) var appStyles
     func body(content: Content) -> some View {
         content
-            .font(Font.custom(appStyles.navigationTitleFont, size: appStyles.navigationTitleFontSize))
+            //.font(Font.custom(appStyles.navigationTitleFont, size: appStyles.navigationTitleFontSize))
+            .font(.system(size: appStyles.navigationTitleFontSize, weight: .light, design: .rounded))
             .foregroundStyle(.watchLogFont)
             .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
     }
@@ -73,8 +86,8 @@ extension Text {
         modifier(LabelFormatterStyle(isLocked: isLocked))
     }
 
-    func textLabel(textLabelLevel: TextLabelLevel, textLebelWidth: CGFloat = 50) -> some View {
-        modifier(TextLabelModifier(textLabelLevel: textLabelLevel, textLabelWidth: textLebelWidth))
+    func textLabel(textLabelLevel: TextLabelLevel, isDimmend: Bool = false, disableAnimation: Bool = false) -> some View {
+        modifier(TextLabelModifier(textLabelLevel: textLabelLevel, isDimmend: isDimmend, disableAnimation: disableAnimation))
     }
 
     func navigationTitleModifier() -> some View {

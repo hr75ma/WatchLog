@@ -16,7 +16,8 @@ struct WatchLogApp: App {
     var body: some Scene {
         let databaseService = DatabaseService()
         let viewModel = LogEntryViewModel(dataBaseService: databaseService)
-
+        
+        
         WindowGroup {
             SplashView()
         }
