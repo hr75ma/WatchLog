@@ -38,7 +38,7 @@
       }
     },
     "Adresse" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -276,12 +276,12 @@
         }
       }
     },
-    "Geburtstag" : {
+    "Geburtsdatum" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Birthday"
+            "value" : "Date of birth"
           }
         }
       }
@@ -348,7 +348,7 @@
       }
     },
     "Kennzeichen ON01" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -359,7 +359,7 @@
       }
     },
     "Kennzeichen ON02" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -453,7 +453,7 @@
       }
     },
     "Name" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -615,7 +615,7 @@
       }
     },
     "Telefon" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {

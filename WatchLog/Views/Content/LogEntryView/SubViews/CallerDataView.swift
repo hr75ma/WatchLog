@@ -81,10 +81,10 @@ extension CallerDataView {
     var dobSubSection: some View {
         VStack(alignment: .leading, spacing: 0) {
             
-            if !viewIsReadOnly && !logEntry.isLocked {
-                    Text("Geburtstag")
-                        .textLabel(textLabelLevel: TextLabelLevel.standard)
-            }
+//            if !viewIsReadOnly && !logEntry.isLocked {
+//                    Text("Geburtstag")
+//                        .textLabel(textLabelLevel: TextLabelLevel.standard)
+//            }
 
             HStack(alignment: .top, spacing: 0) {
                 if viewIsReadOnly {
@@ -157,7 +157,12 @@ extension CallerDataView {
 
     private func EditableContent() -> some View {
         HStack(alignment: .top, spacing: 0) {
-            HStack(alignment: .top, spacing: 0) {
+            VStack(alignment: .leading, spacing: 0) {
+
+                Text("Geburtsdatum")
+                    .textLabel(textLabelLevel: TextLabelLevel.standard)
+                    .isHidden(tempLocked, remove: true)
+                
                 HStack(alignment: .top, spacing: 0) {
                     ToggleView(
                         toggleValue: self.$withBirthday, isLocked: logEntry.isLocked, removeAnimation: viewIsReadOnly, toggleType: .standard
@@ -173,7 +178,7 @@ extension CallerDataView {
 
             if tempLocked {
                 VStack(alignment: .leading, spacing: 0) {
-                    FloatingBorderLabelSimulatedTextField("Geburstag", textfieldContent: DateManipulation.getFormatedDateFromDOB(from: logEntry.callerDOB), isLocked: logEntry.isLocked, disableAnimation: viewIsReadOnly, config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.standard, limit: 50, tint: .watchLogFont, autoResizes: true))
+                    FloatingBorderLabelSimulatedTextField("Geburtsdatum", textfieldContent: DateManipulation.getFormatedDateFromDOB(from: logEntry.callerDOB), isLocked: logEntry.isLocked, disableAnimation: viewIsReadOnly, config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.standard, limit: 50, tint: .watchLogFont, autoResizes: true))
                         .matchedGeometryEffect(id: "lockedEvent", in: namespace)
                         .isHidden(logEntry.callerDOB == nil || !tempLocked, remove: true)
                 }
