@@ -154,12 +154,12 @@ extension CallerDataView {
             VStack(alignment: .leading, spacing: 0) {
 
                 Text("Geburtsdatum")
-                    .textLabel(textLabelLevel: TextLabelLevel.standard, !self.withBirthday, viewIsReadOnly)
+                    .textLabel(textLabelLevel: TextLabelLevel.standard, isDimmend: !self.withBirthday, disableAnimation: viewIsReadOnly)
                     .isHidden(tempLocked, remove: true)
                 
                 HStack(alignment: .top, spacing: 0) {
                     ToggleView(
-                        toggleValue: self.$withBirthday, isLocked: logEntry.isLocked, removeAnimation: viewIsReadOnly, toggleType: .standard
+                        toggleValue: self.$withBirthday, isLocked: logEntry.isLocked, isDimmend: !withBirthday, removeAnimation: viewIsReadOnly, toggleType: .standard
                     )
                     .isHidden(tempLocked, remove: true)
 

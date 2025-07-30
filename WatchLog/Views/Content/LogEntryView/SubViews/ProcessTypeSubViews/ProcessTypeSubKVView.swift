@@ -28,9 +28,9 @@ extension ProcessTypeSubKVView {
     private var injueresToggle: some View {
         HStack(alignment: .center, spacing: 0) {
             Text("Verletztungen")
-                .textLabel(textLabelLevel: TextLabelLevel.sub)
+                .textLabel(textLabelLevel: TextLabelLevel.sub, isDimmend: !logEntry.processTypeDetails.isInjured, disableAnimation: viewIsReadOnly)
 
-            ToggleView(toggleValue: $logEntry.processTypeDetails.isInjured, isLocked: logEntry.isLocked, removeAnimation: viewIsReadOnly, toggleType: .sub)
+            ToggleView(toggleValue: $logEntry.processTypeDetails.isInjured, isLocked: logEntry.isLocked, isDimmend: !logEntry.processTypeDetails.isInjured, removeAnimation: viewIsReadOnly, toggleType: .sub)
              Spacer()
          }
     }

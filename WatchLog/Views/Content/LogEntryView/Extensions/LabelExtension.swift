@@ -86,7 +86,7 @@ extension Text {
         modifier(LabelFormatterStyle(isLocked: isLocked))
     }
 
-    func textLabel(textLabelLevel: TextLabelLevel, _ isDimmend: Bool = false, _ disableAnimation: Bool = false) -> some View {
+    func textLabel(textLabelLevel: TextLabelLevel, isDimmend: Bool = false, disableAnimation: Bool = false) -> some View {
         modifier(TextLabelModifier(textLabelLevel: textLabelLevel, isDimmend: isDimmend, disableAnimation: disableAnimation))
     }
 

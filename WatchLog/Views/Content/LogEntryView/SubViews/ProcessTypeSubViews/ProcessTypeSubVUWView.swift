@@ -36,9 +36,9 @@ extension ProcessTypeSubVUWView {
     private var animalToggle: some View {
        HStack(alignment: .center, spacing: 0) {
             Text("Tier am Leben")
-                .textLabel(textLabelLevel: TextLabelLevel.sub)
+               .textLabel(textLabelLevel: TextLabelLevel.sub, isDimmend: !logEntry.processTypeDetails.isAnimaleLiving, disableAnimation: viewIsReadOnly)
 
-           ToggleView(toggleValue: $logEntry.processTypeDetails.isAnimaleLiving, isLocked: logEntry.isLocked, removeAnimation: viewIsReadOnly, toggleType: .sub)
+           ToggleView(toggleValue: $logEntry.processTypeDetails.isAnimaleLiving, isLocked: logEntry.isLocked, isDimmend: !logEntry.processTypeDetails.isAnimaleLiving, removeAnimation: viewIsReadOnly, toggleType: .sub)
                 .disabled(logEntry.isLocked)
             Spacer()
         }

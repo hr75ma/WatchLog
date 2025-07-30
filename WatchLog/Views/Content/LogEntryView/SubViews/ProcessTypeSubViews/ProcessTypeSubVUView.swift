@@ -44,28 +44,28 @@ extension ProcessTypeSubVUView {
         HStack(alignment: .center, spacing: 0) {
             VStack {
                 Text("Verletztungen")
-                    .textLabel(textLabelLevel: TextLabelLevel.sub)
+                    .textLabel(textLabelLevel: TextLabelLevel.sub, isDimmend: !logEntry.processTypeDetails.isInjured, disableAnimation: viewIsReadOnly)
 
                 ToggleView(
-                    toggleValue: $logEntry.processTypeDetails.isInjured, isLocked: logEntry.isLocked, removeAnimation: viewIsReadOnly, toggleType: .sub)
+                    toggleValue: $logEntry.processTypeDetails.isInjured, isLocked: logEntry.isLocked, isDimmend: !logEntry.processTypeDetails.isInjured, removeAnimation: viewIsReadOnly, toggleType: .sub)
             }
             Spacer()
 
             VStack {
                 Text("Flucht")
-                    .textLabel(textLabelLevel: TextLabelLevel.sub)
+                    .textLabel(textLabelLevel: TextLabelLevel.sub, isDimmend: !logEntry.processTypeDetails.AccientHitAndRun, disableAnimation: viewIsReadOnly)
 
                 ToggleView(
-                    toggleValue: $logEntry.processTypeDetails.AccientHitAndRun, isLocked: logEntry.isLocked, removeAnimation: viewIsReadOnly, toggleType: .sub)
+                    toggleValue: $logEntry.processTypeDetails.AccientHitAndRun, isLocked: logEntry.isLocked, isDimmend: !logEntry.processTypeDetails.AccientHitAndRun, removeAnimation: viewIsReadOnly, toggleType: .sub)
             }
             Spacer()
 
             VStack {
                 Text("Alkohol/BtM")
-                    .textLabel(textLabelLevel: TextLabelLevel.sub)
+                    .textLabel(textLabelLevel: TextLabelLevel.sub, isDimmend: !logEntry.processTypeDetails.AlcoholConsumed, disableAnimation: viewIsReadOnly)
 
                 ToggleView(
-                    toggleValue: $logEntry.processTypeDetails.AlcoholConsumed, isLocked: logEntry.isLocked, removeAnimation: viewIsReadOnly, toggleType: .sub)
+                    toggleValue: $logEntry.processTypeDetails.AlcoholConsumed, isLocked: logEntry.isLocked, isDimmend: !logEntry.processTypeDetails.AlcoholConsumed, removeAnimation: viewIsReadOnly, toggleType: .sub)
             }
         }
     }

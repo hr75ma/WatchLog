@@ -44,7 +44,8 @@ struct toggleStyleLockImage: ToggleStyle {
 
 struct standardToggleStyleImage: ToggleStyle {
     let isLocked: Bool
-    let removeAnimation: Bool
+    let isDimmend: Bool
+    let disableAnimation: Bool
     @Environment(\.appStyles) var appStyles
 
     func makeBody(configuration: standardToggleStyleImage.Configuration) -> some View {
@@ -58,20 +59,25 @@ struct standardToggleStyleImage: ToggleStyle {
             .scaledToFit()
             .foregroundStyle(
                 configuration.isOn
-                    ? isLocked ? .watchLogStandardToogleIsLocked : .watchLogStandardToggleIsActivePrimary
-                    : .watchLogStandardToggleIsUnactivePrimary,
+                ? isLocked ? .watchLogStandardToogleIsLocked : .watchLogStandardToggleIsActivePrimary
+                : .watchLogStandardToggleIsUnactivePrimary.opacity(isDimmend ? 0.5 : 1),
                 configuration.isOn
-                    ? .watchLogStandardToggleIsActiveSecondary : .watchLogStandardToggleIsUnactiveSecondary
+                ? .watchLogStandardToggleIsActiveSecondary.opacity(1) : .watchLogStandardToggleIsUnactiveSecondary.opacity(isDimmend ? 0.5 : 1)
             )
-            .symbolEffectsRemoved(removeAnimation)
+
+            .symbolEffectsRemoved(disableAnimation)
             .symbolEffect(
                 .breathe.pulse.wholeSymbol, options: .nonRepeating.speed(6), isActive: configuration.isOn
+            )
+            .symbolEffect(
+                .breathe.pulse.wholeSymbol, options: .nonRepeating.speed(6), isActive: !configuration.isOn
             )
             .symbolEffect(.scale)
             .padding(EdgeInsets(top: 4, leading: 4, bottom: 4, trailing: 4))
         }
-        .disableAnimations(disableAnimation: removeAnimation)
+        .disableAnimations(disableAnimation: disableAnimation)
         .animation(.smooth(duration: 1), value: isLocked)
+        .animation(.smooth(duration: 1), value: isDimmend)
         .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
         .labelsHidden()
         .onTapGesture {
