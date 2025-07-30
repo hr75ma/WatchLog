@@ -10,17 +10,13 @@ import SwiftUI
 struct FloatingBorderLabelTextField: View {
     var placeholder: String
     @Binding var textfieldContent: String
-    var isLocked: Bool
-    var disableAnimation: Bool
-    var config: Config
+    var config: TextFieldFloatingConfiguration
     
     @Environment(\.appStyles) var appStyles
     
-    init(_ placeholder: String, textfieldContent: Binding<String>, isLocked: Bool, disableAnimation: Bool, config: Config) {
+    init(_ placeholder: String, textfieldContent: Binding<String>, config: TextFieldFloatingConfiguration) {
         self.placeholder = placeholder
         _textfieldContent = textfieldContent
-        self.isLocked = isLocked
-        self.disableAnimation = disableAnimation
         self.config = config
     }
     
@@ -45,7 +41,7 @@ struct FloatingBorderLabelTextField: View {
                     .scaleEffect(self.textfieldContent.isEmpty ? 1 : 0.9, anchor: .topLeading)
             }
             
-            LimitedIndicatorTextFieldFloating(config: config, hint: "", text: $textfieldContent, isLocked: isLocked, disableAnimation: disableAnimation)
+            LimitedIndicatorTextFieldFloating(text: $textfieldContent, config: config, hint: "")
         }
         .padding(.horizontal)
         .padding(.vertical, 10)
@@ -53,7 +49,7 @@ struct FloatingBorderLabelTextField: View {
             RoundedRectangle(cornerRadius: 10)
                 .stroke(self.textfieldContent.isEmpty ? .watchLogFont.opacity(0.5) : .watchLogFont, lineWidth: 2)
         )
-        .disableAnimations(disableAnimation: disableAnimation)
+        .disableAnimations(disableAnimation: config.disableAnimation)
         .animation(.smooth, value: self.textfieldContent)
     }
 }
@@ -61,23 +57,18 @@ struct FloatingBorderLabelTextField: View {
 struct FloatingBorderLabelSimulatedTextField: View {
     var placeholder: String
     @State var textfieldContent: String
-    var isLocked: Bool
-    var disableAnimation: Bool
-    var config: Config
+    var config: TextFieldFloatingConfiguration
     
     @Environment(\.appStyles) var appStyles
     
-    init(_ placeholder: String, textfieldContent: String, isLocked: Bool, disableAnimation: Bool, config: Config) {
+    init(_ placeholder: String, textfieldContent: String, config: TextFieldFloatingConfiguration) {
         self.placeholder = placeholder
         self.textfieldContent = textfieldContent
-        self.isLocked = isLocked
-        self.disableAnimation = disableAnimation
         self.config = config
     }
     
-    
     var body: some View {
-        FloatingBorderLabelTextField(placeholder, textfieldContent: $textfieldContent, isLocked: isLocked, disableAnimation: disableAnimation, config: config)
+        FloatingBorderLabelTextField(placeholder, textfieldContent: $textfieldContent, config: config)
     }
 }
 

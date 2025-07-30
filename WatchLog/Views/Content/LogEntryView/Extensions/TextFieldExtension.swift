@@ -50,6 +50,7 @@ fileprivate struct TextFieldButtonClearButtonModifier: ViewModifier {
     @Environment(\.appStyles) var appStyles
 
     func body(content: Content) -> some View {
+       
         ZStack(alignment: .trailing) {
             content
 
@@ -67,6 +68,8 @@ fileprivate struct TextFieldButtonClearButtonModifier: ViewModifier {
                 .offset(x: 30)
             }
         }
+        //.animation(.smooth, value: isLocked)
+        //.animation(.smooth, value: isShowing)
     }
 }
 
@@ -123,29 +126,12 @@ extension View {
         modifier(NumericTextInputFieldViewModifier(text: text, mode: mode))
     }
     
-    func textFieldIndicator(
-        text: Binding<String>, isLocked: Bool, disableAnimation: Bool, textfieldType: TextFieldType, appStyles: StylesLogEntry
-    ) -> some View {
-        modifier(
-            TextFieldIndicator(
-                text: text, isLocked: isLocked, disableAnimation: disableAnimation, textfieldType: textfieldType, textFieldHeight: appStyles.textFieldHeight, font: Font.title))
-    }
-
     func textFieldIndicatorFloating(
         text: Binding<String>, isLocked: Bool, disableAnimation: Bool, textfieldType: TextFieldType, appStyles: StylesLogEntry, autocapitalize: TextInputAutocapitalization = .never, withClearButton: Bool = true
     ) -> some View {
         modifier(
             TextFieldIndicatorFloating(
                 text: text, isLocked: isLocked, disableAnimation: disableAnimation, textfieldType: textfieldType, textFieldHeight: appStyles.textFieldHeight, font: Font.title, autocapitalize: autocapitalize, withClearButton: withClearButton))
-    }
-
-    func subTextFieldIndicator(
-        text: Binding<String>, isLocked: Bool, disableAnimation: Bool, textfieldType: TextFieldType, appStyles: StylesLogEntry
-    ) -> some View {
-        modifier(
-            TextFieldIndicator(
-                text: text, isLocked: isLocked, disableAnimation: disableAnimation,
-                textfieldType: textfieldType, textFieldHeight: appStyles.textFieldSubHeight, font: Font.title2))
     }
 
     func subTextFieldIndicatorFloating(
@@ -155,44 +141,6 @@ extension View {
             TextFieldIndicatorFloating(
                 text: text, isLocked: isLocked, disableAnimation: disableAnimation,
                 textfieldType: textfieldType, textFieldHeight: appStyles.textFieldSubHeight, font: Font.title2, autocapitalize: autocapitalize, withClearButton: withClearButton))
-    }
-}
-
-struct TextFieldIndicator: ViewModifier {
-    @Binding var text: String
-    let isLocked: Bool
-    let disableAnimation: Bool
-    let textfieldType: TextFieldType
-    let textFieldHeight: CGFloat
-    let font: Font
-    @Environment(\.appStyles) var appStyles
-
-    func body(content: Content) -> some View {
-        content
-            .textFieldButtonClearButton(text: $text, isLocked: isLocked)
-            .font(font)
-            .fontWeight(.regular)
-            .fontWidth(.standard)
-            .fontDesign(.rounded)
-            .if(textfieldType == TextFieldType.singleLine) { view in
-                view.lineLimit(1)
-                    .frame(height: textFieldHeight)
-                    .fixedSize(horizontal: false, vertical: true)
-            }
-            .if(textfieldType == TextFieldType.multiLine) { view in
-                view.lineLimit(4, reservesSpace: true)
-                    .fixedSize(horizontal: false, vertical: true)
-            }
-            .foregroundStyle(.watchLogFont)
-            .background(
-                isLocked
-                    ? .watchLogTextfieldBackgoundLocked : .watchLogTextfieldBackgroundUnlocked
-            )
-            .autocorrectionDisabled(true)
-            .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
-            .disableAnimations(disableAnimation: disableAnimation)
-            .animation(.smooth(duration: 1), value: isLocked)
-            .disabled(isLocked)
     }
 }
 
@@ -231,9 +179,9 @@ struct TextFieldIndicatorFloating: ViewModifier {
             .background(Color.clear)
             .autocorrectionDisabled(true)
             .textInputAutocapitalization(autocapitalize)
-            .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+            .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
             .disableAnimations(disableAnimation: disableAnimation)
-            .disableAnimations(disableAnimation: isLocked)
+            //.disableAnimations(disableAnimation: isLocked)
             .animation(.smooth, value: isLocked)
             .disabled(isLocked)
     }

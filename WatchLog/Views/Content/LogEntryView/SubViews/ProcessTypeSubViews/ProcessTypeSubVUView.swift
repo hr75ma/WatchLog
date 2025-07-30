@@ -28,14 +28,14 @@ struct ProcessTypeSubVUView: View {
 extension ProcessTypeSubVUView {
     private var licencePlate01: some View {
         VStack(alignment: .leading, spacing: 0) {
-            FloatingBorderLabelTextField("Kennzeichen ON01", textfieldContent: $logEntry.processTypeDetails.AccientLicensePlate01, isLocked: logEntry.isLocked, disableAnimation: viewIsReadOnly, config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.sub, limit: 15, tint: .watchLogFont, autoResizes: true, textfieldAutoCapitalization: .characters))
+            FloatingBorderLabelTextField("Kennzeichen ON01", textfieldContent: $logEntry.processTypeDetails.AccientLicensePlate01, config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.sub, textfieldAutoCapitalization: .characters, limit: 15, autoResizes: true, disableAnimation: viewIsReadOnly, isLocked: logEntry.isLocked))
         }
         .padding(EdgeInsets(top: 10, leading: 0, bottom: 0, trailing: 0))
     }
 
     private var licencePlate02: some View {
         VStack(alignment: .leading, spacing: 0) {
-            FloatingBorderLabelTextField("Kennzeichen ON02", textfieldContent: $logEntry.processTypeDetails.AccientLicensePlate02, isLocked: logEntry.isLocked, disableAnimation: viewIsReadOnly, config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.sub, limit: 15, tint: .watchLogFont, autoResizes: true, textfieldAutoCapitalization: .characters))
+            FloatingBorderLabelTextField("Kennzeichen ON02", textfieldContent: $logEntry.processTypeDetails.AccientLicensePlate02, config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.sub, textfieldAutoCapitalization: .characters, limit: 15, autoResizes: true, disableAnimation: viewIsReadOnly, isLocked: logEntry.isLocked))
         }
         .padding(EdgeInsets(top: 10, leading: 0, bottom: 0, trailing: 0))
     }

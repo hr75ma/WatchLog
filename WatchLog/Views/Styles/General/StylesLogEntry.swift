@@ -97,8 +97,7 @@ final class StylesLogEntry: Sendable {
     let segmentedCallInFontSize: CGFloat = 25
 
     // callin section
-    let callInFontSize: CGFloat = 25
-    let callInFieldHeight: CGFloat = 30
+    let callInFieldHeight: CGFloat = 40//60
 
     // canvas
     let canvasSize: CGFloat = 2000
