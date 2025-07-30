@@ -31,6 +31,8 @@ private struct LabelFormatterStyle: ViewModifier {
 
 private struct TextLabelModifier: ViewModifier {
     let textLabelLevel: TextLabelLevel
+    let isDimmend: Bool
+    let disableAnimation: Bool
 
     @Environment(\.appStyles) var appStyles
     func body(content: Content) -> some View {
@@ -59,7 +61,9 @@ private struct TextLabelModifier: ViewModifier {
                     .frame(height: appStyles.labelFontSizeSub, alignment: .topLeading)
                     .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 5))
             }
-            .foregroundStyle(.watchLogFont)
+            .foregroundStyle(isDimmend ? .watchLogFont.opacity(0.5) : .watchLogFont.opacity(1))
+            .disableAnimations(disableAnimation: disableAnimation)
+            .animation(.smooth, value: isDimmend)
             .multilineTextAlignment(.leading)
             .lineLimit(1)
             .fixedSize(horizontal: true, vertical: true)
@@ -82,8 +86,8 @@ extension Text {
         modifier(LabelFormatterStyle(isLocked: isLocked))
     }
 
-    func textLabel(textLabelLevel: TextLabelLevel) -> some View {
-        modifier(TextLabelModifier(textLabelLevel: textLabelLevel))
+    func textLabel(textLabelLevel: TextLabelLevel, _ isDimmend: Bool = false, _ disableAnimation: Bool = false) -> some View {
+        modifier(TextLabelModifier(textLabelLevel: textLabelLevel, isDimmend: isDimmend, disableAnimation: disableAnimation))
     }
 
     func navigationTitleModifier() -> some View {

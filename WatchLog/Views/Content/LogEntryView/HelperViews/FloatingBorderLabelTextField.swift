@@ -48,6 +48,7 @@ struct FloatingBorderLabelTextField: View {
             
             LimitedIndicatorTextFieldFloating(config: config, hint: "", text: $textfieldContent, isLocked: isLocked, disableAnimation: disableAnimation)
         }
+        .disableAnimations(disableAnimation: disableAnimation)
         .animation(.smooth, value: self.textfieldContent)
         .padding(.horizontal)
         .padding(.vertical, 10)

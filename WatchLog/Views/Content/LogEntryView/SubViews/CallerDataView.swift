@@ -145,12 +145,6 @@ extension CallerDataView {
                         
                 }
                 .padding(EdgeInsets(top: 15, leading: 0, bottom: 0, trailing: 0))
-//                Text(DateManipulation.getFormatedDateFromDOB(from: logEntry.callerDOB))
-//                    .sectionSimulatedTextFieldSingleLine(
-//                        isLocked: logEntry.isLocked
-//                    )
-//                    .isHidden(logEntry.callerDOB == nil || !tempLocked, remove: true)
-               // Spacer()
             }
         }
     }
@@ -160,7 +154,7 @@ extension CallerDataView {
             VStack(alignment: .leading, spacing: 0) {
 
                 Text("Geburtsdatum")
-                    .textLabel(textLabelLevel: TextLabelLevel.standard)
+                    .textLabel(textLabelLevel: TextLabelLevel.standard, !self.withBirthday, viewIsReadOnly)
                     .isHidden(tempLocked, remove: true)
                 
                 HStack(alignment: .top, spacing: 0) {
