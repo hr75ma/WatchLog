@@ -24,13 +24,22 @@ extension View {
     // - Parameters:
     //   - hidden: whether to hide the view.
     //   - remove: whether you want to reclaim the space taken by the hidden view.
-    @ViewBuilder func isHidden(_ hidden: Bool, remove: Bool = true) -> some View {
-        if remove {
-            if !hidden {
-                self
+//    @ViewBuilder func isHidden(_ isHidden: Bool, remove: Bool = true) -> some View {
+//        if remove {
+//            if !isHidden {
+//                self
+//            }
+//        } else {
+//            opacity(isHidden ? 0 : 1)
+//        }
+//    }
+    @ViewBuilder func isHidden(_ isHidden: Bool, remove: Bool = true) -> some View {
+        if isHidden {
+            if !remove {
+                self.hidden()
             }
         } else {
-            opacity(hidden ? 0 : 1)
+            self
         }
     }
 }

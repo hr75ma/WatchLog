@@ -17,7 +17,7 @@ struct LockEditingView: View {
 
     var body: some View {
         lockSection
-            .frame(height: appStyles.labelFontSize, alignment: .center)
+            .frame(height: appStyles.sectionLabelFontSize, alignment: .center)
             .timeSectionPadding()
             .standardBottomBorder()
     }

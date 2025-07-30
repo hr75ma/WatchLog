@@ -29,14 +29,13 @@ struct toggleStyleLockImage: ToggleStyle {
 
             .symbolEffectsRemoved(removeAnimation)
             .symbolEffect(.rotate.clockwise.byLayer, options: .nonRepeating, value: configuration.isOn)
-      
                 
             .padding(EdgeInsets(top: 4, leading: 4, bottom: 4, trailing: 4))
         }
         .disableAnimations(disableAnimation: removeAnimation)
         .animation(.smooth(duration: 1), value: isLocked)
         .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-        .frame(height: appStyles.labelFontSize, alignment: .center)
+        //.frame(height: appStyles.sectionLabelFontSize, alignment: .center)
         .onTapGesture {
             configuration.$isOn.wrappedValue.toggle()
         }
@@ -45,7 +44,8 @@ struct toggleStyleLockImage: ToggleStyle {
 
 struct standardToggleStyleImage: ToggleStyle {
     let isLocked: Bool
-    let removeAnimation: Bool
+    let isDimmend: Bool
+    let disableAnimation: Bool
     @Environment(\.appStyles) var appStyles
 
     func makeBody(configuration: standardToggleStyleImage.Configuration) -> some View {
@@ -59,20 +59,26 @@ struct standardToggleStyleImage: ToggleStyle {
             .scaledToFit()
             .foregroundStyle(
                 configuration.isOn
-                    ? isLocked ? .watchLogStandardToogleIsLocked : .watchLogStandardToggleIsActivePrimary
-                    : .watchLogStandardToggleIsUnactivePrimary,
+                ? isLocked ? .watchLogStandardToogleIsLocked : .watchLogStandardToggleIsActivePrimary
+                : .watchLogStandardToggleIsUnactivePrimary.opacity(isDimmend ? 0.5 : 1),
                 configuration.isOn
-                    ? .watchLogStandardToggleIsActiveSecondary : .watchLogStandardToggleIsUnactiveSecondary
+                ? .watchLogStandardToggleIsActiveSecondary.opacity(1) : .watchLogStandardToggleIsUnactiveSecondary.opacity(isDimmend ? 0.5 : 1)
             )
-            .symbolEffectsRemoved(removeAnimation)
+
+            .symbolEffectsRemoved(disableAnimation)
             .symbolEffect(
                 .breathe.pulse.wholeSymbol, options: .nonRepeating.speed(6), isActive: configuration.isOn
+            )
+            .symbolEffect(
+                .breathe.pulse.wholeSymbol, options: .nonRepeating.speed(6), isActive: !configuration.isOn
             )
             .symbolEffect(.scale)
             .padding(EdgeInsets(top: 4, leading: 4, bottom: 4, trailing: 4))
         }
-        .disableAnimations(disableAnimation: removeAnimation)
-        .animation(.smooth(duration: 1), value: isLocked)
+        .disableAnimations(disableAnimation: disableAnimation)
+        //.animation(.smooth, value: isLocked)
+        //.animation(.smooth, value: isDimmend)
+        .animation(.smooth, value: configuration.isOn)
         .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
         .labelsHidden()
         .onTapGesture {

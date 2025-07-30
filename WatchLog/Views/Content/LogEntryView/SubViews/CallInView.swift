@@ -80,24 +80,30 @@ extension CallInView {
 
     private func ReadOnlyContent() -> some View {
         HStack(alignment: .center, spacing: 0) {
-            Text(logEntry.callIn.localized)
-                .sectionSimulatedTextFieldSingleLine(
-                    isLocked: logEntry.isLocked
-                )
-            Spacer()
+            
+            FloatingBorderLabelSimulatedTextField("", textfieldContent: logEntry.callIn.localized.stringKey!, isLocked: logEntry.isLocked, disableAnimation: viewIsReadOnly, config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.standard, limit: 50, tint: .watchLogFont, autoResizes: true, withClearButton: false))
+            
+//            
+//            
+//            Text(logEntry.callIn.localized)
+//                .sectionSimulatedTextFieldSingleLine(
+//                    isLocked: logEntry.isLocked
+//                )
+//            Spacer()
         }
     }
 
     private func EditableContent() -> some View {
         HStack(alignment: .center, spacing: 0) {
             if tempLocked {
-                Text(logEntry.callIn.localized)
-                    .sectionSimulatedTextFieldSingleLine(
-                        isLocked: logEntry.isLocked
-                    )
+//                Text(logEntry.callIn.localized)
+//                    .sectionSimulatedTextFieldSingleLine(
+//                        isLocked: logEntry.isLocked
+//                    )
+                FloatingBorderLabelSimulatedTextField("", textfieldContent: logEntry.callIn.localized.stringKey!, isLocked: logEntry.isLocked, disableAnimation: viewIsReadOnly, config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.standard, limit: 50, tint: .watchLogFont, autoResizes: true, withClearButton: false))
                     .matchedGeometryEffect(id: "lockedEvent", in: namespace)
                     .isHidden(!tempLocked, remove: true)
-                Spacer()
+            //    Spacer()
             }
 
             customSegmentedPickerView(preselectedIndex: $logEntry.callIn, appStyles: appStyles)
@@ -106,3 +112,4 @@ extension CallInView {
         }
     }
 }
+
