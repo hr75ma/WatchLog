@@ -31,9 +31,9 @@ struct FloatingBorderLabelTextField: View {
             if !placeholder.isEmpty {
                 Text(placeholder)
                     .font(.system(self.textfieldContent.isEmpty ? .title2 : .title3, design: .rounded))
-                    .foregroundColor(.watchLogFont.opacity(0.5))
+                    .foregroundColor(self.textfieldContent.isEmpty ? .watchLogFont.opacity(0.5) : .watchLogFont.opacity(1))
                     .padding(.horizontal)
-                    .background(Color.black)
+                    .background(.watchLogViewBackground)
                     .if(config.textfieldType == .singleLine) { content in
                         content
                             .offset(y: self.textfieldContent.isEmpty ? 0 : -30)
@@ -43,6 +43,7 @@ struct FloatingBorderLabelTextField: View {
                             .offset(y: self.textfieldContent.isEmpty ? 0 : -82)
                     }
                     .scaleEffect(self.textfieldContent.isEmpty ? 1 : 0.9, anchor: .topLeading)
+                    
             }
             
             LimitedIndicatorTextFieldFloating(config: config, hint: "", text: $textfieldContent, isLocked: isLocked, disableAnimation: disableAnimation)
