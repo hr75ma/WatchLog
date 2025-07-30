@@ -140,7 +140,7 @@ extension CallerDataView {
             if tempLocked {
                 
                 VStack(alignment: .leading, spacing: 0) {
-                    FloatingBorderLabelSimulatedTextField("Geburstag", textfieldContent: DateManipulation.getFormatedDateFromDOB(from: logEntry.callerDOB), isLocked: logEntry.isLocked, disableAnimation: viewIsReadOnly, config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.standard, limit: 50, tint: .watchLogFont, autoResizes: true))
+                    FloatingBorderLabelSimulatedTextField("Geburstag", textfieldContent: DateManipulation.getFormatedDateFromDOB(from: logEntry.callerDOB), isLocked: logEntry.isLocked, disableAnimation: viewIsReadOnly, config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.standard, limit: 50, tint: .watchLogFont, autoResizes: true, withClearButton: false))
                         .isHidden(logEntry.callerDOB == nil || !tempLocked, remove: true)
                         
                 }
@@ -172,7 +172,7 @@ extension CallerDataView {
 
             if tempLocked {
                 VStack(alignment: .leading, spacing: 0) {
-                    FloatingBorderLabelSimulatedTextField("Geburtsdatum", textfieldContent: DateManipulation.getFormatedDateFromDOB(from: logEntry.callerDOB), isLocked: logEntry.isLocked, disableAnimation: viewIsReadOnly, config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.standard, limit: 50, tint: .watchLogFont, autoResizes: true))
+                    FloatingBorderLabelSimulatedTextField("Geburtsdatum", textfieldContent: DateManipulation.getFormatedDateFromDOB(from: logEntry.callerDOB), isLocked: logEntry.isLocked, disableAnimation: viewIsReadOnly, config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.standard, limit: 50, tint: .watchLogFont, autoResizes: true, withClearButton: false))
                         .matchedGeometryEffect(id: "lockedEvent", in: namespace)
                         .isHidden(logEntry.callerDOB == nil || !tempLocked, remove: true)
                 }

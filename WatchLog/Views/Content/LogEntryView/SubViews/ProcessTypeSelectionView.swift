@@ -140,7 +140,7 @@ extension ProcessTypeSelectionView {
     private func ReadOnlyContent() -> some View {
         HStack(alignment: .center, spacing: 0) {
 
-            FloatingBorderLabelSimulatedTextField("", textfieldContent: logEntry.processTypeDetails.processTypeShort.localized.stringKey!, isLocked: logEntry.isLocked, disableAnimation: viewIsReadOnly, config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.standard, limit: 50, tint: .watchLogFont, autoResizes: true))
+            FloatingBorderLabelSimulatedTextField("", textfieldContent: logEntry.processTypeDetails.processTypeShort.localized.stringKey!, isLocked: logEntry.isLocked, disableAnimation: viewIsReadOnly, config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.standard, limit: 50, tint: .watchLogFont, autoResizes: true, withClearButton: false))
         }
     }
 
@@ -148,7 +148,7 @@ extension ProcessTypeSelectionView {
         HStack(alignment: .center, spacing: 0) {
             if tempLocked {
 
-                FloatingBorderLabelSimulatedTextField("", textfieldContent: logEntry.processTypeDetails.processTypeShort.localized.stringKey!, isLocked: logEntry.isLocked, disableAnimation: viewIsReadOnly, config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.standard, limit: 50, tint: .watchLogFont, autoResizes: true))
+                FloatingBorderLabelSimulatedTextField("", textfieldContent: logEntry.processTypeDetails.processTypeShort.localized.stringKey!, isLocked: logEntry.isLocked, disableAnimation: viewIsReadOnly, config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.standard, limit: 50, tint: .watchLogFont, autoResizes: true, withClearButton: false))
             }
 
 

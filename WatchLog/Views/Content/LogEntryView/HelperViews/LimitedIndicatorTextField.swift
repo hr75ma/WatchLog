@@ -108,6 +108,7 @@ struct Config {
     var allowsExcessTyping: Bool = false
     var progressConfig: ProgressConfig = .init()
     var textfieldAutoCapitalization: TextInputAutocapitalization = .never
+    var withClearButton: Bool = true
 }
 
 struct ProgressConfig {
@@ -134,14 +135,13 @@ struct LimitedIndicatorTextFieldFloating: View {
     var body: some View {
         // VStack(alignment: config.progressConfig.alignment, spacing: 12) {
         ZStack(alignment: .trailing) {
-            // TextField(hint, text: $text, axis: .vertical)
             if config.textfieldType == .singleLine {
                 TextField(hint, text: $text)
                     .if(config.textfieldLevel == TextFieldLevel.standard) { view in
-                        view.textFieldIndicatorFloating(text: $text, isLocked: isLocked, disableAnimation: disableAnimation, textfieldType: config.textfieldType, appStyles: appStyles, autocapitalize: config.textfieldAutoCapitalization)
+                        view.textFieldIndicatorFloating(text: $text, isLocked: isLocked, disableAnimation: disableAnimation, textfieldType: config.textfieldType, appStyles: appStyles, autocapitalize: config.textfieldAutoCapitalization, withClearButton: config.withClearButton)
                     }
                     .if(config.textfieldLevel == TextFieldLevel.sub) { view in
-                        view.subTextFieldIndicatorFloating(text: $text, isLocked: isLocked, disableAnimation: disableAnimation, textfieldType: config.textfieldType, appStyles: appStyles, autocapitalize: config.textfieldAutoCapitalization)
+                        view.subTextFieldIndicatorFloating(text: $text, isLocked: isLocked, disableAnimation: disableAnimation, textfieldType: config.textfieldType, appStyles: appStyles, autocapitalize: config.textfieldAutoCapitalization, withClearButton: config.withClearButton)
                     }
                     .focused($isKeyboardShowing)
                     .onChange(of: text, initial: true) { _, _ in
@@ -152,10 +152,10 @@ struct LimitedIndicatorTextFieldFloating: View {
                 if config.textfieldType == .multiLine {
                     TextField(hint, text: $text, axis: .vertical)
                         .if(config.textfieldLevel == TextFieldLevel.standard) { view in
-                            view.textFieldIndicatorFloating(text: $text, isLocked: isLocked, disableAnimation: disableAnimation, textfieldType: config.textfieldType, appStyles: appStyles, autocapitalize: config.textfieldAutoCapitalization)
+                            view.textFieldIndicatorFloating(text: $text, isLocked: isLocked, disableAnimation: disableAnimation, textfieldType: config.textfieldType, appStyles: appStyles, autocapitalize: config.textfieldAutoCapitalization, withClearButton: config.withClearButton)
                         }
                         .if(config.textfieldLevel == TextFieldLevel.sub) { view in
-                            view.subTextFieldIndicatorFloating(text: $text, isLocked: isLocked, disableAnimation: disableAnimation, textfieldType: config.textfieldType, appStyles: appStyles, autocapitalize: config.textfieldAutoCapitalization)
+                            view.subTextFieldIndicatorFloating(text: $text, isLocked: isLocked, disableAnimation: disableAnimation, textfieldType: config.textfieldType, appStyles: appStyles, autocapitalize: config.textfieldAutoCapitalization, withClearButton: config.withClearButton)
                         }
                         .focused($isKeyboardShowing)
                         .onChange(of: text, initial: true) { _, newValue in
@@ -172,7 +172,7 @@ struct LimitedIndicatorTextFieldFloating: View {
 
 //            //progress bar - text indicator
             HStack(alignment: .top, spacing: 0) {
-                if config.progressConfig.showsRing && !isLocked && !text.isEmpty {
+                if config.progressConfig.showsRing && !isLocked && !text.isEmpty && config.withClearButton {
                     ZStack {
                         Circle()
                             .stroke(.ultraThinMaterial, lineWidth: 4)

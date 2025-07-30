@@ -24,8 +24,8 @@ enum NumericTextInputMode: CaseIterable, Codable {
 
 // globals
 extension View {
-    fileprivate func textFieldButtonClearButton(text: Binding<String>, isLocked: Bool) -> some View {
-        modifier(TextFieldButtonClearButtonModifier(text: text, isLocked: isLocked))
+    fileprivate func textFieldButtonClearButton(text: Binding<String>, isLocked: Bool, isShowing: Bool = true) -> some View {
+        modifier(TextFieldButtonClearButtonModifier(text: text, isLocked: isLocked, isShowing: isShowing))
             .padding(.leading, 5)
             .padding(.trailing, 45)
             .padding(.vertical, 0)
@@ -46,13 +46,14 @@ extension View {
 fileprivate struct TextFieldButtonClearButtonModifier: ViewModifier {
     @Binding var text: String
     let isLocked: Bool
+    let isShowing: Bool
     @Environment(\.appStyles) var appStyles
 
     func body(content: Content) -> some View {
         ZStack(alignment: .trailing) {
             content
 
-            if !text.isEmpty && !isLocked {
+            if !text.isEmpty && !isLocked && isShowing {
                 Button {
                     text = ""
                 } label: {
@@ -131,11 +132,11 @@ extension View {
     }
 
     func textFieldIndicatorFloating(
-        text: Binding<String>, isLocked: Bool, disableAnimation: Bool, textfieldType: TextFieldType, appStyles: StylesLogEntry, autocapitalize: TextInputAutocapitalization = .never
+        text: Binding<String>, isLocked: Bool, disableAnimation: Bool, textfieldType: TextFieldType, appStyles: StylesLogEntry, autocapitalize: TextInputAutocapitalization = .never, withClearButton: Bool = true
     ) -> some View {
         modifier(
             TextFieldIndicatorFloating(
-                text: text, isLocked: isLocked, disableAnimation: disableAnimation, textfieldType: textfieldType, textFieldHeight: appStyles.textFieldHeight, font: Font.title, autocapitalize: autocapitalize))
+                text: text, isLocked: isLocked, disableAnimation: disableAnimation, textfieldType: textfieldType, textFieldHeight: appStyles.textFieldHeight, font: Font.title, autocapitalize: autocapitalize, withClearButton: withClearButton))
     }
 
     func subTextFieldIndicator(
@@ -148,12 +149,12 @@ extension View {
     }
 
     func subTextFieldIndicatorFloating(
-        text: Binding<String>, isLocked: Bool, disableAnimation: Bool, textfieldType: TextFieldType, appStyles: StylesLogEntry, autocapitalize: TextInputAutocapitalization = .never
+        text: Binding<String>, isLocked: Bool, disableAnimation: Bool, textfieldType: TextFieldType, appStyles: StylesLogEntry, autocapitalize: TextInputAutocapitalization = .never, withClearButton: Bool = true
     ) -> some View {
         modifier(
             TextFieldIndicatorFloating(
                 text: text, isLocked: isLocked, disableAnimation: disableAnimation,
-                textfieldType: textfieldType, textFieldHeight: appStyles.textFieldSubHeight, font: Font.title2, autocapitalize: autocapitalize))
+                textfieldType: textfieldType, textFieldHeight: appStyles.textFieldSubHeight, font: Font.title2, autocapitalize: autocapitalize, withClearButton: withClearButton))
     }
 }
 
@@ -203,11 +204,12 @@ struct TextFieldIndicatorFloating: ViewModifier {
     let textFieldHeight: CGFloat
     let font: Font
     let autocapitalize: TextInputAutocapitalization
+    let withClearButton: Bool
     @Environment(\.appStyles) var appStyles
 
     func body(content: Content) -> some View {
         content
-            .textFieldButtonClearButton(text: $text, isLocked: isLocked)
+            .textFieldButtonClearButton(text: $text, isLocked: isLocked, isShowing: withClearButton)
             .font(font)
             .fontWeight(.semibold)
             .fontWidth(.standard)
@@ -231,7 +233,8 @@ struct TextFieldIndicatorFloating: ViewModifier {
             .textInputAutocapitalization(autocapitalize)
             .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
             .disableAnimations(disableAnimation: disableAnimation)
-            .animation(.smooth(duration: 1), value: isLocked)
+            .disableAnimations(disableAnimation: isLocked)
+            .animation(.smooth, value: isLocked)
             .disabled(isLocked)
     }
 }
