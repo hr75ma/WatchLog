@@ -93,6 +93,39 @@ struct TextFieldCheckOnNumbersModifier: ViewModifier {
     }
 }
 
+enum NumericTextInputMode {
+    case number
+    case decimal
+}
+
+struct NumericTextInputFieldViewModifier: ViewModifier {
+    @Binding var text: String
+    let mode: NumericTextInputMode
+
+    func body(content: Content) -> some View {
+        content
+            .keyboardType(mode == .number ? .numberPad : .decimalPad)
+            .onChange(of: text) { _, newValue in
+                let decimalSeparator = Locale.current.decimalSeparator ?? "."
+                let numbers = "1234567890\(mode == .decimal ? decimalSeparator : "")"
+                if newValue.components(separatedBy: decimalSeparator).count - 1 > 1 {
+                    text = String(newValue.dropLast())
+                } else {
+                    let filtered = newValue.filter { numbers.contains($0) }
+                    if filtered != newValue {
+                        text = filtered
+                    }
+                }
+            }
+    }
+}
+
+extension View {
+    func numericTextInputField(_ mode: NumericTextInputMode = .number, text: Binding<String>) -> some View {
+        modifier(NumericTextInputFieldViewModifier(text: text, mode: mode))
+    }
+}
+
 fileprivate struct InnerPaddingModifier: ViewModifier {
     func body(content: Content) -> some View {
         ZStack(alignment: .trailing) {
@@ -113,7 +146,7 @@ extension View {
             TextFieldIndicator(
                 text: text, isLocked: isLocked, disableAnimation: disableAnimation, textfieldType: textfieldType, textFieldHeight: appStyles.textFieldHeight, font: Font.title))
     }
-    
+
     func textFieldIndicatorFloating(
         text: Binding<String>, isLocked: Bool, disableAnimation: Bool, textfieldType: TextFieldType, appStyles: StylesLogEntry
     ) -> some View {
@@ -130,7 +163,7 @@ extension View {
                 text: text, isLocked: isLocked, disableAnimation: disableAnimation,
                 textfieldType: textfieldType, textFieldHeight: appStyles.textFieldSubHeight, font: Font.title2))
     }
-    
+
     func subTextFieldIndicatorFloating(
         text: Binding<String>, isLocked: Bool, disableAnimation: Bool, textfieldType: TextFieldType, appStyles: StylesLogEntry
     ) -> some View {
@@ -217,11 +250,6 @@ struct TextFieldIndicatorFloating: ViewModifier {
             .disabled(isLocked)
     }
 }
-
-
-
-
-
 
 // ---------------------------------------------------------------------------------------------
 
