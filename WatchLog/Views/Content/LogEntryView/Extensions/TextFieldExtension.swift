@@ -24,6 +24,13 @@ enum NumericTextInputMode: CaseIterable, Codable {
 
 // globals
 extension View {
+    fileprivate func textFieldButtonClearButtonModifier(text: Binding<String>, isLocked: Bool, isShowing: Bool = true) -> some View {
+        modifier(TextFieldButtonClearButtonModifier(text: text, isLocked: isLocked, isShowing: isShowing))
+            .padding(.leading, 5)
+            .padding(.trailing, 45)
+            .padding(.vertical, 0)
+    }
+    
     fileprivate func textFieldButtonClearButton(text: Binding<String>, isLocked: Bool, isShowing: Bool = true) -> some View {
         modifier(TextFieldButtonClearButtonModifier(text: text, isLocked: isLocked, isShowing: isShowing))
             .padding(.leading, 5)
@@ -70,6 +77,79 @@ fileprivate struct TextFieldButtonClearButtonModifier: ViewModifier {
         }
         //.animation(.smooth, value: isLocked)
         //.animation(.smooth, value: isShowing)
+    }
+}
+
+fileprivate struct TextFieldIndicatorAndClearModifier: ViewModifier {
+    @Binding var text: String
+    var config: TextFieldFloatingConfiguration
+    @Environment(\.appStyles) var appStyles
+    @FocusState private var isKeyboardShowing: Bool
+
+    func body(content: Content) -> some View {
+       
+        ZStack(alignment: .trailing) {
+            content
+            if config.progressConfig.showsRing && !config.isLocked && !text.isEmpty && config.withClearButton {
+                HStack(alignment: .top, spacing: 0) {
+                    
+                    ZStack {
+                            Circle()
+                                .stroke(.ultraThinMaterial, lineWidth: 4)
+                            
+                            Circle()
+                                .trim(from: 0, to: progress)
+                                .stroke(progressColor.gradient, lineWidth: 4)
+                                .rotationEffect(.init(degrees: -90))
+                                .animation(.smooth(duration: 0.15), value: progressColor)
+                                .animation(.smooth(duration: 0.15), value: progress)
+                        }
+                        .frame(width: 23, height: 23)
+                        .animation(.smooth, value: config.isLocked)
+                        .animation(.smooth(duration: 0.5), value: !text.isEmpty)
+                    
+                    
+                    if config.progressConfig.showsText {
+                        Text("\(text.count)/\(config.limit)")
+                            .foregroundStyle(progressColor.gradient)
+                    }
+                    
+                }
+                .offset(x: -14)
+                .overlay(
+                    Button {
+                        text = ""
+                    } label: {
+                        Image(systemName: appStyles.clearButtonImage)
+                            .resizable()
+                            .frame(
+                                width: appStyles.clearButtonSize, height: appStyles.clearButtonSize,
+                                alignment: .center)
+                            .foregroundStyle(.watchLogClearButtonImagePrimary, .watchLogClearButtonImageSecondary)
+                    }
+                    .offset(x: 30)
+            )
+        }
+        }
+        .focused($isKeyboardShowing)
+        .onChange(of: text, initial: true) { _, newValue in
+            guard !config.allowsExcessTyping else { return }
+            guard let newValueLastChar = newValue.last else { return }
+            if config.textfieldType == .multiLine {
+                if newValueLastChar == "\n" {
+                    isKeyboardShowing = false
+                }
+            }
+            text = String(text.prefix(config.limit))
+        }
+    }
+    
+    var progress: CGFloat {
+        return max(min(CGFloat(text.count) / CGFloat(config.limit), 1), 0)
+    }
+
+    var progressColor: Color {
+        return withAnimation { progress < 0.6 ? .watchLogClearButtonIndicatorStart : progress == 1.0 ? .watchLogClearButtonIndicatorEnd : .watchLogClearButtonIndicatorMiddle }
     }
 }
 

@@ -51,7 +51,7 @@ extension CallerDataView {
     private var phoneSubSection: some View {
         VStack(alignment: .leading, spacing: 0) {
             
-            FloatingBorderLabelTextField("Telefon", textfieldContent: $logEntry.callerNumber, config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.standard, limit: 20, autoResizes: true, disableAnimation: viewIsReadOnly, isLocked: logEntry.isLocked))
+            FloatingBorderLabelTextField("Telefon", textfieldContent: $logEntry.callerNumber, config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.standard, limit: 100, autoResizes: true, disableAnimation: viewIsReadOnly, isLocked: logEntry.isLocked))
                 //.textFieldCheckOnNumbers(text: $logEntry.callerNumber)
                 .numericTextInputField(text: $logEntry.callerNumber)
                 .textContentType(.telephoneNumber)

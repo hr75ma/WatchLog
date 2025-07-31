@@ -66,7 +66,6 @@ struct LimitedIndicatorTextFieldFloating: View {
                             guard !config.allowsExcessTyping else { return }
                             guard let newValueLastChar = newValue.last else { return }
                             if newValueLastChar == "\n" {
-                                print("submit")
                                 isKeyboardShowing = false
                             }
                             text = String(text.prefix(config.limit))
