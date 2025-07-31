@@ -56,7 +56,7 @@ struct LogBookEntryFormView: View {
 
                     LockEditingView(logEntry: watchLogEntry, viewIsReadOnly: viewIsReadOnly)
                     
-                    CallInView(logEntry: watchLogEntry, viewIsReadOnly: viewIsReadOnly)
+                    CallInView(logEntry: watchLogEntry, viewIsReadOnly: viewIsReadOnly, tempLocked: watchLogEntry.isLocked)
 
                     CallerDataView(logEntry: watchLogEntry, viewIsReadOnly: viewIsReadOnly)
                     

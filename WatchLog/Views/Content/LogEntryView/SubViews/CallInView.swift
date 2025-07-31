@@ -15,7 +15,7 @@ struct CallInView: View {
 
     //@State private var selectedCallIn: CallInType.CallInTypeShort = CallInType.CallInTypeShort.EMERGENCY
     @State private var selectedCallInHelper: InComingCallType = InComingCallType.emergency
-    @State private var tempLocked: Bool = false
+    @State public var tempLocked: Bool
     @Namespace private var namespace
 
     var body: some View {
@@ -55,22 +55,22 @@ extension CallInView {
         }
         .onAppear {
             if !viewIsReadOnly {
-                withAnimation(.smooth(duration: 1)) {
+                withAnimation(.smooth(duration: 0.5)) {
                     selectedCallInHelper = logEntry.callIn
-                    tempLocked = logEntry.isLocked
+                    //tempLocked = logEntry.isLocked
                 }
             }
         }
         .onChange(of: logEntry.callIn) { _, _ in
             if !viewIsReadOnly {
-                withAnimation(.smooth(duration: 1)) {
+                withAnimation(.smooth(duration: 0.5)) {
                     selectedCallInHelper = logEntry.callIn
                 }
             }
         }
         .onChange(of: logEntry.isLocked) {
             if !viewIsReadOnly {
-                withAnimation(.smooth(duration: 1)) {
+                withAnimation(.smooth(duration: 0.5)) {
                     tempLocked = logEntry.isLocked
                     selectedCallInHelper = logEntry.callIn
                 }
@@ -82,33 +82,24 @@ extension CallInView {
         HStack(alignment: .center, spacing: 0) {
             
             FloatingBorderLabelSimulatedTextField("", textfieldContent: logEntry.callIn.localized.stringKey!, config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.standard, limit: 50, autoResizes: true, withClearButton: false, disableAnimation: viewIsReadOnly, isLocked: logEntry.isLocked))
-            
-//            
-//            
-//            Text(logEntry.callIn.localized)
-//                .sectionSimulatedTextFieldSingleLine(
-//                    isLocked: logEntry.isLocked
-//                )
-//            Spacer()
+
         }
     }
 
     private func EditableContent() -> some View {
         HStack(alignment: .center, spacing: 0) {
             if tempLocked {
-//                Text(logEntry.callIn.localized)
-//                    .sectionSimulatedTextFieldSingleLine(
-//                        isLocked: logEntry.isLocked
-//                    )
+
                 FloatingBorderLabelSimulatedTextField("", textfieldContent: logEntry.callIn.localized.stringKey!, config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.standard, limit: 50, autoResizes: true, withClearButton: false, disableAnimation: viewIsReadOnly, isLocked: logEntry.isLocked))
                     .matchedGeometryEffect(id: "lockedEvent", in: namespace)
-                    .isHidden(!tempLocked, remove: true)
-            //    Spacer()
+                    //.isHidden(!tempLocked, remove: true)
+ 
+            } else {
+                
+                customSegmentedPickerView(preselectedIndex: $logEntry.callIn, appStyles: appStyles)
+                    .matchedGeometryEffect(id: "lockedEvent", in: namespace)
+                    //.isHidden(tempLocked, remove: true)
             }
-
-            customSegmentedPickerView(preselectedIndex: $logEntry.callIn, appStyles: appStyles)
-                .matchedGeometryEffect(id: "lockedEvent", in: namespace)
-                .isHidden(tempLocked, remove: true)
         }
     }
 }

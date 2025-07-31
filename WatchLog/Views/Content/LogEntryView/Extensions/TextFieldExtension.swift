@@ -24,12 +24,6 @@ enum NumericTextInputMode: CaseIterable, Codable {
 
 // globals
 extension View {
-    fileprivate func textFieldButtonClearButtonModifier(text: Binding<String>, isLocked: Bool, isShowing: Bool = true) -> some View {
-        modifier(TextFieldButtonClearButtonModifier(text: text, isLocked: isLocked, isShowing: isShowing))
-            .padding(.leading, 5)
-            .padding(.trailing, 45)
-            .padding(.vertical, 0)
-    }
 
     fileprivate func textFieldIndicatorAndClearModifier(text: Binding<String>, config: TextFieldFloatingConfiguration) -> some View {
         modifier(TextFieldIndicatorAndClearModifier(text: text, config: config))
@@ -47,35 +41,6 @@ extension View {
             .padding(.leading, 5)
             .padding(.trailing, 5)
             .padding(.vertical, 0)
-    }
-}
-
-fileprivate struct TextFieldButtonClearButtonModifier: ViewModifier {
-    @Binding var text: String
-    let isLocked: Bool
-    let isShowing: Bool
-    @Environment(\.appStyles) var appStyles
-
-    func body(content: Content) -> some View {
-        ZStack(alignment: .trailing) {
-            content
-
-            if !text.isEmpty && !isLocked && isShowing {
-                Button {
-                    text = ""
-                } label: {
-                    Image(systemName: appStyles.clearButtonImage)
-                        .resizable()
-                        .frame(
-                            width: appStyles.clearButtonSize, height: appStyles.clearButtonSize,
-                            alignment: .center)
-                        .foregroundStyle(.watchLogClearButtonImagePrimary, .watchLogClearButtonImageSecondary)
-                }
-                .offset(x: 30)
-            }
-        }
-        // .animation(.smooth, value: isLocked)
-        // .animation(.smooth, value: isShowing)
     }
 }
 
@@ -231,17 +196,12 @@ struct TextFieldIndicatorFloating: ViewModifier {
             .fontWidth(.standard)
             .fontDesign(.rounded)
             .foregroundStyle(.watchLogFont)
-//            .background(
-//                isLocked
-//                    ? .watchLogTextfieldBackgoundLocked : .watchLogTextfieldBackgroundUnlocked
-//            )
             .background(Color.clear)
             .autocorrectionDisabled(true)
             .textInputAutocapitalization(config.textfieldAutoCapitalization)
             .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
             .disableAnimations(disableAnimation: config.disableAnimation)
-            // .disableAnimations(disableAnimation: isLocked)
-            .animation(.smooth, value: config.isLocked)
+            //.animation(.smooth, value: config.isLocked)
             .disabled(config.isLocked)
     }
 }
