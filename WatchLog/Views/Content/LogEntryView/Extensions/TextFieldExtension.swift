@@ -30,9 +30,9 @@ extension View {
             .padding(.trailing, 45)
             .padding(.vertical, 0)
     }
-    
-    fileprivate func textFieldButtonClearButton(text: Binding<String>, isLocked: Bool, isShowing: Bool = true) -> some View {
-        modifier(TextFieldButtonClearButtonModifier(text: text, isLocked: isLocked, isShowing: isShowing))
+
+    fileprivate func textFieldIndicatorAndClearModifier(text: Binding<String>, config: TextFieldFloatingConfiguration) -> some View {
+        modifier(TextFieldIndicatorAndClearModifier(text: text, config: config))
             .padding(.leading, 5)
             .padding(.trailing, 45)
             .padding(.vertical, 0)
@@ -57,7 +57,6 @@ fileprivate struct TextFieldButtonClearButtonModifier: ViewModifier {
     @Environment(\.appStyles) var appStyles
 
     func body(content: Content) -> some View {
-       
         ZStack(alignment: .trailing) {
             content
 
@@ -75,8 +74,8 @@ fileprivate struct TextFieldButtonClearButtonModifier: ViewModifier {
                 .offset(x: 30)
             }
         }
-        //.animation(.smooth, value: isLocked)
-        //.animation(.smooth, value: isShowing)
+        // .animation(.smooth, value: isLocked)
+        // .animation(.smooth, value: isShowing)
     }
 }
 
@@ -87,13 +86,13 @@ fileprivate struct TextFieldIndicatorAndClearModifier: ViewModifier {
     @FocusState private var isKeyboardShowing: Bool
 
     func body(content: Content) -> some View {
-       
         ZStack(alignment: .trailing) {
             content
-            if config.progressConfig.showsRing && !config.isLocked && !text.isEmpty && config.withClearButton {
+            if !config.isLocked && !text.isEmpty && config.withClearButton {
                 HStack(alignment: .top, spacing: 0) {
                     
-                    ZStack {
+                    if config.progressConfig.showsRing {
+                        ZStack(alignment: .trailing) {
                             Circle()
                                 .stroke(.ultraThinMaterial, lineWidth: 4)
                             
@@ -101,21 +100,16 @@ fileprivate struct TextFieldIndicatorAndClearModifier: ViewModifier {
                                 .trim(from: 0, to: progress)
                                 .stroke(progressColor.gradient, lineWidth: 4)
                                 .rotationEffect(.init(degrees: -90))
-                                .animation(.smooth(duration: 0.15), value: progressColor)
-                                .animation(.smooth(duration: 0.15), value: progress)
+                                .animation(.smooth, value: progressColor)
+                                .animation(.smooth, value: progress)
                         }
                         .frame(width: 23, height: 23)
-                        .animation(.smooth, value: config.isLocked)
-                        .animation(.smooth(duration: 0.5), value: !text.isEmpty)
-                    
-                    
+                    }
                     if config.progressConfig.showsText {
                         Text("\(text.count)/\(config.limit)")
                             .foregroundStyle(progressColor.gradient)
                     }
-                    
                 }
-                .offset(x: -14)
                 .overlay(
                     Button {
                         text = ""
@@ -127,10 +121,14 @@ fileprivate struct TextFieldIndicatorAndClearModifier: ViewModifier {
                                 alignment: .center)
                             .foregroundStyle(.watchLogClearButtonImagePrimary, .watchLogClearButtonImageSecondary)
                     }
-                    .offset(x: 30)
-            )
+                    // .offset(x: 30)
+                )
+                .offset(x: 30)
+                //.animation(.smooth, value: config.isLocked)
+                //.animation(.smooth, value: !text.isEmpty)
+            }
         }
-        }
+
         .focused($isKeyboardShowing)
         .onChange(of: text, initial: true) { _, newValue in
             guard !config.allowsExcessTyping else { return }
@@ -143,7 +141,7 @@ fileprivate struct TextFieldIndicatorAndClearModifier: ViewModifier {
             text = String(text.prefix(config.limit))
         }
     }
-    
+
     var progress: CGFloat {
         return max(min(CGFloat(text.count) / CGFloat(config.limit), 1), 0)
     }
@@ -164,8 +162,6 @@ fileprivate struct TextFieldLimitModifer: ViewModifier {
             }
     }
 }
-
-
 
 fileprivate struct NumericTextInputFieldViewModifier: ViewModifier {
     @Binding var text: String
@@ -205,49 +201,41 @@ extension View {
     func numericTextInputField(_ mode: NumericTextInputMode = .number, text: Binding<String>) -> some View {
         modifier(NumericTextInputFieldViewModifier(text: text, mode: mode))
     }
-    
+
     func textFieldIndicatorFloating(
-        text: Binding<String>, isLocked: Bool, disableAnimation: Bool, textfieldType: TextFieldType, appStyles: StylesLogEntry, autocapitalize: TextInputAutocapitalization = .never, withClearButton: Bool = true
-    ) -> some View {
+        text: Binding<String>, config: TextFieldFloatingConfiguration) -> some View {
         modifier(
             TextFieldIndicatorFloating(
-                text: text, isLocked: isLocked, disableAnimation: disableAnimation, textfieldType: textfieldType, textFieldHeight: appStyles.textFieldHeight, font: Font.title, autocapitalize: autocapitalize, withClearButton: withClearButton))
+                text: text, config: config))
     }
 
     func subTextFieldIndicatorFloating(
-        text: Binding<String>, isLocked: Bool, disableAnimation: Bool, textfieldType: TextFieldType, appStyles: StylesLogEntry, autocapitalize: TextInputAutocapitalization = .never, withClearButton: Bool = true
-    ) -> some View {
+        text: Binding<String>, config: TextFieldFloatingConfiguration) -> some View {
         modifier(
             TextFieldIndicatorFloating(
-                text: text, isLocked: isLocked, disableAnimation: disableAnimation,
-                textfieldType: textfieldType, textFieldHeight: appStyles.textFieldSubHeight, font: Font.title2, autocapitalize: autocapitalize, withClearButton: withClearButton))
+                text: text, config: config))
     }
 }
 
 struct TextFieldIndicatorFloating: ViewModifier {
     @Binding var text: String
-    let isLocked: Bool
-    let disableAnimation: Bool
-    let textfieldType: TextFieldType
-    let textFieldHeight: CGFloat
-    let font: Font
-    let autocapitalize: TextInputAutocapitalization
-    let withClearButton: Bool
+    var config: TextFieldFloatingConfiguration
+
     @Environment(\.appStyles) var appStyles
 
     func body(content: Content) -> some View {
         content
-            .textFieldButtonClearButton(text: $text, isLocked: isLocked, isShowing: withClearButton)
-            .font(font)
+            .textFieldIndicatorAndClearModifier(text: $text, config: config)
+            .font(config.textfieldLevel == .standard ? .title : .title2)
             .fontWeight(.semibold)
             .fontWidth(.standard)
             .fontDesign(.rounded)
-            .if(textfieldType == TextFieldType.singleLine) { view in
+            .if(config.textfieldType == TextFieldType.singleLine) { view in
                 view.lineLimit(1)
-                    .frame(height: textFieldHeight)
+                    .frame(height: config.textfieldLevel == .standard ? appStyles.textFieldHeight : appStyles.textFieldSubHeight)
                     .fixedSize(horizontal: false, vertical: true)
             }
-            .if(textfieldType == TextFieldType.multiLine) { view in
+            .if(config.textfieldType == TextFieldType.multiLine) { view in
                 view.lineLimit(4, reservesSpace: true)
                     .fixedSize(horizontal: false, vertical: true)
             }
@@ -258,12 +246,12 @@ struct TextFieldIndicatorFloating: ViewModifier {
 //            )
             .background(Color.clear)
             .autocorrectionDisabled(true)
-            .textInputAutocapitalization(autocapitalize)
+            .textInputAutocapitalization(config.textfieldAutoCapitalization)
             .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
-            .disableAnimations(disableAnimation: disableAnimation)
-            //.disableAnimations(disableAnimation: isLocked)
-            .animation(.smooth, value: isLocked)
-            .disabled(isLocked)
+            .disableAnimations(disableAnimation: config.disableAnimation)
+            // .disableAnimations(disableAnimation: isLocked)
+            .animation(.smooth, value: config.isLocked)
+            .disabled(config.isLocked)
     }
 }
 
