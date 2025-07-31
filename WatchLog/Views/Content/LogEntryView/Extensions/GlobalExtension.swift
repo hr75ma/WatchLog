@@ -97,8 +97,8 @@ struct StandardBottomBorder: ViewModifier {
                     .foregroundColor(.watchLogFrameBorder), // Border color
                 alignment: .bottom
             )
-            .clipShape(.rect(cornerRadius: 10))
-            .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
+            .clipShape(.rect(cornerRadius: 20))
+            .padding(EdgeInsets(top: 5, leading: 10, bottom: 10, trailing: 10))
     }
 }
 

@@ -23,7 +23,7 @@ final class StylesLogEntry: Sendable {
     private init() {}
 
     // global
-    let standardInnerFrameBorderWidth: CGFloat = 3
+    let standardInnerFrameBorderWidth: CGFloat = 5
     let standardCornerRadius: Double = 20
 
     // standard toggle
