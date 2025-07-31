@@ -230,15 +230,6 @@ struct TextFieldIndicatorFloating: ViewModifier {
             .fontWeight(.semibold)
             .fontWidth(.standard)
             .fontDesign(.rounded)
-            .if(config.textfieldType == TextFieldType.singleLine) { view in
-                view.lineLimit(1)
-                    .frame(height: config.textfieldLevel == .standard ? appStyles.textFieldHeight : appStyles.textFieldSubHeight)
-                    .fixedSize(horizontal: false, vertical: true)
-            }
-            .if(config.textfieldType == TextFieldType.multiLine) { view in
-                view.lineLimit(4, reservesSpace: true)
-                    .fixedSize(horizontal: false, vertical: true)
-            }
             .foregroundStyle(.watchLogFont)
 //            .background(
 //                isLocked
