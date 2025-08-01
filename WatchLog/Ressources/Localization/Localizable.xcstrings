@@ -115,6 +115,9 @@
     "Dark" : {
 
     },
+    "Daten des Mitteilers" : {
+
+    },
     "Datenbank löschen" : {
       "localizations" : {
         "en" : {
@@ -453,6 +456,7 @@
       }
     },
     "Meldung" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -463,6 +467,7 @@
       }
     },
     "Mitteiler" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -471,6 +476,9 @@
           }
         }
       }
+    },
+    "Mitteilung" : {
+
     },
     "Name" : {
       "extractionState" : "manual",

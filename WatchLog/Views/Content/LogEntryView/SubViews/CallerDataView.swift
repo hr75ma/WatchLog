@@ -21,85 +21,75 @@ struct CallerDataView: View {
     @Namespace private var namespace
 
     var body: some View {
-        HStack(alignment: .top, spacing: 0) {
-            SectionImageView(sectionType: SectionImageType.callerData)
+        VStack(alignment: .leading, spacing: 0) {
+            SectionTitle(sectionTitleType: SectionTitleType.callerData)
 
             VStack(alignment: .leading, spacing: 0) {
-                Text("Mitteiler")
-                
-                    .textLabel(textLabelLevel: TextLabelLevel.section)
-                
-                VStack(alignment: .leading, spacing: 0) {
+                Form {
+                    phoneSubSection
+                        .border(.green)
+                        .standardInputPadding()
+
+                    nameSubSection
+                        .border(.green)
+                        .standardInputPadding()
+
+                    adressSubSection
+                        .border(.green)
+                        .standardInputPadding()
                     
-                    Form {
-                        
-                        
-                        phoneSubSection
-                        
-                        nameSubSection
-                        
-                        adressSubSection
-                        
-                        dobSubSection
-                        
-                        
-                    }
-                    .formStyle(.columns)
+                    dobSubSection
+                        .border(.green)
+                        .standardInputPadding()
                 }
-                .padding(EdgeInsets(top: 10, leading: 0, bottom: 0, trailing: 0))
+                .formStyle(.columns)
             }
+            .border(.red)
+            .standardSectionContentPadding()
         }
         .disabled(logEntry.isLocked)
-        .standardSubViewPadding()
+        // .standardSubViewPadding()
         .standardBottomBorder()
     }
 }
 
 extension CallerDataView {
     private var phoneSubSection: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            
-            FloatingBorderLabelTextField("Telefon", textfieldContent: $logEntry.callerNumber, config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.standard, limit: 100, autoResizes: true, disableAnimation: viewIsReadOnly, isLocked: logEntry.isLocked))
-                //.textFieldCheckOnNumbers(text: $logEntry.callerNumber)
-                .numericTextInputField(text: $logEntry.callerNumber)
-                .textContentType(.telephoneNumber)
-                .keyboardType(.numberPad)
-        }
-        .standardInputViewPadding()
+        // VStack(alignment: .leading, spacing: 0) {
+
+        FloatingBorderLabelTextField("Telefon", textfieldContent: $logEntry.callerNumber, config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.standard, limit: 100, autoResizes: true, disableAnimation: viewIsReadOnly, isLocked: logEntry.isLocked))
+            // .textFieldCheckOnNumbers(text: $logEntry.callerNumber)
+            .numericTextInputField(text: $logEntry.callerNumber)
+            .textContentType(.telephoneNumber)
+            .keyboardType(.numberPad)
+        // }
     }
-    
+
     private var nameSubSection: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            
-            FloatingBorderLabelTextField("Name", textfieldContent: $logEntry.callerName, config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.standard, textfieldAutoCapitalization: .words, limit: 50, autoResizes: true, disableAnimation: viewIsReadOnly, isLocked: logEntry.isLocked))
-        }
-        .standardInputViewPadding()
+        // VStack(alignment: .leading, spacing: 0) {
+
+        FloatingBorderLabelTextField("Name", textfieldContent: $logEntry.callerName, config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.standard, textfieldAutoCapitalization: .words, limit: 50, autoResizes: true, disableAnimation: viewIsReadOnly, isLocked: logEntry.isLocked))
+        // }
     }
 
     private var adressSubSection: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            
-            FloatingBorderLabelTextField("Adresse", textfieldContent: $logEntry.callerAdress, config: .init(textfieldType: TextFieldType.multiLine, textfieldLevel: TextFieldLevel.standard, textfieldAutoCapitalization: .words, limit: 200, autoResizes: true, disableAnimation: viewIsReadOnly, isLocked: logEntry.isLocked))
-        }
-        .standardInputViewPadding()
+        //  VStack(alignment: .leading, spacing: 0) {
+
+        FloatingBorderLabelTextField("Adresse", textfieldContent: $logEntry.callerAdress, config: .init(textfieldType: TextFieldType.multiLine, textfieldLevel: TextFieldLevel.standard, textfieldAutoCapitalization: .words, limit: 200, autoResizes: true, disableAnimation: viewIsReadOnly, isLocked: logEntry.isLocked))
+        //  }
     }
 
-    
-    
     var dobSubSection: some View {
         VStack(alignment: .leading, spacing: 0) {
-            
             HStack(alignment: .top, spacing: 0) {
                 if viewIsReadOnly {
                     ReadOnlyContent()
-                        
 
                 } else {
                     EditableContent()
-                        
                 }
             }
-            //.standardInputViewPadding()
+            // .standardInputViewPadding()
             .onChange(of: logEntry.isLocked) {
                 withAnimation(.smooth(duration: 1)) {
                     tempLocked = logEntry.isLocked
@@ -126,7 +116,7 @@ extension CallerDataView {
             }
         }
     }
-    
+
     private func switchBirthday() {
         if logEntry.callerDOB == nil {
             withBirthday = false
@@ -143,13 +133,11 @@ extension CallerDataView {
     private func ReadOnlyContent() -> some View {
         HStack(alignment: .center, spacing: 0) {
             if tempLocked {
-                
                 VStack(alignment: .leading, spacing: 0) {
                     FloatingBorderLabelSimulatedTextField("Geburtsdatum", textfieldContent: DateManipulation.getFormatedDateFromDOB(from: logEntry.callerDOB), config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.standard, limit: 50, autoResizes: true, withClearButton: false, disableAnimation: viewIsReadOnly, isLocked: logEntry.isLocked))
-                        .standardLastInputViewPadding()
+                        //.standardLastInputViewPadding()
                         .isHidden(logEntry.callerDOB == nil || !tempLocked, remove: true)
                 }
-                
             }
         }
     }
@@ -157,17 +145,16 @@ extension CallerDataView {
     private func EditableContent() -> some View {
         HStack(alignment: .top, spacing: 0) {
             VStack(alignment: .leading, spacing: 0) {
-                
                 Text("Geburtsdatum")
                     .textLabel(textLabelLevel: TextLabelLevel.standard, isDimmend: !self.withBirthday, disableAnimation: viewIsReadOnly)
                     .isHidden(tempLocked, remove: true)
-                
+
                 HStack(alignment: .top, spacing: 0) {
                     ToggleView(
                         toggleValue: self.$withBirthday, isLocked: logEntry.isLocked, isDimmend: !withBirthday, removeAnimation: viewIsReadOnly, toggleType: .standard
                     )
                     .isHidden(tempLocked, remove: true)
-                    
+
                     DatePicker("", selection: $logEntry.callerDOB ?? Date(), in: ...Date(), displayedComponents: [.date])
                         .datePickerWheelStyle()
                         .matchedGeometryEffect(id: "lockedEvent", in: namespace)
@@ -176,24 +163,20 @@ extension CallerDataView {
                 .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
             }
             .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-            
+
             HStack(alignment: .center, spacing: 0) {
                 if tempLocked {
-                    
                     VStack(alignment: .leading, spacing: 0) {
                         FloatingBorderLabelSimulatedTextField("Geburtsdatum", textfieldContent: DateManipulation.getFormatedDateFromDOB(from: logEntry.callerDOB), config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.standard, limit: 50, autoResizes: true, withClearButton: false, disableAnimation: viewIsReadOnly, isLocked: logEntry.isLocked))
                             .matchedGeometryEffect(id: "lockedEvent", in: namespace)
                             .isHidden(logEntry.callerDOB == nil || !tempLocked, remove: true)
                             .padding(EdgeInsets(top: 10, leading: 0, bottom: 5, trailing: 0))
                     }
-                    
                 }
             }
         }
     }
 }
-
-
 
 public func ?? <T: Sendable>(lhs: Binding<T?>, rhs: T) -> Binding<T> {
     Binding(

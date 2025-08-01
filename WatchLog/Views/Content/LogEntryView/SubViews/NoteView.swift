@@ -20,14 +20,9 @@ struct NoteView: View {
 
     var body: some View {
             VStack(alignment: .leading, spacing: 0) {
-                HStack(alignment: .top, spacing: 0) {
-                    SectionImageView(sectionType: SectionImageType.note)
-                    
-                    Text("Meldung")
-                        .textLabel(textLabelLevel: TextLabelLevel.section)
-                    Spacer()
-                }
-
+                
+            SectionTitle(sectionTitleType: SectionTitleType.note)
+                
                 HStack(alignment: .top, spacing: 0) {
                     CanvasView(canvas: $canvasview, drawing: $drawing, readOnly: $logEntry.isLocked)
                 }

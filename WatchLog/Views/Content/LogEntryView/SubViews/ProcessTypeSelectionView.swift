@@ -26,15 +26,13 @@ struct ProcessTypeSelectionView: View {
     @Namespace private var namespace
 
     var body: some View {
-        HStack(alignment: .top, spacing: 0) {
-            SectionImageView(sectionType: .event)
+        VStack(alignment: .leading, spacing: 0) {
+            
+            SectionTitle(sectionTitleType: .event)
 
             VStack {
                 Form {
                     VStack(alignment: .leading, spacing: 0) {
-                        Text("Ereignis")
-                            .textLabel(textLabelLevel: TextLabelLevel.section)
-                            .frame(alignment: .topLeading)
 
                         VStack(alignment: .leading, spacing: 0) {
                             processSelectionView
