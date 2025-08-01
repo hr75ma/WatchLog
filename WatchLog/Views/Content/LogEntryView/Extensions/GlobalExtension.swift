@@ -46,6 +46,7 @@ extension View {
 
 // general section
 extension View {
+    
     func standardBottomBorder() -> some View {
         modifier(StandardBottomBorder())
     }
@@ -54,8 +55,16 @@ extension View {
         modifier(CanvasBorder(isLocked: isLocked))
     }
 
+    func standardInputViewPadding() -> some View {
+        padding(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0))
+    }
+    
+    func standardLastInputViewPadding() -> some View {
+        padding(EdgeInsets(top: 0, leading: 0, bottom: 5, trailing: 0))
+    }
+    
     func standardSubViewPadding() -> some View {
-        padding(EdgeInsets(top: 5, leading: 0, bottom: 10, trailing: 10))
+        padding(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 10))
     }
 
     func standardScrollViewPadding() -> some View {
@@ -121,7 +130,7 @@ struct CanvasBorder: ViewModifier {
 
 extension View {
     func timeSectionPadding() -> some View {
-        padding(EdgeInsets(top: 5, leading: 20, bottom: 5, trailing: 20))
+        padding(EdgeInsets(top: 0, leading: 20, bottom: 5, trailing: 20))
     }
 
     func blurring(blurSetting: BlurSetting) -> some View {

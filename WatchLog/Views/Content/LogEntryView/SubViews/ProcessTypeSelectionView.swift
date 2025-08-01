@@ -98,7 +98,6 @@ extension ProcessTypeSelectionView {
             }
         }
         .frame(maxWidth: .infinity)
-        // .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
     }
 
     private var processSubViews: some View {
@@ -141,6 +140,7 @@ extension ProcessTypeSelectionView {
         HStack(alignment: .center, spacing: 0) {
 
             FloatingBorderLabelSimulatedTextField("", textfieldContent: logEntry.processTypeDetails.processTypeShort.localized.stringKey!, config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.standard, limit: 50, autoResizes: true, withClearButton: false, disableAnimation: viewIsReadOnly, isLocked: logEntry.isLocked,))
+                .standardLastInputViewPadding()
         }
     }
 
@@ -149,6 +149,7 @@ extension ProcessTypeSelectionView {
             if tempLocked {
 
                 FloatingBorderLabelSimulatedTextField("", textfieldContent: logEntry.processTypeDetails.processTypeShort.localized.stringKey!, config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.standard, limit: 50, autoResizes: true, withClearButton: false, disableAnimation: viewIsReadOnly, isLocked: logEntry.isLocked))
+                    .standardLastInputViewPadding()
             }
 
 
@@ -158,6 +159,7 @@ extension ProcessTypeSelectionView {
             count: 2,
             span: 1,
             spacing: 0, alignment: .topLeading)
+                .standardLastInputViewPadding()
                 .isHidden(tempLocked, remove: true)
         }
     }

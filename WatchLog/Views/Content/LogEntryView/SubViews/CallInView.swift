@@ -22,7 +22,7 @@ struct CallInView: View {
         HStack(alignment: .top, spacing: 0) {
             SectionImageView(sectionType: SectionImageType.callIn)
 
-            VStack(alignment: .leading, spacing: 5) {
+            VStack(alignment: .leading, spacing: 0) {
                 
                 Form {
                     callInSection
@@ -82,6 +82,7 @@ extension CallInView {
         HStack(alignment: .center, spacing: 0) {
             
             FloatingBorderLabelSimulatedTextField("", textfieldContent: logEntry.callIn.localized.stringKey!, config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.standard, limit: 50, autoResizes: true, withClearButton: false, disableAnimation: viewIsReadOnly, isLocked: logEntry.isLocked))
+                .standardLastInputViewPadding()
 
         }
     }
@@ -92,13 +93,15 @@ extension CallInView {
 
                 FloatingBorderLabelSimulatedTextField("", textfieldContent: logEntry.callIn.localized.stringKey!, config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.standard, limit: 50, autoResizes: true, withClearButton: false, disableAnimation: viewIsReadOnly, isLocked: logEntry.isLocked))
                     .matchedGeometryEffect(id: "lockedEvent", in: namespace)
-                    //.isHidden(!tempLocked, remove: true)
+                    .standardLastInputViewPadding()
+                    .isHidden(!tempLocked, remove: true)
  
             } else {
                 
                 customSegmentedPickerView(preselectedIndex: $logEntry.callIn, appStyles: appStyles)
                     .matchedGeometryEffect(id: "lockedEvent", in: namespace)
-                    //.isHidden(tempLocked, remove: true)
+                    .standardLastInputViewPadding()
+                    .isHidden(tempLocked, remove: true)
             }
         }
     }

@@ -37,6 +37,7 @@ extension LockEditingView {
                 .disabled(logEntry.isNewEntryLog)
             Spacer()
         }
+        
         .disabled(viewIsReadOnly)
     }
 }
