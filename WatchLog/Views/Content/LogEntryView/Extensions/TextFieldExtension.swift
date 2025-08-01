@@ -25,15 +25,11 @@ enum NumericTextInputMode: CaseIterable, Codable {
 // globals
 extension View {
 
-    fileprivate func textFieldIndicatorAndClearModifier(text: Binding<String>, config: TextFieldFloatingConfiguration) -> some View {
-        modifier(TextFieldIndicatorAndClearModifier(text: text, config: config))
+    fileprivate func textFieldIndicatorModifier(text: Binding<String>, config: TextFieldFloatingConfiguration) -> some View {
+        modifier(TextFieldIndicatorModifier(text: text, config: config))
             .padding(.leading, 5)
             .padding(.trailing, 45)
             .padding(.vertical, 0)
-    }
-
-    fileprivate func textFieldLimitInputLength(text: Binding<String>, length: Int) -> some View {
-        modifier(TextFieldLimitModifer(text: text, length: length))
     }
 
     fileprivate func innerPadding() -> some View {
@@ -44,7 +40,7 @@ extension View {
     }
 }
 
-fileprivate struct TextFieldIndicatorAndClearModifier: ViewModifier {
+fileprivate struct TextFieldIndicatorModifier: ViewModifier {
     @Binding var text: String
     var config: TextFieldFloatingConfiguration
     @Environment(\.appStyles) var appStyles
@@ -116,17 +112,7 @@ fileprivate struct TextFieldIndicatorAndClearModifier: ViewModifier {
     }
 }
 
-fileprivate struct TextFieldLimitModifer: ViewModifier {
-    @Binding var text: String
-    var length: Int
 
-    func body(content: Content) -> some View {
-        content
-            .onChange(of: $text.wrappedValue) { _, _ in
-                text = String($text.wrappedValue.prefix(length))
-            }
-    }
-}
 
 fileprivate struct NumericTextInputFieldViewModifier: ViewModifier {
     @Binding var text: String
@@ -174,12 +160,7 @@ extension View {
                 text: text, config: config))
     }
 
-    func subTextFieldIndicatorFloating(
-        text: Binding<String>, config: TextFieldFloatingConfiguration) -> some View {
-        modifier(
-            TextFieldIndicatorFloating(
-                text: text, config: config))
-    }
+
 }
 
 struct TextFieldIndicatorFloating: ViewModifier {
@@ -190,7 +171,7 @@ struct TextFieldIndicatorFloating: ViewModifier {
 
     func body(content: Content) -> some View {
         content
-            .textFieldIndicatorAndClearModifier(text: $text, config: config)
+            .textFieldIndicatorModifier(text: $text, config: config)
             .font(config.textfieldLevel == .standard ? .title : .title2)
             .fontWeight(.semibold)
             .fontWidth(.standard)
@@ -208,31 +189,4 @@ struct TextFieldIndicatorFloating: ViewModifier {
 
 // ---------------------------------------------------------------------------------------------
 
-extension Text {
-    func sectionSimulatedTextFieldSingleLine(isLocked: Bool) -> some View {
-        modifier(
-            SectionSimulatedTextFieldSingleLineModifier(isLocked: isLocked))
-    }
-}
 
-fileprivate struct SectionSimulatedTextFieldSingleLineModifier: ViewModifier {
-    let isLocked: Bool
-    @Environment(\.appStyles) var appStyles
-
-    func body(content: Content) -> some View {
-        content
-            .font(.title)
-            .fontWeight(.semibold)
-            .fontWidth(.standard)
-            .fontDesign(.rounded)
-            .innerPadding()
-            .lineLimit(1)
-            .foregroundStyle(.watchLogFont)
-            .background(
-                isLocked
-                    ? .watchLogTextfieldBackgoundLocked : .watchLogTextfieldBackgroundUnlocked
-            )
-            .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
-            .fixedSize(horizontal: true, vertical: true)
-    }
-}

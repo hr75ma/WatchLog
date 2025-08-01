@@ -41,7 +41,7 @@ struct FloatingBorderLabelTextField: View {
                     .scaleEffect(self.textfieldContent.isEmpty ? 1 : 0.9, anchor: .topLeading)
             }
             
-            LimitedIndicatorTextFieldFloating(text: $textfieldContent, config: config, hint: "")
+            FloatingTextField(text: $textfieldContent, config: config, hint: "")
         }
         .padding(.horizontal)
         .padding(.vertical, 10)
