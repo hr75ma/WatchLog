@@ -137,7 +137,7 @@ extension CallerDataView {
             if tempLocked {
                 
                 VStack(alignment: .leading, spacing: 0) {
-                    FloatingBorderLabelSimulatedTextField("Geburstag", textfieldContent: DateManipulation.getFormatedDateFromDOB(from: logEntry.callerDOB), config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.standard, limit: 50, autoResizes: true, withClearButton: false, disableAnimation: viewIsReadOnly, isLocked: logEntry.isLocked))
+                    FloatingBorderLabelSimulatedTextField("Geburtsdatum", textfieldContent: DateManipulation.getFormatedDateFromDOB(from: logEntry.callerDOB), config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.standard, limit: 50, autoResizes: true, withClearButton: false, disableAnimation: viewIsReadOnly, isLocked: logEntry.isLocked))
                         .standardLastInputViewPadding()
                         .isHidden(logEntry.callerDOB == nil || !tempLocked, remove: true)
                 }
