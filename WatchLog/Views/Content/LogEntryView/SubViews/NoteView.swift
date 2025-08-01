@@ -23,7 +23,7 @@ struct NoteView: View {
                 HStack(alignment: .top, spacing: 0) {
                     SectionImageView(sectionType: SectionImageType.note)
                     
-                    Text("Notiz")
+                    Text("Meldung")
                         .textLabel(textLabelLevel: TextLabelLevel.section)
                     Spacer()
                 }

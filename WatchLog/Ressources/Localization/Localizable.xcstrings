@@ -452,6 +452,16 @@
         }
       }
     },
+    "Meldung" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Message"
+          }
+        }
+      }
+    },
     "Mitteiler" : {
       "localizations" : {
         "en" : {
@@ -489,16 +499,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "New log"
-          }
-        }
-      }
-    },
-    "Notiz" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Note"
           }
         }
       }
