@@ -89,31 +89,7 @@ extension CallerDataView {
                     EditableContent()
                 }
             }
-            // .standardInputViewPadding()
-            .onChange(of: logEntry.isLocked) {
-                withAnimation(.smooth(duration: 1)) {
-                    tempLocked = logEntry.isLocked
-                }
-            }
-            .onChange(of: withBirthday) { _, _ in
-                withAnimation(.smooth(duration: 1)) {
-                    if !withBirthday {
-                        logEntry.callerDOB = nil
-                        with = withBirthday
-                    } else {
-                        with = withBirthday
-                    }
-                }
-            }
-            .onAppear {
-                if viewIsReadOnly {
-                    switchBirthday()
-                } else {
-                    withAnimation(.smooth(duration: 1)) {
-                        switchBirthday()
-                    }
-                }
-            }
+           
         }
     }
 
@@ -172,6 +148,31 @@ extension CallerDataView {
                             .isHidden(logEntry.callerDOB == nil || !tempLocked, remove: true)
                             .padding(EdgeInsets(top: 10, leading: 0, bottom: 5, trailing: 0))
                     }
+                }
+            }
+        }
+        // .standardInputViewPadding()
+        .onChange(of: logEntry.isLocked) {
+            withAnimation(.smooth(duration: 1)) {
+                tempLocked = logEntry.isLocked
+            }
+        }
+        .onChange(of: withBirthday) { _, _ in
+            withAnimation(.smooth(duration: 1)) {
+                if !withBirthday {
+                    logEntry.callerDOB = nil
+                    with = withBirthday
+                } else {
+                    with = withBirthday
+                }
+            }
+        }
+        .onAppear {
+            if viewIsReadOnly {
+                switchBirthday()
+            } else {
+                withAnimation(.smooth(duration: 1)) {
+                    switchBirthday()
                 }
             }
         }
