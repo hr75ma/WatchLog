@@ -64,7 +64,7 @@ extension View {
     }
     
     func standardSubViewPadding() -> some View {
-        padding(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 10))
+        padding(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 20))
     }
 
     func standardScrollViewPadding() -> some View {
@@ -85,6 +85,15 @@ extension View {
 
     func standardViewBackground() -> some View {
         modifier(StandardViewBackground())
+    }
+    
+    func timeSectionPadding() -> some View {
+        padding(EdgeInsets(top: 0, leading: 20, bottom: 5, trailing: 20))
+    }
+
+    func blurring(blurSetting: BlurSetting) -> some View {
+        blur(radius: blurSetting.isBlur ? blurSetting.blurRadius : 0)
+            .animation(.smooth(duration: blurSetting.animationDuration), value: blurSetting.isBlur)
     }
 }
 
@@ -122,20 +131,7 @@ struct CanvasBorder: ViewModifier {
                     .stroke(
                         isLocked ? .watchLogLocked : .watchLogFrameBorder, lineWidth: appStyles.canvasBorderLineWidth)
             )
-            .padding(EdgeInsets(top: 5, leading: 10, bottom: 10, trailing: 10))
-    }
-}
-
-// logTime section
-
-extension View {
-    func timeSectionPadding() -> some View {
-        padding(EdgeInsets(top: 0, leading: 20, bottom: 5, trailing: 20))
-    }
-
-    func blurring(blurSetting: BlurSetting) -> some View {
-        blur(radius: blurSetting.isBlur ? blurSetting.blurRadius : 0)
-            .animation(.smooth(duration: blurSetting.animationDuration), value: blurSetting.isBlur)
+            .padding(EdgeInsets(top: 5, leading: 10, bottom: 10, trailing: 0))
     }
 }
 
