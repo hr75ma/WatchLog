@@ -25,21 +25,29 @@ struct CallerDataView: View {
             SectionImageView(sectionType: SectionImageType.callerData)
 
             VStack(alignment: .leading, spacing: 0) {
-               
-                Form {
-                    phoneSubSection
+                Text("Mitteiler")
+                
+                    .textLabel(textLabelLevel: TextLabelLevel.section)
+                
+                VStack(alignment: .leading, spacing: 0) {
                     
-                    nameSubSection
-                    
-                    adressSubSection
-                    
-                    dobSubSection
-                    
-                    
+                    Form {
+                        
+                        
+                        phoneSubSection
+                        
+                        nameSubSection
+                        
+                        adressSubSection
+                        
+                        dobSubSection
+                        
+                        
+                    }
+                    .formStyle(.columns)
                 }
-                .formStyle(.columns)
+                .padding(EdgeInsets(top: 10, leading: 0, bottom: 0, trailing: 0))
             }
-            .padding(EdgeInsets(top: 10, leading: 0, bottom: 0, trailing: 0))
         }
         .disabled(logEntry.isLocked)
         .standardSubViewPadding()
