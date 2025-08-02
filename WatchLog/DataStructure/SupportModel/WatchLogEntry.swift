@@ -69,29 +69,4 @@ class WatchLogEntry {
 
         isNewEntryLog = false
     }
-
-    fileprivate func initialValues() {
-        logDate = Date.now
-        id = UUID()
-        clear()
-        processTypeDetails = WatchLogProcessTypeDetails()
-    }
-
-    public func clear() {
-        callerName = ""
-        callerNumber = ""
-        callerAdress = ""
-        callerDOB = nil
-
-        callIn = .emergency
-
-        isLocked = false
-        isNewEntryLog = false
-
-        pkDrawingData = PKDrawing()
-    }
-
-    public func new() {
-        initialValues()
-    }
 }
