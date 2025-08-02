@@ -30,14 +30,7 @@ struct FloatingBorderLabelTextField: View {
                     .foregroundColor(self.textfieldContent.isEmpty || config.isLocked ? .watchLogFont.opacity(0.5) : .watchLogFont.opacity(1))
                     .padding(.horizontal)
                     .background(.watchLogViewBackground)
-                    .if(config.textfieldType == .singleLine) { content in
-                        content
-                            .offset(y: self.textfieldContent.isEmpty ? 0 : -30)
-                    }
-                    .if(config.textfieldType == .multiLine) { content in
-                        content
-                            .offset(y: self.textfieldContent.isEmpty ? 0 : -82)
-                    }
+                    .offset(y: config.textfieldType == .singleLine ? self.textfieldContent.isEmpty ? 0 : -30 : self.textfieldContent.isEmpty ? 0 : -82)
                     .scaleEffect(self.textfieldContent.isEmpty ? 1 : 0.9, anchor: .topLeading)
             }
             

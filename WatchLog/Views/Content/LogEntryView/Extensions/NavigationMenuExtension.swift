@@ -91,16 +91,20 @@ extension Image {
             .resizable()
             .scaledToFit()
             .frame(width: appStyles.navigationItemImageSize, height: appStyles.navigationItemImageSize, alignment: .center)
-            .if(colorationType == .monochrome) { view in
-                view
-                    .foregroundStyle(
-                        .watchLogToolbarColorPrimary, .watchLogToolbarColorPrimary)
-            }
-            .if(colorationType == .palette) { view in
-                view
-                    .foregroundStyle(
-                        .watchLogToolbarColorAccent, .watchLogToolbarColorPrimary)
-            }
+            .foregroundStyle(colorationType == .monochrome ? .watchLogToolbarColorPrimary : colorationType == .palette ? .watchLogToolbarColorAccent : .watchLogToolbarColorPrimary, colorationType == .monochrome ? .watchLogToolbarColorPrimary : colorationType == .palette ? .watchLogToolbarColorPrimary : .watchLogToolbarColorPrimary)
+        
+        
+               
+//            .if(colorationType == .monochrome) { view in
+//                view
+//                    .foregroundStyle(
+//                        .watchLogToolbarColorPrimary, .watchLogToolbarColorPrimary)
+//            }
+//            .if(colorationType == .palette) { view in
+//                view
+//                    .foregroundStyle(
+//                        .watchLogToolbarColorAccent, .watchLogToolbarColorPrimary)
+//            }
             .symbolEffect(.pulse.wholeSymbol, options: .nonRepeating)
     }
 }

@@ -11,7 +11,6 @@ enum TextLabelLevel: CaseIterable, Codable {
     case section
     case standard
     case sub
-    case subWithWidth
 }
 
 private struct LabelFormatterStyle: ViewModifier {
@@ -37,30 +36,23 @@ private struct TextLabelModifier: ViewModifier {
     @Environment(\.appStyles) var appStyles
     func body(content: Content) -> some View {
         content
-            .if(textLabelLevel == TextLabelLevel.section) { view in
-                view
-                    .font(Font.custom(appStyles.sectionLabelFont, size: appStyles.sectionLabelFontSize))
-                    .frame(height: appStyles.sectionLabelFontSize, alignment: .topLeading)
-                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 5, trailing: 0))
-            }
-            .if(textLabelLevel == TextLabelLevel.standard) { view in
-                view
-                    .font(.system(size: appStyles.labelFontSize))
-                    .fontWeight(.regular)
-                    .fontWidth(.standard)
-                    .fontDesign(.rounded)
-                    .frame(height: appStyles.labelFontSize, alignment: .topLeading)
-                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 5, trailing: 0))
-            }
-            .if(textLabelLevel == TextLabelLevel.sub) { view in
-                view
-                    .font(.system(size: appStyles.labelFontSizeSub))
-                    .fontWeight(.regular)
-                    .fontWidth(.standard)
-                    .fontDesign(.rounded)
-                    .frame(height: appStyles.labelFontSizeSub, alignment: .topLeading)
-                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 5))
-            }
+            .font(textLabelLevel == TextLabelLevel.section ? Font.custom(appStyles.sectionLabelFont, size: appStyles.sectionLabelFontSize) :
+                 
+                textLabelLevel == TextLabelLevel.standard ? .system(size: appStyles.labelFontSize) :
+                    
+                    textLabelLevel == TextLabelLevel.sub ? .system(size: appStyles.labelFontSizeSub) : .largeTitle
+            )
+            .frame(height: textLabelLevel == TextLabelLevel.section ? appStyles.sectionLabelFontSize :
+                    
+                    textLabelLevel == TextLabelLevel.standard ? appStyles.labelFontSize :
+                        
+                    textLabelLevel == TextLabelLevel.sub ? appStyles.labelFontSizeSub : 35
+
+            )
+            .fontWeight(textLabelLevel != TextLabelLevel.section ? .regular : nil)
+            .fontWidth(textLabelLevel != TextLabelLevel.section ? .standard : nil)
+            .fontDesign(textLabelLevel != TextLabelLevel.section ? .rounded : nil)
+            .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
             .foregroundStyle(isDimmend ? .watchLogFont.opacity(0.5) : .watchLogFont.opacity(1))
             .disableAnimations(disableAnimation: disableAnimation)
             .animation(.smooth, value: isDimmend)
