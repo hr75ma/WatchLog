@@ -9,7 +9,6 @@ import SwiftUI
 
 struct LogBookEntryEditWrapperView: View {
     @State public var watchLogEntry: WatchLogEntry
-    @Binding public var expandContainer: ExpandContainer
     @EnvironmentObject var viewModel: LogEntryViewModel
 
     @Environment(\.appStyles) var appStyles
@@ -34,7 +33,6 @@ struct LogBookEntryEditWrapperView: View {
             Task {
                 let testEntry = await viewModel.fetchLogBookEntry(logEntryID: watchLogEntry.id)
                 if testEntry != nil {
-                    expandContainer  = .init(watchLogBookEntry: testEntry!)
                     exContainer.setExpansionData(watchLogBookEntry: testEntry!)
                 }
                 
@@ -135,7 +133,7 @@ extension LogBookEntryEditWrapperView {
     let databaseService = DatabaseService()
     let viewModel = LogEntryViewModel(dataBaseService: databaseService)
 
-     LogBookEntryEditWrapperView(watchLogEntry: watchLogEntry, expandContainer: $expandContainer)
+     LogBookEntryEditWrapperView(watchLogEntry: watchLogEntry)
          .environmentObject(viewModel)
          .environment(BlurSetting())
          .environment(\.appStyles, StylesLogEntry.shared)

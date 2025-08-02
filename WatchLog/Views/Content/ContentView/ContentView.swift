@@ -115,7 +115,7 @@ struct ContentView: View {
 
             .fullScreenCover(isPresented: $showNewEntrySheet) {
                     NavigationStack {
-                        LogBookEntryEditWrapperView(watchLogEntry: newEntry, expandContainer: $expandContainer)
+                        LogBookEntryEditWrapperView(watchLogEntry: newEntry)
                     }
                     .fullScreenCoverModifier()
             }
