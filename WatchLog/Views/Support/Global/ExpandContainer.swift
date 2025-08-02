@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 @Observable
-final class ExpandContainer:  Equatable, Identifiable {
+public final class ExpandContainer:  Equatable, Identifiable {
     public var id: UUID
     public var entryID: UUID?
     public var dayID: UUID?
@@ -35,12 +35,22 @@ final class ExpandContainer:  Equatable, Identifiable {
         self.monthID = watchLogBookEntry.watchLogBookDay!.watchLogBookMonth!.id
         self.yearID = watchLogBookEntry.watchLogBookDay!.watchLogBookMonth!.watchLogBookYear!.id
     }
+    
+    
+    
+     func setExpansionData(watchLogBookEntry: WatchLogBookEntry) {
+        self.id = UUID()
+        self.entryID = watchLogBookEntry.id
+        self.dayID = watchLogBookEntry.watchLogBookDay!.id
+        self.monthID = watchLogBookEntry.watchLogBookDay!.watchLogBookMonth!.id
+        self.yearID = watchLogBookEntry.watchLogBookDay!.watchLogBookMonth!.watchLogBookYear!.id
+    }
 
     init() {
         id = UUID()
     }
     
-    static func == (lhs: ExpandContainer, rhs: ExpandContainer) -> Bool {
+    public static func == (lhs: ExpandContainer, rhs: ExpandContainer) -> Bool {
         return lhs.entryID == rhs.entryID && lhs.dayID == rhs.dayID && lhs.monthID == rhs.monthID && lhs.yearID == rhs.yearID
     }
 }

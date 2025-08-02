@@ -22,10 +22,10 @@
          contextName = "LogBookEntryShowWrapperView.init(logBookEntryUUID:isEditing:watchLogBookEntry:):LogBookEntryShowWrapperView.swift">
          <PersistentStrings>
             <PersistentString
-               value = "watchLogEntry">
+               value = "watchLogBookEntry.LogDate">
             </PersistentString>
             <PersistentString
-               value = "watchLogBookEntry.LogDate">
+               value = "watchLogEntry">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -82,6 +82,31 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "closure #1 in closure #1 in DisclosureGroupLogEntriesView.body.getter:ContentView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "entry.id">
+            </PersistentString>
+            <PersistentString
+               value = "displayedLogEntryUUID">
+            </PersistentString>
+            <PersistentString
+               value = "entry.id == displayedLogEntryUUID.id">
+            </PersistentString>
+            <PersistentString
+               value = "displayedLogEntryUUID.id">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in ContentView.buildLogBookNavigationTree(book:):ContentView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "expandContainer">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "closure #1 in closure #2 in closure #1 in closure #1 in ContentView.DisclosureGroupLogEntries(day:):ContentView.swift">
          <PersistentStrings>
             <PersistentString
@@ -118,6 +143,17 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "LogBookEntryView.getGlowColorSet(logEntry:):LogBookEntryView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "logEntry.isLocked">
+            </PersistentString>
+            <PersistentString
+               value = "logEntry.isNewEntryLog">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "closure #1 in closure #1 in closure #1 in ProcessTypeSelectionView.body.getter:ProcessTypeSelectionView.swift">
          <PersistentStrings>
             <PersistentString
@@ -144,6 +180,14 @@
             </PersistentString>
             <PersistentString
                value = "watchLogEntry">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in DisclosureGroupLogEntriesView.body.getter:ContentView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "displayedLogEntryUUID">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -330,13 +374,13 @@
          contextName = "LogBookEntryView.init(watchLogEntry:viewIsReadOnly:):LogBookEntryView.swift">
          <PersistentStrings>
             <PersistentString
-               value = "test">
+               value = "watchLogEntry">
             </PersistentString>
             <PersistentString
                value = "self.watchLogEntry">
             </PersistentString>
             <PersistentString
-               value = "watchLogEntry">
+               value = "test">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -385,10 +429,10 @@
          contextName = "BirthdateView.body.getter:CallerDataView.swift">
          <PersistentStrings>
             <PersistentString
-               value = "logEntry.callerDOB">
+               value = "viewIsReadOnly">
             </PersistentString>
             <PersistentString
-               value = "viewIsReadOnly">
+               value = "logEntry.callerDOB">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -434,13 +478,13 @@
          contextName = "closure #1 in closure #1 in closure #1 in ScrollViewDispatcher.body.getter:ScrollViewDispatcher.swift">
          <PersistentStrings>
             <PersistentString
-               value = "logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].LogDate">
+               value = "logEntryUUIDContainer.logEntryBookDay.logEntriesSorted">
             </PersistentString>
             <PersistentString
                value = "logBookEntriesforDay">
             </PersistentString>
             <PersistentString
-               value = "logEntryUUIDContainer.logEntryBookDay.logEntriesSorted">
+               value = "logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].LogDate">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -456,22 +500,22 @@
          contextName = "closure #1 in closure #1 in ContentView.DisclosureGroupLogEntries(day:):ContentView.swift">
          <PersistentStrings>
             <PersistentString
-               value = "newValue">
+               value = "day.logEntriesSorted">
             </PersistentString>
             <PersistentString
-               value = "entry.uuid">
+               value = "day">
             </PersistentString>
             <PersistentString
                value = "displayedLogEntryUUID.id">
             </PersistentString>
             <PersistentString
+               value = "entry.uuid">
+            </PersistentString>
+            <PersistentString
+               value = "newValue">
+            </PersistentString>
+            <PersistentString
                value = "logBookEntry.uuid">
-            </PersistentString>
-            <PersistentString
-               value = "day.logEntriesSorted">
-            </PersistentString>
-            <PersistentString
-               value = "day">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -705,10 +749,10 @@
                value = "logBookEntryUUID">
             </PersistentString>
             <PersistentString
-               value = "geometry.size.height">
+               value = "geometry.size.width">
             </PersistentString>
             <PersistentString
-               value = "geometry.size.width">
+               value = "geometry.size.height">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

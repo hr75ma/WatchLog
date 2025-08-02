@@ -25,6 +25,7 @@ struct WatchLogApp: App {
         .environmentObject(viewModel)
         .environment(BlurSetting())
         .environment(DisplayedLogEntryID())
+        .environment(ExpandContainer())
         .environmentObject(AppSettings.shared)
     }
 }
