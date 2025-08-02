@@ -27,24 +27,19 @@ struct CallerDataView: View {
             VStack(alignment: .leading, spacing: 0) {
                 Form {
                     phoneSubSection
-                        .border(.green)
                         .standardInputPadding()
 
                     nameSubSection
-                        .border(.green)
                         .standardInputPadding()
 
                     adressSubSection
-                        .border(.green)
                         .standardInputPadding()
                     
                     dobSubSection
-                        .border(.green)
                         .standardInputPadding()
                 }
                 .formStyle(.columns)
             }
-            .border(.red)
             .standardSectionContentPadding()
         }
         .disabled(logEntry.isLocked)
@@ -111,7 +106,6 @@ extension CallerDataView {
             if tempLocked {
                 VStack(alignment: .leading, spacing: 0) {
                     FloatingBorderLabelSimulatedTextField("Geburtsdatum", textfieldContent: DateManipulation.getFormatedDateFromDOB(from: logEntry.callerDOB), config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.standard, limit: 50, autoResizes: true, withClearButton: false, disableAnimation: viewIsReadOnly, isLocked: logEntry.isLocked))
-                        //.standardLastInputViewPadding()
                         .isHidden(logEntry.callerDOB == nil || !tempLocked, remove: true)
                 }
             }
@@ -146,7 +140,6 @@ extension CallerDataView {
                         FloatingBorderLabelSimulatedTextField("Geburtsdatum", textfieldContent: DateManipulation.getFormatedDateFromDOB(from: logEntry.callerDOB), config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.standard, limit: 50, autoResizes: true, withClearButton: false, disableAnimation: viewIsReadOnly, isLocked: logEntry.isLocked))
                             .matchedGeometryEffect(id: "lockedEvent", in: namespace)
                             .isHidden(logEntry.callerDOB == nil || !tempLocked, remove: true)
-                            .padding(EdgeInsets(top: 10, leading: 0, bottom: 5, trailing: 0))
                     }
                 }
             }

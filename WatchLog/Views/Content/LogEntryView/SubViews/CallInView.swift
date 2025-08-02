@@ -24,14 +24,13 @@ struct CallInView: View {
             VStack(alignment: .leading, spacing: 0) {
                 Form {
                     callInSection
+                        .standardInputPadding()
                 }
                 .formStyle(.columns)
             }
-            .border(.red)
             .standardSectionContentPadding()
         }
         .disabled(logEntry.isLocked)
-        //.standardSubViewPadding()
         .standardBottomBorder()
     }
 }
@@ -47,7 +46,7 @@ extension CallInView {
         }
         .onAppear {
             if !viewIsReadOnly {
-                withAnimation(.smooth(duration: 0.5)) {
+                withAnimation(.smooth) {
                     selectedCallInHelper = logEntry.callIn
                     // tempLocked = logEntry.isLocked
                 }
@@ -55,14 +54,14 @@ extension CallInView {
         }
         .onChange(of: logEntry.callIn) { _, _ in
             if !viewIsReadOnly {
-                withAnimation(.smooth(duration: 0.5)) {
+                withAnimation(.smooth) {
                     selectedCallInHelper = logEntry.callIn
                 }
             }
         }
         .onChange(of: logEntry.isLocked) {
             if !viewIsReadOnly {
-                withAnimation(.smooth(duration: 0.5)) {
+                withAnimation(.smooth) {
                     tempLocked = logEntry.isLocked
                     selectedCallInHelper = logEntry.callIn
                 }

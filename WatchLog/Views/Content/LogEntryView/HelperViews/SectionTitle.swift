@@ -23,7 +23,6 @@ struct SectionTitle: View {
             case .callIn:
                 Image(systemName: appStyles.sectionCallInImage)
                     .sectionImageStyle(primaryColor: .watchLogSectionCallInImagePrimary, secondaryColor: .watchLogSectionCallInImageSecondary)
-                    .border(.green)
                 Text("Eingang")
                     .textLabel(textLabelLevel: TextLabelLevel.section)
 
@@ -51,7 +50,6 @@ struct SectionTitle: View {
                     .textLabel(textLabelLevel: TextLabelLevel.section)
             }
         }
-        .border(.red)
         .standardSectionPadding()
     }
 }

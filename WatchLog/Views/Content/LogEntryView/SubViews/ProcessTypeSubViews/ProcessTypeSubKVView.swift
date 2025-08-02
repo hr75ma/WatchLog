@@ -16,8 +16,9 @@ struct ProcessTypeSubKVView: View {
         VStack(alignment: .leading, spacing: 5) {
             
             injueresToggle
+                .standardInputPadding()
             
-            .standardEventSubViewPadding()
+
             .disabled(logEntry.isLocked)
         }
     }

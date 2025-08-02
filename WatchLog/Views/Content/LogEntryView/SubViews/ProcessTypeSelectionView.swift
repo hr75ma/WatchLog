@@ -27,18 +27,12 @@ struct ProcessTypeSelectionView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            
             SectionTitle(sectionTitleType: .event)
 
-            VStack {
+            VStack(alignment: .leading, spacing: 0) {
                 Form {
-                    VStack(alignment: .leading, spacing: 0) {
-
-                        VStack(alignment: .leading, spacing: 0) {
-                            processSelectionView
-                        }
-                        .frame(maxWidth: .infinity)
-                    }
+                    processSelectionView
+                        .standardInputPadding()
                 }
                 .formStyle(.columns)
 
@@ -47,7 +41,7 @@ struct ProcessTypeSelectionView: View {
                         selectedProcessHelper = logEntry.processTypeDetails.processTypeShort
 
                     } else {
-                        withAnimation(.smooth(duration: 1)) {
+                        withAnimation(.smooth) {
                             selectedProcessHelper = logEntry.processTypeDetails.processTypeShort
                             tempLocked = logEntry.isLocked
                         }
@@ -58,7 +52,7 @@ struct ProcessTypeSelectionView: View {
                         selectedProcessHelper = logEntry.processTypeDetails.processTypeShort
 
                     } else {
-                        withAnimation(.smooth(duration: 1)) {
+                        withAnimation(.smooth) {
                             selectedProcessHelper = logEntry.processTypeDetails.processTypeShort
                             if oldValue != logEntry.processTypeDetails.processTypeShort {
                                 logEntry.processTypeDetails.clear()
@@ -69,19 +63,19 @@ struct ProcessTypeSelectionView: View {
                 }
                 .onChange(of: logEntry.isLocked) {
                     if !viewIsReadOnly {
-                        withAnimation(.smooth(duration: 1)) {
+                        withAnimation(.smooth) {
                             tempLocked = logEntry.isLocked
                             selectedProcessHelper = logEntry.processTypeDetails.processTypeShort
                         }
                     }
                 }
-                .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
 
                 processSubViews
+                    .standardInputPadding()
             }
+            .standardSectionContentPadding()
         }
         .frame(maxWidth: .infinity)
-        .standardSubViewPadding()
         .standardBottomBorder()
     }
 }
@@ -129,34 +123,28 @@ extension ProcessTypeSelectionView {
                 EmptyView()
             }
         }
-        .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
     }
 }
 
 extension ProcessTypeSelectionView {
     private func ReadOnlyContent() -> some View {
         HStack(alignment: .center, spacing: 0) {
-
             FloatingBorderLabelSimulatedTextField("", textfieldContent: logEntry.processTypeDetails.processTypeShort.localized.stringKey!, config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.standard, limit: 50, autoResizes: true, withClearButton: false, disableAnimation: viewIsReadOnly, isLocked: logEntry.isLocked,))
-                .standardLastInputViewPadding()
         }
     }
 
     private func EditableContent() -> some View {
         HStack(alignment: .center, spacing: 0) {
             if tempLocked {
-
                 FloatingBorderLabelSimulatedTextField("", textfieldContent: logEntry.processTypeDetails.processTypeShort.localized.stringKey!, config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.standard, limit: 50, autoResizes: true, withClearButton: false, disableAnimation: viewIsReadOnly, isLocked: logEntry.isLocked))
-                    .standardLastInputViewPadding()
             }
-
 
             customProcessingTypePickerView(preselectedIndex: $logEntry.processTypeDetails.processTypeShort, appStyles: appStyles)
                 .matchedGeometryEffect(id: "lockedEvent", in: namespace)
                 .containerRelativeFrame(.horizontal,
-            count: 2,
-            span: 1,
-            spacing: 0, alignment: .topLeading)
+                                        count: 2,
+                                        span: 1,
+                                        spacing: 0, alignment: .topLeading)
                 .standardLastInputViewPadding()
                 .isHidden(tempLocked, remove: true)
         }

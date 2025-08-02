@@ -52,13 +52,16 @@ extension View {
     }
     
     func standardSectionContentPadding() -> some View {
-        padding(EdgeInsets(top: 0, leading: 70, bottom: 0, trailing: 20))
+        padding(EdgeInsets(top: 0, leading: 70, bottom: 10, trailing: 20))
     }
     
     func standardInputPadding() -> some View {
         padding(EdgeInsets(top: 10, leading: 0, bottom: 0, trailing: 0))
     }
     
+    func timeSectionPadding() -> some View {
+        padding(EdgeInsets(top: 0, leading: 20, bottom: 10, trailing: 20))
+    }
     
     
     
@@ -107,9 +110,6 @@ extension View {
         modifier(StandardViewBackground())
     }
     
-    func timeSectionPadding() -> some View {
-        padding(EdgeInsets(top: 0, leading: 20, bottom: 5, trailing: 20))
-    }
 
     func blurring(blurSetting: BlurSetting) -> some View {
         blur(radius: blurSetting.isBlur ? blurSetting.blurRadius : 0)
@@ -135,8 +135,6 @@ struct StandardBottomBorder: ViewModifier {
                     .foregroundColor(.watchLogFrameBorder), alignment: .bottom)
             .clipShape(.rect(cornerRadius: 20))
             .padding(EdgeInsets(top: 0, leading: 10, bottom: 10, trailing: 10))
-            .border(.yellow)
-            
     }
 }
 

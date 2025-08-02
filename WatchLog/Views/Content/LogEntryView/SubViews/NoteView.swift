@@ -28,11 +28,10 @@ struct NoteView: View {
                 }
                 .canvasBorder(isLocked: logEntry.isLocked)
                 .disableAnimations(disableAnimation: viewIsReadOnly)
-                .animation(.smooth(duration: 1), value: logEntry.isLocked)
+                .animation(.smooth, value: logEntry.isLocked)
             }
             .containerRelativeFrame([.vertical], alignment: .topLeading)
-            .standardSubViewPadding()
-            .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
+            .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 20))
         // .disabled(logEntry.isLocked)
     }
 }
