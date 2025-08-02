@@ -20,6 +20,7 @@ struct LogBookEntryView: View {
     @Environment(BlurSetting.self) var blurSetting
     @Environment(\.dismiss) var dismiss
     @Environment(\.scenePhase) var scenePhase
+    @Environment(ExpandContainer.self) var exContainer
 
     @State var toolPickerShows = true
     
@@ -244,10 +245,11 @@ extension LogBookEntryView {
    let viewModel = LogEntryViewModel(dataBaseService: databaseService)
 
     LogBookEntryView(watchLogEntry: $watchLogEntry, viewIsReadOnly: viewIsReadOnly)
-        .environment(\.locale, .init(identifier: "en"))
+       .environment(\.locale, .init(identifier: "en"))
        .environmentObject(viewModel)
        .environment(BlurSetting())
        .environment(\.appStyles, StylesLogEntry.shared)
        .environment(DisplayedLogEntryID())
        .environmentObject(AppSettings.shared)
+       .environment(ExpandContainer())
 }
