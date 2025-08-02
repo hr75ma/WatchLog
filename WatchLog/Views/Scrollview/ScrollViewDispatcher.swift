@@ -15,6 +15,7 @@ struct ScrollViewDispatcher: View {
     @Environment(\.appStyles) var appStyles
     @Environment(BlurSetting.self) var blurSetting
     @Environment(\.alertController) var alertController
+    @Environment(ExpandContainer.self) var exContainer
 
     @State private var logEntryUUID: UUID = UUID()
 
@@ -36,6 +37,7 @@ struct ScrollViewDispatcher: View {
     
     @State var logEntryUUIDContainerForExpand: LogEntryUUIDContainer = LogEntryUUIDContainer()
     @State var expandContainer: ExpandContainer = ExpandContainer()
+    
 
     var body: some View {
         if showProgression {
@@ -104,11 +106,14 @@ struct ScrollViewDispatcher: View {
                         let logBookDay = await viewModel.fetchLogBookDay(from: .now)
                         if logBookDay != nil && !logBookDay!.watchLogBookEntries!.isEmpty {
                             logEntryUUIDContainer = .init(logEntryUUID: logBookDay!.logEntriesSorted.last!.id, logBookDay: logBookDay!)
-                            expandContainer = .init()
-                            expandContainer.entryID = logBookDay!.logEntriesSorted.last!.id
-                            expandContainer.dayID = logBookDay!.id
-                            expandContainer.monthID = logBookDay!.watchLogBookMonth!.id
-                            expandContainer.yearID = logBookDay!.watchLogBookMonth!.watchLogBookYear!.id
+                            
+                            exContainer.id = UUID()
+                            exContainer.entryID = logBookDay!.logEntriesSorted.last!.id
+                            exContainer.dayID = logBookDay!.id
+                            exContainer.monthID = logBookDay!.watchLogBookMonth!.id
+                            exContainer.yearID = logBookDay!.watchLogBookMonth?.watchLogBookYear!.id
+                            
+                            
                         }
                     }
                     scrollPos = logEntryUUIDContainer.logEntryUUID
@@ -172,7 +177,7 @@ struct ScrollViewDispatcher: View {
         }
         .fullScreenCover(isPresented: $showSheet) {
             NavigationStack {
-                LogBookEntryEditWrapperView(watchLogEntry: watchLogEntry, expandContainer: $expandContainer)
+                LogBookEntryEditWrapperView(watchLogEntry: watchLogEntry)
             }
             .fullScreenCoverModifier()
         }
