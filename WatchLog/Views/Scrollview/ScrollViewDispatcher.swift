@@ -15,7 +15,7 @@ struct ScrollViewDispatcher: View {
     @Environment(\.appStyles) var appStyles
     @Environment(BlurSetting.self) var blurSetting
     @Environment(\.alertController) var alertController
-    @Environment(ExpandContainer.self) var exContainer
+    @Environment(ExpandContainer.self) var expansionContainer
 
     @State private var logEntryUUID: UUID = UUID()
 
@@ -107,11 +107,11 @@ struct ScrollViewDispatcher: View {
                         if logBookDay != nil && !logBookDay!.watchLogBookEntries!.isEmpty {
                             logEntryUUIDContainer = .init(logEntryUUID: logBookDay!.logEntriesSorted.last!.id, logBookDay: logBookDay!)
                             
-                            exContainer.id = UUID()
-                            exContainer.entryID = logBookDay!.logEntriesSorted.last!.id
-                            exContainer.dayID = logBookDay!.id
-                            exContainer.monthID = logBookDay!.watchLogBookMonth!.id
-                            exContainer.yearID = logBookDay!.watchLogBookMonth?.watchLogBookYear!.id
+                            expansionContainer.id = UUID()
+                            expansionContainer.entryID = logBookDay!.logEntriesSorted.last!.id
+                            expansionContainer.dayID = logBookDay!.id
+                            expansionContainer.monthID = logBookDay!.watchLogBookMonth!.id
+                            expansionContainer.yearID = logBookDay!.watchLogBookMonth?.watchLogBookYear!.id
                             
                             
                         }
