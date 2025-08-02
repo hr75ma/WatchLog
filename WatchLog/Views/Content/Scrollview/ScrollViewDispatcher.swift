@@ -18,7 +18,6 @@ struct ScrollViewDispatcher: View {
 
     @State private var logEntryUUID: UUID = UUID()
 
-    
     @State var numberOfEntry: Int = 0
 
     @State private var showSheet: Bool = false
@@ -33,15 +32,16 @@ struct ScrollViewDispatcher: View {
     @State private var scrollPos: UUID?
 
     @State var showProgression: Bool = false
-    
+
     @State var logEntryUUIDContainerForExpand: LogEntryUUIDContainer = LogEntryUUIDContainer()
     @State var expandContainer: ExpandContainer = ExpandContainer()
 
     var body: some View {
         if showProgression {
-                ProgressionView()
+            ProgressionView()
         }
-        
+
+        NavigationStack {
         ScrollView(.horizontal) {
             HStack(alignment: .center, spacing: 0) {
                 if logEntryUUIDContainer.logEntryBookDay.watchLogBookEntries!.isEmpty {
@@ -52,52 +52,66 @@ struct ScrollViewDispatcher: View {
                             .padding(0)
                         Spacer()
                     }
-                    
+
                     .containerRelativeFrame(.horizontal, count: 1, spacing: 0)
                 } else {
-
-                    ForEach(logEntryUUIDContainer.logEntryBookDay.logEntriesSorted.indices, id: \.self) { index in
-                            LogBookEntryShowWrapperView(watchLogEntry: logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].getWatchLogEntry())
+                    HStack {
+                        ForEach(logEntryUUIDContainer.logEntryBookDay.logEntriesSorted.indices, id: \.self) { index in
+                            
+                            NavigationLink(value: logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index], label: {
                                 
-                                .onScrollVisibilityChange(threshold: 0.5) { scrolled in
-                                    if scrolled {
-                                        print("index \(index) - \(logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].id.uuidString)")
-                                        logEntryUUID = logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].id
-                                        numberOfEntry = index + 1
-                                    }
+                                LogBookEntryShowWrapperView(watchLogEntry: logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].getWatchLogEntry())
+                            })
+                            .onScrollVisibilityChange(threshold: 0.5) { scrolled in
+                                if scrolled {
+                                    print("index \(index) - \(logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].id.uuidString)")
+                                    logEntryUUID = logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].id
+                                    numberOfEntry = index + 1
                                 }
-                                .id(logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].id)
-                                .containerRelativeFrame(.horizontal, count: 1, spacing: 0)
-                                .scrollTransition { content, phase in
-                                    content
-                                        .opacity(phase.isIdentity ? 1.0 : 0.2)
-                                        //.scaleEffect(x: 1, y: phase.isIdentity ? 1.0 : 0.9)
-                                        .offset(y: phase.isIdentity ? 0 : 40)
-                                        
-                                }
+                            }
+                            .id(logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].id)
+                            .containerRelativeFrame(.horizontal, count: 1, spacing: 0)
+                            .scrollTransition { content, phase in
+                                content
+                                    .opacity(phase.isIdentity ? 1.0 : 0.2)
+                                // .scaleEffect(x: 1, y: phase.isIdentity ? 1.0 : 0.9)
+                                    .offset(y: phase.isIdentity ? 0 : 40)
+                            }
                         }
                         .id(refreshID)
+                        .scrollTargetLayout()
+
+                    }
+                        .navigationDestination(for: WatchLogBookEntry.self) { entry in
+                            //LogBookEntryEditWrapperView(watchLogEntry: entry.getWatchLogEntry())
+                            LogBookEntryEditWrapperView(watchLogEntry: entry.getWatchLogEntry(), expandContainer: $expandContainer)
+                            
+                        }
+               
                 }
+                }
+
             }
-            .background(.watchLogViewGeneralBackground)
-            
-        }
-        .scrollTargetLayout()
+        .scrollTargetBehavior(.viewAligned)
         .safeAreaInsetForToolbar()
         .scrollPosition(id: $scrollPos, anchor: .top)
-        .scrollTargetBehavior(.viewAligned)
-        .onTapGesture {
-            if numberOfEntry > 0 {
-                loadLogEntry(logEntryID: logEntryUUIDContainer.logEntryUUID)
-            }
+            .background(.watchLogViewGeneralBackground)
         }
+        
+        
+        
+//        .onTapGesture {
+//            if numberOfEntry > 0 {
+//                loadLogEntry(logEntryID: logEntryUUIDContainer.logEntryUUID)
+//            }
+//        }
         .frame(
             maxWidth: .infinity,
             maxHeight: .infinity
         )
         .onAppear {
             Task { @MainActor in
-                
+
                 print("onappear scroll\(logEntryUUIDContainer.logEntryUUID)")
                 withAnimation {
                     Task {
@@ -113,7 +127,6 @@ struct ScrollViewDispatcher: View {
                     }
                     scrollPos = logEntryUUIDContainer.logEntryUUID
                 }
-                
             }
         }
         .onChange(of: logEntryUUID) { // fürs scrolling
@@ -138,7 +151,7 @@ struct ScrollViewDispatcher: View {
         }
 
         .onChange(of: logEntryUUIDContainer) { oldValue, newValue in
-            
+
             Task { @MainActor in
 
                 print("change Container gelieferte entryUUID: \(newValue.logEntryUUID.uuidString)")
@@ -159,7 +172,6 @@ struct ScrollViewDispatcher: View {
                 if newValue.logEntryBookDay.watchLogBookEntries!.isEmpty {
                     numberOfEntry = 0
                 }
-
             }
         }
         .onChange(of: showSheet) { _, newValue in
@@ -193,9 +205,8 @@ struct ScrollViewDispatcher: View {
 }
 
 extension ScrollViewDispatcher {
-
     fileprivate func deleteEntry() {
-         Task {
+        Task {
             if await viewModel.isDeletedEntryInDisplayedDay(logEntryID: displayedLogEntryUUID.id, logDayID: logEntryUUIDContainer.logEntryBookDay.id) {
                 logEntryUUIDContainer = await viewModel.calculateShownAndDeleteLogEntry(logEntryID: displayedLogEntryUUID.id, logDayID: logEntryUUIDContainer.logEntryBookDay.id)
                 displayedLogEntryUUID.id = logEntryUUIDContainer.logEntryUUID
@@ -204,16 +215,15 @@ extension ScrollViewDispatcher {
                 await viewModel.deleteLogEntry(logEntryID: logEntryUUID)
                 blurSetting.isBlur = false
             }
-            
         }
     }
-    
+
     var MenuButton: some View {
         Menu {
             if numberOfEntry > 0 {
                 Button {
                     loadLogEntry(logEntryID: logEntryUUIDContainer.logEntryUUID)
-                    
+
                     blurSetting.isBlur = false
                 } label: {
                     NavigationMenuLabelView(menuItemType: MenuType.edit)
@@ -223,13 +233,13 @@ extension ScrollViewDispatcher {
 
                 Button(role: .destructive) {
                     blurSetting.isBlur = true
-                    
+
                     let buttons: [AlertButton] = [
                         AlertButton(title: "Löschen", role: .destructive, action: { deleteEntry()
                         }),
                         AlertButton(title: "Abrechen", role: .cancel, action: { blurSetting.isBlur = false
                         })]
-                    
+
                     alertController.present(.confirmationDialog, title: "Eintrag löschen", message: "Soll der Eintrag wirklich gelöscht werden?", buttons: buttons)
                 } label: {
                     NavigationMenuLabelView(menuItemType: MenuType.delete)
@@ -239,11 +249,11 @@ extension ScrollViewDispatcher {
             NavigationToolbarItemImage(toolbarItemType: .menu, appStyles: appStyles)
         }
     }
+
     fileprivate func loadLogEntry(logEntryID: UUID) {
         Task {
             watchLogEntry = await viewModel.fetchLogEntryMod(logEntryID: logEntryID)
             showSheet = true
         }
-
     }
 }

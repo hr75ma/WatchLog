@@ -21,7 +21,7 @@ struct LogBookEntryEditWrapperView: View {
     @State var alertDelete = false
     @State var hapticTrigger: Bool = false
     
-    let viewIsReadOnly: Bool = false
+    let viewIsReadOnly: Bool = true
 
     var body: some View {
         HStack {
