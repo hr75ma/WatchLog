@@ -20,6 +20,7 @@ struct LogTimeView: View {
         logTimeSection
             .timeSectionPadding()
             .standardBottomBorder()
+            .padding(.top, 5)
     }
 }
 

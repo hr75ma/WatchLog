@@ -27,7 +27,7 @@ struct TextFieldFloatingProgressConfig {
     var alignment: HorizontalAlignment = .trailing
 }
 
-struct LimitedIndicatorTextFieldFloating: View {
+struct FloatingTextField: View {
     @Binding var text: String
     var config: TextFieldFloatingConfiguration
     var hint: String

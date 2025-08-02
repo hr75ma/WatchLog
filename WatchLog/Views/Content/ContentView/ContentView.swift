@@ -21,6 +21,7 @@ import TipKit
     // pre.setPreviewDate(viewModel: viewModel)
 
     return ContentView()
+        .usesAlertController()
         .environmentObject(viewModel)
         .environment(BlurSetting())
         .environment(\.appStyles, StylesLogEntry.shared)

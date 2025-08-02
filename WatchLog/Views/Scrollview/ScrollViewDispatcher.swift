@@ -14,13 +14,11 @@ struct ScrollViewDispatcher: View {
     @Environment(DisplayedLogEntryID.self) var displayedLogEntryUUID
     @Environment(\.appStyles) var appStyles
     @Environment(BlurSetting.self) var blurSetting
+    @Environment(\.alertController) var alertController
 
     @State private var logEntryUUID: UUID = UUID()
 
-    @State var alertDelete = false
-    @State var alertNew = false
-    @State var alertClear = false
-
+    
     @State var numberOfEntry: Int = 0
 
     @State private var showSheet: Bool = false
@@ -196,6 +194,20 @@ struct ScrollViewDispatcher: View {
 
 extension ScrollViewDispatcher {
 
+    fileprivate func deleteEntry() {
+         Task {
+            if await viewModel.isDeletedEntryInDisplayedDay(logEntryID: displayedLogEntryUUID.id, logDayID: logEntryUUIDContainer.logEntryBookDay.id) {
+                logEntryUUIDContainer = await viewModel.calculateShownAndDeleteLogEntry(logEntryID: displayedLogEntryUUID.id, logDayID: logEntryUUIDContainer.logEntryBookDay.id)
+                displayedLogEntryUUID.id = logEntryUUIDContainer.logEntryUUID
+                blurSetting.isBlur = false
+            } else {
+                await viewModel.deleteLogEntry(logEntryID: logEntryUUID)
+                blurSetting.isBlur = false
+            }
+            
+        }
+    }
+    
     var MenuButton: some View {
         Menu {
             if numberOfEntry > 0 {
@@ -210,30 +222,21 @@ extension ScrollViewDispatcher {
                 Divider()
 
                 Button(role: .destructive) {
-                    alertDelete.toggle()
+                    blurSetting.isBlur = true
+                    
+                    let buttons: [AlertButton] = [
+                        AlertButton(title: "Löschen", role: .destructive, action: { deleteEntry()
+                        }),
+                        AlertButton(title: "Abrechen", role: .cancel, action: { blurSetting.isBlur = false
+                        })]
+                    
+                    alertController.present(.confirmationDialog, title: "Eintrag löschen", message: "Soll der Eintrag wirklich gelöscht werden?", buttons: buttons)
                 } label: {
                     NavigationMenuLabelView(menuItemType: MenuType.delete)
                 }
             }
         } label: {
             NavigationToolbarItemImage(toolbarItemType: .menu, appStyles: appStyles)
-        }
-        .alert("Log Löschen?", isPresented: $alertDelete) {
-            Button(
-                "Löschen", role: .destructive,
-                action: {
-                    Task {
-                        if await viewModel.isDeletedEntryInDisplayedDay(logEntryID: displayedLogEntryUUID.id, logDayID: logEntryUUIDContainer.logEntryBookDay.id) {
-                            logEntryUUIDContainer = await viewModel.calculateShownAndDeleteLogEntry(logEntryID: displayedLogEntryUUID.id, logDayID: logEntryUUIDContainer.logEntryBookDay.id)
-                            displayedLogEntryUUID.id = logEntryUUIDContainer.logEntryUUID
-                        } else {
-                            await viewModel.deleteLogEntry(logEntryID: logEntryUUID)
-                        }
-                        
-                    }
-
-                })
-            cancelAlertButton()
         }
     }
     fileprivate func loadLogEntry(logEntryID: UUID) {
@@ -242,13 +245,5 @@ extension ScrollViewDispatcher {
             showSheet = true
         }
 
-    }
-
-    fileprivate func cancelAlertButton() -> Button<Text> {
-        return Button(
-            "Abbrechen", role: .cancel,
-            action: {
-                blurSetting.isBlur = false
-            })
     }
 }

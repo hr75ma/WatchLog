@@ -20,6 +20,7 @@ struct WatchLogApp: App {
         
         WindowGroup {
             SplashView()
+                .usesAlertController()
         }
         .environmentObject(viewModel)
         .environment(BlurSetting())

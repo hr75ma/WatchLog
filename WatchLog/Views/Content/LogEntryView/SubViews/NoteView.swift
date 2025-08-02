@@ -20,24 +20,18 @@ struct NoteView: View {
 
     var body: some View {
             VStack(alignment: .leading, spacing: 0) {
-                HStack(alignment: .top, spacing: 0) {
-                    SectionImageView(sectionType: SectionImageType.note)
-                    
-                    Text("Notiz")
-                        .textLabel(textLabelLevel: TextLabelLevel.section)
-                    Spacer()
-                }
-
+                
+            SectionTitle(sectionTitleType: SectionTitleType.note)
+                
                 HStack(alignment: .top, spacing: 0) {
                     CanvasView(canvas: $canvasview, drawing: $drawing, readOnly: $logEntry.isLocked)
                 }
                 .canvasBorder(isLocked: logEntry.isLocked)
                 .disableAnimations(disableAnimation: viewIsReadOnly)
-                .animation(.smooth(duration: 1), value: logEntry.isLocked)
+                .animation(.smooth, value: logEntry.isLocked)
             }
             .containerRelativeFrame([.vertical], alignment: .topLeading)
-            .standardSubViewPadding()
-            .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
+            .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 20))
         // .disabled(logEntry.isLocked)
     }
 }

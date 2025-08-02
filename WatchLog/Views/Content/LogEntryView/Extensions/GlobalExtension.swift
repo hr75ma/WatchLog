@@ -46,16 +46,48 @@ extension View {
 
 // general section
 extension View {
+    
+    func standardSectionPadding() -> some View {
+        padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 0))
+    }
+    
+    func standardSectionContentPadding() -> some View {
+        padding(EdgeInsets(top: 0, leading: 70, bottom: 10, trailing: 20))
+    }
+    
+    func standardInputPadding() -> some View {
+        padding(EdgeInsets(top: 10, leading: 0, bottom: 0, trailing: 0))
+    }
+    
+    func timeSectionPadding() -> some View {
+        padding(EdgeInsets(top: 0, leading: 20, bottom: 10, trailing: 20))
+    }
+    
+    
+    
+    
     func standardBottomBorder() -> some View {
         modifier(StandardBottomBorder())
     }
+    
+    
+    
+    
 
     func canvasBorder(isLocked: Bool) -> some View {
         modifier(CanvasBorder(isLocked: isLocked))
     }
 
+    func standardInputViewPadding() -> some View {
+        padding(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0))
+    }
+    
+    func standardLastInputViewPadding() -> some View {
+        padding(EdgeInsets(top: 0, leading: 0, bottom: 5, trailing: 0))
+    }
+    
     func standardSubViewPadding() -> some View {
-        padding(EdgeInsets(top: 5, leading: 0, bottom: 10, trailing: 10))
+        padding(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 20))
     }
 
     func standardScrollViewPadding() -> some View {
@@ -77,6 +109,12 @@ extension View {
     func standardViewBackground() -> some View {
         modifier(StandardViewBackground())
     }
+    
+
+    func blurring(blurSetting: BlurSetting) -> some View {
+        blur(radius: blurSetting.isBlur ? blurSetting.blurRadius : 0)
+            .animation(.smooth(duration: blurSetting.animationDuration), value: blurSetting.isBlur)
+    }
 }
 
 struct StandardViewBackground: ViewModifier {
@@ -94,11 +132,9 @@ struct StandardBottomBorder: ViewModifier {
             .overlay(
                 Rectangle()
                     .frame(height: appStyles.standardInnerFrameBorderWidth) // Border thickness
-                    .foregroundColor(.watchLogFrameBorder), // Border color
-                alignment: .bottom
-            )
-            .clipShape(.rect(cornerRadius: 10))
-            .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
+                    .foregroundColor(.watchLogFrameBorder), alignment: .bottom)
+            .clipShape(.rect(cornerRadius: 20))
+            .padding(EdgeInsets(top: 0, leading: 10, bottom: 10, trailing: 10))
     }
 }
 
@@ -113,20 +149,7 @@ struct CanvasBorder: ViewModifier {
                     .stroke(
                         isLocked ? .watchLogLocked : .watchLogFrameBorder, lineWidth: appStyles.canvasBorderLineWidth)
             )
-            .padding(EdgeInsets(top: 5, leading: 10, bottom: 10, trailing: 10))
-    }
-}
-
-// logTime section
-
-extension View {
-    func timeSectionPadding() -> some View {
-        padding(EdgeInsets(top: 5, leading: 20, bottom: 5, trailing: 20))
-    }
-
-    func blurring(blurSetting: BlurSetting) -> some View {
-        blur(radius: blurSetting.isBlur ? blurSetting.blurRadius : 0)
-            .animation(.smooth(duration: blurSetting.animationDuration), value: blurSetting.isBlur)
+            .padding(EdgeInsets(top: 5, leading: 10, bottom: 10, trailing: 0))
     }
 }
 

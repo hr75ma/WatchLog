@@ -16,6 +16,7 @@ struct LogBookEntryEditWrapperView: View {
     @Environment(DisplayedLogEntryID.self) var displayedLogEntryUUID
     @Environment(BlurSetting.self) var blurSetting
     @Environment(\.dismiss) var dismiss
+    @Environment(\.alertController) var alertController
 
     @State var alertDelete = false
     @State var hapticTrigger: Bool = false
@@ -76,13 +77,26 @@ extension LogBookEntryEditWrapperView {
                     NavigationMenuLabelView(menuItemType: MenuType.save)
                 }
             }
-            Divider()
-
-            Button(role: .destructive) {
-                blurSetting.isBlur = true
-                alertDelete.toggle()
-            } label: {
-                NavigationMenuLabelView(menuItemType: MenuType.delete)
+            
+            if !watchLogEntry.isNewEntryLog
+            {
+                Divider()
+                
+                Button(role: .destructive) {
+                    blurSetting.isBlur = true
+                    
+                    alertDelete.toggle()
+                    
+                    //                let buttons: [AlertButton] = [
+                    //                    AlertButton(title: "Löschen", role: .destructive, action: { 
+                    //                    }),
+                    //                    AlertButton(title: "Abrechen", role: .cancel, action: { //blurSetting.isBlur = false
+                    //                    })]
+                    //                
+                    //                alertController.present(.confirmationDialog, title: "Eintrag löschen", message: "Soll der Eintrag wirklich gelöscht werden?", buttons: buttons)
+                } label: {
+                    NavigationMenuLabelView(menuItemType: MenuType.delete)
+                }
             }
         }
             label: {

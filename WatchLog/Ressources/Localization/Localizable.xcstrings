@@ -115,6 +115,9 @@
     "Dark" : {
 
     },
+    "Daten des Mitteilers" : {
+
+    },
     "Datenbank löschen" : {
       "localizations" : {
         "en" : {
@@ -452,6 +455,31 @@
         }
       }
     },
+    "Meldung" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Message"
+          }
+        }
+      }
+    },
+    "Mitteiler" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sender of amessage"
+          }
+        }
+      }
+    },
+    "Mitteilung" : {
+
+    },
     "Name" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -479,16 +507,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "New log"
-          }
-        }
-      }
-    },
-    "Notiz" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Note"
           }
         }
       }
