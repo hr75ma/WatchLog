@@ -50,7 +50,7 @@ struct ContentView: View {
     @Environment(BlurSetting.self) var blurSetting
     @Environment(\.scenePhase) var scenePhase
     @Environment(\.colorScheme) var colorScheme
-    @Environment(ExpandContainer.self) var exContainer
+    @Environment(ExpandContainer.self) var expansionContainer
 
     // @Environment(\.dismiss) var dismiss
 
@@ -68,8 +68,7 @@ struct ContentView: View {
 
     @State var logBook = WatchLogBook()
 
-    @State var expandContainer: ExpandContainer = ExpandContainer()
-
+    
     let newLogEntryTip = NavigationTipNewLogEntry()
     let refreshListTip = NavigationTipRefresh()
     let listTip = NavigationTipList()
@@ -182,7 +181,7 @@ struct DisclosureGroupYearView: View {
     @Environment(\.appStyles) var appStyles
     @EnvironmentObject var viewModel: LogEntryViewModel
     @Environment(DisplayedLogEntryID.self) var displayedLogEntryUUID
-    @Environment(ExpandContainer.self) var exContainer
+    @Environment(ExpandContainer.self) var expansionContainer
     
 
     var body: some View {
@@ -199,14 +198,14 @@ struct DisclosureGroupYearView: View {
             })
         }
         .disclosureGroupStyleYearModifier()
-        .onChange(of: exContainer.entryID) {
+        .onChange(of: expansionContainer.entryID) {
             withAnimation(.smooth) {
-                isExpanded = year.id == exContainer.yearID
+                isExpanded = year.id == expansionContainer.yearID
             }
         }
         .task {
             withAnimation(.smooth) {
-                isExpanded = year.id == exContainer.yearID
+                isExpanded = year.id == expansionContainer.yearID
             }
         }
     }
@@ -220,7 +219,7 @@ struct DisclosureGroupMonthView: View {
     @Environment(\.appStyles) var appStyles
     @EnvironmentObject var viewModel: LogEntryViewModel
     @Environment(DisplayedLogEntryID.self) var displayedLogEntryUUID
-    @Environment(ExpandContainer.self) var exContainer
+    @Environment(ExpandContainer.self) var expansionContainer
 
     @State var isExpanded: Bool = false
 
@@ -238,14 +237,14 @@ struct DisclosureGroupMonthView: View {
             })
         }
         .disclosureGroupStyleMonth(appStyles)
-        .onChange(of: exContainer.entryID) {
+        .onChange(of: expansionContainer.entryID) {
             withAnimation(.smooth) {
-                isExpanded = month.id == exContainer.monthID
+                isExpanded = month.id == expansionContainer.monthID
             }
         }
         .task {
             withAnimation(.smooth) {
-                isExpanded = month.id == exContainer.monthID
+                isExpanded = month.id == expansionContainer.monthID
             }
         }
     }
@@ -260,7 +259,7 @@ struct DisclosureGroupLogEntriesView: View {
     @Environment(\.appStyles) var appStyles
     @Environment(DisplayedLogEntryID.self) var displayedLogEntryUUID
     @Environment(\.colorScheme) var colorScheme
-    @Environment(ExpandContainer.self) var exContainer
+    @Environment(ExpandContainer.self) var expansionContainer
 
     @State var isExpanded: Bool = false
 
@@ -271,7 +270,7 @@ struct DisclosureGroupLogEntriesView: View {
                 Button(action: {
                     logEntryUUIDContainer = .init(logEntryUUID: entry.id, logBookDay: day)
                     displayedLogEntryUUID.id = logEntryUUIDContainer.logEntryUUID
-                    exContainer.setExpansionData(watchLogBookEntry: entry)
+                    expansionContainer.setExpansionData(watchLogBookEntry: entry)
                     
                 }) {
                     VStack(alignment: .leading) {
@@ -304,14 +303,14 @@ struct DisclosureGroupLogEntriesView: View {
             })
         }
         .disclosureGroupStyleDay(appStyles)
-        .onChange(of: exContainer.entryID) {
+        .onChange(of: expansionContainer.entryID) {
             withAnimation(.smooth) {
-                isExpanded = day.id == exContainer.dayID
+                isExpanded = day.id == expansionContainer.dayID
             }
         }
         .task {
             withAnimation(.smooth) {
-                isExpanded = day.id == exContainer.dayID
+                isExpanded = day.id == expansionContainer.dayID
             }
         }
     }

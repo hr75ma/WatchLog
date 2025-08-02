@@ -20,7 +20,7 @@ struct LogBookEntryView: View {
     @Environment(BlurSetting.self) var blurSetting
     @Environment(\.dismiss) var dismiss
     @Environment(\.scenePhase) var scenePhase
-    @Environment(ExpandContainer.self) var exContainer
+    @Environment(ExpandContainer.self) var expansionContainer
 
     @State var toolPickerShows = true
     

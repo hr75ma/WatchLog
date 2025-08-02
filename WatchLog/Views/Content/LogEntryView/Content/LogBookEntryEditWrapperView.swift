@@ -16,7 +16,7 @@ struct LogBookEntryEditWrapperView: View {
     @Environment(BlurSetting.self) var blurSetting
     @Environment(\.dismiss) var dismiss
     @Environment(\.alertController) var alertController
-    @Environment(ExpandContainer.self) var exContainer
+    @Environment(ExpandContainer.self) var expansionContainer
 
     @State var alertDelete = false
     @State var hapticTrigger: Bool = false
@@ -33,7 +33,7 @@ struct LogBookEntryEditWrapperView: View {
             Task {
                 let testEntry = await viewModel.fetchLogBookEntry(logEntryID: watchLogEntry.id)
                 if testEntry != nil {
-                    exContainer.setExpansionData(watchLogBookEntry: testEntry!)
+                    expansionContainer.setExpansionData(watchLogBookEntry: testEntry!)
                 }
                 
             }
