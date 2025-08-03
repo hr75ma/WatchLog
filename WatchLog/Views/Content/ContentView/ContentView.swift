@@ -313,6 +313,11 @@ struct DisclosureGroupLogEntriesView: View {
                         Text(DateManipulation.getTime(from: entry.logDate))
                             .navigationTreeButtonLabelStyle(isSeletecedItem: entry.id == displayedLogEntryUUID.id)
 
+                        if !entry.callerName.isEmpty {
+                            Text(entry.callerName)
+                                .navigationTreeButtonSubLabelStyle(isSeletecedItem: entry.id == displayedLogEntryUUID.id)
+                        }
+                        
                         if entry.processDetails != nil {
                             Text(entry.processDetails!.processTypeShort.localized)
                                 .navigationTreeButtonSubLabelStyle(isSeletecedItem: entry.id == displayedLogEntryUUID.id)
