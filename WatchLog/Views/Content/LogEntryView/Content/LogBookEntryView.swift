@@ -40,10 +40,12 @@ struct LogBookEntryView: View {
         ScrollView {
             
             ZStack {
+                
                 glowingBorderEffect
                     .isHidden(fromBackground, remove: true)
-
+                
                 VStack(alignment: .leading, spacing: 0) {
+ 
 //                    VStack {
 //                        Text(watchLogEntry.id.uuidString)
 //                        Text("currentuuid: \(displayedLogEntryUUID.id.uuidString)")
@@ -77,6 +79,8 @@ struct LogBookEntryView: View {
                 .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
             }
             .standardLogEntryViewPadding()
+            
+            
         }
         .scrollIndicators(.never)
         .background(.clear)

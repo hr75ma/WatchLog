@@ -81,22 +81,25 @@ extension CallerDataView {
 extension CallerDataView {
     private func EditableContent() -> some View {
         HStack(alignment: .top, spacing: 0) {
-            VStack(alignment: .leading, spacing: 0) {
-                Text("Geburtsdatum")
-                    .textLabel(textLabelLevel: TextLabelLevel.standard, isDimmend: !self.withBirthday, disableAnimation: viewIsReadOnly)
-                    .standardInputPadding()
-                    .isHidden(tempLocked, remove: true)
+            
+            if !logEntry.isLocked {
+                VStack(alignment: .leading, spacing: 0) {
+                    Text("Geburtsdatum")
+                        .textLabel(textLabelLevel: TextLabelLevel.standard, isDimmend: !self.withBirthday, disableAnimation: viewIsReadOnly)
+                        .standardInputPadding()
+                        .isHidden(tempLocked, remove: true)
 
-                HStack(alignment: .top, spacing: 0) {
-                    ToggleView(
-                        toggleValue: self.$withBirthday, isLocked: logEntry.isLocked, isDimmend: !withBirthday, removeAnimation: viewIsReadOnly, toggleType: .standard
-                    )
-                    .isHidden(tempLocked, remove: true)
+                    HStack(alignment: .top, spacing: 0) {
+                        ToggleView(
+                            toggleValue: self.$withBirthday, isLocked: logEntry.isLocked, isDimmend: !withBirthday, removeAnimation: viewIsReadOnly, toggleType: .standard
+                        )
+                        .isHidden(tempLocked, remove: true)
 
-                    DatePicker("", selection: $logEntry.callerDOB ?? Date(), in: ...Date(), displayedComponents: [.date])
-                        .datePickerWheelStyle()
-                        .matchedGeometryEffect(id: "lockedEvent", in: namespace)
-                        .isHidden(!with || tempLocked, remove: true)
+                        DatePicker("", selection: $logEntry.callerDOB ?? Date(), in: ...Date(), displayedComponents: [.date])
+                            .datePickerWheelStyle()
+                            .matchedGeometryEffect(id: "lockedEvent", in: namespace)
+                            .isHidden(!with || tempLocked, remove: true)
+                    }
                 }
             }
 
