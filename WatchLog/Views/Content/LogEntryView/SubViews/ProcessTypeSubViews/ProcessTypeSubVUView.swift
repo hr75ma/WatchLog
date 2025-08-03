@@ -68,6 +68,5 @@ extension ProcessTypeSubVUView {
                     toggleValue: $logEntry.processTypeDetails.AlcoholConsumed, isLocked: logEntry.isLocked, isDimmend: !logEntry.processTypeDetails.AlcoholConsumed, removeAnimation: viewIsReadOnly, toggleType: .sub)
             }
         }
-        .border(.red)
     }
 }
