@@ -85,32 +85,15 @@ struct LogBookEntryView: View {
         .scrollIndicators(.never)
         .background(.clear)
         //.scrollDismissesKeyboard(.immediately)
-        .task {
-            glowingColorSet = getGlowColorSet(logEntry: watchLogEntry)
-        }
         .onDisappear {
             print("dismiss LogBookEntryView \(watchLogEntry.id.uuidString)")
  //           dismiss()
         }
-//        .onChange(
-//            of: logBookEntryUUID,
-//            { _, _ in
-//                Task {
-//                    watchLogEntry = await viewModel.fetchLogEntryMod(LogEntryUUID: logBookEntryUUID)
-//                    watchLogEntry.isLocked = isEditing ? false : true
-//                    // displayedLogEntryUUID = watchLogEntry.uuid
-//                    glowingColorSet = getGlowColorSet(logEntry: watchLogEntry)
-//                }
-//            }
-//        )
         .onChange(of: watchLogEntry.isLocked) { _, newValue in
-            glowingColorSet = getGlowColorSet(logEntry: watchLogEntry)
             if newValue {
-                print("save")
                 saveEntry()
             }
         }
-
         .onChange(of: watchLogEntry.remoteSignalContainer.signale) { _, newValue in
             switch newValue {
             case .save:
@@ -126,9 +109,6 @@ struct LogBookEntryView: View {
             default:
                 break
             }
-        }
-        .onChange(of: watchLogEntry.isNewEntryLog) { _, _ in
-            glowingColorSet = getGlowColorSet(logEntry: watchLogEntry)
         }
         .onChange(of: scenePhase) { _, newPhase in
             switch newPhase {
@@ -177,7 +157,7 @@ extension LogBookEntryView {
             RoundedRectangle(cornerRadius: appStyles.standardCornerRadius, style: .continuous)
                 .fill(
                     AngularGradient(
-                        colors: glowingColorSet,
+                        colors: getGlowColorSet(logEntry: watchLogEntry),
                         center: .center,
                         angle: .degrees(isAnimating ? 360 : 0))
                 )
