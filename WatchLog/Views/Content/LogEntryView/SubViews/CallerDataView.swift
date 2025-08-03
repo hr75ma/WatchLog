@@ -31,18 +31,15 @@ struct CallerDataView: View {
 
                     nameSubSection
                         .standardInputPadding()
-
+                    
                     adressSubSection
                         .standardInputPadding()
-                        .border(.green)
 
                     dobSubSection
-                        .border(.red)
                 }
                 .formStyle(.columns)
             }
             .standardSectionContentPadding()
-            .border(.green)
         }
         .disabled(logEntry.isLocked)
         .standardBottomBorder()
@@ -51,33 +48,22 @@ struct CallerDataView: View {
 
 extension CallerDataView {
     private var phoneSubSection: some View {
-        // VStack(alignment: .leading, spacing: 0) {
-
         FloatingBorderLabelTextField("Telefon", textfieldContent: $logEntry.callerNumber, config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.standard, limit: 100, autoResizes: true, disableAnimation: viewIsReadOnly, isLocked: logEntry.isLocked))
-            // .textFieldCheckOnNumbers(text: $logEntry.callerNumber)
             .numericTextInputField(text: $logEntry.callerNumber)
             .textContentType(.telephoneNumber)
             .keyboardType(.numberPad)
-        // }
     }
 
     private var nameSubSection: some View {
-        // VStack(alignment: .leading, spacing: 0) {
-
         FloatingBorderLabelTextField("Name", textfieldContent: $logEntry.callerName, config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.standard, textfieldAutoCapitalization: .words, limit: 50, autoResizes: true, disableAnimation: viewIsReadOnly, isLocked: logEntry.isLocked))
-        // }
     }
 
     private var adressSubSection: some View {
-        //  VStack(alignment: .leading, spacing: 0) {
-
         FloatingBorderLabelTextField("Adresse", textfieldContent: $logEntry.callerAdress, config: .init(textfieldType: TextFieldType.multiLine, textfieldLevel: TextFieldLevel.standard, textfieldAutoCapitalization: .words, limit: 200, autoResizes: true, disableAnimation: viewIsReadOnly, isLocked: logEntry.isLocked))
-        //  }
     }
 
     private var dobSubSection: some View {
         EditableContent()
-            .border(.red)
     }
 
     private func switchBirthday() {

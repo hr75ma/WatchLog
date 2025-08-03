@@ -28,7 +28,6 @@ struct ToggleView: View {
                 .toggleStyle(
                     standardToggleStyleImage(isLocked: isLocked, isDimmend: isDimmend,  disableAnimation: removeAnimation))
                 .frame(height: appStyles.standardToggleSize)
-                .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
 
         case .sub:
             Toggle("", isOn: $toggleValue)
@@ -36,7 +35,6 @@ struct ToggleView: View {
                 .toggleStyle(
                     standardToggleStyleImage(isLocked: isLocked, isDimmend: isDimmend, disableAnimation: removeAnimation))
                 .frame(height: appStyles.textFieldSubHeight, alignment: .center)
-                .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
         }
     }
 }
