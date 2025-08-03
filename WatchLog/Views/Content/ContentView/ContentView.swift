@@ -29,17 +29,17 @@ import TipKit
         .environmentObject(AppSettings.shared)
         .environment(ExpandContainer())
         .environment(ExpandedRows())
-        //.environment(\.locale, .init(identifier: "us_EN"))
-//.environment(\.locale, .init(identifier: "de"))
-        
+    // .environment(\.locale, .init(identifier: "us_EN"))
+    // .environment(\.locale, .init(identifier: "de"))
+
 //        .task {
 //            // try? Tips.resetDatastore()
 //            try? Tips.configure([
 //                // .displayFrequency(.immediate)
 //                .datastoreLocation(.applicationDefault),
 //            ])
-            // try? Tips.showAllTipsForTesting()
-        //}
+    // try? Tips.showAllTipsForTesting()
+    // }
 }
 
 struct ContentView: View {
@@ -63,13 +63,11 @@ struct ContentView: View {
     @State var showNewEntrySheet: Bool = false
     @State var showToolbarItem: Bool = true
 
-    
     @State var logEntryUUIDContainer: LogEntryUUIDContainer = LogEntryUUIDContainer()
     @State var newEntry: WatchLogEntry = WatchLogEntry()
 
     @State var logBook = WatchLogBook()
 
-    
     let newLogEntryTip = NavigationTipNewLogEntry()
     let refreshListTip = NavigationTipRefresh()
     let listTip = NavigationTipList()
@@ -86,12 +84,19 @@ struct ContentView: View {
                 ProgressionView()
             }
 
-            List(viewModel.WatchLogBooks, id: \.id) { book in
-                buildLogBookNavigationTree(book: book)
+            ScrollViewReader { proxy in
+                
+                List(viewModel.WatchLogBooks, id: \.id) { book in
+                    buildLogBookNavigationTree(book: book)
+                }
+                .listStyleGeneral()
+                .listStyle(.sidebar)
+                .onChange(of: displayedLogEntryUUID.id) { oldValue, newValue in
+                    withAnimation(.smooth) {
+                        proxy.scrollTo(newValue, anchor: .center)
+                    }
+                }
             }
-            .listStyleGeneral()
-            // .safeAreaInsetForToolbar()
-            .listStyle(.sidebar)
             .scrollContentBackground(.hidden)
             .background(.watchLogViewGeneralBackground)
             .toolbar {
@@ -114,10 +119,10 @@ struct ContentView: View {
             })
 
             .fullScreenCover(isPresented: $showNewEntrySheet) {
-                    NavigationStack {
-                        LogBookEntryEditWrapperView(watchLogEntry: newEntry)
-                    }
-                    .fullScreenCoverModifier()
+                NavigationStack {
+                    LogBookEntryEditWrapperView(watchLogEntry: newEntry)
+                }
+                .fullScreenCoverModifier()
             }
             .sheet(isPresented: $showSettingSheet) {
                 SettingView()
@@ -175,7 +180,7 @@ struct ContentView: View {
 struct DisclosureGroupYearView: View {
     @State var year: WatchLogBookYear
     @Binding var logEntryUUIDContainer: LogEntryUUIDContainer
-    //@Binding var expandContainer: ExpandContainer
+    // @Binding var expandContainer: ExpandContainer
 
     @State var isExpanded: Bool = false
 
@@ -184,7 +189,6 @@ struct DisclosureGroupYearView: View {
     @Environment(DisplayedLogEntryID.self) var displayedLogEntryUUID
     @Environment(ExpandContainer.self) var expansionContainer
     @Environment(ExpandedRows.self) var expandedRows
-    
 
     var body: some View {
         DisclosureGroup(DateManipulation.getYear(from: year.logDate), isExpanded: $isExpanded) {
@@ -200,7 +204,7 @@ struct DisclosureGroupYearView: View {
             })
         }
         .disclosureGroupStyleYearModifier()
-        .onChange(of: isExpanded) { oldValue, newValue in
+        .onChange(of: isExpanded) { _, newValue in
             print("disclosureYear \(isExpanded)")
             if newValue {
                 expandedRows.rows.insert(year.id)
@@ -224,7 +228,7 @@ struct DisclosureGroupYearView: View {
 struct DisclosureGroupMonthView: View {
     @State var month: WatchLogBookMonth
     @Binding var logEntryUUIDContainer: LogEntryUUIDContainer
-    //@Binding var expandContainer: ExpandContainer
+    // @Binding var expandContainer: ExpandContainer
 
     @Environment(\.appStyles) var appStyles
     @EnvironmentObject var viewModel: LogEntryViewModel
@@ -248,7 +252,7 @@ struct DisclosureGroupMonthView: View {
             })
         }
         .disclosureGroupStyleMonth(appStyles)
-        .onChange(of: isExpanded) { oldValue, newValue in
+        .onChange(of: isExpanded) { _, newValue in
             if newValue {
                 expandedRows.rows.insert(month.id)
             } else {
@@ -271,7 +275,6 @@ struct DisclosureGroupMonthView: View {
 struct DisclosureGroupLogEntriesView: View {
     @State var day: WatchLogBookDay
     @Binding var logEntryUUIDContainer: LogEntryUUIDContainer
-    //@Binding var expandContainer: ExpandContainer
 
     @EnvironmentObject var viewModel: LogEntryViewModel
     @Environment(\.appStyles) var appStyles
@@ -290,7 +293,7 @@ struct DisclosureGroupLogEntriesView: View {
                     logEntryUUIDContainer = .init(logEntryUUID: entry.id, logBookDay: day)
                     displayedLogEntryUUID.id = logEntryUUIDContainer.logEntryUUID
                     expansionContainer.setExpansionData(watchLogBookEntry: entry)
-                    
+
                 }) {
                     VStack(alignment: .leading) {
                         Text(DateManipulation.getTime(from: entry.logDate))
@@ -322,7 +325,7 @@ struct DisclosureGroupLogEntriesView: View {
             })
         }
         .disclosureGroupStyleDay(appStyles)
-        .onChange(of: isExpanded) { oldValue, newValue in
+        .onChange(of: isExpanded) { _, newValue in
             if newValue {
                 expandedRows.rows.insert(day.id)
             } else {
