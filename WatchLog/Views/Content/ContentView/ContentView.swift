@@ -28,6 +28,7 @@ import TipKit
         .environment(DisplayedLogEntryID())
         .environmentObject(AppSettings.shared)
         .environment(ExpandContainer())
+        .environment(ExpandedRows())
         //.environment(\.locale, .init(identifier: "us_EN"))
 //.environment(\.locale, .init(identifier: "de"))
         
@@ -182,6 +183,7 @@ struct DisclosureGroupYearView: View {
     @EnvironmentObject var viewModel: LogEntryViewModel
     @Environment(DisplayedLogEntryID.self) var displayedLogEntryUUID
     @Environment(ExpandContainer.self) var expansionContainer
+    @Environment(ExpandedRows.self) var expandedRows
     
 
     var body: some View {
@@ -198,14 +200,22 @@ struct DisclosureGroupYearView: View {
             })
         }
         .disclosureGroupStyleYearModifier()
+        .onChange(of: isExpanded) { oldValue, newValue in
+            print("disclosureYear \(isExpanded)")
+            if newValue {
+                expandedRows.rows.insert(year.id)
+            } else {
+                expandedRows.rows.remove(year.id)
+            }
+        }
         .onChange(of: expansionContainer.entryID) {
             withAnimation(.smooth) {
-                isExpanded = year.id == expansionContainer.yearID
+                isExpanded = year.id == expansionContainer.yearID || expandedRows.rows.contains(year.id)
             }
         }
         .task {
             withAnimation(.smooth) {
-                isExpanded = year.id == expansionContainer.yearID
+                isExpanded = year.id == expansionContainer.yearID || expandedRows.rows.contains(year.id)
             }
         }
     }
@@ -220,6 +230,7 @@ struct DisclosureGroupMonthView: View {
     @EnvironmentObject var viewModel: LogEntryViewModel
     @Environment(DisplayedLogEntryID.self) var displayedLogEntryUUID
     @Environment(ExpandContainer.self) var expansionContainer
+    @Environment(ExpandedRows.self) var expandedRows
 
     @State var isExpanded: Bool = false
 
@@ -237,14 +248,21 @@ struct DisclosureGroupMonthView: View {
             })
         }
         .disclosureGroupStyleMonth(appStyles)
+        .onChange(of: isExpanded) { oldValue, newValue in
+            if newValue {
+                expandedRows.rows.insert(month.id)
+            } else {
+                expandedRows.rows.remove(month.id)
+            }
+        }
         .onChange(of: expansionContainer.entryID) {
             withAnimation(.smooth) {
-                isExpanded = month.id == expansionContainer.monthID
+                isExpanded = month.id == expansionContainer.monthID || expandedRows.rows.contains(month.id)
             }
         }
         .task {
             withAnimation(.smooth) {
-                isExpanded = month.id == expansionContainer.monthID
+                isExpanded = month.id == expansionContainer.monthID || expandedRows.rows.contains(month.id)
             }
         }
     }
@@ -260,6 +278,7 @@ struct DisclosureGroupLogEntriesView: View {
     @Environment(DisplayedLogEntryID.self) var displayedLogEntryUUID
     @Environment(\.colorScheme) var colorScheme
     @Environment(ExpandContainer.self) var expansionContainer
+    @Environment(ExpandedRows.self) var expandedRows
 
     @State var isExpanded: Bool = false
 
@@ -303,14 +322,21 @@ struct DisclosureGroupLogEntriesView: View {
             })
         }
         .disclosureGroupStyleDay(appStyles)
+        .onChange(of: isExpanded) { oldValue, newValue in
+            if newValue {
+                expandedRows.rows.insert(day.id)
+            } else {
+                expandedRows.rows.remove(day.id)
+            }
+        }
         .onChange(of: expansionContainer.entryID) {
             withAnimation(.smooth) {
-                isExpanded = day.id == expansionContainer.dayID
+                isExpanded = day.id == expansionContainer.dayID || expandedRows.rows.contains(day.id)
             }
         }
         .task {
             withAnimation(.smooth) {
-                isExpanded = day.id == expansionContainer.dayID
+                isExpanded = day.id == expansionContainer.dayID || expandedRows.rows.contains(day.id)
             }
         }
     }
