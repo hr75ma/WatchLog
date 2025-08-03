@@ -12,7 +12,7 @@ import SwiftUI
 
 struct LogBookEntryView: View {
     @Binding public var watchLogEntry: WatchLogEntry
-    public var viewIsReadOnly: Bool
+    @State var viewIsReadOnly: Bool
 
     @EnvironmentObject var viewModel: LogEntryViewModel
     @Environment(\.appStyles) var appStyles

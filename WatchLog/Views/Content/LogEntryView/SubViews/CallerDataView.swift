@@ -37,6 +37,7 @@ struct CallerDataView: View {
                     
                     dobSubSection
                         .standardInputPadding()
+                        .border(.red)
                 }
                 .formStyle(.columns)
             }
@@ -77,12 +78,10 @@ extension CallerDataView {
     var dobSubSection: some View {
         VStack(alignment: .leading, spacing: 0) {
             HStack(alignment: .top, spacing: 0) {
-                if viewIsReadOnly {
-                    ReadOnlyContent()
-
-                } else {
+                
                     EditableContent()
-                }
+                    
+                
             }
            
         }
@@ -130,9 +129,7 @@ extension CallerDataView {
                         .matchedGeometryEffect(id: "lockedEvent", in: namespace)
                         .isHidden(!with || tempLocked, remove: true)
                 }
-                .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
             }
-            .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
 
             HStack(alignment: .center, spacing: 0) {
                 if tempLocked {
@@ -145,13 +142,13 @@ extension CallerDataView {
             }
         }
         // .standardInputViewPadding()
-        .onChange(of: logEntry.isLocked) {
-            withAnimation(.smooth(duration: 1)) {
+        .onChange(of: logEntry.isLocked) { _, _ in
+            withAnimation(.smooth) {
                 tempLocked = logEntry.isLocked
             }
         }
         .onChange(of: withBirthday) { _, _ in
-            withAnimation(.smooth(duration: 1)) {
+            withAnimation(.smooth) {
                 if !withBirthday {
                     logEntry.callerDOB = nil
                     with = withBirthday
@@ -164,7 +161,7 @@ extension CallerDataView {
             if viewIsReadOnly {
                 switchBirthday()
             } else {
-                withAnimation(.smooth(duration: 1)) {
+                withAnimation(.smooth) {
                     switchBirthday()
                 }
             }

@@ -25,6 +25,7 @@ struct CallInView: View {
                 Form {
                     callInSection
                         .standardInputPadding()
+                    .border(.red)
                 }
                 .formStyle(.columns)
             }
@@ -38,17 +39,13 @@ struct CallInView: View {
 extension CallInView {
     private var callInSection: some View {
         VStack(alignment: .leading, spacing: 0) {
-            if viewIsReadOnly {
-                ReadOnlyContent()
-            } else {
                 EditableContent()
-            }
         }
         .onAppear {
-            if !viewIsReadOnly {
+            if !viewIsReadOnly { 
                 withAnimation(.smooth) {
                     selectedCallInHelper = logEntry.callIn
-                    // tempLocked = logEntry.isLocked
+                    tempLocked = logEntry.isLocked
                 }
             }
         }
@@ -59,7 +56,7 @@ extension CallInView {
                 }
             }
         }
-        .onChange(of: logEntry.isLocked) {
+        .onChange(of: logEntry.isLocked) { _, _ in
             if !viewIsReadOnly {
                 withAnimation(.smooth) {
                     tempLocked = logEntry.isLocked
@@ -69,12 +66,7 @@ extension CallInView {
         }
     }
 
-    private func ReadOnlyContent() -> some View {
-        HStack(alignment: .center, spacing: 0) {
-            FloatingBorderLabelSimulatedTextField("", textfieldContent: logEntry.callIn.localized.stringKey!, config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.standard, limit: 50, autoResizes: true, withClearButton: false, disableAnimation: viewIsReadOnly, isLocked: logEntry.isLocked))
-                //.standardLastInputViewPadding()
-        }
-    }
+
 
     private func EditableContent() -> some View {
         HStack(alignment: .center, spacing: 0) {
