@@ -12,7 +12,7 @@ import SwiftUI
 
 struct LogBookEntryView: View {
     @Binding public var watchLogEntry: WatchLogEntry
-    public var viewIsReadOnly: Bool
+    @State var viewIsReadOnly: Bool
 
     @EnvironmentObject var viewModel: LogEntryViewModel
     @Environment(\.appStyles) var appStyles
@@ -233,6 +233,7 @@ extension LogBookEntryView {
         .environment(\.appStyles, StylesLogEntry.shared)
         .environment(DisplayedLogEntryID())
         .environmentObject(AppSettings.shared)
+        .environment(ExpandContainer())
  }
 
 #Preview("Englisch") {
@@ -251,5 +252,6 @@ extension LogBookEntryView {
        .environment(\.appStyles, StylesLogEntry.shared)
        .environment(DisplayedLogEntryID())
        .environmentObject(AppSettings.shared)
+       .environment(ExpandContainer())
        .environment(ExpandContainer())
 }

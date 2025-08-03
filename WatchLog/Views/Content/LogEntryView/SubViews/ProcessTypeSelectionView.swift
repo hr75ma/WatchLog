@@ -71,7 +71,7 @@ struct ProcessTypeSelectionView: View {
                 }
 
                 processSubViews
-                    .standardInputPadding()
+                    //.standardInputPadding()
             }
             .standardSectionContentPadding()
         }
@@ -97,30 +97,25 @@ extension ProcessTypeSelectionView {
             switch selectedProcessHelper {
             case ProcessingType.VU:
                 ProcessTypeSubVUView(logEntry: logEntry, viewIsReadOnly: viewIsReadOnly)
-                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
                     .isHidden(ProcessingType.VU != selectedProcessHelper, remove: true)
             case ProcessingType.VUW:
                 ProcessTypeSubVUWView(logEntry: logEntry, viewIsReadOnly: viewIsReadOnly)
-                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
                     .isHidden(ProcessingType.VUW != selectedProcessHelper, remove: true)
             case ProcessingType.KV:
                 ProcessTypeSubKVView(logEntry: logEntry, viewIsReadOnly: viewIsReadOnly)
-                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
                     .isHidden(ProcessingType.KV != selectedProcessHelper, remove: true)
             case ProcessingType.DAUF:
                 ProcessTypeSubDAUFView(logEntry: logEntry, viewIsReadOnly: viewIsReadOnly)
-                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
                     .isHidden(ProcessingType.DAUF != selectedProcessHelper, remove: true)
             case ProcessingType.TRUNK:
                 ProcessTypeSubTRUNKView(logEntry: logEntry, viewIsReadOnly: viewIsReadOnly)
-                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
                     .isHidden(ProcessingType.TRUNK != selectedProcessHelper, remove: true)
             case ProcessingType.VKKO:
                 ProcessTypeSubVKKOView(logEntry: logEntry, viewIsReadOnly: viewIsReadOnly)
-                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
                     .isHidden(ProcessingType.VKKO != selectedProcessHelper, remove: true)
             default:
                 EmptyView()
+                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
             }
         }
     }

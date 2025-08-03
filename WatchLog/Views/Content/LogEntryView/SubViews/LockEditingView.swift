@@ -29,7 +29,7 @@ extension LockEditingView {
             Text(logEntry.isLocked ? "Gesperrt" : "Entsperrt")
                 .labelStyle(isLocked: logEntry.isLocked)
                 .disableAnimations(disableAnimation: viewIsReadOnly)
-                .animation(.smooth(duration: 1), value: logEntry.isLocked)
+                .animation(.smooth, value: logEntry.isLocked)
 
             Toggle("", isOn: $logEntry.isLocked)
                 .labelsHidden()

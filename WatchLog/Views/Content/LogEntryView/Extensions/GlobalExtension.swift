@@ -52,7 +52,7 @@ extension View {
     }
     
     func standardSectionContentPadding() -> some View {
-        padding(EdgeInsets(top: 0, leading: 70, bottom: 10, trailing: 20))
+        padding(EdgeInsets(top: 0, leading: 70, bottom: 20, trailing: 20))
     }
     
     func standardInputPadding() -> some View {

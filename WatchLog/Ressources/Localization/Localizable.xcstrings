@@ -455,8 +455,7 @@
         }
       }
     },
-    "Meldung" : {
-      "extractionState" : "stale",
+    "Mitteilung" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -465,20 +464,6 @@
           }
         }
       }
-    },
-    "Mitteiler" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sender of amessage"
-          }
-        }
-      }
-    },
-    "Mitteilung" : {
-
     },
     "Name" : {
       "extractionState" : "manual",

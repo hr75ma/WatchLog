@@ -21,11 +21,12 @@ struct LogBookEntryEditWrapperView: View {
     @State var alertDelete = false
     @State var hapticTrigger: Bool = false
     
-    let viewIsReadOnly: Bool = false
+    @State var viewIsReadOnly: Bool = false
 
     var body: some View {
         HStack {
             LogBookEntryView(watchLogEntry: $watchLogEntry, viewIsReadOnly: viewIsReadOnly)
+            //LogBookEntryView(watchLogEntry: $watchLogEntry, viewIsReadOnly: viewIsReadOnly)
         }
         .background(.clear)
         .safeAreaInsetForToolbar()
