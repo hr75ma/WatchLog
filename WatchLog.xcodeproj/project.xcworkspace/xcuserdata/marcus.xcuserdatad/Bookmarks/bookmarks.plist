@@ -34,16 +34,16 @@
 			<key>text-context</key>
 			<dict>
 				<key>focused</key>
-				<string>            showNewEntrySheet = true
+				<string>                        .selectedRowBackgroundAnimation(isSelectedRow: entry.id == displayedLogEntryUUID.id, colorScheme: colorScheme, appStyles: appStyles)
 </string>
 				<key>leading</key>
-				<string>            // alertNew.toggle()
-            newEntry = WatchLogEntry()
+				<string>                .listRowBackground(
+                    Rectangle()
 </string>
 				<key>trailing</key>
-				<string>        }) {
-            NavigationToolbarItemImage(toolbarItemType: .addEntry, appStyles: appStyles)
-        }
+				<string>                )
+            }
+            .onDelete(perform: { indexSet in
 </string>
 			</dict>
 			<key>type</key>

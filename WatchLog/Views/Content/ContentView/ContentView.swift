@@ -28,17 +28,18 @@ import TipKit
         .environment(DisplayedLogEntryID())
         .environmentObject(AppSettings.shared)
         .environment(ExpandContainer())
-        //.environment(\.locale, .init(identifier: "us_EN"))
-//.environment(\.locale, .init(identifier: "de"))
-        
+        .environment(ExpandedRows())
+    // .environment(\.locale, .init(identifier: "us_EN"))
+    // .environment(\.locale, .init(identifier: "de"))
+
 //        .task {
 //            // try? Tips.resetDatastore()
 //            try? Tips.configure([
 //                // .displayFrequency(.immediate)
 //                .datastoreLocation(.applicationDefault),
 //            ])
-            // try? Tips.showAllTipsForTesting()
-        //}
+    // try? Tips.showAllTipsForTesting()
+    // }
 }
 
 struct ContentView: View {
@@ -51,6 +52,7 @@ struct ContentView: View {
     @Environment(\.scenePhase) var scenePhase
     @Environment(\.colorScheme) var colorScheme
     @Environment(ExpandContainer.self) var expansionContainer
+    @Environment(ExpandedRows.self) var expandedRows
 
     // @Environment(\.dismiss) var dismiss
 
@@ -62,13 +64,13 @@ struct ContentView: View {
     @State var showNewEntrySheet: Bool = false
     @State var showToolbarItem: Bool = true
 
+    @State var scrollToNewEntry: Bool = false
     
     @State var logEntryUUIDContainer: LogEntryUUIDContainer = LogEntryUUIDContainer()
     @State var newEntry: WatchLogEntry = WatchLogEntry()
 
     @State var logBook = WatchLogBook()
 
-    
     let newLogEntryTip = NavigationTipNewLogEntry()
     let refreshListTip = NavigationTipRefresh()
     let listTip = NavigationTipList()
@@ -85,12 +87,24 @@ struct ContentView: View {
                 ProgressionView()
             }
 
-            List(viewModel.WatchLogBooks, id: \.id) { book in
-                buildLogBookNavigationTree(book: book)
+            ScrollViewReader { proxy in
+
+                List(viewModel.WatchLogBooks, id: \.id) { book in
+                    buildLogBookNavigationTree(book: book)
+                }
+                .listStyleGeneral()
+                .listStyle(.sidebar)
+                .onChange(of: displayedLogEntryUUID.id) { _, newValue in
+                    withAnimation(.smooth) {
+                        proxy.scrollTo(newValue, anchor: .center)
+                    }
+                }
+                .onChange(of: scrollToNewEntry) { _, newValue in
+                    withAnimation(.smooth) {
+                        proxy.scrollTo(displayedLogEntryUUID.id, anchor: .center)
+                    }
+                }
             }
-            .listStyleGeneral()
-            // .safeAreaInsetForToolbar()
-            .listStyle(.sidebar)
             .scrollContentBackground(.hidden)
             .background(.watchLogViewGeneralBackground)
             .toolbar {
@@ -113,10 +127,10 @@ struct ContentView: View {
             })
 
             .fullScreenCover(isPresented: $showNewEntrySheet) {
-                    NavigationStack {
-                        LogBookEntryEditWrapperView(watchLogEntry: newEntry)
-                    }
-                    .fullScreenCoverModifier()
+                NavigationStack {
+                    LogBookEntryEditWrapperView(watchLogEntry: newEntry)
+                }
+                .fullScreenCoverModifier()
             }
             .sheet(isPresented: $showSettingSheet) {
                 SettingView()
@@ -174,7 +188,7 @@ struct ContentView: View {
 struct DisclosureGroupYearView: View {
     @State var year: WatchLogBookYear
     @Binding var logEntryUUIDContainer: LogEntryUUIDContainer
-    //@Binding var expandContainer: ExpandContainer
+    @Binding var scrollToNewEntry: Bool
 
     @State var isExpanded: Bool = false
 
@@ -182,30 +196,41 @@ struct DisclosureGroupYearView: View {
     @EnvironmentObject var viewModel: LogEntryViewModel
     @Environment(DisplayedLogEntryID.self) var displayedLogEntryUUID
     @Environment(ExpandContainer.self) var expansionContainer
-    
+    @Environment(ExpandedRows.self) var expandedRows
 
     var body: some View {
         DisclosureGroup(DateManipulation.getYear(from: year.logDate), isExpanded: $isExpanded) {
             ForEach(year.logMonthSorted) { month in
-                DisclosureGroupMonthView(month: month, logEntryUUIDContainer: $logEntryUUIDContainer)
+                DisclosureGroupMonthView(month: month, logEntryUUIDContainer: $logEntryUUIDContainer, scrollToNewEntry: $scrollToNewEntry)
             }
             .onDelete(perform: { indexSet in
                 indexSet.sorted(by: >).forEach { i in
                     Task {
+                        expandedRows.rows.remove(year.watchLogBookMonths![i].id)
                         logEntryUUIDContainer = await viewModel.delete(deleteType: .month, toDeleteItem: year.watchLogBookMonths![i], displayedUUID: displayedLogEntryUUID.id, logEntryUUIDContainer: logEntryUUIDContainer)
                     }
                 }
             })
         }
         .disclosureGroupStyleYearModifier()
+        .onChange(of: isExpanded) { _, newValue in
+            print("disclosureYear \(isExpanded)")
+            
+            if newValue {
+                expandedRows.rows.insert(year.id)
+            } else {
+                expandedRows.rows.remove(year.id)
+            }
+            print("expanded rows \(expandedRows.rows)")
+        }
         .onChange(of: expansionContainer.entryID) {
             withAnimation(.smooth) {
-                isExpanded = year.id == expansionContainer.yearID
+                isExpanded = year.id == expansionContainer.yearID || expandedRows.rows.contains(year.id)
             }
         }
         .task {
             withAnimation(.smooth) {
-                isExpanded = year.id == expansionContainer.yearID
+                isExpanded = year.id == expansionContainer.yearID || expandedRows.rows.contains(year.id)
             }
         }
     }
@@ -214,37 +239,47 @@ struct DisclosureGroupYearView: View {
 struct DisclosureGroupMonthView: View {
     @State var month: WatchLogBookMonth
     @Binding var logEntryUUIDContainer: LogEntryUUIDContainer
-    //@Binding var expandContainer: ExpandContainer
+    @Binding var scrollToNewEntry: Bool
 
     @Environment(\.appStyles) var appStyles
     @EnvironmentObject var viewModel: LogEntryViewModel
     @Environment(DisplayedLogEntryID.self) var displayedLogEntryUUID
     @Environment(ExpandContainer.self) var expansionContainer
+    @Environment(ExpandedRows.self) var expandedRows
 
     @State var isExpanded: Bool = false
 
     var body: some View {
         DisclosureGroup(DateManipulation.getMonth(from: month.logDate), isExpanded: $isExpanded) {
             ForEach(month.logDaysSorted) { day in
-                DisclosureGroupLogEntriesView(day: day, logEntryUUIDContainer: $logEntryUUIDContainer)
+                DisclosureGroupLogEntriesView(day: day, logEntryUUIDContainer: $logEntryUUIDContainer, scrollToNewEntry: $scrollToNewEntry)
             }
             .onDelete(perform: { indexSet in
                 indexSet.sorted(by: >).forEach { i in
                     Task {
+                        expandedRows.rows.remove(month.watchLogBookDays![i].id)
                         logEntryUUIDContainer = await viewModel.delete(deleteType: .day, toDeleteItem: month.watchLogBookDays![i], displayedUUID: displayedLogEntryUUID.id, logEntryUUIDContainer: logEntryUUIDContainer)
+                        
                     }
                 }
             })
         }
         .disclosureGroupStyleMonth(appStyles)
+        .onChange(of: isExpanded) { _, newValue in
+            if newValue {
+                expandedRows.rows.insert(month.id)
+            } else {
+                expandedRows.rows.remove(month.id)
+            }
+        }
         .onChange(of: expansionContainer.entryID) {
             withAnimation(.smooth) {
-                isExpanded = month.id == expansionContainer.monthID
+                isExpanded = month.id == expansionContainer.monthID || expandedRows.rows.contains(month.id)
             }
         }
         .task {
             withAnimation(.smooth) {
-                isExpanded = month.id == expansionContainer.monthID
+                isExpanded = month.id == expansionContainer.monthID || expandedRows.rows.contains(month.id)
             }
         }
     }
@@ -253,13 +288,15 @@ struct DisclosureGroupMonthView: View {
 struct DisclosureGroupLogEntriesView: View {
     @State var day: WatchLogBookDay
     @Binding var logEntryUUIDContainer: LogEntryUUIDContainer
-    //@Binding var expandContainer: ExpandContainer
+    @Binding var scrollToNewEntry: Bool
+    
 
     @EnvironmentObject var viewModel: LogEntryViewModel
     @Environment(\.appStyles) var appStyles
     @Environment(DisplayedLogEntryID.self) var displayedLogEntryUUID
     @Environment(\.colorScheme) var colorScheme
     @Environment(ExpandContainer.self) var expansionContainer
+    @Environment(ExpandedRows.self) var expandedRows
 
     @State var isExpanded: Bool = false
 
@@ -271,7 +308,6 @@ struct DisclosureGroupLogEntriesView: View {
                     logEntryUUIDContainer = .init(logEntryUUID: entry.id, logBookDay: day)
                     displayedLogEntryUUID.id = logEntryUUIDContainer.logEntryUUID
                     expansionContainer.setExpansionData(watchLogBookEntry: entry)
-                    
                 }) {
                     VStack(alignment: .leading) {
                         Text(DateManipulation.getTime(from: entry.logDate))
@@ -303,14 +339,21 @@ struct DisclosureGroupLogEntriesView: View {
             })
         }
         .disclosureGroupStyleDay(appStyles)
+        .onChange(of: isExpanded) { _, newValue in
+            if newValue {
+                expandedRows.rows.insert(day.id)
+            } else {
+                expandedRows.rows.remove(day.id)
+            }
+        }
         .onChange(of: expansionContainer.entryID) {
             withAnimation(.smooth) {
-                isExpanded = day.id == expansionContainer.dayID
+                isExpanded = day.id == expansionContainer.dayID || expandedRows.rows.contains(day.id)
             }
         }
         .task {
             withAnimation(.smooth) {
-                isExpanded = day.id == expansionContainer.dayID
+                isExpanded = day.id == expansionContainer.dayID || expandedRows.rows.contains(day.id)
             }
         }
     }
@@ -337,12 +380,13 @@ extension ContentView {
 
     fileprivate func buildLogBookNavigationTree(book: WatchLogBook) -> some View {
         ForEach(book.logYearsSorted) { year in
-            DisclosureGroupYearView(year: year, logEntryUUIDContainer: $logEntryUUIDContainer)
+            DisclosureGroupYearView(year: year, logEntryUUIDContainer: $logEntryUUIDContainer, scrollToNewEntry: $scrollToNewEntry)
         }
         .onDelete(perform: {
             indexSet in
             indexSet.sorted(by: >).forEach { i in
                 Task {
+                    expandedRows.rows.remove(book.logYearsSorted[i].id)
                     logEntryUUIDContainer = await viewModel.delete(deleteType: .year, toDeleteItem: book.logYearsSorted[i], displayedUUID: displayedLogEntryUUID.id, logEntryUUIDContainer: logEntryUUIDContainer)
                 }
             }
