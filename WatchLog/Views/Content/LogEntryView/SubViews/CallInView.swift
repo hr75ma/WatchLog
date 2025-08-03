@@ -23,13 +23,35 @@ struct CallInView: View {
 
             VStack(alignment: .leading, spacing: 0) {
                 Form {
-                    callInSection
+                    EditableContent()
                         .standardInputPadding()
-                    .border(.red)
                 }
                 .formStyle(.columns)
             }
             .standardSectionContentPadding()
+            .onAppear {
+                if !viewIsReadOnly {
+                    withAnimation(.smooth) {
+                        selectedCallInHelper = logEntry.callIn
+                        tempLocked = logEntry.isLocked
+                    }
+                }
+            }
+            .onChange(of: logEntry.callIn) { _, _ in
+                if !viewIsReadOnly {
+                    withAnimation(.smooth) {
+                        selectedCallInHelper = logEntry.callIn
+                    }
+                }
+            }
+            .onChange(of: logEntry.isLocked) { _, _ in
+                if !viewIsReadOnly {
+                    withAnimation(.smooth) {
+                        tempLocked = logEntry.isLocked
+                        selectedCallInHelper = logEntry.callIn
+                    }
+                }
+            }
         }
         .disabled(logEntry.isLocked)
         .standardBottomBorder()
@@ -41,29 +63,7 @@ extension CallInView {
         VStack(alignment: .leading, spacing: 0) {
                 EditableContent()
         }
-        .onAppear {
-            if !viewIsReadOnly { 
-                withAnimation(.smooth) {
-                    selectedCallInHelper = logEntry.callIn
-                    tempLocked = logEntry.isLocked
-                }
-            }
-        }
-        .onChange(of: logEntry.callIn) { _, _ in
-            if !viewIsReadOnly {
-                withAnimation(.smooth) {
-                    selectedCallInHelper = logEntry.callIn
-                }
-            }
-        }
-        .onChange(of: logEntry.isLocked) { _, _ in
-            if !viewIsReadOnly {
-                withAnimation(.smooth) {
-                    tempLocked = logEntry.isLocked
-                    selectedCallInHelper = logEntry.callIn
-                }
-            }
-        }
+ 
     }
 
 
@@ -73,13 +73,11 @@ extension CallInView {
             if tempLocked {
                 FloatingBorderLabelSimulatedTextField("", textfieldContent: logEntry.callIn.localized.stringKey!, config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.standard, limit: 50, autoResizes: true, withClearButton: false, disableAnimation: viewIsReadOnly, isLocked: logEntry.isLocked))
                     .matchedGeometryEffect(id: "lockedEvent", in: namespace)
-                    .standardLastInputViewPadding()
                     .isHidden(!tempLocked, remove: true)
 
             } else {
                 customSegmentedPickerView(preselectedIndex: $logEntry.callIn, appStyles: appStyles)
                     .matchedGeometryEffect(id: "lockedEvent", in: namespace)
-                    .standardLastInputViewPadding()
                     .isHidden(tempLocked, remove: true)
             }
         }

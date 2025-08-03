@@ -34,17 +34,17 @@ struct CallerDataView: View {
 
                     adressSubSection
                         .standardInputPadding()
-                    
+                        .border(.green)
+
                     dobSubSection
-                        .standardInputPadding()
                         .border(.red)
                 }
                 .formStyle(.columns)
             }
             .standardSectionContentPadding()
+            .border(.green)
         }
         .disabled(logEntry.isLocked)
-        // .standardSubViewPadding()
         .standardBottomBorder()
     }
 }
@@ -75,16 +75,9 @@ extension CallerDataView {
         //  }
     }
 
-    var dobSubSection: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            HStack(alignment: .top, spacing: 0) {
-                
-                    EditableContent()
-                    
-                
-            }
-           
-        }
+    private var dobSubSection: some View {
+        EditableContent()
+            .border(.red)
     }
 
     private func switchBirthday() {
@@ -100,22 +93,12 @@ extension CallerDataView {
 }
 
 extension CallerDataView {
-    private func ReadOnlyContent() -> some View {
-        HStack(alignment: .center, spacing: 0) {
-            if tempLocked {
-                VStack(alignment: .leading, spacing: 0) {
-                    FloatingBorderLabelSimulatedTextField("Geburtsdatum", textfieldContent: DateManipulation.getFormatedDateFromDOB(from: logEntry.callerDOB), config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.standard, limit: 50, autoResizes: true, withClearButton: false, disableAnimation: viewIsReadOnly, isLocked: logEntry.isLocked))
-                        .isHidden(logEntry.callerDOB == nil || !tempLocked, remove: true)
-                }
-            }
-        }
-    }
-
     private func EditableContent() -> some View {
         HStack(alignment: .top, spacing: 0) {
             VStack(alignment: .leading, spacing: 0) {
                 Text("Geburtsdatum")
                     .textLabel(textLabelLevel: TextLabelLevel.standard, isDimmend: !self.withBirthday, disableAnimation: viewIsReadOnly)
+                    .standardInputPadding()
                     .isHidden(tempLocked, remove: true)
 
                 HStack(alignment: .top, spacing: 0) {
@@ -136,6 +119,7 @@ extension CallerDataView {
                     VStack(alignment: .leading, spacing: 0) {
                         FloatingBorderLabelSimulatedTextField("Geburtsdatum", textfieldContent: DateManipulation.getFormatedDateFromDOB(from: logEntry.callerDOB), config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.standard, limit: 50, autoResizes: true, withClearButton: false, disableAnimation: viewIsReadOnly, isLocked: logEntry.isLocked))
                             .matchedGeometryEffect(id: "lockedEvent", in: namespace)
+                            .standardInputPadding()
                             .isHidden(logEntry.callerDOB == nil || !tempLocked, remove: true)
                     }
                 }

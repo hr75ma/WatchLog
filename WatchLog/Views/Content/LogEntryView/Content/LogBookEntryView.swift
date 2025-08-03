@@ -233,6 +233,7 @@ extension LogBookEntryView {
         .environment(\.appStyles, StylesLogEntry.shared)
         .environment(DisplayedLogEntryID())
         .environmentObject(AppSettings.shared)
+        .environment(ExpandContainer())
  }
 
 #Preview("Englisch") {
@@ -251,5 +252,6 @@ extension LogBookEntryView {
        .environment(\.appStyles, StylesLogEntry.shared)
        .environment(DisplayedLogEntryID())
        .environmentObject(AppSettings.shared)
+       .environment(ExpandContainer())
        .environment(ExpandContainer())
 }
