@@ -52,6 +52,7 @@ struct ContentView: View {
     @Environment(\.scenePhase) var scenePhase
     @Environment(\.colorScheme) var colorScheme
     @Environment(ExpandContainer.self) var expansionContainer
+    @Environment(ExpandedRows.self) var expandedRows
 
     // @Environment(\.dismiss) var dismiss
 
@@ -63,6 +64,8 @@ struct ContentView: View {
     @State var showNewEntrySheet: Bool = false
     @State var showToolbarItem: Bool = true
 
+    @State var scrollToNewEntry: Bool = false
+    
     @State var logEntryUUIDContainer: LogEntryUUIDContainer = LogEntryUUIDContainer()
     @State var newEntry: WatchLogEntry = WatchLogEntry()
 
@@ -85,15 +88,20 @@ struct ContentView: View {
             }
 
             ScrollViewReader { proxy in
-                
+
                 List(viewModel.WatchLogBooks, id: \.id) { book in
                     buildLogBookNavigationTree(book: book)
                 }
                 .listStyleGeneral()
                 .listStyle(.sidebar)
-                .onChange(of: displayedLogEntryUUID.id) { oldValue, newValue in
+                .onChange(of: displayedLogEntryUUID.id) { _, newValue in
                     withAnimation(.smooth) {
                         proxy.scrollTo(newValue, anchor: .center)
+                    }
+                }
+                .onChange(of: scrollToNewEntry) { _, newValue in
+                    withAnimation(.smooth) {
+                        proxy.scrollTo(displayedLogEntryUUID.id, anchor: .center)
                     }
                 }
             }
@@ -180,7 +188,7 @@ struct ContentView: View {
 struct DisclosureGroupYearView: View {
     @State var year: WatchLogBookYear
     @Binding var logEntryUUIDContainer: LogEntryUUIDContainer
-    // @Binding var expandContainer: ExpandContainer
+    @Binding var scrollToNewEntry: Bool
 
     @State var isExpanded: Bool = false
 
@@ -193,11 +201,12 @@ struct DisclosureGroupYearView: View {
     var body: some View {
         DisclosureGroup(DateManipulation.getYear(from: year.logDate), isExpanded: $isExpanded) {
             ForEach(year.logMonthSorted) { month in
-                DisclosureGroupMonthView(month: month, logEntryUUIDContainer: $logEntryUUIDContainer)
+                DisclosureGroupMonthView(month: month, logEntryUUIDContainer: $logEntryUUIDContainer, scrollToNewEntry: $scrollToNewEntry)
             }
             .onDelete(perform: { indexSet in
                 indexSet.sorted(by: >).forEach { i in
                     Task {
+                        expandedRows.rows.remove(year.watchLogBookMonths![i].id)
                         logEntryUUIDContainer = await viewModel.delete(deleteType: .month, toDeleteItem: year.watchLogBookMonths![i], displayedUUID: displayedLogEntryUUID.id, logEntryUUIDContainer: logEntryUUIDContainer)
                     }
                 }
@@ -206,11 +215,13 @@ struct DisclosureGroupYearView: View {
         .disclosureGroupStyleYearModifier()
         .onChange(of: isExpanded) { _, newValue in
             print("disclosureYear \(isExpanded)")
+            
             if newValue {
                 expandedRows.rows.insert(year.id)
             } else {
                 expandedRows.rows.remove(year.id)
             }
+            print("expanded rows \(expandedRows.rows)")
         }
         .onChange(of: expansionContainer.entryID) {
             withAnimation(.smooth) {
@@ -228,7 +239,7 @@ struct DisclosureGroupYearView: View {
 struct DisclosureGroupMonthView: View {
     @State var month: WatchLogBookMonth
     @Binding var logEntryUUIDContainer: LogEntryUUIDContainer
-    // @Binding var expandContainer: ExpandContainer
+    @Binding var scrollToNewEntry: Bool
 
     @Environment(\.appStyles) var appStyles
     @EnvironmentObject var viewModel: LogEntryViewModel
@@ -241,12 +252,14 @@ struct DisclosureGroupMonthView: View {
     var body: some View {
         DisclosureGroup(DateManipulation.getMonth(from: month.logDate), isExpanded: $isExpanded) {
             ForEach(month.logDaysSorted) { day in
-                DisclosureGroupLogEntriesView(day: day, logEntryUUIDContainer: $logEntryUUIDContainer)
+                DisclosureGroupLogEntriesView(day: day, logEntryUUIDContainer: $logEntryUUIDContainer, scrollToNewEntry: $scrollToNewEntry)
             }
             .onDelete(perform: { indexSet in
                 indexSet.sorted(by: >).forEach { i in
                     Task {
+                        expandedRows.rows.remove(month.watchLogBookDays![i].id)
                         logEntryUUIDContainer = await viewModel.delete(deleteType: .day, toDeleteItem: month.watchLogBookDays![i], displayedUUID: displayedLogEntryUUID.id, logEntryUUIDContainer: logEntryUUIDContainer)
+                        
                     }
                 }
             })
@@ -275,6 +288,8 @@ struct DisclosureGroupMonthView: View {
 struct DisclosureGroupLogEntriesView: View {
     @State var day: WatchLogBookDay
     @Binding var logEntryUUIDContainer: LogEntryUUIDContainer
+    @Binding var scrollToNewEntry: Bool
+    
 
     @EnvironmentObject var viewModel: LogEntryViewModel
     @Environment(\.appStyles) var appStyles
@@ -293,7 +308,6 @@ struct DisclosureGroupLogEntriesView: View {
                     logEntryUUIDContainer = .init(logEntryUUID: entry.id, logBookDay: day)
                     displayedLogEntryUUID.id = logEntryUUIDContainer.logEntryUUID
                     expansionContainer.setExpansionData(watchLogBookEntry: entry)
-
                 }) {
                     VStack(alignment: .leading) {
                         Text(DateManipulation.getTime(from: entry.logDate))
@@ -366,12 +380,13 @@ extension ContentView {
 
     fileprivate func buildLogBookNavigationTree(book: WatchLogBook) -> some View {
         ForEach(book.logYearsSorted) { year in
-            DisclosureGroupYearView(year: year, logEntryUUIDContainer: $logEntryUUIDContainer)
+            DisclosureGroupYearView(year: year, logEntryUUIDContainer: $logEntryUUIDContainer, scrollToNewEntry: $scrollToNewEntry)
         }
         .onDelete(perform: {
             indexSet in
             indexSet.sorted(by: >).forEach { i in
                 Task {
+                    expandedRows.rows.remove(book.logYearsSorted[i].id)
                     logEntryUUIDContainer = await viewModel.delete(deleteType: .year, toDeleteItem: book.logYearsSorted[i], displayedUUID: displayedLogEntryUUID.id, logEntryUUIDContainer: logEntryUUIDContainer)
                 }
             }
