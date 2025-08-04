@@ -18,6 +18,7 @@ struct LockEditingView: View {
     var body: some View {
         lockSection
             .frame(height: appStyles.sectionLabelFontSize, alignment: .center)
+            .frame(width: .infinity)
             .timeSectionPadding()
             .standardBottomBorder()
     }
@@ -26,18 +27,28 @@ struct LockEditingView: View {
 extension LockEditingView {
     private var lockSection: some View {
         HStack(alignment: .center) {
-            Text(logEntry.isLocked ? "Gesperrt" : "Entsperrt")
-                .labelStyle(isLocked: logEntry.isLocked)
-                .disableAnimations(disableAnimation: viewIsReadOnly)
-                .animation(.smooth, value: logEntry.isLocked)
-
-            Toggle("", isOn: $logEntry.isLocked)
-                .labelsHidden()
-                .toggleStyle(toggleStyleLockImage(isLocked: logEntry.isLocked, removeAnimation: viewIsReadOnly))
-                .disabled(logEntry.isNewEntryLog)
+            HStack(alignment: .center) {
+                Text(logEntry.isLocked ? "Gesperrt" : "Entsperrt")
+                    .labelStyle(isLocked: logEntry.isLocked)
+                    .disableAnimations(disableAnimation: viewIsReadOnly)
+                    .animation(.smooth, value: logEntry.isLocked)
+                
+                Toggle("", isOn: $logEntry.isLocked)
+                    .labelsHidden()
+                    .toggleStyle(toggleStyleLockImage(isLocked: logEntry.isLocked, removeAnimation: viewIsReadOnly))
+                    .disabled(logEntry.isNewEntryLog)
+            }
             Spacer()
+            HStack(alignment: .center) {
+                Text("Abschlossen")
+                    .freeLabelStyle(isLocked: logEntry.isClosed)
+                    .disableAnimations(disableAnimation: viewIsReadOnly)
+                    .animation(.smooth, value: logEntry.isClosed)
+                
+                ToggleView(toggleValue: $logEntry.isClosed, isLocked: logEntry.isLocked, isDimmend: false, removeAnimation: viewIsReadOnly, toggleType: .standard)
+                     .disabled(logEntry.isLocked)
+            }
         }
-        
         .disabled(viewIsReadOnly)
     }
 }

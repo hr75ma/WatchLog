@@ -28,6 +28,21 @@ private struct LabelFormatterStyle: ViewModifier {
     }
 }
 
+private struct FreeLabelFormatterStyle: ViewModifier {
+    let isLocked: Bool
+    @Environment(\.appStyles) var appStyles
+    func body(content: Content) -> some View {
+        content
+            .font(Font.custom(appStyles.sectionLabelFont, size: appStyles.sectionLabelFontSize))
+            .foregroundStyle(.watchLogFont)
+            .frame(height: appStyles.sectionLabelFontSize, alignment: .trailing)
+            .lineLimit(1)
+            .fixedSize(horizontal: true, vertical: true)
+            .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 5))
+            .lineSpacing(0)
+    }
+}
+
 private struct TextLabelModifier: ViewModifier {
     let textLabelLevel: TextLabelLevel
     let isDimmend: Bool
@@ -76,6 +91,10 @@ struct NavigationTitleModifier: ViewModifier {
 extension Text {
     func labelStyle(isLocked: Bool) -> some View {
         modifier(LabelFormatterStyle(isLocked: isLocked))
+    }
+    
+    func freeLabelStyle(isLocked: Bool) -> some View {
+        modifier(FreeLabelFormatterStyle(isLocked: isLocked))
     }
 
     func textLabel(textLabelLevel: TextLabelLevel, isDimmend: Bool = false, disableAnimation: Bool = false) -> some View {

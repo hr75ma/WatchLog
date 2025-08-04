@@ -30,6 +30,7 @@ class WatchLogBookEntry: Identifiable, Hashable {
     var callIn: InComingCallType = InComingCallType.emergency
 
     var isLocked: Bool = false
+    var isClosed: Bool = false
     
     private var drawingData: Data = Data()
     var drawing: PKDrawing {
@@ -59,6 +60,7 @@ class WatchLogBookEntry: Identifiable, Hashable {
         callIn = LogEntry.callIn
 
         isLocked = LogEntry.isLocked
+        isClosed = LogEntry.isClosed
 
         drawingData = LogEntry.pkDrawingData.dataRepresentation()
 
@@ -79,6 +81,7 @@ class WatchLogBookEntry: Identifiable, Hashable {
         callIn = LogEntry.callIn
 
         isLocked = LogEntry.isLocked
+        isClosed = LogEntry.isClosed
 
         drawingData = LogEntry.pkDrawingData.dataRepresentation()
 
@@ -99,6 +102,7 @@ class WatchLogBookEntry: Identifiable, Hashable {
         callIn = .emergency
 
         isLocked = false
+        isClosed = false
 
         drawingData = Data()
 
@@ -119,6 +123,7 @@ class WatchLogBookEntry: Identifiable, Hashable {
         callIn = .emergency
 
         isLocked = false
+        isClosed = false
 
         drawingData = Data()
 
@@ -141,6 +146,7 @@ class WatchLogBookEntry: Identifiable, Hashable {
         //processTypeShort = ProcessType.ProcessTypeShort.UNKNOWN
 
         isLocked = false
+        isClosed = false
 
         drawingData = Data()
 
@@ -170,6 +176,7 @@ class WatchLogBookEntry: Identifiable, Hashable {
         processDetails!.alcoholConsumed = LogEntry.processTypeDetails.AlcoholConsumed
 
         isLocked = true
+        isClosed = LogEntry.isClosed
 
         drawingData = LogEntry.pkDrawingData.dataRepresentation()
     }
