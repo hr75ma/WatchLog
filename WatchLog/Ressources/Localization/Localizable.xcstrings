@@ -38,7 +38,14 @@
       }
     },
     "Abschlossen" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Closed"
+          }
+        }
+      }
     },
     "Adresse" : {
       "extractionState" : "manual",
