@@ -71,8 +71,8 @@ struct ProcessTypeSelectionView: View {
                 }
 
                 processSubViews
-                    //.standardInputPadding()
-                .standardSectionContentPadding()
+                    .standardInputPadding()
+                
             }
         .frame(maxWidth: .infinity)
         .standardBottomBorder()
@@ -116,6 +116,7 @@ extension ProcessTypeSelectionView {
                 EmptyView()
                     .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
             }
+                
         }
     }
 }
