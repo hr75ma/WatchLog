@@ -13,15 +13,15 @@ struct ProcessTypeSubVUWView: View {
     @Environment(\.appStyles) var appStyles
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 5) {
+        VStack(alignment: .leading, spacing: 0) {
             
             licencePlate01
                 .standardInputPadding()
                 .standardAdditionalTopPadding()
 
             animalToggle
+                .standardInputPadding()
         }
-        .standardSubSectionContentPadding()
         .disabled(logEntry.isLocked)
     }
 }

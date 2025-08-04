@@ -118,7 +118,6 @@ extension CallerDataView {
                 }
             }
         }
-        .border(.red)
         // .standardInputViewPadding()
         .onChange(of: logEntry.isLocked) { _, _ in
             withAnimation(.smooth) {
