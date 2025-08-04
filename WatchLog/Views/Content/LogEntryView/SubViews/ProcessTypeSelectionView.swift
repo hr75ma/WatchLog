@@ -30,11 +30,11 @@ struct ProcessTypeSelectionView: View {
             SectionTitle(sectionTitleType: .event)
 
             VStack(alignment: .leading, spacing: 0) {
-                Form {
+
                     processSelectionView
                         .standardInputPadding()
                 }
-                .formStyle(.columns)
+                .standardSectionContentPadding()
 
                 .task {
                     if viewIsReadOnly {
@@ -72,9 +72,8 @@ struct ProcessTypeSelectionView: View {
 
                 processSubViews
                     //.standardInputPadding()
+                .standardSectionContentPadding()
             }
-            .standardSectionContentPadding()
-        }
         .frame(maxWidth: .infinity)
         .standardBottomBorder()
     }

@@ -64,7 +64,7 @@ struct ContentView: View {
     @State var showNewEntrySheet: Bool = false
     @State var showToolbarItem: Bool = true
 
-    @State var scrollToNewEntry: Bool = false
+    @State var scrollToNewEntry: UUID?
     
     @State var logEntryUUIDContainer: LogEntryUUIDContainer = LogEntryUUIDContainer()
     @State var newEntry: WatchLogEntry = WatchLogEntry()
@@ -99,10 +99,17 @@ struct ContentView: View {
                         proxy.scrollTo(newValue, anchor: .center)
                     }
                 }
-                .onChange(of: scrollToNewEntry) { _, newValue in
-                    withAnimation(.smooth) {
-                        proxy.scrollTo(displayedLogEntryUUID.id, anchor: .center)
+                .onChange(of: scrollToNewEntry) { oldValue, newValue in
+                    print("------------------->")
+                    print(newValue)
+                    if newValue == nil { return }
+                    
+                    if newValue != oldValue {
+                        withAnimation(.smooth) {
+                            proxy.scrollTo(scrollToNewEntry, anchor: .center)
+                        }
                     }
+                    
                 }
             }
             .scrollContentBackground(.hidden)
@@ -188,7 +195,7 @@ struct ContentView: View {
 struct DisclosureGroupYearView: View {
     @State var year: WatchLogBookYear
     @Binding var logEntryUUIDContainer: LogEntryUUIDContainer
-    @Binding var scrollToNewEntry: Bool
+    @Binding var scrollToNewEntry: UUID?
 
     @State var isExpanded: Bool = false
 
@@ -239,7 +246,7 @@ struct DisclosureGroupYearView: View {
 struct DisclosureGroupMonthView: View {
     @State var month: WatchLogBookMonth
     @Binding var logEntryUUIDContainer: LogEntryUUIDContainer
-    @Binding var scrollToNewEntry: Bool
+    @Binding var scrollToNewEntry: UUID?
 
     @Environment(\.appStyles) var appStyles
     @EnvironmentObject var viewModel: LogEntryViewModel
@@ -288,7 +295,7 @@ struct DisclosureGroupMonthView: View {
 struct DisclosureGroupLogEntriesView: View {
     @State var day: WatchLogBookDay
     @Binding var logEntryUUIDContainer: LogEntryUUIDContainer
-    @Binding var scrollToNewEntry: Bool
+    @Binding var scrollToNewEntry: UUID?
     
 
     @EnvironmentObject var viewModel: LogEntryViewModel
@@ -354,11 +361,13 @@ struct DisclosureGroupLogEntriesView: View {
         .onChange(of: expansionContainer.entryID) {
             withAnimation(.smooth) {
                 isExpanded = day.id == expansionContainer.dayID || expandedRows.rows.contains(day.id)
+                //scrollToNewEntry = day.id == expansionContainer.dayID ? true : false
             }
         }
         .task {
             withAnimation(.smooth) {
                 isExpanded = day.id == expansionContainer.dayID || expandedRows.rows.contains(day.id)
+                scrollToNewEntry = day.id == expansionContainer.dayID ? expansionContainer.id : nil
             }
         }
     }

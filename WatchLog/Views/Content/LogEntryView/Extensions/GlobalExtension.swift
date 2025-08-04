@@ -56,14 +56,20 @@ extension View {
     }
     
     func standardInputPadding() -> some View {
-        padding(EdgeInsets(top: 10, leading: 0, bottom: 0, trailing: 0))
+        padding(EdgeInsets(top: 15, leading: 0, bottom: 0, trailing: 0))
     }
     
     func timeSectionPadding() -> some View {
         padding(EdgeInsets(top: 0, leading: 20, bottom: 10, trailing: 20))
     }
     
+    func standardAdditionalTopPadding() -> some View {
+        padding(EdgeInsets(top: 10, leading: 0, bottom: 0, trailing: 0))
+    }
     
+    func standardSubSectionContentPadding() -> some View {
+        padding(EdgeInsets(top: 0, leading: 50, bottom: 0, trailing: 0))
+    }
     
     
     func standardBottomBorder() -> some View {

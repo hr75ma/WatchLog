@@ -22,11 +22,9 @@ struct CallInView: View {
             SectionTitle(sectionTitleType: SectionTitleType.callIn)
 
             VStack(alignment: .leading, spacing: 0) {
-                Form {
+
                     EditableContent()
                         .standardInputPadding()
-                }
-                .formStyle(.columns)
             }
             .standardSectionContentPadding()
             .onAppear {

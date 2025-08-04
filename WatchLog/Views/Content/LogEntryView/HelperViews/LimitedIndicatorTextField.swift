@@ -40,15 +40,18 @@ struct FloatingTextField: View {
         ZStack(alignment: .trailing) {
             if config.textfieldType == .singleLine {
                 TextField(hint, text: $text)
+
                     .lineLimit(1)
                     .frame(height: config.textfieldLevel == .standard ? appStyles.textFieldHeight : appStyles.textFieldSubHeight)
                     .fixedSize(horizontal: false, vertical: true)
+                    .ignoresSafeArea(.keyboard, edges: .bottom)
                     .textFieldIndicatorFloating(text: $text, config: config)
             } else {
                 if config.textfieldType == .multiLine {
                     TextField(hint, text: $text, axis: .vertical)
                         .lineLimit(4, reservesSpace: true)
                         .fixedSize(horizontal: false, vertical: true)
+                        .ignoresSafeArea(.keyboard, edges: .bottom)
                         .textFieldIndicatorFloating(text: $text, config: config)
                 }
             }

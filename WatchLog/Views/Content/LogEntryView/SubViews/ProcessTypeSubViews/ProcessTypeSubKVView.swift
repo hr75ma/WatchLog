@@ -17,10 +17,9 @@ struct ProcessTypeSubKVView: View {
             
             injueresToggle
                 .standardInputPadding()
-            
-
-            .disabled(logEntry.isLocked)
         }
+        .standardSubSectionContentPadding()
+        .disabled(logEntry.isLocked)
     }
 }
 

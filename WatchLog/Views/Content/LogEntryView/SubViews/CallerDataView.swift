@@ -23,24 +23,23 @@ struct CallerDataView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             SectionTitle(sectionTitleType: SectionTitleType.callerData)
-
+    
             VStack(alignment: .leading, spacing: 0) {
-                Form {
-                    phoneSubSection
-                        .standardInputPadding()
 
-                    nameSubSection
-                        .standardInputPadding()
+                        phoneSubSection
+                            .standardInputPadding()
+                        
+                        nameSubSection
+                            .standardInputPadding()
+                        
+                        adressSubSection
+                            .standardInputPadding()
                     
-                    adressSubSection
-                        .standardInputPadding()
-
-                    dobSubSection
+                        dobSubSection
                 }
-                .formStyle(.columns)
-            }
             .standardSectionContentPadding()
-        }
+            }
+
         .disabled(logEntry.isLocked)
         .standardBottomBorder()
     }
@@ -48,6 +47,9 @@ struct CallerDataView: View {
 
 extension CallerDataView {
     private var phoneSubSection: some View {
+        
+        
+        
         FloatingBorderLabelTextField("Telefon", textfieldContent: $logEntry.callerNumber, config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.standard, limit: 100, autoResizes: true, disableAnimation: viewIsReadOnly, isLocked: logEntry.isLocked))
             .numericTextInputField(text: $logEntry.callerNumber)
             .textContentType(.telephoneNumber)
@@ -55,8 +57,10 @@ extension CallerDataView {
     }
 
     private var nameSubSection: some View {
-        FloatingBorderLabelTextField("Name", textfieldContent: $logEntry.callerName, config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.standard, textfieldAutoCapitalization: .words, limit: 50, autoResizes: true, disableAnimation: viewIsReadOnly, isLocked: logEntry.isLocked))
-    }
+            
+            FloatingBorderLabelTextField("Name", textfieldContent: $logEntry.callerName, config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.standard, textfieldAutoCapitalization: .words, limit: 50, autoResizes: true, disableAnimation: viewIsReadOnly, isLocked: logEntry.isLocked))
+
+        }
 
     private var adressSubSection: some View {
         FloatingBorderLabelTextField("Adresse", textfieldContent: $logEntry.callerAdress, config: .init(textfieldType: TextFieldType.multiLine, textfieldLevel: TextFieldLevel.standard, textfieldAutoCapitalization: .words, limit: 200, autoResizes: true, disableAnimation: viewIsReadOnly, isLocked: logEntry.isLocked))
@@ -114,6 +118,7 @@ extension CallerDataView {
                 }
             }
         }
+        .border(.red)
         // .standardInputViewPadding()
         .onChange(of: logEntry.isLocked) { _, _ in
             withAnimation(.smooth) {
