@@ -56,7 +56,7 @@ extension View {
     }
     
     func standardInputPadding() -> some View {
-        padding(EdgeInsets(top: 10, leading: 0, bottom: 0, trailing: 0))
+        padding(EdgeInsets(top: 15, leading: 0, bottom: 0, trailing: 0))
     }
     
     func timeSectionPadding() -> some View {
