@@ -33,6 +33,9 @@ struct ProcessTypeSelectionView: View {
 
                     processSelectionView
                         .standardInputPadding()
+                
+                processSubViews
+                    .standardSubSectionContentPadding()
                 }
                 .standardSectionContentPadding()
 
@@ -70,8 +73,7 @@ struct ProcessTypeSelectionView: View {
                     }
                 }
 
-                processSubViews
-                    .standardInputPadding()
+                
                 
             }
         .frame(maxWidth: .infinity)
@@ -92,7 +94,7 @@ extension ProcessTypeSelectionView {
     }
 
     private var processSubViews: some View {
-        HStack {
+        HStack(alignment: .top, spacing: 0) {
             switch selectedProcessHelper {
             case ProcessingType.VU:
                 ProcessTypeSubVUView(logEntry: logEntry, viewIsReadOnly: viewIsReadOnly)
@@ -115,7 +117,7 @@ extension ProcessTypeSelectionView {
             default:
                 EmptyView()
                     .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-            }
+           }
                 
         }
     }
