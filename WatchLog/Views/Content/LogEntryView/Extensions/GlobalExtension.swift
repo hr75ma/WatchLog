@@ -36,7 +36,7 @@ extension View {
     @ViewBuilder func isHidden(_ isHidden: Bool, remove: Bool = true) -> some View {
         if isHidden {
             if !remove {
-                self.hidden()
+                hidden()
             }
         } else {
             self
@@ -46,60 +46,42 @@ extension View {
 
 // general section
 extension View {
-    
     func standardSectionPadding() -> some View {
         padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 0))
     }
-    
+
     func standardSectionContentPadding() -> some View {
         padding(EdgeInsets(top: 0, leading: 70, bottom: 20, trailing: 20))
     }
-    
+
     func standardInputPadding() -> some View {
         padding(EdgeInsets(top: 15, leading: 0, bottom: 0, trailing: 0))
     }
-    
+
     func timeSectionPadding() -> some View {
         padding(EdgeInsets(top: 0, leading: 20, bottom: 10, trailing: 20))
     }
-    
+
     func standardAdditionalTopPadding() -> some View {
         padding(EdgeInsets(top: 10, leading: 0, bottom: 0, trailing: 0))
     }
-    
+
     func standardSubSectionContentPadding() -> some View {
         padding(EdgeInsets(top: 0, leading: 50, bottom: 0, trailing: 0))
     }
-    
-    
+
     func standardBottomBorder() -> some View {
         modifier(StandardBottomBorder())
     }
-    
-    
-    
-    
 
     func canvasBorder(isLocked: Bool) -> some View {
         modifier(CanvasBorder(isLocked: isLocked))
     }
 
-    func standardInputViewPadding() -> some View {
-        padding(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0))
-    }
-    
-    func standardLastInputViewPadding() -> some View {
-        padding(EdgeInsets(top: 0, leading: 0, bottom: 5, trailing: 0))
-    }
-    
-    func standardSubViewPadding() -> some View {
-        padding(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 20))
-    }
-
     func standardScrollViewPadding() -> some View {
         padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
     }
-    
+
     func zeroViewPadding() -> some View {
         padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
     }
@@ -108,14 +90,9 @@ extension View {
         padding(EdgeInsets(top: 30, leading: 30, bottom: 30, trailing: 30))
     }
 
-    func standardEventSubViewPadding() -> some View {
-        padding(EdgeInsets(top: 10, leading: 0, bottom: 0, trailing: 0))
-    }
-
     func standardViewBackground() -> some View {
         modifier(StandardViewBackground())
     }
-    
 
     func blurring(blurSetting: BlurSetting) -> some View {
         blur(radius: blurSetting.isBlur ? blurSetting.blurRadius : 0)
@@ -165,7 +142,7 @@ struct TextFormatterStyle: ViewModifier {
         content
             .font(Font.custom(appStyles.logTimeFont, size: appStyles.logTimeFontSize))
             .foregroundStyle(.watchLogFont)
-            //.contentTransition(.numericText())
+        // .contentTransition(.numericText())
     }
 }
 

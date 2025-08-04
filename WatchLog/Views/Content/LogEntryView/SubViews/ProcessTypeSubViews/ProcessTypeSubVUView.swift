@@ -16,13 +16,11 @@ struct ProcessTypeSubVUView: View {
         VStack(alignment: .leading, spacing: 5) {
             licencePlate01
                 .standardInputPadding()
-                .standardAdditionalTopPadding()
             licencePlate02
                 .standardInputPadding()
             miscToggle
                 .standardInputPadding()
         }
-        .standardSubSectionContentPadding()
         .disabled(logEntry.isLocked)
     }
 }

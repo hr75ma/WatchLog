@@ -23,22 +23,21 @@ struct CallerDataView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             SectionTitle(sectionTitleType: SectionTitleType.callerData)
-    
-            VStack(alignment: .leading, spacing: 0) {
 
-                        phoneSubSection
-                            .standardInputPadding()
-                        
-                        nameSubSection
-                            .standardInputPadding()
-                        
-                        adressSubSection
-                            .standardInputPadding()
-                    
-                        dobSubSection
-                }
-            .standardSectionContentPadding()
+            VStack(alignment: .leading, spacing: 0) {
+                phoneSubSection
+                    .standardInputPadding()
+
+                nameSubSection
+                    .standardInputPadding()
+
+                adressSubSection
+                    .standardInputPadding()
+
+                dobSubSection
             }
+            .standardSectionContentPadding()
+        }
 
         .disabled(logEntry.isLocked)
         .standardBottomBorder()
@@ -47,23 +46,18 @@ struct CallerDataView: View {
 
 extension CallerDataView {
     private var phoneSubSection: some View {
-        
-        
-        
-        FloatingBorderLabelTextField("Telefon", textfieldContent: $logEntry.callerNumber, config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.standard, limit: 100, autoResizes: true, disableAnimation: viewIsReadOnly, isLocked: logEntry.isLocked))
+        FloatingBorderLabelTextField("Telefon", textfieldContent: $logEntry.callerNumber, config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.standard, limit: 25, autoResizes: true, disableAnimation: viewIsReadOnly, isLocked: logEntry.isLocked))
             .numericTextInputField(text: $logEntry.callerNumber)
             .textContentType(.telephoneNumber)
             .keyboardType(.numberPad)
     }
 
     private var nameSubSection: some View {
-            
-            FloatingBorderLabelTextField("Name", textfieldContent: $logEntry.callerName, config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.standard, textfieldAutoCapitalization: .words, limit: 50, autoResizes: true, disableAnimation: viewIsReadOnly, isLocked: logEntry.isLocked))
-
-        }
+        FloatingBorderLabelTextField("Name", textfieldContent: $logEntry.callerName, config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.standard, textfieldAutoCapitalization: .words, limit: 50, autoResizes: true, disableAnimation: viewIsReadOnly, isLocked: logEntry.isLocked))
+    }
 
     private var adressSubSection: some View {
-        FloatingBorderLabelTextField("Adresse", textfieldContent: $logEntry.callerAdress, config: .init(textfieldType: TextFieldType.multiLine, textfieldLevel: TextFieldLevel.standard, textfieldAutoCapitalization: .words, limit: 200, autoResizes: true, disableAnimation: viewIsReadOnly, isLocked: logEntry.isLocked))
+        FloatingBorderLabelTextField("Adresse", textfieldContent: $logEntry.callerAdress, config: .init(textfieldType: TextFieldType.multiLine, textfieldLevel: TextFieldLevel.standard, textfieldAutoCapitalization: .words, limit: 100, autoResizes: true, disableAnimation: viewIsReadOnly, isLocked: logEntry.isLocked))
     }
 
     private var dobSubSection: some View {
@@ -85,7 +79,6 @@ extension CallerDataView {
 extension CallerDataView {
     private func EditableContent() -> some View {
         HStack(alignment: .top, spacing: 0) {
-            
             if !logEntry.isLocked {
                 VStack(alignment: .leading, spacing: 0) {
                     Text("Geburtsdatum")

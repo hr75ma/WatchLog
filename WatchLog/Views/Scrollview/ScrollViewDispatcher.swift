@@ -183,7 +183,7 @@ struct ScrollViewDispatcher: View {
         }
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
-                Text("Eintrag \(numberOfEntry) von \(logEntryUUIDContainer.logEntryBookDay.watchLogBookEntries!.count)")
+                Text("Ereignis \(numberOfEntry) von \(logEntryUUIDContainer.logEntryBookDay.watchLogBookEntries!.count)")
                     .navigationTitleModifier()
                     .isHidden(numberOfEntry == 0, remove: true)
             }
