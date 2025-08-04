@@ -63,6 +63,10 @@ extension View {
         padding(EdgeInsets(top: 0, leading: 20, bottom: 10, trailing: 20))
     }
     
+    func standardAdditionalTopPadding() -> some View {
+        padding(EdgeInsets(top: 10, leading: 0, bottom: 0, trailing: 0))
+    }
+    
     
     
     
