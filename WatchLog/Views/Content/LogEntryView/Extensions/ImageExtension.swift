@@ -25,4 +25,14 @@ extension Image {
             .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 10))
             .foregroundStyle(primaryColor, secondaryColor)
     }
+    
+    func notClosedImageStyle(primaryColor: Color, secondaryColor: Color) -> some View {
+        resizable()
+            .aspectRatio(contentMode: .fit)
+            .frame(width: 25, height: 25)
+            .symbolVariant(.circle)
+            //.padding(EdgeInsets(top: 5, leading: 10, bottom: 0, trailing: 10))
+            .padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 10))
+            .foregroundStyle(primaryColor, secondaryColor)
+    }
 }

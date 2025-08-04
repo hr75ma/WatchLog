@@ -37,6 +37,9 @@
         }
       }
     },
+    "Abschlossen" : {
+
+    },
     "Adresse" : {
       "extractionState" : "manual",
       "localizations" : {

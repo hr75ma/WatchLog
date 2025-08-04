@@ -316,20 +316,30 @@ struct DisclosureGroupLogEntriesView: View {
                     displayedLogEntryUUID.id = logEntryUUIDContainer.logEntryUUID
                     expansionContainer.setExpansionData(watchLogBookEntry: entry)
                 }) {
-                    VStack(alignment: .leading) {
-                        Text(DateManipulation.getTime(from: entry.logDate))
-                            .navigationTreeButtonLabelStyle(isSeletecedItem: entry.id == displayedLogEntryUUID.id)
-
-                        if !entry.callerName.isEmpty {
-                            Text(entry.callerName)
-                                .navigationTreeButtonSubLabelStyle(isSeletecedItem: entry.id == displayedLogEntryUUID.id)
+                    
+                    HStack(alignment: .center, spacing: 0) {
+                        VStack(alignment: .leading, spacing: 0) {
+                            Text(DateManipulation.getTime(from: entry.logDate))
+                                .navigationTreeButtonLabelStyle(isSeletecedItem: entry.id == displayedLogEntryUUID.id)
+                            
+                            if !entry.callerName.isEmpty {
+                                Text(entry.callerName)
+                                    .navigationTreeButtonSubLabelStyle(isSeletecedItem: entry.id == displayedLogEntryUUID.id)
+                            }
+                            
+                            if entry.processDetails != nil {
+                                Text(entry.processDetails!.processTypeShort.localized)
+                                    .navigationTreeButtonSubLabelStyle(isSeletecedItem: entry.id == displayedLogEntryUUID.id)
+                            }
                         }
-                        
-                        if entry.processDetails != nil {
-                            Text(entry.processDetails!.processTypeShort.localized)
-                                .navigationTreeButtonSubLabelStyle(isSeletecedItem: entry.id == displayedLogEntryUUID.id)
+                        if !entry.isClosed {
+                            VStack(alignment: .trailing, spacing: 0) {
+                                Image(systemName: appStyles.navigationTreeNotClosedImage)
+                                    .notClosedImageStyle(primaryColor: .red, secondaryColor: .red)
+                            }
                         }
                     }
+                    
                 }
                 .listRowBackground(
                     Rectangle()
