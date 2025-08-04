@@ -16,10 +16,13 @@ struct ProcessTypeSubVUWView: View {
         VStack(alignment: .leading, spacing: 5) {
             
             licencePlate01
+                .standardInputPadding()
+                .standardAdditionalTopPadding()
 
             animalToggle
         }
-        .standardEventSubViewPadding()
+        .standardSubSectionContentPadding()
+        .disabled(logEntry.isLocked)
     }
 }
 

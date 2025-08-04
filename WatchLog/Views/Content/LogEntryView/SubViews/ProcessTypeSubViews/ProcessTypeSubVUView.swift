@@ -22,7 +22,7 @@ struct ProcessTypeSubVUView: View {
             miscToggle
                 .standardInputPadding()
         }
-    
+        .standardSubSectionContentPadding()
         .disabled(logEntry.isLocked)
     }
 }

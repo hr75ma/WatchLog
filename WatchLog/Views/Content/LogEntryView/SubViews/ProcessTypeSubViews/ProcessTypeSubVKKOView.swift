@@ -14,8 +14,13 @@ struct ProcessTypeSubVKKOView: View {
 
     var body: some View {
   
+        VStack(alignment: .leading, spacing: 5) {
             licencePlate01
-            .standardInputPadding()
+                .standardInputPadding()
+                .standardAdditionalTopPadding()
+        }
+        .standardSubSectionContentPadding()
+        .disabled(logEntry.isLocked)
     }
 }
 

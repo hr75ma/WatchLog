@@ -67,7 +67,9 @@ extension View {
         padding(EdgeInsets(top: 10, leading: 0, bottom: 0, trailing: 0))
     }
     
-    
+    func standardSubSectionContentPadding() -> some View {
+        padding(EdgeInsets(top: 0, leading: 50, bottom: 0, trailing: 0))
+    }
     
     
     func standardBottomBorder() -> some View {
