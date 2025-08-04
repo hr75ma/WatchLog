@@ -178,22 +178,6 @@
         }
       }
     },
-    "Eintrag %lld von %lld" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Eintrag %1$lld von %2$lld"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Log %1$lld of %2$lld"
-          }
-        }
-      }
-    },
     "Eintrag Ansicht (gesperrt)" : {
       "localizations" : {
         "en" : {
@@ -230,6 +214,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Event"
+          }
+        }
+      }
+    },
+    "Ereignis %lld von %lld" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Ereignis %1$lld von %2$lld"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Event %1$lld von %2$lld"
           }
         }
       }

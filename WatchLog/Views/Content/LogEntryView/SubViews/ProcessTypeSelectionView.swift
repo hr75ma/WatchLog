@@ -125,9 +125,9 @@ extension ProcessTypeSelectionView {
 
 extension ProcessTypeSelectionView {
     private func ReadOnlyContent() -> some View {
-        HStack(alignment: .center, spacing: 0) {
+
             FloatingBorderLabelSimulatedTextField("", textfieldContent: logEntry.processTypeDetails.processTypeShort.localized.stringKey!, config: .init(textfieldType: TextFieldType.singleLine, textfieldLevel: TextFieldLevel.standard, limit: 50, autoResizes: true, withClearButton: false, disableAnimation: viewIsReadOnly, isLocked: logEntry.isLocked,))
-        }
+
     }
 
     private func EditableContent() -> some View {
@@ -142,7 +142,6 @@ extension ProcessTypeSelectionView {
                                         count: 2,
                                         span: 1,
                                         spacing: 0, alignment: .topLeading)
-                .standardLastInputViewPadding()
                 .isHidden(tempLocked, remove: true)
         }
     }
