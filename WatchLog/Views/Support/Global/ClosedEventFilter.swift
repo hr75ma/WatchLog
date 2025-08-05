@@ -27,7 +27,7 @@ enum ClosedEventFilterType: String, CaseIterable, Identifiable, Codable {
 @Observable
 final class ClosedEventFilter {
     
-    public var closedFilter: ClosedEventFilterType = .none
+    public var closedFilter: ClosedEventFilterType = .last24h
     
     public init() {}
 }
