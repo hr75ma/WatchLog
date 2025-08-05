@@ -60,8 +60,9 @@ final class StylesLogEntry: Sendable {
     let navigationBackImage: String = "arrowshape.turn.up.backward.circle"
     let navigationItemImageSize: CGFloat = 25
     
+    //let navigationTreeNotClosedImage: String = "exclamationmark.arrow.trianglehead.counterclockwise.rotate.90"
     let navigationTreeNotClosedImage: String = "exclamationmark.arrow.trianglehead.counterclockwise.rotate.90"
-    
+    let navigationTreeNotClosedImageSize: CGFloat = 25
     
     
     //let navigationTreeItemAnimationDuration: Double = 0.5

@@ -15,10 +15,14 @@ enum ColorMode: Sendable, CaseIterable, Codable {
 struct SettingView: View {
     @Environment(\.appStyles) var appStyles
     @EnvironmentObject var viewModel: LogEntryViewModel
-
+    @Environment(ClosedEventFilter.self) var closedEventFilter
+    
+    
     @AppStorage("currentAppearance") private var appearanceSelection: AppSetting.Appearance = .dark
 
     var body: some View {
+        @Bindable var closedFilter = closedEventFilter
+        
         VStack(alignment: .center, spacing: 0) {
             Text("WatchLog")
                 .font(.largeTitle)
@@ -46,8 +50,24 @@ struct SettingView: View {
                 Text("Select Appearance")
             }
             .pickerStyle(SegmentedPickerStyle())
-            .frame(width: 400, height: 30)
+            .frame(width: 450, height: 30)
             .padding(EdgeInsets(top: 0, leading: 0, bottom:50, trailing: 0))
+            
+            Picker(selection: $closedFilter.closedFilter) {
+                ForEach(ClosedEventFilterType.allCases, id:\.self) { eventFilter in
+                 
+                    Text(eventFilter.localized)
+                        .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                }
+            } label: {
+                Text("Offene Ereignisse markieren")
+            }
+            .pickerStyle(SegmentedPickerStyle())
+            .frame(width: 450, height: 30)
+            .padding(EdgeInsets(top: 0, leading: 0, bottom: 50, trailing: 0))
+            
+            Text(closedEventFilter.closedFilter.localized)
+            
             Button {
                 Task {
                     await viewModel.deleteLogBook()

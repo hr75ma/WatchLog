@@ -105,6 +105,8 @@ struct NavigationTreeButtonSubLabelStyle: ViewModifier {
             .fontWeight(.semibold)
             .fontWidth(.standard)
             .fontDesign(.rounded)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .lineLimit(1)
             //.animation(.smooth(duration: appStyles.navigationRowAnimationDuration), value: isSeletecedItem)
             .animation(.smooth, value: isSeletecedItem)
     }

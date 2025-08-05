@@ -26,13 +26,13 @@ extension Image {
             .foregroundStyle(primaryColor, secondaryColor)
     }
     
-    func notClosedImageStyle(primaryColor: Color, secondaryColor: Color) -> some View {
+    func notClosedImageStyle(primaryColor: Color, secondaryColor: Color, size: CGFloat = 25) -> some View {
         resizable()
             .aspectRatio(contentMode: .fit)
-            .frame(width: 25, height: 25)
-            .symbolVariant(.circle)
+            .frame(width: size, height: size)
+            .symbolVariant(.none)
             //.padding(EdgeInsets(top: 5, leading: 10, bottom: 0, trailing: 10))
-            .padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 10))
+            .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
             .foregroundStyle(primaryColor, secondaryColor)
     }
 }

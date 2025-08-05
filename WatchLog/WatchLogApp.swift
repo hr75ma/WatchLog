@@ -28,6 +28,7 @@ struct WatchLogApp: App {
         .environment(ExpandContainer())
         .environment(ExpandedRows())
         .environmentObject(AppSettings.shared)
+        .environment(ClosedEventFilter())
     }
 }
 

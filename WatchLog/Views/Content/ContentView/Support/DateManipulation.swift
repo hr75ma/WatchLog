@@ -35,4 +35,12 @@ struct DateManipulation {
         }
         return ""
     }
+    
+    static func isDateInLast24h(date: Date) -> Bool {
+        let calendar = Calendar.current
+        guard let twentyFourHoursAgo = calendar.date(byAdding: .hour, value: -24, to: .now) else {
+                return false
+            }
+        return date >= twentyFourHoursAgo && date <= .now
+        }
 }

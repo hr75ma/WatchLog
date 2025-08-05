@@ -29,6 +29,7 @@ import TipKit
         .environmentObject(AppSettings.shared)
         .environment(ExpandContainer())
         .environment(ExpandedRows())
+        .environment(ClosedEventFilter())
     // .environment(\.locale, .init(identifier: "us_EN"))
     // .environment(\.locale, .init(identifier: "de"))
 
@@ -53,6 +54,7 @@ struct ContentView: View {
     @Environment(\.colorScheme) var colorScheme
     @Environment(ExpandContainer.self) var expansionContainer
     @Environment(ExpandedRows.self) var expandedRows
+
 
     // @Environment(\.dismiss) var dismiss
 
@@ -304,6 +306,7 @@ struct DisclosureGroupLogEntriesView: View {
     @Environment(\.colorScheme) var colorScheme
     @Environment(ExpandContainer.self) var expansionContainer
     @Environment(ExpandedRows.self) var expandedRows
+    @Environment(ClosedEventFilter.self) var closedEventFilter
 
     @State var isExpanded: Bool = false
 
@@ -330,16 +333,42 @@ struct DisclosureGroupLogEntriesView: View {
                             if entry.processDetails != nil {
                                 Text(entry.processDetails!.processTypeShort.localized)
                                     .navigationTreeButtonSubLabelStyle(isSeletecedItem: entry.id == displayedLogEntryUUID.id)
+                                    
                             }
                         }
-                        if !entry.isClosed {
-                            VStack(alignment: .trailing, spacing: 0) {
-                                Image(systemName: appStyles.navigationTreeNotClosedImage)
-                                    .notClosedImageStyle(primaryColor: .red, secondaryColor: .red)
+                        .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+                        
+                        
+                        
+                        
+                        if closedEventFilter.closedFilter == .last24h {
+                            if !entry.isClosed && DateManipulation.isDateInLast24h(date: entry.logDate) {
+                                VStack(alignment: .trailing, spacing: 0) {
+                                    Image(systemName: appStyles.navigationTreeNotClosedImage)
+                                        .notClosedImageStyle(primaryColor: .watchlogTreeClosedEventPrimary, secondaryColor: .watchlogTreeClosedEventSecondary, size: appStyles.navigationTreeNotClosedImageSize)
+                                }
+                                .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                                .frame(maxWidth: appStyles.navigationTreeNotClosedImageSize, maxHeight: .infinity, alignment: .center)
+                            }
+                        } else {
+                            if closedEventFilter.closedFilter == .all {
+                                if !entry.isClosed  {
+                                    VStack(alignment: .trailing, spacing: 0) {
+                                        Image(systemName: appStyles.navigationTreeNotClosedImage)
+                                            .notClosedImageStyle(primaryColor: .watchlogTreeClosedEventPrimary, secondaryColor: .watchlogTreeClosedEventSecondary, size: appStyles.navigationTreeNotClosedImageSize)
+                                    }
+                                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                                    .frame(maxWidth: appStyles.navigationTreeNotClosedImageSize, maxHeight: .infinity, alignment: .center)
+                                }
                             }
                         }
+                        
+                        
+                        
                     }
-                    
+                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
                 }
                 .listRowBackground(
                     Rectangle()
