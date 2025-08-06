@@ -72,6 +72,8 @@ struct ContentView: View {
     @State var newEntry: WatchLogEntry = WatchLogEntry()
 
     @State var logBook = WatchLogBook()
+    
+    @State var testBadge: Int = 0
 
     let newLogEntryTip = NavigationTipNewLogEntry()
     let refreshListTip = NavigationTipRefresh()
@@ -124,7 +126,10 @@ struct ContentView: View {
                     ToolbarItem(placement: .topBarLeading) {
                         Text("Wachbuch")
                             .navigationTitleModifier()
-                            .customBadge(10)
+                            .customBadge(testBadge)
+                            .onTimer(every: 2) { tick in
+                                        testBadge+=1
+                                    }
                     }
                 }
             }
