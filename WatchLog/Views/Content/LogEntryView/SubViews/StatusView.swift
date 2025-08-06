@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct LockEditingView: View {
+struct StatusView: View {
     @Bindable var logEntry: WatchLogEntry
     public let viewIsReadOnly: Bool
 
@@ -16,7 +16,7 @@ struct LockEditingView: View {
     let locale = Locale.current
 
     var body: some View {
-        lockSection
+        statusSection
             .frame(height: appStyles.sectionLabelFontSize, alignment: .center)
             .frame(width: .infinity)
             .timeSectionPadding()
@@ -24,8 +24,8 @@ struct LockEditingView: View {
     }
 }
 
-extension LockEditingView {
-    private var lockSection: some View {
+extension StatusView {
+    private var statusSection: some View {
         HStack(alignment: .center) {
             HStack(alignment: .center) {
                 Text(logEntry.isLocked ? "Gesperrt" : "Entsperrt")

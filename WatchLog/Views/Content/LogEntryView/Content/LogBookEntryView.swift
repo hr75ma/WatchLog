@@ -53,7 +53,7 @@ struct LogBookEntryView: View {
                     
                     LogTimeView(logTime: watchLogEntry.logDate, viewIsReadOnly: viewIsReadOnly)
 
-                    LockEditingView(logEntry: watchLogEntry, viewIsReadOnly: viewIsReadOnly)
+                    StatusView(logEntry: watchLogEntry, viewIsReadOnly: viewIsReadOnly)
                     
                     CallInView(logEntry: watchLogEntry, viewIsReadOnly: viewIsReadOnly, tempLocked: watchLogEntry.isLocked)
                         
