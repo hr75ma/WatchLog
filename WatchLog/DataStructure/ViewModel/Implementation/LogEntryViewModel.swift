@@ -9,14 +9,18 @@ import SwiftUI
 
 
 @MainActor
-final class LogEntryViewModel: LogEntryViewModelProtocol, ObservableObject {
-    @Published var errorMessage: String? = nil
-    @Published var WatchLogBooks: [WatchLogBook] = []
+@Observable
+final class LogEntryViewModel: LogEntryViewModelProtocol {
+     var errorMessage: String? = nil
+     var WatchLogBooks: [WatchLogBook] = []
+    
+    var id: UUID
 
     private let databaseService: DatabaseServiceProtocol
 
     init(dataBaseService: DatabaseServiceProtocol) {
         databaseService = dataBaseService
+        id = UUID()
 
         Task {
 //            await self.instanciateLogBook()
@@ -25,6 +29,9 @@ final class LogEntryViewModel: LogEntryViewModelProtocol, ObservableObject {
                 generateLogBookEntry()
             }
         }
+        
+        
+        
 
         //generateLogBookEntry()
         //generateAutomaticMockDatas()
@@ -287,6 +294,7 @@ final class LogEntryViewModel: LogEntryViewModelProtocol, ObservableObject {
     }
 
     func saveLogEntry(watchLogEntry: WatchLogEntry) async -> Void {
+        print("--------->viewModel id \(id)")
         let result = await databaseService.saveWatchLogBookEntry(watchLogEntry: watchLogEntry)
         switch result {
         case .success():

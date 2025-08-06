@@ -10,7 +10,8 @@ import SwiftUI
 struct ScrollViewDispatcher: View {
     @Binding public var logEntryUUIDContainer: LogEntryUUIDContainer
 
-    @EnvironmentObject var viewModel: LogEntryViewModel
+    @Environment(LogEntryViewModel.self) var viewModel
+    //@EnvironmentObject var viewModel: LogEntryViewModel
     @Environment(DisplayedLogEntryID.self) var displayedLogEntryUUID
     @Environment(\.appStyles) var appStyles
     @Environment(BlurSetting.self) var blurSetting
@@ -63,7 +64,7 @@ struct ScrollViewDispatcher: View {
                                 
                                 .onScrollVisibilityChange(threshold: 0.5) { scrolled in
                                     if scrolled {
-                                        print("index \(index) - \(logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].id.uuidString)")
+                                        //print("index \(index) - \(logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].id.uuidString)")
                                         logEntryUUID = logEntryUUIDContainer.logEntryBookDay.logEntriesSorted[index].id
                                         numberOfEntry = index + 1
                                     }
@@ -100,7 +101,7 @@ struct ScrollViewDispatcher: View {
         .onAppear {
             Task { @MainActor in
                 
-                print("onappear scroll\(logEntryUUIDContainer.logEntryUUID)")
+                //print("onappear scroll\(logEntryUUIDContainer.logEntryUUID)")
                 withAnimation {
                     Task {
                         let logBookDay = await viewModel.fetchLogBookDay(from: .now)
@@ -123,8 +124,8 @@ struct ScrollViewDispatcher: View {
         }
         .onChange(of: logEntryUUID) { // fürs scrolling
             Task { @MainActor in
-                print("change logEntry displayedLogEntryUUID: \(displayedLogEntryUUID.id.uuidString)")
-                print("change logEntry gelieferte entryUUID: \(logEntryUUIDContainer.logEntryUUID.uuidString)")
+               // print("change logEntry displayedLogEntryUUID: \(displayedLogEntryUUID.id.uuidString)")
+               // print("change logEntry gelieferte entryUUID: \(logEntryUUIDContainer.logEntryUUID.uuidString)")
                 displayedLogEntryUUID.id = logEntryUUID
                 logEntryUUIDContainer.logEntryUUID = logEntryUUID
             }
@@ -136,7 +137,7 @@ struct ScrollViewDispatcher: View {
                     if logBookDay != nil && !logBookDay!.watchLogBookEntries!.isEmpty {
                         logEntryUUIDContainer = .init(logEntryUUID: logBookDay!.logEntriesSorted.last!.id, logBookDay: logBookDay!)
                         scrollPos = logEntryUUIDContainer.logEntryUUID
-                        print("scrollpos aus änderung Tage \(scrollPos)")
+                       // print("scrollpos aus änderung Tage \(scrollPos)")
                     }
                 }
             }
@@ -146,19 +147,19 @@ struct ScrollViewDispatcher: View {
             
             Task { @MainActor in
 
-                print("change Container gelieferte entryUUID: \(newValue.logEntryUUID.uuidString)")
+               // print("change Container gelieferte entryUUID: \(newValue.logEntryUUID.uuidString)")
                 if oldValue.logEntryBookDay.id != newValue.logEntryBookDay.id {
                     logEntryUUID = newValue.logEntryUUID
                     print("onChange new Day: \(newValue.logEntryUUID)")
                     withAnimation {
                         scrollPos = logEntryUUIDContainer.logEntryUUID
-                        print("scrollpos aus onChange new Da \(scrollPos)")
+                      //  print("scrollpos aus onChange new Da \(scrollPos)")
                     }
                 } else {
-                    print("onChange same Day: \(newValue.logEntryUUID)")
+                   // print("onChange same Day: \(newValue.logEntryUUID)")
                     withAnimation {
                         scrollPos = logEntryUUIDContainer.logEntryUUID
-                        print("scrollpos aus change onChange same Day \(scrollPos)")
+                      //  print("scrollpos aus change onChange same Day \(scrollPos)")
                     }
                 }
                 if newValue.logEntryBookDay.watchLogBookEntries!.isEmpty {
@@ -170,7 +171,7 @@ struct ScrollViewDispatcher: View {
         .onChange(of: showSheet) { _, newValue in
             if newValue == false {
                 Task {
-                    print("back from editing")
+                   // print("back from editing")
                     refreshID = UUID()
                 }
             }

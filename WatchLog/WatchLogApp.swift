@@ -14,15 +14,16 @@ struct WatchLogApp: App {
     @State private var showSplashView: Bool = true
 
     var body: some Scene {
-        let databaseService = DatabaseService()
-        let viewModel = LogEntryViewModel(dataBaseService: databaseService)
+        //let databaseService = DatabaseService()
+        //let viewModel = LogEntryViewModel(dataBaseService: databaseService)
         
         
         WindowGroup {
             SplashView()
                 .usesAlertController()
         }
-        .environmentObject(viewModel)
+        //.environmentObject(viewModel)
+        .environment(LogEntryViewModel(dataBaseService: DatabaseService()))
         .environment(BlurSetting())
         .environment(DisplayedLogEntryID())
         .environment(ExpandContainer())
@@ -34,5 +35,6 @@ struct WatchLogApp: App {
 
 extension EnvironmentValues {
     @Entry var appStyles = StylesLogEntry.shared
+    //@Entry var blurSetting: BlurSetting = .init()
     // @Entry var displayedLogEntryUUID = DisplayedLogEntryID()
 }

@@ -14,7 +14,8 @@ struct LogBookEntryView: View {
     @Binding public var watchLogEntry: WatchLogEntry
     @State var viewIsReadOnly: Bool
 
-    @EnvironmentObject var viewModel: LogEntryViewModel
+    @Environment(LogEntryViewModel.self) var viewModel
+    //@EnvironmentObject var viewModel: LogEntryViewModel
     @Environment(\.appStyles) var appStyles
     @Environment(DisplayedLogEntryID.self) var displayedLogEntryUUID
     @Environment(BlurSetting.self) var blurSetting
@@ -86,7 +87,7 @@ struct LogBookEntryView: View {
         .background(.clear)
         //.scrollDismissesKeyboard(.immediately)
         .onDisappear {
-            print("dismiss LogBookEntryView \(watchLogEntry.id.uuidString)")
+            //print("dismiss LogBookEntryView \(watchLogEntry.id.uuidString)")
  //           dismiss()
         }
         .onChange(of: watchLogEntry.isLocked) { _, newValue in
@@ -97,11 +98,11 @@ struct LogBookEntryView: View {
         .onChange(of: watchLogEntry.remoteSignalContainer.signale) { _, newValue in
             switch newValue {
             case .save:
-                print("remote signal save received")
+                //print("remote signal save received")
                     watchLogEntry.isLocked = true
                     
             case .delete:
-                print("remote signal delete received")
+                //print("remote signal delete received")
                 if watchLogEntry.id == displayedLogEntryUUID.id  {
                    deleteEntry()
                 }
@@ -119,11 +120,11 @@ struct LogBookEntryView: View {
             case .background:
                 isAnimating = false
                 fromBackground = true
-                print("come from background")
+                //print("come from background")
             case .inactive:
                 isAnimating = false
                 fromBackground = true
-                print("inactive")
+               // print("inactive")
             default:
                 break
             }
@@ -212,7 +213,7 @@ extension LogBookEntryView {
 
      LogBookEntryView(watchLogEntry: $watchLogEntry, viewIsReadOnly: viewIsReadOnly)
          .environment(\.locale, .init(identifier: "de"))
-        .environmentObject(viewModel)
+         .environment(LogEntryViewModel(dataBaseService: DatabaseService()))
         .environment(BlurSetting())
         .environment(\.appStyles, StylesLogEntry.shared)
         .environment(DisplayedLogEntryID())
@@ -231,7 +232,7 @@ extension LogBookEntryView {
 
     LogBookEntryView(watchLogEntry: $watchLogEntry, viewIsReadOnly: viewIsReadOnly)
        .environment(\.locale, .init(identifier: "en"))
-       .environmentObject(viewModel)
+       .environment(LogEntryViewModel(dataBaseService: DatabaseService()))
        .environment(BlurSetting())
        .environment(\.appStyles, StylesLogEntry.shared)
        .environment(DisplayedLogEntryID())

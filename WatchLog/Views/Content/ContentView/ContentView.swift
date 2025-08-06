@@ -22,7 +22,7 @@ import TipKit
 
     return ContentView()
         .usesAlertController()
-        .environmentObject(viewModel)
+        .environment(LogEntryViewModel(dataBaseService: DatabaseService()))
         .environment(BlurSetting())
         .environment(\.appStyles, StylesLogEntry.shared)
         .environment(DisplayedLogEntryID())
@@ -46,7 +46,8 @@ import TipKit
 struct ContentView: View {
     @State private var columnVisibility = NavigationSplitViewVisibility.doubleColumn
 
-    @EnvironmentObject var viewModel: LogEntryViewModel
+    @Environment(LogEntryViewModel.self) var viewModel
+    //@EnvironmentObject var viewModel: LogEntryViewModel
     @Environment(\.appStyles) var appStyles
     @Environment(DisplayedLogEntryID.self) var displayedLogEntryUUID
     @Environment(BlurSetting.self) var blurSetting
@@ -101,8 +102,8 @@ struct ContentView: View {
                     }
                 }
                 .onChange(of: scrollToNewEntry) { oldValue, newValue in
-                    print("------------------->")
-                    print(newValue)
+//                    print("------------------->")
+//                    print(newValue)
                     if newValue == nil { return }
 
                     if newValue != oldValue {
@@ -146,7 +147,7 @@ struct ContentView: View {
                 ProgressionView()
             }
             .onDisappear {
-                print("tree view onDisappear")
+                //print("tree view onDisappear")
                 // dismiss()
             }
             .onChange(of: showNewEntrySheet) { oldValue, newValue in
@@ -200,7 +201,8 @@ struct DisclosureGroupYearView: View {
     @State var isExpanded: Bool = false
 
     @Environment(\.appStyles) var appStyles
-    @EnvironmentObject var viewModel: LogEntryViewModel
+    @Environment(LogEntryViewModel.self) var viewModel
+    //@EnvironmentObject var viewModel: LogEntryViewModel
     @Environment(DisplayedLogEntryID.self) var displayedLogEntryUUID
     @Environment(ExpandContainer.self) var expansionContainer
     @Environment(ExpandedRows.self) var expandedRows
@@ -221,14 +223,14 @@ struct DisclosureGroupYearView: View {
         }
         .disclosureGroupStyleYearModifier()
         .onChange(of: isExpanded) { _, newValue in
-            print("disclosureYear \(isExpanded)")
+            //print("disclosureYear \(isExpanded)")
 
             if newValue {
                 expandedRows.rows.insert(year.id)
             } else {
                 expandedRows.rows.remove(year.id)
             }
-            print("expanded rows \(expandedRows.rows)")
+            //print("expanded rows \(expandedRows.rows)")
         }
         .onChange(of: expansionContainer.entryID) {
             withAnimation(.smooth) {
@@ -249,7 +251,8 @@ struct DisclosureGroupMonthView: View {
     @Binding var scrollToNewEntry: UUID?
 
     @Environment(\.appStyles) var appStyles
-    @EnvironmentObject var viewModel: LogEntryViewModel
+    @Environment(LogEntryViewModel.self) var viewModel
+    //@EnvironmentObject var viewModel: LogEntryViewModel
     @Environment(DisplayedLogEntryID.self) var displayedLogEntryUUID
     @Environment(ExpandContainer.self) var expansionContainer
     @Environment(ExpandedRows.self) var expandedRows
@@ -296,7 +299,8 @@ struct DisclosureGroupLogEntriesView: View {
     @Binding var logEntryUUIDContainer: LogEntryUUIDContainer
     @Binding var scrollToNewEntry: UUID?
 
-    @EnvironmentObject var viewModel: LogEntryViewModel
+    @Environment(LogEntryViewModel.self) var viewModel
+    //@EnvironmentObject var viewModel: LogEntryViewModel
     @Environment(\.appStyles) var appStyles
     @Environment(DisplayedLogEntryID.self) var displayedLogEntryUUID
     @Environment(\.colorScheme) var colorScheme

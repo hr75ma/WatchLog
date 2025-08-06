@@ -22,7 +22,8 @@ struct LogBookEntryShowWrapperView: View {
     
     //@State private var watchLogEntry: WatchLogEntry = .init()
     
-    @EnvironmentObject var viewModel: LogEntryViewModel
+    @Environment(LogEntryViewModel.self) var viewModel
+    //@EnvironmentObject var viewModel: LogEntryViewModel
 
     @Environment(\.dismiss) var dismiss
 

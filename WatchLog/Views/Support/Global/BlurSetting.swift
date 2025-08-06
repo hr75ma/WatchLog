@@ -10,6 +10,7 @@ import SwiftUI
 
 @Observable
 final class BlurSetting {
+    public var id: UUID = UUID()
     public var isBlur: Bool = false
     public let animationDuration: Double = 0.3
     public let blurRadius: CGFloat = 10

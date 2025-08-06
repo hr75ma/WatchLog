@@ -14,7 +14,8 @@ enum ColorMode: Sendable, CaseIterable, Codable {
 
 struct SettingView: View {
     @Environment(\.appStyles) var appStyles
-    @EnvironmentObject var viewModel: LogEntryViewModel
+    @Environment(LogEntryViewModel.self) var viewModel
+    //@EnvironmentObject var viewModel: LogEntryViewModel
     @Environment(ClosedEventFilter.self) var closedEventFilter
     
     

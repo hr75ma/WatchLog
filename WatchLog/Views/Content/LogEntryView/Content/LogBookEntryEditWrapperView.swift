@@ -9,7 +9,8 @@ import SwiftUI
 
 struct LogBookEntryEditWrapperView: View {
     @State public var watchLogEntry: WatchLogEntry
-    @EnvironmentObject var viewModel: LogEntryViewModel
+    @Environment(LogEntryViewModel.self) var viewModel
+    //@EnvironmentObject var viewModel: LogEntryViewModel
 
     @Environment(\.appStyles) var appStyles
     @Environment(DisplayedLogEntryID.self) var displayedLogEntryUUID
@@ -135,7 +136,7 @@ extension LogBookEntryEditWrapperView {
     let viewModel = LogEntryViewModel(dataBaseService: databaseService)
 
      LogBookEntryEditWrapperView(watchLogEntry: watchLogEntry)
-         .environmentObject(viewModel)
+         .environment(LogEntryViewModel(dataBaseService: DatabaseService()))
          .environment(BlurSetting())
          .environment(\.appStyles, StylesLogEntry.shared)
          .environment(DisplayedLogEntryID())

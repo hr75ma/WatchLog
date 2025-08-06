@@ -12,7 +12,8 @@ struct TabViewForLogView: View {
     @Bindable public var logBookEntry: WatchLogBookEntry
     @Binding public var logEntriesOfDay: [WatchLogBookEntry]
     
-    @EnvironmentObject var viewModel: LogEntryViewModel
+    @Environment(LogEntryViewModel.self) var viewModel
+    //@EnvironmentObject var viewModel: LogEntryViewModel
     
     @Environment(\.appStyles) var appStyles
     
@@ -50,7 +51,7 @@ struct TabViewForLogView: View {
     }
     
     private func handleSwipe(translation: CGFloat) {
-        print("handling swipe! horizontal translation was \(translation)")
+        //print("handling swipe! horizontal translation was \(translation)")
     }
     
 }

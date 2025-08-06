@@ -14,7 +14,8 @@ struct LogBookEntryFormView: View {
     @Binding public var watchLogEntry: WatchLogEntry
     public var viewIsReadOnly: Bool
 
-    @EnvironmentObject var viewModel: LogEntryViewModel
+    @Environment(LogEntryViewModel.self) var viewModel
+    //@EnvironmentObject var viewModel: LogEntryViewModel
     @Environment(\.appStyles) var appStyles
     @Environment(DisplayedLogEntryID.self) var displayedLogEntryUUID
     @Environment(BlurSetting.self) var blurSetting
@@ -86,7 +87,7 @@ struct LogBookEntryFormView: View {
             glowingColorSet = getGlowColorSet(logEntry: watchLogEntry)
         }
         .onDisappear {
-            print("dismiss LogBookEntryView \(watchLogEntry.id.uuidString)")
+            //print("dismiss LogBookEntryView \(watchLogEntry.id.uuidString)")
  //           dismiss()
         }
 //        .onChange(
@@ -103,7 +104,7 @@ struct LogBookEntryFormView: View {
         .onChange(of: watchLogEntry.isLocked) { _, newValue in
             glowingColorSet = getGlowColorSet(logEntry: watchLogEntry)
             if newValue {
-                print("save")
+                //print("save")
                 saveEntry()
             }
         }
@@ -111,11 +112,11 @@ struct LogBookEntryFormView: View {
         .onChange(of: watchLogEntry.remoteSignalContainer.signale) { _, newValue in
             switch newValue {
             case .save:
-                print("remote signal save received")
+                //print("remote signal save received")
                     watchLogEntry.isLocked = true
                     
             case .delete:
-                print("remote signal delete received")
+                //print("remote signal delete received")
                 if watchLogEntry.id == displayedLogEntryUUID.id  {
                    deleteEntry()
                 }
@@ -136,11 +137,11 @@ struct LogBookEntryFormView: View {
             case .background:
                 isAnimating = false
                 fromBackground = true
-                print("come from background")
+                //print("come from background")
             case .inactive:
                 isAnimating = false
                 fromBackground = true
-                print("inactive")
+                //print("inactive")
             default:
                 break
             }
@@ -229,7 +230,7 @@ extension LogBookEntryFormView {
 
      LogBookEntryFormView(watchLogEntry: $watchLogEntry, viewIsReadOnly: viewIsReadOnly)
          .environment(\.locale, .init(identifier: "de"))
-        .environmentObject(viewModel)
+         .environment(LogEntryViewModel(dataBaseService: DatabaseService()))
         .environment(BlurSetting())
         .environment(\.appStyles, StylesLogEntry.shared)
         .environment(DisplayedLogEntryID())
@@ -247,7 +248,7 @@ extension LogBookEntryFormView {
 
     LogBookEntryFormView(watchLogEntry: $watchLogEntry, viewIsReadOnly: viewIsReadOnly)
         .environment(\.locale, .init(identifier: "en"))
-       .environmentObject(viewModel)
+        .environment(LogEntryViewModel(dataBaseService: DatabaseService()))
        .environment(BlurSetting())
        .environment(\.appStyles, StylesLogEntry.shared)
        .environment(DisplayedLogEntryID())

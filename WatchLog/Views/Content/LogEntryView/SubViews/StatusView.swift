@@ -18,7 +18,6 @@ struct StatusView: View {
     var body: some View {
         statusSection
             .frame(height: appStyles.sectionLabelFontSize, alignment: .center)
-            .frame(width: .infinity)
             .timeSectionPadding()
             .standardBottomBorder()
     }
