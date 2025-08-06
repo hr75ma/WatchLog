@@ -354,7 +354,7 @@ final class DataBaseManager {
         }
 
         if logEntry != nil {
-            logEntry!.update(LogEntry: watchLogEntry)
+            logEntry!.update(logEntry: watchLogEntry)
             try? modelContext.save()
         } else {
             let entryTime = watchLogEntry.logDate

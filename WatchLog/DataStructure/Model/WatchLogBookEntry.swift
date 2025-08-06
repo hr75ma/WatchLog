@@ -155,30 +155,30 @@ class WatchLogBookEntry: Identifiable, Hashable {
         processDetails = WatchLogBookProcessTypeDetails()
     }
 
-    func update(LogEntry: WatchLogEntry) {
-        id = LogEntry.id
-        logDate = LogEntry.logDate
+    func update(logEntry: WatchLogEntry) {
+        id = logEntry.id
+        logDate = logEntry.logDate
         
 
-        callerName = LogEntry.callerName
-        callerNumber = LogEntry.callerNumber
-        callerAdress = LogEntry.callerAdress
-        callerDOB = LogEntry.callerDOB
+        callerName = logEntry.callerName
+        callerNumber = logEntry.callerNumber
+        callerAdress = logEntry.callerAdress
+        callerDOB = logEntry.callerDOB
 
-        callIn = LogEntry.callIn
+        callIn = logEntry.callIn
 
-        processDetails!.accientHitAndRun = LogEntry.processTypeDetails.AccientHitAndRun
-        processDetails!.accientLicensePlate01 = LogEntry.processTypeDetails.AccientLicensePlate01
-        processDetails!.accientLicensePlate02 = LogEntry.processTypeDetails.AccientLicensePlate02
-        processDetails!.isAnimaleLiving = LogEntry.processTypeDetails.isAnimaleLiving
-        processDetails!.isInjured = LogEntry.processTypeDetails.isInjured
-        processDetails!.processTypeShort = LogEntry.processTypeDetails.processTypeShort
-        processDetails!.alcoholConsumed = LogEntry.processTypeDetails.AlcoholConsumed
+        processDetails!.accientHitAndRun = logEntry.processTypeDetails.AccientHitAndRun
+        processDetails!.accientLicensePlate01 = logEntry.processTypeDetails.AccientLicensePlate01
+        processDetails!.accientLicensePlate02 = logEntry.processTypeDetails.AccientLicensePlate02
+        processDetails!.isAnimaleLiving = logEntry.processTypeDetails.isAnimaleLiving
+        processDetails!.isInjured = logEntry.processTypeDetails.isInjured
+        processDetails!.processTypeShort = logEntry.processTypeDetails.processTypeShort
+        processDetails!.alcoholConsumed = logEntry.processTypeDetails.AlcoholConsumed
 
         isLocked = true
-        isClosed = LogEntry.isClosed
+        isClosed = logEntry.isClosed
 
-        drawingData = LogEntry.pkDrawingData.dataRepresentation()
+        drawingData = logEntry.pkDrawingData.dataRepresentation()
     }
 
 //    func getDOBFromDate() -> String {
