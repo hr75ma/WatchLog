@@ -28,6 +28,8 @@ protocol DataBaseManagerProtocol {
     func fetchLogBookDayFromDate(from: Date) -> Result<WatchLogBookDay?, Error>
     func fetchLogBookEntry(logEntryID: UUID) -> Result<[WatchLogBookEntry], Error>
     
+    func fetchNonClosedLogEntries() -> Result<Set<UUID>, Error>
+    
     func saveLogBookEntry(watchLogEntry: WatchLogEntry) -> Result<Void, Error>
     
     func removeLogBookEntry(logEntryID: UUID) -> Result<Void, Error>

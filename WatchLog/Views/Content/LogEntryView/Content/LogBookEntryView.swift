@@ -22,6 +22,7 @@ struct LogBookEntryView: View {
     @Environment(\.dismiss) var dismiss
     @Environment(\.scenePhase) var scenePhase
     @Environment(ExpandContainer.self) var expansionContainer
+    @Environment(NonClosedEventContainer.self) var nonClosedEventContainer
 
     @State var toolPickerShows = true
     
@@ -194,6 +195,12 @@ extension LogBookEntryView {
             await viewModel.saveLogEntry(watchLogEntry: watchLogEntry)
             // try? await Task.sleep(nanoseconds: 4000_000_000)
             watchLogEntry.isNewEntryLog = false
+            if watchLogEntry.isClosed {
+                nonClosedEventContainer.nonClosedEvents.remove(watchLogEntry.id)
+            } else
+            {
+                nonClosedEventContainer.nonClosedEvents.insert(watchLogEntry.id)
+            }
             blurSetting.isBlur = false
             showProgression = false
         }

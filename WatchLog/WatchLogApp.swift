@@ -30,6 +30,7 @@ struct WatchLogApp: App {
         .environment(ExpandedRows())
         .environmentObject(AppSettings.shared)
         .environment(ClosedEventFilter())
+        .environment(NonClosedEventContainer())
     }
 }
 

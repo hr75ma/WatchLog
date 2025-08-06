@@ -46,10 +46,16 @@ protocol LogEntryViewModelProtocol {
     func deleteLogMonth(watchLogBookMonth: WatchLogBookMonth) async -> Void
     func deleteLogYear(watchLogBookYear: WatchLogBookYear) async -> Void
     
+    func saveLogEntry(watchLogEntry: WatchLogEntry, setOfNonClosedLogBookEntries: inout Set<UUID>?) async -> Void
     func saveLogEntry(watchLogEntry: WatchLogEntry) async -> Void
     
     func delete<T>(deleteType: DeleteTypes, toDeleteItem: T, displayedUUID: UUID, logEntryUUIDContainer: LogEntryUUIDContainer)  async -> LogEntryUUIDContainer
     
+    func setOfNonClosedLogBookEntries() async -> Set<UUID>
+    
+    
+    
+    //Mock Data
     func generateLogBookEntry() -> Void
     func generateAutomaticMockDatas() -> Void
 }

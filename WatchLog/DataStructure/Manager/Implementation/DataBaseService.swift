@@ -156,4 +156,14 @@ class DatabaseService: DatabaseServiceProtocol {
             return .failure(error)
         }
     }
+    
+    func fetchNonClosedLogEntries() async -> Result<Set<UUID>, Error> {
+        let fetchResult = dataSource.fetchNonClosedLogEntries()
+        switch fetchResult {
+        case let .success(entries):
+            return .success(entries)
+        case let .failure(error):
+            return .failure(error)
+        }
+    }
 }

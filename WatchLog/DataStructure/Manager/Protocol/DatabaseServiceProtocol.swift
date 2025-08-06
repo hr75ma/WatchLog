@@ -27,6 +27,8 @@ protocol DatabaseServiceProtocol {
     func fetchLogDay(logDayID: UUID) async -> Result<WatchLogBookDay?, any Error>
     func fetchDayFromDate(from: Date) async -> Result<WatchLogBookDay?, Error>
     
+    func fetchNonClosedLogEntries() async -> Result<Set<UUID>, Error>
+    
     func saveWatchLogBookEntry(watchLogEntry: WatchLogEntry) async -> Result<Void, Error>
 
     func removeWatchLogBookEntry(logEntryID: UUID) async -> Result<Void, Error>

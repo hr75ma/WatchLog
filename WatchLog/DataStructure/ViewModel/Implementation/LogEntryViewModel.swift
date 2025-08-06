@@ -13,6 +13,7 @@ import SwiftUI
 final class LogEntryViewModel: LogEntryViewModelProtocol {
      var errorMessage: String? = nil
      var WatchLogBooks: [WatchLogBook] = []
+
     
     var id: UUID
 
@@ -162,6 +163,17 @@ final class LogEntryViewModel: LogEntryViewModelProtocol {
         }
         return false
     }
+    
+    func setOfNonClosedLogBookEntries() async -> Set<UUID> {
+        let result = await databaseService.fetchNonClosedLogEntries()
+        switch result {
+        case let .success(nonClosedLogBookEntry):
+            return nonClosedLogBookEntry
+        case let .failure(error):
+            errorMessage = String(format: NSLocalizedString("error_fetching_logBookEntry", comment: "Displayed when fetching logBookEntry fails"), error.localizedDescription)
+        }
+        return Set<UUID>()
+    }
 
     func fetchLogBookDay(logDayID: UUID) async -> WatchLogBookDay? {
         let result = await databaseService.fetchLogDay(logDayID: logDayID)
@@ -217,17 +229,6 @@ final class LogEntryViewModel: LogEntryViewModelProtocol {
         }
     }
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
     func isLogBookEntryExisting(logEntryID uuid: UUID) async -> Bool {
         let result = await databaseService.existsWatchLogBookEntry(logEntryID: uuid)
         switch result {
@@ -293,6 +294,26 @@ final class LogEntryViewModel: LogEntryViewModelProtocol {
         }
     }
 
+    func saveLogEntry(watchLogEntry: WatchLogEntry, setOfNonClosedLogBookEntries: inout Set<UUID>?) async -> Void {
+        print("--------->viewModel id \(id)")
+        let result = await databaseService.saveWatchLogBookEntry(watchLogEntry: watchLogEntry)
+        switch result {
+        case .success():
+            if setOfNonClosedLogBookEntries != nil {
+                if !watchLogEntry.isClosed {
+                    setOfNonClosedLogBookEntries!.insert(watchLogEntry.id)
+                } else {
+                    setOfNonClosedLogBookEntries!.remove(watchLogEntry.id)
+                }
+                
+            }
+            errorMessage = ""
+        // LogEntry.isNewEntryLog = false
+        case let .failure(error):
+            errorMessage = String(format: NSLocalizedString("error_saving_logBookEntry", comment: "Displayed when saving logBookEntry fails"), error.localizedDescription)
+        }
+    }
+    
     func saveLogEntry(watchLogEntry: WatchLogEntry) async -> Void {
         print("--------->viewModel id \(id)")
         let result = await databaseService.saveWatchLogBookEntry(watchLogEntry: watchLogEntry)

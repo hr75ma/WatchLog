@@ -30,6 +30,7 @@ import TipKit
         .environment(ExpandContainer())
         .environment(ExpandedRows())
         .environment(ClosedEventFilter())
+        .environment(NonClosedEventContainer())
     // .environment(\.locale, .init(identifier: "us_EN"))
     // .environment(\.locale, .init(identifier: "de"))
 
@@ -55,6 +56,7 @@ struct ContentView: View {
     @Environment(\.colorScheme) var colorScheme
     @Environment(ExpandContainer.self) var expansionContainer
     @Environment(ExpandedRows.self) var expandedRows
+    @Environment(NonClosedEventContainer.self) var nonClosedEventContainer
 
     // @Environment(\.dismiss) var dismiss
 
@@ -126,11 +128,14 @@ struct ContentView: View {
                     ToolbarItem(placement: .topBarLeading) {
                         Text("Wachbuch")
                             .navigationTitleModifier()
-                            .customBadge(testBadge)
-                            .onTimer(every: 2) { tick in
-                                        testBadge+=1
-                                    }
+                            .customBadge(nonClosedEventContainer.nonClosedEvents.count)
+                            
                     }
+                }
+            }
+            .onAppear {
+                Task {
+                    nonClosedEventContainer.nonClosedEvents = await viewModel.setOfNonClosedLogBookEntries()
                 }
             }
             .toolbarModifier() // .background(Color.black.edgesIgnoringSafeArea(.all))
