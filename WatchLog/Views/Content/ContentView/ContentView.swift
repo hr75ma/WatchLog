@@ -55,7 +55,6 @@ struct ContentView: View {
     @Environment(ExpandContainer.self) var expansionContainer
     @Environment(ExpandedRows.self) var expandedRows
 
-
     // @Environment(\.dismiss) var dismiss
 
     // @State private var logBookEntryUUID: UUID = UUID()
@@ -67,7 +66,7 @@ struct ContentView: View {
     @State var showToolbarItem: Bool = true
 
     @State var scrollToNewEntry: UUID?
-    
+
     @State var logEntryUUIDContainer: LogEntryUUIDContainer = LogEntryUUIDContainer()
     @State var newEntry: WatchLogEntry = WatchLogEntry()
 
@@ -105,13 +104,12 @@ struct ContentView: View {
                     print("------------------->")
                     print(newValue)
                     if newValue == nil { return }
-                    
+
                     if newValue != oldValue {
                         withAnimation(.smooth) {
                             proxy.scrollTo(scrollToNewEntry, anchor: .center)
                         }
                     }
-                    
                 }
             }
             .scrollContentBackground(.hidden)
@@ -224,7 +222,7 @@ struct DisclosureGroupYearView: View {
         .disclosureGroupStyleYearModifier()
         .onChange(of: isExpanded) { _, newValue in
             print("disclosureYear \(isExpanded)")
-            
+
             if newValue {
                 expandedRows.rows.insert(year.id)
             } else {
@@ -268,7 +266,6 @@ struct DisclosureGroupMonthView: View {
                     Task {
                         expandedRows.rows.remove(month.watchLogBookDays![i].id)
                         logEntryUUIDContainer = await viewModel.delete(deleteType: .day, toDeleteItem: month.watchLogBookDays![i], displayedUUID: displayedLogEntryUUID.id, logEntryUUIDContainer: logEntryUUIDContainer)
-                        
                     }
                 }
             })
@@ -298,7 +295,6 @@ struct DisclosureGroupLogEntriesView: View {
     @State var day: WatchLogBookDay
     @Binding var logEntryUUIDContainer: LogEntryUUIDContainer
     @Binding var scrollToNewEntry: UUID?
-    
 
     @EnvironmentObject var viewModel: LogEntryViewModel
     @Environment(\.appStyles) var appStyles
@@ -319,53 +315,35 @@ struct DisclosureGroupLogEntriesView: View {
                     displayedLogEntryUUID.id = logEntryUUIDContainer.logEntryUUID
                     expansionContainer.setExpansionData(watchLogBookEntry: entry)
                 }) {
-                    
                     HStack(alignment: .center, spacing: 0) {
                         VStack(alignment: .leading, spacing: 0) {
                             Text(DateManipulation.getTime(from: entry.logDate))
                                 .navigationTreeButtonLabelStyle(isSeletecedItem: entry.id == displayedLogEntryUUID.id)
-                            
+
                             if !entry.callerName.isEmpty {
                                 Text(entry.callerName)
                                     .navigationTreeButtonSubLabelStyle(isSeletecedItem: entry.id == displayedLogEntryUUID.id)
                             }
-                            
+
                             if entry.processDetails != nil {
                                 Text(entry.processDetails!.processTypeShort.localized)
                                     .navigationTreeButtonSubLabelStyle(isSeletecedItem: entry.id == displayedLogEntryUUID.id)
-                                    
                             }
                         }
                         .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
                         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
-                        
-                        
-                        
-                        
+
                         if closedEventFilter.closedFilter == .last24h {
                             if !entry.isClosed && DateManipulation.isDateInLast24h(date: entry.logDate) {
-                                VStack(alignment: .trailing, spacing: 0) {
-                                    Image(systemName: appStyles.navigationTreeNotClosedImage)
-                                        .notClosedImageStyle(primaryColor: .watchlogTreeClosedEventPrimary, secondaryColor: .watchlogTreeClosedEventSecondary, size: appStyles.navigationTreeNotClosedImageSize)
-                                }
-                                .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-                                .frame(maxWidth: appStyles.navigationTreeNotClosedImageSize, maxHeight: .infinity, alignment: .center)
+                                notClosedEventView
                             }
                         } else {
                             if closedEventFilter.closedFilter == .all {
-                                if !entry.isClosed  {
-                                    VStack(alignment: .trailing, spacing: 0) {
-                                        Image(systemName: appStyles.navigationTreeNotClosedImage)
-                                            .notClosedImageStyle(primaryColor: .watchlogTreeClosedEventPrimary, secondaryColor: .watchlogTreeClosedEventSecondary, size: appStyles.navigationTreeNotClosedImageSize)
-                                    }
-                                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-                                    .frame(maxWidth: appStyles.navigationTreeNotClosedImageSize, maxHeight: .infinity, alignment: .center)
+                                if !entry.isClosed {
+                                    notClosedEventView
                                 }
                             }
                         }
-                        
-                        
-                        
                     }
                     .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
@@ -400,7 +378,7 @@ struct DisclosureGroupLogEntriesView: View {
         .onChange(of: expansionContainer.entryID) {
             withAnimation(.smooth) {
                 isExpanded = day.id == expansionContainer.dayID || expandedRows.rows.contains(day.id)
-                //scrollToNewEntry = day.id == expansionContainer.dayID ? true : false
+                // scrollToNewEntry = day.id == expansionContainer.dayID ? true : false
             }
         }
         .task {
@@ -409,6 +387,17 @@ struct DisclosureGroupLogEntriesView: View {
                 scrollToNewEntry = day.id == expansionContainer.dayID ? expansionContainer.id : nil
             }
         }
+    }
+}
+
+extension DisclosureGroupLogEntriesView {
+    fileprivate var notClosedEventView: some View {
+        return VStack(alignment: .trailing, spacing: 0) {
+            Image(systemName: appStyles.navigationTreeNotClosedImage)
+                .notClosedImageStyle(primaryColor: .watchlogTreeClosedEventPrimary, secondaryColor: .watchlogTreeClosedEventSecondary, size: appStyles.navigationTreeNotClosedImageSize)
+        }
+        .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+        .frame(maxWidth: appStyles.navigationTreeNotClosedImageSize, maxHeight: .infinity, alignment: .center)
     }
 }
 
