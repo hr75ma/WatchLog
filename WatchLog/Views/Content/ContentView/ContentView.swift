@@ -124,6 +124,7 @@ struct ContentView: View {
                     ToolbarItem(placement: .topBarLeading) {
                         Text("Wachbuch")
                             .navigationTitleModifier()
+                            .customBadge(10)
                     }
                 }
             }
