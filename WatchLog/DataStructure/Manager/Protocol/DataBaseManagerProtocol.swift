@@ -34,6 +34,8 @@ protocol DataBaseManagerProtocol {
     func removeLogBookDay(logDayID: UUID) -> Result<Void, Error>
     func removeLogBookMonth(logMonthID: UUID) -> Result<Void, Error>
     func removeLogBookYear(logYearID: UUID) -> Result<Void, Error>
+    
+    func fetchNonClosedLogEntries() -> Result<Set<UUID>, Error>
 }
 
 extension DataBaseManager: DataBaseManagerProtocol {}

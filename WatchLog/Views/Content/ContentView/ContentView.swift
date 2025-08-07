@@ -123,6 +123,7 @@ struct ContentView: View {
                     ToolbarItem(placement: .topBarLeading) {
                         Text("Wachbuch")
                             .navigationTitleModifier()
+                            .customBadge(viewModel.nonClosedEventContainer.nonClosedEvents.count)
                     }
                 }
             }
@@ -164,7 +165,10 @@ struct ContentView: View {
                 Task {
                     showProgression = true
                     await viewModel.fetchLogBook()
+                    await viewModel.initialSetOfNonClosedLogBookEntries()
+                    
                     showProgression = false
+                    
                 }
             }
             .task {

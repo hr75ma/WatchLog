@@ -476,4 +476,25 @@ final class DataBaseManager {
 
         return .success(())
     }
+    
+    func fetchNonClosedLogEntries() -> Result<Set<UUID>, Error> {
+        var nonClosedLogBookEntries: Set<UUID> = []
+        
+        let fetchDiscriptor = FetchDescriptor<WatchLogBookEntry>(
+            predicate: #Predicate { $0.isClosed == false })
+        do {
+            let logBookEntries = try modelContext.fetch(fetchDiscriptor)
+            if !logBookEntries.isEmpty {
+//                for logBookEntry in logBookEntries {
+//                    nonClosedLogBookEntries.insert(logBookEntry.id)
+//                }
+                nonClosedLogBookEntries.formUnion(logBookEntries.map(\.id))
+            }
+        } catch {
+            print("fetch WatchLogBookDay failed")
+        }
+        return .success(nonClosedLogBookEntries)
+        
+        
+    }
 }

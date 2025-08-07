@@ -16,7 +16,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "257"
             endingLineNumber = "257"
-            landmarkName = "fetchNonClosedLogEntries()"
+            landmarkName = "fetchLogBookDay(logDayID:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -32,7 +32,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "272"
             endingLineNumber = "272"
-            landmarkName = "fetchNonClosedLogEntries()"
+            landmarkName = "fetchLogBookDayFromDate(from:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

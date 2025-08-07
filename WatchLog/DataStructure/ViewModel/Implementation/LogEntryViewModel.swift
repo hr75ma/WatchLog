@@ -12,6 +12,7 @@ import SwiftUI
 final class LogEntryViewModel: LogEntryViewModelProtocol, ObservableObject {
     @Published var errorMessage: String? = nil
     @Published var WatchLogBooks: [WatchLogBook] = []
+    @Published var nonClosedEventContainer: NonClosedEventContainer = .init()
 
     private let databaseService: DatabaseServiceProtocol
 
@@ -24,6 +25,8 @@ final class LogEntryViewModel: LogEntryViewModelProtocol, ObservableObject {
             if isNewLogBook {
                 generateLogBookEntry()
             }
+            
+            await initialSetOfNonClosedLogBookEntries()
         }
 
         //generateLogBookEntry()
@@ -87,27 +90,46 @@ final class LogEntryViewModel: LogEntryViewModelProtocol, ObservableObject {
         }
     }
     
+    fileprivate func updateNonClosedEventContainer(isWatchLogBookEntryEventClosed: Bool, watchLogEntryID: UUID) {
+        if isWatchLogBookEntryEventClosed {
+            nonClosedEventContainer.nonClosedEvents.remove(watchLogEntryID)
+            
+        } else {
+            nonClosedEventContainer.nonClosedEvents.insert(watchLogEntryID)
+        }
+    }
+    
+    public func initialSetOfNonClosedLogBookEntries() async -> Void {
+        let result = await databaseService.fetchNonClosedLogEntries()
+        switch result {
+        case let .success(nonClosedLogBookEntry):
+            nonClosedEventContainer.nonClosedEvents = nonClosedLogBookEntry
+            print("nonClosedEventContainer \(nonClosedEventContainer.nonClosedEvents.count)")
+        case let .failure(error):
+            errorMessage = String(format: NSLocalizedString("error_fetching_logBookEntry", comment: "Displayed when fetching logBookEntry fails"), error.localizedDescription)
+        }
+    }
+    
     public func delete<T>(deleteType: DeleteTypes, toDeleteItem: T, displayedUUID: UUID, logEntryUUIDContainer: LogEntryUUIDContainer)  async -> LogEntryUUIDContainer {
         var tempContainer = logEntryUUIDContainer
         
         Task {
             switch deleteType {
             case .day:
-                
-                    await self.deleteLogDay(watchLogBookDay: toDeleteItem as! WatchLogBookDay)
-                
+                await self.deleteLogDay(watchLogBookDay: toDeleteItem as! WatchLogBookDay)
             case .month:
                 
-                    await self.deleteLogMonth(watchLogBookMonth: toDeleteItem as! WatchLogBookMonth)
+                await self.deleteLogMonth(watchLogBookMonth: toDeleteItem as! WatchLogBookMonth)
                 
             case .year:
                 
-                    await self.deleteLogYear(watchLogBookYear: toDeleteItem as! WatchLogBookYear)
+                await self.deleteLogYear(watchLogBookYear: toDeleteItem as! WatchLogBookYear)
                 
             default:
                 break
             }
             tempContainer = await testOnDeleteDisplayedEntry(displayedUUID: displayedUUID, logEntryUUIDContainer: logEntryUUIDContainer)
+            await self.initialSetOfNonClosedLogBookEntries()
         }
         return tempContainer
     }
@@ -247,7 +269,7 @@ final class LogEntryViewModel: LogEntryViewModelProtocol, ObservableObject {
         switch result {
         case .success():
             errorMessage = ""
-
+            updateNonClosedEventContainer(isWatchLogBookEntryEventClosed: true, watchLogEntryID: logEntryID)
         case let .failure(error):
             errorMessage = String(format: NSLocalizedString("error_delete_logBookEntry", comment: "Displayed when saving logBookEntry fails"), error.localizedDescription)
         }
@@ -291,6 +313,7 @@ final class LogEntryViewModel: LogEntryViewModelProtocol, ObservableObject {
         switch result {
         case .success():
             errorMessage = ""
+            updateNonClosedEventContainer(isWatchLogBookEntryEventClosed: watchLogEntry.isClosed, watchLogEntryID: watchLogEntry.id)
         // LogEntry.isNewEntryLog = false
         case let .failure(error):
             errorMessage = String(format: NSLocalizedString("error_saving_logBookEntry", comment: "Displayed when saving logBookEntry fails"), error.localizedDescription)

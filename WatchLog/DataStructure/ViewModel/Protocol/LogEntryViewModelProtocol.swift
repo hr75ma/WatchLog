@@ -50,6 +50,9 @@ protocol LogEntryViewModelProtocol {
     
     func delete<T>(deleteType: DeleteTypes, toDeleteItem: T, displayedUUID: UUID, logEntryUUIDContainer: LogEntryUUIDContainer)  async -> LogEntryUUIDContainer
     
+    
+    func initialSetOfNonClosedLogBookEntries() async -> Void
+    
     func generateLogBookEntry() -> Void
     func generateAutomaticMockDatas() -> Void
 }

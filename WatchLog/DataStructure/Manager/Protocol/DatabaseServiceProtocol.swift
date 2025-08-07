@@ -33,6 +33,8 @@ protocol DatabaseServiceProtocol {
     func removeWatchLogBookDay(logDayID: UUID) async -> Result<Void, Error>
     func removeWatchLogBookMonth(logMonthID: UUID) async -> Result<Void, Error>
     func removeWatchLogBookYear(logYearID: UUID) async -> Result<Void, Error>
+    
+    func fetchNonClosedLogEntries() async -> Result<Set<UUID>, Error>
 
    
 }
