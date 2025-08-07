@@ -13,6 +13,7 @@ import SwiftUI
 final class LogEntryViewModel: LogEntryViewModelProtocol {
      var errorMessage: String? = nil
      var WatchLogBooks: [WatchLogBook] = []
+     
 
     
     var id: UUID

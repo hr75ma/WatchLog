@@ -261,9 +261,10 @@ final class DataBaseManager {
         do {
             let logBookEntries = try modelContext.fetch(fetchDiscriptor)
             if !logBookEntries.isEmpty {
-                for logBookEntry in logBookEntries {
-                    nonClosedLogBookEntries.insert(logBookEntry.id)
-                }
+//                for logBookEntry in logBookEntries {
+//                    nonClosedLogBookEntries.insert(logBookEntry.id)
+//                }
+                nonClosedLogBookEntries.formUnion(logBookEntries.map(\.id))
             }
         } catch {
             print("fetch WatchLogBookDay failed")
