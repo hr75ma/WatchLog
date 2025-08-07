@@ -30,9 +30,11 @@ struct SplashContent: View {
     var body: some View {
         ZStack {
             image
-        }.onReceive(aninmationTimer) { _ in
+        }
+        .onReceive(aninmationTimer) { _ in
             launchAnimation()
         }.opacity(animation ? 0 : 1)
+            
     }
 }
 
