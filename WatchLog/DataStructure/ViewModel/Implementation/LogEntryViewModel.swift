@@ -118,6 +118,7 @@ final class LogEntryViewModel: LogEntryViewModelProtocol {
             default:
                 break
             }
+            await self.initialSetOfNonClosedLogBookEntries()
             tempContainer = await testOnDeleteDisplayedEntry(displayedUUID: displayedUUID, logEntryUUIDContainer: logEntryUUIDContainer)
         }
         return tempContainer

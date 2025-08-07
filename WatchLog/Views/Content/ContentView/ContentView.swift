@@ -173,7 +173,7 @@ struct ContentView: View {
                     
                     //only for preview
                     await viewModel.initialSetOfNonClosedLogBookEntries()
-                    print("------->init")
+                    print("------->init for preview")
                 }
             }
             .task {
