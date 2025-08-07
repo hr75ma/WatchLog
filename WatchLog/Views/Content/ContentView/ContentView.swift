@@ -30,17 +30,6 @@ import TipKit
         .environment(ExpandContainer())
         .environment(ExpandedRows())
         .environment(ClosedEventFilter())
-    // .environment(\.locale, .init(identifier: "us_EN"))
-    // .environment(\.locale, .init(identifier: "de"))
-
-//        .task {
-//            // try? Tips.resetDatastore()
-//            try? Tips.configure([
-//                // .displayFrequency(.immediate)
-//                .datastoreLocation(.applicationDefault),
-//            ])
-    // try? Tips.showAllTipsForTesting()
-    // }
 }
 
 struct ContentView: View {
@@ -172,8 +161,8 @@ struct ContentView: View {
                     showProgression = false
                     
                     //only for preview
-                    await viewModel.initialSetOfNonClosedLogBookEntries()
-                    print("------->init for preview")
+//                    await viewModel.initialSetOfNonClosedLogBookEntries()
+//                    print("------->init for preview")
                 }
             }
             .task {
